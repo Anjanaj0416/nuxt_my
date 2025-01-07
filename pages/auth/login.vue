@@ -2,7 +2,7 @@
 
 <template>
     <section class="mt-2">
-        <h1>Intranet Application</h1>
+        <h1>Login</h1>
     </section>
     <!-- <input type="text" oninput="this.value = this.value.replace(/[^0-9.]/g, '').replace(/(\..*?)\..*/g, '$1');" > -->
   </template>
