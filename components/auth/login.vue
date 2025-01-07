@@ -1,17 +1,18 @@
 <!-- https://flowbite.com/docs/components/avatar/ -->
 
 <template>
-    <section class="mt-2">
-        <h1>Intranet Application</h1>
+    <section>
+  <div>  Login Component</div>
+      
     </section>
     <!-- <input type="text" oninput="this.value = this.value.replace(/[^0-9.]/g, '').replace(/(\..*?)\..*/g, '$1');" > -->
   </template>
   
   <script>
   //import textInput from '~/components/customcontrol/textinput'
-  // import * as Global from '@/assets/js/Global'
-  // import * as myfilter from '@/plugins/myfilter'
-  // import { mapState, mapGetters, mapActions, mapMutations } from 'vuex'
+  //import * as Global from '@/assets/js/Global'
+ // import * as myfilter from '@/plugins/myfilter'
+ // import { mapState, mapGetters, mapActions, mapMutations } from 'pinia'
   
   export default {
     layout: 'default',
@@ -25,9 +26,9 @@
     async mounted() {},
     watch: {},
     computed: {
-      ...mapState({
-        //loggeduser: (state) => state.loggeduser,
-      }),
+      // ...mapState({
+      //   //loggeduser: (state) => state.loggeduser,
+      // }),
     },
     methods: {
       // ...mapActions({
@@ -88,7 +89,7 @@
     },
     head() {
       return {
-        title: 'Intranet - SLTDS',
+        title: 'Intranet - Digital Tech Labs',
       }
     },
   }
