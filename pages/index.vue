@@ -1,3 +1,5 @@
+<!-- https://flowbite.com/docs/components/avatar/ -->
+
 <template>
   <div class="min-h-screen p-6 ">
     <!-- Header -->
@@ -95,4 +97,18 @@ export default {
 };
 </script>
 
-<style></style>
+<style scoped>
+.csscmd{
+  @apply p-2 text-center bg-blue-200 rounded;
+}
+.csscmd:hover{
+  @apply bg-blue-200 cursor-pointer;
+}
+
+.cssBox {
+  border: 1px solid;
+  @apply border-gray-500 rounded p-2;
+}
+</style>
+
+
