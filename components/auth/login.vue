@@ -1,138 +1,76 @@
-<!-- https://flowbite.com/docs/components/avatar/ -->
-
 <template>
-    <section>
-  <div>  Login Component</div>
-      
-    </section>
-    <!-- <input type="text" oninput="this.value = this.value.replace(/[^0-9.]/g, '').replace(/(\..*?)\..*/g, '$1');" > -->
-  </template>
-  
-  <script>
-  //import textInput from '~/components/customcontrol/textinput'
-  //import * as Global from '@/assets/js/Global'
- // import * as myfilter from '@/plugins/myfilter'
- // import { mapState, mapGetters, mapActions, mapMutations } from 'pinia'
-  
-  export default {
-    layout: 'default',
-    components: {},
-    props:[''],
-    data() {
-      return {
-        imageroot: process.env.Assets_83,
+  <section class="flex items-center justify-center min-h-screen bg-gray-100">
+    <!-- Login Card -->
+    <div class="w-full max-w-md p-8 space-y-6 bg-white rounded-lg shadow-md">
+      <!-- Title -->
+      <h2 class="text-2xl font-bold text-center text-gray-800">Login</h2>
+
+      <!-- Form -->
+      <form @submit.prevent="handleLogin">
+        <!-- Username -->
+        <div>
+          <label class="block text-sm font-medium text-gray-700">Username</label>
+          <input
+            type="text"
+            v-model="username"
+            placeholder="Enter your username"
+            required
+            class="w-full p-3 mt-1 border rounded-lg focus:ring-indigo-500 focus:border-indigo-500"
+          />
+        </div>
+
+        <!-- Password -->
+        <div class="mt-4">
+          <label class="block text-sm font-medium text-gray-700">Password</label>
+          <input
+            type="password"
+            v-model="password"
+            placeholder="Enter your password"
+            required
+            class="w-full p-3 mt-1 border rounded-lg focus:ring-indigo-500 focus:border-indigo-500"
+          />
+        </div>
+
+        <!-- Login Button -->
+        <button
+          type="submit"
+          class="w-full px-4 py-2 mt-6 font-semibold text-white bg-indigo-600 rounded-lg hover:bg-indigo-500"
+        >
+          Login
+        </button>
+      </form>
+    </div>
+  </section>
+</template>
+
+<script>
+export default {
+  layout: "default",
+  data() {
+    return {
+      username: "",
+      password: "",
+    };
+  },
+  methods: {
+    handleLogin() {
+      // Simulate login (Replace with API call logic)
+      if (this.username === "admin" && this.password === "password") {
+        alert("Login successful!");
+        this.$router.push("/dashboard"); // Redirect to dashboard after login
+      } else {
+        alert("Invalid username or password!");
       }
     },
-    async mounted() {},
-    watch: {},
-    computed: {
-      // ...mapState({
-      //   //loggeduser: (state) => state.loggeduser,
-      // }),
-    },
-    methods: {
-      // ...mapActions({
-      //   //  getWGInitData: 'reservedaddetail/getWGInitData',
-      // }),
-      //   ...mapMutations({
-      //   //resetEmail: 'office/RESET_EMAIL',
-      //    //showMessage: 'PUSH_NOTIFICATION',
-      // }),
-      //  this.processing_year = new Date().getFullYear()
-       //this.$emit('Load_MonthlyBrakeDown',req)
-       //this.$refs.catcomp.initCategoryItem(-1)
-       //this.$emit('input', this.selected_item.trim());
-    // show_error(msg) {
-    //     this.showMessage({
-    //       type: 'Failed',
-    //       message: msg,
-    //     })
-    //   },
-    //    show_msg(msg) {
-    //     this.showMessage({
-    //       type: 'success',
-    //       message: msg,
-    //     })
-    //   },
-      // async copyContent(value) {
-      //   try {
-      //      await navigator.clipboard.writeText(value)
-      //      this.show_msg('Content copied to clipboard')
-  
-      //   } catch (err) {
-      //     this.show_msg('Failed to copy :'+err)
-      //   }
-      // },
-      //     async copyContent(value) {
-      //   try {
-      //      await navigator.clipboard.writeText(value)
-      //      this.show_msg('Content copied to clipboard')
-  
-      //   } catch (err) {
-      //     this.show_msg('Failed to copy :'+err)
-      //   }
-      // },
-      //  async downloadReportKotukole(){
-      //   if(confirm('Do you want to Download?')){
-      //      await this.get_DownloadKotukole({book:this.book});
-      //      window.open(this.csv_root+'/reports/'+this.csv_name, '_blank');
-      //   }
-      // },
-    },
-    async beforeMount() {
-      // if (this.loggeduser.granted.indexOf('workgroup') > -1 || this.loggeduser.usergroup == 'Supervisor' ) {
-      // } else {
-      //   this.show_error('Not Allowed to access this page')
-      //   this.$router.push('/')
-      // }
-  
-    },
-    head() {
-      return {
-        title: 'Intranet - Digital Tech Labs',
-      }
-    },
-  }
-  
-  //Validation
-  //-------------------------------------------------
-  // async cmdSearchOrg(){
-  //       if(this.isAtleasetOneExisitsForSearch()){
-  //      await this.getOrganizationData(this.organizationSearch);
-  //       }
-  //     },
-  
-  // 	-------------------
-  
-  
-  //  isAtleasetOneExisitsForSearch(){
-  //  let isAtleasetOneExisitsForSearch = false;
-  
-  
-  //  if(this.organizationSearch.person.trim()!='' ){
-  //         if( this.organizationSearch.person.trim().length  <= 3 ){
-  //             this.show_error('Invalid person , More than three Letters Requied for search');
-  //         }
-  //         else{ isAtleasetOneExisitsForSearch = true;}
-  
-  //       }
-  // 	  return isAtleasetOneExisitsForSearch;
-  // 	  }
-  </script>
-  
-  <style scoped>
-  .csscmd{
-    @apply p-2 text-center bg-blue-200 rounded;
-  }
-  .csscmd:hover{
-    @apply bg-blue-200 cursor-pointer;
-  }
-  
-  .cssBox {
-    border: 1px solid;
-    @apply border-gray-500 rounded p-2;
-  }
-  </style>
-  
-  
-  
+  },
+  head() {
+    return {
+      title: "Login - Digital Tech Labs",
+    };
+  },
+};
+</script>
+
+<style scoped>
+/* Custom Styles */
+</style>

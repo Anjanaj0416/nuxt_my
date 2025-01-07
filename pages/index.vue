@@ -1,114 +1,112 @@
-<!-- https://flowbite.com/docs/components/avatar/ -->
-
 <template>
-  <div class="min-h-screen p-6 ">
-    <!-- Header -->
-    <div class="flex flex-col items-start justify-between mb-6 sm:flex-row sm:items-center">
-      <h2 class="mb-4 text-2xl font-bold text-gray-800 sm:mb-0">Cashflow</h2>
-      <button class="px-4 py-2 text-white bg-indigo-600 rounded-lg hover:bg-indigo-500">
-        New Invoice
-      </button>
-    </div>
+  <section class="flex items-center justify-center min-h-screen ">
+    <!-- Sign Up Card -->
+    <div class="flex flex-col-reverse items-center w-full max-w-4xl overflow-hidden bg-white rounded-lg shadow-lg md:flex-row">
+      <!-- Left Section -->
+      <div class="p-8 md:w-1/2">
+        <h2 class="text-2xl font-bold text-gray-800">
+          Market place
+        </h2>
+        <p class="mt-4 text-gray-600">
+          To learn more, visit
+          <a href="" class="text-indigo-600 underline" target="_blank">
+            marketplace
+          </a>.
+        </p>
+        <div class="mt-8">
+          <!-- <img
+            src="https://d1.awsstatic.com/webteam/images/AWS_logo_lockup_smile.0d06d85b2e0f57eeb7d08478e20c55c1.svg"
+            alt="Logo"
+            class="w-32"
+          /> -->
+        </div>
+      </div>
 
-    <!-- Stats Cards -->
-    <div class="grid grid-cols-2 gap-6 mb-6 sm:grid-cols-2 lg:grid-cols-4">
-      <div class="p-4 bg-white rounded-lg shadow">
-        <p class="text-sm text-gray-500">Revenue</p>
-        <p class="text-2xl font-bold">$405,091.00</p>
-        <p class="text-sm text-green-500">+4.75%</p>
-      </div>
-      <div class="p-4 bg-white rounded-lg shadow">
-        <p class="text-sm text-gray-500">Overdue Invoices</p>
-        <p class="text-2xl font-bold">$12,787.00</p>
-        <p class="text-sm text-red-500">-5.02%</p>
-      </div>
-      <div class="p-4 bg-white rounded-lg shadow">
-        <p class="text-sm text-gray-500">Outstanding Invoices</p>
-        <p class="text-2xl font-bold">$245,988.00</p>
-        <p class="text-sm text-green-500">+1.39%</p>
-      </div>
-      <div class="p-4 bg-white rounded-lg shadow">
-        <p class="text-sm text-gray-500">Expenses</p>
-        <p class="text-2xl font-bold">$30,156.00</p>
-        <p class="text-sm text-red-500">-10.81%</p>
-      </div>
-    </div>
+      <!-- Right Section -->
+      <div class="p-8 md:w-1/2 bg-gray-50">
+        <h3 class="mb-6 text-xl font-semibold text-center text-gray-700">
+          Sign In 
+        </h3>
+        <form @submit.prevent="handleSignup" class="space-y-4">
+          <!-- Email Input -->
+          <div>
+            <label class="block text-sm font-medium text-gray-600">Email</label>
+            <input
+              type="email"
+              v-model="email"
+              placeholder="Enter your email address"
+              required
+              class="w-full p-3 mt-2 border rounded-lg focus:ring-indigo-500 focus:border-indigo-500"
+            />
+          </div>
+          <!-- Account Name Input -->
+          <div>
+            <label class="block text-sm font-medium text-gray-600">Password</label>
+            <input
+              type="text"
+              v-model="accountName"
+              placeholder="Choose an account name"
+              required
+              class="w-full p-3 mt-2 border rounded-lg focus:ring-indigo-500 focus:border-indigo-500"
+            />
+          </div>
+          <!-- Verify Button -->
+          <button
+            type="submit"
+            class="w-full px-4 py-2 font-semibold text-white bg-indigo-900 rounded-lg hover:indigo-800"
+          >
+            Sing In
+          </button>
+        </form>
 
-    <!-- Recent Activity -->
-    <div class="mb-6">
-      
-      <h3 class="mb-4 text-lg font-semibold text-gray-800">Recent Activity</h3>
-      <div class="grid grid-cols-3">
-      <div class="p-4 bg-white rounded-lg shadow">
-        <div class="divide-y divide-gray-200">
-          <div class="flex flex-col items-start justify-between py-3 sm:flex-row sm:items-center">
-            <div>
-              <p class="text-gray-700">$7,600.00 USD</p>
-              <p class="text-sm text-gray-500">Paid - Reform</p>
-            </div>
-            <p class="mt-2 text-sm text-green-500 sm:mt-0">Paid</p>
-          </div>
-          <div class="flex flex-col items-start justify-between py-3 sm:flex-row sm:items-center">
-            <div>
-              <p class="text-gray-700">$10,000.00 USD</p>
-              <p class="text-sm text-gray-500">Withdraw - Tom Cook</p>
-            </div>
-            <p class="mt-2 text-sm text-gray-500 sm:mt-0">Withdraw</p>
-          </div>
-          <div class="flex flex-col items-start justify-between py-3 sm:flex-row sm:items-center">
-            <div>
-              <p class="text-gray-700">$2,000.00 USD</p>
-              <p class="text-sm text-gray-500">Overdue - Tuple</p>
-            </div>
-            <p class="mt-2 text-sm text-red-500 sm:mt-0">Overdue</p>
-          </div>
+        <!-- Separator -->
+        <div class="flex items-center my-6">
+          <hr class="w-full border-gray-300" />
+          <span class="mx-2 text-sm text-gray-500">OR</span>
+          <hr class="w-full border-gray-300" />
         </div>
-      </div>
-      </div>
-    </div>
 
-    <!-- Recent Clients -->
-    <div>
-      <h3 class="mb-4 text-lg font-semibold text-gray-800">Recent Clients</h3>
-      <div class="grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-3">
-        <div class="p-4 bg-white rounded-lg shadow">
-          <p class="text-sm text-gray-500">Tuple</p>
-          <p class="text-lg font-bold">$2,000.00</p>
-          <p class="text-sm text-red-500">Overdue</p>
-        </div>
-        <div class="p-4 bg-white rounded-lg shadow">
-          <p class="text-sm text-gray-500">SavvyCal</p>
-          <p class="text-lg font-bold">$14,000.00</p>
-          <p class="text-sm text-green-500">Paid</p>
-        </div>
-        <div class="p-4 bg-white rounded-lg shadow">
-          <p class="text-sm text-gray-500">Reform</p>
-          <p class="text-lg font-bold">$7,600.00</p>
-          <p class="text-sm text-green-500">Paid</p>
-        </div>
+        <!-- Sign In Button -->
+        <button
+          @click="goToSignin"
+          class="w-full px-4 py-2 font-semibold text-gray-700 bg-gray-100 rounded-lg hover:bg-gray-200"
+        >
+          Create New Account
+        </button>
       </div>
     </div>
-  </div>
+  </section>
 </template>
 
 <script>
 export default {
-  layout: "default",
+  data() {
+    return {
+      email: "",
+      accountName: "",
+    };
+  },
+  methods: {
+    handleSignup() {
+      // Simulate signup logic
+      if (this.email && this.accountName) {
+        alert(`Signup successful for ${this.accountName}`);
+      } else {
+        alert("Please fill in all fields!");
+      }
+    },
+    goToSignin() {
+      this.$router.push("/signin");
+    },
+  },
+  head() {
+    return {
+      title: "Sign Up - AWS",
+    };
+  },
 };
 </script>
 
 <style scoped>
-.csscmd{
-  @apply p-2 text-center bg-blue-200 rounded;
-}
-.csscmd:hover{
-  @apply bg-blue-200 cursor-pointer;
-}
-
-.cssBox {
-  border: 1px solid;
-  @apply border-gray-500 rounded p-2;
-}
+/* Custom Styles */
 </style>
-
-

@@ -70,13 +70,11 @@
 
     <!-- Main Content -->
     <div class="flex flex-col flex-1">
-      <!-- Header -->
-      <header class="flex items-center justify-between p-4 shadow bg-violet-900">
+      <!-- <header class="flex items-center justify-between p-4 shadow bg-violet-900">
         <button
             @click="isSidebarOpen = !isSidebarOpen"
             class="absolute z-50 p-2 text-white rounded-md top-4 left-4"
           >
-            <!-- Menu Icon -->
             <svg v-if="!isSidebarOpen" class="w-6 h-6" fill="none" stroke="currentColor" stroke-width="2"
               viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
               <path stroke-linecap="round" stroke-linejoin="round"
@@ -86,7 +84,6 @@
         </button>
         <h1 class="mt-1 ml-24 text-lg font-semibold text-white">Logo</h1>
         <div class="relative ml-3">
-          <!-- Profile Image Button -->
           <div>
             <button
               @click="isDropdownOpen = !isDropdownOpen"
@@ -100,7 +97,6 @@
             </button>
           </div>
 
-          <!-- Dropdown Menu -->
           <div
             v-if="isDropdownOpen"
             class="absolute right-0 z-10 w-48 py-1 mt-2 origin-top-right bg-white rounded-md shadow-lg ring-1 ring-black/5"
@@ -116,7 +112,7 @@
             </a>
           </div>
         </div>
-      </header>
+      </header> -->
 
       <!-- Page Content -->
       <main class="flex-grow p-6 overflow-y-auto bg-gray-50">
@@ -124,9 +120,9 @@
       </main>
 
       <!-- Footer -->
-      <footer class="p-4 text-center text-white bg-gray-200">
+      <!-- <footer class="p-4 text-center text-white bg-gray-200">
         <p class="text-gray-700">&copy; 2024 My Nuxt App</p>
-      </footer>
+      </footer> -->
     </div>
   </div>
 </template>
