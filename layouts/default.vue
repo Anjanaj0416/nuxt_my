@@ -1,24 +1,22 @@
 
 <template>
   <section>
-    <header class="bg-blue-600 text-white p-4">
-      <h1>My Nuxt App layout</h1>
-    </header>
+    <headercomp/> 
     
     <!-- The page content will be injected here -->
-    <main class="p-4">
+    <main class="p-4 ">
       <slot />
     </main>
 
-    <footer class="bg-gray-800 text-white p-4 mt-4">
-      <p>&copy; 2024 My Nuxt App</p>
-    </footer>
+    <footercomp/>
   </section>
 </template>
 
 <script>
+import headercomp from '~/components/header'
+import footercomp from '~/components/footer'
 export default {
-
+  components: {headercomp,footercomp},
 }
 </script>
 

@@ -3,7 +3,9 @@
 <template>
     <section>
 
-      
+      <div class="bg-blue-600 text-white p-4">
+      <h1>My Nuxt App layout</h1>
+    </div>
     </section>
     <!-- <input type="text" oninput="this.value = this.value.replace(/[^0-9.]/g, '').replace(/(\..*?)\..*/g, '$1');" > -->
   </template>
@@ -13,11 +15,9 @@
   //import * as Global from '@/assets/js/Global'
   //import * as myfilter from '@/plugins/myfilter'
  // import { mapState, mapGetters, mapActions, mapMutations } from 'pinia'
- definePageMeta({
-    layout: 'default'
-   });
+  
   export default {
-    
+   
     components: {},
     props:[''],
     data() {

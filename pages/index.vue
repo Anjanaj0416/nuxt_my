@@ -2,11 +2,11 @@
 
 <template>
   <section>
-    <div @click="showComp='login'" class="cursor-pointer">Login</div>
-    <div @click="showComp='changelogin'" class="cursor-pointer">changelogin</div>
+    <!--   <div @click="showComp='login'" class="cursor-pointer">Login</div>
+  <div @click="showComp='changelogin'" class="cursor-pointer">changelogin</div>
     <hr class="mt-12">
    <login v-if="showComp=='login'"/>
-   <changelogin v-if="showComp=='changelogin'"/>
+   <changelogin v-if="showComp=='changelogin'"/> -->
     
   </section>
   <!-- <input type="text" oninput="this.value = this.value.replace(/[^0-9.]/g, '').replace(/(\..*?)\..*/g, '$1');" > -->
@@ -20,9 +20,11 @@ import changelogin from '~/components/auth/changelogin'
 import login from '~/components/auth/login'
 //import { mapState, mapGetters, mapActions, mapMutations } from 'pinia'
 //import { useSampleControllerStore } from '~/store/index';
-
+definePageMeta({
+    layout: 'default'
+   });
 export default {
-  layout: 'default',
+ 
   components: {login,changelogin},
   props:[''],
   data() {
