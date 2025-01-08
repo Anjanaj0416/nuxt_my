@@ -1,4 +1,3 @@
-
 <template>
   <section>
     <headercomp/> 
@@ -20,6 +19,5 @@ export default {
 }
 </script>
 
-<style>
-
+<style scoped>
 </style>

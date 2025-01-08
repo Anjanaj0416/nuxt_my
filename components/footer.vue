@@ -2,8 +2,8 @@
 
 <template>
     <section>
-      <div class="bg-gray-800 text-white p-4 mt-4">
-      <p>&copy; 2024 My Nuxt App</p>
+      <div class="p-4 mt-4 text-white bg-gray-300">
+      <p class="text-black">&copy; 2024 My Nuxt App</p>
     </div>
       
     </section>

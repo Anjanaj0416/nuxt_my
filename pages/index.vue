@@ -1,16 +1,124 @@
-<!-- https://flowbite.com/docs/components/avatar/ -->
-
 <template>
-  <section>
-    <!--   <div @click="showComp='login'" class="cursor-pointer">Login</div>
-  <div @click="showComp='changelogin'" class="cursor-pointer">changelogin</div>
-    <hr class="mt-12">
-   <login v-if="showComp=='login'"/>
-   <changelogin v-if="showComp=='changelogin'"/> -->
-    
-  </section>
-  <!-- <input type="text" oninput="this.value = this.value.replace(/[^0-9.]/g, '').replace(/(\..*?)\..*/g, '$1');" > -->
+  <div class="min-h-screen p-6 ">
+    <!-- Header -->
+    <div class="flex flex-col items-start justify-between mb-6 sm:flex-row sm:items-center">
+      <h2 class="mb-4 text-2xl font-bold text-gray-800 sm:mb-0">Cashflow</h2>
+      <NuxtLink to="/user/login">
+        <button class="px-4 py-2 text-white rounded-lg hover:bg-indigo-500 btn">
+          Login
+        </button>
+      </NuxtLink>
+
+    </div>
+
+    <!-- Stats Cards -->
+    <div class="grid grid-cols-2 gap-6 mb-6 sm:grid-cols-2 lg:grid-cols-4">
+      <div class="p-4 bg-white rounded-lg shadow">
+        <p class="text-sm text-gray-500">Revenue</p>
+        <p class="text-2xl font-bold">LKR:405,091.00</p>
+        <p class="text-sm text-green-500">+4.75%</p>
+      </div>
+      <div class="p-4 bg-white rounded-lg shadow">
+        <p class="text-sm text-gray-500">Overdue Invoices</p>
+        <p class="text-2xl font-bold">LKR:12,787.00</p>
+        <p class="text-sm text-red-500">-5.02%</p>
+      </div>
+      <div class="p-4 bg-white rounded-lg shadow">
+        <p class="text-sm text-gray-500">Outstanding Invoices</p>
+        <p class="text-2xl font-bold">LKR:245,988.00</p>
+        <p class="text-sm text-green-500">+1.39%</p>
+      </div>
+      <div class="p-4 bg-white rounded-lg shadow">
+        <p class="text-sm text-gray-500">Expenses</p>
+        <p class="text-2xl font-bold">LKR:30,156.00</p>
+        <p class="text-sm text-red-500">-10.81%</p>
+      </div>
+    </div>
+
+    <!-- Recent Activity -->
+    <div class="mb-6">
+      
+      <h3 class="mb-4 text-lg font-semibold text-gray-800">Recent Activity</h3>
+      <div class="grid grid-cols-3 gap-3">
+        <div class="p-4 bg-white rounded-lg shadow">
+          <div class="divide-y divide-gray-200">
+            <div class="flex flex-col items-start justify-between py-3 sm:flex-row sm:items-center">
+              <div>
+                <p class="text-gray-700">LKR:7,600.00 USD</p>
+                <p class="text-sm text-gray-500">Paid - Reform</p>
+              </div>
+              <p class="mt-2 text-sm text-green-500 sm:mt-0">Paid</p>
+            </div>
+            <div class="flex flex-col items-start justify-between py-3 sm:flex-row sm:items-center">
+              <div>
+                <p class="text-gray-700">LKR:10,000.00 USD</p>
+                <p class="text-sm text-gray-500">Withdraw - Tom Cook</p>
+              </div>
+              <p class="mt-2 text-sm text-gray-500 sm:mt-0">Withdraw</p>
+            </div>
+            <div class="flex flex-col items-start justify-between py-3 sm:flex-row sm:items-center">
+              <div>
+                <p class="text-gray-700">LKR:2,000.00 USD</p>
+                <p class="text-sm text-gray-500">Overdue - Tuple</p>
+              </div>
+              <p class="mt-2 text-sm text-red-500 sm:mt-0">Overdue</p>
+            </div>
+          </div>
+        </div>
+
+        <div class="p-4 bg-white rounded-lg shadow">
+          <div class="divide-y divide-gray-200">
+            <div class="flex flex-col items-start justify-between py-3 sm:flex-row sm:items-center">
+              <div>
+                <p class="text-gray-700">LKR:7,600.00 USD</p>
+                <p class="text-sm text-gray-500">Paid - Reform</p>
+              </div>
+              <p class="mt-2 text-sm text-green-500 sm:mt-0">Paid</p>
+            </div>
+            <div class="flex flex-col items-start justify-between py-3 sm:flex-row sm:items-center">
+              <div>
+                <p class="text-gray-700">LKR:10,000.00 USD</p>
+                <p class="text-sm text-gray-500">Withdraw - Tom Cook</p>
+              </div>
+              <p class="mt-2 text-sm text-gray-500 sm:mt-0">Withdraw</p>
+            </div>
+            <div class="flex flex-col items-start justify-between py-3 sm:flex-row sm:items-center">
+              <div>
+                <p class="text-gray-700">LKR:2,000.00 USD</p>
+                <p class="text-sm text-gray-500">Overdue - Tuple</p>
+              </div>
+              <p class="mt-2 text-sm text-red-500 sm:mt-0">Overdue</p>
+            </div>
+          </div>
+        </div>
+        
+      </div>
+    </div>
+
+    <!-- Recent Clients -->
+    <div>
+      <h3 class="mb-4 text-lg font-semibold text-gray-800">Recent Clients</h3>
+      <div class="grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-3">
+        <div class="p-4 bg-white rounded-lg shadow">
+          <p class="text-sm text-gray-500">Tuple</p>
+          <p class="text-lg font-bold">LKR:2,000.00</p>
+          <p class="text-sm text-red-500">Overdue</p>
+        </div>
+        <div class="p-4 bg-white rounded-lg shadow">
+          <p class="text-sm text-gray-500">SavvyCal</p>
+          <p class="text-lg font-bold">LKR:14,000.00</p>
+          <p class="text-sm text-green-500">Paid</p>
+        </div>
+        <div class="p-4 bg-white rounded-lg shadow">
+          <p class="text-sm text-gray-500">Reform</p>
+          <p class="text-lg font-bold">LKR:7,600.00</p>
+          <p class="text-sm text-green-500">Paid</p>
+        </div>
+      </div>
+    </div>
+  </div>
 </template>
+
 
 <script>
 //import textInput from '~/components/customcontrol/textinput'
@@ -29,119 +137,39 @@ export default {
   props:[''],
   data() {
     return {
-      imageroot: process.env.Assets_83,
-      showComp:'login',
-    }
+      email: "",
+      accountName: "",
+    };
   },
-  async mounted() {},
-  watch: {},
-  // computed: {
-  //   // ...mapState({
-  //   //   //loggeduser: (state) => state.loggeduser,
-  //   // }),
-  // },
   methods: {
-    // ...mapActions({
-    //   //  getWGInitData: 'reservedaddetail/getWGInitData',
-    // }),
-    //   ...mapMutations({
-    //   //resetEmail: 'office/RESET_EMAIL',
-    //    //showMessage: 'PUSH_NOTIFICATION',
-    // }),
-    //  this.processing_year = new Date().getFullYear()
-     //this.$emit('Load_MonthlyBrakeDown',req)
-     //this.$refs.catcomp.initCategoryItem(-1)
-     //this.$emit('input', this.selected_item.trim());
-  // show_error(msg) {
-  //     this.showMessage({
-  //       type: 'Failed',
-  //       message: msg,
-  //     })
-  //   },
-  //    show_msg(msg) {
-  //     this.showMessage({
-  //       type: 'success',
-  //       message: msg,
-  //     })
-  //   },
-    // async copyContent(value) {
-    //   try {
-    //      await navigator.clipboard.writeText(value)
-    //      this.show_msg('Content copied to clipboard')
-
-    //   } catch (err) {
-    //     this.show_msg('Failed to copy :'+err)
-    //   }
-    // },
-    //     async copyContent(value) {
-    //   try {
-    //      await navigator.clipboard.writeText(value)
-    //      this.show_msg('Content copied to clipboard')
-
-    //   } catch (err) {
-    //     this.show_msg('Failed to copy :'+err)
-    //   }
-    // },
-    //  async downloadReportKotukole(){
-    //   if(confirm('Do you want to Download?')){
-    //      await this.get_DownloadKotukole({book:this.book});
-    //      window.open(this.csv_root+'/reports/'+this.csv_name, '_blank');
-    //   }
-    // },
-  },
-  async beforeMount() {
-    // if (this.loggeduser.granted.indexOf('workgroup') > -1 || this.loggeduser.usergroup == 'Supervisor' ) {
-    // } else {
-    //   this.show_error('Not Allowed to access this page')
-    //   this.$router.push('/')
-    // }
-
+    goToLogin() {
+      this.$router.push('/user/login'); // Navigate to /user/login
+    },
+    goToChangeLogin() {
+      this.$router.push('/user/changelogin'); // Navigate to /user/changelogin
+    },
+    handleSignup() {
+      // Simulate signup logic
+      if (this.email && this.accountName) {
+        alert(`Signup successful for ${this.accountName}`);
+      } else {
+        alert("Please fill in all fields!");
+      }
+    },
+    goToSignin() {
+      this.$router.push("/signin");
+    },
   },
   head() {
     return {
-      title: 'Intranet - Digital Tech Labs',
-    }
+      title: "Sign Up - AWS",
+    };
   },
-}
-
-//Validation
-//-------------------------------------------------
-// async cmdSearchOrg(){
-//       if(this.isAtleasetOneExisitsForSearch()){
-//      await this.getOrganizationData(this.organizationSearch);
-//       }
-//     },
-
-// 	-------------------
-
-
-//  isAtleasetOneExisitsForSearch(){
-//  let isAtleasetOneExisitsForSearch = false;
-
-
-//  if(this.organizationSearch.person.trim()!='' ){
-//         if( this.organizationSearch.person.trim().length  <= 3 ){
-//             this.show_error('Invalid person , More than three Letters Requied for search');
-//         }
-//         else{ isAtleasetOneExisitsForSearch = true;}
-
-//       }
-// 	  return isAtleasetOneExisitsForSearch;
-// 	  }
+};
 </script>
 
 <style scoped>
-.csscmd{
-  @apply p-2 text-center bg-blue-200 rounded;
-}
-.csscmd:hover{
-  @apply bg-blue-200 cursor-pointer;
-}
-
-.cssBox {
-  border: 1px solid;
-  @apply border-gray-500 rounded p-2;
-}
+  .btn{
+    background-color: #ed9135; 
+  }
 </style>
-
-
