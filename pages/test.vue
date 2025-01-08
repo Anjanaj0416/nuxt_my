@@ -2,7 +2,10 @@
 
 <template>
     <section>
-
+        <div class="flex  cssbtnarray">  
+         <div @click="goToLogin">Login</div> 
+         <div @click="goToChangeLogin">change login</div>
+        </div>
       
     </section>
     <!-- <input type="text" oninput="this.value = this.value.replace(/[^0-9.]/g, '').replace(/(\..*?)\..*/g, '$1');" > -->
@@ -17,7 +20,7 @@
     layout: 'default'
    });
   export default {
-    
+   
     components: {},
     props:[''],
     data() {
@@ -28,6 +31,12 @@
     async mounted() {},
     watch: {},
     computed: {
+        goToLogin(){
+            this.$router.push('/user/login')
+        },
+        goToChangeLogin(){
+            this.$router.push('/user/changelogin')
+        },
       // ...mapState({
       //   //loggeduser: (state) => state.loggeduser,
       // }),
@@ -133,6 +142,11 @@
   .cssBox {
     border: 1px solid;
     @apply border-gray-500 rounded p-2;
+  }
+
+  .cssbtnarray div{
+    border: 1px solid;
+    @apply border-gray-500 rounded p-2 mx-2 hover:bg-gray-400 cursor-pointer;
   }
   </style>
   

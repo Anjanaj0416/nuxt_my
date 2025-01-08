@@ -2,7 +2,7 @@
 
 <template>
     <section>
-
+     Change Login
       
     </section>
     <!-- <input type="text" oninput="this.value = this.value.replace(/[^0-9.]/g, '').replace(/(\..*?)\..*/g, '$1');" > -->
@@ -14,10 +14,11 @@
   //import * as myfilter from '@/plugins/myfilter'
  // import { mapState, mapGetters, mapActions, mapMutations } from 'pinia'
  definePageMeta({
-    layout: 'default'
+    layout: 'loginlayout'
    });
+
   export default {
-    
+  
     components: {},
     props:[''],
     data() {
