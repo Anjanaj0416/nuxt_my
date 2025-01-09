@@ -3,7 +3,7 @@
     <headercomp/> 
     
     <!-- The page content will be injected here -->
-    <main class="p-4 ">
+    <main class="">
       <slot />
     </main>
 

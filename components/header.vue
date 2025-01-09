@@ -71,7 +71,7 @@
     <!-- Main Content -->
     <div class="flex flex-col flex-1">
       <!-- Header -->
-      <header class="flex items-center justify-between p-4 shadow nav">
+      <header class="flex items-center justify-between p-4 shadow bg-nav">
         <button
             @click="isSidebarOpen = !isSidebarOpen"
             class="absolute z-50 p-2 text-white rounded-md top-4 left-4"
@@ -148,8 +148,8 @@ export default {
 </script>
 
 <style scoped>
-.nav{
+/* .nav{
     background-color: #072556; 
-  }
+  } */
 
 </style>
