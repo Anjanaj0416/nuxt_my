@@ -1,254 +1,148 @@
 <template>
-  <h1 class="mt-8 font-semibold tracking-tight text-gray-700 text-1xl text-balance sm:text-3xl">Vender</h1>
-  <div class="grid grid-cols-3 gap-4 mt-10">
-    <div class="">
-      <label class="block text-sm font-medium text-gray-600">Company Name</label>
-      <input
-        type="text"
-        v-model="CompanyName"
-        placeholder="Enter Company Name"
-        required
-        class="w-full p-2 mt-2 text-sm border rounded-md focus:ring-indigo-500 focus:border-indigo-500"
-      />
-    </div>
-    <div class="">
-      <label class="block text-sm font-medium text-gray-600">Address Line 1</label>
-      <input
-        type="text"
-        v-model="address1"
-        placeholder="Enter Address Line 1"
-        required
-        class="w-full p-2 mt-2 text-sm border rounded-md focus:ring-indigo-500 focus:border-indigo-500"
-      />
-    </div>
-    <div class="">
-      <label class="block text-sm font-medium text-gray-600">Address Line 2</label>
-      <input
-        type="text"
-        v-model="address2"
-        placeholder="Enter Address Line 2"
-        required
-        class="w-full p-2 mt-2 text-sm border rounded-md focus:ring-indigo-500 focus:border-indigo-500"
-      />
-    </div>
-    <div class="">
-      <label class="block text-sm font-medium text-gray-600">City</label>
-      <input
-        type="text"
-        v-model="city"
-        placeholder="Enter city"
-        required
-        class="w-full p-2 mt-2 text-sm border rounded-md focus:ring-indigo-500 focus:border-indigo-500"
-      />
-    </div>
-    <div class="">
-      <label class="block text-sm font-medium text-gray-600">District</label>
-      <input
-        type="text"
-        v-model="district"
-        placeholder="Enter District"
-        required
-        class="w-full p-2 mt-2 text-sm border rounded-md focus:ring-indigo-500 focus:border-indigo-500"
-      />
-    </div>
-    <div class="">
-      <label class="block text-sm font-medium text-gray-600">Email</label>
-      <input
-        type="text"
-        v-model="email"
-        placeholder="Enter Email"
-        required
-        class="w-full p-2 mt-2 text-sm border rounded-md focus:ring-indigo-500 focus:border-indigo-500"
-      />
-    </div>
-    <div class="">
-      <label class="block text-sm font-medium text-gray-600">Contact Number</label>
-      <input
-        type="text"
-        v-model="contactNumber"
-        placeholder="Enter Contact Number"
-        required
-        class="w-full p-2 mt-2 text-sm border rounded-md focus:ring-indigo-500 focus:border-indigo-500"
-      />
-    </div>
-    <div class="">
-      <label class="block text-sm font-medium text-gray-600">Phone Number</label>
-      <input
-        type="text"
-        v-model="phoneNumber"
-        placeholder="Enter Phone Number"
-        required
-        class="w-full p-2 mt-2 text-sm border rounded-md focus:ring-indigo-500 focus:border-indigo-500"
-      />
-    </div>
-    <div class="">
-      <label class="block text-sm font-medium text-gray-600">Whatsapp Number</label>
-      <input
-        type="text"
-        v-model="whatappNumber"
-        placeholder="Enter Whatsapp Number"
-        required
-        class="w-full p-2 mt-2 text-sm border rounded-md focus:ring-indigo-500 focus:border-indigo-500"
-      />
-    </div>
+  <h1 class="mt-8 font-semibold tracking-tight text-gray-700 text-1xl text-balance sm:text-3xl">View Vendor</h1>
+  <div class="flex justify-end mt-6">
+  <button
+    class="px-4 py-2 font-semibold text-blue-900 transition duration-300 ease-in-out border-2 border-blue-800 rounded-lg hover:bg-blue-900 hover:text-white focus:ring-2 focus:ring-blue-600 focus:outline-none"
+    aria-label="Edit vendor"
+  >
+    Edit Vendor
+  </button>
+</div>
 
-    
-    <div class="">
-      <label class="block text-sm font-medium text-gray-600">Company Logo</label>
-      <input class="block w-full mt-2 text-sm text-gray-900 border border-gray-300 rounded-lg cursor-pointer bg-gray-50 dark:text-gray-400 focus:outline-none dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400" aria-describedby="user_avatar_help" id="user_avatar" type="file">
+  <div>
+  <div class="grid grid-cols-2 mt-0">
+    <div class="mt-6 border-t border-gray-100">
+      <dl class="divide-y divide-gray-100">
+        <div class="px-4 py-6 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-0">
+          <dt class="font-medium text-gray-900 text-sm/6">Vendor Code</dt>
+          <dd class="mt-1 text-gray-700 text-sm/6 sm:col-span-2 sm:mt-0">V123</dd>
+        </div>
+        <div class="px-4 py-6 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-0">
+          <dt class="font-medium text-gray-900 text-sm/6">Company Name</dt>
+          <dd class="mt-1 text-gray-700 text-sm/6 sm:col-span-2 sm:mt-0">ABC Company</dd>
+        </div>
+        <div class="px-4 py-6 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-0">
+          <dt class="font-medium text-gray-900 text-sm/6">Address 1</dt>
+          <dd class="mt-1 text-gray-700 text-sm/6 sm:col-span-2 sm:mt-0">xxxxxx</dd>
+        </div>
+        <div class="px-4 py-6 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-0">
+          <dt class="font-medium text-gray-900 text-sm/6">Address 2</dt>
+          <dd class="mt-1 text-gray-700 text-sm/6 sm:col-span-2 sm:mt-0">xxxxxx</dd>
+        </div>
+        <div class="px-4 py-6 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-0">
+          <dt class="font-medium text-gray-900 text-sm/6">City</dt>
+          <dd class="mt-1 text-gray-700 text-sm/6 sm:col-span-2 sm:mt-0">xxxxxx</dd>
+        </div>
+      </dl>
     </div>
-    <div class="">
-      <label class="block text-sm font-medium text-gray-600">Banner 1</label>
-      <input class="block w-full mt-2 text-sm text-gray-900 border border-gray-300 rounded-lg cursor-pointer bg-gray-50 dark:text-gray-400 focus:outline-none dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400" aria-describedby="user_avatar_help" id="user_avatar" type="file">
-    </div>
-    <div class="">
-      <label class="block text-sm font-medium text-gray-600">Banner 2</label>
-      <input class="block w-full mt-2 text-sm text-gray-900 border border-gray-300 rounded-lg cursor-pointer bg-gray-50 dark:text-gray-400 focus:outline-none dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400" aria-describedby="user_avatar_help" id="user_avatar" type="file">
-    </div>
+    <div class="mt-6 border-t border-gray-100">
+      <dl class="divide-y divide-gray-100">
+        <div class="px-4 py-6 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-0">
+          <dt class="font-medium text-gray-900 text-sm/6">District</dt>
+          <dd class="mt-1 text-gray-700 text-sm/6 sm:col-span-2 sm:mt-0">xxxxxx</dd>
+        </div>
+        <div class="px-4 py-6 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-0">
+          <dt class="font-medium text-gray-900 text-sm/6">Contact Number</dt>
+          <dd class="mt-1 text-gray-700 text-sm/6 sm:col-span-2 sm:mt-0">xxxxxx</dd>
+        </div>
+        <div class="px-4 py-6 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-0">
+          <dt class="font-medium text-gray-900 text-sm/6">Whatsapp Number</dt>
+          <dd class="mt-1 text-gray-700 text-sm/6 sm:col-span-2 sm:mt-0">xxxxxx</dd>
+        </div>
+        <div class="px-4 py-6 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-0">
+          <dt class="font-medium text-gray-900 text-sm/6">Company Logo</dt>
+          <dd class="mt-1 text-gray-700 text-sm/6 sm:col-span-2 sm:mt-0">xxxxxx</dd>
+        </div>
 
-    <div class="">
-      <label class="block text-sm font-medium text-gray-600">Description</label>
-      <input
-        type="text"
-        v-model="description"
-        placeholder="Enter description"
-        required
-        class="w-full p-2 mt-2 text-sm border rounded-md focus:ring-indigo-500 focus:border-indigo-500"
-      />
+      </dl>
     </div>
-    <div class="">
-      <label class="block text-sm font-medium text-gray-600">Contact Person Name</label>
-      <input
-        type="text"
-        v-model="contactPersonName"
-        placeholder="Enter Contact Number"
-        required
-        class="w-full p-2 mt-2 text-sm border rounded-md focus:ring-indigo-500 focus:border-indigo-500"
-      />
-    </div>
-    <div class="">
-      <label class="block text-sm font-medium text-gray-600">Contact Person Mobile</label>
-      <input
-        type="text"
-        v-model="contactPersonMobile"
-        placeholder="Enter Phone Number"
-        required
-        class="w-full p-2 mt-2 text-sm border rounded-md focus:ring-indigo-500 focus:border-indigo-500"
-      />
-    </div>
-    <div class="">
-      <label class="block text-sm font-medium text-gray-600">Owner First Name</label>
-      <input
-        type="text"
-        v-model="ownerFirstName"
-        placeholder="Enter Whatsapp Number"
-        required
-        class="w-full p-2 mt-2 text-sm border rounded-md focus:ring-indigo-500 focus:border-indigo-500"
-      />
-    </div>
-
-    <div class="">
-      <label class="block text-sm font-medium text-gray-600">Owner Contact</label>
-      <input
-        type="text"
-        v-model="ownerContact"
-        placeholder="Enter description"
-        required
-        class="w-full p-2 mt-2 text-sm border rounded-md focus:ring-indigo-500 focus:border-indigo-500"
-      />
-    </div>
-    <div class="">
-      <label class="block text-sm font-medium text-gray-600">Owner Birth Date</label>
-      <input
-        type="date"
-        v-model="ownerBirthDate"
-        placeholder="Enter Contact Number"
-        required
-        class="w-full p-2 mt-2 text-sm border rounded-md focus:ring-indigo-500 focus:border-indigo-500"
-      />
-    </div>
-    <div class="">
-      <label class="block text-sm font-medium text-gray-600">Bank Name</label>
-      <input
-        type="text"
-        v-model="bankName"
-        placeholder="Enter Bank Name"
-        required
-        class="w-full p-2 mt-2 text-sm border rounded-md focus:ring-indigo-500 focus:border-indigo-500"
-      />
-    </div>
-    <div class="">
-      <label class="block text-sm font-medium text-gray-600">Bank Branch</label>
-      <input
-        type="text"
-        v-model="bankBranch"
-        placeholder="Enter Bank Branch"
-        required
-        class="w-full p-2 mt-2 text-sm border rounded-md focus:ring-indigo-500 focus:border-indigo-500"
-      />
-    </div>
-
-    <div class="">
-      <label class="block text-sm font-medium text-gray-600">Bank Branch Code</label>
-      <input
-        type="text"
-        v-model="bankBranchCode"
-        placeholder="Enter Bank Branch Code"
-        required
-        class="w-full p-2 mt-2 text-sm border rounded-md focus:ring-indigo-500 focus:border-indigo-500"
-      />
-    </div>
-    <div class="">
-      <label class="block text-sm font-medium text-gray-600">Bank Account No</label>
-      <input
-        type="date"
-        v-model="bankAccountNo"
-        placeholder="Enter ank Account No"
-        required
-        class="w-full p-2 mt-2 text-sm border rounded-md focus:ring-indigo-500 focus:border-indigo-500"
-      />
-    </div>
-    <div class="">
-      <label class="block text-sm font-medium text-gray-600">Bank Swift Code</label>
-      <input
-        type="text"
-        v-model="bankSwiftCode"
-        placeholder="Enter Bank Swift Code"
-        required
-        class="w-full p-2 mt-2 text-sm border rounded-md focus:ring-indigo-500 focus:border-indigo-500"
-      />
-    </div>
-    <div class="">
-      <label class="block text-sm font-medium text-gray-600">RSO No</label>
-      <select
-        id="bankBranch"
-        v-model="rsoNo"
-        required
-        class="w-full p-2 mt-2 text-sm border rounded-md focus:ring-indigo-500 focus:border-indigo-500"
-      >
-        <option value="" disabled selected>Select a Bank Branch</option>
-        <option value="branch1">Bank Branch 1</option>
-        <option value="branch2">Bank Branch 2</option>
-        <option value="branch3">Bank Branch 3</option>
-        <!-- Add more options as needed -->
-      </select>
-    </div>
+   
   </div>
   <div class="grid grid-cols-2 mt-10">
+    <div class="mt-6 border-t border-gray-100">
+      <dl class="divide-y divide-gray-100">
+        <div class="px-4 py-6 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-0">
+          <dt class="font-medium text-gray-900 text-sm/6">Banner1 </dt>
+          <dd class="mt-1 text-gray-700 text-sm/6 sm:col-span-2 sm:mt-0">xxxxxx</dd>
+        </div>
+        <div class="px-4 py-6 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-0">
+          <dt class="font-medium text-gray-900 text-sm/6">Banner 2</dt>
+          <dd class="mt-1 text-gray-700 text-sm/6 sm:col-span-2 sm:mt-0">xxxxxx</dd>
+        </div>
+        <div class="px-4 py-6 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-0">
+          <dt class="font-medium text-gray-900 text-sm/6">Description</dt>
+          <dd class="mt-1 text-gray-700 text-sm/6 sm:col-span-2 sm:mt-0">xxxxxx</dd>
+        </div>
+        <div class="px-4 py-6 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-0">
+          <dt class="font-medium text-gray-900 text-sm/6">Contact Person Name</dt>
+          <dd class="mt-1 text-gray-700 text-sm/6 sm:col-span-2 sm:mt-0">xxxxxxxx</dd>
+        </div>
+        <div class="px-4 py-6 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-0">
+          <dt class="font-medium text-gray-900 text-sm/6">Contact Person Mobile</dt>
+          <dd class="mt-1 text-gray-700 text-sm/6 sm:col-span-2 sm:mt-0">xxxxxx</dd>
+        </div>
+      </dl>
+    </div>
+    <div class="mt-6 border-t border-gray-100">
+      <dl class="divide-y divide-gray-100">
+        <div class="px-4 py-6 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-0">
+          <dt class="font-medium text-gray-900 text-sm/6">Owner First Name</dt>
+          <dd class="mt-1 text-gray-700 text-sm/6 sm:col-span-2 sm:mt-0">xxxxxx</dd>
+        </div>
+        <div class="px-4 py-6 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-0">
+          <dt class="font-medium text-gray-900 text-sm/6">Owner Last Name</dt>
+          <dd class="mt-1 text-gray-700 text-sm/6 sm:col-span-2 sm:mt-0">xxxxxx</dd>
+        </div>
+        <div class="px-4 py-6 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-0">
+          <dt class="font-medium text-gray-900 text-sm/6">Owner Contact</dt>
+          <dd class="mt-1 text-gray-700 text-sm/6 sm:col-span-2 sm:mt-0">xxxxxx</dd>
+        </div>
+        <div class="px-4 py-6 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-0">
+          <dt class="font-medium text-gray-900 text-sm/6">Owner Birth Date</dt>
+          <dd class="mt-1 text-gray-700 text-sm/6 sm:col-span-2 sm:mt-0">xxxxxx</dd>
+        </div>
 
-      <button 
-        type="button" 
-        class="text-white bg-blue-900 hover:bg-blue-800 focus:outline-none focus:ring-4 focus:ring-blue-300 font-medium rounded-full text-sm px-5 py-2.5 text-center me-2 mb-2 dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800"
-      >
-        Submit
-      </button>
-      <button 
-        type="button" 
-        class="text-blue-900 bg-white hover:bg-blue-900 border-2 border-blue-800 hover:text-white focus:outline-none focus:ring-4 focus:ring-blue-300 font-medium rounded-full text-sm px-5 py-2.5 text-center me-2 mb-2 dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800"
-      >
-        Cancel
-      </button>
+      </dl>
+    </div>
+   
   </div>
+  <div class="grid grid-cols-2 mt-10">
+    <div class="mt-6 border-t border-gray-100">
+      <dl class="divide-y divide-gray-100">
+        <div class="px-4 py-6 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-0">
+          <dt class="font-medium text-gray-900 text-sm/6">Bank Name </dt>
+          <dd class="mt-1 text-gray-700 text-sm/6 sm:col-span-2 sm:mt-0">xxxxxx</dd>
+        </div>
+        <div class="px-4 py-6 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-0">
+          <dt class="font-medium text-gray-900 text-sm/6">Bank Branch</dt>
+          <dd class="mt-1 text-gray-700 text-sm/6 sm:col-span-2 sm:mt-0">xxxxxx</dd>
+        </div>
+        <div class="px-4 py-6 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-0">
+          <dt class="font-medium text-gray-900 text-sm/6">Bank Branch Code</dt>
+          <dd class="mt-1 text-gray-700 text-sm/6 sm:col-span-2 sm:mt-0">xxxxxx</dd>
+        </div>
+      </dl>
+    </div>
+    <div class="mt-6 border-t border-gray-100">
+      <dl class="divide-y divide-gray-100">
+        <div class="px-4 py-6 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-0">
+          <dt class="font-medium text-gray-900 text-sm/6">Bank Account No</dt>
+          <dd class="mt-1 text-gray-700 text-sm/6 sm:col-span-2 sm:mt-0">xxxxxx</dd>
+        </div>
+        <div class="px-4 py-6 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-0">
+          <dt class="font-medium text-gray-900 text-sm/6">Bank Swift Code</dt>
+          <dd class="mt-1 text-gray-700 text-sm/6 sm:col-span-2 sm:mt-0">xxxxxx</dd>
+        </div>
+        <div class="px-4 py-6 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-0">
+          <dt class="font-medium text-gray-900 text-sm/6">Rso No</dt>
+          <dd class="mt-1 text-gray-700 text-sm/6 sm:col-span-2 sm:mt-0">xxxxxx</dd>
+        </div>
+      </dl>
+    </div>
+   
+  </div>
+  </div>
+
 </template>
 
     

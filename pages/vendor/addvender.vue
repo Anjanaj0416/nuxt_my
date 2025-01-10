@@ -1,5 +1,5 @@
 <template>
-  <h1 class="mt-8 font-semibold tracking-tight text-gray-700 text-1xl text-balance sm:text-3xl">Vender</h1>
+  <h1 class="mt-8 font-semibold tracking-tight text-gray-700 text-1xl text-balance sm:text-3xl">Add Vender</h1>
   <div class="grid grid-cols-3 gap-4 mt-10">
     <div class="">
       <label class="block text-sm font-medium text-gray-600">Company Name</label>
@@ -233,6 +233,17 @@
         <!-- Add more options as needed -->
       </select>
     </div>
+    <!-- <div class="">
+      <label class="block text-sm font-medium text-gray-600">Description</label>
+      <textarea
+        type="text"
+        row="3"
+        v-model="description"
+        placeholder="Enter Description"
+        required
+        class="w-full p-2 mt-2 text-sm border rounded-md focus:ring-indigo-500 focus:border-indigo-500"
+      />
+    </div> -->
   </div>
   <div class="grid grid-cols-2 mt-10">
 
