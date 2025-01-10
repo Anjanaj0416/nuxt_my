@@ -9,18 +9,15 @@
         </h2>
         <!-- <div @click="showComp='index1'" class="cursor-pointer">Login</div> -->
         <!-- <div @click="showComp='login'" class="cursor-pointer">Login</div> -->
-        <p class="mt-4 text-gray-600">
-          To learn more, visit
-          <a href="assets/img/Login.png" class="text-indigo-600 underline" target="_blank">
-            marketplace
-          </a>.
+        <p class="mt-1 text-sm text-gray-600">
+          Lorem ipsum dolor sit amet consectetur, adipisicing elit. In praesentium laborum amet non perspiciatis tenetur, 
         </p>
         <div class="mt-8">
-          <!-- <img
-            src="img/Login.png"
+          <img
+            src="/./assets/img/Login.png"
             alt="AWS Logo"
-            class="w-32"
-          /> -->
+            class="w-42"
+          />
         </div>
       </div>
 
@@ -44,14 +41,53 @@
           <!-- Password Input -->
           <div>
             <label class="block text-sm font-medium text-gray-600">Password</label>
-            <input
-              type="password"
-              v-model="password"
-              placeholder="Enter Password"
-              required
-              class="w-full p-2 mt-2 text-sm border rounded-md focus:ring-indigo-500 focus:border-indigo-500"
-            />
+            <div class="relative">
+              <input
+                :type="showPassword ? 'text' : 'password'"
+                v-model="password"
+                placeholder="Enter Password"
+                required
+                class="w-full p-2 mt-2 text-sm border rounded-md focus:ring-indigo-500 focus:border-indigo-500"
+              />
+              <!-- Toggle Button -->
+              <button
+                type="button"
+                @click="togglePassword"
+                class="absolute text-gray-600 transform -translate-y-1/2 top-1/2 right-3 focus:outline-none"
+              >
+                <!-- Show Password Icon -->
+                <svg
+                  v-if="showPassword"
+                  xmlns="http://www.w3.org/2000/svg"
+                  width="1em"
+                  height="1em"
+                  viewBox="0 0 14 14"
+                  class="w-4 h-4 mt-3"
+                >
+                  <g fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round">
+                    <path d="M12.29 5.4c.38.34.7.67.94.93a1 1 0 0 1 0 1.34C12.18 8.8 9.79 11 7 11h-.4m-2.73-.87a12.4 12.4 0 0 1-3.1-2.46a1 1 0 0 1 0-1.34C1.82 5.2 4.21 3 7 3a6.56 6.56 0 0 1 3.13.87"></path>
+                    <path d="M5.59 8.41A2 2 0 0 1 5 7a2 2 0 0 1 2-2a2 2 0 0 1 1.41.59M8.74 8a2 2 0 0 1-.74.73"></path>
+                  </g>
+                </svg>
+                <!-- Hide Password Icon -->
+                <svg
+                  v-else
+                  xmlns="http://www.w3.org/2000/svg"
+                  width="1em"
+                  height="1em"
+                  viewBox="0 0 14 14"
+                  class="w-4 h-4 mt-3"
+                >
+                  <g fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round">
+                    <path d="M12.29 5.4c.38.34.7.67.94.93a1 1 0 0 1 0 1.34C12.18 8.8 9.79 11 7 11h-.4m-2.73-.87a12.4 12.4 0 0 1-3.1-2.46a1 1 0 0 1 0-1.34C1.82 5.2 4.21 3 7 3a6.56 6.56 0 0 1 3.13.87M12.5 1.5l-11 11"></path>
+                    <path d="M5.59 8.41A2 2 0 0 1 5 7a2 2 0 0 1 2-2a2 2 0 0 1 1.41.59M8.74 8a2 2 0 0 1-.74.73"></path>
+                  </g>
+                </svg>
+              </button>
+            </div>
           </div>
+
+
           <!-- Sign In Button -->
           <button
             type="submit"
@@ -86,6 +122,8 @@
   <script>
   import changelogin from '~/pages/user/changelogin'
   import register from '~/pages/user/register.vue'
+  import logo from '~/assets/img/Login.png';
+
   //import textInput from '~/components/customcontrol/textinput'
   //import * as Global from '@/assets/js/Global'
   //import * as myfilter from '@/plugins/myfilter'
@@ -100,6 +138,8 @@
     data() {
       return {
         imageroot: process.env.Assets_83,
+        password: '', 
+        showPassword: false, 
       }
     },
     async mounted() {},
@@ -118,6 +158,9 @@
     },
     goToRegister() {
         this.$router.push('/user/register'); // Navigate to /user/changelogin
+    },
+    togglePassword() {
+      this.showPassword = !this.showPassword;
     },
       // ...mapActions({
       //   //  getWGInitData: 'reservedaddetail/getWGInitData',

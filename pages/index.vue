@@ -1,118 +1,76 @@
 <template>
-  <div class="min-h-screen p-6 ">
-    <!-- Header -->
-    <div class="flex flex-col items-start justify-between mb-6 sm:flex-row sm:items-center">
-      <h2 class="mb-4 text-2xl font-bold text-gray-800 sm:mb-0">Cashflow</h2>
+  <div class="min-h-screen bg-white">
+    <div class="max-w-2xl px-6 mx-auto lg:max-w-7xl lg:px-2">
       <NuxtLink to="/user/login">
-        <button class="px-4 py-2 text-white rounded-lg hover:bg-indigo-500 btn">
+        <button class="px-4 py-2 text-white rounded-lg bg-btn">
           Login
         </button>
       </NuxtLink>
-
-    </div>
-
-    <!-- Stats Cards -->
-    <div class="grid grid-cols-2 gap-6 mb-6 sm:grid-cols-2 lg:grid-cols-4">
-      <div class="p-4 bg-white rounded-lg shadow">
-        <p class="text-sm text-gray-500">Revenue</p>
-        <p class="text-2xl font-bold">LKR:405,091.00</p>
-        <p class="text-sm text-green-500">+4.75%</p>
-      </div>
-      <div class="p-4 bg-white rounded-lg shadow">
-        <p class="text-sm text-gray-500">Overdue Invoices</p>
-        <p class="text-2xl font-bold">LKR:12,787.00</p>
-        <p class="text-sm text-red-500">-5.02%</p>
-      </div>
-      <div class="p-4 bg-white rounded-lg shadow">
-        <p class="text-sm text-gray-500">Outstanding Invoices</p>
-        <p class="text-2xl font-bold">LKR:245,988.00</p>
-        <p class="text-sm text-green-500">+1.39%</p>
-      </div>
-      <div class="p-4 bg-white rounded-lg shadow">
-        <p class="text-sm text-gray-500">Expenses</p>
-        <p class="text-2xl font-bold">LKR:30,156.00</p>
-        <p class="text-sm text-red-500">-10.81%</p>
-      </div>
-    </div>
-
-    <!-- Recent Activity -->
-    <div class="mb-6">
-      
-      <h3 class="mb-4 text-lg font-semibold text-gray-800">Recent Activity</h3>
-      <div class="grid grid-cols-3 gap-3">
-        <div class="p-4 bg-white rounded-lg shadow">
-          <div class="divide-y divide-gray-200">
-            <div class="flex flex-col items-start justify-between py-3 sm:flex-row sm:items-center">
-              <div>
-                <p class="text-gray-700">LKR:7,600.00 USD</p>
-                <p class="text-sm text-gray-500">Paid - Reform</p>
-              </div>
-              <p class="mt-2 text-sm text-green-500 sm:mt-0">Paid</p>
+      <p class="max-w-lg mx-auto mt-8 text-4xl font-semibold tracking-tight text-center text-balance text-gray-950 sm:text-5xl">Well come to Name</p>
+      <div class="grid gap-4 mt-10 sm:mt-16 lg:grid-cols-3 lg:grid-rows-2">
+        <div class="relative lg:row-span-2">
+          <div class="absolute inset-px rounded-lg bg-white lg:rounded-l-[2rem]" />
+          <div class="relative flex h-full flex-col overflow-hidden rounded-[calc(theme(borderRadius.lg)+1px)] lg:rounded-l-[calc(2rem+1px)]">
+            <div class="px-8 pt-8 pb-3 sm:px-10 sm:pb-0 sm:pt-10">
+              <p class="mt-2 text-lg font-medium tracking-tight text-gray-950 max-lg:text-center">Mobile friendly</p>
+              <p class="max-w-lg mt-2 text-gray-600 text-sm/6 max-lg:text-center">Anim aute id magna aliqua ad ad non deserunt sunt. Qui irure qui lorem cupidatat commodo.</p>
             </div>
-            <div class="flex flex-col items-start justify-between py-3 sm:flex-row sm:items-center">
-              <div>
-                <p class="text-gray-700">LKR:10,000.00 USD</p>
-                <p class="text-sm text-gray-500">Withdraw - Tom Cook</p>
+            <div class="relative min-h-[30rem] w-full grow [container-type:inline-size] max-lg:mx-auto max-lg:max-w-sm">
+              <div class="absolute inset-x-10 bottom-0 top-10 overflow-hidden rounded-t-[12cqw] border-x-[3cqw] border-t-[3cqw] border-gray-700 bg-gray-900 shadow-2xl">
+                <img class="object-cover object-top size-full" src="https://tailwindui.com/plus/img/component-images/bento-03-mobile-friendly.png" alt="" />
               </div>
-              <p class="mt-2 text-sm text-gray-500 sm:mt-0">Withdraw</p>
-            </div>
-            <div class="flex flex-col items-start justify-between py-3 sm:flex-row sm:items-center">
-              <div>
-                <p class="text-gray-700">LKR:2,000.00 USD</p>
-                <p class="text-sm text-gray-500">Overdue - Tuple</p>
-              </div>
-              <p class="mt-2 text-sm text-red-500 sm:mt-0">Overdue</p>
             </div>
           </div>
+          <div class="pointer-events-none absolute inset-px rounded-lg shadow ring-1 ring-black/5 lg:rounded-l-[2rem]" />
         </div>
-
-        <div class="p-4 bg-white rounded-lg shadow">
-          <div class="divide-y divide-gray-200">
-            <div class="flex flex-col items-start justify-between py-3 sm:flex-row sm:items-center">
-              <div>
-                <p class="text-gray-700">LKR:7,600.00 USD</p>
-                <p class="text-sm text-gray-500">Paid - Reform</p>
-              </div>
-              <p class="mt-2 text-sm text-green-500 sm:mt-0">Paid</p>
+        <div class="relative max-lg:row-start-1">
+          <div class="absolute inset-px rounded-lg bg-white max-lg:rounded-t-[2rem]" />
+          <div class="relative flex h-full flex-col overflow-hidden rounded-[calc(theme(borderRadius.lg)+1px)] max-lg:rounded-t-[calc(2rem+1px)]">
+            <div class="px-8 pt-8 sm:px-10 sm:pt-10">
+              <p class="mt-2 text-lg font-medium tracking-tight text-gray-950 max-lg:text-center">Performance</p>
+              <p class="max-w-lg mt-2 text-gray-600 text-sm/6 max-lg:text-center">Lorem ipsum, dolor sit amet consectetur adipisicing elit maiores impedit.</p>
             </div>
-            <div class="flex flex-col items-start justify-between py-3 sm:flex-row sm:items-center">
-              <div>
-                <p class="text-gray-700">LKR:10,000.00 USD</p>
-                <p class="text-sm text-gray-500">Withdraw - Tom Cook</p>
-              </div>
-              <p class="mt-2 text-sm text-gray-500 sm:mt-0">Withdraw</p>
-            </div>
-            <div class="flex flex-col items-start justify-between py-3 sm:flex-row sm:items-center">
-              <div>
-                <p class="text-gray-700">LKR:2,000.00 USD</p>
-                <p class="text-sm text-gray-500">Overdue - Tuple</p>
-              </div>
-              <p class="mt-2 text-sm text-red-500 sm:mt-0">Overdue</p>
+            <div class="flex items-center justify-center flex-1 px-8 max-lg:pb-12 max-lg:pt-10 sm:px-10 lg:pb-2">
+              <img class="w-full max-lg:max-w-xs" src="https://tailwindui.com/plus/img/component-images/bento-03-performance.png" alt="" />
             </div>
           </div>
+          <div class="pointer-events-none absolute inset-px rounded-lg shadow ring-1 ring-black/5 max-lg:rounded-t-[2rem]" />
         </div>
-        
-      </div>
-    </div>
-
-    <!-- Recent Clients -->
-    <div>
-      <h3 class="mb-4 text-lg font-semibold text-gray-800">Recent Clients</h3>
-      <div class="grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-3">
-        <div class="p-4 bg-white rounded-lg shadow">
-          <p class="text-sm text-gray-500">Tuple</p>
-          <p class="text-lg font-bold">LKR:2,000.00</p>
-          <p class="text-sm text-red-500">Overdue</p>
+        <div class="relative max-lg:row-start-3 lg:col-start-2 lg:row-start-2">
+          <div class="absolute bg-white rounded-lg inset-px" />
+          <div class="relative flex h-full flex-col overflow-hidden rounded-[calc(theme(borderRadius.lg)+1px)]">
+            <div class="px-8 pt-8 sm:px-10 sm:pt-10">
+              <p class="mt-2 text-lg font-medium tracking-tight text-gray-950 max-lg:text-center">Security</p>
+              <p class="max-w-lg mt-2 text-gray-600 text-sm/6 max-lg:text-center">Morbi viverra dui mi arcu sed. Tellus semper adipiscing suspendisse semper morbi.</p>
+            </div>
+            <div class="flex flex-1 items-center [container-type:inline-size] max-lg:py-6 lg:pb-2">
+              <img class="h-[min(152px,40cqw)] object-cover" src="https://tailwindui.com/plus/img/component-images/bento-03-security.png" alt="" />
+            </div>
+          </div>
+          <div class="absolute rounded-lg shadow pointer-events-none inset-px ring-1 ring-black/5" />
         </div>
-        <div class="p-4 bg-white rounded-lg shadow">
-          <p class="text-sm text-gray-500">SavvyCal</p>
-          <p class="text-lg font-bold">LKR:14,000.00</p>
-          <p class="text-sm text-green-500">Paid</p>
-        </div>
-        <div class="p-4 bg-white rounded-lg shadow">
-          <p class="text-sm text-gray-500">Reform</p>
-          <p class="text-lg font-bold">LKR:7,600.00</p>
-          <p class="text-sm text-green-500">Paid</p>
+        <div class="relative lg:row-span-2">
+          <div class="absolute inset-px rounded-lg bg-white max-lg:rounded-b-[2rem] lg:rounded-r-[2rem]" />
+          <div class="relative flex h-full flex-col overflow-hidden rounded-[calc(theme(borderRadius.lg)+1px)] max-lg:rounded-b-[calc(2rem+1px)] lg:rounded-r-[calc(2rem+1px)]">
+            <div class="px-8 pt-8 pb-3 sm:px-10 sm:pb-0 sm:pt-10">
+              <p class="mt-2 text-lg font-medium tracking-tight text-gray-950 max-lg:text-center">Powerful APIs</p>
+              <p class="max-w-lg mt-2 text-gray-600 text-sm/6 max-lg:text-center">Sit quis amet rutrum tellus ullamcorper ultricies libero dolor eget sem sodales gravida.</p>
+            </div>
+            <div class="relative min-h-[30rem] w-full grow">
+              <div class="absolute bottom-0 right-0 overflow-hidden bg-gray-900 shadow-2xl left-10 top-10 rounded-tl-xl">
+                <div class="flex bg-gray-800/40 ring-1 ring-white/5">
+                  <div class="flex -mb-px font-medium text-gray-400 text-sm/6">
+                    <div class="px-4 py-2 text-white border-b border-r border-b-white/20 border-r-white/10 bg-white/5">NotificationSetting.jsx</div>
+                    <div class="px-4 py-2 border-r border-gray-600/10">App.jsx</div>
+                  </div>
+                </div>
+                <div class="px-6 pt-6 pb-14">
+                  <!-- Your code example -->
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="pointer-events-none absolute inset-px rounded-lg shadow ring-1 ring-black/5 max-lg:rounded-b-[2rem] lg:rounded-r-[2rem]" />
         </div>
       </div>
     </div>
@@ -169,7 +127,7 @@ export default {
 </script>
 
 <style scoped>
-  .btn{
+  /* .btn{
     background-color: #ed9135; 
-  }
+  } */
 </style>
