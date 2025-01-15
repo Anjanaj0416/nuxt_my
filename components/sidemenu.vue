@@ -86,8 +86,8 @@ export default {
           icon: 'M6 19h3v-6h6v6h3v-9l-6-4.5L6 10zm-2 2V9l8-6l8 6v12h-7v-6h-2v6zm8-8.75',
         },
         {
-          name: 'Profile',
-          to: '/user/profile',
+          name: 'Proforma ',
+          to: '/proformaInvoice/ProformaInvoice',
           icon: 'M12 12c2.21 0 4-1.79 4-4s-1.79-4-4-4s-4 1.79-4 4s1.79 4 4 4zM12 14c-4.42 0-8 2.79-8 6v2h16v-2c0-3.21-3.58-6-8-6z',
         },
       ],
