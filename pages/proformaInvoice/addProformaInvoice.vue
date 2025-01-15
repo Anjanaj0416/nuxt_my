@@ -147,21 +147,42 @@
                     </tr>
                 </tbody>
             </table>
-            </div>
-
-            <div class="flex justify-end mt-10 space-x-4">
-            <div class="max-w-sm p-6 bg-white border border-gray-200 rounded-lg dark:bg-gray-800 dark:border-gray-700">
-              <p class="block text-lg font-medium text-gray-500">Discount : 100</p>
-              <p class="block text-lg font-medium text-gray-500">Net Price : LKR: 5000.00</p>
-              <p class="block text-lg font-medium text-gray-500">Tax : 10% </p>
-              <p class="block text-lg font-medium text-gray-500">Total : 10% </p>
-
-
-              <!-- <a href="#" class="inline-flex items-center px-3 py-2 text-sm font-medium text-center text-white bg-blue-700 rounded-lg hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800">
-                Add 
-              </a> -->
-            </div>
           </div>
+
+          <div class="grid grid-cols-2 gap-4 mt-6 rounded-lg sm:grid-cols-3">
+            <div>
+              
+            </div>
+            <div>
+              
+            </div>
+            <div class="max-w-sm p-6 bg-white border border-gray-200 rounded-lg dark:bg-gray-800 dark:border-gray-700">
+              <p class="text-xl font-semibold text-gray-800 dark:text-gray-100">Invoice Summary</p>
+              <div class="mt-4">
+                <div class="flex justify-between text-lg font-medium text-gray-600 dark:text-gray-400">
+                  <span>Discount:   </span>
+                  <span class="flex-1">
+                    <input type="number" class="block w-full p-1 text-sm text-gray-900 border border-gray-300 rounded-lg bg-gray-50 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" placeholder="Enter Qty" required />
+                  </span>
+                </div>
+                <div class="flex justify-between mt-2 text-lg font-medium text-gray-600 dark:text-gray-400">
+                  <span>Net Price:</span>
+                  <span>LKR 5000.00</span>
+                </div>
+                <div class="flex justify-between mt-2 text-lg font-medium text-gray-600 dark:text-gray-400">
+                  <span>Tax (10%):</span>
+                  <span>LKR 500.00</span>
+                </div>
+                <div class="flex justify-between mt-2 text-lg font-medium text-gray-600 dark:text-gray-400">
+                  <span>Total:</span>
+                  <span>LKR 5500.00</span>
+                </div>
+              </div>
+            </div>
+
+          </div>
+
+
 
           <div class="grid grid-cols-1 gap-4 mt-6 rounded-lg sm:grid-cols-4">
             <div>
