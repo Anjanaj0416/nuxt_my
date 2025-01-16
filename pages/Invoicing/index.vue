@@ -175,7 +175,7 @@
         this.closeModal('restore');
       },
       goToProformaInvoice() {
-        this.$router.push('/proformaInvoice/addProformaInvoice'); // Navigate to /user/changelogin
+        this.$router.push('/Invoicing/invoice'); // Navigate to /user/changelogin
     },
     }
   };

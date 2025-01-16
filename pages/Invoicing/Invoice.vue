@@ -1,21 +1,31 @@
 <template>
   <div>
     <section class="justify-center min-h-screen px-4 lg:px-80">
-      <h1 class="mt-8 font-semibold tracking-tight text-gray-700 ext-4xl sm:text-5xl">Add Proforma Invoice</h1>
+      <h1 class="mt-8 font-semibold tracking-tight text-gray-700 ext-4xl sm:text-5xl">Invoice</h1>
       <div class="mt-10">
         <div class="relative p-8 mt-10 overflow-x-auto shadow-md sm:rounded-lg">
           <p class="text-xl font-semibold text-gray-600">Customer Details</p>
           <hr class="mt-2">
           <div class="grid grid-cols-1 gap-4 mt-10 sm:grid-cols-3">
-            <div>
+           <div>
               <label class="block text-sm font-medium text-gray-500">Select Customer</label>
-              <input
+              <!--  <input
                 type="text"
                 v-model="email"
                 placeholder="Enter User Name"
                 required
                 class="w-full p-2 mt-2 text-sm text-gray-700 border rounded-md focus:ring-indigo-500 focus:border-indigo-500"
-              />
+              /> -->
+
+              
+              <SearchInput
+                  :arrItems="alCustomers"
+                  ref="customerComp"
+                  label=""
+                  :err="err.customerId"
+                  v-model="customerId"
+                   @selectItem="LoadCustomerDetails"
+                />
             </div>
           </div>
 
@@ -220,19 +230,34 @@
 <script>
 import headercomp from '~/components/header';
 import footercomp from '~/components/footer';
+import SearchInput from '~/components/customcontrol/SearchInput';
+
 
 export default {
-  components: { headercomp, footercomp },
+  components: { headercomp, footercomp,SearchInput },
   data() {
     return {
       isModalOpen: {
         view: false,
         delete: false,
         restore: false
-      }
+      },
+      alCustomers:[
+            {id:'1',value:'abans ltd' },
+            {id:'2',value:'damro' },
+            {id:'3',value:'perera & sons' },
+            {id:'4',value:'mervin hardware' },
+            ],
+            customerId:4,
+            err:{
+              categoryid:'',
+            },
     };
   },
   methods: {
+    LoadCustomerDetails(customerId){
+        alert(customerId)
+    },
     openModal(type) {
       this.isModalOpen[type] = true;
     },
@@ -246,7 +271,7 @@ export default {
       this.closeModal('restore');
     },
     goToProformaInvoice() {
-      this.$router.push('/proformaInvoice/addProformaInvoice');
+      this.$router.push('/Invoicing/invoice');
     }
   }
 };
