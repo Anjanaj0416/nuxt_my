@@ -43,9 +43,10 @@
           <li v-for="link in links" :key="link.name">
             <router-link
               :to="link.to"
-              :class="[
-                'flex items-center px-4 py-2 font-semibold text-gray-700 rounded-md hover:bg-gray-200 hover:text-violet-900',
-                { 'bg-gray-200 text-violet-900': isActive(link.to) }
+              @click="$emit('close-sidebar')"
+              :class="[ 
+                'flex items-center px-4 py-2 font-semibold text-gray-700 rounded-md hover:bg-gray-200 hover:text-violet-900', 
+                { 'bg-gray-200 text-violet-900': isActive(link.to) } 
               ]"
             >
               <svg
@@ -87,7 +88,7 @@ export default {
         },
         {
           name: 'Proforma ',
-          to: '/proformaInvoice/ProformaInvoice',
+          to: '/Invoicing',
           icon: 'M12 12c2.21 0 4-1.79 4-4s-1.79-4-4-4s-4 1.79-4 4s1.79 4 4 4zM12 14c-4.42 0-8 2.79-8 6v2h16v-2c0-3.21-3.58-6-8-6z',
         },
       ],

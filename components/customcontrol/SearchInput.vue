@@ -42,7 +42,7 @@
 
          ----########### Index Page value insteed id---------------
               <td
-                class="border-grey-light border hover:bg-gray-100 p-3"
+                class="p-3 border border-grey-light hover:bg-gray-100"
               >{{getcategoryName(producttype.categoryid)}}</td>
 
 
@@ -67,7 +67,7 @@
       <!-- <label v-if="label.indexOf('#')!=-1" class="block text-sm text-gray-00">
         {{label.substring(0,label.indexOf('#'))}}s
         <span
-          class="underline font-bold text-SID-blue"
+          class="font-bold underline text-SID-blue"
         >{{label.charAt(label.indexOf('#')+1)}}</span>
         {{label.substring(label.indexOf('#')+2,label.length)}}
       </label>
@@ -76,14 +76,14 @@
       <div v-show="!modal">
         <input
           type="text"
-          class="w-full px-5 py-1 text-gray-700 bg-white rounded"
+          class="w-full p-2 mt-2 text-sm text-gray-700 border rounded-md focus:ring-indigo-500 focus:border-indigo-500"
           id="txtItem"
           :title="Item.value"
           v-model="Item.value"
           @focus="setfocus"
+          placeholder="Search...."
         />
-        
-        <p class="text-xs ml-1 text-red-700 italic">{{err}}</p>
+        <p class="ml-1 text-xs italic text-red-700">{{err}}</p>
       </div>
   
       <div v-show="modal" class="cssSerach">
@@ -94,12 +94,30 @@
             id="txtSearch"
             v-model="item_serach"
             ref="comp_search"
-            placeholder="Search"
+            placeholder="Search...."
             @keydown="control($event)"                   
           />
+          <!-- Search Icon -->
+            <div class="absolute inset-y-0 right-0 flex items-center pr-3 pointer-events-none">
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                class="w-5 h-5 mt-2 text-gray-400"
+                fill="none"
+                viewBox="0 0 24 24"
+                stroke="currentColor"
+                stroke-width="2"
+              >
+                <path
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                  d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"
+                />
+              </svg>
+            </div>
         </div>
+        
           
-        <div class="cssSerachedList z-40">
+        <div class="z-40 cssSerachedList">
         
           <div 
             v-for="item in filtered"
@@ -108,7 +126,7 @@
             :title="item.value"
             @mouseover="mouseover(item)"          
             @click="selectItem(item)"
-            class="overflow-hidden h-8"
+            class="h-8 overflow-hidden "
           >{{item.value}}</div>
         </div>
       </div>
@@ -198,6 +216,11 @@
           this.Item = this.arrItems[0]
         }
       },
+      handleClickOutside(event) {
+        if (!this.$el.contains(event.target)) {
+          this.modal = false;  // Close the dropdown when clicked outside
+        }
+    },
     },
     watch: {
       item_serach(val) {
@@ -218,6 +241,14 @@
         }
       },
     },
+    mounted() {
+    // Add a global click event listener
+    document.addEventListener("click", this.handleClickOutside);
+  },
+  beforeDestroy() {
+    // Clean up the event listener
+    document.removeEventListener("click", this.handleClickOutside);
+  },
   }
   </script>
   
@@ -242,23 +273,26 @@
   }
   
   .cssSerachedList > div {
-    color: white;
+    /* color: red;
+    background: #000; */
     list-style: none;
     text-align: left;
     @apply pl-2;
     @apply border-b-2;
     @apply border-white;
+    @apply bg-gray-100;
+    @apply text-black;
   }
   
   .cssSerachedList > div:hover {
     cursor: pointer;
     @apply text-white;
-    @apply bg-blue-200;
+    @apply bg-btn;
   }
   
   .cssItemHover {
     @apply text-blue-500;
-    @apply bg-blue-200;
+    @apply bg-btn;
   }
   </style>
   

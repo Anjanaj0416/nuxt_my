@@ -1,14 +1,14 @@
 <template>
   <div>
     <section class="justify-center min-h-screen px-4 lg:px-80">
-      <h1 class="mt-8 font-semibold tracking-tight text-gray-700 ext-4xl sm:text-5xl">Invoice</h1>
+      <h1 class="mt-8 text-4xl font-semibold tracking-tight text-gray-700 text-balance sm:text-5xl">Invoice</h1>
       <div class="mt-10">
         <div class="relative p-8 mt-10 overflow-x-auto shadow-md sm:rounded-lg">
           <p class="text-xl font-semibold text-gray-600">Customer Details</p>
           <hr class="mt-2">
           <div class="grid grid-cols-1 gap-4 mt-10 sm:grid-cols-3">
            <div>
-              <label class="block text-sm font-medium text-gray-500">Select Customer</label>
+              <label class="block mb-4 text-sm font-medium text-gray-500">Select Customer</label>
               <!--  <input
                 type="text"
                 v-model="email"
@@ -16,8 +16,6 @@
                 required
                 class="w-full p-2 mt-2 text-sm text-gray-700 border rounded-md focus:ring-indigo-500 focus:border-indigo-500"
               /> -->
-
-              
               <SearchInput
                   :arrItems="alCustomers"
                   ref="customerComp"
@@ -59,13 +57,14 @@
 
           <p class="mt-10 text-xl font-semibold text-gray-600">Product Details</p>
           <hr class="mt-2">
-          <div class="grid grid-cols-1 gap-4 mt-6 rounded-lg sm:grid-cols-4">
+          <!-- <div class="grid grid-cols-1 gap-4 mt-6 rounded-lg sm:grid-cols-4">
             <div>
               <div class="max-w-sm p-6 bg-white border border-gray-200 rounded-lg shadow dark:bg-gray-800 dark:border-gray-700">
                   <a href="#">
                       <h5 class="mb-2 text-2xl font-bold tracking-tight text-gray-900 dark:text-white">Package 1</h5>
                   </a>
                   <p class="block text-sm font-medium text-gray-500">Link : 100</p>
+                  <p class="block text-sm font-medium text-gray-500">Period : 12Month</p>
                   <p class="block text-sm font-medium text-gray-500">Price : LKR: 5000.00</p>
                   <p class="block mb-6 text-sm font-medium text-gray-500">Other : Lorem ipsum dolor sit amet consectetur </p>
 
@@ -83,6 +82,7 @@
                       <h5 class="mb-2 text-2xl font-bold tracking-tight text-gray-900 dark:text-white">Package 2</h5>
                   </a>
                   <p class="block text-sm font-medium text-gray-500">Link : 200</p>
+                  <p class="block text-sm font-medium text-gray-500">Period : 6Month</p>
                   <p class="block text-sm font-medium text-gray-500">Price : LKR: 8000.00</p>
                   <p class="block mb-6 text-sm font-medium text-gray-500">Other : Lorem ipsum dolor sit amet consectetur </p>
 
@@ -94,7 +94,45 @@
                   </a>
               </div>
             </div>
-          </div>
+          </div> -->
+          
+          <ul class="grid w-full gap-6 mt-10 md:grid-cols-5">
+              <li>
+                  <input type="radio" id="hosting-small" name="hosting" value="hosting-small" class="hidden peer" required />
+                  <label for="hosting-small" class="inline-flex items-center justify-between w-full p-5 text-gray-500 bg-white border border-gray-200 rounded-lg cursor-pointer dark:hover:text-gray-300 dark:border-gray-700 dark:peer-checked:text-blue-500 peer-checked:border-blue-600 peer-checked:text-blue-600 hover:text-gray-600 hover:bg-gray-100 dark:text-gray-400 dark:bg-gray-800 dark:hover:bg-gray-700">                           
+                      <div class="block">
+                        <a href="#">
+                            <h5 class="mb-2 text-2xl font-bold tracking-tight text-gray-900 dark:text-white">Package 1</h5>
+                        </a>
+                        <p class="block text-sm font-medium text-gray-500">Link : 200</p>
+                        <p class="block text-sm font-medium text-gray-500">Period : 6Month</p>
+                        <p class="block text-sm font-medium text-gray-500">Price : LKR: 8000.00</p>
+                        <p class="block mb-6 text-sm font-medium text-gray-500">Other : Lorem ipsum dolor sit amet consectetur </p>
+                        <svg class="w-5 h-5 ms-3 rtl:rotate-180" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 14 10">
+                            <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M1 5h12m0 0L9 1m4 4L9 9"/>
+                        </svg>
+                      </div>
+                  </label>
+              </li>
+              <li>
+                  <input type="radio" id="hosting-big" name="hosting" value="hosting-big" class="hidden peer">
+                  <label for="hosting-big" class="inline-flex items-center justify-between w-full p-5 text-gray-500 bg-white border border-gray-200 rounded-lg cursor-pointer dark:hover:text-gray-300 dark:border-gray-700 dark:peer-checked:text-blue-500 peer-checked:border-blue-600 peer-checked:text-blue-600 hover:text-gray-600 hover:bg-gray-100 dark:text-gray-400 dark:bg-gray-800 dark:hover:bg-gray-700">
+                    <div class="block">
+                        <a href="#">
+                            <h5 class="mb-2 text-2xl font-bold tracking-tight text-gray-900 dark:text-white">Package 2</h5>
+                        </a>
+                        <p class="block text-sm font-medium text-gray-500">Link : 200</p>
+                        <p class="block text-sm font-medium text-gray-500">Period : 6Month</p>
+                        <p class="block text-sm font-medium text-gray-500">Price : LKR: 8000.00</p>
+                        <p class="block mb-6 text-sm font-medium text-gray-500">Other : Lorem ipsum dolor sit amet consectetur </p>
+                        <svg class="w-5 h-5 ms-3 rtl:rotate-180" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 14 10">
+                            <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M1 5h12m0 0L9 1m4 4L9 9"/>
+                        </svg>
+                      </div>
+                  </label>
+              </li>
+          </ul>
+
 
           <!-- <p class="mt-10 text-xl font-semibold text-gray-600">Product Details</p> -->
           <hr class="mt-8 mb-10">
@@ -159,40 +197,33 @@
             </table>
           </div>
 
-          <div class="grid grid-cols-2 gap-4 mt-6 rounded-lg sm:grid-cols-3">
-            <div>
-              
-            </div>
-            <div>
-              
-            </div>
+          <div class="grid grid-cols-1 gap-4 mt-6 rounded-lg sm:grid-cols-2 lg:grid-cols-3">
+            <!-- Left Side (Empty Divs for Placement) -->
+            <div></div>
+            <div></div>
+            <!-- Invoice Summary -->
             <div class="max-w-sm p-6 bg-white border border-gray-200 rounded-lg dark:bg-gray-800 dark:border-gray-700">
               <p class="text-xl font-semibold text-gray-800 dark:text-gray-100">Invoice Summary</p>
-              <div class="mt-4">
-                <div class="flex justify-between text-lg font-medium text-gray-600 dark:text-gray-400">
-                  <span>Discount:   </span>
-                  <span class="flex-1">
-                    <input type="number" class="block w-full p-1 text-sm text-gray-900 border border-gray-300 rounded-lg bg-gray-50 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" placeholder="Enter Qty" required />
-                  </span>
+              <div class="mt-4 space-y-2">
+                <div class="flex justify-between font-medium text-gray-900 whitespace-nowrap dark:text-white">
+                  <span>Discount:</span>
+                  <span>LKR 5000.00</span>
                 </div>
-                <div class="flex justify-between mt-2 text-lg font-medium text-gray-600 dark:text-gray-400">
+                <div class="flex justify-between font-medium text-gray-900 whitespace-nowrap dark:text-white">
                   <span>Net Price:</span>
                   <span>LKR 5000.00</span>
                 </div>
-                <div class="flex justify-between mt-2 text-lg font-medium text-gray-600 dark:text-gray-400">
+                <div class="flex justify-between font-medium text-gray-900 whitespace-nowrap dark:text-white">
                   <span>Tax (10%):</span>
                   <span>LKR 500.00</span>
                 </div>
-                <div class="flex justify-between mt-2 text-lg font-medium text-gray-600 dark:text-gray-400">
+                <div class="flex justify-between font-medium text-gray-900 whitespace-nowrap dark:text-white">
                   <span>Total:</span>
                   <span>LKR 5500.00</span>
                 </div>
               </div>
             </div>
-
           </div>
-
-
 
           <div class="grid grid-cols-1 gap-4 mt-6 rounded-lg sm:grid-cols-4">
             <div>
