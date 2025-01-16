@@ -1,14 +1,14 @@
 <template>
     <div>
       <section class="justify-center min-h-screen px-4 lg:px-80">
-          <h1 class="mt-8 text-4xl font-semibold tracking-tight text-gray-700 text-balance sm:text-5xl">Vendor</h1>
+          <h1 class="mt-8 text-4xl font-semibold tracking-tight text-gray-700 text-balance sm:text-5xl">Proforma Invoice</h1>
           <div class='mt-10'>
             <button
-              @click="openModal('add')"
+              @click="goToProformaInvoice"
               class="px-4 py-2 font-semibold text-blue-900 transition duration-300 ease-in-out border-2 border-blue-800 rounded-lg hover:bg-blue-900 hover:text-white focus:ring-2 focus:ring-blue-600 focus:outline-none"
               aria-label="Add a new vendor"
             >
-              Add Vender
+              Add Proforma
             </button>
     
             <div class="relative mt-10 overflow-x-auto shadow-md sm:rounded-lg">
@@ -16,19 +16,19 @@
                     <thead class="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
                         <tr>
                             <th scope="col" class="px-6 py-3">
-                                Vendor Code
+                                Customer
                             </th>
                             <th scope="col" class="px-6 py-3">
-                                Company Name
+                                RSO
                             </th>
                             <th scope="col" class="px-6 py-3">
-                                Email
+                                Contact Details
                             </th>
                             <th scope="col" class="px-6 py-3">
-                                Contact Number
+                                Total
                             </th>
                             <th scope="col" class="px-6 py-3">
-                                District
+                                Status
                             </th>
                             <th scope="col" class="px-6 py-3">
                                 
@@ -74,27 +74,7 @@
                                 >
                                     Restore Vendor
                                 </button>
-                            </td>
-
-                            <!-- Add Modal -->
-                            <div  v-if="isModalOpen.add" tabindex="-1" class="fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-50 backdrop-blur-sm">
-                                <div class="relative w-full max-w-4xl p-4 mx-auto md:p-6">
-                                    <div class="relative bg-white rounded-lg shadow-lg dark:bg-gray-800 max-h-[90vh] overflow-y-auto">
-                                        <button type="button" @click="closeModal('add')" class="absolute inline-flex items-center justify-center w-8 h-8 text-sm text-gray-400 bg-transparent rounded-lg top-3 right-3 hover:bg-gray-200 hover:text-gray-900 dark:hover:bg-gray-600 dark:hover:text-white">
-                                            <svg class="w-4 h-4" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 14 14">
-                                                <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="m1 1 6 6m0 0 6 6M7 7l6-6M7 7l-6 6"/>
-                                            </svg>
-                                        </button>
-                                        <!-- Modal content -->
-                                        <div class="p-6 sm:p-8">
-                                            <addvender />
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-
-
-            
+                            </td>            
                             <!-- View Modal -->
                          
 
@@ -163,14 +143,13 @@
   <script>
   import headercomp from '~/components/header';
   import footercomp from '~/components/footer';
-  import homeviewvender from '~/pages/vendor/homeviewvendor.vue'
   import addvender from '~/pages/vendor/addvender.vue'
 
   
   
   
   export default {
-    components: { headercomp, footercomp, homeviewvender, addvender },
+    components: { headercomp, footercomp,  },
     data() {
       return {
         isModalOpen: {
@@ -194,7 +173,10 @@
       restoreVendor() {
         // Logic for restoring the vendor
         this.closeModal('restore');
-      }
+      },
+      goToProformaInvoice() {
+        this.$router.push('/proformaInvoice/addProformaInvoice'); // Navigate to /user/changelogin
+    },
     }
   };
   </script>
