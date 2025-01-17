@@ -1,16 +1,6 @@
-<template>
-    <h1 class="mt-8 font-semibold tracking-tight text-gray-700 text-1xl text-balance sm:text-3xl">View Vendor</h1>
-    <!-- <div class="flex justify-end mt-6">
-    <button
-      class="px-4 py-2 font-semibold text-blue-900 transition duration-300 ease-in-out border-2 border-blue-800 rounded-lg hover:bg-blue-900 hover:text-white focus:ring-2 focus:ring-blue-600 focus:outline-none"
-      aria-label="Edit vendor"
-    >
-      Edit Vendor
-    </button>
-  </div> -->
-  
+<template>  
     <div>
-    <div class="grid grid-cols-2 mt-0">
+    <div class="grid grid-cols-2 mt-0 overflow-y-auto">
       <div class="mt-6 border-t border-gray-100">
         <dl class="divide-y divide-gray-100">
           <div class="px-4 py-6 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-0">

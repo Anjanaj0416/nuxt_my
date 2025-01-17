@@ -1,7 +1,7 @@
 <template>
     <div>
       <section class="justify-center min-h-screen px-4 lg:px-80">
-          <h1 class="mt-8 text-4xl font-semibold tracking-tight text-gray-700 text-balance sm:text-5xl">Invoice</h1>
+          <h1 class="mt-8 text-4xl font-semibold tracking-tight text-gray-700 text-balance sm:text-5xl">Quotation</h1>
             <div class='flex flex-col items-center justify-between mt-10 md:flex-row'>
                 <div class="w-full mb-4 md:mb-0">
                     <button
@@ -9,7 +9,7 @@
                         class="px-4 py-2 font-semibold transition duration-300 ease-in-out border-2 rounded-lg text-btn border-btn hover:bg-blue-900 hover:text-white focus:ring-2 focus:ring-blue-600 focus:outline-none"
                         aria-label="Add a new vendor"
                     >
-                    Add Invoice
+                    Add Quotation
                     </button>
                 </div>
                 <div class="w-full md:w-auto">
@@ -94,7 +94,7 @@
                 <div class="flex flex-col justify-between sm:flex-row">
                     <!-- Section 1 -->
                     <div class="flex flex-col text-center sm:text-left">
-                    <h1 class="text-base font-semibold text-gray-700">Customer Ref</h1>
+                    <h1 class="text-base font-semibold text-gray-700">Quotation Id</h1>
                     <p class="text-sm text-gray-500">AE51156</p>
                     </div>
                     <hr class="block w-full border-gray-300 sm:hidden" />
@@ -102,7 +102,7 @@
 
                     <!-- Section 2 -->
                     <div class="flex flex-col text-center sm:text-left">
-                    <h1 class="text-base font-semibold text-gray-700">Name</h1>
+                    <h1 class="text-base font-semibold text-gray-700">Company</h1>
                     <p class="text-sm text-gray-500">abans group of company</p>
                     </div>
                     <hr class="block w-full border-gray-300 sm:hidden" />
@@ -118,21 +118,13 @@
 
                     <!-- Section 4 -->
                     <div class="flex flex-col text-center sm:text-left">
-                    <h1 class="text-base font-semibold text-gray-700">Business Type</h1>
-                    <p class="text-sm text-gray-500">Hardware</p>
+                    <h1 class="text-base font-semibold text-gray-700">Sales Ex:</h1>
+                    <p class="text-sm text-gray-500">Saman - 0714587425</p>
                     </div>
                     <hr class="block w-full border-gray-300 sm:hidden" />
                     <div class="hidden w-px h-12 bg-gray-300 sm:block"></div>
 
                     <!-- Section 5 -->
-                    <div class="flex flex-col text-center sm:text-left">
-                    <h1 class="text-base font-semibold text-gray-700">Rso</h1>
-                    <p class="text-sm text-gray-500">aHardware</p>
-                    </div>
-                    <hr class="block w-full border-gray-300 sm:hidden" />
-                    <div class="hidden w-px h-12 bg-gray-300 sm:block"></div>
-
-                    <!-- Section 6 -->
                     <div class="flex flex-col text-center sm:text-left">
                     <h1 class="text-base font-semibold text-gray-700">Total</h1>
                     <p class="text-sm text-gray-500">LKR: 25000.00</p>
@@ -140,9 +132,17 @@
                     <hr class="block w-full border-gray-300 sm:hidden" />
                     <div class="hidden w-px h-12 bg-gray-300 sm:block"></div>
 
+                    <!-- Section 6 -->
+                    <!-- <div class="flex flex-col text-center sm:text-left">
+                    <h1 class="text-base font-semibold text-gray-700">Total</h1>
+                    <p class="text-sm text-gray-500">LKR: 25000.00</p>
+                    </div>
+                    <hr class="block w-full border-gray-300 sm:hidden" />
+                    <div class="hidden w-px h-12 bg-gray-300 sm:block"></div> -->
+
                     <!-- Section 7 -->
                     <div class="flex flex-col text-center sm:text-left">
-                    <h1 class="text-base font-semibold text-gray-700"> </h1>
+                    <h1 class="text-base font-semibold text-gray-700">Status</h1>
                     <span class="bg-green-100 text-green-800 text-xs font-medium me-2 px-2.5 py-0.5 rounded-full dark:bg-green-900 dark:text-green-300">
                         Active
                     </span>
@@ -155,20 +155,39 @@
                         @click="openModal('view')"
                         class="px-4 py-2 text-sm font-medium text-gray-900 bg-white border-2 border-blue-900 rounded-md hover:bg-blue-900 hover:text-white focus:ring-2 focus:ring-blue-700 dark:bg-gray-800 dark:border-gray-700 dark:text-white dark:hover:bg-gray-700"
                     >
-                        View 
+                        View Quotation
                     </button>
                     <button
-                        @click="openModal('delete')"
-                            class="px-4 py-2 text-sm font-medium text-gray-900 bg-white border-2 border-blue-900 rounded-md hover:bg-blue-900 hover:text-white focus:ring-2 focus:ring-blue-700 dark:bg-gray-800 dark:border-gray-700 dark:text-white dark:hover:bg-gray-700"
-
-                    >
-                        Delete 
-                    </button>
-                    <button
-                        @click="openModal('restore')"
+                        @click="openModal('upload')"
                         class="px-4 py-2 text-sm font-medium text-gray-900 bg-white border-2 border-blue-900 rounded-md hover:bg-blue-900 hover:text-white focus:ring-2 focus:ring-blue-700 dark:bg-gray-800 dark:border-gray-700 dark:text-white dark:hover:bg-gray-700"
                     >
-                        Restore 
+                        Upload Approval Proof
+                    </button>
+                    <button
+                        @click="openModal('')"
+                        class="px-4 py-2 text-sm font-medium text-gray-900 bg-white border-2 border-blue-900 rounded-md hover:bg-blue-900 hover:text-white focus:ring-2 focus:ring-blue-700 dark:bg-gray-800 dark:border-gray-700 dark:text-white dark:hover:bg-gray-700"
+
+                    >
+                        View Proforma 
+                    </button>
+                    <button
+                        @click="openModal('')"
+                        class="px-4 py-2 text-sm font-medium text-gray-900 bg-white border-2 border-blue-900 rounded-md hover:bg-blue-900 hover:text-white focus:ring-2 focus:ring-blue-700 dark:bg-gray-800 dark:border-gray-700 dark:text-white dark:hover:bg-gray-700"
+                    >
+                        View Invoice 
+                    </button>
+                    <button
+                        @click="openModal('')"
+                        class="px-4 py-2 text-sm font-medium text-gray-900 bg-white border-2 border-blue-900 rounded-md hover:bg-blue-900 hover:text-white focus:ring-2 focus:ring-blue-700 dark:bg-gray-800 dark:border-gray-700 dark:text-white dark:hover:bg-gray-700"
+
+                    >
+                        View Tax Invoice 
+                    </button>
+                    <button
+                        @click="openModal('')"
+                        class="px-4 py-2 text-sm font-medium text-gray-900 bg-white border-2 border-blue-900 rounded-md hover:bg-blue-900 hover:text-white focus:ring-2 focus:ring-blue-700 dark:bg-gray-800 dark:border-gray-700 dark:text-white dark:hover:bg-gray-700"
+                    >
+                        View All Quo. 
                     </button>
 
                     <!-- View Modal -->
@@ -182,25 +201,25 @@
                                 </button>
                                 <!-- Modal content -->
                                 <div class="p-6 sm:p-8">
-                                    <viewInvoice />
+                                    <uploadApproval :modalType="'upload'" @cancel-upload="closeModal('upload')" />
+
                                 </div>
                             </div>
                         </div>
                     </div>
     
-                    <!-- Delete Modal -->
-                    <div v-if="isModalOpen.delete" tabindex="-1" class="fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-50 backdrop-blur-sm">
+                    <!-- upload Approval Modal -->
+                    <div v-if="isModalOpen.upload" tabindex="-1" class="fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-50 backdrop-blur-sm">
                         <div class="relative w-full max-w-2xl p-4 mx-auto md:p-6">
                             <div class="relative bg-white rounded-lg shadow dark:bg-gray-700">
-                                <button type="button" @click="closeModal('delete')" class="absolute inline-flex items-center justify-center w-8 h-8 text-sm text-gray-400 bg-transparent rounded-lg top-3 right-3 hover:bg-gray-200 hover:text-gray-900 dark:hover:bg-gray-600 dark:hover:text-white">
+                                <button type="button" @click="closeModal('upload')" class="absolute inline-flex items-center justify-center w-8 h-8 text-sm text-gray-400 bg-transparent rounded-lg top-3 right-3 hover:bg-gray-200 hover:text-gray-900 dark:hover:bg-gray-600 dark:hover:text-white">
                                     <svg class="w-3 h-3" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 14 14">
                                         <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="m1 1 6 6m0 0 6 6M7 7l6-6M7 7l-6 6"/>
                                     </svg>
                                 </button>
-                                <div class="p-4 text-center md:p-5">
-                                    <h3 class="mt-8 mb-5 text-lg font-normal text-gray-500 dark:text-gray-400">Are you sure you want to delete this Invoice?</h3>
-                                    <button @click="deleteVendor" type="button" class="text-white bg-red-600 hover:bg-red-800 font-medium rounded-lg text-sm inline-flex items-center px-5 py-2.5 text-center">Yes, I'm sure</button>
-                                    <button @click="closeModal('delete')" type="button" class="py-2.5 px-5 ms-3 text-sm font-medium text-gray-900 bg-white rounded-lg border border-gray-200 hover:bg-gray-100">No, cancel</button>
+                                <div class="p-4 md:p-5">
+                                    <uploadApproval :modalType="'upload'" @cancel-upload="closeModal('upload')" />
+
                                 </div>
                             </div>
                         </div>
@@ -270,39 +289,49 @@
   <script>
   import headercomp from '~/components/header';
   import footercomp from '~/components/footer';
-  import viewInvoice from '~/pages/Invoicing/viewInvoice.vue'
+  import uploadApproval from '~/components/quotation/uploadApproval.vue';
 
   
   
   export default {
-    components: { headercomp, footercomp,viewInvoice  },
+    components: { headercomp, footercomp,uploadApproval  },
     data() {
       return {
         isModalOpen: {
           view: false,
-          delete: false,
-          restore: false
+          upload: false,
+          restore: false,
+
         }
       };
     },
     methods: {
-      openModal(type) {
-        this.isModalOpen[type] = true;
-      },
-      closeModal(type) {
-        this.isModalOpen[type] = false;
-      },
-      deleteVendor() {
-        // Logic for deleting the vendor
-        this.closeModal('delete');
-      },
-      restoreVendor() {
-        // Logic for restoring the vendor
-        this.closeModal('restore');
-      },
-      goToProformaInvoice() {
-        this.$router.push('/Invoicing/invoice'); // Navigate to /user/changelogin
-    },
+        openModal(type) {
+            this.isModalOpen[type] = true;
+        },
+        closeModal(type) {
+            this.isModalOpen[type] = false;
+        },
+        deleteVendor() {
+            // Logic for deleting the vendor
+            this.closeModal('delete');
+        },
+        restoreVendor() {
+            // Logic for restoring the vendor
+            this.closeModal('restore');
+        },
+        goToProformaInvoice() {
+            this.$router.push('/Invoicing/invoice'); 
+        },
+        closeModal(modalType) {
+        // Close the modal based on the type
+        this.isModalOpen[modalType] = false;
+        },
+        closeModal(modal) {
+            if (modal === 'upload') {
+                this.isModalOpen.upload = false; // Close the upload modal
+            }
+        },
     }
   };
   </script>
