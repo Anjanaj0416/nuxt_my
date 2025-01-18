@@ -83,7 +83,7 @@
     </div>
 
     <!-- Conditional rendering for edit mode -->
-    <edit-vender v-else @cancel-assign="$emit('cancel-assign')" />
+    <edit-vender v-else @cancel-view="$emit('cancel-view')" />
   </div>
 </template>
 
@@ -126,7 +126,7 @@ export default {
         { label: 'Bank Branch Code', value: 'ABC12345' },
         { label: 'Bank Account No', value: '58741269' },
         { label: 'Bank Swift Code', value: 'ABC12345' },
-        { label: 'RSO No', value: 'rso21' }
+        { label: 'Sales officer No', value: 'rso21' }
       ]
     };
   },

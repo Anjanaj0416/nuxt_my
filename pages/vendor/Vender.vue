@@ -301,7 +301,7 @@
       </p>
     </div>
     <div class="">
-      <label class="block text-sm font-medium text-gray-600">RSO No</label>
+      <label class="block text-sm font-medium text-gray-600">Sales officer No</label>
       <select
         id="bankBranch"
         v-model="form.rsoNo"

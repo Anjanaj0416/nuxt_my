@@ -149,7 +149,7 @@
                                 </button>
                                 <!-- Modal content -->
                                 <div class="p-6 sm:p-8">
-                                    <viewVendor :modalType="'view'" @cancel-assign="closeModal('view')"  />
+                                    <viewVendor :modalType="'view'" @cancel-view="closeModal('view')"  />
                                 </div>
                             </div>
                         </div>
@@ -257,9 +257,9 @@
   <script>
   import headercomp from '~/components/header';
   import footercomp from '~/components/footer';
-  import viewVendor from './viewvendor.vue';
-  import addVender from './Vender.vue';
-  import AssignRso from './AssignRso.vue';
+  import viewVendor from './viewVendor.vue';
+  import addVender from './vender.vue';
+  import AssignRso from './assignRso.vue';
 
   
   
