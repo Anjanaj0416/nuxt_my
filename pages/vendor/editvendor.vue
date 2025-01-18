@@ -1,7 +1,7 @@
 <template >
   <div class="overflow-y-auto">
-    <h1 class="mt-8 font-semibold tracking-tight text-gray-700 text-1xl text-balance sm:text-3xl">Vender</h1>
-    <div class="grid grid-cols-3 gap-4 mt-10">
+    <h1 class="mt-2 text-2xl font-semibold tracking-tight text-gray-700 sm:text-3xl">Vender</h1>
+    <div class="grid grid-cols-2 gap-4 mt-8 sm:grid-cols-3">
       <div class="">
         <label class="block text-sm font-medium text-gray-600">Company Name</label>
         <input
@@ -257,7 +257,7 @@
         <button 
           type="button" 
           class="text-blue-900 bg-white hover:bg-blue-900 border-2 border-blue-800 hover:text-white focus:outline-none focus:ring-4 focus:ring-blue-300 font-medium rounded-full text-sm px-5 py-2.5 text-center me-2 mb-2 dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800"
-          @click="handleCancel"
+          @click="$emit('cancel-assign')"
         >
           Cancel
         </button>

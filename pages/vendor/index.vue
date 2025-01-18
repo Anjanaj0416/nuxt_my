@@ -42,7 +42,7 @@
                         </div>
                         <button
                         type="submit"
-                        class="p-2.5 ms-2 text-sm font-medium text-white bg-btn rounded-lg border border-blue-900 hover:bg-blue-900 focus:ring-4 focus:outline-none focus:ring-red-300"
+                        class="p-2.5 ms-2 text-sm font-medium text-white bg-btn rounded-lg border border-blue-900 hover:bg-blue-900 focus:ring-4 focus:outline-none "
                         >
                         <svg
                             class="w-4 h-4"
@@ -64,7 +64,7 @@
                     </form>
                 </div>
             </div>
-            <div class="flex flex-wrap items-center gap-4 mt-5">
+            <div class="flex flex-wrap items-center gap-4 mt-6">
                 <div class="flex items-center space-x-2">
                     <input id="default-radio-1" type="radio" value="" name="default-radio" class="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600">
                     <Label htmlFor="all" class="text-sm font-medium text-gray-900 ms-2 dark:text-gray-300">
@@ -91,7 +91,7 @@
                 </div>
             </div>
     
-            <div class="flex flex-col gap-5 p-2 mt-10 bg-white border-2 rounded-md shadow-md sm:p-6">
+            <div class="flex flex-col gap-5 p-2 mt-6 bg-white border-2 rounded-md shadow-md sm:p-6">
                 <div class="flex flex-col justify-between sm:flex-row">
                     <div
                         v-for="(section, index) in vendor"
@@ -132,7 +132,7 @@
                                 </button>
                                 <!-- Modal content -->
                                 <div class="p-6 sm:p-8">
-                                    <addVender />
+                                    <addVender :modalType="'add'" @cancel-assign="closeModal('add')"/>
                                 </div>
                             </div>
                         </div>
@@ -149,7 +149,7 @@
                                 </button>
                                 <!-- Modal content -->
                                 <div class="p-6 sm:p-8">
-                                    <homeviewvender />
+                                    <viewVendor :modalType="'view'" @cancel-assign="closeModal('view')"  />
                                 </div>
                             </div>
                         </div>
@@ -159,15 +159,14 @@
                     <div v-if="isModalOpen.assign" tabindex="-1" class="fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-50 backdrop-blur-sm">
                         <div class="relative w-full max-w-2xl p-4 mx-auto md:p-6">
                             <div class="relative bg-white rounded-lg shadow dark:bg-gray-700">
-                                <button type="button" @click="closeModal('assign')" class="absolute inline-flex items-center justify-center w-8 h-8 text-sm text-gray-400 bg-transparent rounded-lg top-3 right-3 hover:bg-gray-200 hover:text-gray-900 dark:hover:bg-gray-600 dark:hover:text-white">
-                                    <svg class="w-3 h-3" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 14 14">
-                                        <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="m1 1 6 6m0 0 6 6M7 7l6-6M7 7l-6 6"/>
-                                    </svg>
-                                </button>
-                                <div class="p-4 md:p-5">
-                                    <AssignRso :modalType="'assign'" @cancel-assign="closeModal('assign')" />
-
-                                </div>
+                            <button type="button" @click="closeModal('assign')" class="absolute inline-flex items-center justify-center w-8 h-8 text-sm text-gray-400 bg-transparent rounded-lg top-3 right-3 hover:bg-gray-200 hover:text-gray-900 dark:hover:bg-gray-600 dark:hover:text-white">
+                                <svg class="w-3 h-3" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 14 14">
+                                <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="m1 1 6 6m0 0 6 6M7 7l6-6M7 7l-6 6"/>
+                                </svg>
+                            </button>
+                            <div class="p-4 md:p-5">
+                                <AssignRso :modalType="'assign'" @cancel-assign="closeModal('assign')" />
+                            </div>
                             </div>
                         </div>
                     </div>
@@ -175,16 +174,38 @@
                     <!-- Delete Modal -->
                     <div v-if="isModalOpen.delete"tabindex="-1" class="fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-50 backdrop-blur-sm">
                         <div class="relative w-full max-w-2xl p-4 mx-auto md:p-6">
-                            <div class="relative bg-white rounded-lg shadow dark:bg-gray-700">
-                                <button type="button" @click="closeModal('delete')" class="absolute inline-flex items-center justify-center w-8 h-8 text-sm text-gray-400 bg-transparent rounded-lg top-3 right-3 hover:bg-gray-200 hover:text-gray-900 dark:hover:bg-gray-600 dark:hover:text-white">
+                            <div class="relative bg-white rounded-lg shadow-lg dark:bg-gray-700">
+                                <!-- Close Button -->
+                                <button
+                                    type="button"
+                                    @click="closeModal('delete')"
+                                    class="absolute inline-flex items-center justify-center w-8 h-8 text-sm text-gray-400 transition duration-300 bg-transparent rounded-lg top-3 right-3 hover:bg-gray-200 hover:text-gray-900 dark:hover:bg-gray-600 dark:hover:text-white"
+                                >
                                     <svg class="w-3 h-3" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 14 14">
-                                        <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="m1 1 6 6m0 0 6 6M7 7l6-6M7 7l-6 6"/>
+                                    <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="m1 1 6 6m0 0 6 6M7 7l6-6M7 7l-6 6"/>
                                     </svg>
                                 </button>
-                                <div class="p-4 text-center md:p-5">
-                                    <h3 class="mb-5 text-lg font-normal text-gray-500 dark:text-gray-400">Are you sure you want to delete this vendor?</h3>
-                                    <button @click="deleteVendor" type="button" class="text-white bg-red-600 hover:bg-red-800 font-medium rounded-lg text-sm inline-flex items-center px-5 py-2.5 text-center">Yes, I'm sure</button>
-                                    <button @click="closeModal('delete')" type="button" class="py-2.5 px-5 ms-3 text-sm font-medium text-gray-900 bg-white rounded-lg border border-gray-200 hover:bg-gray-100">No, cancel</button>
+                                <!-- Modal Content -->
+                                <div class="p-6 text-center">
+                                    <h3 class="mb-6 text-xl font-medium text-gray-700 dark:text-gray-400">Are you sure you want to delete this vendor?</h3>
+                                    <div class="flex justify-center space-x-4">
+                                        <!-- Confirm Button -->
+                                        <button
+                                            @click="deleteVendor"
+                                            type="button"
+                                            class="inline-flex items-center px-6 py-3 text-sm font-medium text-white transition duration-300 bg-red-600 rounded-lg hover:bg-red-800 focus:ring-4 focus:outline-none focus:ring-red-300"
+                                        >
+                                            Yes, I'm sure
+                                        </button>
+                                        <!-- Cancel Button -->
+                                        <button
+                                            @click="closeModal('delete')"
+                                            type="button"
+                                            class="py-2.5 px-6 text-sm font-medium text-gray-900 bg-white rounded-lg border border-gray-200 hover:bg-gray-100 transition duration-300"
+                                        >
+                                            No, cancel
+                                        </button>
+                                    </div>
                                 </div>
                             </div>
                         </div>
@@ -236,15 +257,15 @@
   <script>
   import headercomp from '~/components/header';
   import footercomp from '~/components/footer';
-  import homeviewvender from '~/pages/vendor/homeviewvendor.vue'
-  import addVender from '~/pages/vendor/Vender.vue'
+  import viewVendor from './viewvendor.vue';
+  import addVender from './Vender.vue';
   import AssignRso from './AssignRso.vue';
 
   
   
   
   export default {
-    components: { headercomp, footercomp, homeviewvender, addVender, AssignRso },
+    components: { headercomp, footercomp, viewVendor, addVender, AssignRso },
     data() {
       return {
         isModalOpen: {
@@ -258,7 +279,7 @@
             { title: "Contact", value: "Silva - 0718542367" },
             { title: "Business Type", value: "Hardware" },
             { title: "RSO", value: "Saman - 071458752" },
-            { title: "Status", value: "Active" },
+            { title: "Status", value: "Active" },  
         ],
         buttonSet: [
             { label: "View more", modalType: "view" },

@@ -6,7 +6,7 @@
     <!-- Main Content -->
     <div class="flex flex-col flex-1">
       <!-- Header -->
-      <header class="flex items-center justify-between p-4 shadow bg-nav">
+      <header class="flex items-center justify-between h-16 p-4 shadow bg-nav">
         <button
           @click="isSidebarOpen = !isSidebarOpen"
           class="absolute z-50 p-2 text-white rounded-md top-4 left-4"
@@ -28,9 +28,11 @@
           </svg>
         </button>
         <NuxtLink to="/">
-          <h1 class="mt-1 ml-24 text-lg font-semibold text-white hover:none-underline">
-            Logo
-          </h1>
+          <img
+            src="/./assets/img/Logo.png"
+            alt="AWS Logo"
+            class="w-20 ml-14"
+          />
         </NuxtLink>
         <div class="relative ml-3">
           <!-- Profile Image Button -->

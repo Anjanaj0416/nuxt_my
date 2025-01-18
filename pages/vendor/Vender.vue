@@ -1,6 +1,6 @@
 <template>
-  <h1 class="mt-8 font-semibold tracking-tight text-gray-700 text-1xl text-balance sm:text-3xl">Add Vender</h1>
-  <div class="grid grid-cols-3 gap-4 mt-10">
+  <h1 class="mt-4 font-semibold tracking-tight text-gray-700 text-1xl text-balance sm:text-3xl">Add Vender</h1>
+  <div class="grid grid-cols-3 gap-4 mt-4">
     <div class="">
       <label class="block text-sm font-medium text-gray-600">Company Name</label>
       <input
@@ -111,28 +111,26 @@
       </p>
     </div>
     <div class="">
-    <label class="block text-sm font-medium text-gray-600">Company Logo</label>
-    <input
-      class="block w-full mt-2 text-sm text-gray-900 border border-gray-300 rounded-lg cursor-pointer bg-gray-50 dark:text-gray-400 focus:outline-none dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400"
-      type="file"
-
-      @input="clearError('companyLogo')"
-      ref="form.companyLogo"
-    >
-    <p v-if="validationErrors.companyLogo" class="mt-2 text-sm text-red-600">
-      {{ validationErrors.companyLogo }}
-    </p>
-  </div>
+      <label class="block text-sm font-medium text-gray-600">Company Logo</label>
+      <input
+        type="file"
+        @change="handleFileChange('companyLogo', $event)" 
+        accept="image/*"
+        class="block w-full mt-2 text-sm text-gray-900 border border-gray-300 rounded-lg cursor-pointer bg-gray-50 dark:text-gray-400 focus:outline-none dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400"
+      />
+      <p v-if="validationErrors.companyLogo" class="mt-2 text-sm text-red-600">
+        {{ validationErrors.companyLogo }}
+      </p>
+    </div>
 
     <div class="">
       <label class="block text-sm font-medium text-gray-600">Banner 1</label>
-      <input 
-        class="block w-full mt-2 text-sm text-gray-900 border border-gray-300 rounded-lg cursor-pointer bg-gray-50 dark:text-gray-400 focus:outline-none dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400" 
+      <input
         type="file"
-        @change="handleFileUpload($event, 1)"
-        @input="clearError('banner1')"
-        ref="form.banner1"
-      >
+        @change="handleFileChange('banner1', $event)"
+        accept="image/*"
+        class="block w-full mt-2 text-sm text-gray-900 border border-gray-300 rounded-lg cursor-pointer bg-gray-50 dark:text-gray-400 focus:outline-none dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400"
+      />
       <p v-if="validationErrors.banner1" class="mt-2 text-sm text-red-600">
         {{ validationErrors.banner1 }}
       </p>
@@ -141,8 +139,8 @@
       <label class="block text-sm font-medium text-gray-600">Banner 2</label>
       <input 
         class="block w-full mt-2 text-sm text-gray-900 border border-gray-300 rounded-lg cursor-pointer bg-gray-50 dark:text-gray-400 focus:outline-none dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400" 
-        aria-describedby="user_avatar_help" 
-        id="user_avatar" 
+        @change="handleFileChange('banner2', $event)"
+        accept="image/*" 
         type="file"
       >
     </div>
@@ -332,6 +330,7 @@
         Submit
       </button>
       <button 
+      @click="cancel"
         type="button" 
         class="text-blue-900 bg-white hover:bg-blue-900 border-2 border-blue-800 hover:text-white focus:outline-none focus:ring-4 focus:ring-blue-300 font-medium rounded-full text-sm px-5 py-2.5 text-center me-2 mb-2 dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800"
       >
@@ -346,136 +345,166 @@ import { reactive } from 'vue';
 
 export default {
   setup() {
-    // Use reactive to define form and validationErrors objects
     const form = reactive({
       CompanyName: '',
       address1: '',
       city: '',
-      companyLogo:'',
-      // Add other fields here...
+      email: '',
+      contactNumber: '',
+      whatappNumber: '',
+      companyLogo: '',
+      banner1: '',
+      description: '',
+      contactPersonName: '',
+      contactPersonMobile: '',
+      ownerFirstName: '',
+      ownerContact: '',
+      ownerBirthDate: '',
+      bankName: '',
+      bankBranch: '',
+      bankBranchCode: '',
+      bankAccountNo: '',
+      bankSwiftCode: '',
+      rsoNo: ''
     });
 
     const validationErrors = reactive({});
 
+    // Handle file input changes
+    const handleFileChange = (field, event) => {
+      form[field] = event.target.files[0] || '';
+      clearError(field); 
+    };
+
+    // Handle form submission
     const handleSubmit = () => {
-      validationErrors.CompanyName = '';
-      validationErrors.address1 = '';
-      validationErrors.city = '';
-      validationErrors.companyLogo = '';
+      Object.keys(validationErrors).forEach((key) => {
+        validationErrors[key] = '';
+      });
 
+      let hasErrors = false;
 
+      // Validate required fields
       if (!form.CompanyName) {
         validationErrors.CompanyName = "Please enter company name!";
+        hasErrors = true;
       }
       if (!form.address1) {
         validationErrors.address1 = "Please enter Address Line 1!";
+        hasErrors = true;
       }
       if (!form.city) {
         validationErrors.city = "Please enter City!";
-      }
-      if (!form.district) {
-        validationErrors.district = "Please enter District!";
+        hasErrors = true;
       }
       if (!form.email) {
         validationErrors.email = "Please enter Email!";
+        hasErrors = true;
       } else if (!/\S+@\S+\.\S+/.test(form.email)) {
         validationErrors.email = "Please enter a valid Email!";
+        hasErrors = true;
       }
       if (!form.contactNumber) {
         validationErrors.contactNumber = "Please enter Contact Number!";
-      }
-      if (!form.contactNumber) {
-        validationErrors.contactNumber = "Please enter Contact Number!";
+        hasErrors = true;
       }
       if (!form.whatappNumber) {
-        validationErrors.whatappNumber = "Please enter whatApp Number!";
+        validationErrors.whatappNumber = "Please enter WhatsApp Number!";
+        hasErrors = true;
       }
       if (!form.companyLogo) {
-        validationErrors.companyLogo = "Please enter Company Logo!";
+        validationErrors.companyLogo = "Please upload Company Logo!";
+        hasErrors = true;
       }
-      if (!form.banner1) {
-        validationErrors.banner1 = "Please enter Banner 1!";
+      if (!form.banner1) { // Only show error if file is required and not uploaded
+        validationErrors.banner1 = "Please upload Banner 1!";
+        hasErrors = true;
       }
-
       if (!form.description) {
         validationErrors.description = "Please enter Description!";
+        hasErrors = true;
       }
       if (!form.contactPersonName) {
         validationErrors.contactPersonName = "Please enter Contact Person Name!";
+        hasErrors = true;
       }
       if (!form.contactPersonMobile) {
         validationErrors.contactPersonMobile = "Please enter Contact Person Mobile!";
+        hasErrors = true;
       }
       if (!form.ownerFirstName) {
         validationErrors.ownerFirstName = "Please enter Owner First Name!";
-      }
-      if (!form.ownerLastName) {
-        validationErrors.ownerLastName = "Please enter Owner Last Name!";
+        hasErrors = true;
       }
       if (!form.ownerContact) {
         validationErrors.ownerContact = "Please enter Owner Contact!";
+        hasErrors = true;
       }
       if (!form.ownerBirthDate) {
-        validationErrors.ownerBirthDate = "Please enter Owner BirthDate!";
+        validationErrors.ownerBirthDate = "Please enter Owner Birth Date!";
+        hasErrors = true;
       }
       if (!form.bankName) {
         validationErrors.bankName = "Please enter Bank Name!";
+        hasErrors = true;
       }
       if (!form.bankBranch) {
         validationErrors.bankBranch = "Please enter Bank Branch!";
+        hasErrors = true;
       }
       if (!form.bankBranchCode) {
         validationErrors.bankBranchCode = "Please enter Bank Branch Code!";
+        hasErrors = true;
       }
       if (!form.bankAccountNo) {
-        validationErrors.bankAccountNo = "Please enter Bank AccountNo!";
+        validationErrors.bankAccountNo = "Please enter Bank Account No!";
+        hasErrors = true;
       }
       if (!form.bankSwiftCode) {
-        validationErrors.bankSwiftCode = "Please enter Bank SwiftCode!";
+        validationErrors.bankSwiftCode = "Please enter Bank Swift Code!";
+        hasErrors = true;
       }
       if (!form.rsoNo) {
-        validationErrors.rsoNo = "Please enter Bank Rso No!";
+        validationErrors.rsoNo = "Please select Bank Branch!";
+        hasErrors = true;
       }
 
-      // Additional validation logic here...
+      // If there are errors, return
+      if (hasErrors) {
+        return;
+      }
+
+      // Proceed with form submission if no errors
+      console.log("Form submitted:", form);
     };
 
-    // Clear the error message when user starts typing
+    // Clear individual field error on input change
     const clearError = (field) => {
-      if (form[field]) {
-        validationErrors[field] = '';
-      }
+      validationErrors[field] = '';
+    };
+
+    const cancel = () => {
+      // Clear the form and validation errors when canceling
+      Object.keys(form).forEach((key) => {
+        form[key] = '';
+      });
+      Object.keys(validationErrors).forEach((key) => {
+        validationErrors[key] = '';
+      });
     };
 
     return {
       form,
       validationErrors,
       handleSubmit,
+      handleFileChange,
       clearError,
+      cancel
     };
-  },
+  }
 };
 </script>
-    
-    <style scoped>
-    .csscmd{
-      @apply p-2  bg-blue-200 rounded;
-    }
-    .csscmd:hover{
-      @apply bg-blue-200 cursor-pointer;
-    }
-    
-    .cssBox {
-      border: 1px solid;
-      @apply border-gray-500 rounded p-2;
-    }
-  
-    .btn{
-      background-color: #072556; 
-    }
 
-    
-    </style>
-    
-    
-    
+<style scoped>
+/* Add any custom styling here */
+</style>
