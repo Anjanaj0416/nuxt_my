@@ -27,7 +27,11 @@
             ></path>
           </svg>
         </button>
-        <h1 class="mt-1 ml-24 text-lg font-semibold text-white">Logo</h1>
+        <NuxtLink to="/">
+          <h1 class="mt-1 ml-24 text-lg font-semibold text-white hover:none-underline">
+            Logo
+          </h1>
+        </NuxtLink>
         <div class="relative ml-3">
           <!-- Profile Image Button -->
           <div>

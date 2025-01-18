@@ -2,7 +2,9 @@
   <!-- <h1 class="mt-8 font-semibold tracking-tight text-gray-700 text-1xl text-balance sm:text-3xl">
     View Vendor
   </h1> -->
-  <div class="flex justify-end mt-6" v-if="!isEditMode">
+  <div class="flex items-center justify-between mt-6" v-if="!isEditMode">
+    <h1 class="mt-8 font-semibold tracking-tight text-gray-700 text-1xl text-balance sm:text-3xl">Vendor</h1>
+
     <button
       class="px-4 py-2 font-semibold text-blue-900 transition duration-300 ease-in-out border-2 border-blue-800 rounded-lg hover:bg-blue-900 hover:text-white focus:ring-2 focus:ring-blue-600 focus:outline-none"
       aria-label="Edit vendor"
@@ -11,7 +13,6 @@
       Edit Vendor
     </button>
   </div>
-
 
   <div>
     <!-- Conditional rendering based on edit mode -->

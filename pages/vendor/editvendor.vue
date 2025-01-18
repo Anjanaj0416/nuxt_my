@@ -1,5 +1,6 @@
-<template>
-    <h1 class="mt-8 font-semibold tracking-tight text-gray-700 text-1xl text-balance sm:text-3xl">Edit Vender</h1>
+<template >
+  <div class="overflow-y-auto">
+    <h1 class="mt-8 font-semibold tracking-tight text-gray-700 text-1xl text-balance sm:text-3xl">Vender</h1>
     <div class="grid grid-cols-3 gap-4 mt-10">
       <div class="">
         <label class="block text-sm font-medium text-gray-600">Company Name</label>
@@ -251,7 +252,7 @@
           type="button" 
           class="text-white bg-blue-900 hover:bg-blue-800 focus:outline-none focus:ring-4 focus:ring-blue-300 font-medium rounded-full text-sm px-5 py-2.5 text-center me-2 mb-2 dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800"
         >
-         Edit
+         Submit
         </button>
         <button 
           type="button" 
@@ -262,6 +263,7 @@
         </button>
 
     </div>
+  </div>
   </template>
   
       

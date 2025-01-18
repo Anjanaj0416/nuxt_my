@@ -1,15 +1,15 @@
 <template>
     <div>
       <section class="justify-center min-h-screen px-4 lg:px-80">
-          <h1 class="mt-8 text-4xl font-semibold tracking-tight text-gray-700 text-balance sm:text-5xl">Invoice</h1>
+          <h1 class="mt-8 text-4xl font-semibold tracking-tight text-gray-700 text-balance sm:text-5xl">Vendor</h1>
             <div class='flex flex-col items-center justify-between mt-10 md:flex-row'>
                 <div class="w-full mb-4 md:mb-0">
                     <button
-                        @click="goToProformaInvoice"
-                        class="px-4 py-2 font-semibold transition duration-300 ease-in-out border-2 rounded-lg text-btn border-btn hover:bg-blue-900 hover:text-white focus:ring-2 focus:ring-blue-600 focus:outline-none"
-                        aria-label="Add a new vendor"
+                    @click="openModal('add')"
+                    class="px-4 py-2 font-semibold transition duration-300 ease-in-out border-2 rounded-lg text-btn border-btn hover:bg-blue-900 hover:text-white focus:ring-2 focus:ring-blue-600 focus:outline-none"
+                    aria-label="Add a new vendor"
                     >
-                    Add Invoice
+                    Add Vender
                     </button>
                 </div>
                 <div class="w-full md:w-auto">
@@ -90,88 +90,55 @@
                     </Label>
                 </div>
             </div>
+    
             <div class="flex flex-col gap-5 p-2 mt-10 bg-white border-2 rounded-md shadow-md sm:p-6">
                 <div class="flex flex-col justify-between sm:flex-row">
-                    <!-- Section 1 -->
-                    <div class="flex flex-col text-center sm:text-left">
-                    <h1 class="text-base font-semibold text-gray-700">Customer Ref</h1>
-                    <p class="text-sm text-gray-500">AE51156</p>
-                    </div>
-                    <hr class="block w-full border-gray-300 sm:hidden" />
-                    <div class="hidden w-px h-12 bg-gray-300 sm:block"></div>
+                    <div
+                        v-for="(section, index) in vendor"
+                        :key="index"
+                        class="relative flex flex-col items-center text-center sm:items-start sm:text-left"
+                    >
 
-                    <!-- Section 2 -->
-                    <div class="flex flex-col text-center sm:text-left">
-                    <h1 class="text-base font-semibold text-gray-700">Name</h1>
-                    <p class="text-sm text-gray-500">abans group of company</p>
-                    </div>
-                    <hr class="block w-full border-gray-300 sm:hidden" />
-                    <div class="hidden w-px h-12 bg-gray-300 sm:block"></div>
+                        <h1 class="text-base font-semibold text-gray-700">{{ section.title }}</h1>
+                        <p class="text-sm text-gray-500">{{ section.value }}</p>
 
-                    <!-- Section 3 -->
-                    <div class="flex flex-col text-center sm:text-left">
-                    <h1 class="text-base font-semibold text-gray-700">Contact</h1>
-                    <p class="text-sm text-gray-500">silva - 0718542367</p>
-                    </div>
-                    <hr class="block w-full border-gray-300 sm:hidden" />
-                    <div class="hidden w-px h-12 bg-gray-300 sm:block"></div>
-
-                    <!-- Section 4 -->
-                    <div class="flex flex-col text-center sm:text-left">
-                    <h1 class="text-base font-semibold text-gray-700">Business Type</h1>
-                    <p class="text-sm text-gray-500">Hardware</p>
-                    </div>
-                    <hr class="block w-full border-gray-300 sm:hidden" />
-                    <div class="hidden w-px h-12 bg-gray-300 sm:block"></div>
-
-                    <!-- Section 5 -->
-                    <div class="flex flex-col text-center sm:text-left">
-                    <h1 class="text-base font-semibold text-gray-700">Rso</h1>
-                    <p class="text-sm text-gray-500">aHardware</p>
-                    </div>
-                    <hr class="block w-full border-gray-300 sm:hidden" />
-                    <div class="hidden w-px h-12 bg-gray-300 sm:block"></div>
-
-                    <!-- Section 6 -->
-                    <div class="flex flex-col text-center sm:text-left">
-                    <h1 class="text-base font-semibold text-gray-700">Total</h1>
-                    <p class="text-sm text-gray-500">LKR: 25000.00</p>
-                    </div>
-                    <hr class="block w-full border-gray-300 sm:hidden" />
-                    <div class="hidden w-px h-12 bg-gray-300 sm:block"></div>
-
-                    <!-- Section 7 -->
-                    <div class="flex flex-col text-center sm:text-left">
-                    <h1 class="text-base font-semibold text-gray-700"> </h1>
-                    <span class="bg-green-100 text-green-800 text-xs font-medium me-2 px-2.5 py-0.5 rounded-full dark:bg-green-900 dark:text-green-300">
-                        Active
-                    </span>
+                        <!-- Conditional vertical separator -->
+                        <template v-if="index < vendor.length - 1">
+                            <div class="w-full h-px mt-2 mb-2 bg-gray-300 sm:hidden"></div>
+                            <div class="hidden sm:block absolute top-0 right-[-1rem] h-full w-px bg-gray-300"></div>
+                        </template>
                     </div>
                 </div>
 
                 <!-- Button Group -->
                 <div class="grid grid-cols-2 gap-2 sm:flex sm:flex-row sm:justify-end ">
                     <button
-                        @click="openModal('view')"
+                        v-for="(button, index) in buttonSet"
+                        :key="index"
+                        @click="openModal(button.modalType)"
                         class="px-4 py-2 text-sm font-medium text-gray-900 bg-white border-2 border-blue-900 rounded-md hover:bg-blue-900 hover:text-white focus:ring-2 focus:ring-blue-700 dark:bg-gray-800 dark:border-gray-700 dark:text-white dark:hover:bg-gray-700"
                     >
-                        View 
-                    </button>
-                    <button
-                        @click="openModal('delete')"
-                            class="px-4 py-2 text-sm font-medium text-gray-900 bg-white border-2 border-blue-900 rounded-md hover:bg-blue-900 hover:text-white focus:ring-2 focus:ring-blue-700 dark:bg-gray-800 dark:border-gray-700 dark:text-white dark:hover:bg-gray-700"
-
-                    >
-                        Delete 
-                    </button>
-                    <button
-                        @click="openModal('restore')"
-                        class="px-4 py-2 text-sm font-medium text-gray-900 bg-white border-2 border-blue-900 rounded-md hover:bg-blue-900 hover:text-white focus:ring-2 focus:ring-blue-700 dark:bg-gray-800 dark:border-gray-700 dark:text-white dark:hover:bg-gray-700"
-                    >
-                        Restore 
+                        {{ button.label }}
                     </button>
 
-                    <!-- View Modal -->
+                    <!-- Add vendor -->
+                    <div  v-if="isModalOpen.add" tabindex="-1" class="fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-50 backdrop-blur-sm">
+                        <div class="relative w-full max-w-4xl p-4 mx-auto md:p-6">
+                            <div class="relative bg-white rounded-lg shadow-lg dark:bg-gray-800 max-h-[90vh] overflow-y-auto">
+                                <button type="button" @click="closeModal('add')" class="absolute inline-flex items-center justify-center w-8 h-8 text-sm text-gray-400 bg-transparent rounded-lg top-3 right-3 hover:bg-gray-200 hover:text-gray-900 dark:hover:bg-gray-600 dark:hover:text-white">
+                                    <svg class="w-4 h-4" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 14 14">
+                                        <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="m1 1 6 6m0 0 6 6M7 7l6-6M7 7l-6 6"/>
+                                    </svg>
+                                </button>
+                                <!-- Modal content -->
+                                <div class="p-6 sm:p-8">
+                                    <addVender />
+                                </div>
+                            </div>
+                        </div>
+                    </div>  
+
+                    <!-- View vendor -->
                     <div  v-if="isModalOpen.view" tabindex="-1" class="fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-50 backdrop-blur-sm">
                         <div class="relative w-full max-w-4xl p-4 mx-auto md:p-6">
                             <div class="relative bg-white rounded-lg shadow-lg dark:bg-gray-800 max-h-[90vh] overflow-y-auto">
@@ -182,14 +149,31 @@
                                 </button>
                                 <!-- Modal content -->
                                 <div class="p-6 sm:p-8">
-                                    <viewInvoice />
+                                    <homeviewvender />
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+    
+                    <!-- upload Approval Vendor -->
+                    <div v-if="isModalOpen.assign" tabindex="-1" class="fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-50 backdrop-blur-sm">
+                        <div class="relative w-full max-w-2xl p-4 mx-auto md:p-6">
+                            <div class="relative bg-white rounded-lg shadow dark:bg-gray-700">
+                                <button type="button" @click="closeModal('assign')" class="absolute inline-flex items-center justify-center w-8 h-8 text-sm text-gray-400 bg-transparent rounded-lg top-3 right-3 hover:bg-gray-200 hover:text-gray-900 dark:hover:bg-gray-600 dark:hover:text-white">
+                                    <svg class="w-3 h-3" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 14 14">
+                                        <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="m1 1 6 6m0 0 6 6M7 7l6-6M7 7l-6 6"/>
+                                    </svg>
+                                </button>
+                                <div class="p-4 md:p-5">
+                                    <AssignRso :modalType="'assign'" @cancel-assign="closeModal('assign')" />
+
                                 </div>
                             </div>
                         </div>
                     </div>
     
                     <!-- Delete Modal -->
-                    <div v-if="isModalOpen.delete" tabindex="-1" class="fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-50 backdrop-blur-sm">
+                    <div v-if="isModalOpen.delete"tabindex="-1" class="fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-50 backdrop-blur-sm">
                         <div class="relative w-full max-w-2xl p-4 mx-auto md:p-6">
                             <div class="relative bg-white rounded-lg shadow dark:bg-gray-700">
                                 <button type="button" @click="closeModal('delete')" class="absolute inline-flex items-center justify-center w-8 h-8 text-sm text-gray-400 bg-transparent rounded-lg top-3 right-3 hover:bg-gray-200 hover:text-gray-900 dark:hover:bg-gray-600 dark:hover:text-white">
@@ -198,27 +182,9 @@
                                     </svg>
                                 </button>
                                 <div class="p-4 text-center md:p-5">
-                                    <h3 class="mt-8 mb-5 text-lg font-normal text-gray-500 dark:text-gray-400">Are you sure you want to delete this Invoice?</h3>
+                                    <h3 class="mb-5 text-lg font-normal text-gray-500 dark:text-gray-400">Are you sure you want to delete this vendor?</h3>
                                     <button @click="deleteVendor" type="button" class="text-white bg-red-600 hover:bg-red-800 font-medium rounded-lg text-sm inline-flex items-center px-5 py-2.5 text-center">Yes, I'm sure</button>
                                     <button @click="closeModal('delete')" type="button" class="py-2.5 px-5 ms-3 text-sm font-medium text-gray-900 bg-white rounded-lg border border-gray-200 hover:bg-gray-100">No, cancel</button>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-    
-                    <!-- Restore Modal -->
-                    <div v-if="isModalOpen.restore" tabindex="-1" class="fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-50 backdrop-blur-sm">
-                        <div class="relative w-full max-w-2xl p-4 mx-auto md:p-6">
-                            <div class="relative bg-white rounded-lg shadow dark:bg-gray-700">
-                                <button type="button" @click="closeModal('restore')" class="absolute inline-flex items-center justify-center w-8 h-8 text-sm text-gray-400 bg-transparent rounded-lg top-3 right-3 hover:bg-gray-200 hover:text-gray-900 dark:hover:bg-gray-600 dark:hover:text-white">
-                                    <svg class="w-3 h-3" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 14 14">
-                                        <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="m1 1 6 6m0 0 6 6M7 7l6-6M7 7l-6 6"/>
-                                    </svg>
-                                </button>
-                                <div class="p-4 text-center md:p-5">
-                                    <h3 class="mt-8 mb-5 text-lg font-normal text-gray-500 dark:text-gray-400">Are you sure you want to restore this vendor?</h3>
-                                    <button @click="restoreVendor" type="button" class="text-white bg-green-600 hover:bg-green-800 font-medium rounded-lg text-sm inline-flex items-center px-5 py-2.5 text-center">Yes, I'm sure</button>
-                                    <button @click="closeModal('restore')" type="button" class="py-2.5 px-5 ms-3 text-sm font-medium text-gray-900 bg-white rounded-lg border border-gray-200 hover:bg-gray-100">No, cancel</button>
                                 </div>
                             </div>
                         </div>
@@ -270,19 +236,36 @@
   <script>
   import headercomp from '~/components/header';
   import footercomp from '~/components/footer';
-  import viewInvoice from '~/pages/Invoicing/viewInvoice.vue'
+  import homeviewvender from '~/pages/vendor/homeviewvendor.vue'
+  import addVender from '~/pages/vendor/Vender.vue'
+  import AssignRso from './AssignRso.vue';
 
   
   
+  
   export default {
-    components: { headercomp, footercomp,viewInvoice  },
+    components: { headercomp, footercomp, homeviewvender, addVender, AssignRso },
     data() {
       return {
         isModalOpen: {
           view: false,
           delete: false,
           restore: false
-        }
+        },
+        vendor: [
+            { title: "Customer Ref", value: "AE51156" },
+            { title: "Name", value: "Abans Group of Company" },
+            { title: "Contact", value: "Silva - 0718542367" },
+            { title: "Business Type", value: "Hardware" },
+            { title: "RSO", value: "Saman - 071458752" },
+            { title: "Status", value: "Active" },
+        ],
+        buttonSet: [
+            { label: "View more", modalType: "view" },
+            { label: "Assign RSO", modalType: "assign" },
+            { label: "Quotations", modalType: "quotations" },
+            { label: "Delete", modalType: "delete" }
+        ]
       };
     },
     methods: {
@@ -300,16 +283,25 @@
         // Logic for restoring the vendor
         this.closeModal('restore');
       },
-      goToProformaInvoice() {
-        this.$router.push('/Invoicing/invoice'); // Navigate to /user/changelogin
-    },
+
     }
   };
   </script>
   
-  <style scoped>
-  .btn {
-    background-color: #072556;
+<style scoped>
+/* Optional: Add custom styles for the layout */
+.sm\:text-left {
+  text-align: left;
+}
+
+@media (min-width: 640px) {
+  .sm\:block {
+    display: block;
   }
-  </style>
+
+  .sm\:hidden {
+    display: none;
+  }
+}
+</style>
   

@@ -150,7 +150,7 @@
                 </div>
 
                 <!-- Button Group -->
-                <div class="grid grid-cols-2 gap-2 sm:flex sm:flex-row sm:justify-end ">
+                <div class="flex justify-center gap-2 mt-2 sm:justify-end">
                     <button
                         @click="openModal('view')"
                         class="px-4 py-2 text-sm font-medium text-gray-900 bg-white border-2 border-blue-900 rounded-md hover:bg-blue-900 hover:text-white focus:ring-2 focus:ring-blue-700 dark:bg-gray-800 dark:border-gray-700 dark:text-white dark:hover:bg-gray-700"
