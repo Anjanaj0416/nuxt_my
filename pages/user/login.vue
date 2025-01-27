@@ -26,12 +26,13 @@
         <h3 class="mb-6 text-2xl font-semibold text-center text-gray-700">
           Sign up
         </h3>
-        <form @submit.prevent="handleSignup" class="space-y-4">
+        <form @submit.prevent="handleLogin" class="space-y-4">
           <!-- Email Input -->
           <div>
             <label class="block text-sm font-medium text-gray-600">Email</label>
             <input
-              type="email"
+              id="email"
+              type="text"
               v-model="email"
               placeholder="Enter Email"
               required
@@ -43,6 +44,7 @@
             <label class="block text-sm font-medium text-gray-600">Password</label>
             <div class="relative">
               <input
+                id="password"
                 :type="showPassword ? 'text' : 'password'"
                 v-model="password"
                 placeholder="Enter Password"
@@ -123,6 +125,8 @@
   import changelogin from '~/pages/user/changelogin'
   import register from '~/pages/user/register.vue'
   import logo from '~/assets/img/Login.png';
+  import { ref } from "vue";
+  import { useAuthStore } from '~/store/auth';
 
   //import textInput from '~/components/customcontrol/textinput'
   //import * as Global from '@/assets/js/Global'
@@ -133,6 +137,32 @@
    });
 
   export default {
+    setup() {
+      const email = ref("");
+      const password = ref("");
+      const showPassword = ref(false);
+      const authStore = useAuthStore();
+
+      const togglePassword = () => {
+        showPassword.value = !showPassword.value;
+      };
+
+      const handleLogin = async () => {
+        try {
+          await authStore.login({ email: email.value, password: password.value });
+          alert("Login successful!");
+        } catch (error) {
+          alert(error.message || "Login failed!");
+        }
+      };
+
+      const goToHomePage = () => {
+        // Redirect logic
+      };
+
+      return { email, password, showPassword, togglePassword, handleLogin, goToHomePage };
+    },
+    
     components: {changelogin,register},
     props:[''],
     data() {
