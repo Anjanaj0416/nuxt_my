@@ -16,6 +16,7 @@ import headercomp from '~/components/header'
 import footercomp from '~/components/footer'
 export default {
   components: {headercomp,footercomp},
+  
 }
 </script>
 

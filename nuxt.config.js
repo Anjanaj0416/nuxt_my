@@ -1,6 +1,15 @@
+
 // https://nuxt.com/docs/api/configuration/nuxt-config
 export default defineNuxtConfig({
-  
+  // router: {
+  //   middleware: ['auth']
+  // },
+
+  runtimeConfig: {
+    public: {
+      apiBase: process.env.API_URL || 'http://65.2.113.225:5012/api', 
+    },
+  },
   modules: ['@pinia/nuxt'],
   css: ['@/assets/css/tailwind.css'],
   postcss: {
@@ -11,7 +20,7 @@ export default defineNuxtConfig({
   },
   plugins: [
     '@/plugins/sweetalert2.ts',
-    '@/plugins/axios.ts'
+    // '@/plugins/axios.ts'
   ],
 
   app: {
@@ -29,5 +38,5 @@ export default defineNuxtConfig({
     
   },
 
-  compatibilityDate: '2025-01-04'
+  compatibilityDate: '2025-01-20'
 })

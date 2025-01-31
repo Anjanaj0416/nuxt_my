@@ -28,28 +28,35 @@
           </svg>
         </button>
         <NuxtLink to="/">
+          <!-- Logo and Name -->
+        <div class="flex items-center space-x-2 ml-14">
           <img
-            src="/./assets/img/Logo.png"
-            alt="AWS Logo"
-            class="w-20 ml-14"
+            src="/assets/img/LogoDigitalTechLab.png" 
+            alt="Digital Tech Labs Logo"
+            class="w-16 rounded-full px-2"
           />
+          <span class="text-white text-xl font-bold">Digital Tech Labs</span>
+        </div>
         </NuxtLink>
-        <div class="relative ml-3">
+       
+        <div class="relative ml-3 flex items-center">
+        
+          
+          <span class="text-white ml-2">{{loggedUser.userName}}</span>  
+          
           <!-- Profile Image Button -->
           <div>
             <button
               @click="isDropdownOpen = !isDropdownOpen"
-              class="relative flex items-center max-w-xs text-sm bg-gray-800 rounded-full focus:outline-none"
+              class="relative flex items-center justify-center w-10 h-10 ml-3 bg-gray-800 text-white rounded-full focus:outline-none"
             >
               <img
-                class="rounded-full size-8"
+                class="rounded-full w-8 h-8"
                 src="https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?ixlib=rb-1.2.1&auto=format&fit=facearea&facepad=2&w=256&h=256&q=80"
                 alt="Profile"
               />
             </button>
-          </div>
-
-          <!-- Dropdown Menu -->
+            <!-- Dropdown Menu -->
           <div
             v-if="isDropdownOpen"
             class="absolute right-0 z-10 w-48 py-1 mt-2 origin-top-right bg-white rounded-md shadow-lg ring-1 ring-black/5"
@@ -60,11 +67,16 @@
             <a href="#" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100">
               Settings
             </a>
-            <a href="#" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100">
+            <a href="/user/login" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100">
               Sign out
             </a>
           </div>
+          </div>
+
+         
         </div>
+
+
       </header>
     </div>
   </div>
@@ -72,6 +84,7 @@
 
 <script>
 import Sidebar from "./sidemenu.vue";
+import { useUserStore  } from '~/stores/modules/userStore';
 
 export default {
   components: {
@@ -79,10 +92,20 @@ export default {
   },
   data() {
     return {
+      loggedUser:{},
+      userStore:null,
       isSidebarOpen: false,
       isDropdownOpen: false,
     };
     
+  },
+  async mounted() {
+  
+  
+  },
+  async created() {
+    this.userStore = useUserStore();  
+    this.loggedUser = this.userStore.loggedUser;
   },
 };
 </script>

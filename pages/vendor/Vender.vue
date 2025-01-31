@@ -1,7 +1,21 @@
 <template>
-  <h1 class="mt-4 font-semibold tracking-tight text-gray-700 text-1xl text-balance sm:text-3xl">Add Vender</h1>
-  <div class="grid grid-cols-3 gap-4 mt-4">
-    <div class="">
+  <section>
+  <div class="add-vendor-container">
+    <div class=" fixed top-0">
+
+    <h1 class="add-vendor-title mt-4 font-semibold tracking-tight text-gray-700 text-1xl text-balance sm:text-3xl">
+      Add Vendor
+    </h1>
+  </div>
+<hr class="my-4">
+  
+    <div class="form-content">
+        <!-- Start Company Details -->
+  <div >
+      <h3>Company Details</h3>
+      <div class="grid grid-cols-3 gap-4 mt-4">
+      
+        <div class="">
       <label class="block text-sm font-medium text-gray-600">Company Name</label>
       <input
         type="text"
@@ -123,41 +137,7 @@
       </p>
     </div>
 
-    <div class="">
-      <label class="block text-sm font-medium text-gray-600">Banner 1</label>
-      <input
-        type="file"
-        @change="handleFileChange('banner1', $event)"
-        accept="image/*"
-        class="block w-full mt-2 text-sm text-gray-900 border border-gray-300 rounded-lg cursor-pointer bg-gray-50 dark:text-gray-400 focus:outline-none dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400"
-      />
-      <p v-if="validationErrors.banner1" class="mt-2 text-sm text-red-600">
-        {{ validationErrors.banner1 }}
-      </p>
-    </div>
-    <div class="">
-      <label class="block text-sm font-medium text-gray-600">Banner 2</label>
-      <input 
-        class="block w-full mt-2 text-sm text-gray-900 border border-gray-300 rounded-lg cursor-pointer bg-gray-50 dark:text-gray-400 focus:outline-none dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400" 
-        @change="handleFileChange('banner2', $event)"
-        accept="image/*" 
-        type="file"
-      >
-    </div>
-    <div class="">
-      <label class="block text-sm font-medium text-gray-600">Description</label>
-      <input
-        type="text"
-        v-model="form.description"
-        @input="clearError('description')"
-        placeholder="Enter description"
-        required
-        class="w-full p-2 mt-2 text-sm border rounded-md focus:ring-indigo-500 focus:border-indigo-500"
-      />
-      <p v-if="validationErrors.description" class="mt-2 text-sm text-red-600">
-        {{ validationErrors.description }}
-      </p>
-    </div>
+ 
     <div class="">
       <label class="block text-sm font-medium text-gray-600">Contact Person Name</label>
       <input
@@ -229,6 +209,97 @@
         {{ validationErrors.ownerBirthDate }}
       </p>
     </div>
+
+    <div class="">
+      <label class="block text-sm font-medium text-gray-600">Sales officer No</label>
+      <select
+        id="bankBranch"
+        v-model="form.rsoNo"
+        @input="clearError('rsoNo')"
+        required
+        class="w-full p-2 mt-2 text-sm border rounded-md focus:ring-indigo-500 focus:border-indigo-500"
+      >
+        <option value="" disabled selected>Select a Bank Branch</option>
+        <option value="branch1">Bank Branch 1</option>
+        <option value="branch2">Bank Branch 2</option>
+        <option value="branch3">Bank Branch 3</option>
+        <!-- Add more options as needed -->
+      </select>
+      <p v-if="validationErrors.rsoNo" class="mt-2 text-sm text-red-600">
+        {{ validationErrors.rsoNo }}
+      </p>
+    </div>    <div class="">
+      <label class="block text-sm font-medium text-gray-600">Sales officer No</label>
+      <select
+        id="bankBranch"
+        v-model="form.rsoNo"
+        @input="clearError('rsoNo')"
+        required
+        class="w-full p-2 mt-2 text-sm border rounded-md focus:ring-indigo-500 focus:border-indigo-500"
+      >
+        <option value="" disabled selected>Select the Agent</option>
+        <option value="branch1">RSO 1</option>
+        <option value="branch2">RSO 2</option>
+        <option value="branch3">RSO 3</option>
+        <!-- Add more options as needed -->
+      </select>
+      <p v-if="validationErrors.rsoNo" class="mt-2 text-sm text-red-600">
+        {{ validationErrors.rsoNo }}
+      </p>
+    </div>
+  </div>
+</div>
+      <!-- End  Company Details -->
+
+  <hr class="my-4"> 
+  <!-- start Banner Details -->
+   <div>
+  <h3>Banner Details</h3>
+  <div class="grid grid-cols-3 gap-4 mt-4">
+  <div class="">
+      <label class="block text-sm font-medium text-gray-600">Banner 1</label>
+      <input
+        type="file"
+        @change="handleFileChange('banner1', $event)"
+        accept="image/*"
+        class="block w-full mt-2 text-sm text-gray-900 border border-gray-300 rounded-lg cursor-pointer bg-gray-50 dark:text-gray-400 focus:outline-none dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400"
+      />
+      <p v-if="validationErrors.banner1" class="mt-2 text-sm text-red-600">
+        {{ validationErrors.banner1 }}
+      </p>
+    </div>
+    <div class="">
+      <label class="block text-sm font-medium text-gray-600">Banner 2</label>
+      <input 
+        class="block w-full mt-2 text-sm text-gray-900 border border-gray-300 rounded-lg cursor-pointer bg-gray-50 dark:text-gray-400 focus:outline-none dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400" 
+        @change="handleFileChange('banner2', $event)"
+        accept="image/*" 
+        type="file"
+      >
+    </div>
+    <div class="">
+      <label class="block text-sm font-medium text-gray-600">Description</label>
+      <input
+        type="text"
+        v-model="form.description"
+        @input="clearError('description')"
+        placeholder="Enter description"
+        required
+        class="w-full p-2 mt-2 text-sm border rounded-md focus:ring-indigo-500 focus:border-indigo-500"
+      />
+      <p v-if="validationErrors.description" class="mt-2 text-sm text-red-600">
+        {{ validationErrors.description }}
+      </p>
+    </div>
+  </div>
+</div>
+  <!-- End Banner Details -->
+  
+  <hr class="my-4">   
+    <!-- Bank Setails -->
+     <div>
+   <h3>Bank Details</h3>
+   <div class="grid grid-cols-3 gap-4 mt-4">
     <div class="">
       <label class="block text-sm font-medium text-gray-600">Bank Name</label>
       <input
@@ -300,28 +371,15 @@
         {{ validationErrors.bankSwiftCode }}
       </p>
     </div>
-    <div class="">
-      <label class="block text-sm font-medium text-gray-600">Sales officer No</label>
-      <select
-        id="bankBranch"
-        v-model="form.rsoNo"
-        @input="clearError('rsoNo')"
-        required
-        class="w-full p-2 mt-2 text-sm border rounded-md focus:ring-indigo-500 focus:border-indigo-500"
-      >
-        <option value="" disabled selected>Select a Bank Branch</option>
-        <option value="branch1">Bank Branch 1</option>
-        <option value="branch2">Bank Branch 2</option>
-        <option value="branch3">Bank Branch 3</option>
-        <!-- Add more options as needed -->
-      </select>
-      <p v-if="validationErrors.rsoNo" class="mt-2 text-sm text-red-600">
-        {{ validationErrors.rsoNo }}
-      </p>
     </div>
   </div>
-  <div class="grid grid-cols-2 mt-10">
+      <!--End  Bank Setails -->
 
+      </div>
+    
+      <hr class="my-4">
+    <!-- Fotter Sectiom -->
+    <div class="buttons-container">
       <button 
         type="button" 
         @click="handleSubmit"
@@ -330,14 +388,18 @@
         Submit
       </button>
       <button 
-      @click="cancel"
+        @click="cancel"
         type="button" 
         class="text-blue-900 bg-white hover:bg-blue-900 border-2 border-blue-800 hover:text-white focus:outline-none focus:ring-4 focus:ring-blue-300 font-medium rounded-full text-sm px-5 py-2.5 text-center me-2 mb-2 dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800"
       >
         Cancel
       </button>
+    </div>
+     <!-- End Fotter Sectiom -->
   </div>
+  </section>
 </template>
+
 
     
 <script>
@@ -475,7 +537,7 @@ export default {
       }
 
       // Proceed with form submission if no errors
-      console.log("Form submitted:", form);
+     // console.log("Form submitted:", form);
     };
 
     // Clear individual field error on input change
