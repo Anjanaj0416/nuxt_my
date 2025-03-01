@@ -3,7 +3,7 @@
     <div class="modal">
       <!-- Modal Header -->
       <div class="modal-header">
-        <h2 class="modal-title">Vendor Details</h2>
+        <h2 class="modal-title">Assign Sales Ex.</h2>
         <!-- <button @click="closeModal" class="absolute z-50 p-2 text-white rounded-md  close-button">&times;</button> -->
         <closebtn @close="closeModal()" />
       </div>
@@ -385,7 +385,7 @@
       <!-- Modal Footer -->
       <div class="modal-footer">
         <button @click="closeModal" class="cancel-button">Cancel</button>
-        <button @click="confirmAction" class="confirm-button">Confirm</button>
+        <button @click="GetSave" class="confirm-button">Save</button>
       </div>
     </div>
   </div>
@@ -457,6 +457,11 @@ export default {
     },
     methods: {
       closeModal(){
+        this.isOpen = false;
+        this.$emit('close')
+       
+      },
+      GetSave(){
         this.isOpen = false;
         this.$emit('close')
        

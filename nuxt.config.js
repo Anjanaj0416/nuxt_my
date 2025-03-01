@@ -19,7 +19,7 @@ export default defineNuxtConfig({
     },
   },
   plugins: [
-    '@/plugins/sweetalert2.ts',
+    '@/plugins/toast.js',
     // '@/plugins/axios.ts'
   ],
 

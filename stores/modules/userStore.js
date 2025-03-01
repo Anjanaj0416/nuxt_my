@@ -13,7 +13,7 @@ export const useUserStore = defineStore('user', {
     async login(loginDetails) {
       try {
       
-        const response = await axios.post(`${import.meta.env.VITE_API_URL}/Auth/Login`, loginDetails);      
+        const response = await axios.post(`${import.meta.env.VITE_API_URL}/IAM/Login`, loginDetails);      
         if (response.data.isSuccess) {
           
           this.token = response.data.authToken;  // Assuming the response contains a 'token'
@@ -21,16 +21,13 @@ export const useUserStore = defineStore('user', {
           localStorage.setItem('token', this.token);  // Save token to localStorage if needed
           localStorage.setItem('refreshToken', this.refreshToken); 
        }
-       else{
-        
-        this.showToast('Login error:'+response.data.message);
+       else{        
+        this.showToast('Login error:'+response.data.message,'error');
        }
        
         
-      } catch (error) {
-     
-        this.showToast('Network Error! Login failed. Please try again.');
-     
+      } catch (error) {     
+        this.showToast('Network Error! Login failed. Please try again.','error');     
       }
     },
 
@@ -40,10 +37,10 @@ export const useUserStore = defineStore('user', {
       localStorage.removeItem('refreshToken');
     },
 
-    showToast(message) {
+    showToast(message,type) {
       Swal.fire({
-        icon: 'error',
-        title: 'Oops...',
+        icon: type,
+        title: type,
         text: message,
         timer: 3000,
         showConfirmButton: false,

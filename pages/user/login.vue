@@ -48,7 +48,7 @@
               class="w-full p-2 mt-2 text-sm border rounded-md focus:ring-indigo-500 focus:border-indigo-500"
             />
             <div v-if="!loginDetails.userName" class="text-red-500 text-sm">
-             Please enter your username.
+              Please enter your username.
             </div>
           </div>
           <!-- Password Input -->
@@ -65,8 +65,8 @@
                 class="w-full p-2 mt-2 text-sm border rounded-md focus:ring-indigo-500 focus:border-indigo-500"
               />
               <div v-if="!loginDetails.password" class="text-red-500 text-sm">
-             Please enter valid password.
-            </div>
+                Please enter valid password.
+              </div>
               <!-- Toggle Button -->
               <button
                 type="button"
@@ -155,9 +155,6 @@
         >
           Sign up for a new account
         </button>
-
-    
-      
       </div>
     </div>
   </section>
@@ -167,9 +164,9 @@
 import changelogin from "~/pages/user/changelogin";
 import register from "~/pages/user/register.vue";
 import logo from "~/assets/img/Logo.png";
-import { useUserStore  } from '~/stores/modules/userStore';
+import { useUserStore } from "~/stores/modules/userStore";
 import { ref } from "vue";
-import Swal from 'sweetalert2';
+import Swal from "sweetalert2";
 
 //import textInput from '~/components/customcontrol/textinput'
 //import * as Global from '@/assets/js/Global'
@@ -179,8 +176,6 @@ definePageMeta({
   layout: "loginlayout",
 });
 
-
-
 export default {
   components: { changelogin, register, logo },
   props: [""],
@@ -188,46 +183,44 @@ export default {
     return {
       imageroot: process.env.Assets_83,
       loginDetails: {
-        userName: "B00256",
+        userName: "thushara",
         password: "1234",
       },
       showPassword: false,
-      userStore: null, 
+      userStore: null,
     };
   },
 
   async mounted() {
     this.userStore = useUserStore();
     await this.userStore.logout();
-  //  this.loginDetails = { userName: '', password: '' };
-    this.$showToast('User Logged out!', 'warning');
+
+    this.$showToast("User Logged out!", "warning");
   },
   watch: {},
   computed: {
-    // ...mapState({
-    //   //loggeduser: (state) => state.loggeduser,
-    // }),
+ 
   },
   methods: {
-    async GetLogin() {       
+    async GetLogin() {
       await this.userStore.login(this.loginDetails);
       //api Call using pinia
-try{     
-         var token = this.userStore.token;
-        if(token === null){
-          this.$showToast('Login Failed!', 'error');
+      try {
+        var token = this.userStore.token;
+        if (token === null) {
+          this.$showToast("Login Failed!", "error");
+        } else {
+          this.$showToast("Login successful!", "success");
+          this.$router.push("/");
         }
-        else{
-          this.$showToast('Login successful!', 'success');
-          this.$router.push('/');
-        }    
-      } catch (error) {       
-  
-        this.$showToast('Login failed. Please check your credentials.', 'error');
-       
+      } catch (error) {
+        this.$showToast(
+          "Login failed. Please check your credentials.",
+          "error"
+        );
       }
     },
-   
+
     goToChangeLogin() {
       this.$router.push("/user/changelogin"); // Navigate to /user/changelogin
     },
@@ -240,22 +233,15 @@ try{
     togglePassword() {
       this.showPassword = !this.showPassword;
     },
-    validateLogin(){
-       
-    },
-    
+    validateLogin() {},
   },
-  async beforeMount() {
-  
-  },
+  async beforeMount() {},
   head() {
     return {
       title: "Intranet - Digital Tech Labs",
     };
   },
 };
-
-
 </script>
 
 <style scoped>

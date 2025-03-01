@@ -4,7 +4,7 @@
     
     <!-- The page content will be injected here -->
     <main class="content">
-      <slot />
+      <NuxtPage />
     </main>
 
     <footercomp/>

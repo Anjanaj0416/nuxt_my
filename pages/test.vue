@@ -2,7 +2,7 @@
 
 <template>
     <section>
-        <div class="flex  cssbtnarray">  
+        <div class="flex  cssbtnarray mt-24">  
          <div @click="goToLogin">Login</div> 
          <div @click="goToChangeLogin">change login</div>
         </div>

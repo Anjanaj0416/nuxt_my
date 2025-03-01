@@ -1,4 +1,5 @@
 <template>
+  <section class="fixed top-0 w-full">
   <div class="flex bg-gray-100">
     <!-- Sidebar -->
     <Sidebar :isOpen="isSidebarOpen" @close-sidebar="isSidebarOpen = false" />
@@ -80,6 +81,7 @@
       </header>
     </div>
   </div>
+</section>
 </template>
 
 <script>

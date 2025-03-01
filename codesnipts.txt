@@ -1,0 +1,8 @@
+api - live
+ttps://learners.lk:5018/api 
+
+api - dev
+https://localhost:7237/api
+
+Postmon API Namespace- 
+MiracleAPI_8.0
