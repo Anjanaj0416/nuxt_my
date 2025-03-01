@@ -35,6 +35,7 @@ export const useUserStore = defineStore('user', {
       this.token = null;
       localStorage.removeItem('token');  // Remove token from localStorage
       localStorage.removeItem('refreshToken');
+      //this.showToast('User Logged out!','success');
     },
 
     showToast(message,type) {

@@ -187,7 +187,7 @@ export default {
         password: "1234",
       },
       showPassword: false,
-      userStore: null,
+  
     };
   },
 
@@ -195,7 +195,7 @@ export default {
     this.userStore = useUserStore();
     await this.userStore.logout();
 
-    this.$showToast("User Logged out!", "warning");
+    
   },
   watch: {},
   computed: {

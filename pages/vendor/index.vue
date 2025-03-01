@@ -52,6 +52,7 @@
         </div>
       </div>
      
+      {{ vendorStore.initVendor.listRSOs }} <br>      
         {{ vendorStore.initVendor.baseUrl }} <br>
        {{ vendorStore.initVendor.listCities }}
       

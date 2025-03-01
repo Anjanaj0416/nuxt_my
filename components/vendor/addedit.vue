@@ -17,7 +17,7 @@
       <h3 class="font-bold">Company Details</h3>
       <div class="grid grid-cols-3 gap-4 mt-4">
       
-        {{ curVendor }}
+        {{ vendorStore.curVendor }}
 
         <div class="">
       <label class="block text-sm font-medium text-gray-600">Company Name</label>
@@ -405,7 +405,7 @@ export default {
       return {
         imageroot: process.env.Assets_83,
         isOpen:true,
-        curVendor:{},
+       
         vendor:   {
               CompanyName: '',
               address1: '',
@@ -454,7 +454,7 @@ export default {
     },
     async created() {
     this.vendorStore = useVendorStore();
-    this.curVendor = this.vendorStore.curVendor;
+   
 
     },
     async mounted() {},

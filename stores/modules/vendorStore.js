@@ -34,7 +34,7 @@ export const useVendorStore = defineStore("vendorStore", {
             req.keyword
           }&searchBy=${req.searchBy}`
         );
-
+  
         if ( response.data.isSuccess) {     
           if (response.data.data.count == 0) {           
             this.listVendor = [];           
