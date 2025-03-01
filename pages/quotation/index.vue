@@ -87,7 +87,7 @@
         <div class="grid grid-cols-2 gap-2 sm:flex sm:flex-row sm:justify-end">
             <LinkBtn label="View More"   @click="
               vendorStore.curVendor = vd;
-              GoToViewMore();   stooed here
+              GoToViewMore();   
             " /> 
           <button
             @click="openModal('view')"

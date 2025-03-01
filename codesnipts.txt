@@ -1,5 +1,5 @@
 api - live
-ttps://learners.lk:5018/api 
+https://learners.lk:5018/api 
 
 api - dev
 https://localhost:7237/api
