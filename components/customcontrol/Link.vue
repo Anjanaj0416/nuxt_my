@@ -3,9 +3,8 @@
         :href="href"
         :target="target"
         :rel="target === '_blank' ? 'noopener noreferrer' : ''"
-        class="text-blue-600 font-medium transition-all duration-300  text-sm
-               hover:text-blue-800 hover:underline focus:outline-none 
-               focus:ring-2 focus:ring-blue-400 focus:ring-offset-2 cursor-pointer "
+        class="px-4 py-2 text-sm font-medium text-gray-900 bg-white border-2 border-blue-900 rounded-md hover:bg-blue-900 hover:text-white focus:ring-2 focus:ring-blue-700 dark:bg-gray-800 dark:border-gray-700 dark:text-white dark:hover:bg-gray-700"
+
     >
         <slot>{{ label }}</slot>
     </a>

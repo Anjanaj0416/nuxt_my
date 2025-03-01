@@ -1,0 +1,45 @@
+<template>
+    <div class="flex flex-col justify-between sm:flex-row">
+        <template v-for="(field, index) in fields" :key="index">
+        <div class="flex flex-col text-center sm:text-left">
+          <h1 class="text-base font-semibold text-gray-700">{{ field.label }}</h1>
+          
+          <p v-if="field.key !== 'isActive'" class="text-sm text-gray-500">
+            {{ data[field.key] }} {{ field.secondKey ? data[field.secondKey] : '' }}
+          </p>
+          <span
+            v-else
+            :class="{
+              'bg-green-100 text-green-800 dark:bg-green-900 dark:text-green-300': data.isActive === true,
+              'bg-red-100 text-red-800 dark:bg-red-900 dark:text-red-300': data.isActive === false,
+              'bg-gray-100 text-gray-800 dark:bg-gray-900 dark:text-gray-300': data.isActive === undefined 
+            }"
+            class="text-xs font-medium me-2 px-2.5 py-0.5 rounded-full"
+          >
+          {{ data.isActive ? 'Active' : 'Inactive' }}
+          </span>
+
+        </div>
+
+        <!-- Divider (for responsiveness) -->
+        <hr class="block w-full border-gray-300 sm:hidden" />
+        <div class="hidden w-px h-12 bg-gray-300 sm:block"></div>
+      </template>
+    </div>
+  </template>
+  
+  <script>
+  export default {
+    props: {
+      data: {
+        type: Object,
+        required: true
+      },
+      fields: {
+        type: Array,
+        required: true
+      }
+    }
+  };
+  </script>
+  

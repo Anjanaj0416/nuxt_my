@@ -3,8 +3,13 @@
     <div class="modal">
       <!-- Modal Header -->
       <div class="modal-header">
-        <h2 class="modal-title">Vendor Details - Add/Edit</h2>
-        <!-- <button @click="closeModal" class="absolute z-50 p-2 text-white rounded-md  close-button">&times;</button> -->
+        <h2 class="modal-title">
+          Vendor Details - {{ isEditing ? "Edit" : "Add" }}
+        </h2>
+
+
+
+        <!-- <button @click="closeModal" class="absolute z-50 p-2 text-white rounded-md close-button">&times;</button> -->
         <closebtn @close="closeModal()" />
       </div>
 
@@ -460,8 +465,10 @@ export default {
     async mounted() {},
     watch: {},
     computed: {
-     
-    },
+    isEditing() {
+      return this.curVendor && this.curVendor.id !== "00000000-0000-0000-0000-000000000000";
+    }
+  },
     methods: {
       closeModal(){
         this.isOpen = false;

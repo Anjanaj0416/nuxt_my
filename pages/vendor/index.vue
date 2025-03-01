@@ -1,8 +1,8 @@
 <template>
-  <section class="justify-center min-h-screen px-4 lg:px-80 mt-24">
+  <section class="justify-center min-h-screen px-4 mt-24 lg:px-80">
     
-        <div class="uppercase text-2xl">Vendors</div>
-        <div class="flex flex-col items-center justify-between mt-2 md:flex-row">
+        <div class="text-2xl uppercase">Vendors</div>
+        <div class="flex flex-col items-center justify-between mt-2 mb-8 md:flex-row">
         <div class="w-full mb-4 md:mb-0">
           <div class="mr-2">
             <Button
@@ -19,44 +19,43 @@
       </div>
 
       <FilterTab @selected="SetSelectedFilter" :arrFilter="arrFilter"/>
-    
 
-    <div class="cssDataSec">
+      <div
+        class="flex flex-col gap-4 p-2 mt-6 bg-white border-2 rounded-md shadow-md sm:p-6"
+        v-for="(vd,index) in vendorStore.listVendor" :key="index"
+      >
+        <InfoCard :data="vd" :fields="vendorFields" />
+        <!-- {{ vd }} -->
 
-
-      <div class="grid grid-cols-1 my-4" v-for="(vd,index) in vendorStore.listVendor" :key="index">
-        {{ vd }}
-        <lable title="customerRef" :value="vd.customerRef" />
-        <div class="flex gap-x-4 mt-2.">
+        <!-- Button Group -->
+        <div class="grid grid-cols-2 gap-2 sm:flex sm:flex-row sm:justify-end">
           <LinkBtn label="View More"   @click="
               vendorStore.curVendor = vd;
-              GoToViewMore();
-            " /> |
+              GoToViewMore();"
+          /> 
         
           <LinkBtn label="Edit"  @click="
              vendorStore.curVendor = vd;
-              GoToAddEdit();
-            " />
-         |
+              GoToAddEdit();"
+          />
+         
           <LinkBtn label="Assign RSO"  @click="
              vendorStore.curVendor = vd;
-              GoToAssignSalesEx();
-            " />
-            |
-          
+              GoToAssignSalesEx();"
+          />
+            
           <LinkBtn label="View Quotations"  @click="
               vendorStore.curVendor = vd;
-              GoToQuotation();
-            " />
-          
+              GoToQuotation();"
+          />
         </div>
       </div>
-     
-        {{ vendorStore.initVendor.baseUrl }} <br>
-       {{ vendorStore.initVendor.listCities }}
-      
+    
 
-    </div>
+    <!-- <div class="cssDataSec">
+      {{ vendorStore.initVendor.baseUrl }} <br>
+      {{ vendorStore.initVendor.listCities }}
+    </div> -->
 
     <AddEdit v-if="isAddEdit" @close="isAddEdit = !isAddEdit" />
     <ViewMore v-if="isViewMore" @close="isViewMore = !isViewMore" />
@@ -73,6 +72,7 @@ import ViewMore from "~/components/vendor/viewmore";
 import AssignRso from "~/components/vendor/assignSalesEx";
 import FilterTab from "~/components/customcontrol/FilterTab";
 import SearchComp from "~/components/customcontrol/SearchComp";
+import InfoCard from "~/components/customcontrol/InfoCard.vue";
 
 import { useVendorStore } from "~/stores/modules/vendorStore";
 
@@ -92,6 +92,7 @@ export default {
     AssignRso,
     FilterTab,
     SearchComp,
+    InfoCard,
   },
   data() {
     return {
@@ -105,8 +106,15 @@ export default {
       curIndex: -1,
       searchBy:'',
       searchVal:'',
-     
-    
+      vendorFields: [
+        { label: "Customer Ref", key: "customerRef" },
+        { label: "Name", key: "firstName", secondKey: "lastname" },
+        { label: "Shop Contact", key: "shopContactNo" },
+        { label: "Email", key: "email" },
+        { label: "City", key: "city" },
+        { label: "Status", key: "isActive" }
+      ]
+  
     };
   },
   async created() {
@@ -125,7 +133,6 @@ export default {
     },
 
     GoToAddNew() {
-      
       this.vendorStore.ResetVendor();
       this.isAddEdit = true;
     },

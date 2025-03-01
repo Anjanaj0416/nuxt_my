@@ -4,147 +4,75 @@
       <!-- Modal Header -->
       <div class="modal-header">
         <h2 class="modal-title">Vendor Details - View More..</h2>
-        <!-- <button @click="closeModal" class="absolute z-50 p-2 text-white rounded-md  close-button">&times;</button> -->
+        <!-- <button @click="closeModal" class="absolute z-50 p-2 text-white rounded-md close-button">&times;</button> -->
         <closebtn @close="closeModal()" />
       </div>
 
       <!-- Modal Content (scrollable) -->
       <div class="modal-content">
-     
         <div class="form-content">
-        <!-- Start Company Details -->
-  <div >
-      <h3 class="font-bold">Company Details</h3>
+            <!-- Start Company Details -->
+          <!-- {{ curVendor }} -->
 
-     {{ curVendor }}
+          <div>
+            <h3 class="mb-4 text-xl font-bold">Company Details</h3>
+            <div class="grid grid-cols-1 gap-4 mt-4 md:grid-cols-2 lg:grid-cols-3">
+              <div v-for="(field, index) in vendorFields" :key="index">
+                <label class="block text-sm font-medium text-gray-600">{{ field.label }}</label>
+                <template v-if="field.key !== 'vendorImage' && field.key !== 'shopLogo' && field.key !== 'shopCoverImage' && field.key !== 'brCopy'">
+                  <label class="block mt-1 text-sm font-medium text-gray-800">{{ curVendor[field.key] || 'No value available' }}</label>
+                </template>
+                <template v-else>
+                  <div v-if="curVendor[field.key]" class="relative mt-2">
+                    <img 
+                      :src="curVendor[field.key] ? (imageroot + curVendor[field.key]) :  'No value available'" 
+                      alt="Image Preview" 
+                      class="object-cover w-12 h-12 rounded-md"
+                    />
+                  </div>
+                </template>
+              </div>
+            </div>
+          </div>
+          <!-- End  Company Details -->
 
+          <hr class="my-4">
+          <div>
+            <h3 class="font-bold">Banner Details</h3>
+            <div class="grid grid-cols-3 gap-4 mt-4">
+              <div v-for="(field, index) in bannerFields" :key="index">
+                <label class="block text-sm font-medium text-gray-600">{{ field.label }}</label>
+                <template v-if="field.key !== 'vendorImage' && field.key !== 'shopLogo' && field.key !== 'shopCoverImage' && field.key !== 'brCopy'">
+                  <label class="block mt-1 text-sm font-medium text-gray-800">{{ curVendor[field.key] || 'No value available' }}</label>
+                </template>
+                <template v-else>
+                  <div v-if="curVendor[field.key]" class="relative mt-2">
+                    <img :src="imageroot + curVendor[field.key]" alt="Image Preview" class="object-cover w-32 h-32" />
+                  </div>
+                </template>
+              </div>
+            </div>
+          </div>
 
-      <div class="grid grid-cols-3 gap-4 mt-4">
-      
-        <div class="">
-      <label class="block text-sm font-medium text-gray-600">Company Name</label>
-     
-    </div>
-    <div class="">
-      <label class="block text-sm font-medium text-gray-600">Address Line 1</label>
-      
-    </div>
-    <div class="">
-      <label class="block text-sm font-medium text-gray-600">Address Line 2</label>
-      
-    </div>
-    <div class="">
-      <label class="block text-sm font-medium text-gray-600">City</label>
-     
-    </div>
-    <div class="">
-      <label class="block text-sm font-medium text-gray-600">District</label>
-     
-    </div>
-    <div class="">
-      <label class="block text-sm font-medium text-gray-600">Email</label>
-    
-    </div>
-    <div class="">
-      <label class="block text-sm font-medium text-gray-600">Contact Number</label>
-    
-    </div>
-    <div class="">
-      <label class="block text-sm font-medium text-gray-600">Whatsapp Number</label>
-     
-    </div>
-    <div class="">
-      <label class="block text-sm font-medium text-gray-600">Company Logo</label>
-    
-    </div>
-
- 
-    <div class="">
-      <label class="block text-sm font-medium text-gray-600">Contact Person Name</label>
-      
-    </div>
-    <div class="">
-      <label class="block text-sm font-medium text-gray-600">Contact Person Mobile</label>
-     
-    </div>
-    <div class="">
-      <label class="block text-sm font-medium text-gray-600">Owner First Name</label>
-      
-    </div>
-
-    <div class="">
-      <label class="block text-sm font-medium text-gray-600">Owner Contact</label>
-     
-    </div>
-    <div class="">
-      <label class="block text-sm font-medium text-gray-600">Owner Birth Date</label>
-     
-    </div>
-
-    <div class="">
-      <label class="block text-sm font-medium text-gray-600">Sales officer No</label>
-      
-    </div>    <div class="">
-      <label class="block text-sm font-medium text-gray-600">Sales officer No</label>
-     
-    </div>
-  </div>
-</div>
-      <!-- End  Company Details -->
-
-  <hr class="my-4"> 
-  <!-- start Banner Details -->
-   <div>
-  <h3 class="font-bold">Banner Details</h3>
-  <div class="grid grid-cols-3 gap-4 mt-4">
-  <div class="">
-      <label class="block text-sm font-medium text-gray-600">Banner 1</label>
-     
-    </div>
-    <div class="">
-      <label class="block text-sm font-medium text-gray-600">Banner 2</label>
-      
-    </div>
-    <div class="">
-      <label class="block text-sm font-medium text-gray-600">Description</label>
-     
-    </div>
-  </div>
-</div>
-  <!-- End Banner Details -->
-  
-  <hr class="my-4">   
-    <!-- Bank Setails -->
-     <div>
-   <h3 class="font-bold">Bank Details</h3>
-   <div class="grid grid-cols-3 gap-4 mt-4">
-    <div class="">
-      <label class="block text-sm font-medium text-gray-600">Bank Name</label>
-      
-    </div>
-    <div class="">
-      <label class="block text-sm font-medium text-gray-600">Bank Branch</label>
-      
-    </div>
-
-    <div class="">
-      <label class="block text-sm font-medium text-gray-600">Bank Branch Code</label>
-      
-    </div>
-    <div class="">
-      <label class="block text-sm font-medium text-gray-600">Bank Account No</label>
-      
-    </div>
-    <div class="">
-      <label class="block text-sm font-medium text-gray-600">Bank Swift Code</label>
-     
-    </div>
-    </div>
-  </div>
-      <!--End  Bank Setails -->
-
-      </div>
-        
+          <hr class="my-4"> 
+          <div>
+            <h3 class="font-bold">Bank Details</h3>
+            <div class="grid grid-cols-3 gap-4 mt-4">
+              <div v-for="(field, index) in bankFields" :key="index">
+                <label class="block text-sm font-medium text-gray-600">{{ field.label }}</label>
+                <template v-if="field.key !== 'vendorImage' && field.key !== 'shopLogo' && field.key !== 'shopCoverImage' && field.key !== 'brCopy'">
+                  <label class="block mt-1 text-sm font-medium text-gray-800">{{ curVendor[field.key] || 'No value available' }}</label>
+                </template>
+                <template v-else>
+                  <div v-if="curVendor[field.key]" class="relative mt-2">
+                    <img :src="imageroot + curVendor[field.key]" alt="Image Preview" class="object-cover w-32 h-32" />
+                  </div>
+                </template>
+              </div>
+            </div>
+          </div>
+          <!--End  Bank Setails -->
+        </div>    
       </div>
       <!-- End Modal Content -->
 
@@ -170,10 +98,38 @@ export default {
       return {
         imageroot: process.env.Assets_83,
         vendorStore: null,
-
-
         curVendor:{}, 
-        isOpen:true,     
+        isOpen:true,  
+        bankFields: [
+          { label: "Bank Name", key: "bankName" },
+          { label: "Branch Name", key: "branch" },
+          // { label: "Bank Branch Code", key: "branchCode" },
+          { label: "Bank Account No", key: "accountNumber" },
+          // { label: "Bank Swift Code", key: "swiftCode" }
+        ],
+        bannerFields: [
+          { label: "Banner 1", key: "banner1" },
+          { label: "Banner 2", key: "banner2" },
+          // { label: "Description", key: "description" }
+        ],
+        vendorFields: [
+          { label: "Customer Ref", key: "customerRef" },
+          { label: "Shop Name", key: "shopName" },
+          { label: "First Name", key: "firstName" },
+          { label: "Last Name", key: "lastname" },
+          { label: "Phone", key: "phone" },
+          { label: "Email", key: "email" },
+          { label: "Shop Contact No", key: "shopContactNo" },
+          { label: "Shop Address 1", key: "shopAddress1" },
+          { label: "Shop Address 2", key: "shopAddress2" },
+          { label: "City", key: "city" },
+          { label: "Description", key: "description" },
+          { label: "Image", key: "vendorImage" },
+          { label: "Logo", key: "shopLogo" },
+          { label: "BR Copy", key: "brCopy" },
+          { label: "Shop Cover Image", key: "shopCoverImage" },
+
+        ]   
       }
     },
     async created() {
