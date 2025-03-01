@@ -4,6 +4,18 @@
         <div class="flex flex-col text-center sm:text-left">
           <h1 class="text-base font-semibold text-gray-700">{{ field.label }}</h1>
           
+          <!-- Check if the field is for 'shopLogo' -->
+          <p v-if="field.key === 'shopLogo'">
+          <img
+            :src="`${imageroot}${data[field.key]}`"
+            alt="Shop Logo"
+            v-if="data[field.key]" 
+            class="object-contain w-20 h-20 mx-auto"
+          />
+          <!-- Fallback text if the image URL is missing -->
+          <span v-else class="text-sm text-gray-500">No Shop Logo Available</span>
+        </p>
+          
           <p v-if="field.key !== 'isActive'" class="text-sm text-gray-500">
             {{ data[field.key] }} {{ field.secondKey ? data[field.secondKey] : '' }}
           </p>
@@ -38,7 +50,11 @@
       fields: {
         type: Array,
         required: true
-      }
+      },
+      imageroot: {
+      type: String,
+      default: 'https://learners.lk:5005/web/assets/'
+    }
     }
   };
   </script>

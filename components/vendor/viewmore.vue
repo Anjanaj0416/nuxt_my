@@ -19,24 +19,37 @@
             <div class="grid grid-cols-1 gap-4 mt-4 md:grid-cols-2 lg:grid-cols-3">
               <div v-for="(field, index) in vendorFields" :key="index">
                 <label class="block text-sm font-medium text-gray-600">{{ field.label }}</label>
+                
+                <!-- Non-image fields -->
                 <template v-if="field.key !== 'vendorImage' && field.key !== 'shopLogo' && field.key !== 'shopCoverImage' && field.key !== 'brCopy'">
                   <label class="block mt-1 text-sm font-medium text-gray-800">{{ curVendor[field.key] || 'No value available' }}</label>
                 </template>
+
+                <!-- Image fields -->
                 <template v-else>
+                  <!-- Check if curVendor[field.key] exists and is not empty -->
                   <div v-if="curVendor[field.key]" class="relative mt-2">
-                    <img 
-                      :src="curVendor[field.key] ? (imageroot + curVendor[field.key]) :  'No value available'" 
-                      alt="Image Preview" 
-                      class="object-cover w-12 h-12 rounded-md"
-                    />
+                    <!-- Image wrapper as a clickable link -->
+                    <a :href="imageroot + curVendor[field.key]" target="_blank">
+                      <img 
+                        :src="imageroot + curVendor[field.key]" 
+                        alt="Image Preview" 
+                        class="object-cover w-16 h-16 rounded-md"
+                        @error="imageError"  
+                      />
+                    </a>
                   </div>
+                  <!-- Display this message if image is not available -->
+                  <div v-else class="mt-2 text-gray-500">No image available</div>
                 </template>
               </div>
+
+
             </div>
           </div>
           <!-- End  Company Details -->
 
-          <hr class="my-4">
+          <!-- <hr class="my-4">
           <div>
             <h3 class="font-bold">Banner Details</h3>
             <div class="grid grid-cols-3 gap-4 mt-4">
@@ -52,7 +65,7 @@
                 </template>
               </div>
             </div>
-          </div>
+          </div> -->
 
           <hr class="my-4"> 
           <div>
@@ -107,11 +120,11 @@ export default {
           { label: "Bank Account No", key: "accountNumber" },
           // { label: "Bank Swift Code", key: "swiftCode" }
         ],
-        bannerFields: [
-          { label: "Banner 1", key: "banner1" },
-          { label: "Banner 2", key: "banner2" },
-          // { label: "Description", key: "description" }
-        ],
+        // bannerFields: [
+        //   { label: "Banner 1", key: "banner1" },
+        //   { label: "Banner 2", key: "banner2" },
+          
+        // ],
         vendorFields: [
           { label: "Customer Ref", key: "customerRef" },
           { label: "Shop Name", key: "shopName" },
@@ -129,7 +142,8 @@ export default {
           { label: "BR Copy", key: "brCopy" },
           { label: "Shop Cover Image", key: "shopCoverImage" },
 
-        ]   
+        ] ,
+        imageroot: "https://learners.lk:5005/web/assets/",
       }
     },
     async created() {

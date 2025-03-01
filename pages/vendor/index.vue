@@ -107,6 +107,7 @@ export default {
       searchBy:'',
       searchVal:'',
       vendorFields: [
+        { label: "Logo", key: "shopLogo" },
         { label: "Customer Ref", key: "customerRef" },
         { label: "Name", key: "firstName", secondKey: "lastname" },
         { label: "Shop Contact", key: "shopContactNo" },
