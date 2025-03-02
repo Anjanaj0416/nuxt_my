@@ -12,10 +12,14 @@
   //import textInput from '~/components/customcontrol/textinput'
   //import * as Global from '@/assets/js/Global'
   //import * as myfilter from '@/plugins/myfilter'
- // import { mapState, mapGetters, mapActions, mapMutations } from 'pinia'
+ //import Swal from 'sweetalert2';
+ //import { useSampleStore  } from '~/stores/modules/sampleStore';
+
  definePageMeta({
-    layout: 'default'
+    layout: 'default',   
+    middleware: 'auth',
    });
+   
   export default {
     
     components: {},
@@ -23,9 +27,15 @@
     data() {
       return {
         imageroot: process.env.Assets_83,
+       
       }
     },
-    async mounted() {},
+    async mounted() {
+     
+    },
+    async created() {
+      //this.sampleStore = useSampleStore();
+    },
     watch: {},
     computed: {
       // ...mapState({
@@ -33,6 +43,7 @@
       // }),
     },
     methods: {
+     
       // ...mapActions({
       //   //  getWGInitData: 'reservedaddetail/getWGInitData',
       // }),
@@ -80,6 +91,8 @@
       //      window.open(this.csv_root+'/reports/'+this.csv_name, '_blank');
       //   }
       // },
+
+      //this.$showToast('Login successful!', 'success'); //success ,error ,warning,info
     },
     async beforeMount() {
       // if (this.loggeduser.granted.indexOf('workgroup') > -1 || this.loggeduser.usergroup == 'Supervisor' ) {

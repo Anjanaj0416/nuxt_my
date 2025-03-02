@@ -4,7 +4,7 @@
     
     <!-- The page content will be injected here -->
     <main class="content">
-      <slot />
+      <NuxtPage />
     </main>
 
     <footercomp/>
@@ -16,6 +16,7 @@ import headercomp from '~/components/header'
 import footercomp from '~/components/footer'
 export default {
   components: {headercomp,footercomp},
+  
 }
 </script>
 

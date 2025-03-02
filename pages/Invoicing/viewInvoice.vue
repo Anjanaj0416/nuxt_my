@@ -1,4 +1,5 @@
 <template>
+  <section>
     <h1 class="mt-8 font-semibold tracking-tight text-gray-700 text-1xl text-balance sm:text-3xl">View Invoice</h1>
     <div class="flex justify-end mt-6">
     <button
@@ -133,14 +134,14 @@
           </div>
 
     </div>
-  
+  </section>
   </template>
   
       
       <script>
       import changelogin from '~/pages/user/changelogin'
       import register from '~/pages/user/register.vue'
-      import logo from '~/assets/img/Login.png';
+      import logo from '~/assets/img/Logo.png';
     
       //import textInput from '~/components/customcontrol/textinput'
       //import * as Global from '@/assets/js/Global'
