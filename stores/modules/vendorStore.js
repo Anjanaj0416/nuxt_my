@@ -7,7 +7,7 @@ export const useVendorStore = defineStore("vendorStore", {
     listVendor: [],
     curVendor: {},
     initVendor: {},
-    testParam:{id:21}
+   
   }),
   //this.showToast('Login successful!', 'success'); //success ,error ,warning,info
   actions: {
