@@ -50,9 +50,6 @@
 
 
 <script>
-//import textInput from '~/components/customcontrol/textinput'
-//import * as Global from '@/assets/js/Global'
-//import * as myfilter from '@/plugins/myfilter'
 import changelogin from '~/components/auth/changelogin'
 import login from '~/components/auth/login'
 import chart from '~/components/chart/chart.vue'
@@ -83,23 +80,16 @@ export default {
   },
   methods: {
     goToLogin() {
-      this.$router.push('/user/login'); // Navigate to /user/login
+      this.$router.push('/user/login');
     },
     goToChangeLogin() {
-      this.$router.push('/user/changelogin'); // Navigate to /user/changelogin
-    },
-    handleSignup() {
-      // Simulate signup logic
-      if (this.email && this.accountName) {
-        alert(`Signup successful for ${this.accountName}`);
-      } else {
-        alert("Please fill in all fields!");
-      }
+      this.$router.push('/user/changelogin');
     },
     goToSignin() {
       this.$router.push("/signin");
     },
   },
+  
   head() {
     return {
       title: "Sign Up - AWS",

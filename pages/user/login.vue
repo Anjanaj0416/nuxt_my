@@ -36,7 +36,7 @@
         <h3 class="mb-6 text-2xl font-semibold text-center text-gray-700">
           Sign up
         </h3>
-        <form @submit.prevent="handleSignup" class="space-y-4">
+        <form @submit.prevent="handleLogin" class="space-y-4">
           <!-- Email Input -->
           <div>
             <label class="block text-sm font-medium text-gray-600">Email</label>
@@ -58,6 +58,7 @@
             >
             <div class="relative">
               <input
+                id="password"
                 :type="showPassword ? 'text' : 'password'"
                 v-model="loginDetails.password"
                 placeholder="Enter Password"

@@ -18,10 +18,17 @@ export default defineNuxtConfig({
       autoprefixer: {},
     },
   },
+  
   plugins: [
     '@/plugins/toast.js',
     // '@/plugins/axios.ts'
   ],
+
+  runtimeConfig: {
+    public: {
+      apiBaseUrl: process.env.API_BASE_URL || 'http://localhost:3000', // Fallback for local dev
+    },
+  },
 
   app: {
     head: {
