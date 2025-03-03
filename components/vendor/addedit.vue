@@ -142,13 +142,14 @@
             </div>
             <div class="">
               <label class="block text-sm font-bold text-gray-600">City</label>
-              
-              <serach_Input
+                <serach_Input
                   :arrItems="vendorStore.initVendor.listCities"
                   ref="SelectCityComp"                            
                   v-model="form.city"
                   @selectItem="SelectCity"                  
                 />  
+
+                <!-- {{form.city}} -->
               <p v-if="validationErrors.city" class="mt-2 text-sm text-red-600">
                 {{ validationErrors.city }}
               </p>
@@ -330,8 +331,8 @@ export default {
     return {
       isOpen: true,
       curVendor: {},
-      validationErrors: reactive({}),
-      form: reactive({
+      validationErrors: {},
+      form: {
         CompanyName: '',
         address1: '',
         city: '',
@@ -356,7 +357,7 @@ export default {
         shopLogo:'',
         shopCoverImage:'',
         brCopy:'', 
-      }),
+      },
       imageroot: "",
     };
   },
@@ -378,6 +379,9 @@ export default {
   },
 
   methods: {
+    SelectCity(city){
+      this.form.city = city 
+    },
     VendorImageChanged(){
       alert('VendorImageChanged');  
     },
@@ -387,7 +391,6 @@ export default {
     DeleteExistingVendorImage(){
       alert('VendorImageDeleted');
     },
-
     ShopLogoChanged(){
       alert('ShopLogoChanged');  
     },
@@ -397,7 +400,6 @@ export default {
     DeleteExistingShopLogo(){
       alert('ShopLogoDeleted');
     },
-
     ShopCoverImageChanged(){
       alert('ShopCoverImageChanged');  
     },
@@ -406,8 +408,7 @@ export default {
     },
     DeleteExistingShopCoverImage(){
       alert('ShopCoverImageDeleted');
-},
-
+    },
     BrCopyChanged(){
       alert('BrCopyChanged');  
     },
@@ -416,7 +417,7 @@ export default {
     },
     DeleteExistingBrCopy(){
       alert('BrCopyDeleted');
-},
+    },
 
     closeModal() {
       this.isOpen = false;
@@ -443,8 +444,6 @@ export default {
       this.clearValidationErrors();
 
       let hasErrors = false;
-      
-      // Simple validation: Company name must not be empty
 
       if (!this.form.firstName) {
         this.validationErrors.firstName = "Please enter First Name!";
@@ -485,6 +484,8 @@ export default {
       }if (!this.form.city) {
         this.validationErrors.city = "Please enter city!";
         hasErrors = true;
+      }else {
+        this.validationErrors.city = "";
       }if (!this.form.shopLogo) {
         this.validationErrors.shopLogo = "Please enter shop Logo!";
         hasErrors = true;

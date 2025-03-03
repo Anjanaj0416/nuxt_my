@@ -1,5 +1,5 @@
 <template>
-  <section class="fixed top-0 w-full">
+  <section class="fixed top-0 z-10 w-full">
   <div class="flex bg-gray-100">
     <!-- Sidebar -->
     <Sidebar :isOpen="isSidebarOpen" @close-sidebar="isSidebarOpen = false" />
@@ -34,25 +34,25 @@
           <img
             src="/assets/img/LogoDigitalTechLab.png" 
             alt="Digital Tech Labs Logo"
-            class="w-16 rounded-full px-2"
+            class="w-16 px-2 rounded-full"
           />
-          <span class="text-white text-xl font-bold">Digital Tech Labs</span>
+          <span class="text-xl font-bold text-white">Digital Tech Labs</span>
         </div>
         </NuxtLink>
        
-        <div class="relative ml-3 flex items-center">
+        <div class="relative flex items-center ml-3">
         
           
-          <span class="text-white ml-2">{{loggedUser.userName}}</span>  
+          <span class="ml-2 text-white">{{loggedUser.userName}}</span>  
           
           <!-- Profile Image Button -->
           <div>
             <button
               @click="isDropdownOpen = !isDropdownOpen"
-              class="relative flex items-center justify-center w-10 h-10 ml-3 bg-gray-800 text-white rounded-full focus:outline-none"
+              class="relative flex items-center justify-center w-10 h-10 ml-3 text-white bg-gray-800 rounded-full focus:outline-none"
             >
               <img
-                class="rounded-full w-8 h-8"
+                class="w-8 h-8 rounded-full"
                 src="https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?ixlib=rb-1.2.1&auto=format&fit=facearea&facepad=2&w=256&h=256&q=80"
                 alt="Profile"
               />

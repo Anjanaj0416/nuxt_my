@@ -1,8 +1,7 @@
 <template>
-  <section class="justify-center min-h-screen px-4 mt-24 lg:px-80">
-    
-        <div class="text-2xl uppercase">Vendors</div>
-        <div class="flex flex-col items-center justify-between mt-2 mb-8 md:flex-row">
+  <section class="justify-center min-h-screen px-4 mt-24 lg:px-80">  
+    <div class="text-2xl uppercase">Vendors</div>
+      <div class="flex flex-col items-center justify-between mt-2 mb-8 md:flex-row">
         <div class="w-full mb-4 md:mb-0">
           <div class="mr-2">
             <Button
@@ -14,53 +13,42 @@
           </div>
         </div>
         <div class="w-full md:w-auto">
-        <SearchComp @DoSearch="GetSearch"/>
+          <SearchComp @DoSearch="GetSearch"/>
         </div>
       </div>
 
       <FilterTab @selected="SetSelectedFilter" :arrFilter="arrFilter"/>
 
       <div
-        class="flex flex-col gap-4 p-2 mt-6 bg-white border-2 rounded-md shadow-md sm:p-6"
+        class="flex flex-col gap-5 p-2 mt-10 bg-white border-2 rounded-md shadow-md sm:p-6"
         v-for="(vd,index) in vendorStore.listVendor" :key="index"
       >
-        <!-- <InfoCard :data="vd" :fields="vendorFields" /> -->
         <div class="flex flex-col justify-between sm:flex-row">
-        <div v-for="(field, index) in vendorFields" :key="index">
-        <div class="flex flex-col text-center sm:text-left">
-          <h1 class="text-base font-semibold text-gray-700">{{ field.label }}</h1>
-        
-          <!-- Check if the field is for 'shopLogo' -->
-          <p v-if="field.key === 'shopLogo'">
-          <ImageLable :imageUrl="imageroot+`/${vd[field.key]}`"  alt="Shop Logo"   v-if="vd[field.key]" />          
-          <!-- Fallback text if the image URL is missing -->
-          <span v-else class="text-sm text-gray-500">No Shop Logo Available</span>
-        </p>
-          
-          <p v-if="field.key !== 'isActive' " class="text-sm text-gray-500">
-            {{ vd[field.key] }} {{ field.secondKey ? vd[field.secondKey] : '' }}
-          </p>
-          <span
-            v-else
-            :class="{
-              'bg-green-100 text-green-800 dark:bg-green-900 dark:text-green-300': vd.isActive === true,
-              'bg-red-100 text-red-800 dark:bg-red-900 dark:text-red-300': vd.isActive === false,
-              'bg-gray-100 text-gray-800 dark:bg-gray-900 dark:text-gray-300': vd.isActive === undefined 
-            }"
-            class="text-xs font-medium me-2 px-2.5 py-0.5 rounded-full"
-          >
-          {{ vd.isActive ? 'Active' : 'Inactive' }}
-          </span>
+          <div class="flex flex-col text-center sm:text-left" v-for="(field, index) in vendorFields" :key="index">
+            <h1 class="text-base font-semibold text-gray-700">{{ field.label }}</h1>
+            <p v-if="field.key === 'shopLogo'" class="flex justify-center text-center">
+              <ImageLable :imageUrl="imageroot+`/${vd[field.key]}`" alt="Shop Logo" v-if="vd[field.key]" />
+              <span v-else class="text-sm text-gray-500">No Shop Logo Available</span>
+            </p>
 
+            <p v-else-if="field.key !== 'isActive'" class="text-sm text-gray-500">
+              {{ vd[field.key] }} {{ field.secondKey ? vd[field.secondKey] : '' }}
+            </p>
+            <span
+              v-else
+              :class="{
+                'bg-green-100 text-green-800 dark:bg-green-900 dark:text-green-300': vd.isActive === true,
+                'bg-red-100 text-red-800 dark:bg-red-900 dark:text-red-300': vd.isActive === false,
+                'bg-gray-100 text-gray-800 dark:bg-gray-900 dark:text-gray-300': vd.isActive === undefined
+              }"
+              class="text-xs font-medium me-2 px-2.5 py-0.5 rounded-full"
+            >
+              {{ vd.isActive ? 'Active' : 'Inactive' }}
+            </span>
+          </div>
+          <hr class="block w-full mt-4 border-gray-300 sm:hidden" />
         </div>
-
-        <!-- Divider (for responsiveness) -->
-        <hr class="block w-full border-gray-300 sm:hidden" />
-        <div class="hidden w-px h-12 bg-gray-300 sm:block"></div>
-      </div>
-    </div>
-        <!-- {{ vd }} -->
-
+        {{ vd }}
         <!-- Button Group -->
         <div class="grid grid-cols-2 gap-2 sm:flex sm:flex-row sm:justify-end">
           <LinkBtn label="View More"   @click="
@@ -69,12 +57,12 @@
           /> 
         
           <LinkBtn label="Edit"  @click="
-             vendorStore.curVendor = vd;
+              vendorStore.curVendor = vd;
               GoToAddEdit();"
           />
-         
+          
           <LinkBtn label="Assign RSO"  @click="
-             vendorStore.curVendor = vd;
+              vendorStore.curVendor = vd;
               GoToAssignSalesEx();"
           />
             
@@ -132,8 +120,6 @@ export default {
   },
   data() {
     return {
-    
-
       arrFilter:['All','Not Assigned','Active'],      
       isAddEdit: false,
       isViewMore: false,
@@ -143,7 +129,7 @@ export default {
       searchBy:'',
       searchVal:'',
       vendorFields: [
-        { label: "Logo", key: "shopLogo" },
+        { label: "", key: "shopLogo" },
         { label: "Customer Ref", key: "customerRef" },
         { label: "Name", key: "firstName", secondKey: "lastname" },
         { label: "Shop Contact", key: "shopContactNo" },
