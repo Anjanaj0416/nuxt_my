@@ -15,9 +15,11 @@
           <!-- {{ curVendor }} -->
           
           <h3 class="font-bold">Company Details</h3>
+
+
           <div class="grid grid-cols-3 gap-4 mt-4">
             <div class="" v-if="isEditing">
-              <label class="block text-sm font-medium text-gray-600">Customer Ref</label>
+              <label class="block text-sm font-bold text-gray-600">Customer Ref</label>
               <input
                 type="text"
                 v-model="form.customerRef"
@@ -27,7 +29,7 @@
               />
             </div>
             <div class="">
-              <label class="block text-sm font-medium text-gray-600">Company Name</label>
+              <label class="block text-sm font-bold text-gray-600">Company Name</label>
               <input
                 type="text"
                 v-model="form.shopName"
@@ -41,7 +43,7 @@
               </p>
             </div>
             <div class="">
-              <label class="block text-sm font-medium text-gray-600">First Name</label>
+              <label class="block text-sm font-bold text-gray-600">First Name</label>
               <input
                 type="text"
                 v-model="form.firstName"
@@ -55,7 +57,7 @@
               </p>
             </div>
             <div class="">
-              <label class="block text-sm font-medium text-gray-600">Last Name</label>
+              <label class="block text-sm font-bold text-gray-600">Last Name</label>
               <input
                 type="text"
                 v-model="form.lastname"
@@ -69,7 +71,7 @@
               </p>
             </div>
             <div class="">
-              <label class="block text-sm font-medium text-gray-600">Phone</label>
+              <label class="block text-sm font-bold text-gray-600">Phone</label>
               <input
               type="text"
                 v-model="form.phone"
@@ -83,7 +85,7 @@
               </p>
             </div>
             <div class="">
-              <label class="block text-sm font-medium text-gray-600">Email</label>
+              <label class="block text-sm font-bold text-gray-600">Email</label>
               <input
                 type="email"
                 v-model="form.email"
@@ -97,7 +99,7 @@
               </p>
             </div>
             <div class="">
-              <label class="block text-sm font-medium text-gray-600">Contact Number</label>
+              <label class="block text-sm font-bold text-gray-600">Contact Number</label>
               <input
                 type="tel"
                 v-model="form.shopContactNo"
@@ -111,7 +113,7 @@
               </p>
             </div>
             <div class="">
-              <label class="block text-sm font-medium text-gray-600">Address Line 1</label>
+              <label class="block text-sm font-bold text-gray-600">Address Line 1</label>
               <input
                 type="text"
                 v-model="form.shopAddress1"
@@ -125,7 +127,7 @@
               </p>
             </div>
             <div class="">
-              <label class="block text-sm font-medium text-gray-600">Address Line 2</label>
+              <label class="block text-sm font-bold text-gray-600">Address Line 2</label>
               <input
                 type="text"
                 v-model="form.shopAddress2"
@@ -139,104 +141,95 @@
               </p>
             </div>
             <div class="">
-              <label class="block text-sm font-medium text-gray-600">City</label>
-              <input
-                type="text"
-                v-model="form.city"
-                @input="clearError('city')"
-                placeholder="Enter city"
-                required
-                class="w-full p-2 mt-2 text-sm border rounded-md focus:ring-indigo-500 focus:border-indigo-500"
-              />
+              <label class="block text-sm font-bold text-gray-600">City</label>
+              
+              <serach_Input
+                  :arrItems="vendorStore.initVendor.listCities"
+                  ref="SelectCityComp"                            
+                  v-model="form.city"
+                  @selectItem="SelectCity"                  
+                />  
               <p v-if="validationErrors.city" class="mt-2 text-sm text-red-600">
                 {{ validationErrors.city }}
               </p>
             </div>
-
+  
+          <!-- zz -->
+           
             <div v-if="isEditing && curVendor.vendorImage">
-              <label class="block text-sm font-medium text-gray-600">Vendor Image</label>
-              <div class="relative mt-2">
-                <img 
-                  :src="curVendor.vendorImage ? (imageroot + curVendor.vendorImage) : 'No value available'" 
-                  alt="Image Preview" 
-                  class="object-cover w-12 h-12 rounded-md"
-                />
+              <label class="block text-sm font-bold text-gray-600">Vendor Image</label>
+              <div class="relative mt-2">              
+                <imagecomp
+                  v-model="form.vendorImage"                                 
+                  :image_file="imageroot + curVendor.vendorImage"
+                  @ImageChanged="VendorImageChanged"
+                   @deleteNewImage = "VendorImageDeleted"
+                    @deleteExistingImage = "DeleteExistingVendorImage"    
+                   ref="refVendorImage"
+                />                     
               </div>
-            </div>
-            <div v-else>
-              <label class="block text-sm font-medium text-gray-600">Vendor Image</label>
-              <input
-                type="file"
-                @change="handleFileChange('vendorImage', $event)" 
-                accept="image/*"
-                class="block w-full mt-2 text-sm text-gray-900 border border-gray-300 rounded-lg cursor-pointer bg-gray-50 dark:text-gray-400 focus:outline-none dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400"
-              />
+            
               <p v-if="validationErrors.vendorImage" class="mt-2 text-sm text-red-600">
                 {{ validationErrors.vendorImage }}
               </p>
             </div>
 
             <div v-if="isEditing && curVendor.shopLogo">
-              <label class="block text-sm font-medium text-gray-600">Shop Image</label>
+              <label class="block text-sm font-bold text-gray-600">Shop Image</label>
               <div class="relative mt-2">
-                <img 
-                  :src="curVendor.shopLogo ? (imageroot + curVendor.shopLogo) : 'No value available'" 
-                  alt="Image Preview" 
-                  class="object-cover w-12 h-12 rounded-md"
-                />
+                <imagecomp
+                  v-model="form.shopLogo"                                 
+                  :image_file="imageroot + curVendor.shopLogo"
+                  @ImageChanged="ShopLogoChanged"
+                   @deleteNewImage = "ShopLogoDeleted"
+                    @deleteExistingImage = "DeleteExistingShopLogo"    
+                   ref="refShopLogo"
+                />   
               </div>
-            </div>
-            <div class="" v-else>
-              <label class="block text-sm font-medium text-gray-600">Company Logo</label>
-              <input
-                type="file"
-                @change="handleFileChange('shopLogo', $event)" 
-                accept="image/*"
-                class="block w-full mt-2 text-sm text-gray-900 border border-gray-300 rounded-lg cursor-pointer bg-gray-50 dark:text-gray-400 focus:outline-none dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400"
-              />
               <p v-if="validationErrors.shopLogo" class="mt-2 text-sm text-red-600">
                 {{ validationErrors.shopLogo }}
               </p>
             </div>
+    
 
     
-            <div class="" v-else>
-              <label class="block text-sm font-medium text-gray-600">Shop Cover Image</label>
-              <input
-                type="file"
-                @change="handleFileChange('shopCoverImage', $event)"
-                accept="image/*"
-                class="block w-full mt-2 text-sm text-gray-900 border border-gray-300 rounded-lg cursor-pointer bg-gray-50 dark:text-gray-400 focus:outline-none dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400"
-              />
+            <div v-if="isEditing && curVendor.shopCoverImage">
+              <label class="block text-sm font-bold text-gray-600">Shop Image</label>
+              <div class="relative mt-2">
+                <imagecomp
+                  v-model="form.shopCoverImage"                                 
+                  :image_file="imageroot + curVendor.shopCoverImage"
+                  @ImageChanged="ShopCoverImageChanged"
+                   @deleteNewImage = "ShopCoverImageDeleted"
+                    @deleteExistingImage = "DeleteExistingShopCoverImage"    
+                   ref="refShopCoverImage"
+                />   
+              </div>
               <p v-if="validationErrors.shopCoverImage" class="mt-2 text-sm text-red-600">
                 {{ validationErrors.shopCoverImage }}
               </p>
             </div>
+           
 
             <div v-if="isEditing && curVendor.brCopy">
-              <label class="block text-sm font-medium text-gray-600">BR</label>
+              <label class="block text-sm font-bold text-gray-600">BR</label>
               <div class="relative mt-2">
-                <img 
-                  :src="curVendor.brCopy ? (imageroot + curVendor.brCopy) : 'No value available'" 
-                  alt="Image Preview" 
-                  class="object-cover w-12 h-12 rounded-md"
-                />
+                <imagecomp
+                  v-model="form.brCopy"                                 
+                  :image_file="imageroot + curVendor.brCopy"
+                  @ImageChanged="BrCopyChanged"
+                   @deleteNewImage = "BrCopyDeleted"
+                    @deleteExistingImage = "DeleteExistingBrCopy"    
+                   ref="refBRCopy"
+                />   
               </div>
-            </div>
-            <div class="" v-else>
-              <label class="block text-sm font-medium text-gray-600">BR</label>
-              <input 
-                class="block w-full mt-2 text-sm text-gray-900 border border-gray-300 rounded-lg cursor-pointer bg-gray-50 dark:text-gray-400 focus:outline-none dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400" 
-                @change="handleFileChange('brCopy', $event)"
-                accept="image/*" 
-                type="file"
-              >
               <p v-if="validationErrors.brCopy" class="mt-2 text-sm text-red-600">
                 {{ validationErrors.brCopy }}
               </p>
             </div>
+           
             <div class="">
-              <label class="block text-sm font-medium text-gray-600">Description</label>
+              <label class="block text-sm font-bold text-gray-600">Description</label>
               <input
                 type="text"
                 v-model="form.description"
@@ -255,7 +248,7 @@
           <h3 class="mt-4 font-bold">Bank Details</h3>
           <div class="grid grid-cols-3 gap-4 mt-4">
             <div class="">
-              <label class="block text-sm font-medium text-gray-600">Bank Name</label>
+              <label class="block text-sm font-bold text-gray-600">Bank Name</label>
               <input
                 type="text"
                 v-model="form.bankName"
@@ -269,7 +262,7 @@
               </p>
             </div>
             <div class="">
-              <label class="block text-sm font-medium text-gray-600">Bank Branch</label>
+              <label class="block text-sm font-bold text-gray-600">Bank Branch</label>
               <input
                 type="text"
                 v-model="form.branch"
@@ -284,7 +277,7 @@
             </div>
   
             <div class="">
-              <label class="block text-sm font-medium text-gray-600">Bank Account No</label>
+              <label class="block text-sm font-bold text-gray-600">Bank Account No</label>
               <input
                 type="text"
                 v-model="form.accountNumber"
@@ -298,7 +291,7 @@
               </p>
             </div>
             <div class="">
-              <label class="block text-sm font-medium text-gray-600">Card Holder Name</label>
+              <label class="block text-sm font-bold text-gray-600">Card Holder Name</label>
               <input
                 type="text"
                 v-model="form.holderName"
@@ -328,9 +321,11 @@
 import { reactive, computed } from 'vue';
 import closebtn from "~/components/customcontrol/modal_close_button";
 import { useVendorStore } from "~/stores/modules/vendorStore";
+import imagecomp from "~/components/customcontrol/imagepicker";
+ import serach_Input from '~/components/customcontrol/SearchInput'
 
 export default {
-  components: { closebtn },
+  components: { closebtn,imagecomp ,serach_Input},
   data() {
     return {
       isOpen: true,
@@ -357,8 +352,12 @@ export default {
         bankAccountNo: '',
         bankSwiftCode: '',
         rsoNo: '',
+        vendorImage:'',
+        shopLogo:'',
+        shopCoverImage:'',
+        brCopy:'', 
       }),
-      imageroot: "https://learners.lk:5005/web/assets/",
+      imageroot: "",
     };
   },
 
@@ -369,9 +368,9 @@ export default {
   },
 
   async created() {
-    const vendorStore = useVendorStore();
-    this.curVendor = vendorStore.curVendor;
-
+    this.vendorStore = useVendorStore();
+    this.curVendor = this.vendorStore.curVendor;
+    this.imageroot = this.vendorStore.initVendor.baseUrl;
     // If editing, populate the form with the current vendor data
     if (this.curVendor) {
       Object.assign(this.form, this.curVendor); // Pre-fill the form with vendor data
@@ -379,6 +378,46 @@ export default {
   },
 
   methods: {
+    VendorImageChanged(){
+      alert('VendorImageChanged');  
+    },
+    VendorImageDeleted(){
+      alert('VendorImageDeleted');
+    },
+    DeleteExistingVendorImage(){
+      alert('VendorImageDeleted');
+    },
+
+    ShopLogoChanged(){
+      alert('ShopLogoChanged');  
+    },
+    ShopLogoDeleted(){
+      alert('ShopLogoDeleted');
+    },
+    DeleteExistingShopLogo(){
+      alert('ShopLogoDeleted');
+    },
+
+    ShopCoverImageChanged(){
+      alert('ShopCoverImageChanged');  
+    },
+    ShopCoverImageDeleted(){
+      alert('ShopCoverImageDeleted');
+    },
+    DeleteExistingShopCoverImage(){
+      alert('ShopCoverImageDeleted');
+},
+
+    BrCopyChanged(){
+      alert('BrCopyChanged');  
+    },
+    BrCopyDeleted(){
+      alert('BrCopyDeleted');
+    },
+    DeleteExistingBrCopy(){
+      alert('BrCopyDeleted');
+},
+
     closeModal() {
       this.isOpen = false;
       this.$emit('close');
@@ -484,10 +523,7 @@ export default {
         this.validationErrors.accountNumber = "Please enter Account Number!";
         hasErrors = true;
       }
-
       
-
-
       if (hasErrors) return; // Prevent submission if there are errors
 
       // Logic for saving the vendor (e.g., API call or store update)

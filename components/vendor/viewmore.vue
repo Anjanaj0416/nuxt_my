@@ -22,25 +22,20 @@
                 
                 <!-- Non-image fields -->
                 <template v-if="field.key !== 'vendorImage' && field.key !== 'shopLogo' && field.key !== 'shopCoverImage' && field.key !== 'brCopy'">
-                  <label class="block mt-1 text-sm font-medium text-gray-800">{{ curVendor[field.key] || 'No value available' }}</label>
+                  <label class="block mt-1 text-sm  text-gray-800 font-bold">{{ curVendor[field.key] || 'No value available' }}</label>
                 </template>
 
                 <!-- Image fields -->
                 <template v-else>
                   <!-- Check if curVendor[field.key] exists and is not empty -->
                   <div v-if="curVendor[field.key]" class="relative mt-2">
-                    <!-- Image wrapper as a clickable link -->
-                    <a :href="imageroot + curVendor[field.key]" target="_blank">
-                      <img 
-                        :src="imageroot + curVendor[field.key]" 
-                        alt="Image Preview" 
-                        class="object-cover w-16 h-16 rounded-md"
-                        @error="imageError"  
-                      />
-                    </a>
+                  
+                  
+                    <!-- Image wrapper as a clickable link -->            
+                    <ImageLable :imageUrl="imageroot+ curVendor[field.key]"  alt="Image Preview"  />          
                   </div>
                   <!-- Display this message if image is not available -->
-                  <div v-else class="mt-2 text-gray-500">No image available</div>
+                  <div v-else class="mt-2 text-gray-500 font-bold">No image available</div>
                 </template>
               </div>
 
@@ -92,7 +87,7 @@
       <!-- Modal Footer -->
       <div class="modal-footer">
         <button @click="closeModal" class="cancel-button">Cancel</button>
-        <button @click="GetSave" class="confirm-button">Save</button>
+        <button @click="GetEdit" class="confirm-button">Edit</button>
       </div>
     </div>
   </div>
@@ -102,14 +97,15 @@
 
 import { useVendorStore } from "~/stores/modules/vendorStore";
 import closebtn from "~/components/customcontrol/modal_close_button";
+import ImageLable from "~/components/customcontrol/ImageLable";
 
 export default {
     
-    components: {closebtn},
+    components: {closebtn,ImageLable},
     props:[''],
     data() {
       return {
-        imageroot: process.env.Assets_83,
+      
         vendorStore: null,
         curVendor:{}, 
         isOpen:true,  
@@ -138,18 +134,18 @@ export default {
           { label: "City", key: "city" },
           { label: "Description", key: "description" },
           { label: "Image", key: "vendorImage" },
-          { label: "Logo", key: "shopLogo" },
+          { label: "Shop Logo", key: "shopLogo" },
           { label: "BR Copy", key: "brCopy" },
           { label: "Shop Cover Image", key: "shopCoverImage" },
 
         ] ,
-        imageroot: "https://learners.lk:5005/web/assets/",
+        imageroot: '',
       }
     },
     async created() {
     this.vendorStore = useVendorStore();
     this.curVendor = this.vendorStore.curVendor;
-
+    this.imageroot = this.vendorStore.initVendor.baseUrl;
     },
     async mounted() {},
     watch: {},
@@ -164,9 +160,9 @@ export default {
         this.$emit('close')
        
       },
-      GetSave(){
+      GetEdit(){
         this.isOpen = false;
-        this.$emit('close')
+        this.$emit('edit')
        
       },
      

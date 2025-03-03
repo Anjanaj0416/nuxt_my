@@ -1,6 +1,6 @@
 <template>
     <div class="flex flex-col justify-between sm:flex-row">
-        <template v-for="(field, index) in fields" :key="index">
+        <div v-for="(field, index) in fields" :key="index">
         <div class="flex flex-col text-center sm:text-left">
           <h1 class="text-base font-semibold text-gray-700">{{ field.label }}</h1>
           
@@ -36,7 +36,7 @@
         <!-- Divider (for responsiveness) -->
         <hr class="block w-full border-gray-300 sm:hidden" />
         <div class="hidden w-px h-12 bg-gray-300 sm:block"></div>
-      </template>
+      </div>
     </div>
   </template>
   
