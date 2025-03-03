@@ -3,511 +3,514 @@
     <div class="modal">
       <!-- Modal Header -->
       <div class="modal-header">
-        <h2 class="modal-title">Vendor Details - Add/Edit</h2>
-        <!-- <button @click="closeModal" class="absolute z-50 p-2 text-white rounded-md  close-button">&times;</button> -->
-        <closebtn @close="closeModal()" />
+        <h2 class="modal-title">
+          Vendor Details - {{ isEditing ? "Edit" : "Add" }}
+        </h2>
+        <closebtn @close="closeModal" />
       </div>
 
       <!-- Modal Content (scrollable) -->
       <div class="modal-content">
-     
         <div class="form-content">
-        <!-- Start Company Details -->
-  <div >
-      <h3 class="font-bold">Company Details</h3>
-      <div class="grid grid-cols-3 gap-4 mt-4">
-      
-        {{ vendorStore.curVendor }}
+          <!-- {{ curVendor }} -->
+          
+          <h3 class="font-bold">Company Details</h3>
+          <div class="grid grid-cols-3 gap-4 mt-4">
+            <div class="" v-if="isEditing">
+              <label class="block text-sm font-medium text-gray-600">Customer Ref</label>
+              <input
+                type="text"
+                v-model="form.customerRef"
+                disabled
+                placeholder="Vendor ID (read-only)"
+                class="w-full p-2 mt-2 text-sm bg-gray-100 border rounded-md"
+              />
+            </div>
+            <div class="">
+              <label class="block text-sm font-medium text-gray-600">Company Name</label>
+              <input
+                type="text"
+                v-model="form.shopName"
+                @input="clearError('shopName')"
+                placeholder="Enter Shop Name"
+                required
+                class="w-full p-2 mt-2 text-sm border rounded-md focus:ring-indigo-500 focus:border-indigo-500"
+              />
+              <p v-if="validationErrors.shopName" class="mt-2 text-sm text-red-600">
+                {{ validationErrors.shopName }}
+              </p>
+            </div>
+            <div class="">
+              <label class="block text-sm font-medium text-gray-600">First Name</label>
+              <input
+                type="text"
+                v-model="form.firstName"
+                @input="clearError('firstName')"
+                placeholder="Enter First Name"
+                required
+                class="w-full p-2 mt-2 text-sm border rounded-md focus:ring-indigo-500 focus:border-indigo-500"
+              />
+              <p v-if="validationErrors.firstName" class="mt-2 text-sm text-red-600">
+                {{ validationErrors.firstName }}
+              </p>
+            </div>
+            <div class="">
+              <label class="block text-sm font-medium text-gray-600">Last Name</label>
+              <input
+                type="text"
+                v-model="form.lastname"
+                @input="clearError('lastname')"
+                placeholder="Enter Last Name"
+                required
+                class="w-full p-2 mt-2 text-sm border rounded-md focus:ring-indigo-500 focus:border-indigo-500"
+              />
+              <p v-if="validationErrors.lastname" class="mt-2 text-sm text-red-600">
+                {{ validationErrors.lastname }}
+              </p>
+            </div>
+            <div class="">
+              <label class="block text-sm font-medium text-gray-600">Phone</label>
+              <input
+              type="text"
+                v-model="form.phone"
+                @input="clearError('phone')"
+                placeholder="Enter phone"
+                class="w-full p-2 mt-2 text-sm border rounded-md focus:ring-indigo-500 focus:border-indigo-500"
+                required
+              />
+              <p v-if="validationErrors.phone" class="mt-2 text-sm text-red-600">
+                {{ validationErrors.phone }}
+              </p>
+            </div>
+            <div class="">
+              <label class="block text-sm font-medium text-gray-600">Email</label>
+              <input
+                type="email"
+                v-model="form.email"
+                @input="clearError('email')"
+                placeholder="Enter Email"
+                class="w-full p-2 mt-2 text-sm border rounded-md focus:ring-indigo-500 focus:border-indigo-500"
+                required
+              />
+              <p v-if="validationErrors.email" class="mt-2 text-sm text-red-600">
+                {{ validationErrors.email }}
+              </p>
+            </div>
+            <div class="">
+              <label class="block text-sm font-medium text-gray-600">Contact Number</label>
+              <input
+                type="tel"
+                v-model="form.shopContactNo"
+                @input="clearError('shopContactNo')"
+                placeholder="Enter Contact Number"
+                maxlength="10"
+                class="w-full p-2 mt-2 text-sm border rounded-md focus:ring-indigo-500 focus:border-indigo-500"
+              />
+              <p v-if="validationErrors.shopContactNo" class="mt-2 text-sm text-red-600">
+                {{ validationErrors.shopContactNo }}
+              </p>
+            </div>
+            <div class="">
+              <label class="block text-sm font-medium text-gray-600">Address Line 1</label>
+              <input
+                type="text"
+                v-model="form.shopAddress1"
+                @input="clearError('shopAddress1')"
+                placeholder="Enter Address Line 1"
+                required
+                class="w-full p-2 mt-2 text-sm border rounded-md focus:ring-indigo-500 focus:border-indigo-500"
+              />
+              <p v-if="validationErrors.shopAddress1" class="mt-2 text-sm text-red-600">
+                {{ validationErrors.shopAddress1 }}
+              </p>
+            </div>
+            <div class="">
+              <label class="block text-sm font-medium text-gray-600">Address Line 2</label>
+              <input
+                type="text"
+                v-model="form.shopAddress2"
+                @input="clearError('shopAddress2')"
+                placeholder="Enter Address Line 2"
+                required
+                class="w-full p-2 mt-2 text-sm border rounded-md focus:ring-indigo-500 focus:border-indigo-500"
+              />
+              <p v-if="validationErrors.shopAddress2" class="mt-2 text-sm text-red-600">
+                {{ validationErrors.shopAddress2 }}
+              </p>
+            </div>
+            <div class="">
+              <label class="block text-sm font-medium text-gray-600">City</label>
+              <input
+                type="text"
+                v-model="form.city"
+                @input="clearError('city')"
+                placeholder="Enter city"
+                required
+                class="w-full p-2 mt-2 text-sm border rounded-md focus:ring-indigo-500 focus:border-indigo-500"
+              />
+              <p v-if="validationErrors.city" class="mt-2 text-sm text-red-600">
+                {{ validationErrors.city }}
+              </p>
+            </div>
 
-        <div class="">
-      <label class="block text-sm font-medium text-gray-600">Company Name</label>
-      <input
-        type="text"
-        v-model="vendor.CompanyName"
-        @input="clearError('CompanyName')"
-        placeholder="Enter Company Name"
-        required
-        class="w-full p-2 mt-2 text-sm border rounded-md focus:ring-indigo-500 focus:border-indigo-500"
-      />
-      <p v-if="err.CompanyName" class="mt-2 text-sm text-red-600">
-        {{ err.CompanyName }}
-      </p>
-    </div>
-    <div class="">
-      <label class="block text-sm font-medium text-gray-600">Address Line 1</label>
-      <input
-        type="text"
-        v-model="vendor.address1"
-        @input="clearError('address1')"
-        placeholder="Enter Address Line 1"
-        required
-        class="w-full p-2 mt-2 text-sm border rounded-md focus:ring-indigo-500 focus:border-indigo-500"
-      />
-      <p v-if="err.address1" class="mt-2 text-sm text-red-600">
-        {{ err.address1 }}
-      </p>
-    </div>
-    <div class="">
-      <label class="block text-sm font-medium text-gray-600">Address Line 2</label>
-      <input
-        type="text"
-        v-model="vendor.address2"
-        @input="clearError('address2')"
-        placeholder="Enter Address Line 2"
-        required
-        class="w-full p-2 mt-2 text-sm border rounded-md focus:ring-indigo-500 focus:border-indigo-500"
-      />
-    </div>
-    <div class="">
-      <label class="block text-sm font-medium text-gray-600">City</label>
-      <input
-        type="text"
-        v-model="vendor.city"
-        @input="clearError('city')"
-        placeholder="Enter city"
-        required
-        class="w-full p-2 mt-2 text-sm border rounded-md focus:ring-indigo-500 focus:border-indigo-500"
-      />
-      <p v-if="err.city" class="mt-2 text-sm text-red-600">
-        {{ err.city }}
-      </p>
-    </div>
-    <div class="">
-      <label class="block text-sm font-medium text-gray-600">District</label>
-      <input
-        type="text"
-        v-model="vendor.district"
-        @input="clearError('district')"
-        placeholder="Enter District"
-        required
-        class="w-full p-2 mt-2 text-sm border rounded-md focus:ring-indigo-500 focus:border-indigo-500"
-      />
-      <p v-if="err.district" class="mt-2 text-sm text-red-600">
-        {{ err.district }}
-      </p>
-    </div>
-    <div class="">
-      <label class="block text-sm font-medium text-gray-600">Email</label>
-      <input
-        type="email"
-        v-model="vendor.email"
-        @input="clearError('email')"
-        placeholder="Enter Email"
-        required
-        class="w-full p-2 mt-2 text-sm border rounded-md focus:ring-indigo-500 focus:border-indigo-500"
-      />
-      <p v-if="err.email" class="mt-2 text-sm text-red-600">
-        {{ err.email }}
-      </p>
-    </div>
-    <div class="">
-      <label class="block text-sm font-medium text-gray-600">Contact Number</label>
-      <input
-        type="tel"
-        v-model="vendor.contactNumber"
-        @input="clearError('contactNumber')"
-        placeholder="Enter Contact Number"
-        maxlength="10"
-        class="w-full p-2 mt-2 text-sm border rounded-md focus:ring-indigo-500 focus:border-indigo-500"
-      />
-      <p v-if="err.contactNumber" class="mt-2 text-sm text-red-600">
-        {{ err.contactNumber }}
-      </p>
-    </div>
-    <div class="">
-      <label class="block text-sm font-medium text-gray-600">Whatsapp Number</label>
-      <input
-        type="tel"
-        v-model="vendor.whatappNumber"
-        @input="clearError('whatappNumber')"
-        placeholder="Enter Whatsapp Number"
-        maxlength="10"
-        class="w-full p-2 mt-2 text-sm border rounded-md focus:ring-indigo-500 focus:border-indigo-500"
-      />
-      <p v-if="err.whatappNumber" class="mt-2 text-sm text-red-600">
-        {{ err.whatappNumber }}
-      </p>
-    </div>
-    <div class="">
-      <label class="block text-sm font-medium text-gray-600">Company Logo</label>
-      <input
-        type="file"
-        @change="handleFileChange('companyLogo', $event)" 
-        accept="image/*"
-        class="block w-full mt-2 text-sm text-gray-900 border border-gray-300 rounded-lg cursor-pointer bg-gray-50 dark:text-gray-400 focus:outline-none dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400"
-      />
-      <p v-if="err.companyLogo" class="mt-2 text-sm text-red-600">
-        {{ err.companyLogo }}
-      </p>
-    </div>
+            <div v-if="isEditing && curVendor.vendorImage">
+              <label class="block text-sm font-medium text-gray-600">Vendor Image</label>
+              <div class="relative mt-2">
+                <img 
+                  :src="curVendor.vendorImage ? (imageroot + curVendor.vendorImage) : 'No value available'" 
+                  alt="Image Preview" 
+                  class="object-cover w-12 h-12 rounded-md"
+                />
+              </div>
+            </div>
+            <div v-else>
+              <label class="block text-sm font-medium text-gray-600">Vendor Image</label>
+              <input
+                type="file"
+                @change="handleFileChange('vendorImage', $event)" 
+                accept="image/*"
+                class="block w-full mt-2 text-sm text-gray-900 border border-gray-300 rounded-lg cursor-pointer bg-gray-50 dark:text-gray-400 focus:outline-none dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400"
+              />
+              <p v-if="validationErrors.vendorImage" class="mt-2 text-sm text-red-600">
+                {{ validationErrors.vendorImage }}
+              </p>
+            </div>
 
- 
-    <div class="">
-      <label class="block text-sm font-medium text-gray-600">Contact Person Name</label>
-      <input
-        type="text"
-        v-model="vendor.contactPersonName"
-        @input="clearError('contactPersonName')"
-        placeholder="Enter Contact Number"
-        required
-        class="w-full p-2 mt-2 text-sm border rounded-md focus:ring-indigo-500 focus:border-indigo-500"
-      />
-      <p v-if="err.contactPersonName" class="mt-2 text-sm text-red-600">
-        {{ err.contactPersonName }}
-      </p>
-    </div>
-    <div class="">
-      <label class="block text-sm font-medium text-gray-600">Contact Person Mobile</label>
-      <input
-        type="text"
-        v-model="vendor.contactPersonMobile"
-        @input="clearError('contactPersonMobile')"
-        placeholder="Enter Phone Number"
-        required
-        class="w-full p-2 mt-2 text-sm border rounded-md focus:ring-indigo-500 focus:border-indigo-500"
-      />
-      <p v-if="err.contactPersonMobile" class="mt-2 text-sm text-red-600">
-        {{ err.contactPersonMobile }}
-      </p>
-    </div>
-    <div class="">
-      <label class="block text-sm font-medium text-gray-600">Owner First Name</label>
-      <input
-        type="text"
-        v-model="vendor.ownerFirstName"
-        @input="clearError('ownerFirstName')"
-        placeholder="Enter Whatsapp Number"
-        required
-        class="w-full p-2 mt-2 text-sm border rounded-md focus:ring-indigo-500 focus:border-indigo-500"
-      />
-      <p v-if="err.ownerFirstName" class="mt-2 text-sm text-red-600">
-        {{ err.ownerFirstName }}
-      </p>
-    </div>
+            <div v-if="isEditing && curVendor.shopLogo">
+              <label class="block text-sm font-medium text-gray-600">Shop Image</label>
+              <div class="relative mt-2">
+                <img 
+                  :src="curVendor.shopLogo ? (imageroot + curVendor.shopLogo) : 'No value available'" 
+                  alt="Image Preview" 
+                  class="object-cover w-12 h-12 rounded-md"
+                />
+              </div>
+            </div>
+            <div class="" v-else>
+              <label class="block text-sm font-medium text-gray-600">Company Logo</label>
+              <input
+                type="file"
+                @change="handleFileChange('shopLogo', $event)" 
+                accept="image/*"
+                class="block w-full mt-2 text-sm text-gray-900 border border-gray-300 rounded-lg cursor-pointer bg-gray-50 dark:text-gray-400 focus:outline-none dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400"
+              />
+              <p v-if="validationErrors.shopLogo" class="mt-2 text-sm text-red-600">
+                {{ validationErrors.shopLogo }}
+              </p>
+            </div>
 
-    <div class="">
-      <label class="block text-sm font-medium text-gray-600">Owner Contact</label>
-      <input
-        type="text"
-        v-model="vendor.ownerContact"
-        @input="clearError('ownerContact')"
-        placeholder="Enter description"
-        required
-        class="w-full p-2 mt-2 text-sm border rounded-md focus:ring-indigo-500 focus:border-indigo-500"
-      />
-      <p v-if="err.ownerContact" class="mt-2 text-sm text-red-600">
-        {{ err.ownerContact }}
-      </p>
-    </div>
-    <div class="">
-      <label class="block text-sm font-medium text-gray-600">Owner Birth Date</label>
-      <input
-        type="date"
-        v-model="vendor.ownerBirthDate"
-        @input="clearError('ownerBirthDate')"
-        placeholder="Enter Contact Number"
-        required
-        class="w-full p-2 mt-2 text-sm border rounded-md focus:ring-indigo-500 focus:border-indigo-500"
-      />
-      <p v-if="err.ownerBirthDate" class="mt-2 text-sm text-red-600">
-        {{ err.ownerBirthDate }}
-      </p>
-    </div>
+    
+            <div class="" v-else>
+              <label class="block text-sm font-medium text-gray-600">Shop Cover Image</label>
+              <input
+                type="file"
+                @change="handleFileChange('shopCoverImage', $event)"
+                accept="image/*"
+                class="block w-full mt-2 text-sm text-gray-900 border border-gray-300 rounded-lg cursor-pointer bg-gray-50 dark:text-gray-400 focus:outline-none dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400"
+              />
+              <p v-if="validationErrors.shopCoverImage" class="mt-2 text-sm text-red-600">
+                {{ validationErrors.shopCoverImage }}
+              </p>
+            </div>
 
-    <div class="">
-      <label class="block text-sm font-medium text-gray-600">Sales officer No</label>
-      <select
-        id="bankBranch"
-        v-model="vendor.rsoNo"
-        @input="clearError('rsoNo')"
-        required
-        class="w-full p-2 mt-2 text-sm border rounded-md focus:ring-indigo-500 focus:border-indigo-500"
-      >
-        <option value="" disabled selected>Select a Bank Branch</option>
-        <option value="branch1">Bank Branch 1</option>
-        <option value="branch2">Bank Branch 2</option>
-        <option value="branch3">Bank Branch 3</option>
-        <!-- Add more options as needed -->
-      </select>
-      <p v-if="err.rsoNo" class="mt-2 text-sm text-red-600">
-        {{ err.rsoNo }}
-      </p>
-    </div>    <div class="">
-      <label class="block text-sm font-medium text-gray-600">Sales officer No</label>
-      <select
-        id="bankBranch"
-        v-model="vendor.rsoNo"
-        @input="clearError('rsoNo')"
-        required
-        class="w-full p-2 mt-2 text-sm border rounded-md focus:ring-indigo-500 focus:border-indigo-500"
-      >
-        <option value="" disabled selected>Select the Agent</option>
-        <option value="branch1">RSO 1</option>
-        <option value="branch2">RSO 2</option>
-        <option value="branch3">RSO 3</option>
-        <!-- Add more options as needed -->
-      </select>
-      <p v-if="err.rsoNo" class="mt-2 text-sm text-red-600">
-        {{ err.rsoNo }}
-      </p>
-    </div>
-  </div>
-</div>
-      <!-- End  Company Details -->
+            <div v-if="isEditing && curVendor.brCopy">
+              <label class="block text-sm font-medium text-gray-600">BR</label>
+              <div class="relative mt-2">
+                <img 
+                  :src="curVendor.brCopy ? (imageroot + curVendor.brCopy) : 'No value available'" 
+                  alt="Image Preview" 
+                  class="object-cover w-12 h-12 rounded-md"
+                />
+              </div>
+            </div>
+            <div class="" v-else>
+              <label class="block text-sm font-medium text-gray-600">BR</label>
+              <input 
+                class="block w-full mt-2 text-sm text-gray-900 border border-gray-300 rounded-lg cursor-pointer bg-gray-50 dark:text-gray-400 focus:outline-none dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400" 
+                @change="handleFileChange('brCopy', $event)"
+                accept="image/*" 
+                type="file"
+              >
+              <p v-if="validationErrors.brCopy" class="mt-2 text-sm text-red-600">
+                {{ validationErrors.brCopy }}
+              </p>
+            </div>
+            <div class="">
+              <label class="block text-sm font-medium text-gray-600">Description</label>
+              <input
+                type="text"
+                v-model="form.description"
+                @input="clearError('description')"
+                placeholder="Enter description"
+                required
+                class="w-full p-2 mt-2 text-sm border rounded-md focus:ring-indigo-500 focus:border-indigo-500"
+              />
+              <p v-if="validationErrors.description" class="mt-2 text-sm text-red-600">
+                {{ validationErrors.description }}
+              </p>
+            </div>
+          </div>
 
-  <hr class="my-4"> 
-  <!-- start Banner Details -->
-   <div>
-  <h3 class="font-bold">Banner Details</h3>
-  <div class="grid grid-cols-3 gap-4 mt-4">
-  <div class="">
-      <label class="block text-sm font-medium text-gray-600">Banner 1</label>
-      <input
-        type="file"
-        @change="handleFileChange('banner1', $event)"
-        accept="image/*"
-        class="block w-full mt-2 text-sm text-gray-900 border border-gray-300 rounded-lg cursor-pointer bg-gray-50 dark:text-gray-400 focus:outline-none dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400"
-      />
-      <p v-if="err.banner1" class="mt-2 text-sm text-red-600">
-        {{ err.banner1 }}
-      </p>
-    </div>
-    <div class="">
-      <label class="block text-sm font-medium text-gray-600">Banner 2</label>
-      <input 
-        class="block w-full mt-2 text-sm text-gray-900 border border-gray-300 rounded-lg cursor-pointer bg-gray-50 dark:text-gray-400 focus:outline-none dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400" 
-        @change="handleFileChange('banner2', $event)"
-        accept="image/*" 
-        type="file"
-      >
-    </div>
-    <div class="">
-      <label class="block text-sm font-medium text-gray-600">Description</label>
-      <input
-        type="text"
-        v-model="vendor.description"
-        @input="clearError('description')"
-        placeholder="Enter description"
-        required
-        class="w-full p-2 mt-2 text-sm border rounded-md focus:ring-indigo-500 focus:border-indigo-500"
-      />
-      <p v-if="err.description" class="mt-2 text-sm text-red-600">
-        {{ err.description }}
-      </p>
-    </div>
-  </div>
-</div>
-  <!-- End Banner Details -->
+          <hr class="my-4"> 
+          <h3 class="mt-4 font-bold">Bank Details</h3>
+          <div class="grid grid-cols-3 gap-4 mt-4">
+            <div class="">
+              <label class="block text-sm font-medium text-gray-600">Bank Name</label>
+              <input
+                type="text"
+                v-model="form.bankName"
+                @input="clearError('bankName')"
+                placeholder="Enter Bank Name"
+                required
+                class="w-full p-2 mt-2 text-sm border rounded-md focus:ring-indigo-500 focus:border-indigo-500"
+              />
+              <p v-if="validationErrors.bankName" class="mt-2 text-sm text-red-600">
+                {{ validationErrors.bankName }}
+              </p>
+            </div>
+            <div class="">
+              <label class="block text-sm font-medium text-gray-600">Bank Branch</label>
+              <input
+                type="text"
+                v-model="form.branch"
+                @input="clearError('branch')"
+                placeholder="Enter Bank Branch"
+                required
+                class="w-full p-2 mt-2 text-sm border rounded-md focus:ring-indigo-500 focus:border-indigo-500"
+              />
+              <p v-if="validationErrors.branch" class="mt-2 text-sm text-red-600">
+                {{ validationErrors.branch }}
+              </p>
+            </div>
   
-  <hr class="my-4">   
-    <!-- Bank Setails -->
-     <div>
-   <h3 class="font-bold">Bank Details</h3>
-   <div class="grid grid-cols-3 gap-4 mt-4">
-    <div class="">
-      <label class="block text-sm font-medium text-gray-600">Bank Name</label>
-      <input
-        type="text"
-        v-model="vendor.bankName"
-        @input="clearError('bankName')"
-        placeholder="Enter Bank Name"
-        required
-        class="w-full p-2 mt-2 text-sm border rounded-md focus:ring-indigo-500 focus:border-indigo-500"
-      />
-      <p v-if="err.bankName" class="mt-2 text-sm text-red-600">
-        {{ err.bankName }}
-      </p>
-    </div>
-    <div class="">
-      <label class="block text-sm font-medium text-gray-600">Bank Branch</label>
-      <input
-        type="text"
-        v-model="vendor.bankBranch"
-        @input="clearError('bankBranch')"
-        placeholder="Enter Bank Branch"
-        required
-        class="w-full p-2 mt-2 text-sm border rounded-md focus:ring-indigo-500 focus:border-indigo-500"
-      />
-      <p v-if="err.bankBranch" class="mt-2 text-sm text-red-600">
-        {{ err.bankBranch }}
-      </p>
-    </div>
-
-    <div class="">
-      <label class="block text-sm font-medium text-gray-600">Bank Branch Code</label>
-      <input
-        type="text"
-        v-model="vendor.bankBranchCode"
-        @input="clearError('bankBranchCode')"
-        placeholder="Enter Bank Branch Code"
-        required
-        class="w-full p-2 mt-2 text-sm border rounded-md focus:ring-indigo-500 focus:border-indigo-500"
-      />
-      <p v-if="err.bankBranchCode" class="mt-2 text-sm text-red-600">
-        {{ err.bankBranchCode }}
-      </p>
-    </div>
-    <div class="">
-      <label class="block text-sm font-medium text-gray-600">Bank Account No</label>
-      <input
-        type="date"
-        v-model="vendor.bankAccountNo"
-        @input="clearError('bankAccountNo')"
-        placeholder="Enter ank Account No"
-        required
-        class="w-full p-2 mt-2 text-sm border rounded-md focus:ring-indigo-500 focus:border-indigo-500"
-      />
-      <p v-if="err.bankAccountNo" class="mt-2 text-sm text-red-600">
-        {{ err.bankAccountNo }}
-      </p>
-    </div>
-    <div class="">
-      <label class="block text-sm font-medium text-gray-600">Bank Swift Code</label>
-      <input
-        type="text"
-        v-model="vendor.bankSwiftCode"
-        @input="clearError('bankSwiftCode')"
-        placeholder="Enter Bank Swift Code"
-        required
-        class="w-full p-2 mt-2 text-sm border rounded-md focus:ring-indigo-500 focus:border-indigo-500"
-      />
-      <p v-if="err.bankSwiftCode" class="mt-2 text-sm text-red-600">
-        {{ err.bankSwiftCode }}
-      </p>
-    </div>
-    </div>
-  </div>
-      <!--End  Bank Setails -->
-
+            <div class="">
+              <label class="block text-sm font-medium text-gray-600">Bank Account No</label>
+              <input
+                type="text"
+                v-model="form.accountNumber"
+                @input="clearError('accountNumber')"
+                placeholder="Enter ank Account No"
+                required
+                class="w-full p-2 mt-2 text-sm border rounded-md focus:ring-indigo-500 focus:border-indigo-500"
+              />
+              <p v-if="validationErrors.accountNumber" class="mt-2 text-sm text-red-600">
+                {{ validationErrors.accountNumber }}
+              </p>
+            </div>
+            <div class="">
+              <label class="block text-sm font-medium text-gray-600">Card Holder Name</label>
+              <input
+                type="text"
+                v-model="form.holderName"
+                @input="clearError('holderName')"
+                placeholder="Enter Card Colder Name"
+                required
+                class="w-full p-2 mt-2 text-sm border rounded-md focus:ring-indigo-500 focus:border-indigo-500"
+              />
+              <p v-if="validationErrors.holderName" class="mt-2 text-sm text-red-600">
+                {{ validationErrors.holderName }}
+              </p>
+            </div>
+          </div>
+        </div>
       </div>
-        
-      </div>
-      <!-- End Modal Content -->
 
       <!-- Modal Footer -->
       <div class="modal-footer">
-        <button @click="closeModal" class="cancel-button">Cancel</button>
-        <button @click="GetSave" class="confirm-button">Save</button>
+        <button @click="cancel" class="cancel-button">Cancel</button>
+        <button @click="handleSubmit" class="confirm-button">Save</button>
       </div>
     </div>
   </div>
 </template>
 
 <script>
+import { reactive, computed } from 'vue';
 import closebtn from "~/components/customcontrol/modal_close_button";
 import { useVendorStore } from "~/stores/modules/vendorStore";
 
 export default {
-    
-    components: {closebtn},
-    props:[''],
-    data() {
-      return {
-        imageroot: process.env.Assets_83,
-        isOpen:true,
-       
-        vendor:   {
-              CompanyName: '',
-              address1: '',
-              city: '',
-              email: '',
-              contactNumber: '',
-              whatappNumber: '',
-              companyLogo: '',
-              banner1: '',
-              description: '',
-              contactPersonName: '',
-              contactPersonMobile: '',
-              ownerFirstName: '',
-              ownerContact: '',
-              ownerBirthDate: '',
-              bankName: '',
-              bankBranch: '',
-              bankBranchCode: '',
-              bankAccountNo: '',
-              bankSwiftCode: '',
-              rsoNo: ''
-         },
-         err:   {
-              CompanyName: '',
-              address1: '',
-              city: '',
-              email: '',
-              contactNumber: '',
-              whatappNumber: '',
-              companyLogo: '',
-              banner1: '',
-              description: '',
-              contactPersonName: '',
-              contactPersonMobile: '',
-              ownerFirstName: '',
-              ownerContact: '',
-              ownerBirthDate: '',
-              bankName: '',
-              bankBranch: '',
-              bankBranchCode: '',
-              bankAccountNo: '',
-              bankSwiftCode: '',
-              rsoNo: ''
-         }
-      }
-    },
-    async created() {
-    this.vendorStore = useVendorStore();
-   
+  components: { closebtn },
+  data() {
+    return {
+      isOpen: true,
+      curVendor: {},
+      validationErrors: reactive({}),
+      form: reactive({
+        CompanyName: '',
+        address1: '',
+        city: '',
+        email: '',
+        contactNumber: '',
+        whatappNumber: '',
+        companyLogo: '',
+        banner1: '',
+        description: '',
+        contactPersonName: '',
+        contactPersonMobile: '',
+        ownerFirstName: '',
+        ownerContact: '',
+        ownerBirthDate: '',
+        bankName: '',
+        bankBranch: '',
+        bankBranchCode: '',
+        bankAccountNo: '',
+        bankSwiftCode: '',
+        rsoNo: '',
+      }),
+      imageroot: "https://learners.lk:5005/web/assets/",
+    };
+  },
 
-    },
-    async mounted() {},
-    watch: {},
-    computed: {
-     
-    },
-    methods: {
-      closeModal(){
-        this.isOpen = false;
-        this.$emit('close')
-       
-      },
-      GetSave(){
-        this.isOpen = false;
-        this.$emit('close')
-       
-      },   
-  
+  computed: {
+    isEditing() {
+      return this.curVendor && this.curVendor.id !== "00000000-0000-0000-0000-000000000000";
+    }
+  },
 
-    clearError (field) {
-      validationErrors[field] = '';
+  async created() {
+    const vendorStore = useVendorStore();
+    this.curVendor = vendorStore.curVendor;
+
+    // If editing, populate the form with the current vendor data
+    if (this.curVendor) {
+      Object.assign(this.form, this.curVendor); // Pre-fill the form with vendor data
+    }
+  },
+
+  methods: {
+    closeModal() {
+      this.isOpen = false;
+      this.$emit('close');
     },
 
-    cancel (){
+    clearError(field) {
+      this.validationErrors[field] = '';
+    },
+
+    cancel() {
       // Clear the form and validation errors when canceling
-      Object.keys(form).forEach((key) => {
-        form[key] = '';
+      Object.keys(this.form).forEach((key) => {
+        this.form[key] = '';
       });
-      Object.keys(validationErrors).forEach((key) => {
-        validationErrors[key] = '';
+      Object.keys(this.validationErrors).forEach((key) => {
+        this.validationErrors[key] = '';
       });
+      this.closeModal();
     },
-     
-    },
-    async beforeMount() {
-      // if (this.loggeduser.granted.indexOf('workgroup') > -1 || this.loggeduser.usergroup == 'Supervisor' ) {
-      // } else {
-      //   this.show_error('Not Allowed to access this page')
-      //   this.$router.push('/')
-      // }
-  
-    },
-    head() {
-      return {
-        title: 'Intranet - Digital Tech Labs',
+
+    handleSubmit() {
+      // Validate the form before submitting
+      this.clearValidationErrors();
+
+      let hasErrors = false;
+      
+      // Simple validation: Company name must not be empty
+
+      if (!this.form.firstName) {
+        this.validationErrors.firstName = "Please enter First Name!";
+        hasErrors = true;
       }
+      if (!this.form.lastname) {
+        this.validationErrors.lastname = "Please enter Last Name!";
+        hasErrors = true;
+      }
+      if (!this.form.vendorImage) {
+        this.validationErrors.vendorImage = "Please enter Image!";
+        hasErrors = true;
+      }
+      if (!this.form.email) {
+        this.validationErrors.email = 'Please enter an email!';
+        hasErrors = true;
+      } else {
+        const emailRegex = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
+        if (!emailRegex.test(this.form.email)) {
+          this.validationErrors.email = 'Please enter a valid email address!';
+          hasErrors = true;
+        }
+      }if (!this.form.shopName) {
+        this.validationErrors.shopName = "Please enter Company Name!";
+        hasErrors = true;
+      }if (!this.form.shopContactNo) {
+        this.validationErrors.shopContactNo = 'Please enter Contact Number!';
+        hasErrors = true;
+      } else {
+        const contactNoRegex = /^[0-9]{10}$/;
+        if (!contactNoRegex.test(this.form.shopContactNo)) {
+          this.validationErrors.shopContactNo = 'Please enter a valid 10-digit contact number!';
+          hasErrors = true;
+        }
+      }if (!this.form.shopAddress1) {
+        this.validationErrors.shopAddress1 = "Please enter Address1!";
+        hasErrors = true;
+      }if (!this.form.city) {
+        this.validationErrors.city = "Please enter city!";
+        hasErrors = true;
+      }if (!this.form.shopLogo) {
+        this.validationErrors.shopLogo = "Please enter shop Logo!";
+        hasErrors = true;
+      }if (!this.form.shopCoverImage) {
+        this.validationErrors.shopCoverImage = "Please enter Shop Cover Image!";
+        hasErrors = true;
+      }if (!this.form.brCopy) {
+        this.validationErrors.brCopy = "Please enter BR!";
+        hasErrors = true;
+      }if (!this.form.phone) {
+        this.validationErrors.phone = 'Please enter phone Number!';
+        hasErrors = true;
+      } else {
+        const contactNoRegex1 = /^[0-9]{10}$/;
+        if (!contactNoRegex1.test(this.form.phone)) {
+          this.validationErrors.phone = 'Please enter a valid 10-digit contact number!';
+          hasErrors = true;
+        }
+      }
+      if (!this.form.description) {
+        this.validationErrors.description = "Please enter Description!";
+        hasErrors = true;
+      }if (!this.form.bankName) {
+        this.validationErrors.bankName = "Please enter Bank Name!";
+        hasErrors = true;
+      }
+      if (!this.form.branch) {
+        this.validationErrors.branch = "Please enter Branch!";
+        hasErrors = true;
+      }
+      if (!this.form.holderName) {
+        this.validationErrors.holderName = "Please enter Account Holder Name!";
+        hasErrors = true;
+      }
+      if (!this.form.accountNumber) {
+        this.validationErrors.accountNumber = "Please enter Account Number!";
+        hasErrors = true;
+      }
+
+      
+
+
+      if (hasErrors) return; // Prevent submission if there are errors
+
+      // Logic for saving the vendor (e.g., API call or store update)
+      console.log("Form submitted:", this.form);
+      
+      // Example: Update store or call API here
+
+      this.closeModal(); // Close modal after submission
     },
+
+    
+
+    clearValidationErrors() {
+      Object.keys(this.validationErrors).forEach((key) => {
+        this.validationErrors[key] = '';
+      });
+    }
   }
+};
 </script>
 
 <style scoped>
-/* Modal Overlay */
+/* Modal Styling */
 .modal-overlay {
   position: fixed;
   top: 0;
@@ -521,7 +524,6 @@ export default {
   z-index: 9999;
 }
 
-/* Modal Container */
 .modal {
   background: white;
   width: 80%;
@@ -529,11 +531,10 @@ export default {
   border-radius: 8px;
   display: flex;
   flex-direction: column;
-  height: 90%; /* Set the default height for larger screens */
-  position: relative; /* Needed for proper footer placement */
+  height: 90%;
+  position: relative;
 }
 
-/* Modal Header */
 .modal-header {
   background: #0b2145;
   padding: 15px;
@@ -549,21 +550,19 @@ export default {
   font-weight: bold;
 }
 
-/* Modal Content */
 .modal-content {
   padding: 20px;
-  max-height: 80%; /* Set max height */
-  overflow-y: auto; /* Make it scrollable */
-  flex-grow: 1; /* Allow content to grow */
+  max-height: 80%;
+  overflow-y: auto;
+  flex-grow: 1;
 }
 
-/* Modal Footer */
 .modal-footer {
   background: #f1f1f1;
   padding: 15px;
   display: flex;
   justify-content: space-between;
-  position: absolute; /* Sticky footer */
+  position: absolute;
   bottom: 0;
   width: 100%;
 }
@@ -590,12 +589,11 @@ button:hover {
   opacity: 0.8;
 }
 
-/* Mobile Styles */
 @media (max-width: 768px) {
   .modal {
-    width: 100%; /* Full width on mobile */
-    height: 100%; /* Full screen height on mobile */
-    border-radius: 0; /* Remove rounded corners for mobile */
+    width: 100%;
+    height: 100%;
+    border-radius: 0;
   }
 
   .modal-header {
@@ -604,9 +602,7 @@ button:hover {
 
   .modal-content {
     padding: 10px;
-    max-height: none; /* Remove max-height for mobile */
-    overflow-y: auto; /* Enable scroll */
-    max-height: 80%; 
+    max-height: none;
   }
 
   .modal-footer {
