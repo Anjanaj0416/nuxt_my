@@ -48,7 +48,7 @@
           </div>
           <hr class="block w-full mt-4 border-gray-300 sm:hidden" />
         </div>
-        {{ vd }}
+        <!-- {{ vd }} -->
         <!-- Button Group -->
         <div class="grid grid-cols-2 gap-2 sm:flex sm:flex-row sm:justify-end">
           <LinkBtn label="View More"   @click="
