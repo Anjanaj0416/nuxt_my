@@ -5,11 +5,11 @@
       <div class="flex flex-col items-center justify-between mt-2 md:flex-row">
         <div class="w-full mb-4 md:mb-0">
           <div class="mr-2">
-            <Button
-              class="w-24"
-              label="New"
-              variant="primary"
-              @click="goToProformaInvoice"
+            <Button 
+              class="w-24" 
+              label="New" 
+              variant="primary" 
+              @click="GoToAddNew" 
             />
           </div>
         </div>
@@ -127,6 +127,7 @@
         @Approve="isApproving = true"
       />
       <ApproveView v-if="isApproving" @close="CloseApprovingView()"  />
+      <AddEdit v-if="isAddEdit" @close="isAddEdit = false" />
     </section>
   </div>
 </template>
@@ -140,6 +141,7 @@ import FilterTab from "~/components/customcontrol/FilterTab";
 
 import ViewMore from "~/components/quotation/viewmore";
 import ApproveView from "~/components/quotation/approve";
+import AddEdit from "~/components/quotation/addedit.vue";
 
 import { useQuotationStore } from "~/stores/modules/quotationStore";
 
@@ -158,11 +160,13 @@ export default {
     SearchComp,
     ViewMore,
     ApproveView,
+    AddEdit,
   },
   data() {
     return {
       isViewMore: false,
       isApproving: false,
+      isAddEdit: false,
       searchBy: "",
       arrFilter: ["All", "Pending", "Approved", "Cancelled"],
       imageroot: "",
@@ -186,6 +190,11 @@ export default {
  
   },
   methods: {   
+
+    GoToAddNew() {
+      this.quotationStore.ResetQuotation();
+      this.isAddEdit = true; // Ensure modal state updates
+    },
 
     async GoToViewAllQuoVer() {
       let id = this.quotationStore.curQuotation.id;
