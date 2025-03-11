@@ -4,33 +4,31 @@
       <!-- Modal Header -->
       <div class="modal-header">
         <h2 class="modal-title">Assign Sales Ex.</h2>
-        <!-- <button @click="closeModal" class="absolute z-50 p-2 text-white rounded-md  close-button">&times;</button> -->
-        <closebtn @close="closeModal()" />
+        <closebtn @close="closeModal" />
       </div>
 
       <!-- Modal Content (scrollable) -->
       <div class="modal-content">
-     
         <div class="form-content">
-          
-        <div> Vendor: {{ vendorStore.curVendor.shopName }} {{ vendorStore.curVendor.shopContactNo }}</div> 
-        <div> 
-          <serach_Input
-                  :arrItems="vendorStore.initVendor.listRSOs"
-                  ref="rsocomp"
-                  label="Sales Exec."                 
-                  v-model="agentId"
-                   @selectItem="SelectAgent"
-                  
-                />  
-        </div>
+          <div class="text-sm text-gray-500"> Vendor: {{ vendorStore.curVendor.shopName }} {{ vendorStore.curVendor.shopContactNo }}</div> 
+          <div>
+            <serach_Input
+              :arrItems="vendorStore.initVendor.listRSOs"
+              ref="rsocomp"
+              label="Sales Exec."                 
+              v-model="agentId"
+              @selectItem="SelectAgent"
+            />  
+          </div>
 
-          {{ vendorStore.initVendor.listRSOs }} <br>
-          {{ vendorStore.curVendor}}
+          <p class="mt-4">Selected Sales Executive: {{ selectedAgentName }}</p>
+
+          <!-- Error message for Sales Executive selection -->
+          <div v-if="validationErrors.SelectAgent" class="mt-2 text-sm text-red-500">
+            {{ validationErrors.SelectAgent }}
+          </div>
+        </div>
       </div>
-        
-      </div>
-      <!-- End Modal Content -->
 
       <!-- Modal Footer -->
       <div class="modal-footer">
@@ -41,61 +39,71 @@
   </div>
 </template>
 
+
+
 <script>
 import closebtn from "~/components/customcontrol/modal_close_button";
-   import serach_Input from '~/components/customcontrol/SearchInput'
+import serach_Input from '~/components/customcontrol/SearchInput'
 import { useVendorStore } from "~/stores/modules/vendorStore";
 
 export default {
-    
-    components: {closebtn,serach_Input},
-    props:[''],
-    data() {
-      return {
-        imageroot: process.env.Assets_83,
-        isOpen:true,
-        agentId:'',
+  components: { closebtn, serach_Input },
+  data() {
+    return {
+      imageroot: process.env.Assets_83,
+      isOpen: true,
+      agentId: '',
+      selectedAgentName: '',
+      validationErrors: {
+        SelectAgent: ''
       }
-    },
-    async created() {
-      this.vendorStore = useVendorStore();
-    },
-    watch: {},
-    computed: {
-    
-    },
-    methods: {
-      SelectAgent(agentId){
-       
-        this.vendorStore.curVendor.agentId =agentId;
-      },
-      closeModal(){
-        this.isOpen = false;
-        this.$emit('close')
-       
-      },
-      GetSave(){
-        this.isOpen = false;
-        this.$emit('close')
-       
-      },
-    
-    },
-    async beforeMount() {
-      // if (this.loggeduser.granted.indexOf('workgroup') > -1 || this.loggeduser.usergroup == 'Supervisor' ) {
-      // } else {
-      //   this.show_error('Not Allowed to access this page')
-      //   this.$router.push('/')
-      // }
-  
-    },
-    head() {
-      return {
-        title: 'Intranet - Digital Tech Labs',
-      }
-    },
+    }
+  },
+  async created() {
+    this.vendorStore = useVendorStore();
+  },
+  methods: {
+  SelectAgent(agentId) {
+    this.vendorStore.curVendor.agentId = agentId;
+    const selectedAgent = this.vendorStore.initVendor.listRSOs.find(agent => agent.id === agentId);
+    this.selectedAgentName = selectedAgent ? selectedAgent.value : '';
+
+    // Clear the validation error when an agent is selected
+    this.validationErrors.SelectAgent = '';
+  },
+  closeModal() {
+    this.isOpen = false;
+    this.$emit('close');
+  },
+  GetSave() {
+    this.handleSubmit(); 
+  },
+  handleSubmit() {
+    this.validationErrors.SelectAgent = '';
+    let hasErrors = false;
+    if (!this.selectedAgentName) {
+      this.validationErrors.SelectAgent = "Please select a Sales Executive!";
+      hasErrors = true;
+    }
+    if (hasErrors) {
+      return; 
+    }
+    this.saveData(); 
+  },
+  saveData() {
+    console.log("Sales Executive selected:", this.agentId);
+    // Close the modal and emit 'close' event
+    this.isOpen = false;
+    this.$emit('close');
   }
+}
+
+
+
+}
 </script>
+
+
 
 <style scoped>
 /* Modal Overlay */
@@ -120,7 +128,7 @@ export default {
   border-radius: 8px;
   display: flex;
   flex-direction: column;
-  height: 90%; /* Set the default height for larger screens */
+  height: 50%; /* Set the default height for larger screens */
   position: relative; /* Needed for proper footer placement */
 }
 

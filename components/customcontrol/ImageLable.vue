@@ -17,7 +17,7 @@ components: {
                         :src="imageUrl" 
                         :alt="alt" 
                         class="object-cover w-16 h-16 rounded-md"
-                        
+                        :title="title"
                       />
                     </a>
   </section>
@@ -32,7 +32,7 @@ components: {
   export default {
     
     components: {},
-    props: [ 'imageUrl', 'alt'],
+    props: [ 'imageUrl', 'alt','title'],
     data() {
       return {
      

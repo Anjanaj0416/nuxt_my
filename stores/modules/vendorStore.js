@@ -11,7 +11,28 @@ export const useVendorStore = defineStore("vendorStore", {
   }),
   //this.showToast('Login successful!', 'success'); //success ,error ,warning,info
   actions: {
-    async loadInitVendor() {
+    //addEditVendor
+    async addEditVendor(showLoading) {
+      const loadingAlert = showLoading(''); 
+      try {
+        const response = await axios.post(
+          `${import.meta.env.VITE_API_URL}/b2b/Vendor/AddEditVendor`
+        );
+
+        if (response.data.isSuccess) {
+          this.initVendor = response.data.data.data;
+        } else {
+          this.showToast(response.data.message, "error");
+        }
+      } catch (error) {
+        this.showToast(response.data.message, "error");
+      }
+      loadingAlert.close();
+    },
+
+//loadInitVendor
+    async loadInitVendor(showLoading) {
+      const loadingAlert = showLoading(''); 
       try {
         const response = await axios.get(
           `${import.meta.env.VITE_API_URL}/b2b/Vendor/InitVendor`
@@ -25,9 +46,12 @@ export const useVendorStore = defineStore("vendorStore", {
       } catch (error) {
         this.showToast(response.data.message, "error");
       }
+      loadingAlert.close();
     },
 
-    async loadListVendors(req) {
+    //loadListVendors
+    async loadListVendors(req,showLoading) {
+      const loadingAlert = showLoading(''); 
       try {
         const response = await axios.get(
           `${import.meta.env.VITE_API_URL}/b2b/Vendor/VendorList?keyword=${
@@ -50,6 +74,7 @@ export const useVendorStore = defineStore("vendorStore", {
       } catch (error) {
         this.showToast(response.data.message, "error");
       }
+      loadingAlert.close();
     },
 
     ResetVendor() {

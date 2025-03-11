@@ -20,7 +20,7 @@ export default defineNuxtConfig({
   },
   
   plugins: [
-    '@/plugins/toast.js',
+    '@/plugins/message.js',
     // '@/plugins/axios.ts'
   ],
 
