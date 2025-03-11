@@ -181,7 +181,7 @@ export default {
    
     await this.quotationStore.loadInitQuotation(this.showLoading);
     this.imageroot = this.quotationStore.initQuotation.baseUrl;
-    this.$showAlert("Quotation.vue Loaded!", "error");
+   
 
  
   },
