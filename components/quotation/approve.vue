@@ -66,7 +66,6 @@ export default {
   },
   async created() {
     this.quotationStore = useQuotationStore();
-
   },
   async mounted() {
     //this.showAlert('fff', 'error');
@@ -80,23 +79,22 @@ export default {
   methods: {
     GetAttachedImage(img) {
       this.approvedImage = img;
-     
     },
 
-  async  SetApprove() {
-      if (this.IsValidate()) {              
+    async SetApprove() {
+      if (this.IsValidate()) {
         //send API call
-        await this.quotationStore.GetAprrovingTheQuotation(this.quotationStore.curQuotation.id,this.approvedImage);
-        this.closeModal(); 
-        this.$emit("CloseApprovingView");
-      } 
+        this.showConfirmAlert_ApproveQuotation();
+       
+       // this.closeModal();
+      //  this.$emit("CloseApprovingView");
+      }
     },
 
     IsValidate() {
-     
       let isSuccess = true;
-     
-      if (this.approvedImage && this.approvedImage.size > 0) {        
+
+      if (this.approvedImage && this.approvedImage.size > 0) {
         this.err.approvedImage = "";
       } else {
         this.err.approvedImage = "Attached the approval prrof..";
@@ -109,23 +107,40 @@ export default {
       this.isOpen = false;
       this.$emit("close");
     },
-   
-    async showAlert(message, type) {
+
+    async showConfirmAlert_ApproveQuotation(message, type) {
       try {
         const result = await Swal.fire({
           icon: type,
           title: message,
           showConfirmButton: true,
           toast: false,
+          customClass: {
+            popup: "custom-swal-popup",
+          },
         });
-        // Optionally handle result (e.g., if user clicked confirm)
-        console.log(result);
+       
+        if (result.isConfirmed) {     
+          await this.quotationStore.GetAprrovingTheQuotation(
+          this.quotationStore.curQuotation.id,
+          this.approvedImage
+        );   
+          await Swal.fire({
+            icon: "success",
+            title: "Saved!",
+            text: "Quotation Approved",
+            customClass: {
+              popup: "swal-custom-zindex",
+            },
+          });
+        }
       } catch (error) {
         console.error("Error displaying alert:", error);
       }
     },
 
   },
+
   async beforeMount() {
     // if (this.loggeduser.granted.indexOf('workgroup') > -1 || this.loggeduser.usergroup == 'Supervisor' ) {
     // } else {
@@ -142,6 +157,9 @@ export default {
 </script>
 
 <style scoped>
+.custom-swal-popup {
+  z-index: 9999 !important; /* Ensure SweetAlert is above the modal */
+}
 /* Modal Overlay */
 .modal-overlay {
   position: fixed;
@@ -153,7 +171,7 @@ export default {
   display: flex;
   justify-content: center;
   align-items: center;
-  z-index: 9999;
+  z-index: 8888;
 }
 
 /* Modal Container */
