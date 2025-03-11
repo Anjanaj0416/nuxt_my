@@ -29,7 +29,7 @@
           <!-- Section 1 -->
           <div class="flex flex-col text-center sm:text-left">
             <h1 class="text-base font-semibold text-gray-700">Quotation No.</h1>
-            <p class="text-md text-blue-500">{{ qItem.quotationNo }}</p>
+            <p class="text-blue-500 text-md">{{ qItem.quotationNo }}</p>
           </div>
           <hr class="block w-full border-gray-300 sm:hidden" />
           <div class="hidden w-px h-12 bg-gray-300 sm:block"></div>
@@ -63,25 +63,25 @@
           </div>
         </div>
 
-        <div class="text-red-400 -my-4">
+        <div class="-my-4 text-red-400">
           Sales Exec. : {{ qItem.salesExec }}
         </div>
 
         <div class="text-green-500">
-          <span class="uppercase text-black">Items -> </span>
+          <span class="text-black uppercase">Items -> </span>
           <span v-for="(qProduct, index) in qItem.items" :key="index">
             <div>{{ qProduct }}</div>
           </span>
         </div>
 
-        <div class="flex gap-x-4 -my-4">
+        <div class="flex -my-4 gap-x-4">
           <!-- Button Group -->
 
           <div
-            class="grid grid-cols-2 gap-2 sm:flex sm:flex-row sm:justify-end relative"
+            class="relative grid grid-cols-2 gap-2 sm:flex sm:flex-row sm:justify-end"
           >
             <span
-              class="absolute top-0 left-0 bg-blue-500 rounded-full px-2 text-white"
+              class="absolute top-0 left-0 px-2 text-white bg-blue-500 rounded-full"
               >{{ qItem.noOfVersions }}</span
             >
             <LinkBtn
