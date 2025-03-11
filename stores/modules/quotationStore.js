@@ -4,19 +4,16 @@ import Swal from "sweetalert2";
 
 export const useQuotationStore = defineStore("QuotationStore", {
   state: () => ({
-    listQuotation: [
-      {isApproved:true, quotationNo:'Q1254254',company:'Abans Group Pvt Ltd',contact:'0715321122',salesExec:'Rasika [A0001]',total:'LKR 253,225',status:'Approved',items:['Links 120-Hardware','Banner Home Page-HomePage','Stock Clearence-Nut & Bolts']},
-      {isApproved:false,quotationNo:'Q1254252',company:'Lotus Group Pvt Ltd',contact:'0715321122',salesExec:'Rasika [A0001]',total:'LKR 253,225',status:'Pending',items:['Links 120-Hardware','Banner Home Page-HomePage','Stock Clearence-Nut & Bolts']},
-      {isApproved:false,quotationNo:'Q1254253',company:'Nilkamal Group Pvt Ltd',contact:'0715321122',salesExec:'Rasika [A0001]',total:'LKR 253,225',status:'Pending',items:['Links 120-Hardware','Banner Home Page-HomePage','Stock Clearence-Nut & Bolts']},
-    ],
+    listQuotation: [],   
     listQuotationVerions: [],
     curQuotation: {},
     initQuotation: {},
     testParam:{id:21}
   }),
-  //this.showToast('Login successful!', 'success'); //success ,error ,warning,info
+  
   actions: {
-    async loadInitQuotation() {
+    async loadInitQuotation(showLoading) {
+      const loadingAlert = showLoading(''); 
       try {
         const response = await axios.get(
           `${import.meta.env.VITE_API_URL}/b2b/Quotation/InitQuotation`
@@ -30,10 +27,13 @@ export const useQuotationStore = defineStore("QuotationStore", {
       } catch (error) {
         this.showToast(response.data.message, "error");
       }
+      loadingAlert.close();
     },
 
-    async loadListQuotations(req) {
+      async loadListQuotations(req,showLoading) {
+        const loadingAlert = showLoading(''); 
       try {
+
         const response = await axios.get(
           `${import.meta.env.VITE_API_URL}/b2b/Quotation/QuotationList?keyword=${
             req.keyword
@@ -45,8 +45,32 @@ export const useQuotationStore = defineStore("QuotationStore", {
             this.listQuotation = [];           
           } else {
             this.listQuotation = response.data.data.data;
-          }
+          }         
+          this.showToast(response.data.message, "success");
           
+        } else {
+          this.showToast(response.data.message, "error");
+        }
+        
+      } catch (error) {
+        this.showToast(response.data.message, "error");
+      }
+      loadingAlert.close();
+    },
+
+    async LoadQuotationVersions(id,showLoading) {
+      const loadingAlert = showLoading(''); 
+      try {
+        const response = await axios.get(
+          `${import.meta.env.VITE_API_URL}/b2b/Quotation/GetLoadQuotationVersions?id=${id}`
+        );
+  
+        if ( response.data.isSuccess) {     
+          if (response.data.data.count == 0) {           
+            this.listQuotationVerions = [];           
+          } else {
+            this.listQuotationVerions = response.data.data.data;
+          }         
 
           this.showToast(response.data.message, "success");
         } else {
@@ -55,6 +79,36 @@ export const useQuotationStore = defineStore("QuotationStore", {
       } catch (error) {
         this.showToast(response.data.message, "error");
       }
+      loadingAlert.close();
+    },
+
+    async GetAprrovingTheQuotation(id,imgfile,showLoading) {
+      const loadingAlert = showLoading(''); 
+      try {
+        const formData = new FormData();
+        formData.append('id', id);
+        formData.append('ApprovalMemoFile', imgfile); 
+        
+        const response = await axios.post(
+          `${import.meta.env.VITE_API_URL}/b2b/Quotation/GetAprrovingTheQuotation`,formData,
+          {
+            headers: {
+              'Content-Type': 'multipart/form-data',  // Make sure to set the correct content type for file uploads
+            },
+          }
+        );  
+
+    if (response?.data?.IsSuccess) {      
+      this.showAlert(response.data.Message, "error");
+    } else {     
+      this.showAlert(response.data.Message, "error");
+    }
+
+     } catch (error) {
+        this.showAlert(response.data.message, "error");      
+   
+      }
+      loadingAlert.close();
     },
 
     ResetQuotation() {
@@ -91,5 +145,15 @@ export const useQuotationStore = defineStore("QuotationStore", {
         position: "top-end",
       });
     },
+
+    showAlert(message, type) {
+      console.log(type)
+      Swal.fire({
+        title: 'Hello!',
+        text: 'This is a SweetAlert2 alert.',
+        icon: 'success',  // Can be 'success', 'error', 'warning', 'info', 'question'
+        confirmButtonText: 'Cool'
+      });
+    }
   },
 });

@@ -1,7 +1,7 @@
 <template>
   <div>
     <section class="justify-center min-h-screen px-4 mt-24 lg:px-80">
-        <div class="text-2xl uppercase">Quotations</div>
+      <div class="text-2xl uppercase">Quotations</div>
       <div class="flex flex-col items-center justify-between mt-2 md:flex-row">
         <div class="w-full mb-4 md:mb-0">
           <div class="mr-2">
@@ -19,18 +19,17 @@
       </div>
 
       <FilterTab @selected="SetSelectedFilter" :arrFilter="arrFilter" />
-      
-
 
       <div
-        class="flex flex-col gap-5 p-2 mt-10 bg-white border-2 rounded-md shadow-md sm:p-6" v-for="(qItem,index) in QuotationStore.listQuotation" :key="index"
+        class="flex flex-col gap-5 p-2 mt-2 bg-white border-2 rounded-md shadow-md sm:p-6"
+        v-for="(qItem, index) in quotationStore.listQuotation"
+        :key="index"
       >
-      {{ qItem }}
         <div class="flex flex-col justify-between sm:flex-row">
           <!-- Section 1 -->
           <div class="flex flex-col text-center sm:text-left">
             <h1 class="text-base font-semibold text-gray-700">Quotation No.</h1>
-            <p class="text-sm text-gray-500">{{qItem.quotationNo}}</p>
+            <p class="text-md text-blue-500">{{ qItem.quotationNo }}</p>
           </div>
           <hr class="block w-full border-gray-300 sm:hidden" />
           <div class="hidden w-px h-12 bg-gray-300 sm:block"></div>
@@ -38,23 +37,7 @@
           <!-- Section 2 -->
           <div class="flex flex-col text-center sm:text-left">
             <h1 class="text-base font-semibold text-gray-700">Company</h1>
-            <p class="text-sm text-gray-500">{{qItem.company}}</p>
-          </div>
-          <hr class="block w-full border-gray-300 sm:hidden" />
-          <div class="hidden w-px h-12 bg-gray-300 sm:block"></div>
-
-          <!-- Section 3 -->
-          <div class="flex flex-col text-center sm:text-left">
-            <h1 class="text-base font-semibold text-gray-700">Contact</h1>
-            <p class="text-sm text-gray-500">{{qItem.contact}}</p>
-          </div>
-          <hr class="block w-full border-gray-300 sm:hidden" />
-          <div class="hidden w-px h-12 bg-gray-300 sm:block"></div>
-
-          <!-- Section 4 -->
-          <div class="flex flex-col text-center sm:text-left">
-            <h1 class="text-base font-semibold text-gray-700">Sales Ex:</h1>
-            <p class="text-sm text-gray-500">{{qItem.salesExec}}</p>
+            <p class="text-sm text-gray-500">{{ qItem.vendor }}</p>
           </div>
           <hr class="block w-full border-gray-300 sm:hidden" />
           <div class="hidden w-px h-12 bg-gray-300 sm:block"></div>
@@ -62,12 +45,12 @@
           <!-- Section 5 -->
           <div class="flex flex-col text-center sm:text-left">
             <h1 class="text-base font-semibold text-gray-700">Total</h1>
-            <p class="text-sm text-gray-500">{{qItem.total}}</p>
+            <p class="text-sm font-bold text-gray-500">
+              Rs.{{ qItem.qutationValue }}
+            </p>
           </div>
           <hr class="block w-full border-gray-300 sm:hidden" />
           <div class="hidden w-px h-12 bg-gray-300 sm:block"></div>
-
-         
 
           <!-- Section 7 -->
           <div class="flex flex-col text-center sm:text-left">
@@ -75,54 +58,38 @@
             <span
               class="bg-green-100 text-green-800 text-xs font-medium me-2 px-2.5 py-0.5 rounded-full dark:bg-green-900 dark:text-green-300"
             >
-            {{qItem.status}}
+              {{ qItem.status }}
             </span>
           </div>
         </div>
-        
-        
-        <div class="text-green-500">
-          <span class="uppercase text-black">Items -> </span>
-          <span v-for="(qProduct,index) in qItem.items" :key="index">
-          <span>{{qProduct}}</span> |
-       
-        </span>
+
+        <div class="text-red-400 -my-4">
+          Sales Exec. : {{ qItem.salesExec }}
         </div>
 
-        <div class="flex gap-x-4 mt-2.">
+        <div class="text-green-500">
+          <span class="uppercase text-black">Items -> </span>
+          <span v-for="(qProduct, index) in qItem.items" :key="index">
+            <div>{{ qProduct }}</div>
+          </span>
+        </div>
+
+        <div class="flex gap-x-4 -my-4">
           <!-- Button Group -->
-          <div
-            class="grid grid-cols-2 gap-2 sm:flex sm:flex-row sm:justify-end"
-          >
-            <LinkBtn
-              label="View More"
-              @click="
-                vendorStore.curVendor = vd;
-                GoToViewMore();
-              "
-            />
-          </div>
 
           <div
-            class="grid grid-cols-2 gap-2 sm:flex sm:flex-row sm:justify-end"
+            class="grid grid-cols-2 gap-2 sm:flex sm:flex-row sm:justify-end relative"
           >
+            <span
+              class="absolute top-0 left-0 bg-blue-500 rounded-full px-2 text-white"
+              >{{ qItem.noOfVersions }}</span
+            >
             <LinkBtn
-              label="View All Quo."
+              label="View Quo. Versions"
+              class="ml-3"
               @click="
-                vendorStore.curVendor = vd;
-                GoToViewAllQuo();
-              "
-            />
-          </div>
-
-          <div
-            class="grid grid-cols-2 gap-2 sm:flex sm:flex-row sm:justify-end"
-          >
-            <LinkBtn 
-              label="Upload Approval Proof"
-              @click="
-                vendorStore.curVendor = vd;
-                GoToApprove();
+                quotationStore.curQuotation = qItem;
+                GoToViewAllQuoVer(qItem.id);
               "
             />
           </div>
@@ -133,8 +100,8 @@
             <LinkBtn
               label="View Quotation"
               @click="
-                vendorStore.curVendor = vd;
-                GoToViewQuotation();
+                quotationStore.curQuotation = qItem;
+                GoToViewQuotation(qItem.id);
               "
             />
           </div>
@@ -143,18 +110,23 @@
             class="grid grid-cols-2 gap-2 sm:flex sm:flex-row sm:justify-end"
           >
             <LinkBtn
+              v-if="qItem.status == 'Approved'"
               label="View Invoice"
               @click="
-                vendorStore.curVendor = vd;
-                GoToViewInvoice();
+                quotationStore.curQuotation = qItem;
+                GoToViewInvoice(qItem.id);
               "
             />
           </div>
         </div>
       </div>
 
-
-
+      <ViewMore
+        v-if="isViewMore"
+        @close="isViewMore = !isViewMore"
+        @Approve="isApproving = true"
+      />
+      <ApproveView v-if="isApproving" @close="CloseApprovingView()"  />
     </section>
   </div>
 </template>
@@ -166,7 +138,11 @@ import LinkBtn from "~/components/customcontrol/Link";
 import SearchComp from "~/components/customcontrol/SearchComp";
 import FilterTab from "~/components/customcontrol/FilterTab";
 
+import ViewMore from "~/components/quotation/viewmore";
+import ApproveView from "~/components/quotation/approve";
+
 import { useQuotationStore } from "~/stores/modules/quotationStore";
+
 
 definePageMeta({
   layout: "default",
@@ -180,20 +156,55 @@ export default {
     LinkBtn,
     FilterTab,
     SearchComp,
+    ViewMore,
+    ApproveView,
   },
   data() {
     return {
+      isViewMore: false,
+      isApproving: false,
       searchBy: "",
       arrFilter: ["All", "Pending", "Approved", "Cancelled"],
+      imageroot: "",
+      showLoading:null,
+    
     };
   },
   async created() {
-    this.QuotationStore = useQuotationStore();
-   // await this.vendorStore.loadListVendors({keyword:'',searchBy:this.searchBy})  
-   // await this.vendorStore.loadInitVendor()   
+    this.quotationStore = useQuotationStore();
+    this.showLoading = this.$showLoading;
+
+    await this.quotationStore.loadListQuotations({
+      keyword: "",
+      searchBy: this.searchBy,
+    },this.showLoading);
+   
+    await this.quotationStore.loadInitQuotation(this.showLoading);
+    this.imageroot = this.quotationStore.initQuotation.baseUrl;
+    this.$showAlert("Quotation.vue Loaded!", "error");
+
+ 
   },
-  methods: {
+  methods: {   
+
+    async GoToViewAllQuoVer() {
+      let id = this.quotationStore.curQuotation.id;
+      await this.quotationStore.LoadQuotationVersions(id,this.showLoading);
+      this.isViewMore = true;
+    },
+
+    async CloseApprovingView() {
+      let id = this.quotationStore.curQuotation.id;
+      await this.quotationStore.LoadQuotationVersions(id,this.showLoading);
     
+    },
+
+    GoToViewQuotation(id) {
+      //https://learners.lk:5005/web/assets/DTP/Quotation/Q2025030003-V3.pdf
+      let url = `${this.imageroot}/DTL/Quotation/${id}.pdf`;
+      window.open(url, "_blank");
+    },
+    GoToViewInvoice(id) {},
   },
 };
 </script>

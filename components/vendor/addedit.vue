@@ -13,13 +13,14 @@
       <div class="modal-content">
         <div class="form-content">
           <!-- {{ curVendor }} -->
-          
-          <h3 class="font-bold">Company Details</h3>
 
+          <h3 class="font-bold">Company Details</h3>
 
           <div class="grid grid-cols-3 gap-4 mt-4">
             <div class="" v-if="isEditing">
-              <label class="block text-sm font-bold text-gray-600">Customer Ref</label>
+              <label class="block text-sm font-bold text-gray-600"
+                >Customer Ref</label
+              >
               <input
                 type="text"
                 v-model="form.customerRef"
@@ -29,7 +30,9 @@
               />
             </div>
             <div class="">
-              <label class="block text-sm font-bold text-gray-600">Company Name</label>
+              <label class="block text-sm font-bold text-gray-600"
+                >Company Name</label
+              >
               <input
                 type="text"
                 v-model="form.shopName"
@@ -38,12 +41,17 @@
                 required
                 class="w-full p-2 mt-2 text-sm border rounded-md focus:ring-indigo-500 focus:border-indigo-500"
               />
-              <p v-if="validationErrors.shopName" class="mt-2 text-sm text-red-600">
+              <p
+                v-if="validationErrors.shopName"
+                class="mt-2 text-sm text-red-600"
+              >
                 {{ validationErrors.shopName }}
               </p>
             </div>
             <div class="">
-              <label class="block text-sm font-bold text-gray-600">First Name</label>
+              <label class="block text-sm font-bold text-gray-600"
+                >First Name</label
+              >
               <input
                 type="text"
                 v-model="form.firstName"
@@ -52,12 +60,17 @@
                 required
                 class="w-full p-2 mt-2 text-sm border rounded-md focus:ring-indigo-500 focus:border-indigo-500"
               />
-              <p v-if="validationErrors.firstName" class="mt-2 text-sm text-red-600">
+              <p
+                v-if="validationErrors.firstName"
+                class="mt-2 text-sm text-red-600"
+              >
                 {{ validationErrors.firstName }}
               </p>
             </div>
             <div class="">
-              <label class="block text-sm font-bold text-gray-600">Last Name</label>
+              <label class="block text-sm font-bold text-gray-600"
+                >Last Name</label
+              >
               <input
                 type="text"
                 v-model="form.lastname"
@@ -66,21 +79,27 @@
                 required
                 class="w-full p-2 mt-2 text-sm border rounded-md focus:ring-indigo-500 focus:border-indigo-500"
               />
-              <p v-if="validationErrors.lastname" class="mt-2 text-sm text-red-600">
+              <p
+                v-if="validationErrors.lastname"
+                class="mt-2 text-sm text-red-600"
+              >
                 {{ validationErrors.lastname }}
               </p>
             </div>
             <div class="">
               <label class="block text-sm font-bold text-gray-600">Phone</label>
               <input
-              type="text"
+                type="text"
                 v-model="form.phone"
                 @input="clearError('phone')"
                 placeholder="Enter phone"
                 class="w-full p-2 mt-2 text-sm border rounded-md focus:ring-indigo-500 focus:border-indigo-500"
                 required
               />
-              <p v-if="validationErrors.phone" class="mt-2 text-sm text-red-600">
+              <p
+                v-if="validationErrors.phone"
+                class="mt-2 text-sm text-red-600"
+              >
                 {{ validationErrors.phone }}
               </p>
             </div>
@@ -94,12 +113,17 @@
                 class="w-full p-2 mt-2 text-sm border rounded-md focus:ring-indigo-500 focus:border-indigo-500"
                 required
               />
-              <p v-if="validationErrors.email" class="mt-2 text-sm text-red-600">
+              <p
+                v-if="validationErrors.email"
+                class="mt-2 text-sm text-red-600"
+              >
                 {{ validationErrors.email }}
               </p>
             </div>
             <div class="">
-              <label class="block text-sm font-bold text-gray-600">Contact Number</label>
+              <label class="block text-sm font-bold text-gray-600"
+                >Contact Number</label
+              >
               <input
                 type="tel"
                 v-model="form.shopContactNo"
@@ -108,12 +132,17 @@
                 maxlength="10"
                 class="w-full p-2 mt-2 text-sm border rounded-md focus:ring-indigo-500 focus:border-indigo-500"
               />
-              <p v-if="validationErrors.shopContactNo" class="mt-2 text-sm text-red-600">
+              <p
+                v-if="validationErrors.shopContactNo"
+                class="mt-2 text-sm text-red-600"
+              >
                 {{ validationErrors.shopContactNo }}
               </p>
             </div>
             <div class="">
-              <label class="block text-sm font-bold text-gray-600">Address Line 1</label>
+              <label class="block text-sm font-bold text-gray-600"
+                >Address Line 1</label
+              >
               <input
                 type="text"
                 v-model="form.shopAddress1"
@@ -122,12 +151,17 @@
                 required
                 class="w-full p-2 mt-2 text-sm border rounded-md focus:ring-indigo-500 focus:border-indigo-500"
               />
-              <p v-if="validationErrors.shopAddress1" class="mt-2 text-sm text-red-600">
+              <p
+                v-if="validationErrors.shopAddress1"
+                class="mt-2 text-sm text-red-600"
+              >
                 {{ validationErrors.shopAddress1 }}
               </p>
             </div>
             <div class="">
-              <label class="block text-sm font-bold text-gray-600">Address Line 2</label>
+              <label class="block text-sm font-bold text-gray-600"
+                >Address Line 2</label
+              >
               <input
                 type="text"
                 v-model="form.shopAddress2"
@@ -136,101 +170,120 @@
                 required
                 class="w-full p-2 mt-2 text-sm border rounded-md focus:ring-indigo-500 focus:border-indigo-500"
               />
-              <p v-if="validationErrors.shopAddress2" class="mt-2 text-sm text-red-600">
+              <p
+                v-if="validationErrors.shopAddress2"
+                class="mt-2 text-sm text-red-600"
+              >
                 {{ validationErrors.shopAddress2 }}
               </p>
             </div>
             <div class="">
               <label class="block text-sm font-bold text-gray-600">City</label>
-                <serach_Input
-                  :arrItems="vendorStore.initVendor.listCities"
-                  ref="SelectCityComp"                            
-                  v-model="form.city"
-                  @selectItem="SelectCity"                  
-                />  
 
-                <!-- {{form.city}} -->
+              <serach_Input
+                :arrItems="vendorStore.initVendor.listCities"
+                ref="SelectCityComp"
+                v-model="form.city"
+                @selectItem="SelectCity"
+              />
               <p v-if="validationErrors.city" class="mt-2 text-sm text-red-600">
                 {{ validationErrors.city }}
               </p>
             </div>
-  
-          <!-- zz -->
-           
+
+            <!-- zz -->
+
             <div v-if="isEditing && curVendor.vendorImage">
-              <label class="block text-sm font-bold text-gray-600">Vendor Image</label>
-              <div class="relative mt-2">              
+              <label class="block text-sm font-bold text-gray-600"
+                >Vendor Image</label
+              >
+              <div class="relative mt-2">
                 <imagecomp
-                  v-model="form.vendorImage"                                 
+                  v-model="form.vendorImage"
                   :image_file="imageroot + curVendor.vendorImage"
                   @ImageChanged="VendorImageChanged"
-                   @deleteNewImage = "VendorImageDeleted"
-                    @deleteExistingImage = "DeleteExistingVendorImage"    
-                   ref="refVendorImage"
-                />                     
+                  @deleteNewImage="VendorImageDeleted"
+                  @deleteExistingImage="DeleteExistingVendorImage"
+                  ref="refVendorImage"
+                />
               </div>
-            
-              <p v-if="validationErrors.vendorImage" class="mt-2 text-sm text-red-600">
+
+              <p
+                v-if="validationErrors.vendorImage"
+                class="mt-2 text-sm text-red-600"
+              >
                 {{ validationErrors.vendorImage }}
               </p>
             </div>
 
             <div v-if="isEditing && curVendor.shopLogo">
-              <label class="block text-sm font-bold text-gray-600">Shop Image</label>
+              <label class="block text-sm font-bold text-gray-600"
+                >Shop Image</label
+              >
               <div class="relative mt-2">
                 <imagecomp
-                  v-model="form.shopLogo"                                 
+                  v-model="form.shopLogo"
                   :image_file="imageroot + curVendor.shopLogo"
                   @ImageChanged="ShopLogoChanged"
-                   @deleteNewImage = "ShopLogoDeleted"
-                    @deleteExistingImage = "DeleteExistingShopLogo"    
-                   ref="refShopLogo"
-                />   
+                  @deleteNewImage="ShopLogoDeleted"
+                  @deleteExistingImage="DeleteExistingShopLogo"
+                  ref="refShopLogo"
+                />
               </div>
-              <p v-if="validationErrors.shopLogo" class="mt-2 text-sm text-red-600">
+              <p
+                v-if="validationErrors.shopLogo"
+                class="mt-2 text-sm text-red-600"
+              >
                 {{ validationErrors.shopLogo }}
               </p>
             </div>
-    
 
-    
             <div v-if="isEditing && curVendor.shopCoverImage">
-              <label class="block text-sm font-bold text-gray-600">Shop Image</label>
+              <label class="block text-sm font-bold text-gray-600"
+                >Shop Image</label
+              >
               <div class="relative mt-2">
                 <imagecomp
-                  v-model="form.shopCoverImage"                                 
+                  v-model="form.shopCoverImage"
                   :image_file="imageroot + curVendor.shopCoverImage"
                   @ImageChanged="ShopCoverImageChanged"
-                   @deleteNewImage = "ShopCoverImageDeleted"
-                    @deleteExistingImage = "DeleteExistingShopCoverImage"    
-                   ref="refShopCoverImage"
-                />   
+                  @deleteNewImage="ShopCoverImageDeleted"
+                  @deleteExistingImage="DeleteExistingShopCoverImage"
+                  ref="refShopCoverImage"
+                />
               </div>
-              <p v-if="validationErrors.shopCoverImage" class="mt-2 text-sm text-red-600">
+              <p
+                v-if="validationErrors.shopCoverImage"
+                class="mt-2 text-sm text-red-600"
+              >
                 {{ validationErrors.shopCoverImage }}
               </p>
             </div>
-           
 
             <div v-if="isEditing && curVendor.brCopy">
               <label class="block text-sm font-bold text-gray-600">BR</label>
               <div class="relative mt-2">
                 <imagecomp
-                  v-model="form.brCopy"                                 
+                  v-model="form.brCopy"
                   :image_file="imageroot + curVendor.brCopy"
                   @ImageChanged="BrCopyChanged"
-                   @deleteNewImage = "BrCopyDeleted"
-                    @deleteExistingImage = "DeleteExistingBrCopy"    
-                   ref="refBRCopy"
-                />   
+                  @deleteNewImage="BrCopyDeleted"
+                  @deleteExistingImage="DeleteExistingBrCopy"
+                  ref="refBRCopy"
+                />
               </div>
-              <p v-if="validationErrors.brCopy" class="mt-2 text-sm text-red-600">
+              <p
+                v-if="validationErrors.brCopy"
+                class="mt-2 text-sm text-red-600"
+              >
                 {{ validationErrors.brCopy }}
               </p>
             </div>
-           
+
             <div class="">
-              <label class="block text-sm font-bold text-gray-600">Description</label>
+              <label class="block text-sm font-bold text-gray-600"
+                >Description</label
+              >
               <input
                 type="text"
                 v-model="form.description"
@@ -239,17 +292,22 @@
                 required
                 class="w-full p-2 mt-2 text-sm border rounded-md focus:ring-indigo-500 focus:border-indigo-500"
               />
-              <p v-if="validationErrors.description" class="mt-2 text-sm text-red-600">
+              <p
+                v-if="validationErrors.description"
+                class="mt-2 text-sm text-red-600"
+              >
                 {{ validationErrors.description }}
               </p>
             </div>
           </div>
 
-          <hr class="my-4"> 
+          <hr class="my-4" />
           <h3 class="mt-4 font-bold">Bank Details</h3>
           <div class="grid grid-cols-3 gap-4 mt-4">
             <div class="">
-              <label class="block text-sm font-bold text-gray-600">Bank Name</label>
+              <label class="block text-sm font-bold text-gray-600"
+                >Bank Name</label
+              >
               <input
                 type="text"
                 v-model="form.bankName"
@@ -258,12 +316,17 @@
                 required
                 class="w-full p-2 mt-2 text-sm border rounded-md focus:ring-indigo-500 focus:border-indigo-500"
               />
-              <p v-if="validationErrors.bankName" class="mt-2 text-sm text-red-600">
+              <p
+                v-if="validationErrors.bankName"
+                class="mt-2 text-sm text-red-600"
+              >
                 {{ validationErrors.bankName }}
               </p>
             </div>
             <div class="">
-              <label class="block text-sm font-bold text-gray-600">Bank Branch</label>
+              <label class="block text-sm font-bold text-gray-600"
+                >Bank Branch</label
+              >
               <input
                 type="text"
                 v-model="form.branch"
@@ -272,13 +335,18 @@
                 required
                 class="w-full p-2 mt-2 text-sm border rounded-md focus:ring-indigo-500 focus:border-indigo-500"
               />
-              <p v-if="validationErrors.branch" class="mt-2 text-sm text-red-600">
+              <p
+                v-if="validationErrors.branch"
+                class="mt-2 text-sm text-red-600"
+              >
                 {{ validationErrors.branch }}
               </p>
             </div>
-  
+
             <div class="">
-              <label class="block text-sm font-bold text-gray-600">Bank Account No</label>
+              <label class="block text-sm font-bold text-gray-600"
+                >Bank Account No</label
+              >
               <input
                 type="text"
                 v-model="form.accountNumber"
@@ -287,12 +355,17 @@
                 required
                 class="w-full p-2 mt-2 text-sm border rounded-md focus:ring-indigo-500 focus:border-indigo-500"
               />
-              <p v-if="validationErrors.accountNumber" class="mt-2 text-sm text-red-600">
+              <p
+                v-if="validationErrors.accountNumber"
+                class="mt-2 text-sm text-red-600"
+              >
                 {{ validationErrors.accountNumber }}
               </p>
             </div>
             <div class="">
-              <label class="block text-sm font-bold text-gray-600">Card Holder Name</label>
+              <label class="block text-sm font-bold text-gray-600"
+                >Card Holder Name</label
+              >
               <input
                 type="text"
                 v-model="form.holderName"
@@ -301,7 +374,10 @@
                 required
                 class="w-full p-2 mt-2 text-sm border rounded-md focus:ring-indigo-500 focus:border-indigo-500"
               />
-              <p v-if="validationErrors.holderName" class="mt-2 text-sm text-red-600">
+              <p
+                v-if="validationErrors.holderName"
+                class="mt-2 text-sm text-red-600"
+              >
                 {{ validationErrors.holderName }}
               </p>
             </div>
@@ -319,44 +395,44 @@
 </template>
 
 <script>
-import { reactive, computed } from 'vue';
+import { reactive, computed } from "vue";
 import closebtn from "~/components/customcontrol/modal_close_button";
 import { useVendorStore } from "~/stores/modules/vendorStore";
 import imagecomp from "~/components/customcontrol/imagepicker";
- import serach_Input from '~/components/customcontrol/SearchInput'
+import serach_Input from "~/components/customcontrol/SearchInput";
 
 export default {
-  components: { closebtn,imagecomp ,serach_Input},
+  components: { closebtn, imagecomp, serach_Input },
   data() {
     return {
       isOpen: true,
       curVendor: {},
       validationErrors: {},
       form: {
-        CompanyName: '',
-        address1: '',
-        city: '',
-        email: '',
-        contactNumber: '',
-        whatappNumber: '',
-        companyLogo: '',
-        banner1: '',
-        description: '',
-        contactPersonName: '',
-        contactPersonMobile: '',
-        ownerFirstName: '',
-        ownerContact: '',
-        ownerBirthDate: '',
-        bankName: '',
-        bankBranch: '',
-        bankBranchCode: '',
-        bankAccountNo: '',
-        bankSwiftCode: '',
-        rsoNo: '',
-        vendorImage:'',
-        shopLogo:'',
-        shopCoverImage:'',
-        brCopy:'', 
+        CompanyName: "",
+        address1: "",
+        city: "",
+        email: "",
+        contactNumber: "",
+        whatappNumber: "",
+        companyLogo: "",
+        banner1: "",
+        description: "",
+        contactPersonName: "",
+        contactPersonMobile: "",
+        ownerFirstName: "",
+        ownerContact: "",
+        ownerBirthDate: "",
+        bankName: "",
+        bankBranch: "",
+        bankBranchCode: "",
+        bankAccountNo: "",
+        bankSwiftCode: "",
+        rsoNo: "",
+        vendorImage: "",
+        shopLogo: "",
+        shopCoverImage: "",
+        brCopy: "",
       },
       imageroot: "",
     };
@@ -364,8 +440,11 @@ export default {
 
   computed: {
     isEditing() {
-      return this.curVendor && this.curVendor.id !== "00000000-0000-0000-0000-000000000000";
-    }
+      return (
+        this.curVendor &&
+        this.curVendor.id !== "00000000-0000-0000-0000-000000000000"
+      );
+    },
   },
 
   async created() {
@@ -379,62 +458,62 @@ export default {
   },
 
   methods: {
-    SelectCity(city){
-      this.form.city = city 
+    VendorImageChanged() {
+      alert("VendorImageChanged");
     },
-    VendorImageChanged(){
-      alert('VendorImageChanged');  
+    VendorImageDeleted() {
+      alert("VendorImageDeleted");
     },
-    VendorImageDeleted(){
-      alert('VendorImageDeleted');
+    DeleteExistingVendorImage() {
+      alert("VendorImageDeleted");
     },
-    DeleteExistingVendorImage(){
-      alert('VendorImageDeleted');
+
+    ShopLogoChanged() {
+      alert("ShopLogoChanged");
     },
-    ShopLogoChanged(){
-      alert('ShopLogoChanged');  
+    ShopLogoDeleted() {
+      alert("ShopLogoDeleted");
     },
-    ShopLogoDeleted(){
-      alert('ShopLogoDeleted');
+    DeleteExistingShopLogo() {
+      alert("ShopLogoDeleted");
     },
-    DeleteExistingShopLogo(){
-      alert('ShopLogoDeleted');
+
+    ShopCoverImageChanged() {
+      alert("ShopCoverImageChanged");
     },
-    ShopCoverImageChanged(){
-      alert('ShopCoverImageChanged');  
+    ShopCoverImageDeleted() {
+      alert("ShopCoverImageDeleted");
     },
-    ShopCoverImageDeleted(){
-      alert('ShopCoverImageDeleted');
+    DeleteExistingShopCoverImage() {
+      alert("ShopCoverImageDeleted");
     },
-    DeleteExistingShopCoverImage(){
-      alert('ShopCoverImageDeleted');
+
+    BrCopyChanged() {
+      alert("BrCopyChanged");
     },
-    BrCopyChanged(){
-      alert('BrCopyChanged');  
+    BrCopyDeleted() {
+      alert("BrCopyDeleted");
     },
-    BrCopyDeleted(){
-      alert('BrCopyDeleted');
-    },
-    DeleteExistingBrCopy(){
-      alert('BrCopyDeleted');
+    DeleteExistingBrCopy() {
+      alert("BrCopyDeleted");
     },
 
     closeModal() {
       this.isOpen = false;
-      this.$emit('close');
+      this.$emit("close");
     },
 
     clearError(field) {
-      this.validationErrors[field] = '';
+      this.validationErrors[field] = "";
     },
 
     cancel() {
       // Clear the form and validation errors when canceling
       Object.keys(this.form).forEach((key) => {
-        this.form[key] = '';
+        this.form[key] = "";
       });
       Object.keys(this.validationErrors).forEach((key) => {
-        this.validationErrors[key] = '';
+        this.validationErrors[key] = "";
       });
       this.closeModal();
     },
@@ -444,6 +523,8 @@ export default {
       this.clearValidationErrors();
 
       let hasErrors = false;
+
+      // Simple validation: Company name must not be empty
 
       if (!this.form.firstName) {
         this.validationErrors.firstName = "Please enter First Name!";
@@ -458,57 +539,66 @@ export default {
         hasErrors = true;
       }
       if (!this.form.email) {
-        this.validationErrors.email = 'Please enter an email!';
+        this.validationErrors.email = "Please enter an email!";
         hasErrors = true;
       } else {
         const emailRegex = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
         if (!emailRegex.test(this.form.email)) {
-          this.validationErrors.email = 'Please enter a valid email address!';
+          this.validationErrors.email = "Please enter a valid email address!";
           hasErrors = true;
         }
-      }if (!this.form.shopName) {
+      }
+      if (!this.form.shopName) {
         this.validationErrors.shopName = "Please enter Company Name!";
         hasErrors = true;
-      }if (!this.form.shopContactNo) {
-        this.validationErrors.shopContactNo = 'Please enter Contact Number!';
+      }
+      if (!this.form.shopContactNo) {
+        this.validationErrors.shopContactNo = "Please enter Contact Number!";
         hasErrors = true;
       } else {
         const contactNoRegex = /^[0-9]{10}$/;
         if (!contactNoRegex.test(this.form.shopContactNo)) {
-          this.validationErrors.shopContactNo = 'Please enter a valid 10-digit contact number!';
+          this.validationErrors.shopContactNo =
+            "Please enter a valid 10-digit contact number!";
           hasErrors = true;
         }
-      }if (!this.form.shopAddress1) {
+      }
+      if (!this.form.shopAddress1) {
         this.validationErrors.shopAddress1 = "Please enter Address1!";
         hasErrors = true;
-      }if (!this.form.city) {
+      }
+      if (!this.form.city) {
         this.validationErrors.city = "Please enter city!";
         hasErrors = true;
-      }else {
-        this.validationErrors.city = "";
-      }if (!this.form.shopLogo) {
+      }
+      if (!this.form.shopLogo) {
         this.validationErrors.shopLogo = "Please enter shop Logo!";
         hasErrors = true;
-      }if (!this.form.shopCoverImage) {
+      }
+      if (!this.form.shopCoverImage) {
         this.validationErrors.shopCoverImage = "Please enter Shop Cover Image!";
         hasErrors = true;
-      }if (!this.form.brCopy) {
+      }
+      if (!this.form.brCopy) {
         this.validationErrors.brCopy = "Please enter BR!";
         hasErrors = true;
-      }if (!this.form.phone) {
-        this.validationErrors.phone = 'Please enter phone Number!';
+      }
+      if (!this.form.phone) {
+        this.validationErrors.phone = "Please enter phone Number!";
         hasErrors = true;
       } else {
         const contactNoRegex1 = /^[0-9]{10}$/;
         if (!contactNoRegex1.test(this.form.phone)) {
-          this.validationErrors.phone = 'Please enter a valid 10-digit contact number!';
+          this.validationErrors.phone =
+            "Please enter a valid 10-digit contact number!";
           hasErrors = true;
         }
       }
       if (!this.form.description) {
         this.validationErrors.description = "Please enter Description!";
         hasErrors = true;
-      }if (!this.form.bankName) {
+      }
+      if (!this.form.bankName) {
         this.validationErrors.bankName = "Please enter Bank Name!";
         hasErrors = true;
       }
@@ -524,25 +614,38 @@ export default {
         this.validationErrors.accountNumber = "Please enter Account Number!";
         hasErrors = true;
       }
-      
+
       if (hasErrors) return; // Prevent submission if there are errors
 
-      // Logic for saving the vendor (e.g., API call or store update)
-      console.log("Form submitted:", this.form);
-      
-      // Example: Update store or call API here
-
+      var reqFormData = convertToFormData(this.form);
+      //API call
       this.closeModal(); // Close modal after submission
     },
 
-    
-
     clearValidationErrors() {
       Object.keys(this.validationErrors).forEach((key) => {
-        this.validationErrors[key] = '';
+        this.validationErrors[key] = "";
       });
-    }
-  }
+    },
+
+    convertToFormData(formObject) {
+      const formData = new FormData();
+
+      // Loop through the formObject
+      Object.keys(formObject).forEach((key) => {
+        const value = formObject[key];
+        if (value instanceof File) {
+          // If the value is a File (e.g., for image uploads), append directly
+          formData.append(key, value);
+        } else {
+          // If it's not a file, just append the value as a string
+          formData.append(key, value);
+        }
+      });
+
+      return formData;
+    },
+  },
 };
 </script>
 

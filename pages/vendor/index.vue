@@ -20,7 +20,7 @@
       <FilterTab @selected="SetSelectedFilter" :arrFilter="arrFilter"/>
 
       <div
-        class="flex flex-col gap-5 p-2 mt-10 bg-white border-2 rounded-md shadow-md sm:p-6"
+        class="flex flex-col gap-5 p-2 mt-2 bg-white border-2 rounded-md shadow-md sm:p-6"
         v-for="(vd,index) in vendorStore.listVendor" :key="index"
       >
         <div class="flex flex-col justify-between sm:flex-row">
@@ -46,11 +46,11 @@
               {{ vd.isActive ? 'Active' : 'Inactive' }}
             </span>
           </div>
-          <hr class="block w-full mt-4 border-gray-300 sm:hidden" />
+          <hr class="block w-full mt-2 border-gray-300 sm:hidden" />
         </div>
         <!-- {{ vd }} -->
         <!-- Button Group -->
-        <div class="grid grid-cols-2 gap-2 sm:flex sm:flex-row sm:justify-end">
+        <div class="grid grid-cols-2 gap-2 sm:flex sm:flex-row sm:justify-end  -my-6">
           <LinkBtn label="View More"   @click="
               vendorStore.curVendor = vd;
               GoToViewMore();"
@@ -138,14 +138,16 @@ export default {
         { label: "Status", key: "isActive" }
       ],
       imageroot:'',
+      showLoading:null,
   
     };
   },
   async created() {
     this.vendorStore = useVendorStore();
-    await this.vendorStore.loadListVendors({keyword:'',searchBy:this.searchBy})  
-    await this.vendorStore.loadInitVendor()   
+    await this.vendorStore.loadListVendors({keyword:'',searchBy:this.searchBy},this.showLoading)  
+    await this.vendorStore.loadInitVendor(this.showLoading)   
     this.imageroot = this.vendorStore.initVendor.baseUrl;
+    this.showLoading = this.$showLoading;
   },
   methods: {
     SetSelectedFilter(type){
@@ -153,7 +155,7 @@ export default {
     },
     async GetSearch(searchVal) {
       
-     await  this.vendorStore.loadListVendors({keyword:searchVal,searchBy:this.searchBy})   
+     await  this.vendorStore.loadListVendors({keyword:searchVal,searchBy:this.searchBy},this.showLoading)   
     
     },
 

@@ -44,29 +44,7 @@
     },
     methods: {
      
-      // ...mapActions({
-      //   //  getWGInitData: 'reservedaddetail/getWGInitData',
-      // }),
-      //   ...mapMutations({
-      //   //resetEmail: 'office/RESET_EMAIL',
-      //    //showMessage: 'PUSH_NOTIFICATION',
-      // }),
-      //  this.processing_year = new Date().getFullYear()
-       //this.$emit('Load_MonthlyBrakeDown',req)
-       //this.$refs.catcomp.initCategoryItem(-1)
-       //this.$emit('input', this.selected_item.trim());
-    // show_error(msg) {
-    //     this.showMessage({
-    //       type: 'Failed',
-    //       message: msg,
-    //     })
-    //   },
-    //    show_msg(msg) {
-    //     this.showMessage({
-    //       type: 'success',
-    //       message: msg,
-    //     })
-    //   },
+     
       // async copyContent(value) {
       //   try {
       //      await navigator.clipboard.writeText(value)
@@ -108,6 +86,51 @@
       }
     },
   }
+
+      //Message Usecases
+    //this.$showAlert("Test Login Failed!", "error");
+
+    //     this.$showConfirm('Are you sure you want to delete this item?', 'warning').then((result) => {
+    //   if (result) {
+    //     console.log('Item deleted');
+    //   } else {
+    //     console.log('Action canceled');
+    //   }
+    // });
+
+  //    this.$showInput('Please enter your name:').then((input) => {
+  //   if (input) {
+  //     console.log('User input:', input);
+  //   } else {
+  //     console.log('No input or canceled');
+  //   }
+  // });
+
+  // const htmlMessage = `
+  //       <h2 style="color: #007bff;">Hello, Welcome to the Custom HTML Alert!</h2>
+  //       <p>This is a <strong>custom HTML</strong> message with <a href="https://www.example.com" target="_blank" style="color: #007bff;">links</a>.</p>
+  //       <img src="https://via.placeholder.com/150" alt="Sample Image" style="display: block; margin-top: 10px;" />
+  //       <p><em>Note: This is a custom alert with rich HTML content.</em></p>
+  //     `;
+      
+  //     this.$showHtmlAlert(htmlMessage);
+
+  
+  //const loadingAlert = this.$showLoading('Loading...');
+  //loadingAlert.close();
+
+  // const imageUrl = 'https://intranet.sltds.lk/SLTDS/Resource/rainbow/news/GroupPhotoMeetingTheSecretarytotheTreasury.jpg'; 
+  // this.$showImageAlert('Here is your custom image!', imageUrl);
+
+  // this.$showCustomButtons('Are you sure you want to proceed?', 'warning').then((result) => {
+  //   if (result === 'Proceed') {
+  //     console.log('User confirmed to proceed');
+  //   } else {
+  //     console.log('User canceled the action');
+  //   }
+  // });
+
+ //End Message Usecases
   
   //Validation
   //-------------------------------------------------

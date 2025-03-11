@@ -4,14 +4,13 @@ imaportant - Camera Works after hosted with https connection only
 Usage :
 import imagecomp from "~/components/customcontrol/imagepicker";
 
- <imagecomp
-                  v-model="category.image"
-                  caption="Category Image"                  
-                     :image_file="'category/'+salesref.image"
+    <imagecomp
+                  @GetAttachedImage="GetAttachedImage"
+                  :image_file="imageroot"
                   @ImageChanged="ImageChanged"
-                   @deleteNewImage = "deleteDeleteNewImage"
-                    @deleteExistingImage = "deleteExistingImage"
-                   ref="refImg"
+                  @deleteNewImage="DeleteNewImage"
+                  @deleteExistingImage="DeleteExistingImage"
+                  ref="refApprovedImg"
                 />
 
  components: {
@@ -60,6 +59,7 @@ import imagecomp from "~/components/customcontrol/imagepicker";
   <article>
     <div class="container">
       <p class="block text-sm text-gray-00">{{ caption }}</p>
+
       <div class="flex w-40">
         <div
           class="bg-blue-400 p-2 rounded-l cursor-pointer text-sm"
@@ -114,7 +114,7 @@ import imagecomp from "~/components/customcontrol/imagepicker";
         <p class="overflow-hidden mb-2">
           <input
             type="file"
-            ref="file"
+            ref="fileInput"
             accept="image/*"
             class="text-sm"
             @change="InituploadImage"
@@ -154,10 +154,9 @@ import imagecomp from "~/components/customcontrol/imagepicker";
         </button>
       </div>
       <!--End Camera Section -->
-     
-     
+
       <div class="mt-4">
-         <!-- Selected Image -->
+        <!-- Selected Image -->
         <div class="relative">
           <div
             class="absolute top-0 left-0 text-white hover:text-red-600"
@@ -186,12 +185,10 @@ import imagecomp from "~/components/customcontrol/imagepicker";
             class="w-full"
             :src="image_url"
           />
-
-        
         </div>
         <!-- End Selected Image -->
 
-         <!-- Exisitng Image -->
+        <!-- Exisitng Image -->
         <div class="relative mt-2">
           <div
             class="absolute top-0 left-0 text-white hover:text-red-600"
@@ -215,15 +212,13 @@ import imagecomp from "~/components/customcontrol/imagepicker";
             </svg>
           </div>
 
-        
-
           <div v-show="image_file.indexOf('.') > 0">
             <a :href="image_file" target="blank">
               <img class="h-20 w-full" :src="image_file" />
             </a>
           </div>
         </div>
-         <!-- End Exisitng Image -->
+        <!-- End Exisitng Image -->
       </div>
     </div>
   </article>
@@ -234,7 +229,7 @@ export default {
   data() {
     return {
       image_url: "",
-
+      img: "",
       isFromFile: false,
       imageByCamera: false,
       isCameraOn: false,
@@ -247,19 +242,22 @@ export default {
     removeNewImg() {
       this.image_url = "";
       this.image_file = "";
+      this.this.img = "";
       this.$emit("input", this.image_file);
-     
+
       this.$emit("deleteNewImage");
     },
 
-    removeExistingImg(){
+    removeExistingImg() {
+      this.image_url = "";
       this.$emit("deleteExistingImage");
     },
 
     bindImage() {
-      this.image_file = document.getElementById("img64").value;
-      this.$emit("input", this.image_file);
-      this.isFromFile = false;
+      // this.img = document.getElementById("img64").value;
+      // this.$emit("ImageChanged", true);
+      // this.$emit("GetAttachedImage", this.img);
+      // this.isFromFile = false;
     },
     cmdFromFile() {
       this.imageByCamera = false;
@@ -273,6 +271,7 @@ export default {
 
     initImage() {
       this.image_url = "";
+      this.this.img = "";
       this.$emit("ImageChanged", false);
     },
 
@@ -332,31 +331,74 @@ export default {
       var context = this.canvas
         .getContext("2d")
         .drawImage(this.video, 0, 0, 640, 480);
-      this.image_file = canvas.toDataURL("image/png");
+      //this.image_file = canvas.toDataURL("image/png");
+
+      const dataURL  = canvas.toDataURL("image/png");
+      this.img = dataURLToFile(dataURL, 'image.png');
+
       // .replace('data:image/png;base64,', '')
       //.replace('data:image/jpeg;base64,', '')
-      this.image_url = this.image_file;
-      this.$emit("input", this.image_file);
+      //this.image_url = this.image_file;
+     
       this.$emit("ImageChanged", true);
+      this.$emit("GetAttachedImage", this.img);
+
       this.isCameraOn = false;
     },
 
     InituploadImage(e) {
-      this.file = e.target.files[0];
-      this.image_url = URL.createObjectURL(this.file);
-      this.$emit("ImageChanged", true);
-      var FR = new FileReader();
+      // this.file = e.target.files[0];
+      // this.image_url = URL.createObjectURL(this.file);
+      // //this.$emit("ImageChanged", true);
+      // var FR = new FileReader();
 
-      FR.addEventListener("load", function (e) {
-        var srcData = e.target.result;
-        // .replace('data:image/png;base64,', '')
-        // .replace('data:image/jpeg;base64,', '')
-        document.getElementById("img64").value = srcData;
-        document.getElementById("img64").focus();
-        document.getElementById("img64").blur();
-        //alert(srcData);
-      });
-      FR.readAsDataURL(this.file);
+      // FR.addEventListener("load", function (e) {
+      //   var srcData = e.target.result;
+      //   // .replace('data:image/png;base64,', '')
+      //   // .replace('data:image/jpeg;base64,', '')
+      //   document.getElementById("img64").value = srcData;
+      //   document.getElementById("img64").focus();
+      //   document.getElementById("img64").blur();
+
+      // });
+      // FR.readAsDataURL(this.file);
+
+      // Access the file from the input element
+      const fileInput = this.$refs.fileInput;
+
+      // Ensure a file is selected
+      if (fileInput && fileInput.files && fileInput.files[0]) {
+        this.img = fileInput.files[0];
+        this.$emit("ImageChanged", true);
+        this.$emit("GetAttachedImage", this.img);
+      }
+      this.isFromFile = false;
+    },
+
+    // Function to convert a data URL to a File object
+    dataURLToFile(dataURL, filename) {
+      // Split the dataURL into its MIME type and base64 string
+      const [metadata, base64String] = dataURL.split(",");
+
+      // Decode the base64 string to binary data
+      const binaryString = atob(base64String);
+
+      // Create an ArrayBuffer to hold the binary data
+      const arrayBuffer = new ArrayBuffer(binaryString.length);
+      const uint8Array = new Uint8Array(arrayBuffer);
+
+      // Populate the array buffer with the binary string
+      for (let i = 0; i < binaryString.length; i++) {
+        uint8Array[i] = binaryString.charCodeAt(i);
+      }
+
+      // Create a Blob object with the binary data and the MIME type
+      const blob = new Blob([arrayBuffer], { type: "image/png" });
+
+      // Create a File object from the Blob
+      const file = new File([blob], filename, { type: "image/png" });
+
+      return file;
     },
   },
 };

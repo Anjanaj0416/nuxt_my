@@ -6,3 +6,6 @@ https://localhost:7237/api
 
 Postmon API Namespace- 
 MiracleAPI_8.0
+
+
+git pull orgin x

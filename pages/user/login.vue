@@ -166,8 +166,8 @@ import changelogin from "~/pages/user/changelogin";
 import register from "~/pages/user/register.vue";
 import logo from "~/assets/img/Logo.png";
 import { useUserStore } from "~/stores/modules/userStore";
-import { ref } from "vue";
-import Swal from "sweetalert2";
+// import { ref } from "vue";
+// import Swal from "sweetalert2";
 
 //import textInput from '~/components/customcontrol/textinput'
 //import * as Global from '@/assets/js/Global'
