@@ -50,7 +50,7 @@
         </div>
         <!-- {{ vd }} -->
         <!-- Button Group -->
-        <div class="grid grid-cols-2 gap-2 sm:flex sm:flex-row sm:justify-end  -my-6">
+        <div class="grid grid-cols-2 gap-2 -my-6 sm:flex sm:flex-row sm:justify-end">
           <LinkBtn label="View More"   @click="
               vendorStore.curVendor = vd;
               GoToViewMore();"
@@ -148,6 +148,8 @@ export default {
     await this.vendorStore.loadInitVendor(this.showLoading)   
     this.imageroot = this.vendorStore.initVendor.baseUrl;
     this.showLoading = this.$showLoading;
+
+    console.log('Vendor List:', this.vendorStore.listOfVendors); 
   },
   methods: {
     SetSelectedFilter(type){

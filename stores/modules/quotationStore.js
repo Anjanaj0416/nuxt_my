@@ -8,7 +8,51 @@ export const useQuotationStore = defineStore("QuotationStore", {
     listQuotationVerions: [],
     curQuotation: {},
     initQuotation: {},
-    testParam:{id:21}
+    testParam:{id:21},
+    qEdit: {
+		initQuotationEdit: {
+      vendorOptions: [
+        { id: "1", name: "Nimal" },
+        { id: "2", name: "Kamal" },
+        { id: "3", name: "John" },
+        { id: "4", name: "Samantha" },
+        { id: "5", name: "Ammar" }
+      ],
+      categoryOptions: [
+        { value: "Hardware", label: "Hardware" },
+        { value: "Nut and Bold", label: "Nut and Bold" },
+        { value: "Cables", label: "Cables" },
+        { value: "Electronics", label: "Electronics" },
+        { value: "Furniture", label: "Furniture" }
+      ],
+      packageOptions: {
+        Hardware: [
+          { value: "Package 1", PackageName: "Standard", Description: "Best for small businesses", Price: 5000, Period:"5" },
+          { value: "Package 2", PackageName: "Premium", Description: "Ideal for enterprises", Price: 12000, Period:"12" },
+        ],
+        "Nut and Bold": [
+          { value: "Package 3", PackageName: "Ultimate", Description: "Full suite of features", Price: 25000, Period:"24" },
+          { value: "Package 4", PackageName: "Standard", Description: "Best for small businesses", Price: 5000, Period:"5" },
+          { value: "Package 5", PackageName: "Premium", Description: "Ideal for enterprises", Price: 12000, Period:"12" },
+
+        ],
+        Cables: [
+          { value: "Package 6", PackageName: "Premium", Description: "Ideal for enterprises", Price: 12000, Period:"12" },
+          { value: "Package 7", PackageName: "Standard", Description: "Best for small businesses", Price: 5000, Period:"5" },
+          { value: "Package 8", PackageName: "Ultimate", Description: "Full suite of features", Price: 25000, Period:"24" },
+          { value: "Package 9", PackageName: "Premium", Description: "Ideal for enterprises", Price: 12000, Period:"12" },
+        ],
+        Electronics: [
+          { value: "Package 10", PackageName: "Standard", Description: "Best for small businesses", Price: 5000, Period:"5" },
+          { value: "Package 11", PackageName: "Premium", Description: "Ideal for enterprises", Price: 12000, Period:"12" },
+        ],
+        Furniture: [
+          { value: "Package 12", PackageName: "Standard", Description: "Best for small businesses", Price: 5000, Period:"5" },
+        ],
+      },
+    },
+
+    }
   }),
   
   actions: {

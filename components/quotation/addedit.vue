@@ -4,7 +4,7 @@
       <!-- Modal Header -->
       <div class="modal-header">
         <h2 class="modal-title">
-          Quotation {{ isEditing ? "Add" : "Edit" }}
+          Quotation {{ isEditing ? "Edit" : "Add" }}
         </h2>
         <closebtn @close="closeModal" />
       </div>
@@ -17,12 +17,13 @@
             <div>
               <label class="block text-sm font-bold text-gray-600">Select Vendor</label>
               <select
-                v-model="form.customerRef"
+                v-model="selectedCustomerRef"
                 class="w-full p-2 mt-2 text-sm bg-gray-100 border rounded-md"
               >
-                <option value="" disabled selected>Select a vendor</option>
-                <option value="1">Nimal</option>
-                <option value="2">Kamal</option>
+                <option value="" disabled selected>Select a vendor</option>vendorOptions
+                <option v-for="vendor in vendorOptions" :key="vendor.id" :value="vendor.id">
+                  {{ vendor.name }}
+                </option>
               </select>
               <p v-if="validationErrors.customerRef" class="mt-2 text-xs text-red-500">{{ validationErrors.customerRef }}</p>
             </div>
@@ -33,12 +34,13 @@
                 class="w-full p-2 mt-2 text-sm bg-gray-100 border rounded-md"
               >
                 <option value="" disabled selected>Select a category</option>
-                <option value="Hardware">Hardware</option>
-                <option value="Nut and Bold">Nut and Bold</option>
+                <option v-for="category in categoryOptions" :key="category.id" :value="category.value">
+                  {{ category.label }}
+                </option>
               </select>
+
             </div>
           </div>
-
           <div class="grid grid-cols-1 gap-4 mt-4">
             <label class="block text-sm font-bold text-gray-600">Select a Package</label>
             <ul class="grid w-full gap-6 mt-4 md:grid-cols-4">
@@ -81,6 +83,7 @@
           </div>
           <div class="grid grid-cols-1 gap-4 mt-4"> 
             <div class="max-w-full overflow-x-auto" v-if="selectedPackages.length > 0">
+              <div class="overflow-y-auto max-h-64">
               <table class="min-w-full text-sm text-left text-gray-500 rtl:text-right dark:text-gray-400">
                 <thead class="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
                   <tr>
@@ -96,7 +99,7 @@
                     </th>
                   </tr>
                 </thead>
-                <tbody class="overflow-y-scroll max-h-12">
+                <tbody class="overflow-y-auto">
                   <tr v-for="(packageItem, index) in selectedPackages" :key="index" class="bg-white border-b border-gray-200 dark:bg-gray-800 dark:border-gray-700">
                     <td class="px-6 py-4">{{ packageItem.PackageName }}</td>
                     <td class="px-6 py-4">{{ packageItem.Category }}</td>
@@ -104,7 +107,7 @@
                     <td class="px-6 py-4">
                       <input
                         type="number"
-                        class="bg-gray-50 border border-gray-300 text-gray-900 text-xs rounded-lg block w-40 p-1.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+                        class="bg-gray-50 border border-gray-300 text-gray-900 text-xs rounded-lg block w-10 p-1.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
                         placeholder="1"
                         v-model="packageItem.quantity"
                         @input="updatePrice(index)"
@@ -114,7 +117,7 @@
                     <td class="px-6 py-4">
                       <input
                         type="text"
-                        class="bg-gray-50 border border-gray-300 text-gray-900 text-xs rounded-lg block w-40 p-1.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+                        class="bg-gray-50 border border-gray-300 text-gray-900 text-xs rounded-lg block w-10 p-1.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
                         placeholder="10%"
                         v-model="packageItem.discount"
                         @input="updatePrice(index)"
@@ -137,6 +140,7 @@
                   </tr>
                 </tbody>
               </table>
+              </div>
             </div>
             <div v-else>
               <p class="text-center text-gray-500">Please select a package</p>
@@ -145,12 +149,12 @@
           <div class="flex flex-col min-h-64">
             <div class="flex-grow">
             </div>
-            <div class="grid grid-cols-1 gap-4 mt-4">
+            <div class="sticky bottom-0 w-full p-4 bg-white ">
               <div class="flex justify-end">
                 <div class="flex items-center justify-between w-64 p-4 bg-white rounded-lg shadow-md">
                   <p class="text-sm text-gray-500">Subtotal</p>
                   <div class="flex items-center">
-                    <p class="text-xl font-medium text-gray-900">LKR:{{ calculateTotalPrice() }}.00</p>
+                    <p class="text-xl font-medium text-gray-900">LKR: {{ calculateTotalPrice() }}.00</p>
                   </div>
                 </div>
               </div>
@@ -169,92 +173,64 @@
 </template>
 
 <script>
-import { reactive, computed } from "vue";
+import { reactive, computed} from "vue";
 import closebtn from "~/components/customcontrol/modal_close_button";
-import { useVendorStore } from "~/stores/modules/vendorStore";
-import imagecomp from "~/components/customcontrol/imagepicker";
-import serach_Input from "~/components/customcontrol/SearchInput";
+import { useQuotationStore } from "~/stores/modules/quotationStore";
 
 export default {
-  components: { closebtn, imagecomp, serach_Input },
+  components: { closebtn },
   data() {
     return {
       isOpen: true,
       curVendor: {},
       validationErrors: {},
-      form: {
-        
-      },
-      selectedCategory: '',
+      form: {},
+      selectedCategory: '',  
+      selectedCustomerRef: '',
       selectedPackage: '',
       selectedPackages: [],
-      QuotationPackage: [
-        { PackageName: "Standard", Description: "Best for small businesses", Price: 5000, Period:"5" },
-        { PackageName: "Premium", Description: "Ideal for enterprises", Price: 12000, Period:"12" },
-        { PackageName: "Ultimate", Description: "Full suite of features", Price: 25000, Period:"24" },
-      ],
-      imageroot: "",
+      QuotationPackage: [],
+      vendorOptions: [],
+      categoryOptions: [],
     };
   },
-
+  
   computed: {
-    isEditing() {
-      return (
-        this.curVendor &&
-        this.curVendor.id !== "00000000-0000-0000-0000-000000000000"
-      );
-    },
+    packageOptions() {
+      return this.quotationStore.qEdit.initQuotationEdit.packageOptions[this.selectedCategory] || [];
+    }
   },
 
-  async created() {
-    this.vendorStore = useVendorStore();
-    this.curVendor = this.vendorStore.curVendor;
-    this.imageroot = this.vendorStore.initVendor.baseUrl;
-    // If editing, populate the form with the current vendor data
-    if (this.curVendor) {
-      Object.assign(this.form, this.curVendor); // Pre-fill the form with vendor data
+  created() {
+    this.quotationStore = useQuotationStore();
+    this.vendorOptions = this.quotationStore.qEdit.initQuotationEdit.vendorOptions;
+    this.categoryOptions = this.quotationStore.qEdit.initQuotationEdit.categoryOptions;
+
+    this.QuotationPackage = this.packageOptions;
+
+    console.log('Updated customerOptions:', this.vendorOptions);
+    console.log('Updated categoryOptions:', this.categoryOptions);
+    console.log('Updated packageOptions:', this.packageOptions);
+  },
+
+  watch: {
+    selectedCategory(newCategory) {
+      this.QuotationPackage = this.quotationStore.qEdit.initQuotationEdit.packageOptions[newCategory] || [];
     }
   },
 
   methods: {
-    VendorImageChanged() {
-      alert("VendorImageChanged");
-    },
-    
-    closeModal() {
-      this.isOpen = false;
-      this.$emit("close");
-    },
-
-    clearError(field) {
-      this.validationErrors[field] = "";
-    },
-
-    cancel() {
-      // Clear the form and validation errors when canceling
-      Object.keys(this.form).forEach((key) => {
-        this.form[key] = "";
-      });
-      Object.keys(this.validationErrors).forEach((key) => {
-        this.validationErrors[key] = "";
-      });
-      this.closeModal();
-    },
-
     addPackage() {
       if (this.selectedCategory && this.selectedPackage) {
-        // Find the selected package from the QuotationPackage list
         const selectedPackageItem = this.QuotationPackage.find(
           (pkg) => pkg.PackageName === this.selectedPackage
         );
-        
-        // Add the selected package along with the category to the selectedPackages array
+
         this.selectedPackages.push({
           ...selectedPackageItem,
-          Category: this.selectedCategory, // Adding category to the package object
+          Category: this.selectedCategory,
         });
 
-        // Optionally reset the selected values
         this.selectedCategory = '';
         this.selectedPackage = '';
       } else {
@@ -273,45 +249,21 @@ export default {
       // Calculate discount (if any)
       const discount = parseFloat(packageItem.discount) || 0;
       // Calculate the discount amount and apply it
-      let totalDiscount = discount / 100;  // Convert percentage to a decimal
+      let totalDiscount = discount / 100; 
       // Apply the discount and multiply by the quantity
       const discountedPrice = packageItem.Price - (packageItem.Price * totalDiscount);
       // Set the final price (quantity is considered here)
       packageItem.finalPrice = discountedPrice * quantity;
     },
-
-    updateDiscount(index) {
-      this.updatePrice(index); 
-    },
-
-    updateQut(index) {
-      this.updatePrice(index);
-    },
-
     calculatePrice(packageItem) {
       return packageItem.finalPrice || packageItem.Price;  
     },
-
     calculateTotalPrice() {
       return this.selectedPackages.reduce((total, packageItem) => {
         const price = packageItem.finalPrice || packageItem.Price;
         return total + price;
       }, 0);
     },
-
-    // Calculate the price after applying the discount
-    calculatePrice(packageItem) {
-      return packageItem.finalPrice || packageItem.Price;
-    },
-
-    // Calculate the total price for all selected packages
-    calculateTotalPrice() {
-      return this.selectedPackages.reduce((total, packageItem) => {
-        const price = packageItem.finalPrice || packageItem.Price;
-        return total + price;
-      }, 0);
-    },
-
 
     handleSubmit() {
       this.clearValidationErrors();
@@ -321,39 +273,23 @@ export default {
         this.validationErrors.customerRef = "Please select a vendor!";
         hasErrors = true;
       }
-      // If there are errors, prevent form submission
       if (hasErrors) return;
 
       this.closeModal();
     },
     clearValidationErrors() {
-      // Clear all previous validation errors
       Object.keys(this.validationErrors).forEach((key) => {
         this.validationErrors[key] = "";
       });
     },
-
-
-    convertToFormData(formObject) {
-      const formData = new FormData();
-
-      // Loop through the formObject
-      Object.keys(formObject).forEach((key) => {
-        const value = formObject[key];
-        if (value instanceof File) {
-          // If the value is a File (e.g., for image uploads), append directly
-          formData.append(key, value);
-        } else {
-          // If it's not a file, just append the value as a string
-          formData.append(key, value);
-        }
-      });
-
-      return formData;
+    closeModal() {
+      this.isOpen = false;
+      this.$emit("close");
     },
   },
 };
 </script>
+
 
 <style scoped>
 /* Modal Styling */
