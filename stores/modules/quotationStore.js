@@ -7,7 +7,7 @@ export const useQuotationStore = defineStore("QuotationStore", {
     listQuotation: [],   
     listQuotationVerions: [],
     curQuotation: {},
-    initQuotation: {},
+    initQuotation: [],
     testParam:{id:21},
     qEdit: {
 		initQuotationEdit: {
@@ -18,13 +18,13 @@ export const useQuotationStore = defineStore("QuotationStore", {
         { id: "4", name: "Samantha" },
         { id: "5", name: "Ammar" }
       ],
-      categoryOptions: [
-        { value: "Hardware", label: "Hardware" },
-        { value: "Nut and Bold", label: "Nut and Bold" },
-        { value: "Cables", label: "Cables" },
-        { value: "Electronics", label: "Electronics" },
-        { value: "Furniture", label: "Furniture" }
-      ],
+      // categoryOptions: [
+      //   { value: "Hardware", label: "Hardware" },
+      //   { value: "Nut and Bold", label: "Nut and Bold" },
+      //   { value: "Cables", label: "Cables" },
+      //   { value: "Electronics", label: "Electronics" },
+      //   { value: "Furniture", label: "Furniture" }
+      // ],
       packageOptions: {
         Hardware: [
           { value: "Package 1", PackageName: "Standard", Description: "Best for small businesses", Price: 5000, Period:"5" },
@@ -65,6 +65,8 @@ export const useQuotationStore = defineStore("QuotationStore", {
 
         if (response.data.isSuccess) {
           this.initQuotation = response.data.data.data;
+          console.log('init',response);
+          
         } else {
           this.showToast(response.data.message, "error");
         }
