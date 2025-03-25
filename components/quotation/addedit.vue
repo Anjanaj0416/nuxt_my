@@ -27,22 +27,32 @@
               </select>
               <p v-if="validationErrors.customerRef" class="mt-2 text-xs text-red-500">{{ validationErrors.customerRef }}</p>
             </div>
-            <div>
-              <label class="block text-sm font-bold text-gray-600">Select Category</label>
-              <select
-                v-model="selectedCategory"
-                class="w-full p-2 mt-2 text-sm bg-gray-100 border rounded-md"
-              >
-                <option value="" disabled selected>Select a category</option>
-                <option v-for="category in categoryOptions" :key="category.id" :value="category.value">
-                  {{ category.label }}
-                </option>
-              </select>
-
-            </div>
+            
           </div>
           <div class="grid grid-cols-1 gap-4 mt-4">
             <label class="block text-sm font-bold text-gray-600">Select a Package</label>
+            <div class="grid grid-cols-4 gap-4 ">
+              <div>
+                <select
+                  v-model="selectedBundle"
+                  class="w-full p-2 mt-2 text-sm bg-gray-100 border rounded-md"
+                >
+                  <option value="" disabled selected>Select a Bundles</option>
+                  <option v-for="category in bundleOptions" :key="category.id" :value="category.value">
+                    {{ category.label }}
+                  </option>
+                </select>
+              </div>
+              <div>
+                <select
+                  class="w-full p-2 mt-2 text-sm bg-gray-100 border rounded-md"
+                >
+                  <option value="" disabled selected>Select a Subscription</option>
+                </select>
+              </div>
+          
+
+            </div>
             <ul class="grid w-full gap-6 mt-4 md:grid-cols-4">
               <li v-for="(packageItem, index) in QuotationPackage" :key="index">
                 <input
@@ -185,53 +195,53 @@ export default {
       curVendor: {},
       validationErrors: {},
       form: {},
-      selectedCategory: '',  
+      selectedBundle: '',  
       selectedCustomerRef: '',
       selectedPackage: '',
       selectedPackages: [],
       QuotationPackage: [],
       vendorOptions: [],
-      categoryOptions: [],
+      bundleOptions: [],
     };
   },
   
   computed: {
     packageOptions() {
-      return this.quotationStore.qEdit.initQuotationEdit.packageOptions[this.selectedCategory] || [];
+      return this.quotationStore.qEdit.initQuotationEdit.packageOptions[this.selectedBundle] || [];
     }
   },
 
   created() {
     this.quotationStore = useQuotationStore();
     this.vendorOptions = this.quotationStore.qEdit.initQuotationEdit.vendorOptions;
-    this.categoryOptions = this.quotationStore.qEdit.initQuotationEdit.categoryOptions;
+    this.bundleOptions = this.quotationStore.qEdit.initQuotationEdit.bundleOptions;
 
     this.QuotationPackage = this.packageOptions;
 
     console.log('Updated customerOptions:', this.vendorOptions);
-    console.log('Updated categoryOptions:', this.categoryOptions);
+    console.log('Updated bundleOptions:', this.bundleOptions);
     console.log('Updated packageOptions:', this.packageOptions);
   },
 
   watch: {
-    selectedCategory(newCategory) {
-      this.QuotationPackage = this.quotationStore.qEdit.initQuotationEdit.packageOptions[newCategory] || [];
+    selectedBundle(newBundle) {
+      this.QuotationPackage = this.quotationStore.qEdit.initQuotationEdit.packageOptions[newBundle] || [];
     }
   },
 
   methods: {
     addPackage() {
-      if (this.selectedCategory && this.selectedPackage) {
+      if (this.selectedBundle && this.selectedPackage) {
         const selectedPackageItem = this.QuotationPackage.find(
           (pkg) => pkg.PackageName === this.selectedPackage
         );
 
         this.selectedPackages.push({
           ...selectedPackageItem,
-          Category: this.selectedCategory,
+          Bundle: this.selectedBundle,
         });
 
-        this.selectedCategory = '';
+        this.selectedBundle = '';
         this.selectedPackage = '';
       } else {
         alert('Please select both a category and a package.');
