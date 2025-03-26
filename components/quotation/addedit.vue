@@ -18,6 +18,7 @@
               <select
                 v-model="selectedCustomerRef"
                 class="w-full p-2 mt-2 text-sm bg-gray-100 border rounded-md"
+                placeholder="dd"
               >
                 <option value="" disabled selected>Select a vendor</option>
                 <option v-for="vendor in vendorOptions" :key="vendor.id" :value="vendor.id">
@@ -31,7 +32,7 @@
           <div class="grid grid-cols-1 gap-4 mt-4">
             <label class="block text-sm font-bold text-gray-600">Select a Package</label>
             <div class="grid grid-cols-4 gap-4 ">
-              <div class="flex items-center border border-gray-200 rounded-sm ps-4 dark:border-gray-700">
+              <div class="flex items-center border border-transparent rounded-2xl sm:border-gray-200 ps-4 dark:border-gray-700">
                 <input 
                   id="bordered-radio-1" 
                   type="radio" 
@@ -46,7 +47,7 @@
                 </label>
               </div>
 
-              <div class="flex items-center border border-gray-200 rounded-sm ps-4 dark:border-gray-700">
+              <div class="flex items-center border border-transparent rounded-2xl sm:border-gray-200 ps-4 dark:border-gray-700">
                 <input 
                   id="bordered-radio-2" 
                   type="radio" 
@@ -60,127 +61,193 @@
                   Subscriptions
                 </label>
               </div>
+
+            </div>
+          </div>
+
+          <!-- Show Bundles List -->
+          <ul v-if="selectedRadio === 'bundles'" class="flex w-full gap-2 mt-4 overflow-x-auto no-scrollbar">
+            <li class="flex-shrink-0 w-60" v-for="(item, index) in listBundles" :key="index" :value="item">
+              <input
+                type="checkbox"
+                :id="'package-' + index"
+                :value="item"
+                v-model="selectedPackages" 
+                class="hidden peer"
+                @change="selectPackage(item)" 
+              />
+              <label
+                :for="'package-' + index"
+                class="flex flex-col w-full max-w-xs p-4 mb-4 transition-all duration-300 ease-in-out transform bg-white border-2 border-gray-200 shadow-sm cursor-pointer rounded-xl hover:border-blue-500 dark:bg-gray-800 dark:border-gray-700 dark:hover:border-blue-500"
+              >
+                <div class="flex flex-col space-y-2">
+                  <div class="flex items-center justify-between">
+                    <div class="text-sm font-semibold text-gray-900 dark:text-white">
+                      Package Name
+                    </div>
+                    <div class="flex justify-end mt-2">
+                  </div>
+                  </div>
+                  <div class="text-xs font-medium text-gray-900 dark:text-gray-300">
+                    <div class="text-xs font-semibold text-gray-900 dark:text-gray-900">
+                      {{ item.productCount }} products
+                    </div>
+                    <div class="text-xs font-semibold text-gray-900 dark:text-gray-900">
+                      {{ item.days }} Days
+                    </div>
+                    <div class="text-xs font-semibold text-gray-600 dark:text-gray-400">Banner Count: {{ item.bannerCount }}</div>
+                    <div class="text-xs font-semibold text-gray-600 dark:text-gray-400">Featured: {{ item.featuredProductCount }}</div>
+                    <div class="text-xs font-semibold text-gray-600 dark:text-gray-400">New Arrivals: {{ item.newArraivalCount }}</div>
+                  </div>
+                </div>
+
+                <div class="flex items-center justify-between">
+                  <div class="mt-2 text-sm font-bold text-blue-900 dark:text-blue-400">
+                    LKR: {{ item.displayPrice }}
+                  </div>
+                    
+                    <div class="flex justify-end mt-2">
+                    <span
+                      class="px-2 py-1 text-xs font-medium text-blue-800 bg-blue-100 rounded-full dark:bg-blue-900 dark:text-blue-300"
+                    >
+                      Add
+                    </span>
+                  </div>
+                </div>
+              </label>
+            </li>
+          </ul>
+
+          <!-- Show Subscriptions List -->
+          <ul v-if="selectedRadio === 'subscriptions'" class="flex w-full gap-2 mt-4 overflow-x-auto no-scrollbar">
+            <li class="flex-shrink-0 w-60" v-for="(item, index) in listSubscriptions" :key="index" :value="item">
+              <input
+                type="checkbox"
+                :id="'package-' + index"
+                :value="item"
+                v-model="selectedPackages"
+                class="hidden peer"
+                @change="selectPackage(item)"
+              />
+              <label
+                :for="'package-' + index"
+                class="flex flex-col justify-between w-full p-4 mb-4 overflow-hidden transition duration-300 ease-in-out bg-white border-2 border-gray-200 shadow-sm cursor-pointer h-38 rounded-xl hover:border-blue-500 peer-checked:border-blue-600 peer-checked:shadow-md dark:bg-gray-800 dark:border-gray-700 dark:hover:border-blue-500 dark:peer-checked:border-blue-600"
+              >
+              <div class="flex flex-col space-y-2">
+                  <div class="flex items-center justify-between">
+                    <div class="text-sm font-semibold text-gray-900 dark:text-white">
+                      Package Name
+                    </div>
+                    <div class="flex justify-end mt-2">
+                  </div>
+                  </div>
+                  <div class="text-xs font-medium text-gray-900 dark:text-gray-300">
+                    <div class="text-xs font-semibold text-gray-900 dark:text-gray-900">
+                      {{ item.productCount }} products
+                    </div>
+                    <div class="text-xs font-semibold text-gray-900 dark:text-gray-900">
+                      {{ item.days }} Days
+                    </div>
+                    <div class="text-xs font-semibold text-gray-600 dark:text-gray-400">Banner Count: {{ item.bannerCount }}</div>
+                    <div class="text-xs font-semibold text-gray-600 dark:text-gray-400">Featured: {{ item.featuredProductCount }}</div>
+                    <div class="text-xs font-semibold text-gray-600 dark:text-gray-400">New Arrivals: {{ item.newArraivalCount }}</div>
+                  </div>
+                </div>
+
+                <div class="flex items-center justify-between">
+                  <div class="mt-2 text-sm font-bold text-blue-900 dark:text-blue-400">
+                    LKR: {{ item.displayPrice }}
+                  </div>
+                    
+                    <div class="flex justify-end mt-2">
+                    <span
+                      class="px-2 py-1 text-xs font-medium text-blue-800 bg-blue-100 rounded-full dark:bg-blue-900 dark:text-blue-300"
+                    >
+                      Add
+                    </span>
+                  </div>
+                </div>
+              </label>
+            </li>
+          </ul>
+
+          <p v-if="validationErrors.selectedRadio" class="text-xs text-red-500">{{ validationErrors.selectedRadio }}</p>
+
+          
+          <div class="grid grid-cols-1 gap-4 mt-4" v-if="selectedPackages.length > 0">
+            <!-- Header Row -->
+            <div class="hidden w-full p-2 text-center bg-gray-100 rounded-lg shadow-sm sm:p-2 dark:bg-gray-100 dark:border-gray-700 lg:block">
+              <div class="grid grid-cols-1 gap-1 text-xs text-gray-700 uppercase sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-6">
+                <div class="p-2">Product Count</div>
+                <div class="p-2">Days</div>
+                <div class="p-2">Price</div>
+                <div class="p-2">Discount</div>
+                <div class="p-2">Total</div>
+                <div class="p-2">Actions</div>
+              </div>
             </div>
 
-            <!-- Show Bundles List -->
-            <ul v-if="selectedRadio === 'bundles'" class="grid w-full gap-6 mt-4 md:grid-cols-4">
-              <li v-for="(item, index) in listBundles" :key="index" :value="item">
-                <input
-                  type="radio"
-                  :id="'package-' + index"
-                  name="packageSelection"
-                  :value="item.PackageName"
-                  class="hidden peer"
-                  v-model="selectedPackage"
-                  @change="addPackage(item)" 
-                  required
-                />
-                <label
-                  :for="'package-' + index"
-                  class="flex flex-col justify-between w-full p-2 overflow-hidden transition duration-300 ease-in-out bg-white border-2 border-gray-200 shadow-sm cursor-pointer h-38 rounded-xl hover:border-blue-500 peer-checked:border-blue-600 peer-checked:shadow-md dark:bg-gray-800 dark:border-gray-700 dark:hover:border-blue-500 dark:peer-checked:border-blue-600"
-                >
-                  <div class="flex items-center space-x-3">
-                    <div>
-                      <div class="text-sm font-semibold text-gray-900 dark:text-white">
-                        {{ item.productCount }} products
-                      </div>
-                      <div class="text-sm font-semibold text-gray-800 truncate dark:text-gray-400">
-                        {{ item.days }} Days
-                      </div>
-                    </div>
+            <!-- Package Items -->
+            <div class="w-full p-2 text-center bg-white rounded-lg shadow-sm sm:p-4 dark:bg-gray-100 dark:border-gray-700 overflow-y-auto max-h-[300px]">
+              <div v-for="(packageItem, index) in selectedPackages" :key="index">
+                <div class="grid grid-cols-1 gap-4 py-2 text-xs text-gray-700 uppercase sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-6">
+                  <div class="flex items-center justify-center"><p class="mr-2 sm:hidden">Product Count :  </p><strong>{{ packageItem.productCount }}</strong></div>
+                  <div class="flex items-center justify-center"><p class="mr-2 sm:hidden">Days :  </p><strong>{{ packageItem.days }}</strong></div>
+                  <div class="flex items-center justify-center"><p class="mr-2 sm:hidden">Price :</p><strong> {{ packageItem.displayPrice }}</strong></div>
+
+                  <!-- Discount Input -->
+                  <div class="flex flex-col items-center justify-center">
+                    <p class="mb-2 sm:hidden">Discount:</p>
+                    <input
+                      type="text"
+                      class="block p-1 text-xs text-gray-900 border border-gray-300 rounded-lg w-42 sm:w-12 bg-gray-50 sm:text-sm dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+                      placeholder="10%"
+                      v-model="packageItem.discount"
+                      @input="updateTotalPrice(index)"
+                    />
                   </div>
-                  <div class="text-sm font-bold text-blue-900 dark:text-blue-400">
-                    LKR: {{ item.displayPrice }}
+
+                  <!-- Total Price -->
+                  <div class="flex items-center justify-center">
+                    <p class="mr-2 sm:hidden">Total :</p> 
+                      <strong>
+                        {{ packageItem.discount && packageItem.discount > 0 ? packageItem.totalPrice : packageItem.displayPrice }}
+                      </strong>
                   </div>
-                </label>
-              </li>
-            </ul>
 
-            <!-- Show Subscriptions List -->
-            <ul v-if="selectedRadio === 'subscriptions'" class="grid w-full gap-6 mt-4 md:grid-cols-4">
-              <li v-for="(item, index) in listSubscriptions" :key="index" :value="item">
-                <input
-                  type="radio"
-                  :id="'package-' + index"
-                  name="packageSelection"
-                  :value="item.PackageName"
-                  class="hidden peer"
-                  v-model="selectedPackage"
-                  @change="addPackage(item)" 
-                  required
-                />
-                <label
-                  :for="'package-' + index"
-                  class="flex flex-col justify-between w-full p-2 overflow-hidden transition duration-300 ease-in-out bg-white border-2 border-gray-200 shadow-sm cursor-pointer h-38 rounded-xl hover:border-blue-500 peer-checked:border-blue-600 peer-checked:shadow-md dark:bg-gray-800 dark:border-gray-700 dark:hover:border-blue-500 dark:peer-checked:border-blue-600"
-                >
-                  <div class="flex items-center space-x-3">
-                    <div>
-                      <div class="text-sm font-semibold text-gray-900 dark:text-white">
-                        {{ item.productCount }} products
-                      </div>
-                      <div class="text-sm font-semibold text-gray-800 truncate dark:text-gray-400">
-                        {{ item.days }} Days
-                      </div>
-                    </div>
+                  <!-- Remove Button -->
+                  <div class="flex items-center justify-center">
+                    <button
+                      type="button"
+                      @click="removeRow(index)" 
+                      class="font-semibold text-red-500 hover:text-red-700"
+                    >
+                      Remove
+                    </button>
                   </div>
-                  <div class="text-sm font-bold text-blue-900 dark:text-blue-400">
-                    LKR: {{ item.displayPrice }}
-                  </div>
-                </label>
-              </li>
-            </ul>
-
-            <p v-if="validationErrors.selectedRadio" class="text-xs text-red-500">{{ validationErrors.selectedRadio }}</p>
-
-          </div>
-
-          <div class="grid grid-cols-2 gap-4 mt-4">
-            <button type="button" @click="addPackage" class="text-white bg-blue-900 hover:bg-blue-800 focus:ring-4 font-medium rounded-lg text-sm px-5 py-2.5 me-2 mb-2 dark:bg-blue-600 dark:focus:ring-blue-800">Add Package</button>
-          </div>
-
-          <div class="grid grid-cols-1 gap-4 mt-4">
-            <div class="max-w-full overflow-x-auto">
-              <div class="overflow-y-auto max-h-64">
-                <table class="min-w-full text-sm text-left text-gray-500 rtl:text-right dark:text-gray-400">
-                  <thead class="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
-                    <tr>
-                      <th scope="col" class="px-6 py-3">Product Count</th>
-                      <th scope="col" class="px-6 py-3">Days</th>
-                      <th scope="col" class="px-6 py-3">Price</th>
-                      <th scope="col" class="px-6 py-3">
-                        <span class="sr-only">Edit</span>
-                      </th>
-                    </tr>
-                  </thead>
-                  <tbody>
-                    <tr v-for="(packageItem, index) in selectedPackages" :key="index">
-                      <td class="px-6 py-4">{{ packageItem.productCount }}</td>
-                      <td class="px-6 py-4">{{ packageItem.days }}</td>
-                      <td class="px-6 py-4">{{ packageItem.displayPrice }}</td>
-                      <td class="px-6 py-4 text-right">
-                        <button @click="removePackage(index)" class="font-medium text-red-600">Remove</button>
-                      </td>
-                    </tr>
-                  </tbody>
-                </table>
+                </div>
+                <hr class="my-2 border-gray-300 dark:border-gray-600" />
               </div>
             </div>
           </div>
 
-          <div class="flex flex-col min-h-64">
+          <div v-else>
+            <p class="mt-6 text-center text-gray-500">Please select a package</p>
+          </div>
+
+          <div class="flex flex-col md:min-h-screen sm:min-h-screen min-h-64">
             <div class="flex-grow"></div>
             <div class="sticky bottom-0 w-full p-4 bg-white">
               <div class="flex justify-end">
                 <div class="flex items-center justify-between w-64 p-4 bg-white rounded-lg shadow-md">
                   <p class="text-sm text-gray-500">Subtotal</p>
                   <div class="flex items-center">
-                    <p class="text-xl font-medium text-gray-900">LKR: 500.00</p>
+                    <p class="text-xl font-medium text-gray-900">LKR: {{ subtotal }}</p>
                   </div>
                 </div>
               </div>
             </div>
           </div>
-
         </div>
       </div>
 
@@ -204,14 +271,15 @@ export default {
     return {
       isOpen: true,
       curVendor: {},
-      validationErrors: {},
+      validationErrors: {
+        customerRef: "",
+        selectedRadio: ""
+      },
       form: {},
-      selectedCustomerRef: '',
       vendorOptions: [],
       categoryOptions: [],
-      selectedRadio: null, // Default selection
-      selectedPackages: [], // Store the added packages
-      selectedPackage: null, // Store the selected package temporarily
+      selectedRadio: null,
+      selectedPackages: [],
     };
   },
 
@@ -222,6 +290,14 @@ export default {
     listSubscriptions() {
       return this.categoryOptions?.listSubsrSubscriptions || [];
     },
+    subtotal() {
+      return this.selectedPackages.reduce((total, packageItem) => {
+        const totalPrice = parseFloat(packageItem.totalPrice);
+        const displayPrice = parseFloat(packageItem.displayPrice.replace(/[^0-9.-]+/g, ""));
+        return total + (isNaN(totalPrice) ? displayPrice : totalPrice);
+      }, 0).toFixed(2);
+    },
+
   },
 
   created() {
@@ -229,44 +305,61 @@ export default {
     this.vendorOptions = this.quotationStore.qEdit.initQuotationEdit.vendorOptions;
     this.categoryOptions = this.quotationStore.initQuotation;
 
-    console.log('Updated categoryOptions:', this.categoryOptions);
-    console.log('Subscriptions:', this.categoryOptions?.listSubsrSubscriptions);
+    // console.log('Updated categoryOptions:', this.categoryOptions);
+    // console.log('Subscriptions:', this.categoryOptions?.listSubsrSubscriptions);
   },
 
   methods: {
-    handleRadioChange(value) {
-      this.selectedRadio = value;
-      this.selectedPackage = ''; 
+    handleRadioChange(type) {
+      this.selectedRadio = type;
+      this.selectedItemId = null; 
     },
 
-    addPackage(item) {
-      if (!item) {
-        alert('Selected package not found!');
-        return;
+    selectPackage(item) {
+        console.log('Selected item:', item);
+      },
+
+    handlePackage() {
+      if (this.selectedPackages.length === 0) {
+        this.validationErrors.selectedRadio = 'Please select at least one package.';
+      } else {
+        this.validationErrors.selectedRadio = '';
+        // Show the selected packages data in the alert
+        alert('Selected Packages: ' + JSON.stringify(this.selectedPackages));
       }
+    },
+    updateTotalPrice(index) {
+      const packageItem = this.selectedPackages[index];
+      
+      // Ensure the discount is a valid number
+      let discount = parseFloat(packageItem.discount);
+      if (isNaN(discount)) discount = 0; // If discount is not a valid number, default to 0.
 
-      if (this.selectedPackages.some((pkg) => pkg.PackageName === item.PackageName)) {
-        alert('This package is already added!');
-        return; // Prevent adding duplicate packages
-      }
+      // Parse the price (if it's a string, remove any non-numeric characters, like '$')
+      let price = parseFloat(packageItem.displayPrice.replace(/[^0-9.-]+/g, ""));
+      if (isNaN(price)) price = 0; // If price is invalid, set to 0.
 
-      this.selectedPackages.push(item);
-      this.selectedPackage = ''; 
+      // Calculate the discount amount
+      const discountAmount = (price * (discount / 100));
+      const totalPrice = price - discountAmount;
+      console.log('totalPrice:',totalPrice);
 
-      console.log('Selected packages:', this.selectedPackages);
+      // Update the total price
+      packageItem.totalPrice = totalPrice.toFixed(2); 
     },
 
-    removePackage(index) {
-      // Remove the selected package from the array
+    
+    removeRow(index) {
       this.selectedPackages.splice(index, 1);
     },
+
 
     handleSubmit() {
       this.clearValidationErrors();
       let hasErrors = false;
 
       // Check if vendor is selected
-      if (!this.form.customerRef) {
+      if (!this.selectedCustomerRef) {
         this.validationErrors.customerRef = "Please select a vendor!";
         hasErrors = true;
       }
