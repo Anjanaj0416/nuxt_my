@@ -5,11 +5,11 @@
       <div class="flex flex-col items-center justify-between mt-2 md:flex-row">
         <div class="w-full mb-4 md:mb-0">
           <div class="mr-2">
-            <Button
-              class="w-24"
-              label="New"
-              variant="primary"
-              @click="goToProformaInvoice"
+            <Button 
+              class="w-24" 
+              label="New" 
+              variant="primary" 
+              @click="GoToAddNew" 
             />
           </div>
         </div>
@@ -29,7 +29,7 @@
           <!-- Section 1 -->
           <div class="flex flex-col text-center sm:text-left">
             <h1 class="text-base font-semibold text-gray-700">Quotation No.</h1>
-            <p class="text-md text-blue-500">{{ qItem.quotationNo }}</p>
+            <p class="text-blue-500 text-md">{{ qItem.quotationNo }}</p>
           </div>
           <hr class="block w-full border-gray-300 sm:hidden" />
           <div class="hidden w-px h-12 bg-gray-300 sm:block"></div>
@@ -63,25 +63,25 @@
           </div>
         </div>
 
-        <div class="text-red-400 -my-4">
+        <div class="-my-4 text-red-400">
           Sales Exec. : {{ qItem.salesExec }}
         </div>
 
         <div class="text-green-500">
-          <span class="uppercase text-black">Items -> </span>
+          <span class="text-black uppercase">Items -> </span>
           <span v-for="(qProduct, index) in qItem.items" :key="index">
             <div>{{ qProduct }}</div>
           </span>
         </div>
 
-        <div class="flex gap-x-4 -my-4">
+        <div class="flex -my-4 gap-x-4">
           <!-- Button Group -->
 
           <div
-            class="grid grid-cols-2 gap-2 sm:flex sm:flex-row sm:justify-end relative"
+            class="relative grid grid-cols-2 gap-2 sm:flex sm:flex-row sm:justify-end"
           >
             <span
-              class="absolute top-0 left-0 bg-blue-500 rounded-full px-2 text-white"
+              class="absolute top-0 left-0 px-2 text-white bg-blue-500 rounded-full"
               >{{ qItem.noOfVersions }}</span
             >
             <LinkBtn
@@ -127,6 +127,7 @@
         @Approve="isApproving = true"
       />
       <ApproveView v-if="isApproving" @close="CloseApprovingView()"  />
+      <AddEdit v-if="isAddEdit" @close="isAddEdit = false" />
     </section>
   </div>
 </template>
@@ -140,6 +141,7 @@ import FilterTab from "~/components/customcontrol/FilterTab";
 
 import ViewMore from "~/components/quotation/viewmore";
 import ApproveView from "~/components/quotation/approve";
+import AddEdit from "~/components/quotation/addedit.vue";
 
 import { useQuotationStore } from "~/stores/modules/quotationStore";
 
@@ -158,11 +160,13 @@ export default {
     SearchComp,
     ViewMore,
     ApproveView,
+    AddEdit,
   },
   data() {
     return {
       isViewMore: false,
       isApproving: false,
+      isAddEdit: false,
       searchBy: "",
       arrFilter: ["All", "Pending", "Approved", "Cancelled"],
       imageroot: "",
@@ -186,6 +190,11 @@ export default {
  
   },
   methods: {   
+
+    GoToAddNew() {
+      this.quotationStore.ResetQuotation();
+      this.isAddEdit = true; // Ensure modal state updates
+    },
 
     async GoToViewAllQuoVer() {
       let id = this.quotationStore.curQuotation.id;
