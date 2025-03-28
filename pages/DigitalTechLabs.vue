@@ -6,22 +6,23 @@
       <!-- Logo -->
       <div class="flex items-center">
         <span class="flex items-center text-2xl font-bold">
-          <img
-            src="/assets/img/digitalTechLabs/DigitalTechLabsLogo.jpg" 
-            alt="Digital Tech Labs Logo"
-            class="px-2 rounded-full w-44"
-          />
+          <a href="DigitalTechLabs" class="transition duration-300 hover:opacity-90">
+            <img
+              src="/assets/img/digitalTechLabs/DigitalTechLabsLogo.jpg" 
+              alt="Digital Tech Labs Logo"
+              class="px-2 rounded-full w-44"
+            />
+          </a>
         </span>
       </div>
 
       <!-- Navigation Links -->
       <div class="items-center hidden px-4 py-2 space-x-4 text-sm text-white bg-blue-900 rounded-full shadow-lg md:flex">
-        <a href="#" class="transition duration-300 hover:text-gray-300">How It Works</a>
-        <a href="#" class="transition duration-300 hover:text-gray-300">Services</a>
+        <a href="#services" class="transition duration-300 hover:text-gray-300">Service</a>
+        <a href="#Projects" class="transition duration-300 hover:text-gray-300">Product</a>
         <a href="#" class="transition duration-300 hover:text-gray-300">Projects</a>
-        <a href="#" class="transition duration-300 hover:text-gray-300">Pricing</a>
-        <a href="#" class="transition duration-300 hover:text-gray-300">Faqs</a>
-        
+        <NuxtLink to="aboutUs" class="transition duration-300 hover:text-gray-300">About us</NuxtLink>
+        <a href="contactUs" class="transition duration-300 hover:text-gray-300">Contact</a>
         <!-- Talk to Us Button -->
         <a href="#" class="px-4 py-2 ml-4 font-semibold text-blue-900 transition-transform transform bg-white rounded-full shadow-md hover:scale-105 hover:bg-blue-100">
           Talk to Us
@@ -37,33 +38,34 @@
 
       <!-- Mobile Dropdown -->
       <div v-if="menuOpen" class="absolute left-0 flex flex-col w-full py-4 space-y-2 text-center text-white bg-blue-900 top-16 md:hidden">
-        <a href="#" class="py-2 hover:bg-gray-700">How It Works</a>
-        <a href="#" class="py-2 hover:bg-gray-700">Services</a>
-        <a href="#" class="py-2 hover:bg-gray-700">Projects</a>
-        <a href="#" class="py-2 hover:bg-gray-700">Pricing</a>
-        <a href="#" class="py-2 hover:bg-gray-700">Faqs</a>
+        <a href="#services" class="transition duration-300 hover:text-gray-300">Service</a>
+        <a href="#Projects" class="transition duration-300 hover:text-gray-300">Product</a>
+        <a href="#" class="transition duration-300 hover:text-gray-300">Projects</a>
+        <a to="aboutUs" class="transition duration-300 hover:text-gray-300">About us</a>
+        <a href="contactUs" class="transition duration-300 hover:text-gray-300">Contact</a>
         <a href="#" class="py-2 font-semibold hover:bg-gray-700">Book Now</a>
       </div>
     </nav>
   </header>
 
   <!-- section 1 -->
-  <section>
+  <section class=" bg-gradient-to-r from-blue-900 to-blue-500">
     <div class="absolute inset-x-0 overflow-hidden -top-10 -z-10 transform-gpu blur-3xl sm:-top-80" aria-hidden="true">
       <div class="relative left-[calc(50%-11rem)] aspect-1155/678 w-[36.125rem] -translate-x-1/2 rotate-[30deg] bg-linear-to-tr from-[#ff80b5] to-[#9089fc] opacity-30 sm:left-[calc(50%-30rem)] sm:w-[72.1875rem]" style="clip-path: polygon(74.1% 44.1%, 100% 61.6%, 97.5% 26.9%, 85.5% 0.1%, 80.7% 2%, 72.5% 32.5%, 60.2% 62.4%, 52.4% 68.1%, 47.5% 58.3%, 45.2% 34.5%, 27.5% 76.7%, 0.1% 64.9%, 17.9% 100%, 27.6% 76.8%, 76.1% 97.7%, 74.1% 44.1%)"></div>
     </div>
-    <div class="max-w-2xl py-12 mx-auto sm:py-12 lg:py-16">
+    <div class="max-w-3xl py-12 mx-auto sm:py-12 lg:py-16">
       <div class="hidden sm:mb-8 sm:flex sm:justify-center">
-        <div class="relative px-3 py-1 text-gray-600 rounded-full text-sm/6 ring-1 ring-gray-900/10 hover:ring-gray-900/20">
-          Announcing our next round of funding. <a href="#" class="font-semibold text-indigo-900"><span class="absolute inset-0" aria-hidden="true"></span>Read more <span aria-hidden="true">&rarr;</span></a>
+        <div class="relative px-3 py-1 text-white rounded-full text-sm/6 ring-1 ring-white-900/10 hover:ring-gray-900/20">
+          Announcing our next round of funding. <a href="#" class="font-semibold text-white"><span class="absolute inset-0" aria-hidden="true"></span>Read more <span aria-hidden="true">&rarr;</span></a>
         </div>
       </div>
       <div class="text-center">
-        <h1 class="text-5xl font-semibold tracking-tight text-gray-900 text-balance sm:text-7xl">Together, we build impactful tech!</h1>
-        <p class="mt-8 text-lg font-medium text-gray-500 text-pretty sm:text-xl/8">Anim aute id magna aliqua ad ad non deserunt sunt. Qui irure qui lorem cupidatat commodo. Elit sunt amet fugiat veniam occaecat.</p>
+        <h1 class="text-5xl font-semibold tracking-tight text-white text-balance sm:text-7xl">Empowering Businesses with Cutting-Edge Tech Solutions!</h1>
+        <p class="mt-8 text-lg font-medium text-white text-pretty sm:text-xl/8">We help SMEs, e-commerce platforms, and multivendor marketplaces scale with innovative software solutions.
+          Meet Our Team Section</p>
         <div class="flex items-center justify-center mt-10 gap-x-6">
-          <a href="#" class="rounded-md bg-blue-900 px-3.5 py-2.5 text-sm font-semibold text-white shadow-xs hover:bg-indigo-500 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600">Get started</a>
-          <a href="#" class="font-semibold text-gray-900 text-sm/6">Learn more <span aria-hidden="true">→</span></a>
+          <a href="#" class=" bg-white px-3.5 py-2.5 text-sm font-semibold text-blue-900 shadow-xs rounded-full hover:bg-blue-300 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600">Get started</a>
+          <a href="#" class="font-semibold text-white text-sm/6">Learn more <span aria-hidden="true">→</span></a>
         </div>
       </div>
     </div>
@@ -73,70 +75,65 @@
   </section>
 
   <!-- section 2 -->
-  <section class="px-6 py-16 mx-auto max-w-7xl ">
-    <div class="grid items-center gap-12 md:grid-cols-2">
-        <!-- Text Section -->
-        <div class="max-w-xl">
-            <span class="px-8 py-1 text-sm font-medium border-2 border-indigo-600 rounded-full">Services</span>
-            <h2 class="text-4xl font-extrabold text-gray-900">Meet Our Team</h2>
-            <p class="mt-4 text-lg text-gray-700">
-                Our people are at the heart of everything we do. Passionate, innovative, and driven by excellence.
-                Together, we create impactful solutions and inspire change.
-            </p>
-            <p class="mt-4 text-gray-600">
-                Whether you're looking to collaborate or join us, we welcome creative minds and diverse talents.
-            </p>
-            <button class="px-6 py-3 mt-6 font-medium text-white transition-all bg-blue-900 rounded-lg shadow-lg hover:bg-indigo-700 hover:shadow-xl">
-                Join our team →
-            </button>
-        </div>
+  <section id="services" class="px-6 py-16 mx-auto max-w-7xl" >
+    <div class="grid gap-12 md:grid-cols-2">
+      <!-- Text Section -->
+      <div class="max-w-xl">
+        <!-- <span class="px-8 py-1 text-sm font-medium border-2 border-indigo-600 rounded-full">Services</span> -->
+        <h2 class="text-4xl font-extrabold text-gray-900">Our Service</h2>
+        <p class="mt-4 text-lg text-gray-700">
+          At Digital TechLab, we specialize in delivering cutting-edge digital solutions that empower businesses to thrive in a fast-paced digital landscape. Our team of passionate developers, designers, and strategists work together to craft high-performance software solutions tailored to your needs.
+        </p>
+        <p class="mt-4 text-lg text-gray-700">
+            Our expertise spans across web and mobile application development, cloud solutions, AI-driven analytics, and digital transformation services. We focus on innovation, ensuring that your business stays ahead with scalable and future-ready technology.
+        </p>
+        <button type="button" class="px-3 py-2 mt-4 text-sm font-medium text-center text-white bg-blue-900 rounded-full hover:bg-blue-800 hover:shadow-xl dark:bg-blue-900 dark:hover:bg-blue-700">
+          See our Service →
+        </button>
+      </div>
 
-        <!-- Images Grid -->
-        <div class="grid grid-cols-2 gap-4">
-            <div class="overflow-hidden transition shadow-lg rounded-xl hover:shadow-xl">
-                <img src="https://img.freepik.com/free-photo/confident-good-looking-girl-with-curly-hairstyle-look-camera-self-assured-sassy-smiling-pointing-upper-left-corner-introduce-amazing-product-give-recommendations_176420-37588.jpg?ga=GA1.1.726853296.1742796863&semt=ais_hybrid" alt="Team" class="object-cover w-full h-40 md:h-60">
-            </div>
-            <div class="overflow-hidden transition shadow-lg rounded-xl hover:shadow-xl">
-                <img src="https://img.freepik.com/free-photo/portrait-handsome-satisfied-family-guy-shirt-t-shirt-show-okay-confirmation-assurance-gesture-smiling-pleased-recommend-good-quality-product-give-permition-guarantee-quality_176420-33929.jpg?t=st=1743074281~exp=1743077881~hmac=2474ac7ed82c2952ae2a1907785e796b1fdaeb56e43febaec7fd8993e6dbf27d&w=996" alt="Work Culture" class="object-cover w-full h-40 md:h-60">
-            </div>
-            <div class="col-span-2 overflow-hidden transition shadow-lg rounded-xl hover:shadow-xl">
-                <img src="https://img.freepik.com/free-photo/workers-standing-together-diversity_53876-30656.jpg?t=st=1743074533~exp=1743078133~hmac=3475101ffd588fda1f8b5a7201395298e22d3098d5fa43370a686bcb4a730b0a&w=1380">
-            </div>
-            <!-- <div class="col-span-2 overflow-hidden transition shadow-lg rounded-xl hover:shadow-xl">
-              <img src="https://img.freepik.com/free-photo/workers-standing-together-diversity_53876-20724.jpg?t=st=1743074413~exp=1743078013~hmac=f0b46f88998a7f7b1bd6ed1be9805c46f365c7ecabc284ea5f386ebb8aa31dc6&w=996" alt="Collaboration" class="object-contain w-full h-52">
-            </div> -->
+      <!-- Images Grid with Scroll Animation -->
+      <div class="grid grid-cols-2 gap-4" ref="imageGridSection1">
+        <div class="overflow-hidden transition shadow-lg rounded-xl hover:shadow-xl">
+          <img  src="/assets/img/digitalTechLabs/1image.jpg"  alt="Team" class="object-cover w-full h-40 md:h-60" />
         </div>
+        <div class="overflow-hidden transition shadow-lg rounded-xl hover:shadow-xl">
+          <img src="/assets/img/digitalTechLabs/2image.jpg" alt="Work Culture" class="object-cover w-full h-40 md:h-60" />
+        </div>
+        <div class="col-span-2 overflow-hidden transition shadow-lg rounded-xl hover:shadow-xl">
+          <img src="/assets/img/digitalTechLabs/3image.jpg" alt="Collaboration" class="object-cover w-full h-60" />
+        </div>
+      </div>
     </div>
   </section>
 
   <!-- section 3 -->
-  <section class="px-6 py-16 mx-auto max-w-7xl ">
+  <section id="Projects" class="px-6 py-16 mx-auto max-w-7xl" >
     <div class="grid items-center gap-12 md:grid-cols-2">      
         <!-- Images Grid -->
-        <div class="grid grid-cols-2 gap-4">
+        <div class="grid grid-cols-2 gap-4" ref="imageGridSection2">
             <div class="overflow-hidden transition shadow-lg rounded-xl hover:shadow-xl">
-                <img src="https://source.unsplash.com/300x300/?team,people" alt="Team" class="object-cover w-full h-40 md:h-60">
+                <img src="https://img.freepik.com/free-photo/modern-equipped-computer-lab_23-2149241233.jpg?t=st=1743143493~exp=1743147093~hmac=2d571855b02ce2dee7ca8da15162d849bfb3ba8f84f8fb1b356ec5b83eabda90&w=996" alt="Team" class="object-cover w-full h-40 md:h-60">
             </div>
             <div class="overflow-hidden transition shadow-lg rounded-xl hover:shadow-xl">
-                <img src="https://source.unsplash.com/300x300/?office,work" alt="Work Culture" class="object-cover w-full h-40 md:h-60">
+                <img src="https://img.freepik.com/free-photo/modern-equipped-computer-lab_23-2149241219.jpg?t=st=1743143562~exp=1743147162~hmac=d13c40a25fc80cebc1d91c07e2ee2d75c9ccc03be27956e1b79180f3027f5395&w=900" alt="Work Culture" class="object-cover w-full h-40 md:h-60">
             </div>
-            <div class="col-span-2 overflow-hidden transition shadow-lg rounded-xl hover:shadow-xl">
+            <!-- <div class="col-span-2 overflow-hidden transition shadow-lg rounded-xl hover:shadow-xl">
                 <img src="https://source.unsplash.com/600x300/?startup,collaboration" alt="Collaboration" class="object-cover w-full h-52">
-            </div>
+            </div> -->
         </div>
         <!-- Text Section -->
         <div class="max-w-xl">
-            <span class="px-8 py-1 text-sm font-medium border-2 border-indigo-600 rounded-full">Product</span>
+            <!-- <span class="px-8 py-1 text-sm font-medium border-2 border-indigo-600 rounded-full">Product</span> -->
             <h2 class="text-4xl font-extrabold text-gray-900">How to Product </h2>
             <p class="mt-4 text-lg text-gray-700">
-                Our people are at the heart of everything we do. Passionate, innovative, and driven by excellence.
-                Together, we create impactful solutions and inspire change.
+              At Digital TechLab, we develop innovative and high-quality digital products that enhance business efficiency and customer experiences. Our solutions are designed to be scalable, secure, and tailored to meet the evolving needs of various industries.
             </p>
-            <p class="mt-4 text-gray-600">
+            <!-- <p class="mt-4 text-gray-600">
                 Whether you're looking to collaborate or join us, we welcome creative minds and diverse talents.
-            </p>
-            <button class="px-6 py-3 mt-6 font-medium text-white transition-all bg-blue-900 rounded-lg shadow-lg hover:bg-indigo-700 hover:shadow-xl">
-                Join our team →
+            </p> -->
+            <button type="button" class="px-3 py-2 mt-4 text-sm font-medium text-center text-white bg-blue-900 rounded-full hover:bg-blue-800 hover:shadow-xl dark:bg-blue-900 dark:hover:bg-blue-700">
+              Join our team →
             </button>
         </div>
     </div>
@@ -146,9 +143,9 @@
   <section class="px-6 bg-gray-100">
     <div class="max-w-screen-xl px-4 py-8 mx-auto lg:py-16 lg:px-6">
         <div class="max-w-screen-lg text-gray-500 sm:text-lg dark:text-gray-400">
-            <h2 class="mb-4 text-4xl font-bold tracking-tight text-gray-900 dark:text-white">Powering innovation at <span class="font-extrabold">200,000+</span> companies worldwide</h2>
-            <p class="mb-4 font-light">Track work across the enterprise through an open, collaborative platform. Link issues across Jira and ingest data from other software development tools, so your IT support and operations teams have richer contextual information to rapidly respond to requests, incidents, and changes.</p>
-            <p class="mb-4 font-medium">Deliver great service experiences fast - without the complexity of traditional ITSM solutions.Accelerate critical development work, eliminate toil, and deploy changes with ease.</p>
+            <h2 class="mb-4 text-4xl font-bold tracking-tight text-gray-900 dark:text-white">Powering innovation at <span class="font-extrabold">200,000+</span> companies worldwide with Digital TechLab</h2>
+            <p class="mb-4 font-light">Digital TechLab is driving technological innovation by enabling companies to enhance their operations, optimize workflows, and accelerate digital transformation. By integrating cutting-edge tools and methodologies, it empowers businesses to deliver exceptional service experiences and innovate faster than ever before.</p>
+            <p class="mb-4 font-medium">In the context of Digital TechLab, a company or department could be leveraging such a platform to innovate and accelerate their development processes. Here are some key concepts related to this kind of digital transformation.</p>
             <a href="#" class="inline-flex items-center font-medium text-primary-600 hover:text-primary-800 dark:text-primary-500 dark:hover:text-primary-700">
                 Learn more
                 <svg class="w-6 h-6 ml-1" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path fill-rule="evenodd" d="M7.293 14.707a1 1 0 010-1.414L10.586 10 7.293 6.707a1 1 0 011.414-1.414l4 4a1 1 0 010 1.414l-4 4a1 1 0 01-1.414 0z" clip-rule="evenodd"></path></svg>
@@ -158,18 +155,8 @@
   </section>
 
   <!-- section 5 -->
-  <section class="py-8 antialiased bg-white dark:bg-gray-900 md:py-16">
-    <div class="grid max-w-screen-xl px-4 pb-8 mx-auto md:grid-cols-12 lg:gap-12 lg:pb-16 xl:gap-0">
-      <div class="content-center justify-self-start md:col-span-7 md:text-start">
-        <h1 class="mb-4 text-4xl font-extrabold leading-none tracking-tight dark:text-white md:max-w-2xl md:text-5xl xl:text-6xl">Limited Time Offer!<br />Up to 50% OFF!</h1>
-        <p class="max-w-2xl mb-3 mb-4 text-gray-500 dark:text-gray-400 md:mb-12 md:text-lg lg:mb-5 lg:text-xl">Don't Wait - Limited Stock at Unbeatable Prices!</p>
-        <a href="#" class="inline-block rounded-lg bg-primary-700 px-6 py-3.5 text-center font-medium text-white hover:bg-primary-800 focus:outline-none focus:ring-4 focus:ring-primary-300 dark:bg-primary-600 dark:hover:bg-primary-700 dark:focus:ring-primary-800">Shop Now</a>
-      </div>
-      <div class="hidden md:col-span-5 md:mt-0 md:flex">
-        <img class="dark:hidden" src="https://flowbite.s3.amazonaws.com/blocks/e-commerce/girl-shopping-list.svg" alt="shopping illustration" />
-        <img class="hidden dark:block" src="https://flowbite.s3.amazonaws.com/blocks/e-commerce/girl-shopping-list-dark.svg" alt="shopping illustration" />
-      </div>
-    </div>
+  <section class="py-6 antialiased bg-white dark:bg-gray-900 md:py-16">
+    
     <div class="grid max-w-screen-xl grid-cols-2 gap-8 px-4 mx-auto text-gray-500 dark:text-gray-400 sm:grid-cols-3 sm:gap-12 lg:grid-cols-6">
       <a href="#" class="flex items-center md:justify-center">
         <svg class="h-10 hover:text-gray-900 dark:hover:text-white" viewBox="0 0 106 48" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -253,32 +240,100 @@
     </div>
   </section>
 
+  <section class="px-6 py-16 mx-auto max-w-7xl">
+    <div class="grid grid-cols-1 gap-6 mt-6 md:grid-cols-2">
+      <div>
+        <h2 class="mb-4 text-3xl font-bold md:text-4xl">Digital TechLab's Role in Revolutionizing Technology Solutions</h2>
+        <p class="mb-4 text-gray-400">
+          A Digital TechLab could be a department or initiative within a company that explores and implements cutting-edge technologies, like these ITSM platforms, to solve business challenges. In this context, a Digital TechLab might focus on
+        </p>
+        <a href="#" class="text-blue-500 hover:underline">Learn what makes Flowbite different &rarr;</a>
+      </div>
+
+      <div>
+        <div class="flex items-center justify-between p-4 bg-blue-900 rounded-xl">
+          <div>
+            <p class="text-sm text-gray-400">Innovation</p>
+            <h3 class="text-lg font-semibold text-white">Exploring new technologies to enhance IT service management and improve overall business processes.</h3>
+          </div>
+          <span class="text-xl text-blue-400">&rarr;</span>
+        </div>
+
+        <div class="flex items-center justify-between p-4 mt-4 bg-blue-900 rounded-xl">
+          <div>
+            <p class="text-sm text-gray-400">Efficiency</p>
+            <h3 class="text-lg font-semibold text-white">Implementing solutions that help teams collaborate more effectively and reduce manual efforts.</h3>
+          </div>
+          <span class="text-xl text-purple-400">&rarr;</span>
+        </div>
+
+        <div class="flex items-center justify-between p-4 mt-4 bg-blue-900 rounded-xl">
+          <div>
+            <p class="text-sm text-gray-400">Customization</p>
+            <h3 class="text-lg font-semibold text-white">Developing tailor-made solutions to fit the specific needs of the organization, such as integrating multiple tools or creating custom workflows.</h3>
+          </div>
+          <span class="text-xl text-teal-400">&rarr;</span>
+        </div>
+      </div>
+    </div>
+  </section>
+
+
   <!-- section 6 -->
   <section class="bg-white dark:bg-gray-900">
     <div class="max-w-screen-xl px-4 py-8 mx-auto text-center lg:py-16 lg:px-6">
-        <figure class="max-w-screen-md mx-auto">
-            <svg class="h-12 mx-auto mb-3 text-gray-400 dark:text-gray-600" viewBox="0 0 24 27" fill="none" xmlns="http://www.w3.org/2000/svg">
-                <path d="M14.017 18L14.017 10.609C14.017 4.905 17.748 1.039 23 0L23.995 2.151C21.563 3.068 20 5.789 20 8H24V18H14.017ZM0 18V10.609C0 4.905 3.748 1.038 9 0L9.996 2.151C7.563 3.068 6 5.789 6 8H9.983L9.983 18L0 18Z" fill="currentColor"/>
-            </svg> 
+      <Swiper
+        :modules="[Pagination, Autoplay]"
+        :slides-per-view="1"
+        :space-between="30"
+        :pagination="{ clickable: true }"
+        :autoplay="{ delay: 3000, disableOnInteraction: false }"
+        class="max-w-screen-md mx-auto"
+      >
+        <SwiperSlide v-for="(testimonial, index) in testimonials" :key="index">
+          <figure class="flex flex-col items-center">
+            <svg
+              class="h-12 mx-auto mb-3 text-gray-400 dark:text-gray-600"
+              viewBox="0 0 24 27"
+              fill="none"
+              xmlns="http://www.w3.org/2000/svg"
+            >
+              <path
+                d="M14.017 18L14.017 10.609C14.017 4.905 17.748 1.039 23 0L23.995 2.151C21.563 3.068 20 5.789 20 8H24V18H14.017ZM0 18V10.609C0 4.905 3.748 1.038 9 0L9.996 2.151C7.563 3.068 6 5.789 6 8H9.983L9.983 18L0 18Z"
+                fill="currentColor"
+              />
+            </svg>
             <blockquote>
-                <p class="text-2xl font-medium text-gray-900 dark:text-white">"Flowbite is just awesome. It contains tons of predesigned components and pages starting from login screen to complex dashboard. Perfect choice for your next SaaS application."</p>
+              <p class="text-2xl font-medium text-gray-900 dark:text-white">
+                "{{ testimonial.text }}"
+              </p>
             </blockquote>
             <figcaption class="flex items-center justify-center mt-6 space-x-3">
-                <img class="w-6 h-6 rounded-full" src="https://flowbite.s3.amazonaws.com/blocks/marketing-ui/avatars/michael-gouch.png" alt="profile picture">
-                <div class="flex items-center divide-x-2 divide-gray-500 dark:divide-gray-700">
-                    <div class="pr-3 font-medium text-gray-900 dark:text-white">Micheal Gough</div>
-                    <div class="pl-3 text-sm font-light text-gray-500 dark:text-gray-400">CEO at Google</div>
+              <!-- <img
+                class="w-6 h-6 rounded-full"
+                :src="testimonial.image"
+                alt="profile picture"
+              /> -->
+              <div class="flex items-center divide-x-2 divide-gray-500 dark:divide-gray-700">
+                <div class="pr-3 font-medium text-gray-900 dark:text-white">
+                  {{ testimonial.name }}
                 </div>
+                <div class="pl-3 text-sm font-light text-gray-500 dark:text-gray-400">
+                  {{ testimonial.position }}
+                </div>
+              </div>
             </figcaption>
-        </figure>
+          </figure>
+        </SwiperSlide>
+      </Swiper>
     </div>
   </section>
 
   <!-- section 7 -->
-  <section class="px-6 py-2 mx-auto bg-blue-900 rounded-3xl max-w-7xl">
+  <section class="px-6 py-2 mx-auto bg-gradient-to-r from-blue-900 to-blue-500 rounded-3xl max-w-7xl">
     <div class="mx-auto text-center lg:py-16 lg:px-2">
       <h1 class="text-4xl font-semibold text-white sm:text-5xl">Get Started with Digital TechLab</h1>
-      <button class="px-6 py-3 mt-6 font-medium text-blue-800 transition-all bg-white rounded-lg shadow-lg hover:bg-white hover:shadow-xl">
+      <button type="button" class="px-3 py-2 mt-4 text-sm font-medium text-center text-blue-900 bg-white rounded-full hover:bg-blue-800 hover:shadow-xl dark:bg-blue-900 dark:hover:bg-blue-700">
         Contact Us →
       </button>
     </div>
@@ -336,7 +391,7 @@
         </div>
         <hr class="my-6 border-gray-200 sm:mx-auto dark:border-gray-700 lg:my-8" />
         <div class="sm:flex sm:items-center sm:justify-between">
-            <span class="text-sm text-gray-500 sm:text-center dark:text-gray-400">© 2025 <a href="https://flowbite.com" class="hover:underline">Flowbite™</a>. All Rights Reserved.
+            <span class="text-sm text-gray-500 sm:text-center dark:text-gray-400">© 2025 <a href="https://flowbite.com" class="hover:underline"> Digital TechLab™</a>. All Rights Reserved.
             </span>
             <div class="flex mt-4 space-x-6 sm:justify-center sm:mt-0">
                 <a href="#" class="text-gray-500 hover:text-gray-900 dark:hover:text-white">
@@ -364,13 +419,42 @@
 </template>
 
 <script setup>
-import { ref } from 'vue';
+  import { ref } from "vue";
+  import { Swiper, SwiperSlide } from "swiper/vue";
+  import "swiper/css";
+  import "swiper/css/pagination";
+  import "swiper/css/autoplay";
+  import { Pagination, Autoplay } from "swiper/modules";
+  import gsap from 'gsap';
 
-// Mobile Menu Toggle
-const menuOpen = ref(false);
-const toggleMenu = () => {
-  menuOpen.value = !menuOpen.value;
-};
+
+  // Mobile Menu Toggle
+  const menuOpen = ref(false);
+  const toggleMenu = () => {
+    menuOpen.value = !menuOpen.value;
+  };
+
+  // testimonials
+  const testimonials = ref([
+    {
+      text: "Flowbite is just awesome. It contains tons of predesigned components and pages starting from login screen to complex dashboard. Perfect choice for your next SaaS application.",
+      name: "Micheal Gough",
+      position: "CEO at Google",
+    },
+    {
+      text: "Using Flowbite has significantly improved our development speed. The UI components are elegant, responsive, and easy to customize.",
+      name: "Sarah Thompson",
+      position: "Lead Developer at Facebook",
+    },
+    {
+      text: "Flowbite’s prebuilt UI components saved us a lot of time. We were able to build a professional-looking UI in no time!",
+      name: "David Johnson",
+      position: "CTO at Amazon",
+    },
+    
+  ]);
+
+  const imageGrid = ref(null)
 </script>
 
 <script>
@@ -386,7 +470,46 @@ export default {
   },
   async mounted() {
      
-    },
+  },
+  mounted() {
+    console.log("Component mounted!");
+
+    // Section 1 Animation
+    if (this.$refs.imageGridSection1) {
+      gsap.fromTo(
+        this.$refs.imageGridSection1.children, // Targeting the child image elements
+        {
+          opacity: 0, // Start with the images being invisible
+          y: 50, // Start with images slightly below
+        },
+        {
+          opacity: 1, // Fade in the images
+          y: 0, // Bring images to their original position
+          stagger: 0.2, // Add a slight delay between images to stagger the animation
+          duration: 1.5, // Duration of the animation
+          ease: 'power4.out', // Smooth easing
+        }
+      );
+    }
+
+    // Section 2 Animation
+    if (this.$refs.imageGridSection2) {
+      gsap.fromTo(
+        this.$refs.imageGridSection2.children, // Targeting the child image elements
+        {
+          opacity: 0, // Start with the images being invisible
+          y: 50, // Start with images slightly below
+        },
+        {
+          opacity: 1, // Fade in the images
+          y: 0, // Bring images to their original position
+          stagger: 0.2, // Add a slight delay between images to stagger the animation
+          duration: 1.5, // Duration of the animation
+          ease: 'power4.out', // Smooth easing
+        }
+      );
+    }
+  },
     async created() {
       //this.sampleStore = useSampleStore();
     },
@@ -407,6 +530,9 @@ export default {
 
 <style scoped>
 /* Utility Classes */
+.html {
+  scroll-behavior: smooth;
+}
 .csscmd {
   @apply p-2 text-center bg-blue-200 rounded;
 }
