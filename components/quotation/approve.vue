@@ -18,11 +18,11 @@
             </h3>
             <hr />
 
-            <imagecomp
+            <!-- <imagecomp
               @GetAttachedImage="GetAttachedImage"
               :image_file="imageroot"
               ref="refApprovedImg"
-            />
+            /> -->
 
             <p class="mt-2 text-sm text-red-600">
               {{ err.approvedImage }}
@@ -50,11 +50,11 @@ import Lable from "~/components/customcontrol/Lable";
 import Button from "~/components/customcontrol/Button";
 import ImageLable from "~/components/customcontrol/ImageLable";
 import LinkBtn from "~/components/customcontrol/Link";
-import imagecomp from "~/components/customcontrol/imagepicker";
+// import imagecomp from "~/components/customcontrol/imagepicker";
 import Swal from "sweetalert2";
 
 export default {
-  components: { closebtn, LinkBtn, Lable, Button, ImageLable, imagecomp },
+  components: { closebtn, LinkBtn, Lable, Button, ImageLable },
   props: [],
   data() {
     return {
@@ -85,9 +85,9 @@ export default {
       if (this.IsValidate()) {
         //send API call
         this.showConfirmAlert_ApproveQuotation();
-       
-       // this.closeModal();
-      //  this.$emit("CloseApprovingView");
+
+        // this.closeModal();
+        //  this.$emit("CloseApprovingView");
       }
     },
 
@@ -119,12 +119,12 @@ export default {
             popup: "custom-swal-popup",
           },
         });
-       
-        if (result.isConfirmed) {     
+
+        if (result.isConfirmed) {
           await this.quotationStore.GetAprrovingTheQuotation(
-          this.quotationStore.curQuotation.id,
-          this.approvedImage
-        );   
+            this.quotationStore.curQuotation.id,
+            this.approvedImage
+          );
           await Swal.fire({
             icon: "success",
             title: "Saved!",
@@ -158,8 +158,10 @@ export default {
 
 <style scoped>
 .custom-swal-popup {
-  z-index: 9999 !important; /* Ensure SweetAlert is above the modal */
+  z-index: 9999 !important;
+  /* Ensure SweetAlert is above the modal */
 }
+
 /* Modal Overlay */
 .modal-overlay {
   position: fixed;
@@ -182,8 +184,10 @@ export default {
   border-radius: 8px;
   display: flex;
   flex-direction: column;
-  height: 60%; /* Set the default height for larger screens */
-  position: relative; /* Needed for proper footer placement */
+  height: 60%;
+  /* Set the default height for larger screens */
+  position: relative;
+  /* Needed for proper footer placement */
 }
 
 /* Modal Header */
@@ -205,9 +209,12 @@ export default {
 /* Modal Content */
 .modal-content {
   padding: 20px;
-  max-height: 80%; /* Set max height */
-  overflow-y: auto; /* Make it scrollable */
-  flex-grow: 1; /* Allow content to grow */
+  max-height: 80%;
+  /* Set max height */
+  overflow-y: auto;
+  /* Make it scrollable */
+  flex-grow: 1;
+  /* Allow content to grow */
 }
 
 /* Modal Footer */
@@ -216,7 +223,8 @@ export default {
   padding: 15px;
   display: flex;
   justify-content: space-between;
-  position: absolute; /* Sticky footer */
+  position: absolute;
+  /* Sticky footer */
   bottom: 0;
   width: 100%;
 }
@@ -246,9 +254,12 @@ button:hover {
 /* Mobile Styles */
 @media (max-width: 768px) {
   .modal {
-    width: 100%; /* Full width on mobile */
-    height: 100%; /* Full screen height on mobile */
-    border-radius: 0; /* Remove rounded corners for mobile */
+    width: 100%;
+    /* Full width on mobile */
+    height: 100%;
+    /* Full screen height on mobile */
+    border-radius: 0;
+    /* Remove rounded corners for mobile */
   }
 
   .modal-header {
@@ -257,8 +268,10 @@ button:hover {
 
   .modal-content {
     padding: 10px;
-    max-height: none; /* Remove max-height for mobile */
-    overflow-y: auto; /* Enable scroll */
+    max-height: none;
+    /* Remove max-height for mobile */
+    overflow-y: auto;
+    /* Enable scroll */
     max-height: 80%;
   }
 

@@ -10,8 +10,8 @@
   
   <script>
   //import textInput from '~/components/customcontrol/textinput'
-  //import * as Global from '@/assets/js/Global'
-  //import * as myfilter from '@/plugins/myfilter'
+  //// import * as Global from '@/assets/js/Global'
+  ////import * as myfilter from '@/plugins/myfilter'
  //import Swal from 'sweetalert2';
  //import { useSampleStore  } from '~/stores/modules/sampleStore';
 
