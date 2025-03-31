@@ -2,7 +2,7 @@
     <section>
 
         <!-- header -->
-        <header class="">
+        <header class="fixed top-0 left-0 z-50 w-full bg-white shadow-md">
             <nav class="flex items-center justify-between px-6 py-4 mx-auto max-w-7xl">
                 <!-- Logo -->
                 <div class="flex items-center">
