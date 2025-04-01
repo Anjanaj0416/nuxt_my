@@ -1,7 +1,7 @@
 <template>
 
   <!-- header -->
-  <header class="">
+  <header class="fixed top-0 left-0 z-50 w-full bg-white shadow-md">
     <nav class="flex items-center justify-between px-6 py-4 mx-auto max-w-7xl">
       <!-- Logo -->
       <div class="flex items-center">
@@ -19,7 +19,7 @@
       <!-- Navigation Links -->
       <div class="items-center hidden px-4 py-2 space-x-4 text-sm text-white bg-blue-900 rounded-full shadow-lg md:flex">
         <a href="#services" class="transition duration-300 hover:text-gray-300">Service</a>
-        <a href="#Projects" class="transition duration-300 hover:text-gray-300">Product</a>
+        <a href="#Product" class="transition duration-300 hover:text-gray-300">Product</a>
         <a href="#" class="transition duration-300 hover:text-gray-300">Projects</a>
         <NuxtLink to="aboutUs" class="transition duration-300 hover:text-gray-300">About us</NuxtLink>
         <a href="contactUs" class="transition duration-300 hover:text-gray-300">Contact</a>
@@ -39,7 +39,7 @@
       <!-- Mobile Dropdown -->
       <div v-if="menuOpen" class="absolute left-0 flex flex-col w-full py-4 space-y-2 text-center text-white bg-blue-900 top-16 md:hidden">
         <a href="#services" class="transition duration-300 hover:text-gray-300">Service</a>
-        <a href="#Projects" class="transition duration-300 hover:text-gray-300">Product</a>
+        <a href="#Product" class="transition duration-300 hover:text-gray-300">Product</a>
         <a href="#" class="transition duration-300 hover:text-gray-300">Projects</a>
         <a to="aboutUs" class="transition duration-300 hover:text-gray-300">About us</a>
         <a href="contactUs" class="transition duration-300 hover:text-gray-300">Contact</a>
@@ -108,7 +108,7 @@
   </section>
 
   <!-- section 3 -->
-  <section id="Projects" class="px-6 py-16 mx-auto max-w-7xl" >
+  <section id="Product" class="px-6 py-16 mx-auto max-w-7xl" >
     <div class="grid items-center gap-12 md:grid-cols-2">      
         <!-- Images Grid -->
         <div class="grid grid-cols-2 gap-4" ref="imageGridSection2">
