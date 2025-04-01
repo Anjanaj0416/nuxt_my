@@ -1,6 +1,6 @@
 <template>
   <section class="empdetails">
-  
+
     <div class="relative min-h-screen px-4 pt-2 text-sm" v-show="hrStore.empdetails.empId > -1">
       <div class="absolute top-0 right-0 flex mt-8 mr-8 gap-x-4">
         <!-- <div v-show="this.loggeduser.granted.indexOf('hradmin') > -1" class="btn" @click="setEdit">Edit</div>
@@ -174,7 +174,7 @@
 </template>
 
 <script>
-  import { useHrStore } from "~/stores/modules/hrStore";
+import { useHrStore } from "~/stores/modules/hrStore";
 import hr_item from '~/components/hr/hr_item'
 export default {
   props: ['empid'],
@@ -259,9 +259,8 @@ export default {
 
       }
     },
-
-
   },
+
   async created() {
     this.hrStore = useHrStore();
   },

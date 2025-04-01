@@ -52,7 +52,122 @@ export const useHrStore = defineStore('hrStore', {
       dateOfResign : "01/01/00",
       reasonForResign : "",
       signature : "signature.png",
-  },
+    },
+    attendence: {
+      tot_normal_overtime: 10,
+      tot_sunday_overtime: 5,
+      alattendences: [
+        {
+          id: 5,
+          empno: "B00253",
+          date: "2025-04-01",
+          inlocation: "SLT-SI03",
+          outlocation: "SLT-SI03",
+          overtime: 10,
+          latemin: 10,
+          daytype: 505,
+          intime: '07:20',
+          outtime: '05:20',
+          swipesin: [
+            1,
+            2,
+            3
+          ],
+          swipesout: [
+            1,
+            2,
+            3
+          ],
+        },
+        {
+          id: 5,
+          empno: "B00253",
+          date: "2025-04-01",
+          inlocation: "SLT-SI03",
+          outlocation: "SLT-SI03",
+          overtime: 10,
+          latemin: 10,
+          daytype: 505,
+          intime: '07:20',
+          outtime: '05:20',
+          swipesin: [
+            1,
+            2,
+            3
+          ],
+          swipesout: [
+            1,
+            2,
+            3
+          ],
+        },
+        {
+          id: 5,
+          empno: "B00253",
+          date: "2025-04-01",
+          inlocation: "SLT-SI03",
+          outlocation: "SLT-SI03",
+          overtime: 10,
+          latemin: 10,
+          daytype: 505,
+          intime: '07:20',
+          outtime: '05:20',
+          swipesin: [
+            1,
+            2,
+            3
+          ],
+          swipesout: [
+            1,
+            2,
+            3
+          ],
+        },
+      ]
+    },
+    timecard: {
+      arrtimecard: [
+        {
+          emp_Name: "Thilini [B00253]",
+          month_name: "January 2024",
+          total_hours: 179,
+          total_single_ot: 0,
+          total_double_ot: 0,
+          leaves: 5,
+          shortLeave: 1,
+          halfdays: 0,
+          movement: 0,
+          pendingat: "Thushara 010805",
+          status: "Approved",
+        },
+        {
+          emp_Name: "Thilini [B00253]",
+          month_name: "January 2024",
+          total_hours: 179,
+          total_single_ot: 0,
+          total_double_ot: 0,
+          leaves: 5,
+          shortLeave: 1,
+          halfdays: 0,
+          movement: 0,
+          pendingat: "Thushara 010805",
+          status: "Approved",
+        },
+        {
+          emp_Name: "Thilini [B00253]",
+          month_name: "January 2024",
+          total_hours: 179,
+          total_single_ot: 0,
+          total_double_ot: 0,
+          leaves: 5,
+          shortLeave: 1,
+          halfdays: 0,
+          movement: 0,
+          pendingat: "Thushara 010805",
+          status: "Approved",
+        },
+      ]
+    },
     initData: {},
   }),
 
