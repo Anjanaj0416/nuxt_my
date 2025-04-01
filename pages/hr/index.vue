@@ -97,7 +97,7 @@
         <div class="cssemplist" v-for="(emp, index) in hrStore.alempdetails" :key="emp">
           <div class="mt-1 text-sm rounded-md cursor-pointer hover:text-white text-blue-300 hover:bg-gray-500"
             :class="emp.isresigned ? 'bg-red-500' : 'bg-gray-400'">
-            {{ emp }}
+         
             <div class="rounded-md">
               <div class="grid grid-cols-1 text-center cssdatarow lg:grid-cols-8">
                 <div class="cssdatarowitem lg:border-0">
@@ -328,6 +328,7 @@
 <script>
 //// import * as Global from '@/assets/js/Global'
 ////import { mapState, mapGetters, mapActions, mapMutations } from 'vuex'
+
 import { useHrStore } from "~/stores/modules/hrStore";
 
 import selectinput2 from '~/components/customcontrol/selectinput2'
@@ -605,41 +606,41 @@ export default {
       this.ismenuopen = false
       this.cur_sec = sec
 
-      if (this.cur_sec == 'holiday') {
-        await this.$refs.compholiday.init()
-      }
-      if (this.cur_sec == 'special_work_arrangement') {
-        //await this.$refs.compholiday.init()
-      } else if (this.cur_sec == 'updateemployee') {
-        this.setClearEmployee()
-      } else if (sec == 'timecard_summery_report') {
-        this.$router.push('/hr/reports/timecard_summery_report')
-      } else if (sec == 'overtime_month_end_summery_report') {
-        this.$router.push('/hr/reports/overtime_month_end_summery_report')
-      } else if (sec == 'overtime_individual_summery_report') {
-        this.$router.push('/hr/reports/overtime_individual_summery_report')
-      } else if (sec == 'employee_leave_annual_report') {
-        this.$router.push('/hr/reports/employee_leave_annual_report')
-      } else if (sec == 'annual_summery_report') {
-        this.$router.push('/hr/reports/annual_summery_report')
-      } else if (sec == 'no_pay_summery_report') {
-        this.$router.push('/hr/reports/no_pay_summery_report')
-      } else if (sec == 'dailyPresenceReport') {
-        this.$router.push('/hr/reports/dailyPresenceReport')
-      } else if (sec == 'employeerectificationreport') {
-        this.$router.push('/hr/reports/employeerectificationreport')
-      }
-      else if (sec == 'no_pay_monthly_report') {
-        this.$router.push('/hr/reports/no_pay_monthly_report')
-      }
-      else if (sec == 'GetSupervisorPendingsReport') {
-        window.open(this.apiUrl + '/HRReport/GetSupervisorPendingsReport', '_blank');
-      }
-      else if (sec == 'GetHRMonthEndReport') {
-        let year = prompt('Year?')
-        let month = prompt('month?')
-        window.open(this.apiUrl + '/HRReport/GetHRMonthEndReport?month=' + month + '&year=' + year, '_blank');
-      }
+      // if (this.cur_sec == 'holiday') {
+      //   await this.$refs.compholiday.init()
+      // }
+      // if (this.cur_sec == 'special_work_arrangement') {
+      //   //await this.$refs.compholiday.init()
+      // } else if (this.cur_sec == 'updateemployee') {
+      //   this.setClearEmployee()
+      // } else if (sec == 'timecard_summery_report') {
+      //   this.$router.push('/hr/reports/timecard_summery_report')
+      // } else if (sec == 'overtime_month_end_summery_report') {
+      //   this.$router.push('/hr/reports/overtime_month_end_summery_report')
+      // } else if (sec == 'overtime_individual_summery_report') {
+      //   this.$router.push('/hr/reports/overtime_individual_summery_report')
+      // } else if (sec == 'employee_leave_annual_report') {
+      //   this.$router.push('/hr/reports/employee_leave_annual_report')
+      // } else if (sec == 'annual_summery_report') {
+      //   this.$router.push('/hr/reports/annual_summery_report')
+      // } else if (sec == 'no_pay_summery_report') {
+      //   this.$router.push('/hr/reports/no_pay_summery_report')
+      // } else if (sec == 'dailyPresenceReport') {
+      //   this.$router.push('/hr/reports/dailyPresenceReport')
+      // } else if (sec == 'employeerectificationreport') {
+      //   this.$router.push('/hr/reports/employeerectificationreport')
+      // }
+      // else if (sec == 'no_pay_monthly_report') {
+      //   this.$router.push('/hr/reports/no_pay_monthly_report')
+      // }
+      // else if (sec == 'GetSupervisorPendingsReport') {
+      //   window.open(this.apiUrl + '/HRReport/GetSupervisorPendingsReport', '_blank');
+      // }
+      // else if (sec == 'GetHRMonthEndReport') {
+      //   let year = prompt('Year?')
+      //   let month = prompt('month?')
+      //   window.open(this.apiUrl + '/HRReport/GetHRMonthEndReport?month=' + month + '&year=' + year, '_blank');
+      // }
 
       //
     },

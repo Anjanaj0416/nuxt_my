@@ -1,5 +1,6 @@
 <template>
   <section class="empdetails">
+  
     <div class="relative min-h-screen px-4 pt-2 text-sm" v-show="hrStore.empdetails.empId > -1">
       <div class="absolute top-0 right-0 flex mt-8 mr-8 gap-x-4">
         <!-- <div v-show="this.loggeduser.granted.indexOf('hradmin') > -1" class="btn" @click="setEdit">Edit</div>
@@ -77,7 +78,7 @@
             </div>
 
             <div class="col-span-1">
-              <hr_item item="Date Of Birth" :value="$options.filters.toShortDate(hrStore.empdetails.dob)" />
+              <!-- <hr_item item="Date Of Birth" :value="$options.filters.toShortDate(hrStore.empdetails.dob)" /> -->
             </div>
           </div>
 
@@ -97,7 +98,7 @@
               <hr_item item="Employee Type" :value="getEmployeeStatus(hrStore.empdetails.empType)" />
             </div>
             <div class="col-span-1">
-              <hr_item item="Date Of Join" :value="$options.filters.toShortDate(hrStore.empdetails.dateOfJoin)" />
+              <!-- <hr_item item="Date Of Join" :value="$options.filters.toShortDate(hrStore.empdetails.dateOfJoin)" /> -->
             </div>
             <div class="col-span-1">
               <hr_item item="Category" :value="getEmployeeCategory(hrStore.empdetails.category)" />
@@ -146,7 +147,7 @@
               <hr_item item="Has Resigned" :value="hrStore.empdetails.isResign ? 'Yes' : 'No'" />
             </div>
             <div class="col-span-1">
-              <hr_item item="Date Of Resigned" :value="$options.filters.toShortDate(hrStore.empdetails.dateOfResign)" />
+              <!-- <hr_item item="Date Of Resigned" :value="$options.filters.toShortDate(hrStore.empdetails.dateOfResign)" /> -->
             </div>
             <div class="col-span-1">
               <hr_item item="Reson For Resign" :value="hrStore.empdetails.reasonForResign" />
@@ -173,7 +174,7 @@
 </template>
 
 <script>
-//import { mapState, mapGetters, mapActions, mapMutations } from 'vuex'
+  import { useHrStore } from "~/stores/modules/hrStore";
 import hr_item from '~/components/hr/hr_item'
 export default {
   props: ['empid'],
@@ -261,7 +262,9 @@ export default {
 
 
   },
-
+  async created() {
+    this.hrStore = useHrStore();
+  },
   methods: {
     getclose() {
       this.$emit('exit')
