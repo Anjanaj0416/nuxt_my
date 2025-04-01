@@ -10,9 +10,9 @@
       <div class="w-full p-6 text-center md:w-1/2 md:text-left">
         <div class="mt-8 w-full">
           <img
-            src="/assets/img/Logo.png"
+            src="/assets/img/LogoDigitalTechLab.png"
             alt="AWS Logo"
-            class="w-32 rounded-full flex mx-auto"
+            class="w-48 rounded-full flex mx-auto"
           />
         </div>
         <h2
@@ -185,7 +185,7 @@ export default {
       imageroot: process.env.Assets_83,
       loginDetails: {
         userName: "thushara",
-        password: "1234",
+        password: "",
       },
       showPassword: false,
   
@@ -212,7 +212,7 @@ export default {
           this.$showToast("Login Failed!", "error");
         } else {
           this.$showToast("Login successful!", "success");
-          this.$router.push("/");
+          this.$router.push("/dashboard");
         }
       } catch (error) {
         this.$showToast(

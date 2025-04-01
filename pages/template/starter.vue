@@ -727,7 +727,7 @@
 
  definePageMeta({
     layout: 'standard',   
-    middleware: 'auth',
+   // middleware: 'auth',
    });
    
   export default {
@@ -758,7 +758,7 @@
     },
     head() {
       return {
-        title: 'Intranet - Digital Tech Labs',
+        title: 'Starter Package',
       }
     },
   }
