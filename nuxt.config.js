@@ -20,7 +20,9 @@ export default defineNuxtConfig({
   },
   
   plugins: [
-    '@/plugins/message.js',
+    //'@/plugins/message.js',
+    { src: '@/plugins/message.js' },
+    { src: '~/plugins/myfilter.js' },
     // '@/plugins/axios.ts'
   ],
 

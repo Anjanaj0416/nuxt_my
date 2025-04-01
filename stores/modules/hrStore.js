@@ -1,7 +1,7 @@
 import { defineStore } from 'pinia';
 import axios from 'axios';
 
-export const useHrStore = defineStore('hr', {
+export const useHrStore = defineStore('hrStore', {
   state: () => ({
     loggeduser: {},
     alempdetails: [{

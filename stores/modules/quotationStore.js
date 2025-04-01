@@ -65,8 +65,6 @@ export const useQuotationStore = defineStore("QuotationStore", {
 
         if (response.data.isSuccess) {
           this.initQuotation = response.data.data.data;
-          console.log('init',response);
-          
         } else {
           this.showToast(response.data.message, "error");
         }
