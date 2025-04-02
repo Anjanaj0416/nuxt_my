@@ -5,6 +5,17 @@ export const useHrStore = defineStore('hrStore', {
   state: () => ({
     loggeduser: {},
     alempdetails: [{
+        id: "",
+        empname : "Thilini",
+        empno : "B00253",
+        contact : "0767585568",
+        designation : "Software Developer",
+        supervisor : "Thushara Premathilake",
+        department : "Digital Service",
+        image: "zswxxkik637788969151238080.png",
+        isresigned : false,
+      },
+      {
         isresigned : false,
         empname : "Thilini",
         empno : "B00253",
@@ -14,7 +25,19 @@ export const useHrStore = defineStore('hrStore', {
         supervisor : "Thushara Premathilake",
         department : "Digital Service",
         designation : "Software Developer",
-    }],
+      },
+      {
+        isresigned : false,
+        empname : "Thilini",
+        empno : "B00253",
+        contact : "0767585568",
+        email : "thili@abc.com",
+        designation : "Software Developer",
+        supervisor : "Thushara Premathilake",
+        department : "Digital Service",
+        designation : "Software Developer",
+      },
+    ],
     empdetails: {
       isresigned : false,
       empId : "173",
@@ -175,9 +198,10 @@ export const useHrStore = defineStore('hrStore', {
   actions: {
     async searchEmployees(req) {
       try {
-        console.log("env file:",import.meta.env.VITE_API_URL);
-        const response = await axios.post(`${import.meta.env.VITE_API_URL}/hr/Employee/SearchEmployees`, req);      
-        if (response.data.isSuccess) {       
+        const response = await axios.post(`${import.meta.env.VITE_API_URL}/hr/Employee/SearchEmployees`, req);   
+        console.log("response:",response);   
+        if (response.data.isSuccess) {    
+          this.alempdetails = response.data.data.data.alpagedetails[0].alempdetails || [];
           this.showToast('Loading successful!', 'success'); 
        }
        else{
@@ -192,7 +216,8 @@ export const useHrStore = defineStore('hrStore', {
       }
     },
     
-    showToast(message,type) {
+    async showToast(message,type) {
+      const Swal = (await import('sweetalert2')).default;
       Swal.fire({
         icon: type,
         title: type,
@@ -205,6 +230,4 @@ export const useHrStore = defineStore('hrStore', {
     },
    
   },
-
- 
 });

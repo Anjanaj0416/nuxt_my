@@ -355,9 +355,9 @@ import Ot_apply_list from '~/components/hr/ot_apply_list.vue'
 
 import timecarddetails from '~/components/hr/timecarddetails.vue'
 definePageMeta({
-    layout: 'default',
-    middleware: 'auth',
-   });
+  layout: 'default',
+  middleware: 'auth',
+});
 export default {
   layout: 'default',
   components: {
@@ -419,6 +419,7 @@ export default {
     //   alempdetails: (state) => state.hr.dashboard.alempdetails,
     //   initData: (state) => state.hr.dashboard.initData,
     // }),
+
     getSupervisorName() {
       return (supno) => {
         try {
@@ -448,6 +449,13 @@ export default {
     },
   },
   async beforeMount() {
+    const req = {
+      searchval: "",
+      searchby: 106
+    }
+
+    this.search_begin_DBSerach(req);
+
     // await this.getReportInitData()
     // await this.getMovementInitData()
 
@@ -495,7 +503,7 @@ export default {
 
   methods: {
     ...mapActions({
-      searchEmployees: 'hr/searchEmployees',
+      searchEmployees: 'hrStore/searchEmployees',
       //   getEmployeeByID: 'hr/getEmployeeByID',
       //   initiateLeaves: 'hr/initiateLeaves',
       //   leaveBalance: 'hr/leaveBalance',
@@ -522,6 +530,7 @@ export default {
     gotoUserguide() {
       this.$router.push('/hr/userguide')
     },
+
     //  organizelistdata() {
     //     var clonedArray = JSON.parse(JSON.stringify(this.alempdetails))
     // clonedArray.forEach((element) => {
@@ -558,6 +567,7 @@ export default {
 
     async empSaveCompletion(empNo) {
       this.cur_sec = ''
+
       await this.searchEmployees({
         keyword: empNo,
         searchby: 101,
@@ -648,18 +658,20 @@ export default {
 
       //
     },
+
     async search_begin_DBSerach(req) {
-      await this.searchEmployees({
-        // keyword: req.searchval,
-        // searchby: req.searchby,
-        keyword: "perera",
-        searchby: 106,
-        user: this.loggeduser,
+      const hrStore = useHrStore();
+      await hrStore.searchEmployees({
+        keyword: req.searchval,
+        searchby: req.searchby,
+        // user: this.loggeduser,
       })
     },
+
     getviewwg() {
       this.$router.push('/hr/workgroup')
     },
+
     pagechanged(page_num) {
       this.cur_page = page_num
       this.setpage(this.cur_page)
