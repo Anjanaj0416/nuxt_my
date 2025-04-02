@@ -4,40 +4,7 @@ import axios from 'axios';
 export const useHrStore = defineStore('hrStore', {
   state: () => ({
     loggeduser: {},
-    alempdetails: [{
-        id: "",
-        empname : "Thilini",
-        empno : "B00253",
-        contact : "0767585568",
-        designation : "Software Developer",
-        supervisor : "Thushara Premathilake",
-        department : "Digital Service",
-        image: "zswxxkik637788969151238080.png",
-        isresigned : false,
-      },
-      {
-        isresigned : false,
-        empname : "Thilini",
-        empno : "B00253",
-        contact : "0767585568",
-        email : "thili@abc.com",
-        designation : "Software Developer",
-        supervisor : "Thushara Premathilake",
-        department : "Digital Service",
-        designation : "Software Developer",
-      },
-      {
-        isresigned : false,
-        empname : "Thilini",
-        empno : "B00253",
-        contact : "0767585568",
-        email : "thili@abc.com",
-        designation : "Software Developer",
-        supervisor : "Thushara Premathilake",
-        department : "Digital Service",
-        designation : "Software Developer",
-      },
-    ],
+    alempdetails: [],
     empdetails: {
       isresigned : false,
       empId : "173",
@@ -196,12 +163,52 @@ export const useHrStore = defineStore('hrStore', {
 
    //this.showToast('Loading successful!', 'success'); //success ,error ,warning,info
   actions: {
+    async getInitEmployee() {
+      try {
+        const response = await axios.get(`${import.meta.env.VITE_API_URL}/hr/Employee/GetInitEmployee`);   
+        console.log("response:",response);   
+        if (response.data.isSuccess) {    
+          this.initData = response.data.data.data || [];
+          this.showToast('Loading successful!', 'success'); 
+       }
+       else{
+        console.error('Loading error:', response.data.message);       
+        // this.showToast(response.data.message, 'error'); 
+       }
+       
+        
+      } catch (error) {
+        console.error('Loading error:', error);
+        // this.showToast(error.response.data.Message, 'error'); 
+      }
+    },
+
     async searchEmployees(req) {
       try {
         const response = await axios.post(`${import.meta.env.VITE_API_URL}/hr/Employee/SearchEmployees`, req);   
         console.log("response:",response);   
         if (response.data.isSuccess) {    
           this.alempdetails = response.data.data.data.alpagedetails[0].alempdetails || [];
+          this.showToast('Loading successful!', 'success'); 
+       }
+       else{
+        console.error('Loading error:', response.data.message);       
+        this.showToast(response.data.message, 'error'); 
+       }
+       
+        
+      } catch (error) {
+        console.error('Loading error:', error);
+        this.showToast(error.response.data.Message, 'error'); 
+      }
+    },
+
+    async getEmployeeByID(id) {
+      try {
+        const response = await axios.get(`${import.meta.env.VITE_API_URL}/hr/Employee/GetEmployeeByID`, {params: { id: id.empid}});   
+        console.log("response:",response.data.data.data);   
+        if (response.data.isSuccess) {    
+          this.empdetails = response.data.data.data || {};
           this.showToast('Loading successful!', 'success'); 
        }
        else{

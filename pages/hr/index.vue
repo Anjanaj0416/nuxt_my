@@ -232,8 +232,8 @@
                 selectedrow == emp.id &&
                 !isSecClose
                 ">
-                <attendence ref="atten" :empno="emp.empno" :empname="emp.empname" :isOTEntitled="isOTEntitled"
-                  @exit="exit" />
+                <!-- <attendence ref="atten" :empno="emp.empno" :empname="emp.empname" :isOTEntitled="isOTEntitled"
+                  @exit="exit" /> -->
               </div>
 
               <!-- view Absense -->
@@ -251,8 +251,8 @@
                 !isSecClose
                 ">
 
-                <absencecreate ref="absenseapply" :empno="emp.empno" :leaveyear="leaveyear"
-                  @goto_absenceview="goto_absenceview" />
+                <!-- <absencecreate ref="absenseapply" :empno="emp.empno" :leaveyear="leaveyear"
+                  @goto_absenceview="goto_absenceview" /> -->
               </div>
               <!-- End view Absense Create -->
 
@@ -268,7 +268,7 @@
                 selectedrow == emp.id &&
                 !isSecClose
                 ">
-                <movementcreate ref="movementapply" :empno="emp.empno" @goto_movementview="goto_movementview" />
+                <!-- <movementcreate ref="movementapply" :empno="emp.empno" @goto_movementview="goto_movementview" /> -->
               </div>
 
               <!-- End view movement -->
@@ -287,7 +287,7 @@
                 selectedrow == emp.id &&
                 !isSecClose
                 ">
-                <timecarddetails ref="timecardcomp" :empno="emp.empno" @exit="exit" />
+                <!-- <timecarddetails ref="timecardcomp" :empno="emp.empno" @exit="exit" /> -->
               </div>
               <!-- End Job Card Details   -->
             </div>
@@ -307,8 +307,8 @@
       <!--  Special Work Arrangemnt  -->
 
       <div>
-        <special_work_arrangement v-show="cur_sec.toLowerCase() == 'special_work_arrangement'"
-          ref="comp_special_work_arrangement" @exitpopup="exitpopup" />
+        <!-- <special_work_arrangement v-show="cur_sec.toLowerCase() == 'special_work_arrangement'"
+          ref="comp_special_work_arrangement" @exitpopup="exitpopup" /> -->
       </div>
 
       <!-- End  Special Work Arrangemnt  -->
@@ -502,8 +502,8 @@ export default {
   },
 
   methods: {
-    ...mapActions({
-      searchEmployees: 'hrStore/searchEmployees',
+    ...mapActions('hrStore', {
+      searchEmployees: 'searchEmployees',
       //   getEmployeeByID: 'hr/getEmployeeByID',
       //   initiateLeaves: 'hr/initiateLeaves',
       //   leaveBalance: 'hr/leaveBalance',
@@ -544,11 +544,13 @@ export default {
     // },
 
     async init_employee(id) {
+      const hrStore = useHrStore();
+
       this.cur_sec = 'viewemployee'
       this.isSecClose = true
       this.selectedrow = id
       this.isSecClose = false
-      await this.getEmployeeByID({ empid: id })
+      await hrStore.getEmployeeByID({ empid: id })
     },
 
     async setDeleteEmployee(empNo) {
