@@ -206,13 +206,13 @@ export const useHrStore = defineStore('hrStore', {
        }
        else{
         console.error('Loading error:', response.data.message);       
-        this.showToast('Loading Error!', 'error'); 
+        this.showToast(response.data.message, 'error'); 
        }
        
         
       } catch (error) {
         console.error('Loading error:', error);
-        this.showToast('Loading Error!', 'error'); 
+        this.showToast(error.response.data.Message, 'error'); 
       }
     },
     
