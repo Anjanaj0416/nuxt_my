@@ -166,7 +166,7 @@ export const useHrStore = defineStore('hrStore', {
     async getInitEmployee() {
       try {
         const response = await axios.get(`${import.meta.env.VITE_API_URL}/hr/Employee/GetInitEmployee`);   
-        console.log("response:",response);   
+        // console.log("response:",response);   
         if (response.data.isSuccess) {    
           this.initData = response.data.data.data || [];
           this.showToast('Loading successful!', 'success'); 
@@ -206,14 +206,14 @@ export const useHrStore = defineStore('hrStore', {
     async getEmployeeByID(id) {
       try {
         const response = await axios.get(`${import.meta.env.VITE_API_URL}/hr/Employee/GetEmployeeByID`, {params: { id: id.empid}});   
-        console.log("response:",response.data.data.data);   
+        // console.log("response:",response.data.data.data);   
         if (response.data.isSuccess) {    
           this.empdetails = response.data.data.data || {};
-          this.showToast('Loading successful!', 'success'); 
+          // this.showToast('Loading successful!', 'success'); 
        }
        else{
         console.error('Loading error:', response.data.message);       
-        this.showToast(response.data.message, 'error'); 
+        // this.showToast(response.data.message, 'error'); 
        }
        
         

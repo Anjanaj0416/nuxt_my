@@ -1,7 +1,7 @@
 <template>
   <section class="empdetails">
 
-    <div class="relative min-h-screen px-4 pt-2 text-sm" v-show="hrStore.empdetails.empId > -1">
+    <div class="relative min-h-screen px-4 pt-2 text-sm" v-show="hrStore.empdetails.id">
       <div class="absolute top-0 right-0 flex mt-8 mr-8 gap-x-4">
         <!-- <div v-show="this.loggeduser.granted.indexOf('hradmin') > -1" class="btn" @click="setEdit">Edit</div>
         <div v-show="this.loggeduser.granted.indexOf('hradmin') > -1" class="btn" @click="setdelete">Delete</div> -->
@@ -78,6 +78,7 @@
             </div>
 
             <div class="col-span-1">
+              <hr_item item="Date Of Birth" :value="hrStore.empdetails.dob" />
               <!-- <hr_item item="Date Of Birth" :value="$options.filters.toShortDate(hrStore.empdetails.dob)" /> -->
             </div>
           </div>
@@ -98,6 +99,7 @@
               <hr_item item="Employee Type" :value="hrStore.empdetails.empType" />
             </div>
             <div class="col-span-1">
+              <hr_item item="Date Of Join" :value="hrStore.empdetails.dateOfJoin" />
               <!-- <hr_item item="Date Of Join" :value="$options.filters.toShortDate(hrStore.empdetails.dateOfJoin)" /> -->
             </div>
             <div class="col-span-1">
@@ -147,6 +149,7 @@
               <hr_item item="Has Resigned" :value="hrStore.empdetails.isResign ? 'Yes' : 'No'" />
             </div>
             <div class="col-span-1">
+              <hr_item item="Date Of Resigned" :value="hrStore.empdetails.dateOfResign" />
               <!-- <hr_item item="Date Of Resigned" :value="$options.filters.toShortDate(hrStore.empdetails.dateOfResign)" /> -->
             </div>
             <div class="col-span-1">
