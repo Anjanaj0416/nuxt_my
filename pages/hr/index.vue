@@ -17,10 +17,11 @@
             <hr_menu v-show="ismenuopen" class="absolute top-0 left-0 z-50 mt-12 ml-2" @click="clickmenuitem" />
           </div> -->
 
-          <!-- <div class="flex items-center justify-center" v-show="this.loggeduser.granted.indexOf('hradmin') > -1">
+          <div class="flex items-center justify-center">
+            <!-- v-show="this.loggeduser.granted.indexOf('hradmin') > -1" -->
             <search_dashboard placeholder="Search Employee" :arrsections="arrsections_DBSerach"
               @getsearch="search_begin_DBSerach" />
-          </div> -->
+          </div>
         </div>
       </div>
 
@@ -97,7 +98,7 @@
         <div class="cssemplist" v-for="(emp, index) in hrStore.alempdetails" :key="emp">
           <div class="mt-1 text-sm rounded-md cursor-pointer hover:text-white text-blue-300 hover:bg-gray-500"
             :class="emp.isresigned ? 'bg-red-500' : 'bg-gray-400'">
-         
+
             <div class="rounded-md">
               <div class="grid grid-cols-1 text-center cssdatarow lg:grid-cols-8">
                 <div class="cssdatarowitem lg:border-0">
@@ -327,7 +328,7 @@
 
 <script>
 //// import * as Global from '@/assets/js/Global'
-////import { mapState, mapGetters, mapActions, mapMutations } from 'vuex'
+import { mapState, mapGetters, mapActions, mapMutations } from 'vuex'
 
 import { useHrStore } from "~/stores/modules/hrStore";
 
@@ -404,7 +405,7 @@ export default {
     // this.imageroot = this.vendorStore.initVendor.baseUrl;
     // this.showLoading = this.$showLoading;
 
-    console.log('Hr List:', this.hrStore.alempdetails);
+    // console.log('Hr List:', this.hrStore.alempdetails);
   },
 
   async mounted() { },
@@ -490,23 +491,23 @@ export default {
   },
 
   methods: {
-    // ...mapActions({
-    //   searchEmployees: 'hr/searchEmployees',
-    //   getEmployeeByID: 'hr/getEmployeeByID',
-    //   initiateLeaves: 'hr/initiateLeaves',
-    //   leaveBalance: 'hr/leaveBalance',
-    //   deleteEmployee: 'hr/deleteEmployee',
-    //   initEmployee: 'hr/initEmployee',
-    //   getWorkLoadCount: 'hr/getWorkLoadCount',
-    //   getMovementInitData: 'hr/getMovementInitData',
-    //   getReportInitData: 'hr/getReportInitData',
-    // }),
-    // ...mapMutations({
-    //   showMessage: 'PUSH_NOTIFICATION',
-    //   setpage: 'hr/SET_PAGE',
-    //   setClearEmployee: 'hr/SET_CLEAR_EMPLOYEEE',
-    //   setorganizedlistdata: 'hr/SET_ORGANIZEDLISTDATA',
-    // }),
+    ...mapActions({
+      searchEmployees: 'hr/searchEmployees',
+      //   getEmployeeByID: 'hr/getEmployeeByID',
+      //   initiateLeaves: 'hr/initiateLeaves',
+      //   leaveBalance: 'hr/leaveBalance',
+      //   deleteEmployee: 'hr/deleteEmployee',
+      //   initEmployee: 'hr/initEmployee',
+      //   getWorkLoadCount: 'hr/getWorkLoadCount',
+      //   getMovementInitData: 'hr/getMovementInitData',
+      //   getReportInitData: 'hr/getReportInitData',
+      // }),
+      // ...mapMutations({
+      //   showMessage: 'PUSH_NOTIFICATION',
+      //   setpage: 'hr/SET_PAGE',
+      //   setClearEmployee: 'hr/SET_CLEAR_EMPLOYEEE',
+      //   setorganizedlistdata: 'hr/SET_ORGANIZEDLISTDATA',
+    }),
 
     exit() {
       this.isSecClose = true
@@ -646,8 +647,10 @@ export default {
     },
     async search_begin_DBSerach(req) {
       await this.searchEmployees({
-        keyword: req.searchval,
-        searchby: req.searchby,
+        // keyword: req.searchval,
+        // searchby: req.searchby,
+        keyword: "perera",
+        searchby: 106,
         user: this.loggeduser,
       })
     },

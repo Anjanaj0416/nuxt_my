@@ -175,8 +175,8 @@ export const useHrStore = defineStore('hrStore', {
   actions: {
     async searchEmployees(req) {
       try {
-        
-        const response = await axios.post(`${import.meta.env.VITE_API_URL}/Auxx/Lxx`, req);      
+        console.log("env file:",import.meta.env.VITE_API_URL);
+        const response = await axios.post(`${import.meta.env.VITE_API_URL}/hr/Employee/SearchEmployees`, req);      
         if (response.data.isSuccess) {       
           this.showToast('Loading successful!', 'success'); 
        }
