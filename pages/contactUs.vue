@@ -2,7 +2,7 @@
     <section>
 
         <!-- header -->
-        <header class="">
+        <header class="fixed top-0 left-0 z-50 w-full bg-white shadow-md">
             <nav class="flex items-center justify-between px-6 py-4 mx-auto max-w-7xl">
                 <!-- Logo -->
                 <div class="flex items-center">
@@ -51,6 +51,7 @@
             </nav>
         </header>
 
+        <!-- section 1 -->
         <section class="px-6 py-16 mx-auto max-w-7xl">
             <div class="max-w-screen-xl px-4 py-8 mx-auto lg:py-16 lg:px-6">
                 <div class="mx-auto mb-8 -sm lg:mb-8">
@@ -70,88 +71,46 @@
                     </div>
 
                 </div> 
-                <!-- <div class="grid gap-8 lg:grid-cols-2">
-                    <article class="p-6 bg-white border border-gray-200 rounded-lg shadow-md dark:bg-gray-800 dark:border-gray-700">
-                        <div class="flex items-center justify-between mb-5 text-gray-500">
-                            <span class="bg-primary-100 text-primary-800 text-xs font-medium inline-flex items-center px-2.5 py-0.5 rounded dark:bg-primary-200 dark:text-primary-800">
-                                <svg class="w-3 h-3 mr-1" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path d="M2 6a2 2 0 012-2h6a2 2 0 012 2v8a2 2 0 01-2 2H4a2 2 0 01-2-2V6zM14.553 7.106A1 1 0 0014 8v4a1 1 0 00.553.894l2 1A1 1 0 0018 13V7a1 1 0 00-1.447-.894l-2 1z"></path></svg>
-                                Tutorial
-                            </span>
-                            <span class="text-sm">14 days ago</span>
+                <form @submit.prevent="handleSubmit">
+                    <div class="grid md:grid-cols-2 md:gap-6">
+                        <div class="relative z-0 w-full mb-5 group">
+                            <input v-model="formData.name" type="text" name="name" id="name" class="block py-2.5 px-0 w-full text-base text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-blue-500 focus:outline-none focus:ring-0 focus:border-blue-600 peer" placeholder=" "  />
+                            <label for="name" class="peer-focus:font-medium absolute text-base text-gray-500 dark:text-gray-400 duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-[0] peer-focus:start-0 rtl:peer-focus:translate-x-1/4 peer-focus:text-blue-600 peer-focus:dark:text-blue-500 peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6">Name</label>
+                            <p v-if="validationErrors.name" class="text-sm text-red-500">{{ validationErrors.name }}</p>
                         </div>
-                        <h2 class="mb-2 text-2xl font-bold tracking-tight text-gray-900 dark:text-white"><a href="#">How to quickly deploy a static website</a></h2>
-                        <p class="mb-5 font-light text-gray-500 dark:text-gray-400">Static websites are now used to bootstrap lots of websites and are becoming the basis for a variety of tools that even influence both web designers and developers influence both web designers and developers.</p>
-                        <div class="flex items-center justify-between">
-                            <div class="flex items-center space-x-4">
-                                <img class="rounded-full w-7 h-7" src="https://flowbite.s3.amazonaws.com/blocks/marketing-ui/avatars/jese-leos.png" alt="Jese Leos avatar" />
-                                <span class="font-medium dark:text-white">
-                                    Jese Leos
-                                </span>
-                            </div>
-                            <a href="#" class="inline-flex items-center font-medium text-primary-600 dark:text-primary-500 hover:underline">
-                                Read more
-                                <svg class="w-4 h-4 ml-2" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path fill-rule="evenodd" d="M10.293 3.293a1 1 0 011.414 0l6 6a1 1 0 010 1.414l-6 6a1 1 0 01-1.414-1.414L14.586 11H3a1 1 0 110-2h11.586l-4.293-4.293a1 1 0 010-1.414z" clip-rule="evenodd"></path></svg>
-                            </a>
+                        <div class="relative z-0 w-full mb-5 group">
+                            <input  v-model="formData.web" type="text" name="web" id="web" class="block py-2.5 px-0 w-full text-base text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-blue-500 focus:outline-none focus:ring-0 focus:border-blue-600 peer" placeholder=" "  />
+                            <label for="web" class="peer-focus:font-medium absolute text-base text-gray-500 dark:text-gray-400 duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-[0] peer-focus:start-0 rtl:peer-focus:translate-x-1/4 peer-focus:text-blue-600 peer-focus:dark:text-blue-500 peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6">Your Company website</label>
                         </div>
-                    </article> 
-                    <article class="p-6 bg-white border border-gray-200 rounded-lg shadow-md dark:bg-gray-800 dark:border-gray-700">
-                        <div class="flex items-center justify-between mb-5 text-gray-500">
-                            <span class="bg-primary-100 text-primary-800 text-xs font-medium inline-flex items-center px-2.5 py-0.5 rounded dark:bg-primary-200 dark:text-primary-800">
-                                <svg class="w-3 h-3 mr-1" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path fill-rule="evenodd" d="M2 5a2 2 0 012-2h8a2 2 0 012 2v10a2 2 0 002 2H4a2 2 0 01-2-2V5zm3 1h6v4H5V6zm6 6H5v2h6v-2z" clip-rule="evenodd"></path><path d="M15 7h1a2 2 0 012 2v5.5a1.5 1.5 0 01-3 0V7z"></path></svg>
-                                Article
-                            </span>
-                            <span class="text-sm">14 days ago</span>
+                    </div>
+                    <div class="grid md:grid-cols-2 md:gap-6">
+                        <div class="relative z-0 w-full mb-5 group">
+                            <input v-model="formData.email" type="email" name="email" id="email" class="block py-2.5 px-0 w-full text-base text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-blue-500 focus:outline-none focus:ring-0 focus:border-blue-600 peer" placeholder=" "  />
+                            <label for="email" class="peer-focus:font-medium absolute text-base text-gray-500 dark:text-gray-400 duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-[0] peer-focus:start-0 rtl:peer-focus:translate-x-1/4 peer-focus:text-blue-600 peer-focus:dark:text-blue-500 peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6">E-mail</label>
+                            <p v-if="validationErrors.email" class="text-sm text-red-500">{{ validationErrors.email }}</p>
                         </div>
-                        <h2 class="mb-2 text-2xl font-bold tracking-tight text-gray-900 dark:text-white"><a href="#">Our first project with React</a></h2>
-                        <p class="mb-5 font-light text-gray-500 dark:text-gray-400">Static websites are now used to bootstrap lots of websites and are becoming the basis for a variety of tools that even influence both web designers and developers influence both web designers and developers.</p>
-                        <div class="flex items-center justify-between">
-                            <div class="flex items-center space-x-4">
-                                <img class="rounded-full w-7 h-7" src="https://flowbite.s3.amazonaws.com/blocks/marketing-ui/avatars/bonnie-green.png" alt="Bonnie Green avatar" />
-                                <span class="font-medium dark:text-white">
-                                    Bonnie Green
-                                </span>
-                            </div>
-                            <a href="#" class="inline-flex items-center font-medium text-primary-600 dark:text-primary-500 hover:underline">
-                                Read more
-                                <svg class="w-4 h-4 ml-2" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path fill-rule="evenodd" d="M10.293 3.293a1 1 0 011.414 0l6 6a1 1 0 010 1.414l-6 6a1 1 0 01-1.414-1.414L14.586 11H3a1 1 0 110-2h11.586l-4.293-4.293a1 1 0 010-1.414z" clip-rule="evenodd"></path></svg>
-                            </a>
+                        <div class="relative z-0 w-full mb-5 group">
+                            <input v-model="formData.phone" type="number" maxlength="10" name="phone" id="phone" class="block py-2.5 px-0 w-full text-base text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-blue-500 focus:outline-none focus:ring-0 focus:border-blue-600 peer" placeholder=" "  />
+                            <label for="phone" class="peer-focus:font-medium absolute text-base text-gray-500 dark:text-gray-400 duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-[0] peer-focus:start-0 rtl:peer-focus:translate-x-1/4 peer-focus:text-blue-600 peer-focus:dark:text-blue-500 peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6">Phone number (Optional)</label>
+                            <!-- <p v-if="validationErrors.phone" class="text-sm text-red-500">{{ validationErrors.phone }}</p> -->
                         </div>
-                    </article>                  
-                </div>   -->
-                <div class="grid gap-8 lg:grid-cols-2">
-                    <div class="w-full">
-                        <label for="brand" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Name</label>
-                        <input type="text" name="brand" id="brand" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500" placeholder="Enter name" required="">
                     </div>
-                    <div class="w-full">
-                        <label for="price" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Your Company website</label>
-                        <input type="number" name="price" id="price" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500" placeholder="$Enter company website link" required="">
+                    <div class="relative z-0 w-full mb-5 group">
+                        <input v-model="formData.message" type="text" name="message" id="floating_repeat_password" class="block py-2.5 px-0 w-full text-lg text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-blue-500 focus:outline-none focus:ring-0 focus:border-blue-600 peer" placeholder=" "  />
+                        <label for="message" class="peer-focus:font-medium absolute text-base text-gray-500 dark:text-gray-400 duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-[0] peer-focus:start-0 rtl:peer-focus:translate-x-1/4 peer-focus:text-blue-600 peer-focus:dark:text-blue-500 peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6">What are you planning to build?</label>
                     </div>
-                    <div class="w-full">
-                        <label for="brand" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">E-mail</label>
-                        <input type="text" name="brand" id="brand" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500" placeholder="Enter email address" required="">
-                    </div>
-                    <div class="w-full">
-                        <label for="price" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Phone (Optional)</label>
-                        <input type="number" name="price" id="price" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500" placeholder="Enter phone number" required="">
-                    </div>
-                    <div class="sm:col-span-2">
-                        <label for="name" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">What are you planning to build?</label>
-                        <textarea type="text" name="name" id="name" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500" placeholder="Message..." required=""></textarea>
-                    </div>
-                </div>
-                <div class="grid gap-2 mt-4 mb-8 lg:grid-cols-7 lg:mb-8">
-                    <div>
-                        <button type="button" class="px-6 py-2 mt-4 text-sm font-medium text-center text-white bg-blue-900 rounded-full hover:bg-blue-800 hover:shadow-xl dark:bg-blue-900 dark:hover:bg-blue-700">
-                            Submit
-                        </button>
-                    </div>
-
-                </div> 
+                    <div class="grid gap-2 mt-4 mb-8 lg:grid-cols-7 lg:mb-8">
+                        <div>
+                            <button type="submit" class="px-6 py-2 mt-4 text-sm font-medium text-center text-white bg-blue-900 rounded-full hover:bg-blue-800 hover:shadow-xl dark:bg-blue-900 dark:hover:bg-blue-700">
+                                Submit
+                            </button>
+                        </div>
+                    </div> 
+                </form>
             </div>
         </section>
 
-        <!-- section 7 -->
+        <!-- section 2 -->
         <section class="px-6 py-2 mx-auto bg-blue-900">
             <div class="mx-auto text-center lg:py-16 lg:px-2">
             <h1 class="text-4xl font-semibold text-white sm:text-5xl">We’re Located at</h1>
@@ -238,9 +197,7 @@
   
   <script setup>
   import { ref } from "vue";
-  import "swiper/css";
-  import "swiper/css/pagination";
-  import "swiper/css/autoplay";
+//   import { useDtlStore } from "~/stores/modules/dtlStore";
 
 
 
@@ -262,28 +219,83 @@ export default {
   data() {
     return {
       imageroot: process.env.Assets_83,
+      validationErrors: {},
+      form: {
+        name: '',
+        email: '',
+        phone: ''
+      },
     };
   },
   async mounted() {
+
      
   },
 
     async created() {
-      //this.sampleStore = useSampleStore();
+        // this.dtlStore = useDtlStore();
+
     },
     watch: {},
     computed: {
-      // ...mapState({
-      //   //loggeduser: (state) => state.loggeduser,
-      // }),
     },
-    methods: {},
+    methods: {
+      
+    },
+
+    
     head() {
       return {
         title: 'Intranet - Digital Tech Labs',
       };
     },
 };
+const formData = ref({
+  name: "",
+  web: "",
+  email: "",
+  phone: "",
+  message: "",
+});
+
+const validationErrors = ref({
+  name: "",
+  email: "",
+  phone: "",
+});
+
+// Validate Email Format
+const isValidEmail = (email) => {
+  return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email);
+};
+
+// Validate Phone Number (10-digit numeric only)
+// const isValidPhoneNumber = (phone) => {
+//   return /^[0-9]{10}$/.test(phone);
+// };
+
+// Compute Validation Errors
+const validateForm = () => {
+  validationErrors.value = {
+    name: !formData.value.name ? "Name is required" : "",
+    email: !formData.value.email
+      ? "Email is required"
+      : !isValidEmail(formData.value.email)
+      ? "Invalid email format"
+      : "",
+  };
+
+  return !validationErrors.value.name && !validationErrors.value.email && !validationErrors.value.phone;
+};
+
+// Handle Form Submission
+const handleSubmit = () => {
+  if (validateForm()) {
+    alert("Form submitted successfully!");
+    // Send form data to backend
+  }
+};
+
 </script>
 
 <style scoped>

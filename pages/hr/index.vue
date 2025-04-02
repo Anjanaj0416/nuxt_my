@@ -354,7 +354,10 @@ import empupdate from '~/components/hr/empupdate'
 import Ot_apply_list from '~/components/hr/ot_apply_list.vue'
 
 import timecarddetails from '~/components/hr/timecarddetails.vue'
-
+definePageMeta({
+    layout: 'default',
+    middleware: 'auth',
+   });
 export default {
   layout: 'default',
   components: {
