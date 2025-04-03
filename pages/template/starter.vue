@@ -1,6 +1,6 @@
 <template>
-  <section :class="`bg-center bg-cover bg-gradient-to-r ${navbarColor}`" >
-    <nav :class="`fixed top-0 left-0 z-50 w-full bg-gradient-to-r ${navbarColor}`">
+  <section v-bind:class="['bg-center bg-cover bg-gradient-to-r', navbarColor]">
+    <nav :class="['fixed top-0 left-0 z-50 w-full bg-gradient-to-r', navbarColor]">
       <div class="flex flex-wrap items-center justify-between max-w-screen-xl p-4 mx-auto">
         <a href="#" class="flex items-center space-x-3">
           <span class="self-center text-2xl font-semibold text-white">Logo</span>
@@ -62,7 +62,7 @@
       </div>
     </section>
   </section>
-
+  
   <section id="service" class="py-16 bg-white">
     <div class="container mx-auto ">
       <h2 class="text-4xl font-bold text-center">Our Services</h2>
@@ -813,9 +813,11 @@
       const productImg4 = computed(() => store.productImg4);
       const aboutImg = computed(() => store.aboutImg);
       const OurServicesImg = computed(() => store.OurServicesImg);
+      console.log("Navbar Color:", navbarColor.value);
 
 
       return { isMenuOpen, toggleMenu, closeMenu, navbarColor, btnColor, imageStore, productImg1, productImg2, productImg3, productImg4, aboutImg, OurServicesImg };
+    
     },
     async beforeMount() {
     },
