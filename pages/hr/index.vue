@@ -17,10 +17,11 @@
             <hr_menu v-show="ismenuopen" class="absolute top-0 left-0 z-50 mt-12 ml-2" @click="clickmenuitem" />
           </div> -->
 
-          <!-- <div class="flex items-center justify-center" v-show="this.loggeduser.granted.indexOf('hradmin') > -1">
+          <div class="flex items-center justify-center">
+            <!-- v-show="this.loggeduser.granted.indexOf('hradmin') > -1" -->
             <search_dashboard placeholder="Search Employee" :arrsections="arrsections_DBSerach"
               @getsearch="search_begin_DBSerach" />
-          </div> -->
+          </div>
         </div>
       </div>
 
@@ -97,7 +98,7 @@
         <div class="cssemplist" v-for="(emp, index) in hrStore.alempdetails" :key="emp">
           <div class="mt-1 text-sm rounded-md cursor-pointer hover:text-white text-blue-300 hover:bg-gray-500"
             :class="emp.isresigned ? 'bg-red-500' : 'bg-gray-400'">
-         
+
             <div class="rounded-md">
               <div class="grid grid-cols-1 text-center cssdatarow lg:grid-cols-8">
                 <div class="cssdatarowitem lg:border-0">
@@ -231,8 +232,8 @@
                 selectedrow == emp.id &&
                 !isSecClose
                 ">
-                <attendence ref="atten" :empno="emp.empno" :empname="emp.empname" :isOTEntitled="isOTEntitled"
-                  @exit="exit" />
+                <!-- <attendence ref="atten" :empno="emp.empno" :empname="emp.empname" :isOTEntitled="isOTEntitled"
+                  @exit="exit" /> -->
               </div>
 
               <!-- view Absense -->
@@ -250,8 +251,8 @@
                 !isSecClose
                 ">
 
-                <absencecreate ref="absenseapply" :empno="emp.empno" :leaveyear="leaveyear"
-                  @goto_absenceview="goto_absenceview" />
+                <!-- <absencecreate ref="absenseapply" :empno="emp.empno" :leaveyear="leaveyear"
+                  @goto_absenceview="goto_absenceview" /> -->
               </div>
               <!-- End view Absense Create -->
 
@@ -267,7 +268,7 @@
                 selectedrow == emp.id &&
                 !isSecClose
                 ">
-                <movementcreate ref="movementapply" :empno="emp.empno" @goto_movementview="goto_movementview" />
+                <!-- <movementcreate ref="movementapply" :empno="emp.empno" @goto_movementview="goto_movementview" /> -->
               </div>
 
               <!-- End view movement -->
@@ -286,7 +287,7 @@
                 selectedrow == emp.id &&
                 !isSecClose
                 ">
-                <timecarddetails ref="timecardcomp" :empno="emp.empno" @exit="exit" />
+                <!-- <timecarddetails ref="timecardcomp" :empno="emp.empno" @exit="exit" /> -->
               </div>
               <!-- End Job Card Details   -->
             </div>
@@ -306,8 +307,8 @@
       <!--  Special Work Arrangemnt  -->
 
       <div>
-        <special_work_arrangement v-show="cur_sec.toLowerCase() == 'special_work_arrangement'"
-          ref="comp_special_work_arrangement" @exitpopup="exitpopup" />
+        <!-- <special_work_arrangement v-show="cur_sec.toLowerCase() == 'special_work_arrangement'"
+          ref="comp_special_work_arrangement" @exitpopup="exitpopup" /> -->
       </div>
 
       <!-- End  Special Work Arrangemnt  -->
@@ -327,7 +328,7 @@
 
 <script>
 //// import * as Global from '@/assets/js/Global'
-////import { mapState, mapGetters, mapActions, mapMutations } from 'vuex'
+import { mapState, mapGetters, mapActions, mapMutations } from 'vuex'
 
 import { useHrStore } from "~/stores/modules/hrStore";
 
@@ -354,9 +355,9 @@ import Ot_apply_list from '~/components/hr/ot_apply_list.vue'
 
 import timecarddetails from '~/components/hr/timecarddetails.vue'
 definePageMeta({
-    layout: 'default',
-    middleware: 'auth',
-   });
+  layout: 'default',
+  middleware: 'auth',
+});
 export default {
   layout: 'default',
   components: {
@@ -407,7 +408,7 @@ export default {
     // this.imageroot = this.vendorStore.initVendor.baseUrl;
     // this.showLoading = this.$showLoading;
 
-    console.log('Hr List:', this.hrStore.alempdetails);
+    // console.log('Hr List:', this.hrStore.alempdetails);
   },
 
   async mounted() { },
@@ -418,6 +419,7 @@ export default {
     //   alempdetails: (state) => state.hr.dashboard.alempdetails,
     //   initData: (state) => state.hr.dashboard.initData,
     // }),
+
     getSupervisorName() {
       return (supno) => {
         try {
@@ -447,6 +449,13 @@ export default {
     },
   },
   async beforeMount() {
+    const req = {
+      searchval: "",
+      searchby: 106
+    }
+
+    this.search_begin_DBSerach(req);
+
     // await this.getReportInitData()
     // await this.getMovementInitData()
 
@@ -493,23 +502,23 @@ export default {
   },
 
   methods: {
-    // ...mapActions({
-    //   searchEmployees: 'hr/searchEmployees',
-    //   getEmployeeByID: 'hr/getEmployeeByID',
-    //   initiateLeaves: 'hr/initiateLeaves',
-    //   leaveBalance: 'hr/leaveBalance',
-    //   deleteEmployee: 'hr/deleteEmployee',
-    //   initEmployee: 'hr/initEmployee',
-    //   getWorkLoadCount: 'hr/getWorkLoadCount',
-    //   getMovementInitData: 'hr/getMovementInitData',
-    //   getReportInitData: 'hr/getReportInitData',
-    // }),
-    // ...mapMutations({
-    //   showMessage: 'PUSH_NOTIFICATION',
-    //   setpage: 'hr/SET_PAGE',
-    //   setClearEmployee: 'hr/SET_CLEAR_EMPLOYEEE',
-    //   setorganizedlistdata: 'hr/SET_ORGANIZEDLISTDATA',
-    // }),
+    ...mapActions('hrStore', {
+      searchEmployees: 'searchEmployees',
+      //   getEmployeeByID: 'hr/getEmployeeByID',
+      //   initiateLeaves: 'hr/initiateLeaves',
+      //   leaveBalance: 'hr/leaveBalance',
+      //   deleteEmployee: 'hr/deleteEmployee',
+      //   initEmployee: 'hr/initEmployee',
+      //   getWorkLoadCount: 'hr/getWorkLoadCount',
+      //   getMovementInitData: 'hr/getMovementInitData',
+      //   getReportInitData: 'hr/getReportInitData',
+      // }),
+      // ...mapMutations({
+      //   showMessage: 'PUSH_NOTIFICATION',
+      //   setpage: 'hr/SET_PAGE',
+      //   setClearEmployee: 'hr/SET_CLEAR_EMPLOYEEE',
+      //   setorganizedlistdata: 'hr/SET_ORGANIZEDLISTDATA',
+    }),
 
     exit() {
       this.isSecClose = true
@@ -521,6 +530,7 @@ export default {
     gotoUserguide() {
       this.$router.push('/hr/userguide')
     },
+
     //  organizelistdata() {
     //     var clonedArray = JSON.parse(JSON.stringify(this.alempdetails))
     // clonedArray.forEach((element) => {
@@ -534,11 +544,13 @@ export default {
     // },
 
     async init_employee(id) {
+      const hrStore = useHrStore();
+
       this.cur_sec = 'viewemployee'
       this.isSecClose = true
       this.selectedrow = id
       this.isSecClose = false
-      await this.getEmployeeByID({ empid: id })
+      await hrStore.getEmployeeByID({ empid: id })
     },
 
     async setDeleteEmployee(empNo) {
@@ -557,6 +569,7 @@ export default {
 
     async empSaveCompletion(empNo) {
       this.cur_sec = ''
+
       await this.searchEmployees({
         keyword: empNo,
         searchby: 101,
@@ -647,16 +660,20 @@ export default {
 
       //
     },
+
     async search_begin_DBSerach(req) {
-      await this.searchEmployees({
+      const hrStore = useHrStore();
+      await hrStore.searchEmployees({
         keyword: req.searchval,
         searchby: req.searchby,
-        user: this.loggeduser,
+        // user: this.loggeduser,
       })
     },
+
     getviewwg() {
       this.$router.push('/hr/workgroup')
     },
+
     pagechanged(page_num) {
       this.cur_page = page_num
       this.setpage(this.cur_page)

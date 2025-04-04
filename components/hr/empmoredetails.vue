@@ -1,7 +1,7 @@
 <template>
   <section class="empdetails">
-  
-    <div class="relative min-h-screen px-4 pt-2 text-sm" v-show="hrStore.empdetails.empId > -1">
+
+    <div class="relative min-h-screen px-4 pt-2 text-sm" v-show="hrStore.empdetails.id">
       <div class="absolute top-0 right-0 flex mt-8 mr-8 gap-x-4">
         <!-- <div v-show="this.loggeduser.granted.indexOf('hradmin') > -1" class="btn" @click="setEdit">Edit</div>
         <div v-show="this.loggeduser.granted.indexOf('hradmin') > -1" class="btn" @click="setdelete">Delete</div> -->
@@ -21,10 +21,10 @@
             <h2 class="mb-5 text-base font-semibold leading-7 text-gray-900">Employee Details</h2>
             <div class="flex -space-x-1 overflow-hidden">
               <div class="pt-4">
-                <a :href="imageroot + '/user/' + hrStore.empdetails.image" target="_blank">
+                <!-- <a :href="imageroot + '/user/' + hrStore.empdetails.image" target="_blank">
                   <img class="w-16 h-16 border-2 border-white rounded"
                     :src="imageroot + '/user/' + hrStore.empdetails.image" alt="" />
-                </a>
+                </a> -->
               </div>
             </div>
           </div>
@@ -78,6 +78,7 @@
             </div>
 
             <div class="col-span-1">
+              <hr_item item="Date Of Birth" :value="hrStore.empdetails.dob" />
               <!-- <hr_item item="Date Of Birth" :value="$options.filters.toShortDate(hrStore.empdetails.dob)" /> -->
             </div>
           </div>
@@ -86,28 +87,29 @@
 
           <div class="grid grid-cols-1 mt-2 sm:grid-cols-5 sm:gap-x-6">
             <div class="col-span-1">
-              <hr_item item="Department" :value="getDepartment(hrStore.empdetails.deptNo)" />
+              <hr_item item="Department" :value="hrStore.empdetails.deptNo" />
             </div>
             <div class="col-span-1">
-              <hr_item item="Staff Type" :value="getStaffType(hrStore.empdetails.staffType)" />
+              <hr_item item="Staff Type" :value="hrStore.empdetails.staffType" />
             </div>
             <div class="col-span-1">
               <hr_item item="Designation" :value="hrStore.empdetails.designation" />
             </div>
             <div class="col-span-1">
-              <hr_item item="Employee Type" :value="getEmployeeStatus(hrStore.empdetails.empType)" />
+              <hr_item item="Employee Type" :value="hrStore.empdetails.empType" />
             </div>
             <div class="col-span-1">
+              <hr_item item="Date Of Join" :value="hrStore.empdetails.dateOfJoin" />
               <!-- <hr_item item="Date Of Join" :value="$options.filters.toShortDate(hrStore.empdetails.dateOfJoin)" /> -->
             </div>
             <div class="col-span-1">
-              <hr_item item="Category" :value="getEmployeeCategory(hrStore.empdetails.category)" />
+              <hr_item item="Category" :value="hrStore.empdetails.category" />
             </div>
             <div class="col-span-1">
               <hr_item item="Is Executive" :value="(hrStore.empdetails.isExecutive) ? 'Yes' : 'No'" />
             </div>
             <div class="col-span-1">
-              <hr_item item="His/Her Supervisor" :value="getSupervisorName(hrStore.empdetails.supervisor)" />
+              <hr_item item="His/Her Supervisor" :value="hrStore.empdetails.supervisor" />
             </div>
           </div>
 
@@ -147,6 +149,7 @@
               <hr_item item="Has Resigned" :value="hrStore.empdetails.isResign ? 'Yes' : 'No'" />
             </div>
             <div class="col-span-1">
+              <hr_item item="Date Of Resigned" :value="hrStore.empdetails.dateOfResign" />
               <!-- <hr_item item="Date Of Resigned" :value="$options.filters.toShortDate(hrStore.empdetails.dateOfResign)" /> -->
             </div>
             <div class="col-span-1">
@@ -158,11 +161,11 @@
             <div class="pt-4">
               <label for="price" class="block text-sm font-medium leading-6 text-gray-900">Signature</label>
               <div class="mt-2">
-                <a :href="imageroot + '/Resource/HR/signature/' + hrStore.empdetails.signature + '.png'"
+                <!-- <a :href="imageroot + '/Resource/HR/signature/' + hrStore.empdetails.signature + '.png'"
                   target="_blank">
                   <img class="w-16 h-16 border-2 border-white rounded"
                     :src="imageroot + '/Resource/HR/signature/' + hrStore.empdetails.signature + '.png'" alt="" />
-                </a>
+                </a> -->
               </div>
             </div>
           </div>
@@ -174,8 +177,11 @@
 </template>
 
 <script>
-  import { useHrStore } from "~/stores/modules/hrStore";
+import { useHrStore } from "~/stores/modules/hrStore";
 import hr_item from '~/components/hr/hr_item'
+import { mapState } from "vuex";
+
+
 export default {
   props: ['empid'],
   components: { hr_item },
@@ -185,83 +191,33 @@ export default {
     }
   },
 
-  computed: {
-    // ...mapState({
-    //   employee: (state) => state.hr.dashboard.employee,
-    //   loggeduser: (state) => state.loggeduser,
-    //   initData: (state) => state.hr.dashboard.initData,
-    // }),
-    getSupervisorName() {
-      return (supno) => {
-        try {
-          let detSup = this.initData.arrManagers.filter((sup) => {
-            return sup.id.indexOf(supno) > -1
-          })[0]
-
-          return detSup.value;
-        }
-        catch { return '' }
-
-      }
-    },
-    getEmployeeCategory() {
-      return (catid) => {
-        try {
-          let detcat = this.initData.arrEmpCategories.filter((cat) => {
-            return cat.id == catid
-          })[0]
-
-          return detcat.value;
-        }
-        catch { return '' }
-
-      }
-    },
-
-    getStaffType() {
-      return (typeid) => {
-        try {
-          let dettype = this.initData.arrStaffTypes.filter((type) => {
-            return type.id == typeid
-          })[0]
-
-          return dettype.value;
-        }
-        catch { return '' }
-
-      }
-    },
-
-    getEmployeeStatus() {
-      return (empstatusid) => {
-        try {
-          let detstatus = this.initData.arrEmployeeStatus.filter((type) => {
-            return type.id == empstatusid
-          })[0]
-
-          return detstatus.value;
-        }
-        catch { return '' }
-
-      }
-    },
-
-    getDepartment() {
-      return (deptid) => {
-        try {
-          let detstatus = this.initData.arrDepartments.filter((type) => {
-            return type.id == deptid
-          })[0]
-
-          return detstatus.value;
-        }
-        catch { return '' }
-
-      }
-    },
-
-
+  beforeMount() {
+    const hrStore = useHrStore();
+    // hrStore.getInitEmployee();
   },
+
+  computed: {
+    ...mapState({
+      // employee: (state) => state.hr.dashboard.employee,
+      // loggeduser: (state) => state.loggeduser,
+      initData: (state) => state.initData,
+    }),
+
+    // getSupervisorName() {
+    //   return (supno) => {
+    //     try {
+    //       let detSup = this.initData.arrManagers.filter((sup) => {
+    //         return sup.id.indexOf(supno) > -1
+    //       })[0]
+
+    //       return detSup.value;
+    //     }
+    //     catch { return '' }
+
+    //   }
+    // },
+  },
+
   async created() {
     this.hrStore = useHrStore();
   },
