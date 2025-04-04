@@ -1,6 +1,7 @@
 <template>
-  <section v-bind:class="['bg-center bg-cover bg-gradient-to-r', navbarColor]">
-    <nav :class="['fixed top-0 left-0 z-50 w-full bg-gradient-to-r', navbarColor]">
+
+  <section :class="`bg-center bg-cover bg-gradient-to-r ${navbarColor}`" >
+    <nav :class="`fixed top-0 left-0 z-50 w-full bg-gradient-to-r ${navbarColor}`">
       <div class="flex flex-wrap items-center justify-between max-w-screen-xl p-4 mx-auto">
         <a href="#" class="flex items-center space-x-3">
           <span class="self-center text-2xl font-semibold text-white">Logo</span>
@@ -25,7 +26,7 @@
           </ul>
         </div>
       </div>
-    </nav>    
+    </nav>
     <!-- Mobile Side Drawer -->
     <div>
       <div v-if="isMenuOpen" @click="closeMenu" class="fixed inset-0 z-40 bg-black bg-opacity-50"></div>
@@ -46,31 +47,30 @@
       </div>
     </div>
 
-    <section class="">
-      <div class="grid max-w-screen-xl px-4 py-8 mx-auto lg:gap-8 xl:gap-0 lg:py-16 lg:grid-cols-12">
-          <div class="mr-auto place-self-center lg:col-span-7">
-              <h1 class="max-w-2xl mb-4 text-4xl font-extrabold leading-none tracking-tight text-white md:text-5xl xl:text-6xl dark:text-white">Discover the Latest in Fashion</h1>
-              <p class="max-w-2xl mb-6 font-light text-gray-200 lg:mb-8 md:text-lg lg:text-xl dark:text-gray-400">From timeless essentials to bold statement pieces, explore our curated collection of clothing designed to fit every style and occasion.</p>
-              <a href="#" class="inline-flex items-center justify-center px-5 py-3 mr-3 text-base font-medium text-center text-white rounded-lg bg-primary-700 hover:bg-primary-800 focus:ring-4 focus:ring-primary-300 dark:focus:ring-primary-900">
-                  Shop Now
-                  <svg class="w-5 h-5 ml-2 -mr-1" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path fill-rule="evenodd" d="M10.293 3.293a1 1 0 011.414 0l6 6a1 1 0 010 1.414l-6 6a1 1 0 01-1.414-1.414L14.586 11H3a1 1 0 110-2h11.586l-4.293-4.293a1 1 0 010-1.414z" clip-rule="evenodd"></path></svg>
-              </a>
-          </div>
-          <div class="hidden lg:mt-0 lg:col-span-5 lg:flex">
-            <img :src="imageStore"  class="object-cover w-full  h-[118%]"  alt="mockup">
-          </div>                
-      </div>
+      <section class="">
+        <div class="grid max-w-screen-xl px-4 py-8 mx-auto lg:gap-8 xl:gap-0 lg:py-16 lg:grid-cols-12">
+            <div class="mr-auto place-self-center lg:col-span-7">
+                <h1 class="max-w-2xl mb-4 text-4xl font-extrabold leading-none tracking-tight text-white md:text-5xl xl:text-6xl dark:text-white">Discover the Latest in Fashion</h1>
+                <p class="max-w-2xl mb-6 font-light text-gray-200 lg:mb-8 md:text-lg lg:text-xl dark:text-gray-400">From timeless essentials to bold statement pieces, explore our curated collection of clothing designed to fit every style and occasion.</p>
+                <a href="#" class="inline-flex items-center justify-center px-5 py-3 mr-3 text-base font-medium text-center text-white rounded-lg bg-primary-700 hover:bg-primary-800 focus:ring-4 focus:ring-primary-300 dark:focus:ring-primary-900">
+                    Shop Now
+                    <svg class="w-5 h-5 ml-2 -mr-1" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path fill-rule="evenodd" d="M10.293 3.293a1 1 0 011.414 0l6 6a1 1 0 010 1.414l-6 6a1 1 0 01-1.414-1.414L14.586 11H3a1 1 0 110-2h11.586l-4.293-4.293a1 1 0 010-1.414z" clip-rule="evenodd"></path></svg>
+                </a>
+            </div>
+            <div class="hidden lg:mt-0 lg:col-span-5 lg:flex">
+              <img :src="imageStore"  class="object-cover w-full  h-[118%]"  alt="mockup">
+            </div>                
+        </div>
     </section>
   </section>
-  
+
   <section id="service" class="py-16 bg-white">
     <div class="container mx-auto ">
       <h2 class="text-4xl font-bold text-center">Our Services</h2>
       <p class="max-w-lg mx-auto mt-4 text-center text-gray-600">We provide high-quality furniture solutions.</p>
       <div class="grid gap-8 mt-8 md:grid-cols-2">
         <div>
-          <img :src="OurServicesImg" />
-
+          <img src="/assets/img/digitalTechLabs/girlimage.jpg">
         </div>
         <div class="px-4 sm:px-8">
           <p class="max-w-lg mt-4 text-base leading-relaxed text-gray-600">
@@ -615,7 +615,7 @@
       </div>
     </div>
   </section>
-    
+
   <section id="contact" class="bg-gray-100">
     <div class="grid max-w-screen-xl px-4 py-8 mx-auto lg:gap-8 xl:gap-0 lg:py-16 lg:grid-cols-12">
       <!-- Text Content -->
@@ -646,7 +646,7 @@
       
     </div>
   </section>
-  
+
   <section class="relative flex items-center py-12 text-white bg-center bg-no-repeat bg-cover" style="background-image: url('https://img.freepik.com/premium-photo/fashionable-adult-customer-exploring-boutique-studio-with-modern-wardrobe-display_634278-45040.jpg?w=996');">
     <div class="absolute inset-0 bg-black/60"></div>
     <div class="relative z-10 grid max-w-screen-xl grid-cols-1 gap-12 px-6 mx-auto md:grid-cols-2">
@@ -761,13 +761,12 @@
   
   <script>
   import { ref, computed } from "vue";
-  import { useStandpageStore } from '~/stores/modules/dtlStore';
+  import { useStandpageStore } from '~/stores/modules/packageWebStore';
 
-
- definePageMeta({
+  definePageMeta({
     layout: 'standard',   
-   // middleware: 'auth',
-   });
+    middleware: 'auth',
+  });
    
   export default {
     
@@ -790,40 +789,37 @@
 
     },
     methods: {
-
+ 
     },
     setup() {
-      const isMenuOpen = ref(false);
+    const isMenuOpen = ref(false);
 
-      const toggleMenu = () => {
-        isMenuOpen.value = !isMenuOpen.value;
-      };
+    const toggleMenu = () => {
+      isMenuOpen.value = !isMenuOpen.value;
+    };
 
-      const closeMenu = () => {
-        isMenuOpen.value = false;
-      };
+    const closeMenu = () => {
+      isMenuOpen.value = false;
+    };
 
-      const store = useStandpageStore();
-      const navbarColor = computed(() => store.navbarColor);
-      const btnColor = computed(() => store.btnColor);
-      const imageStore = computed(() => store.heroImg); 
-      const productImg1 = computed(() => store.productImg1);
-      const productImg2 = computed(() => store.productImg2);
-      const productImg3 = computed(() => store.productImg3);
-      const productImg4 = computed(() => store.productImg4);
-      const aboutImg = computed(() => store.aboutImg);
-      const OurServicesImg = computed(() => store.OurServicesImg);
-      console.log("Navbar Color:", navbarColor.value);
+    const store = useStandpageStore();
+    const navbarColor = computed(() => store.navbarColor);
+    const btnColor = computed(() => store.btnColor);
+    const imageStore = computed(() => store.heroImg); 
+    const productImg1 = computed(() => store.productImg1);
+    const productImg2 = computed(() => store.productImg2);
+    const productImg3 = computed(() => store.productImg3);
+    const productImg4 = computed(() => store.productImg4);
+    const aboutImg = computed(() => store.aboutImg);
 
-
-      return { isMenuOpen, toggleMenu, closeMenu, navbarColor, btnColor, imageStore, productImg1, productImg2, productImg3, productImg4, aboutImg, OurServicesImg };
-    
-    },
+    return { isMenuOpen, toggleMenu, closeMenu, navbarColor, btnColor, imageStore, productImg1, productImg2, productImg3, productImg4, aboutImg };
+  },
     async beforeMount() {
+
     },
     head() {
       return {
-        title: 'Starter Package',
+        title: 'Intranet - Digital Tech Labs',
       }
     },
   }
