@@ -7,7 +7,7 @@
                 <!-- Logo -->
                 <div class="flex items-center">
                     <span class="flex items-center text-2xl font-bold">
-                        <a href="DigitalTechLabs" class="transition duration-300 hover:opacity-90">
+                        <a href="/" class="transition duration-300 hover:opacity-90">
                             <img
                                 src="/assets/img/digitalTechLabs/DigitalTechLabsLogo.jpg" 
                                 alt="Digital Tech Labs Logo"
@@ -19,11 +19,13 @@
 
                 <!-- Navigation Links -->
                 <div class="items-center hidden px-4 py-2 space-x-4 text-sm text-white bg-blue-900 rounded-full shadow-lg md:flex">
-                    <a href="DigitalTechLabs" class="transition duration-300 hover:text-gray-300">Service</a>
-                    <a href="DigitalTechLabs" class="transition duration-300 hover:text-gray-300">Product</a>
-                    <a href="DigitalTechLabs" class="transition duration-300 hover:text-gray-300">Projects</a>
-                    <a href="contactUs"  class="transition duration-300 hover:text-gray-300">About us</a>
+                    <a href="/" class="transition duration-300 hover:text-gray-300">Service</a>
+                    <a href="/" class="transition duration-300 hover:text-gray-300">Product</a>
+                    <a href="/" class="transition duration-300 hover:text-gray-300">Projects</a>
+                    <a href="aboutUs"  class="transition duration-300 hover:text-gray-300">About us</a>
                     <a href="contactUs" class="transition duration-300 hover:text-gray-300">Contact</a>
+                    <a href="/user/login" class="transition duration-300 hover:text-gray-300">Intranet</a>
+
                     <!-- Talk to Us Button -->
                     <a href="#" class="px-4 py-2 ml-4 font-semibold text-blue-900 transition-transform transform bg-white rounded-full shadow-md hover:scale-105 hover:bg-blue-100">
                     Talk to Us

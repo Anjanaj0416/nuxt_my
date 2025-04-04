@@ -1,11 +1,10 @@
 <template>
-  <section v-bind:class="['bg-center bg-cover bg-gradient-to-r', navbarColor]">
-    <nav :class="['fixed top-0 left-0 z-50 w-full bg-gradient-to-r', navbarColor]">
+  <section :class="[`bg-center bg-cover bg-${store.pageData.css.navbar.navbarColor}`, 'bg-blue-900']">
+    <nav :class="[`fixed top-0 left-0 z-50 w-full bg-${store.pageData.css.navbar.navbarColor}`,'bg-blue-900']">
       <div class="flex flex-wrap items-center justify-between max-w-screen-xl p-4 mx-auto">
         <a href="#" class="flex items-center space-x-3">
-          <span class="self-center text-2xl font-semibold text-white">Logo</span>
+          <span class="self-center text-2xl font-semibold text-white">{{ store.pageData.css.logo || 'Logo' }}</span>
         </a>
-
         <!-- Mobile Menu Button -->
         <button @click="toggleMenu" class="inline-flex items-center justify-center w-10 h-10 p-2 text-sm text-gray-500 rounded-lg md:hidden hover:bg-gray-100 focus:outline-none focus:ring-2 focus:ring-gray-200">
           <span class="sr-only">Open main menu</span>
@@ -49,41 +48,43 @@
     <section class="">
       <div class="grid max-w-screen-xl px-4 py-8 mx-auto lg:gap-8 xl:gap-0 lg:py-16 lg:grid-cols-12">
           <div class="mr-auto place-self-center lg:col-span-7">
-              <h1 class="max-w-2xl mb-4 text-4xl font-extrabold leading-none tracking-tight text-white md:text-5xl xl:text-6xl dark:text-white">Discover the Latest in Fashion</h1>
-              <p class="max-w-2xl mb-6 font-light text-gray-200 lg:mb-8 md:text-lg lg:text-xl dark:text-gray-400">From timeless essentials to bold statement pieces, explore our curated collection of clothing designed to fit every style and occasion.</p>
+              <h1 class="max-w-2xl mb-4 text-4xl font-extrabold leading-none tracking-tight text-white md:text-5xl xl:text-6xl dark:text-white">{{store.pageData.css.navbar.navTitle}}</h1>
+              <p class="max-w-2xl mb-6 font-light text-gray-200 lg:mb-8 md:text-lg lg:text-xl dark:text-gray-400">{{store.pageData.css.navbar.navSubTitle}}</p>
               <a href="#" class="inline-flex items-center justify-center px-5 py-3 mr-3 text-base font-medium text-center text-white rounded-lg bg-primary-700 hover:bg-primary-800 focus:ring-4 focus:ring-primary-300 dark:focus:ring-primary-900">
                   Shop Now
                   <svg class="w-5 h-5 ml-2 -mr-1" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path fill-rule="evenodd" d="M10.293 3.293a1 1 0 011.414 0l6 6a1 1 0 010 1.414l-6 6a1 1 0 01-1.414-1.414L14.586 11H3a1 1 0 110-2h11.586l-4.293-4.293a1 1 0 010-1.414z" clip-rule="evenodd"></path></svg>
               </a>
           </div>
           <div class="hidden lg:mt-0 lg:col-span-5 lg:flex">
-            <img :src="imageStore"  class="object-cover w-full  h-[118%]"  alt="mockup">
+            <img :src="store.pageData.css.navbar.navImg"  class="object-cover w-full  h-[118%]"  alt="mockup">
           </div>                
       </div>
     </section>
   </section>
-  
+  <div>
+   <!-- {{store.pageData}} -->
+  </div>
   <section id="service" class="py-16 bg-white">
     <div class="container mx-auto ">
-      <h2 class="text-4xl font-bold text-center">Our Services</h2>
-      <p class="max-w-lg mx-auto mt-4 text-center text-gray-600">We provide high-quality furniture solutions.</p>
+      <h2 class="text-4xl font-bold text-center">{{store.pageData.css.services.title || 'Title' }}</h2>
+      <p class="max-w-lg mx-auto mt-4 text-center text-gray-600">{{store.pageData.css.services.subTitle}}</p>
       <div class="grid gap-8 mt-8 md:grid-cols-2">
         <div>
-          <img :src="OurServicesImg" />
+          <img :src="store.pageData.css.services.OurServicesImg" />
 
         </div>
         <div class="px-4 sm:px-8">
           <p class="max-w-lg mt-4 text-base leading-relaxed text-gray-600">
-            At <span class="font-semibold">[Your Brand Name]</span>, we are dedicated to providing a personalized shopping experience that caters to your unique style. Our extensive collection includes the latest fashion trends, curated to ensure that you always look your best. Whether you're updating your wardrobe with the season's must-have pieces or searching for that perfect outfit for a special occasion, we've got you covered.
+            {{store.pageData.css.services.paragraph1 || 'sample' }}
             <br><br>
-            From timeless classics to bold, contemporary designs, our clothing is crafted with premium fabrics and impeccable craftsmanship. We focus on delivering fashion that is both stylish and comfortable, making it easy to express yourself through your wardrobe.
+            {{store.pageData.css.services.paragraph2 || 'sample' }}
             <br><br>
-            Explore our collections, enjoy exclusive discounts, and experience the convenience of shopping from the comfort of your home. With new arrivals every season and a constantly evolving selection, you can count on <span class="font-semibold">[Your Brand Name]</span> to keep your style fresh, fun, and ahead of the curve.
+            {{store.pageData.css.services.paragraph3 || 'sample'}}
           </p>
           
           <NuxtLink 
             to="/services" 
-            :class="`inline-block px-6 py-2 mt-4 text-white transition-all bg-${btnColor} rounded-lg hover:bg-purple-900`">
+            :class="[`inline-block px-6 py-2 mt-4 text-white transition-all bg-${store.pageData.css.btnColor} rounded-lg hover:bg-purple-900`,'bg-blue-900']">
             Learn More
           </NuxtLink>
         </div>
@@ -96,8 +97,7 @@
       <!-- Heading & Filters -->
       <div class="items-end justify-between mb-4 space-y-4 sm:flex sm:space-y-0 md:mb-8">
         <div>
-          
-          <h2 class="mt-3 text-xl font-semibold text-gray-900 dark:text-white sm:text-2xl">Blouses & Shirts</h2>
+          <h2 class="mt-3 text-xl font-semibold text-gray-900 dark:text-white sm:text-2xl">{{store.pageData.css.product.section2Title}}</h2>
         </div>
         <div class="flex items-center space-x-4">
           <button data-modal-toggle="filterModal" data-modal-target="filterModal" type="button" class="flex items-center justify-center w-full px-3 py-2 text-sm font-medium text-gray-900 bg-white border border-gray-200 rounded-lg hover:bg-gray-100 hover:text-primary-700 focus:z-10 focus:outline-none focus:ring-4 focus:ring-gray-100 dark:border-gray-600 dark:bg-gray-800 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white dark:focus:ring-gray-700 sm:w-auto">
@@ -118,43 +118,21 @@
               <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="m19 9-7 7-7-7" />
             </svg>
           </button>
-          <div id="dropdownSort1" class="z-50 hidden w-40 bg-white divide-y divide-gray-100 rounded-lg shadow dark:bg-gray-700" data-popper-placement="bottom">
-            <ul class="p-2 text-sm font-medium text-left text-gray-500 dark:text-gray-400" aria-labelledby="sortDropdownButton">
-              <li>
-                <a href="#" class="inline-flex items-center w-full px-3 py-2 text-sm text-gray-500 rounded-md group hover:bg-gray-100 hover:text-gray-900 dark:text-gray-400 dark:hover:bg-gray-600 dark:hover:text-white"> The most popular </a>
-              </li>
-              <li>
-                <a href="#" class="inline-flex items-center w-full px-3 py-2 text-sm text-gray-500 rounded-md group hover:bg-gray-100 hover:text-gray-900 dark:text-gray-400 dark:hover:bg-gray-600 dark:hover:text-white"> Newest </a>
-              </li>
-              <li>
-                <a href="#" class="inline-flex items-center w-full px-3 py-2 text-sm text-gray-500 rounded-md group hover:bg-gray-100 hover:text-gray-900 dark:text-gray-400 dark:hover:bg-gray-600 dark:hover:text-white"> Increasing price </a>
-              </li>
-              <li>
-                <a href="#" class="inline-flex items-center w-full px-3 py-2 text-sm text-gray-500 rounded-md group hover:bg-gray-100 hover:text-gray-900 dark:text-gray-400 dark:hover:bg-gray-600 dark:hover:text-white"> Decreasing price </a>
-              </li>
-              <li>
-                <a href="#" class="inline-flex items-center w-full px-3 py-2 text-sm text-gray-500 rounded-md group hover:bg-gray-100 hover:text-gray-900 dark:text-gray-400 dark:hover:bg-gray-600 dark:hover:text-white"> No. reviews </a>
-              </li>
-              <li>
-                <a href="#" class="inline-flex items-center w-full px-3 py-2 text-sm text-gray-500 rounded-md group hover:bg-gray-100 hover:text-gray-900 dark:text-gray-400 dark:hover:bg-gray-600 dark:hover:text-white"> Discount % </a>
-              </li>
-            </ul>
-          </div>
         </div>
       </div>
       <div class="grid gap-4 mb-4 sm:grid-cols-2 md:mb-8 lg:grid-cols-3 xl:grid-cols-4">
 
         <div class="bg-white border border-gray-200 rounded-lg shadow-sm dark:border-gray-700 dark:bg-gray-800">
-          <div :class="`w-full h-56 bg-${btnColor}`">
+          <div :class="`w-full h-56 bg-${store.pageData.css.product.productDetails.productBgColor}`">
             <a href="#" class="">
-              <img class="h-full mx-auto dark:hidden" :src="productImg1" alt="" />
-              <img class="hidden h-full mx-auto dark:block" :src="productImg1" alt="" />
+              <img class="h-full mx-auto dark:hidden" :src="store.pageData.css.product.productDetails.product1.productImg1" alt="" />
+              <img class="hidden h-full mx-auto dark:block" :src="store.pageData.css.product.productDetails.product1.productImg1" alt="" />
             </a>
           </div>
 
           <div class="p-6 pt-6">
             <div class="flex items-center justify-between gap-4 mb-4">
-              <span class="me-2 rounded bg-primary-100 px-2.5 py-0.5 text-xs font-medium text-primary-800 dark:bg-primary-900 dark:text-primary-300"> Up to 5% off </span>
+              <span class="me-2 rounded bg-primary-100 px-2.5 py-0.5 text-xs font-medium text-primary-800 dark:bg-primary-900 dark:text-primary-300">{{store.pageData.css.product.productDetails.product1.discount}}</span>
 
               <div class="flex items-center justify-end gap-1">
                 <button type="button" data-tooltip-target="tooltip-quick-look-6" class="p-2 text-gray-500 rounded-lg hover:bg-gray-100 hover:text-gray-900 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white">
@@ -182,7 +160,7 @@
               </div>
             </div>
 
-            <a href="#" class="text-lg font-semibold leading-tight text-gray-900 hover:underline dark:text-white">WOMENS CARGO PANT</a>
+            <a href="#" class="text-lg font-semibold leading-tight text-gray-900 hover:underline dark:text-white">{{store.pageData.css.product.productDetails.product1.name}}</a>
 
             <div class="flex items-center gap-2 mt-2">
               <div class="flex items-center">
@@ -228,7 +206,7 @@
             </ul>
 
             <div class="flex items-center justify-between gap-4 mt-4">
-              <p class="text-2xl font-extrabold leading-tight text-gray-900 dark:text-white">Rs.4,300</p>
+              <p class="text-2xl font-extrabold leading-tight text-gray-900 dark:text-white">Rs.{{store.pageData.css.product.productDetails.product1.price}}</p>
             </div>
             <div class="flex items-center justify-between gap-4 mt-4">
               <button 
@@ -251,16 +229,16 @@
         </div>
 
         <div class="bg-white border border-gray-200 rounded-lg shadow-sm dark:border-gray-700 dark:bg-gray-800">
-          <div :class="`w-full h-56 bg-${btnColor}`">
+          <div :class="`w-full h-56 bg-${store.pageData.css.product.productDetails.productBgColor}`">
             <a href="#" class="">
-              <img class="h-full mx-auto dark:hidden" :src="productImg2" alt="" />
-              <img class="hidden h-full mx-auto dark:block" :src="productImg2" alt="" />
+              <img class="h-full mx-auto dark:hidden" :src="store.pageData.css.product.productDetails.product2.productImg2" alt="" />
+              <img class="hidden h-full mx-auto dark:block" :src="store.pageData.css.product.productDetails.product2.productImg2" alt="" />
             </a>
           </div>
 
           <div class="p-6 pt-6">
             <div class="flex items-center justify-between gap-4 mb-4">
-              <span class="me-2 rounded bg-primary-100 px-2.5 py-0.5 text-xs font-medium text-primary-800 dark:bg-primary-900 dark:text-primary-300"> Up to 5% off </span>
+              <span class="me-2 rounded bg-primary-100 px-2.5 py-0.5 text-xs font-medium text-primary-800 dark:bg-primary-900 dark:text-primary-300">{{store.pageData.css.product.productDetails.product2.discount}}</span>
 
               <div class="flex items-center justify-end gap-1">
                 <button type="button" data-tooltip-target="tooltip-quick-look-6" class="p-2 text-gray-500 rounded-lg hover:bg-gray-100 hover:text-gray-900 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white">
@@ -288,7 +266,7 @@
               </div>
             </div>
 
-            <a href="#" class="text-lg font-semibold leading-tight text-gray-900 hover:underline dark:text-white">ETHNIC FUSION KURTHI SET</a>
+            <a href="#" class="text-lg font-semibold leading-tight text-gray-900 hover:underline dark:text-white">{{store.pageData.css.product.productDetails.product2.name}}</a>
 
             <div class="flex items-center gap-2 mt-2">
               <div class="flex items-center">
@@ -334,16 +312,17 @@
             </ul>
 
             <div class="flex items-center justify-between gap-4 mt-4">
-              <p class="text-2xl font-extrabold leading-tight text-gray-900 dark:text-white">Rs.2,599</p>
+              <p class="text-2xl font-extrabold leading-tight text-gray-900 dark:text-white">Rs.{{store.pageData.css.product.productDetails.product1.price}}</p>
             </div>
             <div class="flex items-center justify-between gap-4 mt-4">
               <button 
                 type="button" 
                 :class="[
                   'inline-flex items-center justify-center rounded-lg border-2 px-5 py-2.5 text-sm font-medium text-black focus:outline-none focus:ring-4',
-                  `border-${btnColor}`,
-                  `hover:bg-${btnColor}`,
-                  'hover:text-white', 
+                  `border- ${btnColor}`,
+                  `hover:bg- ${btnColor}`,
+                  'hover:text-white',
+                  
                 ]"
               >
                 <svg class="w-5 h-5 -ms-2 me-2" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="none" viewBox="0 0 24 24">
@@ -356,18 +335,16 @@
         </div>
 
         <div class="bg-white border border-gray-200 rounded-lg shadow-sm dark:border-gray-700 dark:bg-gray-800">
-          <div class="w-full h-56 bg-purple-700">
-            <div :class="`w-full h-56 bg-${btnColor}`">
+          <div :class="`w-full h-56 bg-${store.pageData.css.product.productDetails.productBgColor}`">
             <a href="#" class="">
-              <img class="h-full mx-auto dark:hidden" :src="productImg3" alt="" />
-              <img class="hidden h-full mx-auto dark:block" :src="productImg3" alt="" />
+              <img class="h-full mx-auto dark:hidden" :src="store.pageData.css.product.productDetails.product3.productImg3" alt="" />
+              <img class="hidden h-full mx-auto dark:block" :src="store.pageData.css.product.productDetails.product3.productImg3" alt="" />
             </a>
-          </div>
           </div>
 
           <div class="p-6 pt-6">
             <div class="flex items-center justify-between gap-4 mb-4">
-              <span class="me-2 rounded bg-primary-100 px-2.5 py-0.5 text-xs font-medium text-primary-800 dark:bg-primary-900 dark:text-primary-300"> Up to 5% off </span>
+              <span class="me-2 rounded bg-primary-100 px-2.5 py-0.5 text-xs font-medium text-primary-800 dark:bg-primary-900 dark:text-primary-300">{{store.pageData.css.product.productDetails.product1.discount}}</span>
 
               <div class="flex items-center justify-end gap-1">
                 <button type="button" data-tooltip-target="tooltip-quick-look-6" class="p-2 text-gray-500 rounded-lg hover:bg-gray-100 hover:text-gray-900 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white">
@@ -395,7 +372,7 @@
               </div>
             </div>
 
-            <a href="#" class="text-lg font-semibold leading-tight text-gray-900 hover:underline dark:text-white">WOMENS WIDE LEG PANT</a>
+            <a href="#" class="text-lg font-semibold leading-tight text-gray-900 hover:underline dark:text-white">{{store.pageData.css.product.productDetails.product3.name}}</a>
 
             <div class="flex items-center gap-2 mt-2">
               <div class="flex items-center">
@@ -441,16 +418,17 @@
             </ul>
 
             <div class="flex items-center justify-between gap-4 mt-4">
-              <p class="text-2xl font-extrabold leading-tight text-gray-900 dark:text-white">Rs.3,400</p>
+              <p class="text-2xl font-extrabold leading-tight text-gray-900 dark:text-white">Rs.{{store.pageData.css.product.productDetails.product3.price}}</p>
             </div>
             <div class="flex items-center justify-between gap-4 mt-4">
               <button 
                 type="button" 
                 :class="[
                   'inline-flex items-center justify-center rounded-lg border-2 px-5 py-2.5 text-sm font-medium text-black focus:outline-none focus:ring-4',
-                  `border-${btnColor}`,
-                  `hover:bg-${btnColor}`,
-                  'hover:text-white', 
+                  `border- ${btnColor}`,
+                  `hover:bg- ${btnColor}`,
+                  'hover:text-white',
+                  
                 ]"
               >
                 <svg class="w-5 h-5 -ms-2 me-2" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="none" viewBox="0 0 24 24">
@@ -463,16 +441,16 @@
         </div>
 
         <div class="bg-white border border-gray-200 rounded-lg shadow-sm dark:border-gray-700 dark:bg-gray-800">
-          <div :class="`w-full h-56 bg-${btnColor}`">
+          <div :class="`w-full h-56 bg-${store.pageData.css.product.productDetails.productBgColor}`">
             <a href="#" class="">
-              <img class="h-full mx-auto dark:hidden" :src="productImg4" alt="" />
-              <img class="hidden h-full mx-auto dark:block" :src="productImg4" alt="" />
+              <img class="h-full mx-auto dark:hidden" :src="store.pageData.css.product.productDetails.product4.productImg4" alt="" />
+              <img class="hidden h-full mx-auto dark:block" :src="store.pageData.css.product.productDetails.product4.productImg4" alt="" />
             </a>
           </div>
 
           <div class="p-6 pt-6">
             <div class="flex items-center justify-between gap-4 mb-4">
-              <span class="me-2 rounded bg-primary-100 px-2.5 py-0.5 text-xs font-medium text-primary-800 dark:bg-primary-900 dark:text-primary-300"> Up to 5% off </span>
+              <span class="me-2 rounded bg-primary-100 px-2.5 py-0.5 text-xs font-medium text-primary-800 dark:bg-primary-900 dark:text-primary-300">{{store.pageData.css.product.productDetails.product1.discount}}</span>
 
               <div class="flex items-center justify-end gap-1">
                 <button type="button" data-tooltip-target="tooltip-quick-look-6" class="p-2 text-gray-500 rounded-lg hover:bg-gray-100 hover:text-gray-900 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white">
@@ -500,7 +478,7 @@
               </div>
             </div>
 
-            <a href="#" class="text-lg font-semibold leading-tight text-gray-900 hover:underline dark:text-white">AMANI RIBBED CO - ORD SET</a>
+            <a href="#" class="text-lg font-semibold leading-tight text-gray-900 hover:underline dark:text-white">{{store.pageData.css.product.productDetails.product4.name}}</a>
 
             <div class="flex items-center gap-2 mt-2">
               <div class="flex items-center">
@@ -546,16 +524,17 @@
             </ul>
 
             <div class="flex items-center justify-between gap-4 mt-4">
-              <p class="text-2xl font-extrabold leading-tight text-gray-900 dark:text-white">Rs.6,990</p>
+              <p class="text-2xl font-extrabold leading-tight text-gray-900 dark:text-white">Rs.{{store.pageData.css.product.productDetails.product4.price}}</p>
             </div>
             <div class="flex items-center justify-between gap-4 mt-4">
               <button 
                 type="button" 
                 :class="[
                   'inline-flex items-center justify-center rounded-lg border-2 px-5 py-2.5 text-sm font-medium text-black focus:outline-none focus:ring-4',
-                  `border-${btnColor}`,
-                  `hover:bg-${btnColor}`,
-                  'hover:text-white', 
+                  `border- ${btnColor}`,
+                  `hover:bg- ${btnColor}`,
+                  'hover:text-white',
+                  
                 ]"
               >
                 <svg class="w-5 h-5 -ms-2 me-2" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="none" viewBox="0 0 24 24">
@@ -569,7 +548,7 @@
 
       </div>
       <div class="w-full text-center">
-        <button type="button" :class="`rounded-lg border border-${btnColor} bg-white px-5 py-2.5 text-sm font-medium text-gray-900 hover:bg-gray-100 hover:text-primary-700 focus:z-10 focus:outline-none focus:ring-4 focus:ring-gray-100 dark:border-gray-600 dark:bg-gray-800 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white dark:focus:ring-gray-700`">Show more</button>
+        <button type="button" :class="[`rounded-lg border border-${store.pageData.css.btnColor}  px-5 py-2.5 text-sm font-medium text-gray-900 hover:bg-gray-100 hover:text-primary-700 focus:z-10 focus:outline-none focus:ring-4 focus:ring-gray-100 dark:border-gray-600 dark:bg-gray-800 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white dark:focus:ring-gray-700`, 'border-gray-600']">Show more</button>
       </div>
     </div>
   </section>
@@ -620,13 +599,13 @@
     <div class="grid max-w-screen-xl px-4 py-8 mx-auto lg:gap-8 xl:gap-0 lg:py-16 lg:grid-cols-12">
       <!-- Text Content -->
       <div class="mr-auto place-self-center lg:col-span-7">
-        <h2 class="text-4xl font-bold leading-none ">About Us</h2>
+        <h2 class="text-4xl font-bold leading-none ">{{store.pageData.css.aboutParagraph.title}}</h2>
         <p class="max-w-lg mt-4 text-base leading-relaxed text-gray-600">
-          We are a passionate and innovative company committed to delivering high-quality products and services. 
-          Our mission is to provide transformative solutions that make a lasting impact.
+          {{store.pageData.css.aboutParagraph.Paragraph1}}
         </p>
         <p class="max-w-lg mt-4 text-base leading-relaxed text-gray-600">
-          At our core, we believe in building strong relationships with our customers, pushing the boundaries of creativity, and constantly evolving to meet the demands of the future.
+         {{store.pageData.css.aboutParagraph.Paragraph2}}
+
         </p>
       </div>
 
@@ -634,7 +613,7 @@
 
     <div class="hidden lg:mt-0 lg:col-span-5 lg:flex">
       <img 
-        :src="aboutImg" 
+        :src="store.pageData.css.aboutParagraph.aboutImg" 
         class="relative w-full h-[25vh] object-cover"
         alt="Team or Company Image"
         style="border-radius: 85vw 0 85vw 85vw; object-fit: cover; object-position: center;"
@@ -652,10 +631,10 @@
     <div class="relative z-10 grid max-w-screen-xl grid-cols-1 gap-12 px-6 mx-auto md:grid-cols-2">
       <div>
         <h1 class="text-4xl font-extrabold leading-tight md:text-5xl">
-            Contact Us
+          {{store.pageData.css.contactSection.title}}
         </h1>
         <p class="max-w-lg mt-4 text-lg text-gray-300">
-            Have questions? We're here to help. Reach out to us anytime!
+          {{store.pageData.css.contactSection.Paragraph1}}
         </p>
         
         <div class="grid grid-cols-1 gap-6 mt-6 md:grid-cols-1">
@@ -663,25 +642,25 @@
               <div class="p-2 bg-white rounded-full shadow-md">
                   <img src="https://img.icons8.com/ios-filled/50/map-marker.png" alt="Address" class="w-4 h-4">
               </div>
-              <p class="text-normal">123 Purple Street, Bambalapitiya, Colombo</p>
+              <p class="text-normal">{{store.pageData.css.contactSection.address}}</p>
           </div>
           <div class="flex items-center gap-4">
               <div class="p-2 bg-white rounded-full shadow-md">
                   <img src="https://img.icons8.com/ios-filled/50/phone.png" alt="Phone" class="w-4 h-4">
               </div>
-              <a href="tel:+1234567890" class="text-normal">+1 234 567 890</a>
+              <a href="tel:+1234567890" class="text-normal">{{store.pageData.css.contactSection.phone}}</a>
           </div>
           <div class="flex items-center gap-4">
               <div class="p-2 bg-white rounded-full shadow-md">
                   <img src="https://img.icons8.com/ios-filled/50/email.png" alt="Email" class="w-4 h-4">
               </div>
-              <a href="mailto:info@example.com" class="text-normal">info@example.com</a>
+              <a href="mailto:info@example.com" class="text-normal">{{store.pageData.css.contactSection.email}}</a>
           </div>
         </div>
       </div>
       <!-- Contact Form -->
       <div class="p-6 ">
-          <p class="mb-4 text-sm text-white">Lorem ipsum dolor sit amet consectetur adipisicing elit. Dolorum, aspernatur facilis molestiae deserunt expedita voluptatum amet vero quae quasi sunt hic officiis illo velit est necessitatibus doloremque quas nemo et.</p> 
+          <p class="mb-4 text-sm text-white">{{store.pageData.css.contactSection.Paragraph2}}</p> 
       </div>
     </div>
   </section>
@@ -764,6 +743,7 @@
   import { useStandpageStore } from '~/stores/modules/dtlStore';
 
 
+
  definePageMeta({
     layout: 'standard',   
    // middleware: 'auth',
@@ -782,42 +762,15 @@
     async mounted() {
      
     },
-    async created() {
-      //this.sampleStore = useSampleStore();
-    },
+    async created() {     
+       this.store = useStandpageStore();
+     },
     watch: {},
     computed: {
 
     },
     methods: {
 
-    },
-    setup() {
-      const isMenuOpen = ref(false);
-
-      const toggleMenu = () => {
-        isMenuOpen.value = !isMenuOpen.value;
-      };
-
-      const closeMenu = () => {
-        isMenuOpen.value = false;
-      };
-
-      const store = useStandpageStore();
-      const navbarColor = computed(() => store.navbarColor);
-      const btnColor = computed(() => store.btnColor);
-      const imageStore = computed(() => store.heroImg); 
-      const productImg1 = computed(() => store.productImg1);
-      const productImg2 = computed(() => store.productImg2);
-      const productImg3 = computed(() => store.productImg3);
-      const productImg4 = computed(() => store.productImg4);
-      const aboutImg = computed(() => store.aboutImg);
-      const OurServicesImg = computed(() => store.OurServicesImg);
-      console.log("Navbar Color:", navbarColor.value);
-
-
-      return { isMenuOpen, toggleMenu, closeMenu, navbarColor, btnColor, imageStore, productImg1, productImg2, productImg3, productImg4, aboutImg, OurServicesImg };
-    
     },
     async beforeMount() {
     },
