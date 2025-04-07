@@ -25,9 +25,12 @@ export function toShortDate(date) {
 }
 
 export function toInputTypeDate(date) {
+    console.log("success");
     if (date) {
-        var formated = moment(String(date)).format('YYYY-MM-DD')
-        return (formated == '1900-01-01') ? '' : formated
+        
+        // var formated = moment(String(date)).format('YYYY-MM-DD')
+        // return (formated == '1900-01-01') ? '' : formated
+        return ('1900-01-01');
     }
 }
 export function toReadableDate(date) {

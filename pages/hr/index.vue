@@ -232,8 +232,8 @@
                 selectedrow == emp.id &&
                 !isSecClose
                 ">
-                <!-- <attendence ref="atten" :empno="emp.empno" :empname="emp.empname" :isOTEntitled="isOTEntitled"
-                  @exit="exit" /> -->
+                <attendence ref="atten" :empno="emp.empno" :empname="emp.empname" :isOTEntitled="isOTEntitled"
+                  @exit="exit" />
               </div>
 
               <!-- view Absense -->
