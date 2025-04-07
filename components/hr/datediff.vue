@@ -42,7 +42,7 @@
 
 <script>
 // import * as Global from '@/assets/js/Global'
-//import * as myfilter from '@/plugins/myfilter'
+import * as myfilter from '@/plugins/myfilter'
 import btnhr_load from '~/components/hr/btnhr_load'
 export default {
   components: { btnhr_load, },
@@ -58,7 +58,8 @@ export default {
       this.$emit('click', { dtfrom: this.dtfrom, dtto: this.dtto })
     },
   },
-  beforeMount() {
+
+  async created() {
     var date = new Date();
     this.dtfrom = myfilter.toInputTypeDate(new Date(date.getFullYear(), date.getMonth(), 1));
     this.dtto = myfilter.toInputTypeDate(new Date(date.getFullYear(), date.getMonth(), date.getDate()));
