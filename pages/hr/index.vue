@@ -90,10 +90,10 @@
           </div>
         </div>
 
-
-
-
         <!-- Employees List  -->
+        <div v-if="hrStore.isLoading" class="text-center py-4">
+          Loading...
+        </div>
 
         <div class="cssemplist" v-for="(emp, index) in hrStore.alempdetails" :key="emp">
           <div class="mt-1 text-sm rounded-md cursor-pointer hover:text-white text-blue-300 hover:bg-gray-500"
@@ -455,7 +455,6 @@ export default {
     }
 
     this.search_begin_DBSerach(req);
-
     // await this.getReportInitData()
     // await this.getMovementInitData()
 
@@ -502,24 +501,6 @@ export default {
   },
 
   methods: {
-    ...mapActions('hrStore', {
-      searchEmployees: 'searchEmployees',
-      //   getEmployeeByID: 'hr/getEmployeeByID',
-      //   initiateLeaves: 'hr/initiateLeaves',
-      //   leaveBalance: 'hr/leaveBalance',
-      //   deleteEmployee: 'hr/deleteEmployee',
-      //   initEmployee: 'hr/initEmployee',
-      //   getWorkLoadCount: 'hr/getWorkLoadCount',
-      //   getMovementInitData: 'hr/getMovementInitData',
-      //   getReportInitData: 'hr/getReportInitData',
-      // }),
-      // ...mapMutations({
-      //   showMessage: 'PUSH_NOTIFICATION',
-      //   setpage: 'hr/SET_PAGE',
-      //   setClearEmployee: 'hr/SET_CLEAR_EMPLOYEEE',
-      //   setorganizedlistdata: 'hr/SET_ORGANIZEDLISTDATA',
-    }),
-
     exit() {
       this.isSecClose = true
       this.cur_sec = ''
