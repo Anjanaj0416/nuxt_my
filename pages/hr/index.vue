@@ -2,11 +2,11 @@
   <section>
     <!-- Start Top Header -->
     <div
-      class="flex flex-col items-center justify-between h-20 px-4 pt-4 mt-10 bg-gray-300 cssTop lg:flex-row md:flex-row">
+      class="flex flex-col items-center justify-between h-24 px-4 pt-6 my-10 bg-gray-300 cssTop lg:flex-row md:flex-row">
       <div class="my-2 text-lg font-bold capitalize lg:text-xl lg:my-0">
         <div class="flex gap-x-4 lg:gap-x-8">
-          <!-- <div class="relative cssmenu_sec" v-show="this.loggeduser.granted.indexOf('hradmin') > -1 ||
-            this.loggeduser.granted.indexOf('hr_mgr') > -1
+          <!-- <div class="relative cssmenu_sec" v-show="this.userStore.loggedUser.granted.indexOf('hradmin') > -1 ||
+            this.userStore.loggedUser.granted.indexOf('hr_mgr') > -1
             ">
             <div class="cursor-pointer" @click="ismenuopen = !ismenuopen">
               <svg xmlns="http://www.w3.org/2000/svg" class="w-6 h-6" fill="none" viewBox="0 0 24 24"
@@ -18,7 +18,7 @@
           </div> -->
 
           <div class="flex items-center justify-center">
-            <!-- v-show="this.loggeduser.granted.indexOf('hradmin') > -1" -->
+            <!-- v-show="this.userStore.loggedUser.granted.indexOf('hradmin') > -1" -->
             <search_dashboard placeholder="Search Employee" :arrsections="arrsections_DBSerach"
               @getsearch="search_begin_DBSerach" />
           </div>
@@ -28,8 +28,8 @@
       <div
         class="flex-col items-center hidden -my-4 lg:pt-4 lg:flex-row gap-y-4 lg:gap-y-0 gap-x-4 lg:gap-x-8 md:pt-4 md:flex-row lg:flex">
         <!-- Hide on mobile -->
-        <!-- <div v-show="loggeduser.usergroup.indexOf('Supervisor') > -1 ||
-          loggeduser.usergroup.indexOf('HRAdmin') > -1
+        <!-- <div v-show="userStore.loggedUser.usergroup.indexOf('Supervisor') > -1 ||
+          userStore.loggedUser.usergroup.indexOf('HRAdmin') > -1
           ">
           <btnwgstatus name="workgroup" :wgjobcount="dashboard.workgroupjobcount" @click="getviewwg" />
         </div> -->
@@ -84,7 +84,7 @@
           </div> -->
           <div class="flex flex-col items-center md:pt-4 md:flex-row sm:gap-y-0 lg:hidden sm:justify-start">
             <!-- <div
-              v-show="loggeduser.usergroup.indexOf('Supervisor') > -1 || loggeduser.usergroup.indexOf('HRAdmin') > -1">
+              v-show="userStore.loggedUser.usergroup.indexOf('Supervisor') > -1 || userStore.loggedUser.usergroup.indexOf('HRAdmin') > -1">
               <btnwgstatus name="workgroup" :wgjobcount="dashboard.workgroupjobcount" @click="getviewwg" />
             </div> -->
           </div>
@@ -96,7 +96,7 @@
         </div>
 
         <div class="cssemplist" v-for="(emp, index) in hrStore.alempdetails" :key="emp">
-          <div class="mt-1 text-sm rounded-md cursor-pointer hover:text-white text-blue-300 hover:bg-gray-500"
+          <div class="mt-1 text-sm rounded-md cursor-pointer hover:text-white text-white-300 hover:bg-gray-500"
             :class="emp.isresigned ? 'bg-red-500' : 'bg-gray-400'">
 
             <div class="rounded-md">
@@ -104,7 +104,9 @@
                 <div class="cssdatarowitem lg:border-0">
                   <!-- <span class="lg:hidden ">Employee Name</span> -->
                   <div class="flex gap-x-2">
-                    <img class="w-8 h-8 transform rounded hover:scale-150" :src="imageroot + '/user/' + emp.image"
+                    <!-- https://assets.dtl.lk/web/assets/HR/dtl/avator/jzwoq1xc637788970715290762.png -->
+        
+                    <img class="w-8 h-8 transform rounded hover:scale-150" :src=" userStore.assetsBaseUrl + '/HR/dtl/avator/' + emp.image"
                       alt="" />
                     {{ emp.empname }}
                   </div>
@@ -112,7 +114,7 @@
 
                 <div class="cssdatarowitem lg:border-0">
                   <span class="lg:hidden">Emp No</span>
-                  {{ emp.empno }}
+                  {{ emp.empno }} 
                 </div>
                 <div class="cssdatarowitem lg:border-0">
                   <span class="lg:hidden">Contact</span>
@@ -167,22 +169,18 @@
                   Attendance
                 </div>
 
-                <!-- Apply OT -->
-                <!-- <div v-show="!emp.isOTAllow &&
-                  (loggeduser.username == emp.empno || loggeduser.usergroup == 'Supervisor' ||
-                    loggeduser.usergroup.toLowerCase().indexOf('admin') > -1)
-                  " title="OT Apply" @click="
-                    init_otapply(index);
-                  cur_sec = 'otapply';
-                  selectedrow = emp.id;
-                  isSecClose = false;
-                  " class="p-2 border-2 rounded-lg cursor-pointer hover:text-blue-800">
+                <!-- Apply OT -->                        
+            
+                <!-- <div v-show="!emp.isOTAllow &&  (userStore.loggedUser.username == emp.empno || userStore.loggedUser.usergroup == 'Supervisor' ||  userStore.loggedUser.usergroup.toLowerCase().indexOf('admin') > -1)"
+                   title="OT Apply"
+                  @click="init_otapply(index);  cur_sec = 'otapply'; selectedrow = emp.id; isSecClose = false; " 
+                  class="p-2 border-2 rounded-lg cursor-pointer hover:text-blue-800">
                   Apply OT
                 </div> -->
 
                 <!-- Leave Details -->
-                <!-- <div v-show="loggeduser.username == emp.empno || loggeduser.usergroup == 'Supervisor' ||
-                  loggeduser.usergroup.toLowerCase().indexOf('admin') > -1
+                <!-- <div v-show="userStore.loggedUser.username == emp.empno || userStore.loggedUser.usergroup == 'Supervisor' ||
+                  userStore.loggedUser.usergroup.toLowerCase().indexOf('admin') > -1
                   " title="Leave Details" @click="
                     init_absense(index);
                   cur_sec = 'absense';
@@ -193,8 +191,8 @@
                 </div> -->
 
                 <!-- Movement Details -->
-                <!-- <div v-show="loggeduser.username == emp.empno || loggeduser.usergroup == 'Supervisor' ||
-                  loggeduser.usergroup.toLowerCase().indexOf('admin') > -1
+                <!-- <div v-show="userStore.loggedUser.username == emp.empno || userStore.loggedUser.usergroup == 'Supervisor' ||
+                  userStore.loggedUser.usergroup.toLowerCase().indexOf('admin') > -1
                   " title="Movement Details" @click="
                     init_movement(index);
                   cur_sec = 'movement';
@@ -328,9 +326,11 @@
 
 <script>
 //// import * as Global from '@/assets/js/Global'
-import { mapState, mapGetters, mapActions, mapMutations } from 'vuex'
+//import { mapState, mapGetters, mapActions, mapMutations } from 'vuex'
 
 import { useHrStore } from "~/stores/modules/hrStore";
+import { useUserStore } from "~/stores/modules/userStore";
+import { useMcleStore } from "~/stores/modules/mcleStore";
 
 import selectinput2 from '~/components/customcontrol/selectinput2'
 import search_dashboard from '~/components/customcontrol/search_bysections_ver2'
@@ -354,6 +354,9 @@ import empupdate from '~/components/hr/empupdate'
 import Ot_apply_list from '~/components/hr/ot_apply_list.vue'
 
 import timecarddetails from '~/components/hr/timecarddetails.vue'
+
+
+
 definePageMeta({
   layout: 'default',
   middleware: 'auth',
@@ -379,8 +382,7 @@ export default {
   },
   data() {
     return {
-      imageroot: process.env.Assets_83,
-      apiUrl: process.env.base_url_83,
+     
       arrsections_DBSerach: [
         { name: 'Emp.Name', code: 100, selected: false },
         { name: 'Emp.No', code: 101, selected: false },
@@ -402,7 +404,14 @@ export default {
   },
 
   async created() {
-    this.hrStore = useHrStore();
+    this.hrStore = useHrStore();   
+    this.userStore = useUserStore();
+    //this.mcleStore = useMcleStore();
+
+
+   // const config = useRuntimeConfig() ;  
+    //this.imageroot = config.public.imageBaseUrl;
+
     // await this.hrStore.loadListVendors({ keyword: '', searchBy: this.searchBy }, this.showLoading)
     // await this.hrStore.loadInitVendor(this.showLoading)
     // this.imageroot = this.vendorStore.initVendor.baseUrl;
@@ -415,7 +424,7 @@ export default {
   computed: {
     // ...mapState({
     //   dashboard: (state) => state.hr.dashboard,
-    //   loggeduser: (state) => state.loggeduser,
+   
     //   alempdetails: (state) => state.hr.dashboard.alempdetails,
     //   initData: (state) => state.hr.dashboard.initData,
     // }),
@@ -458,9 +467,9 @@ export default {
     // await this.getReportInitData()
     // await this.getMovementInitData()
 
-    // if (this.loggeduser.granted.indexOf('user') > -1) {
+    // if (this.userStore.loggedUser.granted.indexOf('user') > -1) {
     //   await this.initEmployee()
-    //   if (this.loggeduser.granted.indexOf('hradmin') > -1) {
+    //   if (this.userStore.loggedUser.granted.indexOf('hradmin') > -1) {
     //     //ishradmin
     //     await this.searchEmployees({
     //       keyword: '',
@@ -468,17 +477,17 @@ export default {
     //       user: this.loggeduser,
     //     })
     //   }
-    //   else if (this.loggeduser.usergroup == 'Supervisor') {
+    //   else if (this.userStore.loggedUser.usergroup == 'Supervisor') {
     //     //isSupervisor
 
     //     await this.searchEmployees({
-    //       keyword: this.loggeduser.username,
+    //       keyword: this.userStore.loggedUser.username,
     //       searchby: 108,
     //       user: this.loggeduser,
     //     })
     //     // isSupervisor
 
-    //     if (this.loggeduser.usergroup == 'Supervisor') {
+    //     if (this.userStore.loggedUser.usergroup == 'Supervisor') {
     //       await this.getWorkLoadCount({ user: this.loggeduser })
     //     }
 
@@ -486,7 +495,7 @@ export default {
     //   else {
     //     //isEmployee
     //     await this.searchEmployees({
-    //       keyword: this.loggeduser.username,
+    //       keyword: this.userStore.loggedUser.username,
     //       searchby: 101,
     //       user: this.loggeduser,
     //     })
@@ -582,7 +591,7 @@ export default {
     },
 
     async init_otapply(row_no) {
-      await this.$refs.otapply[row_no].init()
+     // await this.$refs.otapply[row_no].init()
     },
 
     goto_movementapply(empno) {
@@ -643,11 +652,10 @@ export default {
     },
 
     async search_begin_DBSerach(req) {
-      const hrStore = useHrStore();
-      await hrStore.searchEmployees({
+     
+      await this.hrStore.searchEmployees({
         keyword: req.searchval,
-        searchby: req.searchby,
-        // user: this.loggeduser,
+        searchby: req.searchby,       
       })
     },
 

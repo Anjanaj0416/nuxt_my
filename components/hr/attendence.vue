@@ -262,7 +262,7 @@ export default {
 
   data() {
     return {
-      imageroot: process.env.Assets_83,
+      imageroot: '',
       currow: -1,
       rectifingrow: -1,
       isrectifing: false,

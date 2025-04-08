@@ -188,8 +188,9 @@ export const useHrStore = defineStore('hrStore', {
 
     async searchEmployees(req) {
       try {
+       console.log(`${import.meta.env.VITE_API_URL}/hr/Employee/SearchEmployees`)
         const response = await axios.post(`${import.meta.env.VITE_API_URL}/hr/Employee/SearchEmployees`, req);   
-        // console.log("response:",response);   
+       
         if (response.data.isSuccess) {    
           this.alempdetails = response.data.data.data.alpagedetails[0].alempdetails || [];
           this.showToast('Loading successful!', 'success'); 
