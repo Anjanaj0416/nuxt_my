@@ -22,8 +22,8 @@ export default defineNuxtConfig({
 
   runtimeConfig: {
     public: {
-      // apiBase: process.env.API_URL || 'https://mcleapi.dtl.lk/api', 
-      apiBaseUrl: process.env.API_BASE_URL || 'https://mcleapi.dtl.lk/api', // Fallback for local dev
+    //  apiBaseUrl: process.env.API_URL, 
+    //  imageBaseUrl: process.env.NUXT_IMAGE_BASE_URL,
     },
   },
 

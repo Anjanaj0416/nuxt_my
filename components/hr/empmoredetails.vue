@@ -179,7 +179,7 @@
 <script>
 import { useHrStore } from "~/stores/modules/hrStore";
 import hr_item from '~/components/hr/hr_item'
-import { mapState } from "vuex";
+//import { mapState } from "vuex";
 
 
 export default {
@@ -196,12 +196,12 @@ export default {
     // hrStore.getInitEmployee();
   },
 
-  computed: {
-    ...mapState({
-      // employee: (state) => state.hr.dashboard.employee,
-      // loggeduser: (state) => state.loggeduser,
-      initData: (state) => state.initData,
-    }),
+   computed: {
+  //   ...mapState({
+  //     // employee: (state) => state.hr.dashboard.employee,
+  //     // loggeduser: (state) => state.loggeduser,
+  //     initData: (state) => state.initData,
+  //   }),
 
     // getSupervisorName() {
     //   return (supno) => {

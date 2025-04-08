@@ -6,7 +6,8 @@ export const useUserStore = defineStore('user', {
   state: () => ({
     user: null,
     token: null,
-    loggedUser:{userName:'',image:'/user/default.png'}
+    loggedUser:{},
+    assetsBaseUrl:'',
   }),
 
   actions: {
@@ -18,8 +19,15 @@ export const useUserStore = defineStore('user', {
           
           this.token = response.data.authToken;  // Assuming the response contains a 'token'
           this.loggedUser =response.data.loggedUser;
+          this.assetsBaseUrl = this.loggedUser.resourceURLRoot;
           localStorage.setItem('token', this.token);  // Save token to localStorage if needed
           localStorage.setItem('refreshToken', this.refreshToken); 
+            
+         
+          //this.mcleStore = useMcleStore()
+          //alert(this.mcleStore.assetsBaseUrl)
+         //mcleStore.SetAssetsBaseUrl(this.loggedUser.resourceURLRoot)
+          
        }
        else{        
         this.showToast('Login error:'+response.data.message,'error');
