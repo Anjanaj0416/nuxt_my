@@ -14,7 +14,7 @@
           </div>
         </div>
 
-        <datediff @click="getLoadAttendnece" class="mb-2 sm:mb-0" />
+        <!-- <datediff @click="getLoadAttendnece" class="mb-2 sm:mb-0" /> -->
         <div class="flex flex-wrap items-center justify-between gap-4 rounded-md sm:justify-start">
           <div
             class="w-full p-2 font-bold text-center text-gray-700 border border-white rounded-md sm:w-auto hover:text-white">

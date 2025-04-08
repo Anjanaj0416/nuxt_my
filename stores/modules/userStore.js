@@ -7,8 +7,10 @@ export const useUserStore = defineStore('user', {
     user: null,
     token: null,
     loggedUser:{},
-    assetsBaseUrl:'',
+    assetsBaseUrl: null,
   }),
+
+  persist: true,
 
   actions: {
     async login(loginDetails) {
@@ -19,9 +21,10 @@ export const useUserStore = defineStore('user', {
           
           this.token = response.data.authToken;  // Assuming the response contains a 'token'
           this.loggedUser =response.data.loggedUser;
-          this.assetsBaseUrl = this.loggedUser.resourceURLRoot;
-          localStorage.setItem('token', this.token);  // Save token to localStorage if needed
-          localStorage.setItem('refreshToken', this.refreshToken); 
+          this.assetsBaseUrl =response.data.loggedUser.resourceURLRoot;
+          // localStorage.setItem('assetsBaseUrl', this.loggedUser.resourceURLRoot); // Save assetsBaseUrl to localStorage if needed
+          // localStorage.setItem('token', this.token);  // Save token to localStorage if needed
+          // localStorage.setItem('refreshToken', this.refreshToken); 
             
          
           //this.mcleStore = useMcleStore()
@@ -41,8 +44,7 @@ export const useUserStore = defineStore('user', {
 
     logout() {
       this.token = null;
-      localStorage.removeItem('token');  // Remove token from localStorage
-      localStorage.removeItem('refreshToken');
+      localStorage.clear();
       //this.showToast('User Logged out!','success');
     },
 

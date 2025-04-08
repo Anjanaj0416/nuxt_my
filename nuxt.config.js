@@ -6,6 +6,9 @@ export default defineNuxtConfig({
   // },
 
   modules: ['@pinia/nuxt'],
+  pinia: {
+    autoImports: ['defineStore']
+  },
   css: ['@/assets/css/tailwind.css'],
   postcss: {
     plugins: {
