@@ -163,6 +163,8 @@ export const useHrStore = defineStore('hrStore', {
     isLoading: true,
   }),
 
+  persist: true,
+
    //this.showToast('Loading successful!', 'success'); //success ,error ,warning,info
 
   actions: {

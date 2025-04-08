@@ -105,16 +105,16 @@
                   <!-- <span class="lg:hidden ">Employee Name</span> -->
                   <div class="flex gap-x-2">
                     <!-- https://assets.dtl.lk/web/assets/HR/dtl/avator/jzwoq1xc637788970715290762.png -->
-        
-                    <img class="w-8 h-8 transform rounded hover:scale-150" :src=" userStore.assetsBaseUrl + '/HR/dtl/avator/' + emp.image"
-                      alt="" />
+
+                    <img class="w-8 h-8 transform rounded hover:scale-150"
+                      :src="userStore.assetsBaseUrl + '/HR/dtl/avator/' + emp.image" alt="" />
                     {{ emp.empname }}
                   </div>
                 </div>
 
                 <div class="cssdatarowitem lg:border-0">
                   <span class="lg:hidden">Emp No</span>
-                  {{ emp.empno }} 
+                  {{ emp.empno }}
                 </div>
                 <div class="cssdatarowitem lg:border-0">
                   <span class="lg:hidden">Contact</span>
@@ -169,8 +169,8 @@
                   Attendance
                 </div>
 
-                <!-- Apply OT -->                        
-            
+                <!-- Apply OT -->
+
                 <!-- <div v-show="!emp.isOTAllow &&  (userStore.loggedUser.username == emp.empno || userStore.loggedUser.usergroup == 'Supervisor' ||  userStore.loggedUser.usergroup.toLowerCase().indexOf('admin') > -1)"
                    title="OT Apply"
                   @click="init_otapply(index);  cur_sec = 'otapply'; selectedrow = emp.id; isSecClose = false; " 
@@ -356,7 +356,6 @@ import Ot_apply_list from '~/components/hr/ot_apply_list.vue'
 import timecarddetails from '~/components/hr/timecarddetails.vue'
 
 
-
 definePageMeta({
   layout: 'default',
   middleware: 'auth',
@@ -382,7 +381,7 @@ export default {
   },
   data() {
     return {
-     
+
       arrsections_DBSerach: [
         { name: 'Emp.Name', code: 100, selected: false },
         { name: 'Emp.No', code: 101, selected: false },
@@ -400,16 +399,17 @@ export default {
       ismenuopen: false,
       isOTEntitled: true,
       leaveYear: -1,
+      assetsBaseUrl: null,
     }
   },
 
   async created() {
-    this.hrStore = useHrStore();   
+    this.hrStore = useHrStore();
     this.userStore = useUserStore();
     //this.mcleStore = useMcleStore();
 
 
-   // const config = useRuntimeConfig() ;  
+    // const config = useRuntimeConfig() ;  
     //this.imageroot = config.public.imageBaseUrl;
 
     // await this.hrStore.loadListVendors({ keyword: '', searchBy: this.searchBy }, this.showLoading)
@@ -424,7 +424,7 @@ export default {
   computed: {
     // ...mapState({
     //   dashboard: (state) => state.hr.dashboard,
-   
+
     //   alempdetails: (state) => state.hr.dashboard.alempdetails,
     //   initData: (state) => state.hr.dashboard.initData,
     // }),
@@ -464,6 +464,7 @@ export default {
     }
 
     this.search_begin_DBSerach(req);
+    this.assetsBaseUrl = localStorage.getItem("assetsBaseUrl");
     // await this.getReportInitData()
     // await this.getMovementInitData()
 
@@ -591,7 +592,7 @@ export default {
     },
 
     async init_otapply(row_no) {
-     // await this.$refs.otapply[row_no].init()
+      // await this.$refs.otapply[row_no].init()
     },
 
     goto_movementapply(empno) {
@@ -652,10 +653,10 @@ export default {
     },
 
     async search_begin_DBSerach(req) {
-     
+
       await this.hrStore.searchEmployees({
         keyword: req.searchval,
-        searchby: req.searchby,       
+        searchby: req.searchby,
       })
     },
 
