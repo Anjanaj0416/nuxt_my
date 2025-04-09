@@ -61,8 +61,8 @@ export default {
 
   async created() {
     var date = new Date();
-    this.dtfrom = myfilter.toInputTypeDate(new Date(date.getFullYear(), date.getMonth(), 1));
-    this.dtto = myfilter.toInputTypeDate(new Date(date.getFullYear(), date.getMonth(), date.getDate()));
+    this.dtfrom = this.$myUtility.toInputTypeDate(new Date(date.getFullYear(), date.getMonth(), 1));
+    this.dtto = this.$myUtility.toInputTypeDate(new Date(date.getFullYear(), date.getMonth(), date.getDate()));
   },
 }
 </script>
