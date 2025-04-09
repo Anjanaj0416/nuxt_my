@@ -12,6 +12,13 @@ export default defineNuxtRouteMiddleware((to, from) => {
 
     // Check if the user is authenticated by looking for the token
     if (!userStore.token) {
+      const redirectToCookie = useCookie('redirectTo', {
+        maxAge: 60 * 3, // 7 days
+        path: '/',
+        sameSite: 'strict',
+        secure: process.env.NODE_ENV === 'production'
+      })
+      redirectToCookie.value = from.fullPath
       // If not authenticated, redirect to the login page
       return navigateTo('/user/login');
     }

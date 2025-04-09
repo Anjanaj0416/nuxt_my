@@ -38,7 +38,7 @@
 
 <script>
 // import * as Global from '@/assets/js/Global'
-import myfilter from '@/plugins/myfilter';
+import myfilter from '~/plugins/myfilter';
 import btnhr_load from '~/components/hr/btnhr_load'
 export default {
   components: { btnhr_load, },
