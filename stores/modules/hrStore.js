@@ -44,76 +44,10 @@ export const useHrStore = defineStore('hrStore', {
       signature : "signature.png",
     },
     attendence: {
-      tot_normal_overtime: 10,
-      tot_sunday_overtime: 5,
-      alattendences: [
-        {
-          id: 5,
-          empno: "B00253",
-          date: "2025-04-01",
-          inlocation: "SLT-SI03",
-          outlocation: "SLT-SI03",
-          overtime: 10,
-          latemin: 10,
-          daytype: 505,
-          intime: '07:20',
-          outtime: '05:20',
-          swipesin: [
-            1,
-            2,
-            3
-          ],
-          swipesout: [
-            1,
-            2,
-            3
-          ],
-        },
-        {
-          id: 5,
-          empno: "B00253",
-          date: "2025-04-01",
-          inlocation: "SLT-SI03",
-          outlocation: "SLT-SI03",
-          overtime: 10,
-          latemin: 10,
-          daytype: 505,
-          intime: '07:20',
-          outtime: '05:20',
-          swipesin: [
-            1,
-            2,
-            3
-          ],
-          swipesout: [
-            1,
-            2,
-            3
-          ],
-        },
-        {
-          id: 5,
-          empno: "B00253",
-          date: "2025-04-01",
-          inlocation: "SLT-SI03",
-          outlocation: "SLT-SI03",
-          overtime: 10,
-          latemin: 10,
-          daytype: 505,
-          intime: '07:20',
-          outtime: '05:20',
-          swipesin: [
-            1,
-            2,
-            3
-          ],
-          swipesout: [
-            1,
-            2,
-            3
-          ],
-        },
-      ]
+      tot_normal_overtime: null,
+      tot_sunday_overtime: null,
+      isTheTimeCardApproved: null,
+      alattendences: []
     },
     timecard: {
       arrtimecard: [
@@ -168,6 +102,10 @@ export const useHrStore = defineStore('hrStore', {
    //this.showToast('Loading successful!', 'success'); //success ,error ,warning,info
 
   actions: {
+    async clearAttendance(){
+      this.attendence = {};
+    },
+
     async getInitEmployee() {
       try {
         const response = await axios.get(`${import.meta.env.VITE_API_URL}/hr/Employee/GetInitEmployee`);   
@@ -190,7 +128,6 @@ export const useHrStore = defineStore('hrStore', {
 
     async searchEmployees(req) {
       try {
-       console.log(`${import.meta.env.VITE_API_URL}/hr/Employee/SearchEmployees`)
         const response = await axios.post(`${import.meta.env.VITE_API_URL}/hr/Employee/SearchEmployees`, req);   
        
         if (response.data.isSuccess) {    
@@ -219,6 +156,32 @@ export const useHrStore = defineStore('hrStore', {
         // console.log("response:",response.data.data.data);   
         if (response.data.isSuccess) {    
           this.empdetails = response.data.data.data || {};
+          // this.showToast('Loading successful!', 'success'); 
+       }
+       else{
+        console.error('Loading error:', response.data.message);       
+        // this.showToast(response.data.message, 'error'); 
+       }
+       
+        
+      } catch (error) {
+        console.error('Loading error:', error);
+        this.showToast(error.response.data.Message, 'error'); 
+      }
+    },
+
+    async getProcessAttendenceLogsByEmp(req) {
+      try {
+        const response = await axios.post(`${import.meta.env.VITE_API_URL}/hr/Attendance/GetProcessAttendenceLogsByEmp`,req);   
+        // console.log("response:",response);   
+        if (response.data.isSuccess) {    
+          const response = await axios.post(`${import.meta.env.VITE_API_URL}/hr/Attendance/GetAttendenceByEmp`,req);   
+          // console.log("GetAttendenceByEmp:",response.data.data.data);   
+
+          this.attendence.tot_normal_overtime = response.data.data.data.totNormalOvertime || null;
+          this.attendence.tot_sunday_overtime = response.data.data.data.totSundayOvertime || null;
+          this.attendence.isTheTimeCardApproved= response.data.data.data.isTheTimeCardApproved || null;
+          this.attendence.alattendences = response.data.data.data.alAttendences|| [];
           // this.showToast('Loading successful!', 'success'); 
        }
        else{

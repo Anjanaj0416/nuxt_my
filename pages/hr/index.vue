@@ -161,10 +161,11 @@
 
                 <!-- Attendance -->
                 <div @click="
-                  init_attendence(index);
+                  init_attendence(emp.empno);//, FromDate: $refs.atten.$refs.datediffRef.dtfrom, ToDate: $refs.atten.$refs.datediffRef.dtto
                 cur_sec = 'attendence';
                 selectedrow = emp.id;
                 isSecClose = false;
+                isLoading = true;
                 " class="p-2 border-2 rounded-lg cursor-pointer hover:text-blue-800">
                   Attendance
                 </div>
@@ -230,8 +231,11 @@
                 selectedrow == emp.id &&
                 !isSecClose
                 ">
-                <attendence ref="atten" :empno="emp.empno" :empname="emp.empname" :isOTEntitled="isOTEntitled"
-                  @exit="exit" />
+                <div v-if="isLoading" class="text-center py-4">
+                  Loading...
+                </div>
+                <attendence v-if="!isLoading" ref="atten" :empno="emp.empno" :empname="emp.empname"
+                  :isOTEntitled="isOTEntitled" @exit="exit" />
               </div>
 
               <!-- view Absense -->
@@ -400,6 +404,9 @@ export default {
       isOTEntitled: true,
       leaveYear: -1,
       assetsBaseUrl: null,
+      dtfrom: null,
+      dtto: null,
+      isLoading: false,
     }
   },
 
@@ -420,7 +427,12 @@ export default {
     // console.log('Hr List:', this.hrStore.alempdetails);
   },
 
-  async mounted() { },
+  async mounted() {
+    const date = new Date();
+    this.dtfrom = this.$myUtility.toInputTypeDate(new Date(date.getFullYear(), date.getMonth(), 1));
+    this.dtto = this.$myUtility.toInputTypeDate(new Date(date.getFullYear(), date.getMonth(), date.getDate()));
+  },
+
   computed: {
     // ...mapState({
     //   dashboard: (state) => state.hr.dashboard,
@@ -568,8 +580,19 @@ export default {
       })
     },
 
-    async init_attendence(row_no) {
-      await this.$refs.atten[row_no].init()
+    async init_attendence(empId) {
+      // await this.$refs.atten[row_no].init()
+      let req = {
+        EmpNo: empId,
+        FromDate: this.dtfrom,
+        ToDate: this.dtto,
+      }
+
+      const hrStore = useHrStore();
+      await hrStore.getProcessAttendenceLogsByEmp(req);
+
+      this.isLoading = false;
+
     },
 
     async init_movement(row_no) {
