@@ -1,10 +1,11 @@
 <template>
-    <section :class="[`bg-center bg-cover bg-${store.pageData.css.navbar.navbarColor}`, 'bg-blue-900']">
+    <section class="bg-center bg-cover">
       <nav :class="[`fixed top-0 left-0 z-50 w-full bg-${store.pageData.css.navbar.navbarColor}`,'bg-blue-900']">
         <div class="flex flex-wrap items-center justify-between max-w-screen-xl p-4 mx-auto">
           <a href="#" class="flex items-center space-x-3">
             <span class="self-center text-2xl font-semibold text-white">{{ store.pageData.css.logo || 'Logo' }}</span>
           </a>
+
           <!-- Mobile Menu Button -->
           <button @click="toggleMenu" class="inline-flex items-center justify-center w-10 h-10 p-2 text-sm text-gray-500 rounded-lg md:hidden hover:bg-gray-100 focus:outline-none focus:ring-2 focus:ring-gray-200">
             <span class="sr-only">Open main menu</span>
@@ -12,7 +13,7 @@
               <path stroke="purple" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M1 1h15M1 7h15M1 13h15"/>
             </svg>
           </button>
-  
+
           <!-- Desktop Navbar -->
           <div class="hidden md:block md:w-auto">
             <ul class="flex space-x-8 font-medium">
@@ -24,40 +25,30 @@
             </ul>
           </div>
         </div>
-      </nav>    
+      </nav>
+
       <!-- Mobile Side Drawer -->
-      <div>
-        <div v-if="isMenuOpen" @click="closeMenu" class="fixed inset-0 z-40 bg-black bg-opacity-50"></div>
-        <div
-          :class="isMenuOpen ? 'translate-x-0' : 'translate-x-full'"
-          class="fixed top-0 right-0 z-50 w-64 h-full p-5 transition-transform transform bg-white shadow-lg"
-        >
-          <button @click="closeMenu" class="absolute text-gray-600 top-4 right-4 hover:text-black">
-            ✖
-          </button>
-          <ul class="mt-10 space-y-4 font-medium" >
-            <li><a href="#" class="text-gray-800 hover:text-gray-300">Home</a></li>
-              <li><a href="#service" class="text-gray-800 hover:text-gray-300">Services</a></li>
-              <li><a href="#product" class="text-gray-800 hover:text-gray-300">Product</a></li>
-              <li><a href="#about" class="text-gray-800 hover:text-gray-300">About</a></li>
-              <li><a href="#contact" class="text-gray-800 hover:text-gray-300">Contact</a></li>
-          </ul>
-        </div>
+      <div v-if="isMenuOpen" @click="closeMenu" class="fixed inset-0 z-40 bg-black bg-opacity-50"></div>
+
+      <div
+        :class="isMenuOpen ? 'translate-x-0' : 'translate-x-full'"
+        class="fixed top-0 right-0 z-50 w-64 h-full p-5 transition-transform transform bg-white shadow-lg"
+      >
+        <button @click="closeMenu" class="absolute text-gray-600 top-4 right-4 hover:text-black">
+          ✖
+        </button>
+        <ul class="mt-10 space-y-4 font-medium">
+          <li><a href="#" class="text-gray-800 hover:text-gray-300">Home</a></li>
+          <li><a href="#service" class="text-gray-800 hover:text-gray-300">Services</a></li>
+          <li><a href="#product" class="text-gray-800 hover:text-gray-300">Product</a></li>
+          <li><a href="#about" class="text-gray-800 hover:text-gray-300">About</a></li>
+          <li><a href="#contact" class="text-gray-800 hover:text-gray-300">Contact</a></li>
+        </ul>
       </div>
-  
-      <section class="">
-        <div class="grid max-w-screen-xl px-4 py-8 mx-auto lg:gap-8 xl:gap-0 lg:py-16 lg:grid-cols-12">
-            <div class="mr-auto place-self-center lg:col-span-7">
-                <h1 class="max-w-2xl mb-4 text-4xl font-extrabold leading-none tracking-tight text-white md:text-5xl xl:text-6xl dark:text-white">{{store.pageData.css.navbar.navTitle}}</h1>
-                <p class="max-w-2xl mb-6 font-light text-gray-200 lg:mb-8 md:text-lg lg:text-xl dark:text-gray-400">{{store.pageData.css.navbar.navSubTitle}}</p>
-                <a href="#" class="inline-flex items-center justify-center px-5 py-3 mr-3 text-base font-medium text-center text-white rounded-lg bg-primary-700 hover:bg-primary-800 focus:ring-4 focus:ring-primary-300 dark:focus:ring-primary-900">
-                    Shop Now
-                    <svg class="w-5 h-5 ml-2 -mr-1" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path fill-rule="evenodd" d="M10.293 3.293a1 1 0 011.414 0l6 6a1 1 0 010 1.414l-6 6a1 1 0 01-1.414-1.414L14.586 11H3a1 1 0 110-2h11.586l-4.293-4.293a1 1 0 010-1.414z" clip-rule="evenodd"></path></svg>
-                </a>
-            </div>
-            <div class="hidden lg:mt-0 lg:col-span-5 lg:flex">
-              <img :src="store.pageData.css.navbar.navImg"  class="object-cover w-full  h-[118%]"  alt="mockup">
-            </div>                
+
+      <section>
+        <div class="w-full py-0 mx-auto lg:gap-8 xl:gap-0 lg:py-16">
+          <img :src="store.pageData.css.navbar.navImg" class="object-cover w-full" alt="mockup">
         </div>
       </section>
     </section>
@@ -66,7 +57,7 @@
      <!-- data:{{store.pageData.css}} -->
     </div>
   
-    <section id="service" class="py-16 bg-white">
+    <section id="service" class="py-0 bg-white">
       <div class="container mx-auto ">
         <h2 class="text-4xl font-bold text-center">{{store.pageData.css.services.title || 'Title' }}</h2>
         <p class="max-w-lg mx-auto mt-4 text-center text-gray-600">{{store.pageData.css.services.subTitle}}</p>
@@ -758,7 +749,9 @@
       data() {
         return {
           imageroot: process.env.Assets_83,
-         
+          isMenuOpen: false,
+          isSidebarOpen: false,
+          isDropdownOpen: false,
         }
       },
       async mounted() {
@@ -772,7 +765,36 @@
   
       },
       methods: {
-  
+        toggleMenu() {
+          this.isMenuOpen = !this.isMenuOpen;
+        },
+        closeMenu() {
+          this.isMenuOpen = false;
+        },
+        closeAll(event) {
+          // Close sidebar if click is outside and screen size is mobile
+          if (
+            this.isSidebarOpen &&
+            !this.$el.querySelector('aside')?.contains(event.target) &&
+            window.innerWidth < 768
+          ) {
+            this.isSidebarOpen = false;
+          }
+
+          // Close dropdown if click is outside
+          if (
+            this.isDropdownOpen &&
+            !this.$el.querySelector('.relative.ml-3')?.contains(event.target)
+          ) {
+            this.isDropdownOpen = false;
+          }
+        },
+      },
+      mounted() {
+        document.addEventListener('click', this.closeAll);
+      },
+      beforeUnmount() {
+        document.removeEventListener('click', this.closeAll);
       },
       async beforeMount() {
       },

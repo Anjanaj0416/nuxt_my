@@ -1,5 +1,5 @@
 <template>
-  <section :class="[`bg-center bg-cover bg-${store.pageData.css.navbar.navbarColor}`, 'bg-blue-900']">
+  <section class="bg-center bg-cover">
     <nav :class="[`fixed top-0 left-0 z-50 w-full bg-${store.pageData.css.navbar.navbarColor}`,'bg-blue-900']">
       <div class="flex flex-wrap items-center justify-between max-w-screen-xl p-4 mx-auto">
         <a href="#" class="flex items-center space-x-3">
@@ -62,11 +62,11 @@
     </section>
   </section>
   
-  <div>
-   <!-- data:{{store.pageData.css}} -->
-  </div>
+  <!-- <div>
+   data:{{store.pageData.css}}
+  </div> -->
 
-  <section id="service" class="py-16 bg-white">
+  <section id="service" >
     <div class="container mx-auto ">
       <h2 class="text-4xl font-bold text-center">{{store.pageData.css.services.title || 'Title' }}</h2>
       <p class="max-w-lg mx-auto mt-4 text-center text-gray-600">{{store.pageData.css.services.subTitle}}</p>
