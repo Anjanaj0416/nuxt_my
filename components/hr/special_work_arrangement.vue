@@ -4,7 +4,7 @@
       <div class="w-3/4 bg-gray-500 mx-auto mt-8 rounded-md p-8 relative">
         <div class="cursor-pointer absolute top-0 right-0 m-8 flex gap-x-8">
           <holidayloader @click="loadSWA" />
-          <div title="Exit Holiday View" class="text-blue-300 transform hover:scale-125 delay-75" @click="getclose">
+          <div title="Exit Holiday View" class="text-gray-600 transform hover:scale-125 delay-75" @click="getclose">
             <svg xmlns="http://www.w3.org/2000/svg" class="h-8 w-8" fill="none" viewBox="0 0 24 24"
               stroke="currentColor">
               <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
@@ -98,14 +98,14 @@
             <div class="flex mt-2 gap-y-2 ml-2">
               <div class="text-white text-sm w-24">Date</div>
               <div>
-                <input class="text-blue-300 rounded p-1 w-64" type="date" v-model="swa.date" />
+                <input class="text-gray-600 rounded p-1 w-64" type="date" v-model="swa.date" />
               </div>
             </div>
 
             <div class="flex mt-2 gap-y-2 ml-2">
               <div class="text-white text-sm w-24">Description</div>
               <div>
-                <input class="text-blue-300 rounded p-1 w-64" v-model="swa.description" type="text" />
+                <input class="text-gray-600 rounded p-1 w-64" v-model="swa.description" type="text" />
               </div>
             </div>
 

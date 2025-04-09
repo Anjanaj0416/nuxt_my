@@ -16,7 +16,7 @@
             Appling Movement
           </div>
         </div>
-        <div class="cursor-pointer hover:text-blue-300" title="Exit Movement Apply" @click="goto_movementview">
+        <div class="cursor-pointer hover:text-gray-600" title="Exit Movement Apply" @click="goto_movementview">
           <svg xmlns="http://www.w3.org/2000/svg" class="h-8 w-8" fill="none" viewBox="0 0 24 24" stroke="currentColor">
             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
               d="M10 14l2-2m0 0l2-2m-2 2l-2-2m2 2l2 2m7-2a9 9 0 11-18 0 9 9 0 0118 0z" />
@@ -31,12 +31,12 @@
         <div class="grid grid-cols-4 my-2 gap-y-2">
           <div class="">Date</div>
           <div class="">
-            <input class="text-blue-300 rounded p-1" v-model="movement_apply.date" type="date" />
+            <input class="text-gray-600 rounded p-1" v-model="movement_apply.date" type="date" />
           </div>
 
           <div class="text-right px-2">Start Time</div>
           <div class="">
-            <input class="text-blue-300 rounded p-1" v-model="movement_apply.out_time" type="time" />
+            <input class="text-gray-600 rounded p-1" v-model="movement_apply.out_time" type="time" />
           </div>
 
           <div></div>
@@ -44,7 +44,7 @@
 
           <div class="text-right px-2">End Time</div>
           <div class="">
-            <input class="text-blue-300 rounded p-1" v-model="movement_apply.in_time" type="time" />
+            <input class="text-gray-600 rounded p-1" v-model="movement_apply.in_time" type="time" />
           </div>
         </div>
 
@@ -77,22 +77,22 @@
 
             <div v-show="!isWFH">From Location</div>
             <div class="" v-show="!isWFH">
-              <input class="text-blue-300 w-full rounded p-1" v-model="movement_apply.from_location" type="text" />
+              <input class="text-gray-600 w-full rounded p-1" v-model="movement_apply.from_location" type="text" />
             </div>
 
             <div class="text-right px-2" v-show="!isWFH">To Location</div>
             <div class="" v-show="!isWFH">
-              <input class="text-blue-300 w-full rounded p-1" v-model="movement_apply.to_location" type="text" />
+              <input class="text-gray-600 w-full rounded p-1" v-model="movement_apply.to_location" type="text" />
             </div>
 
             <div v-show="!isWFH">Distance</div>
             <div class="" v-show="!isWFH">
-              <input class="text-blue-300 w-full rounded p-1" v-model="movement_apply.distance" type="text" />
+              <input class="text-gray-600 w-full rounded p-1" v-model="movement_apply.distance" type="text" />
             </div>
 
             <div class="text-right px-2" v-show="!isWFH">Vehicle No</div>
             <div class="" v-show="!isWFH">
-              <input class="text-blue-300 w-full rounded p-1" v-model="movement_apply.vehicle_number" type="text" />
+              <input class="text-gray-600 w-full rounded p-1" v-model="movement_apply.vehicle_number" type="text" />
             </div>
 
             <div v-show="!isWFH">Travel By</div>

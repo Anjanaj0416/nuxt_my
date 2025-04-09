@@ -2,7 +2,7 @@
   <section>
 
     <div class="mb-2">
-      <div class=" p-1 cssbox hover:text-blue-300 rounded cursor-pointer underline hover:font-bold"
+      <div class=" p-1 cssbox hover:text-gray-600 rounded cursor-pointer underline hover:font-bold"
         @click="isApplyOutbound = !isApplyOutbound">Apply Outbound</div>
 
 

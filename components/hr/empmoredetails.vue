@@ -3,9 +3,10 @@
 
     <div class="relative min-h-screen px-4 pt-2 text-sm" v-show="hrStore.empdetails.id">
       <div class="absolute top-0 right-0 flex mt-8 mr-8 gap-x-4">
-        <!-- <div v-show="this.loggeduser.granted.indexOf('hradmin') > -1" class="btn" @click="setEdit">Edit</div>
-        <div v-show="this.loggeduser.granted.indexOf('hradmin') > -1" class="btn" @click="setdelete">Delete</div> -->
-        <div class="cursor-pointer hover:text-SID-blue" title="Exit Employee Details" @click="getclose">
+        <!-- <div v-show="this.loggeduser.granted.indexOf('hradmin') > -1" class="btn" @click="setEdit">Edit</div>-->
+        <div v-show="userStore.loggedUser.granted.indexOf('hradmin') > -1" class="btn" @click="setdelete">Delete</div>
+
+        <div class="cursor-pointer text-gray-500 hover:text-gray-800" title="Exit Employee Details" @click="getclose">
           <svg xmlns="http://www.w3.org/2000/svg" class="w-8 h-8" fill="none" viewBox="0 0 24 24" stroke="currentColor">
             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
               d="M10 14l2-2m0 0l2-2m-2 2l-2-2m2 2l2 2m7-2a9 9 0 11-18 0 9 9 0 0118 0z" />
@@ -178,6 +179,7 @@
 
 <script>
 import { useHrStore } from "~/stores/modules/hrStore";
+import { useUserStore } from "~/stores/modules/userStore";
 import hr_item from '~/components/hr/hr_item'
 //import { mapState } from "vuex";
 
@@ -192,16 +194,16 @@ export default {
   },
 
   beforeMount() {
-    const hrStore = useHrStore();
-    // hrStore.getInitEmployee();
+    this.hrStore = useHrStore();
+    this.userStore = useUserStore();
   },
 
-   computed: {
-  //   ...mapState({
-  //     // employee: (state) => state.hr.dashboard.employee,
-  //     // loggeduser: (state) => state.loggeduser,
-  //     initData: (state) => state.initData,
-  //   }),
+  computed: {
+    //   ...mapState({
+    //     // employee: (state) => state.hr.dashboard.employee,
+    //     // loggeduser: (state) => state.loggeduser,
+    //     initData: (state) => state.initData,
+    //   }),
 
     // getSupervisorName() {
     //   return (supno) => {
@@ -241,7 +243,7 @@ export default {
 }
 
 .btn {
-  @apply border-gray-500 rounded p-2 rounded-md py-1 w-16 text-center text-blue-300 font-bold px-2;
+  @apply border-2 border-gray-500 rounded p-2 rounded-md py-1 w-16 text-center text-gray-600 font-bold px-2;
 }
 
 .btn:hover {

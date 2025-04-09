@@ -60,11 +60,12 @@ data()
   <article>
     <div class>
 
-      <label v-if="label.indexOf('#') != -1"
-        class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">{{ label.substring(0, label.indexOf('#')) }}<span
-          class="underline font-bold text-blue-300">{{ label.charAt(label.indexOf('#') + 1) }}</span>{{ label.substring(label.indexOf('#') + 2, label.length) }}</label>
-      <label v-if="label.indexOf('#') == -1"
-        class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">{{ label }}</label>
+      <label v-if="label.indexOf('#') != -1" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">{{
+        label.substring(0, label.indexOf('#')) }}<span class="underline font-bold text-gray-600">{{
+          label.charAt(label.indexOf('#') + 1) }}</span>{{ label.substring(label.indexOf('#') + 2, label.length)
+        }}</label>
+      <label v-if="label.indexOf('#') == -1" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">{{
+        label }}</label>
       <input :class="cssclass" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500
          focus:border-blue-500 block w-full  dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 
          dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" :type="ctrltype" ref="textinputelement"

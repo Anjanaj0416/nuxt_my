@@ -21,7 +21,7 @@
       type="button">
       <label v-if="text.indexOf('#') != -1" class="text-sm text-gray-00 flex cursor-pointer">
         <span>{{ text.substring(0, text.indexOf('#')).trim() }}</span>
-        <span class="inline-block underline text-blue-300">{{ text.charAt(text.indexOf('#') + 1).trim() }}</span>
+        <span class="inline-block underline text-gray-600">{{ text.charAt(text.indexOf('#') + 1).trim() }}</span>
         <span>{{ text.substring(text.indexOf('#') + 2, text.length).trim() }}</span>
       </label>
       <label v-show="text.indexOf('#') == -1" class="text-sm text-gray-00 cursor-pointer">{{ text }}</label>

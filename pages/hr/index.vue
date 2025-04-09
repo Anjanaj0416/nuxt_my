@@ -713,7 +713,7 @@ export default {
 }
 
 .cssemplist .csscontrol:hover {
-  @apply text-blue-300;
+  @apply text-gray-600;
 }
 
 .cssCardLinks {
