@@ -15,22 +15,18 @@ export const useUserStore = defineStore('user', {
   actions: {
     async login(loginDetails) {
       try {
-      
+
         const response = await axios.post(`${import.meta.env.VITE_API_URL}/IAM/Login`, loginDetails);      
+       
         if (response.data.isSuccess) {
           
           this.token = response.data.authToken;  // Assuming the response contains a 'token'
           this.loggedUser =response.data.loggedUser;
           this.assetsBaseUrl =response.data.loggedUser.resourceURLRoot;
+         
           // localStorage.setItem('assetsBaseUrl', this.loggedUser.resourceURLRoot); // Save assetsBaseUrl to localStorage if needed
           // localStorage.setItem('token', this.token);  // Save token to localStorage if needed
-          // localStorage.setItem('refreshToken', this.refreshToken); 
-            
-         
-          //this.mcleStore = useMcleStore()
-          //alert(this.mcleStore.assetsBaseUrl)
-         //mcleStore.SetAssetsBaseUrl(this.loggedUser.resourceURLRoot)
-          
+          // localStorage.setItem('refreshToken', this.refreshToken);         
        }
        else{        
         this.showToast('Login error:'+response.data.message,'error');

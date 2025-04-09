@@ -15,7 +15,7 @@
     <div class="flex  gap-y-2 gap-x-4">
       <div>
         <div class="flex gap-x-2 ">
-          <div>From</div>
+          <div>From</div> {{ dtfrom }}
           <div><input class="p-1 text-sm rounded-md text-blue-300 md:text-base" v-model="dtfrom" type="date" width="35">
           </div>
         </div>
@@ -42,7 +42,8 @@
 
 <script>
 // import * as Global from '@/assets/js/Global'
-import * as myfilter from '@/plugins/myfilter'
+import * as myfilter from '~/plugins/myfilter'
+
 import btnhr_load from '~/components/hr/btnhr_load'
 export default {
   components: { btnhr_load, },

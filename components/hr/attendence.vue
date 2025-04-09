@@ -318,7 +318,6 @@ export default {
                 dayatt.daytype == 504.5 ||
                 dayatt.daytype == 504.3
                 ? 'cssHalfday'
-
                 : dayatt.daytype == 505 ||
                   dayatt.daytype == 505.1 ||
                   dayatt.daytype == 505.5 ||

@@ -159,7 +159,7 @@
 
           <div class="grid grid-cols-1 mt-2 gap-y-4 sm:grid-cols-5 sm:gap-x-6">
             <div class="pt-4">
-              <label for="price" class="block text-sm font-medium leading-6 text-gray-900">Signature</label>
+              <!-- <label for="price" class="block text-sm font-medium leading-6 text-gray-900">Signature</label> -->
               <div class="mt-2">
                 <!-- <a :href="imageroot + '/Resource/HR/signature/' + hrStore.empdetails.signature + '.png'"
                   target="_blank">
