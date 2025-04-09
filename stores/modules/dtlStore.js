@@ -11,7 +11,6 @@ import OurServicesImg from '../../assets/img/digitalTechLabs/girlimage.jpg'
 export const useStandpageStore = defineStore("standpage", {
   state: () => ({
     pageData: {
-      section1:"ddd",
       css:{
           // section1
           btnColor: "purple-700",
@@ -29,7 +28,7 @@ export const useStandpageStore = defineStore("standpage", {
             OurServicesImg,
             paragraph1: "At [Your Brand Name], we are dedicated to providing a personalized shopping experience that caters to your unique style. Our extensive collection includes the latest fashion trends, curated to ensure that you always look your best. Whether you're updating your wardrobe with the season's must-have pieces or searching for that perfect outfit for a special occasion, we've got you covered.",
             paragraph2: "From timeless classics to bold, contemporary designs, our clothing is crafted with premium fabrics and impeccable craftsmanship. We focus on delivering fashion that is both stylish and comfortable, making it easy to express yourself through your wardrobe.",
-            aragraph3: "Explore our collections, enjoy exclusive discounts, and experience the convenience of shopping from the comfort of your home. With new arrivals every season and a constantly evolving selection, you can count on [Your Brand Name] to keep your style fresh, fun, and ahead of the curve.",
+            paragraph3: "Explore our collections, enjoy exclusive discounts, and experience the convenience of shopping from the comfort of your home. With new arrivals every season and a constantly evolving selection, you can count on [Your Brand Name] to keep your style fresh, fun, and ahead of the curve.",
           },
           // section3
           product:{

@@ -61,9 +61,11 @@
       </div>
     </section>
   </section>
+  
   <div>
-   <!-- {{store.pageData}} -->
+   <!-- data:{{store.pageData.css}} -->
   </div>
+
   <section id="service" class="py-16 bg-white">
     <div class="container mx-auto ">
       <h2 class="text-4xl font-bold text-center">{{store.pageData.css.services.title || 'Title' }}</h2>
@@ -215,7 +217,7 @@
                   'inline-flex items-center justify-center rounded-lg border-2 px-5 py-2.5 text-sm font-medium text-black focus:outline-none focus:ring-4',
                   `border- ${btnColor}`,
                   `hover:bg- ${btnColor}`,
-                  'hover:text-white',
+                  'hover:text-black',
                   
                 ]"
               >
@@ -321,7 +323,7 @@
                   'inline-flex items-center justify-center rounded-lg border-2 px-5 py-2.5 text-sm font-medium text-black focus:outline-none focus:ring-4',
                   `border- ${btnColor}`,
                   `hover:bg- ${btnColor}`,
-                  'hover:text-white',
+                  'hover:text-black',
                   
                 ]"
               >
@@ -427,7 +429,7 @@
                   'inline-flex items-center justify-center rounded-lg border-2 px-5 py-2.5 text-sm font-medium text-black focus:outline-none focus:ring-4',
                   `border- ${btnColor}`,
                   `hover:bg- ${btnColor}`,
-                  'hover:text-white',
+                  'hover:text-black',
                   
                 ]"
               >
@@ -533,7 +535,7 @@
                   'inline-flex items-center justify-center rounded-lg border-2 px-5 py-2.5 text-sm font-medium text-black focus:outline-none focus:ring-4',
                   `border- ${btnColor}`,
                   `hover:bg- ${btnColor}`,
-                  'hover:text-white',
+                  'hover:text-black',
                   
                 ]"
               >
