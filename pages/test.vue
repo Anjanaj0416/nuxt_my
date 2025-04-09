@@ -3,8 +3,7 @@
 <template>
     <section>
         <div class="flex  cssbtnarray mt-24">  
-         <div @click="goToLogin">Login</div> 
-         <div @click="goToChangeLogin">change login</div>
+          {{ $hello('world') }}
         </div>
       
     </section>
@@ -28,15 +27,12 @@
         imageroot: process.env.Assets_83,
       }
     },
-    async mounted() {},
+    async mounted() {
+      const { $hello } = useNuxtApp()
+    },
     watch: {},
     computed: {
-        goToLogin(){
-            this.$router.push('/user/login')
-        },
-        goToChangeLogin(){
-            this.$router.push('/user/changelogin')
-        },
+       
       // ...mapState({
       //   //loggeduser: (state) => state.loggeduser,
       // }),
