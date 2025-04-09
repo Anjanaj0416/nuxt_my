@@ -5,12 +5,10 @@ export default defineNuxtConfig({
   //   middleware: ['auth']
   // },
 
-  runtimeConfig: {
-    public: {
-      apiBase: process.env.API_URL || 'http://65.2.113.225:5012/api', 
-    },
-  },
   modules: ['@pinia/nuxt'],
+  pinia: {
+    autoImports: ['defineStore']
+  },
   css: ['@/assets/css/tailwind.css'],
   postcss: {
     plugins: {
@@ -20,15 +18,15 @@ export default defineNuxtConfig({
   },
   
   plugins: [
-    //'@/plugins/message.js',
     { src: '@/plugins/message.js' },
     { src: '~/plugins/myfilter.js' },
-    // '@/plugins/axios.ts'
+    { src: '@/plugins/axios.js' },
   ],
 
   runtimeConfig: {
     public: {
-      apiBaseUrl: process.env.API_BASE_URL || 'http://localhost:3000', // Fallback for local dev
+    //  apiBaseUrl: process.env.API_URL, 
+    //  imageBaseUrl: process.env.NUXT_IMAGE_BASE_URL,
     },
   },
 

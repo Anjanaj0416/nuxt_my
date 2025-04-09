@@ -11,19 +11,16 @@ export default defineNuxtRouteMiddleware((to, from) => {
     localStorage.setItem('requestedRoute', to.fullPath);
 
     // Check if the user is authenticated by looking for the token
-    if (!userStore.token && !localStorage.getItem('token')) {
+    if (!userStore.token) {
+      const redirectToCookie = useCookie('redirectTo', {
+        maxAge: 60 * 3, // 7 days
+        path: '/',
+        sameSite: 'strict',
+        secure: process.env.NODE_ENV === 'production'
+      })
+      redirectToCookie.value = from.fullPath
       // If not authenticated, redirect to the login page
       return navigateTo('/user/login');
     }
-
-    // If token exists in localStorage but not in store, set it
-    if (!userStore.token && localStorage.getItem('token')) {
-      userStore.token = localStorage.getItem('token');
-    }
-
-    // Optionally, set the logged-in user from localStorage (if needed)
-    if (userStore.loggedUser.userName === '' && localStorage.getItem('user')) {
-      userStore.loggedUser = JSON.parse(localStorage.getItem('user'));
-    }
   }
-})
+});

@@ -6,20 +6,27 @@ export const useUserStore = defineStore('user', {
   state: () => ({
     user: null,
     token: null,
-    loggedUser:{userName:'',image:'/user/default.png'}
+    loggedUser:{},
+    assetsBaseUrl: null,
   }),
+
+  persist: true,
 
   actions: {
     async login(loginDetails) {
       try {
-      
+
         const response = await axios.post(`${import.meta.env.VITE_API_URL}/IAM/Login`, loginDetails);      
+       
         if (response.data.isSuccess) {
           
           this.token = response.data.authToken;  // Assuming the response contains a 'token'
           this.loggedUser =response.data.loggedUser;
-          localStorage.setItem('token', this.token);  // Save token to localStorage if needed
-          localStorage.setItem('refreshToken', this.refreshToken); 
+          this.assetsBaseUrl =response.data.loggedUser.resourceURLRoot;
+         
+          // localStorage.setItem('assetsBaseUrl', this.loggedUser.resourceURLRoot); // Save assetsBaseUrl to localStorage if needed
+          // localStorage.setItem('token', this.token);  // Save token to localStorage if needed
+          // localStorage.setItem('refreshToken', this.refreshToken);         
        }
        else{        
         this.showToast('Login error:'+response.data.message,'error');
@@ -33,8 +40,7 @@ export const useUserStore = defineStore('user', {
 
     logout() {
       this.token = null;
-      localStorage.removeItem('token');  // Remove token from localStorage
-      localStorage.removeItem('refreshToken');
+      localStorage.clear();
       //this.showToast('User Logged out!','success');
     },
 

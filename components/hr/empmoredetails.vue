@@ -159,7 +159,7 @@
 
           <div class="grid grid-cols-1 mt-2 gap-y-4 sm:grid-cols-5 sm:gap-x-6">
             <div class="pt-4">
-              <label for="price" class="block text-sm font-medium leading-6 text-gray-900">Signature</label>
+              <!-- <label for="price" class="block text-sm font-medium leading-6 text-gray-900">Signature</label> -->
               <div class="mt-2">
                 <!-- <a :href="imageroot + '/Resource/HR/signature/' + hrStore.empdetails.signature + '.png'"
                   target="_blank">
@@ -179,7 +179,7 @@
 <script>
 import { useHrStore } from "~/stores/modules/hrStore";
 import hr_item from '~/components/hr/hr_item'
-import { mapState } from "vuex";
+//import { mapState } from "vuex";
 
 
 export default {
@@ -196,12 +196,12 @@ export default {
     // hrStore.getInitEmployee();
   },
 
-  computed: {
-    ...mapState({
-      // employee: (state) => state.hr.dashboard.employee,
-      // loggeduser: (state) => state.loggeduser,
-      initData: (state) => state.initData,
-    }),
+   computed: {
+  //   ...mapState({
+  //     // employee: (state) => state.hr.dashboard.employee,
+  //     // loggeduser: (state) => state.loggeduser,
+  //     initData: (state) => state.initData,
+  //   }),
 
     // getSupervisorName() {
     //   return (supno) => {

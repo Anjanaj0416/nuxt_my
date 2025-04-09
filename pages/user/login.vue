@@ -131,20 +131,15 @@ export default {
         password: "",
       },
       showPassword: false,
-  
     };
   },
 
   async mounted() {
     this.userStore = useUserStore();
     await this.userStore.logout();
-
-    
   },
   watch: {},
-  computed: {
- 
-  },
+  computed: {},
   methods: {
     async GetLogin() {
       await this.userStore.login(this.loginDetails);
@@ -155,7 +150,14 @@ export default {
           this.$showToast("Login Failed!", "error");
         } else {
           this.$showToast("Login successful!", "success");
-          this.$router.push("/dashboard");
+          try {
+            const redirectToCookie = useCookie("redirectTo");
+            if (redirectToCookie != "") {
+              this.$router.push(redirectToCookie.value);
+            } else {
+              this.$router.push("/dashboard");
+            }
+          } catch (error) {this.$router.push("/dashboard");}
         }
       } catch (error) {
         this.$showToast(

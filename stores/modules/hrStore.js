@@ -159,9 +159,14 @@ export const useHrStore = defineStore('hrStore', {
       ]
     },
     initData: {},
+    authToken: "",
+    isLoading: true,
   }),
 
+  persist: true,
+
    //this.showToast('Loading successful!', 'success'); //success ,error ,warning,info
+
   actions: {
     async getInitEmployee() {
       try {
@@ -185,8 +190,9 @@ export const useHrStore = defineStore('hrStore', {
 
     async searchEmployees(req) {
       try {
+       console.log(`${import.meta.env.VITE_API_URL}/hr/Employee/SearchEmployees`)
         const response = await axios.post(`${import.meta.env.VITE_API_URL}/hr/Employee/SearchEmployees`, req);   
-        console.log("response:",response);   
+       
         if (response.data.isSuccess) {    
           this.alempdetails = response.data.data.data.alpagedetails[0].alempdetails || [];
           this.showToast('Loading successful!', 'success'); 
@@ -200,6 +206,10 @@ export const useHrStore = defineStore('hrStore', {
       } catch (error) {
         console.error('Loading error:', error);
         this.showToast(error.response.data.Message, 'error'); 
+      }
+      
+      finally {
+        this.isLoading = false; // Set loading to false after fetching
       }
     },
 

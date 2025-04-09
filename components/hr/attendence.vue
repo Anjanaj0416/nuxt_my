@@ -14,7 +14,7 @@
           </div>
         </div>
 
-        <!-- <datediff @click="getLoadAttendnece" class="mb-2 sm:mb-0" /> -->
+        <datediff @click="getLoadAttendnece" class="mb-2 sm:mb-0" />
         <div class="flex flex-wrap items-center justify-between gap-4 rounded-md sm:justify-start">
           <div
             class="w-full p-2 font-bold text-center text-gray-700 border border-white rounded-md sm:w-auto hover:text-white">
@@ -250,11 +250,11 @@ import atten_colorbox from '~/components/hr/atten_colorbox'
 import attnrectify from '~/components/hr/attnrectify'
 
 import swipes from '~/components/hr/swipes'
-import datediff from '~/components/customcontrol/datediff'
+import datediff from '~/components/hr/datediff'
 import { useHrStore } from '~/stores/modules/hrStore'
 
 // import * as Global from '@/assets/js/Global'
-import * as myfilter from '@/plugins/myfilter'
+//import * as myfilter from '@/plugins/myfilter'
 //import { mapState, mapGetters, mapActions, mapMutations } from 'vuex'
 
 export default {
@@ -262,7 +262,7 @@ export default {
 
   data() {
     return {
-      imageroot: process.env.Assets_83,
+      imageroot: '',
       currow: -1,
       rectifingrow: -1,
       isrectifing: false,
@@ -318,7 +318,6 @@ export default {
                 dayatt.daytype == 504.5 ||
                 dayatt.daytype == 504.3
                 ? 'cssHalfday'
-
                 : dayatt.daytype == 505 ||
                   dayatt.daytype == 505.1 ||
                   dayatt.daytype == 505.5 ||
