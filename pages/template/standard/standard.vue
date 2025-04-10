@@ -59,10 +59,6 @@
     </section>
   </section>
 
-  <!-- <div>
-   data:{{store.pageData.css}}
-  </div> -->
-
   <section id="service" class="py-8 bg-white">
     <div class="container mx-auto ">
       <h2 class="text-4xl font-bold text-center">{{store.pageData.css.services.title || 'Title' }}</h2>
@@ -83,7 +79,7 @@
           
           <NuxtLink 
             to="/services" 
-            :class="[`inline-block px-6 py-2 mt-4 text-white transition-all bg-${store.pageData.css.btnColor} rounded-lg hover:bg-purple-900`,'bg-blue-900']">
+            :class="[`inline-block px-6 py-2 mt-4 text-white transition-all bg-${store.pageData.css.btnColor} rounded-lg `,'bg-blue-900']">
             Learn More
           </NuxtLink>
         </div>
@@ -212,10 +208,9 @@
                 type="button" 
                 :class="[
                   'inline-flex items-center justify-center rounded-lg border-2 px-5 py-2.5 text-sm font-medium text-black focus:outline-none focus:ring-4',
-                  `border- ${btnColor}`,
-                  `hover:bg- ${btnColor}`,
-                  'hover:text-black',
-                  
+                  `border-${store.pageData.css.btnColor}`,   
+                  `hover:bg-${store.pageData.css.btnColor}`,
+                  'hover:text-black'
                 ]"
               >
                 <svg class="w-5 h-5 -ms-2 me-2" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="none" viewBox="0 0 24 24">
@@ -318,10 +313,9 @@
                 type="button" 
                 :class="[
                   'inline-flex items-center justify-center rounded-lg border-2 px-5 py-2.5 text-sm font-medium text-black focus:outline-none focus:ring-4',
-                  `border- ${btnColor}`,
-                  `hover:bg- ${btnColor}`,
-                  'hover:text-black',
-                  
+                  `border-${store.pageData.css.btnColor}`,   
+                  `hover:bg-${store.pageData.css.btnColor}`,
+                  'hover:text-black'
                 ]"
               >
                 <svg class="w-5 h-5 -ms-2 me-2" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="none" viewBox="0 0 24 24">
@@ -424,10 +418,9 @@
                 type="button" 
                 :class="[
                   'inline-flex items-center justify-center rounded-lg border-2 px-5 py-2.5 text-sm font-medium text-black focus:outline-none focus:ring-4',
-                  `border- ${btnColor}`,
-                  `hover:bg- ${btnColor}`,
-                  'hover:text-black',
-                  
+                  `border-${store.pageData.css.btnColor}`,   
+                  `hover:bg-${store.pageData.css.btnColor}`,
+                  'hover:text-black'
                 ]"
               >
                 <svg class="w-5 h-5 -ms-2 me-2" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="none" viewBox="0 0 24 24">
@@ -530,10 +523,9 @@
                 type="button" 
                 :class="[
                   'inline-flex items-center justify-center rounded-lg border-2 px-5 py-2.5 text-sm font-medium text-black focus:outline-none focus:ring-4',
-                  `border- ${btnColor}`,
-                  `hover:bg- ${btnColor}`,
-                  'hover:text-black',
-                  
+                  `border-${store.pageData.css.btnColor}`,   
+                  `hover:bg-${store.pageData.css.btnColor}`,
+                  'hover:text-black'
                 ]"
               >
                 <svg class="w-5 h-5 -ms-2 me-2" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="none" viewBox="0 0 24 24">
@@ -555,35 +547,35 @@
   <section id="about" class="py-12 ">
     <div class="container px-6 mx-auto">
       <div class="grid grid-cols-1 gap-6 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-5">
-        <div class="flex flex-col items-center p-6 text-center transition-transform transform bg-white shadow-md rounded-xl hover:scale-105 hover:shadow-2xl">
+        <div class="flex flex-col items-center p-6 text-center transition-transform transform bg-white shadow-md rounded-xl hover:scale-105 hover:shadow-xl">
           <div class="p-4 bg-gray-100 rounded-full shadow-md">
             <img class="w-14 h-14" src="/assets/img/digitalTechLabs/contact/Shipping.png" alt="Fast Shipping" />
           </div>
           <h3 class="mt-4 text-lg font-semibold text-gray-800">Fast Shipping</h3>
           <p class="mt-2 text-sm text-gray-600">Experience lightning-fast shipping on all orders!</p>
         </div>
-        <div class="flex flex-col items-center p-6 text-center transition-transform transform bg-white shadow-md rounded-xl hover:scale-105 hover:shadow-2xl">
+        <div class="flex flex-col items-center p-6 text-center transition-transform transform bg-white shadow-md rounded-xl hover:scale-105 hover:shadow-xl">
           <div class="p-4 bg-gray-100 rounded-full shadow-md">
             <img class="w-14 h-14" src="/assets/img/digitalTechLabs/contact/QualityProducts.png" alt="Quality Products" />
           </div>
           <h3 class="mt-4 text-lg font-semibold text-gray-800">Quality Products</h3>
           <p class="mt-2 text-sm text-gray-600">We believe in offering nothing but the best.</p>
         </div>
-        <div class="flex flex-col items-center p-6 text-center transition-transform transform bg-white shadow-md rounded-xl hover:scale-105 hover:shadow-2xl">
+        <div class="flex flex-col items-center p-6 text-center transition-transform transform bg-white shadow-md rounded-xl hover:scale-105 hover:shadow-xl">
           <div class="p-4 bg-gray-100 rounded-full shadow-md">
             <img class="w-14 h-14" src="/assets/img/digitalTechLabs/contact/OnlineSupport.png" alt="Online Support" />
           </div>
           <h3 class="mt-4 text-lg font-semibold text-gray-800">Online Support</h3>
           <p class="mt-2 text-sm text-gray-600">Need assistance? We've got you covered!</p>
         </div>
-        <div class="flex flex-col items-center p-6 text-center transition-transform transform bg-white shadow-md rounded-xl hover:scale-105 hover:shadow-2xl">
+        <div class="flex flex-col items-center p-6 text-center transition-transform transform bg-white shadow-md rounded-xl hover:scale-105 hover:shadow-xl">
           <div class="p-4 bg-gray-100 rounded-full shadow-md">
             <img class="w-14 h-14" src="/assets/img/digitalTechLabs/contact/SecurePayment.png" alt="Secure Payment" />
           </div>
           <h3 class="mt-4 text-lg font-semibold text-gray-800">Secure Payment</h3>
           <p class="mt-2 text-sm text-gray-600">Shop with peace of mind knowing your transactions are 100% secure.</p>
         </div>
-        <div class="flex flex-col items-center p-6 text-center transition-transform transform bg-white shadow-md rounded-xl hover:scale-105 hover:shadow-2xl">
+        <div class="flex flex-col items-center p-6 text-center transition-transform transform bg-white shadow-md rounded-xl hover:scale-105 hover:shadow-xl">
           <div class="p-4 bg-gray-100 rounded-full shadow-md">
             <img class="w-14 h-14" src="/assets/img/digitalTechLabs/contact/BestRatings.png" alt="Best Ratings" />
           </div>
@@ -594,12 +586,50 @@
     </div>
   </section>
     
-  <section id="contact" class="bg-gray-100">
-    <div class="grid max-w-screen-xl px-4 py-8 mx-auto lg:gap-8 xl:gap-0 lg:py-16 lg:grid-cols-12">
-
-
-
-      
+  <section id="contact" class="py-8 antialiased md:py-16">
+    <div class="grid max-w-screen-xl grid-cols-2 gap-8 px-4 mx-auto text-gray-500 dark:text-gray-400 sm:grid-cols-3 sm:gap-12 lg:grid-cols-6">
+      <a href="#" class="flex items-center md:justify-center">
+        <img 
+          src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSfdbmcwxOGNJpIncH4RuLgWzQjNGnXJgzFzsSyRxFfIUzdgQCwHDbLbfeWlIc_3D70KmE&usqp=CAUg" 
+          class="object-cover w-full h-auto" 
+          alt="mockup" 
+        />
+      </a>
+      <a href="#" class="flex items-center md:justify-center">
+        <img 
+          src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTSRUrkrNkGAgreGVdPun-upZiPRcpZzf_oyA&s" 
+          class="object-cover w-full h-auto" 
+          alt="mockup" 
+        />
+      </a>
+      <a href="#" class="flex items-center md:justify-center">
+        <img 
+          src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTKCSXc039TSXrlop1Qlx6XLaTfL7aGz49NzA&s" 
+          class="object-cover w-full h-auto" 
+          alt="mockup" 
+        />
+      </a>
+      <a href="#" class="flex items-center md:justify-center">
+        <img 
+          src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTzauVhVXcdXcwh82ID82C50vvf1106Sm9Ogg&s" 
+          class="object-cover w-full h-auto" 
+          alt="mockup" 
+        />
+      </a>
+      <a href="#" class="flex items-center md:justify-center">
+        <img 
+          src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRsoGXzWn6B9Wf0Cu0EEXVActiShg8jfG1QaA&s" 
+          class="object-cover w-full h-auto" 
+          alt="mockup" 
+        />
+      </a>
+      <a href="#" class="flex items-center md:justify-center">
+        <img 
+          src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTlnlbQKyeZnutwavifhGkk3NJinRyqzB3BGw&s" 
+          class="object-cover w-full h-auto" 
+          alt="mockup" 
+        />
+      </a>
     </div>
   </section>
   
@@ -642,7 +672,7 @@
     </div>
   </section>
 
-  <footer class="p-4 mt-16 bg-white border-t-4 border-purple-800 sm:p-6 ">
+  <footer :class="[`p-4 mt-16 bg-white border-t-4 border-${store.pageData.css.btnColor} sm:p-6 `,'bg-blue-900']">
     <div class="max-w-screen-xl mx-auto">
         <div class="md:flex md:justify-between">
             <div class="mb-6 md:mb-0">
@@ -713,53 +743,8 @@
     </div>
   </footer>
 
-  <div>
-    <button
-      @click="handleSideButton"
-      class="fixed p-4 text-white transition-all duration-300 transform bg-blue-900 rounded-full shadow-xl bottom-16 right-4 hover:scale-105 hover:from-green-500 hover:to-blue-600"
-    >
-      <span class="text-lg font-semibold">💬</span>
-    </button>
+  <whatsappChats />
 
-    <!-- Chat Box -->
-    <div
-      v-if="showChatBox"
-      class="fixed bottom-0 right-0 z-50 w-full max-w-md p-4 transition-all duration-500 ease-in-out transform translate-x-full bg-white rounded-tl-lg shadow-2xl"
-      :style="{ transform: showChatBox ? 'translateX(0)' : 'translateX(100%)' }"
-    >
-      <div class="flex items-center justify-between mb-3">
-        <h3 class="text-lg font-semibold text-gray-700">Chat Support</h3>
-        <button
-          @click="closeChat"
-          class="text-xl text-gray-600 transition-colors hover:text-gray-800"
-        >
-          ✕
-        </button>
-      </div>
-      <div class="p-2 py-6 space-y-3 overflow-y-auto border border-gray-200 rounded-lg max-h-56 bg-gray-50">
-        <div v-for="(msg, index) in messages" :key="index" class="py-1 text-sm text-gray-800">
-          <p :class="{'text-right': msg.isUser, 'text-left': !msg.isUser}">
-            <span :class="{'bg-blue-100 p-2 rounded-lg': msg.isUser, 'bg-gray-200 p-2 rounded-lg': !msg.isUser}">{{ msg.text }}</span>
-          </p>
-        </div>
-      </div>
-      <div class="flex mt-4">
-        <input
-          v-model="newMessage"
-          @keyup.enter="sendMessage"
-          type="text"
-          placeholder="Type a message..."
-          class="flex-1 px-4 py-2 text-sm border border-gray-300 rounded-l-lg shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-600"
-        />
-        <button
-          @click="sendMessage"
-          class="px-6 py-2 text-white transition-all duration-200 bg-blue-900 rounded-r-lg shadow-md hover:to-blue-600"
-        >
-          Send
-        </button>
-      </div>
-    </div>
-  </div>
 
   
 </template>
@@ -767,7 +752,9 @@
 <script>
   import { ref, computed } from "vue";
   import { useStandpageStore } from '~/stores/modules/dtlStore';
+  import whatsappChats from '../chat/whatsappChat.vue';
 
+//  const store = useStandpageStore();
 
 
 
@@ -779,7 +766,7 @@
    
   export default {
     
-    components: {},
+    components: {whatsappChats},
     props:[''],
     data() {
       return {
@@ -825,47 +812,6 @@
         ) {
           this.isDropdownOpen = false;
         }
-      },
-      handleSideButton() {
-        this.showChatBox = !this.showChatBox;
-        if (this.showChatBox) {
-          // Initially, show the welcome message
-          this.messages = [{ text: "Hi! Please wait, we're preparing to assist you.", isUser: false }];
-        }
-      },
-      sendMessage() {
-        if (this.newMessage.trim()) {
-          // Add the customer's message
-          this.messages.push({ text: this.newMessage, isUser: true });
-
-          // Clear input field
-          this.newMessage = "";
-
-          // If the auto-reply hasn't been sent yet, send it
-          if (!this.autoReplied) {
-            this.autoReplied = true;
-            // Send the auto-reply message
-            setTimeout(() => {
-              this.messages.push({ text: "Thank you for your message! We'll get back to you shortly.", isUser: false });
-              
-              // Simulate receiving backend messages only once
-              this.getBackendMessages();
-            }, 1000);
-          }
-        }
-      },
-      getBackendMessages() {
-        // Ensure the backend message only shows once
-        if (!this.backendMessageShown) {
-          this.backendMessageShown = true;
-          // Simulate a backend message (you can replace this with an actual API call)
-          setTimeout(() => {
-            this.messages.push({ text: "How can I assist you further?", isUser: false });
-          }, 2000);
-        }
-      },
-      closeChat() {
-        this.showChatBox = false;
       },
     },
     mounted() {

@@ -1,12 +1,12 @@
 import { defineStore } from "pinia";
 
-import navImg from "../../assets/img/digitalTechLabs/home.png"
-import productImg1 from '../../assets/img/digitalTechLabs/s1.png'
-import productImg2 from '../../assets/img/digitalTechLabs/s2.png'
-import productImg3 from '../../assets/img/digitalTechLabs/s5.png'
-import productImg4 from '../../assets/img/digitalTechLabs/s6.png'
-import aboutImg from '../../assets/img/digitalTechLabs/About.jpg'
-import OurServicesImg from '../../assets/img/digitalTechLabs/girlimage.jpg'
+import navImg from "../../assets/img/digitalTechLabs/standard/home.png"
+import productImg1 from '../../assets/img/digitalTechLabs/standard/s1.png'
+import productImg2 from '../../assets/img/digitalTechLabs/standard/s2.png'
+import productImg3 from '../../assets/img/digitalTechLabs/standard/s5.png'
+import productImg4 from '../../assets/img/digitalTechLabs/standard/s6.png'
+import aboutImg from '../../assets/img/digitalTechLabs/standard/About.jpg'
+import OurServicesImg from '../../assets/img/digitalTechLabs/standard/girlimage.jpg'
 
 export const useStandpageStore = defineStore("standpage", {
   state: () => ({
