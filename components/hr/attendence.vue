@@ -14,7 +14,7 @@
           </div>
         </div>
 
-        <datediff ref="datediffRef" @click="getLoadAttendnece" class="mb-2 sm:mb-0" />
+        <datediff :empno="empno" ref="datediffRef" @click="getLoadAttendnece" class="mb-2 sm:mb-0" />
         <div class="flex flex-wrap items-center justify-between gap-4 rounded-md sm:justify-start">
           <div
             class="w-full p-2 font-bold text-center text-gray-700 border border-white rounded-md sm:w-auto hover:text-white">
@@ -59,8 +59,8 @@
         <div class="hidden lg:block">In Location</div>
         <div class="hidden lg:block">Out Location</div>
         <div class="hidden lg:block">Over Time</div>
+        <div class="hidden lg:block">Status</div>
 
-        <div class="hidden lg:block"></div>
         <div class="hidden lg:block"></div>
         <div class="hidden lg:block"></div>
         <div class="hidden lg:block"></div>
@@ -81,12 +81,12 @@
                   :rowid="dayatt.id"
                   :rectifingrow="rectifingrow"
                 /> -->
-                  {{ dayatt.inTime }}
+                  {{ dayatt.date.split('T')[0] }}
 
                 </div>
                 <div>
-                  <!-- <swipes v-show="dayatt.swipesin.length > 0" :swipes="dayatt.swipesin" class=""
-                    :cssbg="getAttRowColor(dayatt)" /> -->
+                  <swipes v-show="dayatt.swipesIn.length > 0" :swipes="dayatt.swipesIn" class=""
+                    :cssbg="getAttRowColor(dayatt)" />
                 </div>
               </div>
 
@@ -94,44 +94,33 @@
             <div class="mx-auto">
               <div class="flex gap-x-2">
                 <div>
-                  <!-- <attnrectify
-                  v-model="dayatt.outtime"
-                  :rowid="dayatt.id"
-                  :rectifingrow="rectifingrow"
-                /> -->
+                  <attnrectify v-model="dayatt.outTime" :rowid="dayatt.id" :rectifingrow="rectifingrow" />
                   {{ dayatt.outTime }}
                 </div>
 
 
                 <div>
-                  <!-- <swipes v-show="dayatt.swipesout.length > 0" :swipes="dayatt.swipesout" class=""
-                    :cssbg="getAttRowColor(dayatt)" /> -->
+                  <swipes v-show="dayatt.swipesOut.length > 0" :swipes="dayatt.swipesOut" class=""
+                    :cssbg="getAttRowColor(dayatt)" />
                 </div>
               </div>
             </div>
 
+            <div>{{ dayatt.outTime }} </div>
             <div>{{ dayatt.inLocation }}</div>
             <div>{{ dayatt.outLocation }}</div>
-            <div>{{ dayatt.outTime }} </div>
-            <div>{{ getDayTypeName(dayType) }}</div>
+            <div>{{ getDayTypeName(dayatt.dayType) }}</div>
+            <div>test</div>
             <div>
               <span v-show="dayatt.lateMin > 0">
-                Late {{ dayatt.lateMin }} min</span>
+                Late {{ dayatt.weekType }} min</span>
             </div>
 
             <div class="">
-              <!-- <btnhr_rectify
-                v-show="
-                  dayatt.daytype == 505 && !isOTAppling &&
-                  (!isrectifing || rectifingrow == dayatt.id)
-                "
-                :rowid="dayatt.id"
-                :rectifingrow="rectifingrow"
-                ref="ref_btnrectify"
-                @save_rectification="save_rectification"
-                @click="setRectifing(dayatt.id)"
-                @canceledit="cancelRectify"
-              /> -->
+              <btnhr_rectify v-show="dayatt.dayType == 505 && !isOTAppling &&
+                (!isrectifing || rectifingrow == dayatt.id)
+                " :rowid="dayatt.id" :rectifingrow="rectifingrow" ref="ref_btnrectify"
+                @save_rectification="save_rectification" @click="setRectifing(dayatt.id)" @canceledit="cancelRectify" />
 
               <div v-show="!isrectifing &&
                 dayatt.dayType == 505 &&
@@ -285,6 +274,7 @@ export default {
         otHour: '',
         Reason: '',
       },
+      showLoading: null,
     }
   },
 
@@ -531,7 +521,7 @@ export default {
 
       //console.log(JSON.stringify(this.attenViewRequest))
 
-      await this.getAttendence(this.attenViewRequest)
+      // await this.getAttendence(this.attenViewRequest)
 
     },
 

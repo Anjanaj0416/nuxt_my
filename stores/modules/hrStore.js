@@ -126,7 +126,8 @@ export const useHrStore = defineStore('hrStore', {
       }
     },
 
-    async searchEmployees(req) {
+    async searchEmployees(req,showLoading) {
+      const loadingAlert = showLoading(''); 
       try {
         const response = await axios.post(`${import.meta.env.VITE_API_URL}/hr/Employee/SearchEmployees`, req);   
        
@@ -144,13 +145,11 @@ export const useHrStore = defineStore('hrStore', {
         console.error('Loading error:', error);
         this.showToast(error.response.data.Message, 'error'); 
       }
-      
-      finally {
-        this.isLoading = false; // Set loading to false after fetching
-      }
+      loadingAlert.close();
     },
 
-    async getEmployeeByID(id) {
+    async getEmployeeByID(id,showLoading) {
+      const loadingAlert = showLoading(''); 
       try {
         const response = await axios.get(`${import.meta.env.VITE_API_URL}/hr/Employee/GetEmployeeByID`, {params: { id: id.empid}});   
         // console.log("response:",response.data.data.data);   
@@ -168,14 +167,16 @@ export const useHrStore = defineStore('hrStore', {
         console.error('Loading error:', error);
         this.showToast(error.response.data.Message, 'error'); 
       }
+      loadingAlert.close();
     },
 
-    async getProcessAttendenceLogsByEmp(req) {
+    async getProcessAttendenceLogsByEmp(req,showLoading) {
+      const loadingAlert = showLoading(''); 
       try {
-        const response = await axios.post(`${import.meta.env.VITE_API_URL}/hr/Attendance/GetProcessAttendenceLogsByEmp`,req);   
+        const response = await axios.post(`${import.meta.env.VITE_API_URL}/hr/Attendance/GetAttendenceByEmp`,req); 
         // console.log("response:",response);   
         if (response.data.isSuccess) {    
-          const response = await axios.post(`${import.meta.env.VITE_API_URL}/hr/Attendance/GetAttendenceByEmp`,req);   
+          // const response = await axios.post(`${import.meta.env.VITE_API_URL}/hr/Attendance/GetAttendenceByEmp`,req);   
           // console.log("GetAttendenceByEmp:",response.data.data.data);   
 
           this.attendence.tot_normal_overtime = response.data.data.data.totNormalOvertime || null;
@@ -188,12 +189,11 @@ export const useHrStore = defineStore('hrStore', {
         console.error('Loading error:', response.data.message);       
         // this.showToast(response.data.message, 'error'); 
        }
-       
-        
       } catch (error) {
         console.error('Loading error:', error);
         this.showToast(error.response.data.Message, 'error'); 
       }
+      loadingAlert.close();
     },
     
     async showToast(message,type) {

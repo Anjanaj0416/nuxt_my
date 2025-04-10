@@ -91,10 +91,6 @@
         </div>
 
         <!-- Employees List  -->
-        <div v-if="hrStore.isLoading" class="text-center py-4">
-          Loading...
-        </div>
-
         <div class="cssemplist" v-for="(emp, index) in hrStore.alempdetails" :key="emp">
           <div class="mt-1 text-sm rounded-md cursor-pointer hover:text-white text-white-300 hover:bg-gray-500"
             :class="emp.isresigned ? 'bg-red-500' : 'bg-gray-400'">
@@ -231,9 +227,6 @@
                 selectedrow == emp.id &&
                 !isSecClose
                 ">
-                <div v-if="isLoading" class="text-center py-4">
-                  Loading...
-                </div>
                 <attendence v-if="!isLoading" ref="atten" :empno="emp.empno" :empname="emp.empname"
                   :isOTEntitled="isOTEntitled" @exit="exit" />
               </div>
@@ -407,6 +400,7 @@ export default {
       dtfrom: null,
       dtto: null,
       isLoading: false,
+      showLoading: null
     }
   },
 
@@ -422,7 +416,7 @@ export default {
     // await this.hrStore.loadListVendors({ keyword: '', searchBy: this.searchBy }, this.showLoading)
     // await this.hrStore.loadInitVendor(this.showLoading)
     // this.imageroot = this.vendorStore.initVendor.baseUrl;
-    // this.showLoading = this.$showLoading;
+    this.showLoading = this.$showLoading;
 
     // console.log('Hr List:', this.hrStore.alempdetails);
   },
@@ -553,7 +547,7 @@ export default {
       this.isSecClose = true
       this.selectedrow = id
       this.isSecClose = false
-      await hrStore.getEmployeeByID({ empid: id })
+      await hrStore.getEmployeeByID({ empid: id }, this.showLoading)
     },
 
     async setDeleteEmployee(empNo) {
@@ -589,7 +583,7 @@ export default {
       }
 
       const hrStore = useHrStore();
-      await hrStore.getProcessAttendenceLogsByEmp(req);
+      await hrStore.getProcessAttendenceLogsByEmp(req, this.showLoading);
 
       this.isLoading = false;
 
@@ -680,7 +674,7 @@ export default {
       await this.hrStore.searchEmployees({
         keyword: req.searchval,
         searchby: req.searchby,
-      })
+      }, this.showLoading)
     },
 
     getviewwg() {
