@@ -138,6 +138,27 @@
               <p class="mt-1 text-lg font-bold text-gray-900">Rs.990.00</p>
               <button class="mt-3 inline-block border-2 text-gray-600 text-xs font-semibold px-4 py-1.5 rounded-full hover:bg-gray-100 transition">Shop Now</button>
             </div>
+
+            <div class="p-4 text-center transition duration-300 bg-white shadow-md rounded-2xl hover:shadow-xl">
+              <img src="../../../assets/img/digitalTechLabs/standard/s1.png" alt="Black T-shirt" class="object-cover w-full h-48 mb-4 rounded-lg" />
+              <p class="font-medium text-gray-700">Comfort Fit Crew Neck T-shirt – Black</p>
+              <p class="mt-1 text-lg font-bold text-gray-900">Rs.990.00</p>
+              <button class="mt-3 inline-block border-2 text-gray-600 text-xs font-semibold px-4 py-1.5 rounded-full hover:bg-gray-100 transition">Shop Now</button>
+            </div>
+
+            <div class="p-4 text-center transition duration-300 bg-white shadow-md rounded-2xl hover:shadow-xl">
+              <img src="../../../assets/img/digitalTechLabs/standard/s2.png" alt="Space Blue T-shirt" class="object-cover w-full h-48 mb-4 rounded-lg" />
+              <p class="font-medium text-gray-700">Comfort Fit Crew Neck T-shirt – Space Blue</p>
+              <p class="mt-1 text-lg font-bold text-gray-900">Rs.990.00</p>
+              <button class="mt-3 inline-block border-2 text-gray-600 text-xs font-semibold px-4 py-1.5 rounded-full hover:bg-gray-100 transition">Shop Now</button>
+            </div>
+
+            <div class="p-4 text-center transition duration-300 bg-white shadow-md rounded-2xl hover:shadow-xl">
+              <img src="../../../assets/img/digitalTechLabs/standard/s3.png" alt="Sky Blue T-shirt" class="object-cover w-full h-48 mb-4 rounded-lg" />
+              <p class="font-medium text-gray-700">Comfort Fit Crew Neck T-shirt – Sky Blue</p>
+              <p class="mt-1 text-lg font-bold text-gray-900">Rs.990.00</p>
+              <button class="mt-3 inline-block border-2 text-gray-600 text-xs font-semibold px-4 py-1.5 rounded-full hover:bg-gray-100 transition">Shop Now</button>
+            </div>
           </div>
         </section>
       </div>
@@ -325,13 +346,12 @@
     border: 1px solid;
     @apply border-gray-500 rounded p-2;
   }
-  
+
   /* Navbar Specific */
-  nav a {
-    @apply px-3 py-2 rounded-lg transition-colors;
-  }
-  nav a:hover {
-    @apply bg-white text-black;
-  }
+nav a {
+  @apply px-3  rounded-lg transition-colors;
+}
+
+
   </style>
   
