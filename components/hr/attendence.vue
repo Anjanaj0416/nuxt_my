@@ -134,20 +134,32 @@
 
               <!-- && loggeduser.granted.indexOf('hradmin')>-1 -->
             </div>
-            <div>
-
-              <div v-show="isOTEntitled &&
+            <div class="flex">
+              <span v-show="isOTEntitled &&
                 !isOTAppling &&
                 dayatt.dayType != 100.1 &&
-                rectifingrow == -1 &&
+                otApplingRow == -1 &&
                 dayatt.inTime != '00:00' &&
                 (dayatt.overTime != '' && dayatt.overTime != '0' && dayatt.overTime != '00.00') &&
                 !dayatt.isOTApplied
                 "
-                class="w-4/5 p-1 p-2 font-bold text-center border-gray-500 rounded rounded-md cursor-pointer gap-x-1 hover:bg-blue-500 hover:text-white"
+                class="w-4/5 p-2 font-bold text-center border-gray-500 rounded rounded-md cursor-pointer gap-x-1 hover:bg-blue-500 hover:text-white"
                 @click="showOTApplyForm(dayatt.id)">
                 Apply OT
-              </div>
+              </span>
+
+              <span v-show="isOTEntitled &&
+                !isOtManual &&
+                dayatt.dayType != 100.1 &&
+                otManualRow == -1 &&
+                dayatt.inTime != '00:00' &&
+                (dayatt.overTime != '' && dayatt.overTime != '0' && dayatt.overTime != '00.00') &&
+                !dayatt.isOTApplied
+                "
+                class="w-4/5 p-2 font-bold text-center border-gray-500 rounded rounded-md cursor-pointer gap-x-1 hover:bg-blue-500 hover:text-white"
+                @click="showOTManualApplyForm(dayatt.id)">
+                Manual OT
+              </span>
             </div>
             <div>
 
@@ -160,8 +172,8 @@
 
           </div>
 
+          <!-- Rectify form -->
           <div class="w-full p-2 mt-1 bg-gray-400 rounded-md" v-show="isrectifing && rectifingrow == dayatt.id">
-
             <RectifyForm class="flex text-gray-800 gap-x-4">
               <div>
                 <span class="pr-4">In Time</span>
@@ -194,6 +206,7 @@
             </RectifyForm>
           </div>
 
+          <!-- OT Apply -->
           <div class="w-full p-2 mt-1 bg-gray-400 rounded-md" v-show="isOTAppling && otApplingRow == dayatt.id">
             <OTApplyForm class="flex text-gray-800 gap-x-4">
               <div>
@@ -220,10 +233,39 @@
 
               <div
                 class="p-2 px-1 font-bold text-center border-gray-500 rounded rounded-md cursor-pointer hover:bg-blue-500 hover:text-white"
-                @click="isrectifing = false, rectifingrow = -1">
+                @click="isOTAppling = false, otApplingRow = -1">
                 Cancel
               </div>
             </OTApplyForm>
+          </div>
+
+          <!-- OT Manual Apply -->
+          <div class="w-full p-2 mt-1 bg-gray-400 rounded-md" v-show="isOTManualAppling && otManualRow == dayatt.id">
+            <OTManualForm class="flex text-gray-800 gap-x-4">
+              <div>
+                <span class="pr-4">Hours</span>
+                <input v-model="oTManualRequest.otHour" @blur="calcOTHours" type="text" />
+              </div>
+              |
+              <!-- <div class="">OT Hrs : {{ OTApllyDetails.ot_hours }}</div> -->
+              |
+              <div>
+                <span class="pr-4">Comment</span>
+                <input v-model="oTManualRequest.comment" type="text" />
+              </div>
+
+              <div
+                class="p-2 px-1 font-bold text-center border-gray-500 rounded rounded-md cursor-pointer hover:bg-blue-500 hover:text-white"
+                @click="applyOTManual(dayatt.id)">
+                Apply
+              </div>
+
+              <div
+                class="p-2 px-1 font-bold text-center border-gray-500 rounded rounded-md cursor-pointer hover:bg-blue-500 hover:text-white"
+                @click="isOtManual = false, otManualRow = -1">
+                Cancel
+              </div>
+            </OTManualForm>
           </div>
         </div>
       </div>
@@ -252,10 +294,17 @@ export default {
     return {
       imageroot: '',
       currow: -1,
+
       rectifingrow: -1,
       isrectifing: false,
+
+      otManualRow: -1,
+      isOtManual: false,
+
+
       otApplingRow: -1,
       isOTAppling: false,
+
       dtfrom: '',
       dtto: '',
       attenViewRequest: {},
@@ -273,6 +322,10 @@ export default {
         OTTo: '',
         otHour: '',
         Reason: '',
+      },
+      oTManualRequest: {
+        otHour: '',
+        comment: '',
       },
       showLoading: null,
     }
@@ -419,22 +472,10 @@ export default {
 
   async created() {
     this.hrStore = useHrStore();
+    this.showLoading = this.$showLoading;
   },
 
   methods: {
-    // ...mapActions({
-    //   // getEmployeeByID: 'hr/getEmployeeByID',
-    //   getAttendence: 'hr/getAttendence',
-    //   rectifyAttendance: 'hr/rectifyAttendance',
-    //   setOTApproval: 'hr/setOTApproval',
-    //   getOTHours: 'hr/getOTHours',
-    //   GetRe_calcOT: 'hr/GetRecalcOT',
-    // }),
-    // ...mapMutations({
-    //   showMessage: 'PUSH_NOTIFICATION',
-    //   reset: 'hr/RESET_ATTENDENCE',
-    // }),
-
     async init() {
       this.reset()
       var date = new Date()
@@ -455,9 +496,6 @@ export default {
       this.$refs.ref_btnrectify.canceledit
       this.rectifingrow = rowid
       this.isrectifing = true
-
-
-
     },
 
     async calcOTHours() {
@@ -494,7 +532,7 @@ export default {
           comment: this.rectificationRequest.reason,
           user: this.loggeduser,
         }
-        await this.rectifyAttendance(req)
+        await this.setManualRectification(req, this.showLoading)
 
         this.rectifingrow = -1
         this.isrectifing = false
@@ -535,7 +573,7 @@ export default {
             user: this.loggeduser,
           }
           //console.log(req)
-          await this.setOTApproval(req)
+          await this.setOTApproval(req);
         }
         this.oTPreApprovalRequest.OTFrom = ''
         this.oTPreApprovalRequest.OTTo = ''
@@ -543,6 +581,29 @@ export default {
         this.otApplingRow = -1
       }
     },
+
+    async applyOTManual(rowId) {
+
+      // if (this.validateOTApply()) {
+      if (confirm('Sure to apply this OT Manual?')) {
+        let req = {
+          id: rowId,
+          otHours: this.oTManualRequest.otHour,
+          comment: this.oTManualRequest.comment,
+        }
+        const hrStore = useHrStore();
+        await hrStore.setOTManual(req, this.showLoading)
+      }
+      this.oTManualRequest.otHour = ''
+      this.isOTManualAppling = false
+      this.otApplingRow = -1
+      // }
+    },
+
+    showMessage({ type, message }) {
+      alert(`${type}: ${message}`); // or use a toast/snackbar
+    },
+
     show_error(msg) {
       this.showMessage({
         type: 'Failed',
@@ -568,22 +629,32 @@ export default {
 
     validateOTApply() {
       if (this.oTPreApprovalRequest.date == '') {
-        this.show_error('Invalid Date')
-        return false
+        this.show_error('Invalid Date');
+        return false;
       }
 
       if (this.oTPreApprovalRequest.OTFrom == '') {
-        this.show_error('Invalid OT From Time')
-        return false
+        this.show_error('Invalid OT From Time');
+        return false;
       }
 
       if (this.oTPreApprovalRequest.OTTo == '') {
-        this.show_error('Invalid OT To Time')
-        return false
+        this.show_error('Invalid OT To Time');
+        return false;
       }
 
       if (this.oTPreApprovalRequest.Reason == '') {
-        this.show_error('Invalid Nature Of Work')
+        this.show_error('Invalid Nature Of Work');
+        return false;
+      }
+
+      if (this.oTManualRequest.otHour == '') {
+        this.show_error('Invalid OT Hours');
+        return false;
+      }
+
+      if (this.oTManualRequest.comment == '') {
+        this.show_error('Invalid Comment');
         return false
       }
 
@@ -593,6 +664,11 @@ export default {
     showOTApplyForm(rowId) {
       this.otApplingRow = rowId
       this.isOTAppling = true
+    },
+
+    showOTManualApplyForm(rowId) {
+      this.otManualRow = rowId
+      this.isOTManualAppling = true
     },
 
     async getReCalcOT(attn) {

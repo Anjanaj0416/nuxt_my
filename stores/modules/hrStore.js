@@ -174,7 +174,7 @@ export const useHrStore = defineStore('hrStore', {
       const loadingAlert = showLoading(''); 
       try {
         const response = await axios.post(`${import.meta.env.VITE_API_URL}/hr/Attendance/GetAttendenceByEmp`,req); 
-        // console.log("response:",response);   
+        console.log("response:",response);   
         if (response.data.isSuccess) {    
           // const response = await axios.post(`${import.meta.env.VITE_API_URL}/hr/Attendance/GetAttendenceByEmp`,req);   
           // console.log("GetAttendenceByEmp:",response.data.data.data);   
@@ -189,6 +189,55 @@ export const useHrStore = defineStore('hrStore', {
         console.error('Loading error:', response.data.message);       
         // this.showToast(response.data.message, 'error'); 
        }
+      } catch (error) {
+        console.error('Loading error:', error);
+        this.showToast(error.response.data.Message, 'error'); 
+      }
+      loadingAlert.close();
+    },
+
+    async setManualRectification(req,showLoading) {
+      const loadingAlert = showLoading(''); 
+      try {
+        console.log("req:",req);   
+        const response = await axios.get(`${import.meta.env.VITE_API_URL}/hr/Attendence/SetManualRectification`, {params: { Id: req.attendance_id, InTime: req.intime, OutTime: req.outtime}});   
+        console.log("response:",response);   
+        if (response.data.isSuccess) {    
+          this.empdetails = response.data.data.data || {};
+          // this.showToast('Loading successful!', 'success'); 
+       }
+       else{
+        console.error('Loading error:', response.data.message);       
+        // this.showToast(response.data.message, 'error'); 
+       }
+       
+        
+      } catch (error) {
+        console.error('Loading error:', error);
+        this.showToast(error.response.data.Message, 'error'); 
+      }
+      loadingAlert.close();
+    },
+
+    async setOTManual(req,showLoading) {
+      console.log("setOTManual:",req);
+      console.log("showLoading:",showLoading);
+      
+      const loadingAlert = showLoading(''); 
+      try {
+        console.log("req:",req);   
+        const response = await axios.get(`${import.meta.env.VITE_API_URL}/hr/Attendence/SetOTManual`, {params: { Id: req.attendance_id, otHours: req.intime}});   
+        console.log("response:",response);   
+        if (response.data.isSuccess) {    
+          this.empdetails = response.data.data.data || {};
+          // this.showToast('Loading successful!', 'success'); 
+       }
+       else{
+        console.error('Loading error:', response.data.message);       
+        // this.showToast(response.data.message, 'error'); 
+       }
+       
+        
       } catch (error) {
         console.error('Loading error:', error);
         this.showToast(error.response.data.Message, 'error'); 
