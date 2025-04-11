@@ -191,7 +191,7 @@ divs {
 }
 
 .cssUpdateItem>div:nth-child(1) {
-  @apply text-blue-300 mb-2 text-sm;
+  @apply text-gray-600 mb-2 text-sm;
 }
 
 .cssUpdateItem>div:nth-child(2) {}
@@ -201,12 +201,12 @@ divs {
 }
 
 .btn {
-  @apply border-gray-500 rounded p-2 rounded-md py-1 h-8 w-16 text-center text-blue-300 font-bold cursor-pointer px-2;
+  @apply border-gray-500 rounded p-2 rounded-md py-1 h-8 w-16 text-center text-gray-600 font-bold cursor-pointer px-2;
 }
 
 .btn:hover {
   @apply bg-blue-600 text-white;
 }
 
-/* @apply text-blue-300 mb-2  text-sm; */
+/* @apply text-gray-600 mb-2  text-sm; */
 </style>

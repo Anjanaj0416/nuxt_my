@@ -28,9 +28,9 @@ methods:{
         <div class="w-64 md:w-3/4 max-w-lg">
           <div class="leading-loose">
             <div role="alert">
-              <div class="bg-green text-blue-300 font-bold rounded-t px-4 py-2">{{ message_header }}</div>
+              <div class="bg-green text-gray-600 font-bold rounded-t px-4 py-2">{{ message_header }}</div>
               <div class="border border-t-0 bg-gray-100 rounded-b border-green px-4 py-3 text-green-700">
-                <p class="text-blue-300">{{ message }}</p>
+                <p class="text-gray-600">{{ message }}</p>
 
                 <div class="mt-4 flex justify-center">
                   <appbutton @click="cmdOK" text="OK" title="Exit" />

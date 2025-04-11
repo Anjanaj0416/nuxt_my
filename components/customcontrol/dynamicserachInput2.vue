@@ -85,7 +85,7 @@ export default {
   <div>
     <label v-if="label.indexOf('#') != -1" class="block text-sm text-gray-00">
       {{ label.substring(0, label.indexOf('#')) }}
-      <span class="underline font-bold text-blue-300">{{
+      <span class="underline font-bold text-gray-600">{{
         label.charAt(label.indexOf('#') + 1)
       }}</span>
       {{ label.substring(label.indexOf('#') + 2, label.length) }}

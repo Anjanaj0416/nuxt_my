@@ -91,10 +91,6 @@
         </div>
 
         <!-- Employees List  -->
-        <div v-if="hrStore.isLoading" class="text-center py-4">
-          Loading...
-        </div>
-
         <div class="cssemplist" v-for="(emp, index) in hrStore.alempdetails" :key="emp">
           <div class="mt-1 text-sm rounded-md cursor-pointer hover:text-white text-white-300 hover:bg-gray-500"
             :class="emp.isresigned ? 'bg-red-500' : 'bg-gray-400'">
@@ -161,10 +157,11 @@
 
                 <!-- Attendance -->
                 <div @click="
-                  init_attendence(index);
+                  init_attendence(emp.empno);//, FromDate: $refs.atten.$refs.datediffRef.dtfrom, ToDate: $refs.atten.$refs.datediffRef.dtto
                 cur_sec = 'attendence';
                 selectedrow = emp.id;
                 isSecClose = false;
+                isLoading = true;
                 " class="p-2 border-2 rounded-lg cursor-pointer hover:text-blue-800">
                   Attendance
                 </div>
@@ -230,8 +227,8 @@
                 selectedrow == emp.id &&
                 !isSecClose
                 ">
-                <attendence ref="atten" :empno="emp.empno" :empname="emp.empname" :isOTEntitled="isOTEntitled"
-                  @exit="exit" />
+                <attendence v-if="!isLoading" ref="atten" :empno="emp.empno" :empname="emp.empname"
+                  :isOTEntitled="isOTEntitled" @exit="exit" />
               </div>
 
               <!-- view Absense -->
@@ -400,6 +397,10 @@ export default {
       isOTEntitled: true,
       leaveYear: -1,
       assetsBaseUrl: null,
+      dtfrom: null,
+      dtto: null,
+      isLoading: false,
+      showLoading: null
     }
   },
 
@@ -415,12 +416,17 @@ export default {
     // await this.hrStore.loadListVendors({ keyword: '', searchBy: this.searchBy }, this.showLoading)
     // await this.hrStore.loadInitVendor(this.showLoading)
     // this.imageroot = this.vendorStore.initVendor.baseUrl;
-    // this.showLoading = this.$showLoading;
+    this.showLoading = this.$showLoading;
 
     // console.log('Hr List:', this.hrStore.alempdetails);
   },
 
-  async mounted() { },
+  async mounted() {
+    const date = new Date();
+    this.dtfrom = this.$myUtility.toInputTypeDate(new Date(date.getFullYear(), date.getMonth(), 1));
+    this.dtto = this.$myUtility.toInputTypeDate(new Date(date.getFullYear(), date.getMonth(), date.getDate()));
+  },
+
   computed: {
     // ...mapState({
     //   dashboard: (state) => state.hr.dashboard,
@@ -541,7 +547,7 @@ export default {
       this.isSecClose = true
       this.selectedrow = id
       this.isSecClose = false
-      await hrStore.getEmployeeByID({ empid: id })
+      await hrStore.getEmployeeByID({ empid: id }, this.showLoading)
     },
 
     async setDeleteEmployee(empNo) {
@@ -568,8 +574,19 @@ export default {
       })
     },
 
-    async init_attendence(row_no) {
-      await this.$refs.atten[row_no].init()
+    async init_attendence(empId) {
+      // await this.$refs.atten[row_no].init()
+      let req = {
+        EmpNo: empId,
+        FromDate: this.dtfrom,
+        ToDate: this.dtto,
+      }
+
+      const hrStore = useHrStore();
+      await hrStore.getProcessAttendenceLogsByEmp(req, this.showLoading);
+
+      this.isLoading = false;
+
     },
 
     async init_movement(row_no) {
@@ -657,7 +674,7 @@ export default {
       await this.hrStore.searchEmployees({
         keyword: req.searchval,
         searchby: req.searchby,
-      })
+      }, this.showLoading)
     },
 
     getviewwg() {
@@ -713,7 +730,7 @@ export default {
 }
 
 .cssemplist .csscontrol:hover {
-  @apply text-blue-300;
+  @apply text-gray-600;
 }
 
 .cssCardLinks {

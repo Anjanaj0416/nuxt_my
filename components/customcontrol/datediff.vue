@@ -17,7 +17,7 @@
         <div class="flex gap-x-2">
           <div>From</div>
           <div>
-            <input class="p-1 rounded-md text-blue-300" v-model="dtfrom" type="date" width="35" />
+            <input class="p-1 rounded-md text-gray-600" v-model="dtfrom" type="date" width="35" />
           </div>
         </div>
       </div>
@@ -25,7 +25,7 @@
         <div class="flex gap-x-2">
           <div>To</div>
           <div>
-            <input class="p-1 rounded-md text-blue-300" v-model="dtto" type="date" width="35" />
+            <input class="p-1 rounded-md text-gray-600" v-model="dtto" type="date" width="35" />
           </div>
         </div>
       </div>

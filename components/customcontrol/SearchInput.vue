@@ -65,7 +65,7 @@
     <!-- <label v-if="label.indexOf('#')!=-1" class="block text-sm text-gray-00">
         {{label.substring(0,label.indexOf('#'))}}s
         <span
-          class="font-bold underline text-blue-300"
+          class="font-bold underline text-gray-600"
         >{{label.charAt(label.indexOf('#')+1)}}</span>
         {{label.substring(label.indexOf('#')+2,label.length)}}
       </label>

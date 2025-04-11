@@ -6,7 +6,7 @@
           <div class="leading-loose">
             <div class="max-w-xl m-4 p-10 bg-white rounded shadow-xl">
               <div>
-                <svg class="text-blue-300 w-8 hover:bg-green rounded-full p-1 hover:text-white hover:cursor-pointer"
+                <svg class="text-gray-600 w-8 hover:bg-green rounded-full p-1 hover:text-white hover:cursor-pointer"
                   xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                   <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
                 </svg>

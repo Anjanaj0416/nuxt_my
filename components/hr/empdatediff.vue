@@ -12,13 +12,13 @@
       <div>
         <div class="flex gap-x-2 ">
           <div>From</div>
-          <div><input class="text-blue-300  rounded-md p-1" v-model="dtfrom" type="date" width="35"></div>
+          <div><input class="text-gray-600  rounded-md p-1" v-model="dtfrom" type="date" width="35"></div>
         </div>
       </div>
       <div>
         <div class="flex gap-x-2 ">
           <div>To</div>
-          <div><input class="text-blue-300 rounded-md p-1" v-model="dtto" type="date" width="35"></div>
+          <div><input class="text-gray-600 rounded-md p-1" v-model="dtto" type="date" width="35"></div>
         </div>
       </div>
       <div>

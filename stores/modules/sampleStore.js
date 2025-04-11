@@ -7,6 +7,8 @@ export const useUserStore = defineStore('sample', {
    
   }),
 
+  persist: true,
+
    //this.showToast('Loading successful!', 'success'); //success ,error ,warning,info
   actions: {
     async sampleCall(req) {

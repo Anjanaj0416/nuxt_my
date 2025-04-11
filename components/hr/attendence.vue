@@ -14,7 +14,7 @@
           </div>
         </div>
 
-        <datediff @click="getLoadAttendnece" class="mb-2 sm:mb-0" />
+        <datediff :empno="empno" ref="datediffRef" @click="getLoadAttendnece" class="mb-2 sm:mb-0" />
         <div class="flex flex-wrap items-center justify-between gap-4 rounded-md sm:justify-start">
           <div
             class="w-full p-2 font-bold text-center text-gray-700 border border-white rounded-md sm:w-auto hover:text-white">
@@ -59,19 +59,18 @@
         <div class="hidden lg:block">In Location</div>
         <div class="hidden lg:block">Out Location</div>
         <div class="hidden lg:block">Over Time</div>
+        <div class="hidden lg:block">Status</div>
 
-        <div class="hidden lg:block"></div>
         <div class="hidden lg:block"></div>
         <div class="hidden lg:block"></div>
         <div class="hidden lg:block"></div>
       </div>
-
       <div v-for="dayatt in hrStore.attendence.alattendences" :key="dayatt">
         <!-- {{dayatt}} <br>
          {{ getDayTypeName(dayatt) }} -->
         <div class="w-full p-2 mt-1 text-white bg-gray-600 rounded-md lg:w-5/6" v-bind:class="[getAttRowColor(dayatt)]">
           <div class="grid grid-cols-1 text-center lg:grid-cols-12">
-            <div>{{ dayatt.empno }}</div>
+            <div>{{ dayatt.empNo }}</div>
             <!-- <div>{{ $options.filters.toReadableDate(dayatt.date) }}</div> -->
             <div class="mx-auto">
               <div class="flex gap-x-2 ">
@@ -82,11 +81,11 @@
                   :rowid="dayatt.id"
                   :rectifingrow="rectifingrow"
                 /> -->
-                  {{ dayatt.intime }}
+                  {{ dayatt.date.split('T')[0] }}
 
                 </div>
                 <div>
-                  <swipes v-show="dayatt.swipesin.length > 0" :swipes="dayatt.swipesin" class=""
+                  <swipes v-show="dayatt.swipesIn.length > 0" :swipes="dayatt.swipesIn" class=""
                     :cssbg="getAttRowColor(dayatt)" />
                 </div>
               </div>
@@ -95,47 +94,36 @@
             <div class="mx-auto">
               <div class="flex gap-x-2">
                 <div>
-                  <!-- <attnrectify
-                  v-model="dayatt.outtime"
-                  :rowid="dayatt.id"
-                  :rectifingrow="rectifingrow"
-                /> -->
-                  {{ dayatt.outtime }}
+                  <attnrectify v-model="dayatt.outTime" :rowid="dayatt.id" :rectifingrow="rectifingrow" />
+                  {{ dayatt.outTime }}
                 </div>
 
 
                 <div>
-                  <swipes v-show="dayatt.swipesout.length > 0" :swipes="dayatt.swipesout" class=""
+                  <swipes v-show="dayatt.swipesOut.length > 0" :swipes="dayatt.swipesOut" class=""
                     :cssbg="getAttRowColor(dayatt)" />
                 </div>
               </div>
             </div>
 
-            <div>{{ dayatt.inlocation }}</div>
-            <div>{{ dayatt.outlocation }}</div>
-            <div>{{ dayatt.overtime }} </div>
-            <div>{{ getDayTypeName(dayatt) }}</div>
+            <div>{{ dayatt.outTime }} </div>
+            <div>{{ dayatt.inLocation }}</div>
+            <div>{{ dayatt.outLocation }}</div>
+            <div>{{ getDayTypeName(dayatt.dayType) }}</div>
+            <div>test</div>
             <div>
-              <span v-show="dayatt.latemin > 0">
-                Late {{ dayatt.latemin }} min</span>
+              <span v-show="dayatt.lateMin > 0">
+                Late {{ dayatt.weekType }} min</span>
             </div>
 
             <div class="">
-              <!-- <btnhr_rectify
-                v-show="
-                  dayatt.daytype == 505 && !isOTAppling &&
-                  (!isrectifing || rectifingrow == dayatt.id)
-                "
-                :rowid="dayatt.id"
-                :rectifingrow="rectifingrow"
-                ref="ref_btnrectify"
-                @save_rectification="save_rectification"
-                @click="setRectifing(dayatt.id)"
-                @canceledit="cancelRectify"
-              /> -->
+              <btnhr_rectify v-show="dayatt.dayType == 505 && !isOTAppling &&
+                (!isrectifing || rectifingrow == dayatt.id)
+                " :rowid="dayatt.id" :rectifingrow="rectifingrow" ref="ref_btnrectify"
+                @save_rectification="save_rectification" @click="setRectifing(dayatt.id)" @canceledit="cancelRectify" />
 
               <div v-show="!isrectifing &&
-                dayatt.daytype == 505 &&
+                dayatt.dayType == 505 &&
                 !isOTAppling &&
                 (!isrectifing || rectifingrow == dayatt.id)
                 "
@@ -150,10 +138,10 @@
 
               <div v-show="isOTEntitled &&
                 !isOTAppling &&
-                dayatt.daytype != 100.1 &&
+                dayatt.dayType != 100.1 &&
                 rectifingrow == -1 &&
-                dayatt.intime != '00:00' &&
-                (dayatt.overtime != '' && dayatt.overtime != '0' && dayatt.overtime != '00.00') &&
+                dayatt.inTime != '00:00' &&
+                (dayatt.overTime != '' && dayatt.overTime != '0' && dayatt.overTime != '00.00') &&
                 !dayatt.isOTApplied
                 "
                 class="w-4/5 p-1 p-2 font-bold text-center border-gray-500 rounded rounded-md cursor-pointer gap-x-1 hover:bg-blue-500 hover:text-white"
@@ -177,12 +165,12 @@
             <RectifyForm class="flex text-gray-800 gap-x-4">
               <div>
                 <span class="pr-4">In Time</span>
-                <input v-model="rectificationRequest.inTime" :disabled="dayatt.intime != '00:00' ? true : false"
+                <input v-model="rectificationRequest.inTime" :disabled="dayatt.inTime != '00:00' ? true : false"
                   type="time" />
               </div>
               <div>
                 <span class="pr-4">Out Time </span>
-                <input v-model="rectificationRequest.outTime" :disabled="dayatt.outtime != '00:00' ? true : false"
+                <input v-model="rectificationRequest.outTime" :disabled="dayatt.outTime != '00:00' ? true : false"
                   type="time" />
               </div>
 
@@ -286,6 +274,7 @@ export default {
         otHour: '',
         Reason: '',
       },
+      showLoading: null,
     }
   },
 
@@ -532,7 +521,7 @@ export default {
 
       //console.log(JSON.stringify(this.attenViewRequest))
 
-      await this.getAttendence(this.attenViewRequest)
+      // await this.getAttendence(this.attenViewRequest)
 
     },
 
@@ -627,8 +616,9 @@ export default {
       this.rectificationRequest.outTime = item_attn.outtime;
     },
 
-    getclose() {
+    async getclose() {
       this.$emit('exit')
+      await this.hrStore.clearAttendance();
     },
 
     getDownload() {

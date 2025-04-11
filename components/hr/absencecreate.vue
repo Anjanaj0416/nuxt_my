@@ -16,7 +16,7 @@
             Appling Leave {{ leaveyear }}
           </div>
         </div>
-        <div class="cursor-pointer hover:text-blue-300" title="Exit Leave Apply" @click="goto_absenceview">
+        <div class="cursor-pointer hover:text-gray-600" title="Exit Leave Apply" @click="goto_absenceview">
           <svg xmlns="http://www.w3.org/2000/svg" class="h-8 w-8" fill="none" viewBox="0 0 24 24" stroke="currentColor">
             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
               d="M10 14l2-2m0 0l2-2m-2 2l-2-2m2 2l2 2m7-2a9 9 0 11-18 0 9 9 0 0118 0z" />
@@ -68,21 +68,21 @@
             <div class="grid grid-cols-6 my-4">
               <div>Date</div>
               <div>
-                <input class="text-blue-300 rounded p-1" type="date" v-model="absense_apply.start_date"
+                <input class="text-gray-600 rounded p-1" type="date" v-model="absense_apply.start_date"
                   @change="LoadLeaveBalance" />
               </div>
               <div class="text-right pr-2" v-show="absense_apply.absence_type == 'Short Leave'">
                 Short Leave Start
               </div>
               <div v-show="absense_apply.absence_type == 'Short Leave'">
-                <input class="text-blue-300 rounded p-1" v-model="absense_apply.start_time" type="time" />
+                <input class="text-gray-600 rounded p-1" v-model="absense_apply.start_time" type="time" />
               </div>
 
               <div v-show="absense_apply.absence_type == 'Short Leave'" class="text-right pr-2">
                 Short Leave End
               </div>
               <div v-show="absense_apply.absence_type == 'Short Leave'">
-                <input class="text-blue-300 rounded p-1" type="time" v-model="absense_apply.end_time" />
+                <input class="text-gray-600 rounded p-1" type="time" v-model="absense_apply.end_time" />
               </div>
             </div>
 
@@ -95,7 +95,7 @@
               <div>
                 <input
                   v-show="absense_apply.absence_type != 'Short Leave'"
-                  class="text-blue-300 rounded p-1"
+                  class="text-gray-600 rounded p-1"
                   type="date"
                   v-model="absense_apply.end_date"
                 />

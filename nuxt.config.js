@@ -19,7 +19,7 @@ export default defineNuxtConfig({
   
   plugins: [
     { src: '@/plugins/message.js' },
-    { src: '~/plugins/myfilter.js' },
+    { src: '@/plugins/myfilter.js' },
     { src: '@/plugins/axios.js' },
   ],
 
