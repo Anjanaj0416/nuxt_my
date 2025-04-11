@@ -1,9 +1,7 @@
 <template>
     <section class="flex items-center justify-center min-h-screen px-4 bg-gray-100">
       <!-- Sign Up Card -->
-      <div class="flex flex-col items-center w-full max-w-4xl overflow-hidden bg-white rounded-lg shadow-lg md:flex-row">
-       
-  
+      <div class="flex flex-col items-center w-full max-w-4xl overflow-hidden bg-white shadow-2xl rounded-3xl md:flex-row">
         <!-- Right Section -->
         <div class="w-full p-2 my-6 bg-white mx-14">
           <h3 class="mb-2 text-2xl font-semibold text-gray-700 text-start">

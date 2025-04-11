@@ -1,14 +1,16 @@
 <template>
+  
   <section class="bg-center bg-cover">
     <nav :class="[`fixed top-0 left-0 z-50 w-full bg-${store.pageData.css.navbar.navbarColor}`,'bg-blue-900']">
       <div class="flex flex-wrap items-center justify-between max-w-screen-xl p-4 mx-auto">
-        <a href="#" class="flex items-center space-x-3">
+        <a href="/template/standard/standard" class="flex items-center space-x-3">
           <span class="self-center text-2xl font-semibold text-white">{{ store.pageData.css.logo || 'Logo' }}</span>
         </a>
+
         <!-- Mobile Menu Button -->
         <button @click="toggleMenu" class="inline-flex items-center justify-center w-10 h-10 p-2 text-sm text-gray-500 rounded-lg md:hidden hover:bg-gray-100 focus:outline-none focus:ring-2 focus:ring-gray-200">
           <span class="sr-only">Open main menu</span>
-          <svg class="w-5 h-5 " xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 17 14">
+          <svg class="w-5 h-5" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 17 14">
             <path stroke="purple" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M1 1h15M1 7h15M1 13h15"/>
           </svg>
         </button>
@@ -19,54 +21,45 @@
             <li><a href="#" class="text-white hover:text-gray-300">Home</a></li>
             <li><a href="#service" class="text-white hover:text-gray-300">Services</a></li>
             <li><a href="#product" class="text-white hover:text-gray-300">Product</a></li>
-            <li><a href="#about" class="text-white hover:text-gray-300">About</a></li>
+            <li><a href="/template/standard/aboutUs" class="text-white hover:text-gray-300">About</a></li>
             <li><a href="#contact" class="text-white hover:text-gray-300">Contact</a></li>
           </ul>
         </div>
       </div>
-    </nav>    
+    </nav>
+
     <!-- Mobile Side Drawer -->
-    <div>
-      <div v-if="isMenuOpen" @click="closeMenu" class="fixed inset-0 z-40 bg-black bg-opacity-50"></div>
-      <div
-        :class="isMenuOpen ? 'translate-x-0' : 'translate-x-full'"
-        class="fixed top-0 right-0 z-50 w-64 h-full p-5 transition-transform transform bg-white shadow-lg"
-      >
-        <button @click="closeMenu" class="absolute text-gray-600 top-4 right-4 hover:text-black">
-          ✖
-        </button>
-        <ul class="mt-10 space-y-4 font-medium" >
-          <li><a href="#" class="text-gray-800 hover:text-gray-300">Home</a></li>
-            <li><a href="#service" class="text-gray-800 hover:text-gray-300">Services</a></li>
-            <li><a href="#product" class="text-gray-800 hover:text-gray-300">Product</a></li>
-            <li><a href="#about" class="text-gray-800 hover:text-gray-300">About</a></li>
-            <li><a href="#contact" class="text-gray-800 hover:text-gray-300">Contact</a></li>
-        </ul>
-      </div>
+    <div v-if="isMenuOpen" @click="closeMenu" class="fixed inset-0 z-40 bg-black bg-opacity-50"></div>
+
+    <div
+      :class="isMenuOpen ? 'translate-x-0' : 'translate-x-full'"
+      class="fixed top-0 right-0 z-50 w-64 h-full p-5 transition-transform transform bg-white shadow-lg"
+    >
+      <button @click="closeMenu" class="absolute text-gray-600 top-4 right-4 hover:text-black">
+        ✖
+      </button>
+      <ul class="mt-10 space-y-4 font-medium">
+        <li><a href="#" class="text-gray-800 hover:text-gray-300">Home</a></li>
+        <li><a href="#service" class="text-gray-800 hover:text-gray-300">Services</a></li>
+        <li><a href="#product" class="text-gray-800 hover:text-gray-300">Product</a></li>
+        <li><a href="/template/standard/aboutUs" class="text-gray-800 hover:text-gray-300">About</a></li>
+        <li><a href="#contact" class="text-gray-800 hover:text-gray-300">Contact</a></li>
+      </ul>
     </div>
 
-    <section class="">
-      <div class="grid max-w-screen-xl px-4 py-8 mx-auto lg:gap-8 xl:gap-0 lg:py-16 lg:grid-cols-12">
-          <div class="mr-auto place-self-center lg:col-span-7">
-              <h1 class="max-w-2xl mb-4 text-4xl font-extrabold leading-none tracking-tight text-white md:text-5xl xl:text-6xl dark:text-white">{{store.pageData.css.navbar.navTitle}}</h1>
-              <p class="max-w-2xl mb-6 font-light text-gray-200 lg:mb-8 md:text-lg lg:text-xl dark:text-gray-400">{{store.pageData.css.navbar.navSubTitle}}</p>
-              <a href="#" class="inline-flex items-center justify-center px-5 py-3 mr-3 text-base font-medium text-center text-white rounded-lg bg-primary-700 hover:bg-primary-800 focus:ring-4 focus:ring-primary-300 dark:focus:ring-primary-900">
-                  Shop Now
-                  <svg class="w-5 h-5 ml-2 -mr-1" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path fill-rule="evenodd" d="M10.293 3.293a1 1 0 011.414 0l6 6a1 1 0 010 1.414l-6 6a1 1 0 01-1.414-1.414L14.586 11H3a1 1 0 110-2h11.586l-4.293-4.293a1 1 0 010-1.414z" clip-rule="evenodd"></path></svg>
-              </a>
-          </div>
-          <div class="hidden lg:mt-0 lg:col-span-5 lg:flex">
-            <img :src="store.pageData.css.navbar.navImg"  class="object-cover w-full  h-[118%]"  alt="mockup">
-          </div>                
+    <section>
+      <div class="w-full mx-auto mt-16 lg:gap-8 xl:gap-0 lg:mt-16">
+        <!-- Responsive Image -->
+        <img 
+          :src="store.pageData.css.navbar.navImg" 
+          class="object-cover w-full h-auto" 
+          alt="mockup" 
+        />
       </div>
     </section>
   </section>
-  
-  <!-- <div>
-   data:{{store.pageData.css}}
-  </div> -->
 
-  <section id="service" >
+  <section id="service" class="py-8 bg-white">
     <div class="container mx-auto ">
       <h2 class="text-4xl font-bold text-center">{{store.pageData.css.services.title || 'Title' }}</h2>
       <p class="max-w-lg mx-auto mt-4 text-center text-gray-600">{{store.pageData.css.services.subTitle}}</p>
@@ -86,7 +79,7 @@
           
           <NuxtLink 
             to="/services" 
-            :class="[`inline-block px-6 py-2 mt-4 text-white transition-all bg-${store.pageData.css.btnColor} rounded-lg hover:bg-purple-900`,'bg-blue-900']">
+            :class="[`inline-block px-6 py-2 mt-4 text-white transition-all bg-${store.pageData.css.btnColor} rounded-lg `,'bg-blue-900']">
             Learn More
           </NuxtLink>
         </div>
@@ -215,10 +208,9 @@
                 type="button" 
                 :class="[
                   'inline-flex items-center justify-center rounded-lg border-2 px-5 py-2.5 text-sm font-medium text-black focus:outline-none focus:ring-4',
-                  `border- ${btnColor}`,
-                  `hover:bg- ${btnColor}`,
-                  'hover:text-black',
-                  
+                  `border-${store.pageData.css.btnColor}`,   
+                  `hover:bg-${store.pageData.css.btnColor}`,
+                  'hover:text-black'
                 ]"
               >
                 <svg class="w-5 h-5 -ms-2 me-2" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="none" viewBox="0 0 24 24">
@@ -321,10 +313,9 @@
                 type="button" 
                 :class="[
                   'inline-flex items-center justify-center rounded-lg border-2 px-5 py-2.5 text-sm font-medium text-black focus:outline-none focus:ring-4',
-                  `border- ${btnColor}`,
-                  `hover:bg- ${btnColor}`,
-                  'hover:text-black',
-                  
+                  `border-${store.pageData.css.btnColor}`,   
+                  `hover:bg-${store.pageData.css.btnColor}`,
+                  'hover:text-black'
                 ]"
               >
                 <svg class="w-5 h-5 -ms-2 me-2" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="none" viewBox="0 0 24 24">
@@ -427,10 +418,9 @@
                 type="button" 
                 :class="[
                   'inline-flex items-center justify-center rounded-lg border-2 px-5 py-2.5 text-sm font-medium text-black focus:outline-none focus:ring-4',
-                  `border- ${btnColor}`,
-                  `hover:bg- ${btnColor}`,
-                  'hover:text-black',
-                  
+                  `border-${store.pageData.css.btnColor}`,   
+                  `hover:bg-${store.pageData.css.btnColor}`,
+                  'hover:text-black'
                 ]"
               >
                 <svg class="w-5 h-5 -ms-2 me-2" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="none" viewBox="0 0 24 24">
@@ -533,10 +523,9 @@
                 type="button" 
                 :class="[
                   'inline-flex items-center justify-center rounded-lg border-2 px-5 py-2.5 text-sm font-medium text-black focus:outline-none focus:ring-4',
-                  `border- ${btnColor}`,
-                  `hover:bg- ${btnColor}`,
-                  'hover:text-black',
-                  
+                  `border-${store.pageData.css.btnColor}`,   
+                  `hover:bg-${store.pageData.css.btnColor}`,
+                  'hover:text-black'
                 ]"
               >
                 <svg class="w-5 h-5 -ms-2 me-2" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="none" viewBox="0 0 24 24">
@@ -558,35 +547,35 @@
   <section id="about" class="py-12 ">
     <div class="container px-6 mx-auto">
       <div class="grid grid-cols-1 gap-6 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-5">
-        <div class="flex flex-col items-center p-6 text-center transition-transform transform bg-white shadow-md rounded-xl hover:scale-105 hover:shadow-2xl">
+        <div class="flex flex-col items-center p-6 text-center transition-transform transform bg-white shadow-md rounded-xl hover:scale-105 hover:shadow-xl">
           <div class="p-4 bg-gray-100 rounded-full shadow-md">
             <img class="w-14 h-14" src="/assets/img/digitalTechLabs/contact/Shipping.png" alt="Fast Shipping" />
           </div>
           <h3 class="mt-4 text-lg font-semibold text-gray-800">Fast Shipping</h3>
           <p class="mt-2 text-sm text-gray-600">Experience lightning-fast shipping on all orders!</p>
         </div>
-        <div class="flex flex-col items-center p-6 text-center transition-transform transform bg-white shadow-md rounded-xl hover:scale-105 hover:shadow-2xl">
+        <div class="flex flex-col items-center p-6 text-center transition-transform transform bg-white shadow-md rounded-xl hover:scale-105 hover:shadow-xl">
           <div class="p-4 bg-gray-100 rounded-full shadow-md">
             <img class="w-14 h-14" src="/assets/img/digitalTechLabs/contact/QualityProducts.png" alt="Quality Products" />
           </div>
           <h3 class="mt-4 text-lg font-semibold text-gray-800">Quality Products</h3>
           <p class="mt-2 text-sm text-gray-600">We believe in offering nothing but the best.</p>
         </div>
-        <div class="flex flex-col items-center p-6 text-center transition-transform transform bg-white shadow-md rounded-xl hover:scale-105 hover:shadow-2xl">
+        <div class="flex flex-col items-center p-6 text-center transition-transform transform bg-white shadow-md rounded-xl hover:scale-105 hover:shadow-xl">
           <div class="p-4 bg-gray-100 rounded-full shadow-md">
             <img class="w-14 h-14" src="/assets/img/digitalTechLabs/contact/OnlineSupport.png" alt="Online Support" />
           </div>
           <h3 class="mt-4 text-lg font-semibold text-gray-800">Online Support</h3>
           <p class="mt-2 text-sm text-gray-600">Need assistance? We've got you covered!</p>
         </div>
-        <div class="flex flex-col items-center p-6 text-center transition-transform transform bg-white shadow-md rounded-xl hover:scale-105 hover:shadow-2xl">
+        <div class="flex flex-col items-center p-6 text-center transition-transform transform bg-white shadow-md rounded-xl hover:scale-105 hover:shadow-xl">
           <div class="p-4 bg-gray-100 rounded-full shadow-md">
             <img class="w-14 h-14" src="/assets/img/digitalTechLabs/contact/SecurePayment.png" alt="Secure Payment" />
           </div>
           <h3 class="mt-4 text-lg font-semibold text-gray-800">Secure Payment</h3>
           <p class="mt-2 text-sm text-gray-600">Shop with peace of mind knowing your transactions are 100% secure.</p>
         </div>
-        <div class="flex flex-col items-center p-6 text-center transition-transform transform bg-white shadow-md rounded-xl hover:scale-105 hover:shadow-2xl">
+        <div class="flex flex-col items-center p-6 text-center transition-transform transform bg-white shadow-md rounded-xl hover:scale-105 hover:shadow-xl">
           <div class="p-4 bg-gray-100 rounded-full shadow-md">
             <img class="w-14 h-14" src="/assets/img/digitalTechLabs/contact/BestRatings.png" alt="Best Ratings" />
           </div>
@@ -597,34 +586,50 @@
     </div>
   </section>
     
-  <section id="contact" class="bg-gray-100">
-    <div class="grid max-w-screen-xl px-4 py-8 mx-auto lg:gap-8 xl:gap-0 lg:py-16 lg:grid-cols-12">
-      <!-- Text Content -->
-      <div class="mr-auto place-self-center lg:col-span-7">
-        <h2 class="text-4xl font-bold leading-none ">{{store.pageData.css.aboutParagraph.title}}</h2>
-        <p class="max-w-lg mt-4 text-base leading-relaxed text-gray-600">
-          {{store.pageData.css.aboutParagraph.Paragraph1}}
-        </p>
-        <p class="max-w-lg mt-4 text-base leading-relaxed text-gray-600">
-         {{store.pageData.css.aboutParagraph.Paragraph2}}
-
-        </p>
-      </div>
-
-    <!-- Image -->
-
-    <div class="hidden lg:mt-0 lg:col-span-5 lg:flex">
-      <img 
-        :src="store.pageData.css.aboutParagraph.aboutImg" 
-        class="relative w-full h-[25vh] object-cover"
-        alt="Team or Company Image"
-        style="border-radius: 85vw 0 85vw 85vw; object-fit: cover; object-position: center;"
-      >
-
-    </div>
-
-
-      
+  <section id="contact" class="py-8 antialiased md:py-16">
+    <div class="grid max-w-screen-xl grid-cols-2 gap-8 px-4 mx-auto text-gray-500 dark:text-gray-400 sm:grid-cols-3 sm:gap-12 lg:grid-cols-6">
+      <a href="#" class="flex items-center md:justify-center">
+        <img 
+          src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSfdbmcwxOGNJpIncH4RuLgWzQjNGnXJgzFzsSyRxFfIUzdgQCwHDbLbfeWlIc_3D70KmE&usqp=CAUg" 
+          class="object-cover w-full h-auto" 
+          alt="mockup" 
+        />
+      </a>
+      <a href="#" class="flex items-center md:justify-center">
+        <img 
+          src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTSRUrkrNkGAgreGVdPun-upZiPRcpZzf_oyA&s" 
+          class="object-cover w-full h-auto" 
+          alt="mockup" 
+        />
+      </a>
+      <a href="#" class="flex items-center md:justify-center">
+        <img 
+          src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTKCSXc039TSXrlop1Qlx6XLaTfL7aGz49NzA&s" 
+          class="object-cover w-full h-auto" 
+          alt="mockup" 
+        />
+      </a>
+      <a href="#" class="flex items-center md:justify-center">
+        <img 
+          src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTzauVhVXcdXcwh82ID82C50vvf1106Sm9Ogg&s" 
+          class="object-cover w-full h-auto" 
+          alt="mockup" 
+        />
+      </a>
+      <a href="#" class="flex items-center md:justify-center">
+        <img 
+          src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRsoGXzWn6B9Wf0Cu0EEXVActiShg8jfG1QaA&s" 
+          class="object-cover w-full h-auto" 
+          alt="mockup" 
+        />
+      </a>
+      <a href="#" class="flex items-center md:justify-center">
+        <img 
+          src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTlnlbQKyeZnutwavifhGkk3NJinRyqzB3BGw&s" 
+          class="object-cover w-full h-auto" 
+          alt="mockup" 
+        />
+      </a>
     </div>
   </section>
   
@@ -667,7 +672,7 @@
     </div>
   </section>
 
-  <footer class="p-4 mt-16 bg-white border-t-4 border-purple-800 sm:p-6 ">
+  <footer :class="[`p-4 mt-16 bg-white border-t-4 border-${store.pageData.css.btnColor} sm:p-6 `,'bg-blue-900']">
     <div class="max-w-screen-xl mx-auto">
         <div class="md:flex md:justify-between">
             <div class="mb-6 md:mb-0">
@@ -737,12 +742,20 @@
         </div>
     </div>
   </footer>
+
+  <whatsappChats />
+
+
   
 </template>
   
-  <script>
+<script>
   import { ref, computed } from "vue";
   import { useStandpageStore } from '~/stores/modules/dtlStore';
+  import whatsappChats from '../chat/whatsappChat.vue';
+
+//  const store = useStandpageStore();
+
 
 
 
@@ -753,29 +766,63 @@
    
   export default {
     
-    components: {},
+    components: {whatsappChats},
     props:[''],
     data() {
       return {
         imageroot: process.env.Assets_83,
-       
+        isMenuOpen: false,
+        isSidebarOpen: false,
+        isDropdownOpen: false,
+        showChatBox: false,  // Ensures the chat box starts hidden
+        newMessage: '',
+        messages: [],
+        autoReplied: false,
+        backendMessageShown: false, 
       }
+
     },
-    async mounted() {
-     
-    },
-    async created() {     
-       this.store = useStandpageStore();
+
+    created() {     
+      this.store = useStandpageStore();
+      //  console.log('color:',store);
      },
     watch: {},
     computed: {
 
     },
     methods: {
+      toggleMenu() {
+        this.isMenuOpen = !this.isMenuOpen;
+      },
+      closeMenu() {
+        this.isMenuOpen = false;
+      },
+      closeAll(event) {
+        if (
+          this.isSidebarOpen &&
+          !this.$el.querySelector('aside')?.contains(event.target) &&
+          window.innerWidth < 768
+        ) {
+          this.isSidebarOpen = false;
+        }
+        if (
+          this.isDropdownOpen &&
+          !this.$el.querySelector('.relative.ml-3')?.contains(event.target)
+        ) {
+          this.isDropdownOpen = false;
+        }
+      },
+    },
+    mounted() {
+      document.addEventListener('click', this.closeAll);
+      
+    },
+    beforeUnmount() {
+      document.removeEventListener('click', this.closeAll);
 
     },
-    async beforeMount() {
-    },
+
     head() {
       return {
         title: 'Starter Package',
@@ -796,6 +843,19 @@
   .cssBox {
     border: 1px solid;
     @apply border-gray-500 rounded p-2;
+  }
+
+  @keyframes slideInFromRight {
+    0% { transform: translateX(100%); }
+    100% { transform: translateX(0); }
+  }
+
+  .chat-box-enter-active {
+    animation: slideInFromRight 0.5s ease-in-out;
+  }
+
+  .chat-box-leave-active {
+    animation: slideInFromRight 0.5s reverse ease-in-out;
   }
   </style>
   

@@ -14,5 +14,13 @@ module.exports = {
       }
     },
   },
+  safelist: [
+    'bg-purple-700',
+    'bg-blue-900',
+    'bg-green-500',
+    'bg-red-500',
+    'border-purple-700',
+    // Add other colors you plan to use dynamically
+  ],
   plugins: [],
 }
