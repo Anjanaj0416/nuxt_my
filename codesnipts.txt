@@ -16,3 +16,5 @@ node .output/server/index.mjs
 
 pm2 restart dtlapp
 pm2 list
+
+npm install --legacy-peer-deps

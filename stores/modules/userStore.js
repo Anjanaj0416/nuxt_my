@@ -16,8 +16,8 @@ export const useUserStore = defineStore('user', {
     async login(loginDetails) {
       try {
 
-        const response = await axios.post(`${import.meta.env.VITE_API_URL}/IAM/Login`, loginDetails);      
-       
+         const response = await axios.post(`${import.meta.env.VITE_API_URL}/IAM/Login`, loginDetails);      
+      
         if (response.data.isSuccess) {
           
           this.token = response.data.authToken;  // Assuming the response contains a 'token'
