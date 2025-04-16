@@ -45,8 +45,8 @@
         <!-- Desktop Navbar -->
         <div class="hidden md:block md:w-auto">
             <ul class="flex space-x-8 font-medium">
-            <li><a href="/template/premium/premium" class="text-white hover:text-gray-300">Men</a></li>
-            <li><a href="#service" class="text-white hover:text-gray-300">Women</a></li>
+            <li><a href="/template/premium/product" class="text-white hover:text-gray-300">Men</a></li>
+            <li><a href="/template/premium/product" class="text-white hover:text-gray-300">Women</a></li>
             <li><a href="#product" class="text-white hover:text-gray-300">Gallery </a></li>
             <li><a href="/template/premium/aboutUs" class="text-white hover:text-gray-300">About</a></li>
             <li><a href="#contact" class="text-white hover:text-gray-300">Contact</a></li>
@@ -105,7 +105,7 @@
       </div>
     </section>
   
-    <footer class="fixed left-0 w-full py-4 mt-auto bg-white border-t-4 border-purple-800 lg:bottom-0 sm:p-6">
+    <footer class="py-4 mt-auto bg-white border-t-4 border-purple-800  lg:bottom-0 sm:p-6">
       <div class="max-w-screen-xl mx-auto">
           <div class="md:flex md:justify-between">
               <div class="mb-6 md:mb-0">
@@ -296,6 +296,12 @@
     .chat-box-leave-active {
       animation: slideInFromRight 0.5s reverse ease-in-out;
     }
+
+    /* Navbar Specific */
+    nav a {
+      @apply px-3  rounded-lg transition-colors;
+    }
+
     </style>
     
     
