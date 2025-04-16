@@ -25,6 +25,17 @@
         <NuxtLink to="aboutUs" class="transition duration-300 hover:text-gray-300">About us</NuxtLink>
         <a href="contactUs" class="transition duration-300 hover:text-gray-300">Contact</a>
         <a href="/user/login" class="transition duration-300 hover:text-gray-300">Intranet</a>
+        <!-- Dropdown -->
+        <div class="relative" ref="dropdownRef">
+          <button @click="toggleDropdown" class="transition duration-300 hover:text-gray-300">
+            Packages
+          </button>
+          <div v-if="showDropdown" class="absolute left-0 z-50 w-40 mt-2 text-blue-900 bg-white rounded shadow-md">
+            <NuxtLink @click="closeDropdown" to="/template/standard/standard" class="block px-4 py-2 hover:bg-blue-100">Standard</NuxtLink>
+            <NuxtLink @click="closeDropdown" to="/template/premium/premium" class="block px-4 py-2 hover:bg-blue-100">Premium</NuxtLink>
+            <NuxtLink @click="closeDropdown" to="/help" class="block px-4 py-2 hover:bg-blue-100">Help</NuxtLink>
+          </div>
+        </div>
         <!-- Talk to Us Button -->
         <a href="#" class="px-4 py-2 ml-4 font-semibold text-blue-900 transition-transform transform bg-white rounded-full shadow-md hover:scale-105 hover:bg-blue-100">
           Talk to Us
@@ -469,66 +480,53 @@ export default {
   data() {
     return {
       imageroot: process.env.Assets_83,
+      showDropdown: false,
     };
-  },
-  async mounted() {
-     
   },
   mounted() {
     console.log("Component mounted!");
+    document.addEventListener('click', this.handleClickOutside);
 
-    // Section 1 Animation
+    // gsap animations
     if (this.$refs.imageGridSection1) {
       gsap.fromTo(
-        this.$refs.imageGridSection1.children, // Targeting the child image elements
-        {
-          opacity: 0, // Start with the images being invisible
-          y: 50, // Start with images slightly below
-        },
-        {
-          opacity: 1, // Fade in the images
-          y: 0, // Bring images to their original position
-          stagger: 0.2, // Add a slight delay between images to stagger the animation
-          duration: 1.5, // Duration of the animation
-          ease: 'power4.out', // Smooth easing
-        }
+        this.$refs.imageGridSection1.children,
+        { opacity: 0, y: 50 },
+        { opacity: 1, y: 0, stagger: 0.2, duration: 1.5, ease: 'power4.out' }
       );
     }
-
-    // Section 2 Animation
     if (this.$refs.imageGridSection2) {
       gsap.fromTo(
-        this.$refs.imageGridSection2.children, // Targeting the child image elements
-        {
-          opacity: 0, // Start with the images being invisible
-          y: 50, // Start with images slightly below
-        },
-        {
-          opacity: 1, // Fade in the images
-          y: 0, // Bring images to their original position
-          stagger: 0.2, // Add a slight delay between images to stagger the animation
-          duration: 1.5, // Duration of the animation
-          ease: 'power4.out', // Smooth easing
-        }
+        this.$refs.imageGridSection2.children,
+        { opacity: 0, y: 50 },
+        { opacity: 1, y: 0, stagger: 0.2, duration: 1.5, ease: 'power4.out' }
       );
     }
   },
-    async created() {
-      //this.sampleStore = useSampleStore();
+  beforeUnmount() {
+    document.removeEventListener('click', this.handleClickOutside);
+  },
+  methods: {
+    toggleDropdown() {
+      this.showDropdown = !this.showDropdown;
     },
-    watch: {},
-    computed: {
-      // ...mapState({
-      //   //loggeduser: (state) => state.loggeduser,
-      // }),
+    closeDropdown() {
+      this.showDropdown = false;
     },
-    methods: {},
-    head() {
-      return {
-        title: 'Intranet - Digital Tech Labs',
-      };
-    },
+    handleClickOutside(event) {
+      const dropdown = this.$refs.dropdownRef;
+      if (dropdown && !dropdown.contains(event.target)) {
+        this.closeDropdown();
+      }
+    }
+  },
+  head() {
+    return {
+      title: 'Intranet - Digital Tech Labs',
+    };
+  }
 };
+
 </script>
 
 <style scoped>
