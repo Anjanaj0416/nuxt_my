@@ -61,13 +61,15 @@
       :class="isMenuOpen ? 'translate-x-0' : 'translate-x-full'"
       class="fixed top-0 right-0 z-50 w-64 h-full p-5 transition-transform transform bg-white shadow-lg"
     >
+
       <button @click="closeMenu" class="absolute text-gray-600 top-4 right-4 hover:text-black">
         ✖
       </button>
       <ul class="mt-10 space-y-4 font-medium">
-        <li><a href="#" class="text-gray-800 hover:text-gray-300">Home</a></li>
-        <li><a href="#service" class="text-gray-800 hover:text-gray-300">Services</a></li>
-        <li><a href="#product" class="text-gray-800 hover:text-gray-300">Product</a></li>
+        <li><a href="/template/premium/premium" class="text-gray-800 hover:text-gray-300">Home</a></li>
+        <li><a href="/template/premium/product" class="text-gray-800 hover:text-gray-300">Men</a></li>
+        <li><a href="/template/premium/product" class="text-gray-800 hover:text-gray-300">Women</a></li>
+        <li><a href="/template/premium/gallery" class="text-gray-800 hover:text-gray-300">Gallery</a></li>
         <li><a href="/template/premium/aboutUs" class="text-gray-800 hover:text-gray-300">About</a></li>
         <li><a href="#contact" class="text-gray-800 hover:text-gray-300">Contact</a></li>
       </ul>
@@ -144,7 +146,7 @@
       <img src="../../../assets/img/digitalTechLabs/standard/girlimage.jpg" alt="Cricket Jersey" class="object-cover w-full h-full" />
       <div class="absolute inset-0 flex flex-col justify-end p-8 text-white bg-black/50">
         <h2 class="text-4xl font-extrabold tracking-tight">New Year Clothing</h2>
-        <p class="mt-2 text-sm">>Celebrate in style with our exclusive New Year collection</p>
+        <p class="mt-2 text-sm">Celebrate in style with our exclusive New Year collection</p>
         <button class="px-5 py-2 mt-4 text-sm font-semibold text-black transition-all duration-300 bg-white rounded-lg hover:bg-gray-200 w-fit">
           SHOP ALL
         </button>
@@ -504,14 +506,16 @@
     import { Pagination, Autoplay } from "swiper/modules";
     import { useStandpageStore } from '~/stores/modules/dtlStore';
     import whatsappChats from '../chat/whatsappChat.vue';
-    
   
   
     // Mobile Menu Toggle
-    const menuOpen = ref(false);
-    const toggleMenu = () => {
-      menuOpen.value = !menuOpen.value;
-    };
+    const isMenuOpen = ref(false)
+    function toggleMenu() {
+      isMenuOpen.value = !isMenuOpen.value
+    }
+    function closeMenu() {
+      isMenuOpen.value = false
+    }
   
     const sliders = ref([
     {
