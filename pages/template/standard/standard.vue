@@ -1,7 +1,7 @@
 <template>
   
   <section class="bg-center bg-cover">
-    <nav :class="[`fixed top-0 left-0 z-50 w-full bg-${store.pageData.css.navbar.navbarColor}`,'bg-blue-900']">
+    <nav :class="[`fixed top-0 left-0 z-50 w-full bg-${store.pageData.css.navbar.navbarColor}`,'bg-blue-100']">
       <div class="flex flex-wrap items-center justify-between max-w-screen-xl p-4 mx-auto">
         <a href="/template/standard/standard" class="flex items-center space-x-3">
           <span class="self-center text-2xl font-semibold text-white">{{ store.pageData.css.logo || 'Logo' }}</span>

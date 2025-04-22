@@ -20,6 +20,8 @@ module.exports = {
     'bg-green-500',
     'bg-red-500',
     'border-purple-700',
+    'bg-orange-50',
+    'bg-gray-900',
     // Add other colors you plan to use dynamically
   ],
   plugins: [],

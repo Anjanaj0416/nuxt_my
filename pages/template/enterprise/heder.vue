@@ -6,7 +6,7 @@
             <!-- Left side - You can put a logo or name here -->
             <div class="text-sm font-semibold text-gray-800">
             <a href="/template/enterprise/enterprise" class="flex items-center space-x-3">
-                <span class="self-center text-2xl font-semibold text-gray-800">{{ store.pageData.css.logo || 'Logo' }}</span>
+                <span class="self-center text-2xl font-semibold text-gray-800">{{ store.pageData.enterprise.logo || 'Logo' }}</span>
             </a>
             </div>
     
@@ -30,7 +30,7 @@
             </div>
         </div>
         </nav>
-        <nav :class="[`bg-${store.pageData.css.navbar.navbarColor}`,'bg-blue-900']">
+        <nav :class="[`bg-${store.pageData.enterprise.navbar.navbarColor}`,'bg-blue-900']">
         <div class="flex flex-wrap items-center justify-between max-w-screen-xl p-2 mx-auto">
             <!-- <a href="/template/premium/premium" class="flex items-center space-x-3">
             <span class="self-center font-semibold text-white text-1xl">Category</span>

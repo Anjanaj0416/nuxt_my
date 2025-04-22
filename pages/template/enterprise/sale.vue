@@ -1,4 +1,4 @@
-  <template>
+<template>
 
     <heder/>
     
@@ -7,42 +7,48 @@
         <!-- Breadcrumbs -->
         <div class="mb-4 text-sm text-gray-400">
           <a href="#" class="hover:underline">Home</a> /
-          <span class="text-gray-800">Product</span>
+          <span class="text-gray-800">Sale</span>
         </div>
   
         <!-- Layout -->
         <div class="flex flex-col gap-6 lg:flex-row">
           <!-- Sidebar Filters -->
           <aside class="w-full p-4 text-gray-800 rounded-lg lg:w-64 bg-gray-50">
-            <h2 class="mb-4 text-lg font-semibold">Categories</h2>
-            <ul class="space-y-2 text-sm">
-              <li><input type="checkbox" class="mr-2" /> TOPS</li>
-              <li><input type="checkbox" class="mr-2" /> T SHIRT</li>
-              <li><input type="checkbox" class="mr-2" /> SHORTS</li>
-              <li><input type="checkbox" class="mr-2" /> JUMPSUITS</li>
-              <li><input type="checkbox" class="mr-2" /> JEANS</li>
-            </ul>
+    
           </aside>
+          
   
           <!-- Product Grid -->
           <section class="w-full px-2 py-8 rounded-lg lg:px-4 bg-gray-50">
-            <h1 class="mb-6 text-3xl font-semibold text-gray-800">Product</h1>
+            <h1 class="mb-6 text-3xl font-semibold text-gray-800">Sale</h1>
             <div class="grid grid-cols-1 gap-8 mx-auto sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 max-w-7xl">          
                 <!-- Product Card -->
                 <div 
-                    v-for="(product, index) in product"
+                    v-for="(product, index) in products"
                     :key="index"
-                    class="p-4 text-center transition duration-300 bg-white shadow-md rounded-2xl hover:shadow-xl"
-                >
-                <img
-                    :src="product.image"
-                    :alt="product.title"
-                    class="object-cover w-full h-48 mb-4 rounded-lg"
-                />
-                <p class="font-medium text-gray-700">{{ product.title }}</p>
-                <p class="mt-1 text-lg font-bold text-gray-900">{{ product.price }}</p>
-                <button class="mt-3 inline-block border-2 text-gray-600 text-xs font-semibold px-4 py-1.5 rounded-full hover:bg-gray-100 transition">Shop Now</button>
-              </div>
+                    class="relative p-4 text-center transition duration-300 bg-white shadow-md rounded-2xl hover:shadow-xl"
+                    >
+                    <div
+                        v-if="product.discount"
+                        class="absolute z-10 px-2 py-1 text-xs font-bold text-white bg-red-500 rounded-full top-4 left-4"
+                    >
+                        {{ product.discount }}
+                    </div>
+                    <img
+                        :src="product.image"
+                        :alt="product.title"
+                        class="object-cover w-full h-48 mb-4 rounded-lg"
+                    />
+                    <p class="font-medium text-gray-700">{{ product.title }}</p>
+                    <p v-if="product.originalPrice" class="mt-1 text-sm text-gray-500 line-through">
+                        {{ product.originalPrice }}
+                    </p>
+                    <p class="mt-1 text-sm font-bold text-gray-900">{{ product.price }}</p>
+                    <button class="mt-3 inline-block border-2 text-gray-600 text-xs font-semibold px-4 py-1.5 rounded-full hover:bg-gray-100 transition">
+                        Shop Now
+                    </button>
+                    </div>
+
   
             </div>
           </section>
@@ -78,31 +84,37 @@
       import product3 from '../../../assets/img/digitalTechLabs/standard/s3.png'
       import product4 from '../../../assets/img/digitalTechLabs/standard/s4.png'
 
-      
-    
 
-        const product = [
-            {
-                title: 'Comfort Fit Crew Neck T-shirt – Black)',
-                price: 'Rs.5,000.00',
-                image: product1,
-            },
-            {
-                title: 'Gift Voucher Rs.2000 (Valid In-store & Online)',
-                price: 'Rs.2,000.00',
-                image: product2,
-            },
-            {
-                title: 'Gift Voucher Rs.10000 (Online Store Only)',
-                price: 'Rs.10,000.00',
-                image: product3,
-            },
-            {
-                title: 'Gift Voucher Rs.10000 (Online Store Only)',
-                price: 'Rs.10,000.00',
-                image: product4,
-            }
-        ]
+      const products = ref([
+        {
+            title: 'Comfort Fit Crew Neck T-shirt – Black',
+            price: 'Rs.5,000.00',
+            image: product1,
+            discount: '15% OFF',
+            originalPrice: 'Rs.7,000.00',
+        },
+        {
+            title: 'Comfort Fit Crew Neck T-shirt – Space Blue',
+            price: 'Rs.2,000.00',
+            image: product2,
+            discount: '25% OFF',
+            originalPrice: 'Rs.8,000.00',
+        },
+        {
+            title: 'Comfort Fit Crew Neck T-shirt – Sky Blue',
+            price: 'Rs.8,000.00',
+            image: product3,
+            discount: '25% OFF',
+            originalPrice: 'Rs.10,000.00',
+        },
+        {
+            title: 'Comfort Fit Crew Neck T-shirt – Muted Green',
+            price: 'Rs.10,000.00',
+            image: product4,
+            discount: '40% OFF',
+            originalPrice: 'Rs.16,000.00',
+        },
+      ]);
     
     
     

@@ -52,31 +52,30 @@
      data:{{store.pageData.css}}
     </div> -->
       
-    <section id="contact" class="mt-16 ">
-      <div class="grid max-w-screen-xl px-4 py-8 mx-auto lg:gap-8 xl:gap-0 lg:py-16 lg:grid-cols-12">
+    <section id="contact" class="mt-28">
+      <div class="grid max-w-screen-xl gap-8 px-4 py-8 mx-auto lg:py-16 lg:grid-cols-12">
         <!-- Text Content -->
-        <div class="mr-auto place-self-center lg:col-span-7">
-          <h2 class="text-4xl font-bold leading-none ">{{store.pageData.css.aboutParagraph.title}}</h2>
+        <div class="place-self-center lg:col-span-7">
+          <h2 class="text-4xl font-bold leading-none">
+            {{ store.pageData.css.aboutParagraph.title }}
+          </h2>
           <p class="max-w-lg mt-4 text-base leading-relaxed text-gray-600">
-            {{store.pageData.css.aboutParagraph.Paragraph1}}
+            {{ store.pageData.css.aboutParagraph.Paragraph1 }}
           </p>
           <p class="max-w-lg mt-4 text-base leading-relaxed text-gray-600">
-           {{store.pageData.css.aboutParagraph.Paragraph2}}
-  
+            {{ store.pageData.css.aboutParagraph.Paragraph2 }}
           </p>
         </div>
-  
-      <!-- Image -->
-  
-      <div class="hidden lg:mt-0 lg:col-span-5 lg:flex">
-        <img 
-          :src="store.pageData.css.aboutParagraph.aboutImg" 
-          class="relative w-full h-[40vh] object-cover"
-          alt="Team or Company Image"
-          style="border-radius: 85vw 0 85vw 85vw; object-fit: cover; object-position: center;"
-        >
-      </div>
-  
+
+        <!-- Image -->
+        <div class="flex justify-center mt-8 lg:mt-0 lg:col-span-5 lg:justify-end">
+          <img 
+            :src="store.pageData.css.aboutParagraph.aboutImg" 
+            class="w-full max-w-sm h-[40vh] object-cover"
+            alt="Team or Company Image"
+            style="border-radius: 85vw 0 85vw 85vw; object-position: center;"
+          >
+        </div>
       </div>
     </section>
   

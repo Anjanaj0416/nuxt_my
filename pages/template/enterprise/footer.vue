@@ -1,6 +1,6 @@
 <template>
 
-<footer :class="[`p-4 mt-16 bg-white border-t-4 border-${store.pageData.css.btnColor} sm:p-6 `,'bg-blue-900']">
+<footer :class="[`p-4 mt-16 bg-white border-t-4 border-${store.pageData.enterprise.btnColor} sm:p-6 `,'bg-blue-900']">
       <div class="max-w-screen-xl mx-auto">
           <div class="md:flex md:justify-between">
               <div class="mb-6 md:mb-0">
