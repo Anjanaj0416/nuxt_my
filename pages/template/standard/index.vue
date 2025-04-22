@@ -115,8 +115,8 @@
           </button>
         </div>
       </div>
+      <!-- product -->
       <div class="grid gap-4 mb-4 sm:grid-cols-2 md:mb-8 lg:grid-cols-3 xl:grid-cols-4">
-
         <div class="bg-white border border-gray-200 rounded-lg shadow-sm dark:border-gray-700 dark:bg-gray-800">
           <div :class="`w-full h-56 bg-${store.pageData.css.product.productDetails.productBgColor}`">
             <a href="#" class="">
