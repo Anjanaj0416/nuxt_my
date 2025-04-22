@@ -51,7 +51,7 @@
       <div class="w-full mx-auto mt-16 lg:gap-8 xl:gap-0 lg:mt-16">
         <!-- Responsive Image -->
         <img 
-          :src="store.pageData.css.navbar.navImg" 
+          :src="store.pageData.css.navbar.navImg1" 
           class="object-cover w-full h-auto" 
           alt="mockup" 
         />
