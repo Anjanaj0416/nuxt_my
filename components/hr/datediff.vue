@@ -63,7 +63,7 @@ export default {
         ToDate: this.dtto,
       }
       const hrStore = useHrStore();
-      await hrStore.getProcessAttendenceLogsByEmp(req, this.showLoading);
+      await hrStore.getAttendenceByEmp(req, this.showLoading);
     },
   },
 

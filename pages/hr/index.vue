@@ -5,7 +5,7 @@
       class="flex flex-col items-center justify-between h-24 px-4 pt-6 my-10 bg-gray-300 cssTop lg:flex-row md:flex-row">
       <div class="my-2 text-lg font-bold capitalize lg:text-xl lg:my-0">
         <div class="flex gap-x-4 lg:gap-x-8">
-          <!-- <div class="relative cssmenu_sec" v-show="this.userStore.loggedUser.granted.indexOf('hradmin') > -1 ||
+          <div class="relative cssmenu_sec" v-show="this.userStore.loggedUser.granted.indexOf('hradmin') > -1 ||
             this.userStore.loggedUser.granted.indexOf('hr_mgr') > -1
             ">
             <div class="cursor-pointer" @click="ismenuopen = !ismenuopen">
@@ -15,12 +15,11 @@
               </svg>
             </div>
             <hr_menu v-show="ismenuopen" class="absolute top-0 left-0 z-50 mt-12 ml-2" @click="clickmenuitem" />
-          </div> -->
+          </div>
 
           <div class="flex items-center justify-center">
-            <!-- v-show="this.userStore.loggedUser.granted.indexOf('hradmin') > -1" -->
-            <search_dashboard placeholder="Search Employee" :arrsections="arrsections_DBSerach"
-              @getsearch="search_begin_DBSerach" />
+            <search_dashboard v-show="this.userStore.loggedUser.granted.indexOf('hradmin') > -1"
+              placeholder="Search Employee" :arrsections="arrsections_DBSerach" @getsearch="search_begin_DBSerach" />
           </div>
         </div>
       </div>
@@ -167,17 +166,17 @@
                 </div>
 
                 <!-- Apply OT -->
-
-                <!-- <div v-show="!emp.isOTAllow &&  (userStore.loggedUser.username == emp.empno || userStore.loggedUser.usergroup == 'Supervisor' ||  userStore.loggedUser.usergroup.toLowerCase().indexOf('admin') > -1)"
-                   title="OT Apply"
-                  @click="init_otapply(index);  cur_sec = 'otapply'; selectedrow = emp.id; isSecClose = false; " 
+                <div
+                  v-show="!emp.isOTAllow && (userStore.loggedUser.username == emp.empno || userStore.loggedUser.userGroup == 'Supervisor' || userStore.loggedUser.userGroup?.toLowerCase().indexOf('admin') > -1)"
+                  title="OT Apply"
+                  @click="init_otapply(index); cur_sec = 'otapply'; selectedrow = emp.id; isSecClose = false;"
                   class="p-2 border-2 rounded-lg cursor-pointer hover:text-blue-800">
                   Apply OT
-                </div> -->
+                </div>
 
                 <!-- Leave Details -->
-                <!-- <div v-show="userStore.loggedUser.username == emp.empno || userStore.loggedUser.usergroup == 'Supervisor' ||
-                  userStore.loggedUser.usergroup.toLowerCase().indexOf('admin') > -1
+                <div v-show="userStore.loggedUser.username == emp.empno || userStore.loggedUser.userGroup == 'Supervisor' ||
+                  userStore.loggedUser.userGroup?.toLowerCase().indexOf('admin') > -1
                   " title="Leave Details" @click="
                     init_absense(index);
                   cur_sec = 'absense';
@@ -185,11 +184,11 @@
                   isSecClose = false;
                   " class="p-2 border-2 rounded-lg cursor-pointer hover:text-blue-800">
                   Leave
-                </div> -->
+                </div>
 
                 <!-- Movement Details -->
-                <!-- <div v-show="userStore.loggedUser.username == emp.empno || userStore.loggedUser.usergroup == 'Supervisor' ||
-                  userStore.loggedUser.usergroup.toLowerCase().indexOf('admin') > -1
+                <div v-show="userStore.loggedUser.username == emp.empno || userStore.loggedUser.userGroup == 'Supervisor' ||
+                  userStore.loggedUser.userGroup?.toLowerCase().indexOf('admin') > -1
                   " title="Movement Details" @click="
                     init_movement(index);
                   cur_sec = 'movement';
@@ -197,7 +196,7 @@
                   isSecClose = false;
                   " class="p-2 border-2 rounded-lg cursor-pointer hover:text-blue-800">
                   Movement
-                </div> -->
+                </div>
 
                 <!-- Time Card Details -->
                 <div title="Time Card Details" @click="
@@ -246,8 +245,8 @@
                 !isSecClose
                 ">
 
-                <!-- <absencecreate ref="absenseapply" :empno="emp.empno" :leaveyear="leaveyear"
-                  @goto_absenceview="goto_absenceview" /> -->
+                <absencecreate ref="absenseapply" :empno="emp.empno" :leaveyear="leaveyear"
+                  @goto_absenceview="goto_absenceview" />
               </div>
               <!-- End view Absense Create -->
 
@@ -292,30 +291,23 @@
         </div>
       </div>
       <!--  Holiday  -->
-
       <div>
         <holidaylist v-show="cur_sec.toLowerCase() == 'holiday'" ref="compholiday" @exitpopup="exitpopup" />
       </div>
-
       <!-- End  Holiday  -->
 
       <!--  Special Work Arrangemnt  -->
-
       <div>
         <!-- <special_work_arrangement v-show="cur_sec.toLowerCase() == 'special_work_arrangement'"
           ref="comp_special_work_arrangement" @exitpopup="exitpopup" /> -->
       </div>
-
       <!-- End  Special Work Arrangemnt  -->
 
       <!--  Employee Update  -->
-
       <div>
         <empupdate ref="empupdatecomp" v-show="cur_sec.toLowerCase() == 'updateemployee'" @exitpopup="exitpopup"
           @empSaveCompletion="empSaveCompletion" />
       </div>
-
-
       <!-- End Employee Update   -->
     </div>
   </section>
@@ -583,7 +575,7 @@ export default {
       }
 
       const hrStore = useHrStore();
-      await hrStore.getProcessAttendenceLogsByEmp(req, this.showLoading);
+      await hrStore.getAttendenceByEmp(req, this.showLoading);
 
       this.isLoading = false;
 

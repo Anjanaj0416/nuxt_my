@@ -41,7 +41,6 @@
         </div>
       </div>
 
-
       <div class="absolute top-0 right-0 hidden px-4 mt-16 sm:hidden md:block">
         <atten_colorbox />
       </div>
@@ -74,15 +73,9 @@
             <!-- <div>{{ $options.filters.toReadableDate(dayatt.date) }}</div> -->
             <div class="mx-auto">
               <div class="flex gap-x-2 ">
-
                 <div>
-                  <!-- <attnrectify
-                  v-model="dayatt.intime"
-                  :rowid="dayatt.id"
-                  :rectifingrow="rectifingrow"
-                /> -->
+                  <!-- <attnrectify v-model="dayatt.intime" :rowid="dayatt.id" :rectifingrow="rectifingrow" /> -->
                   {{ dayatt.date.split('T')[0] }}
-
                 </div>
                 <div>
                   <swipes v-show="dayatt.swipesIn.length > 0" :swipes="dayatt.swipesIn" class=""
@@ -94,11 +87,9 @@
             <div class="mx-auto">
               <div class="flex gap-x-2">
                 <div>
-                  <attnrectify v-model="dayatt.outTime" :rowid="dayatt.id" :rectifingrow="rectifingrow" />
-                  {{ dayatt.outTime }}
+                  <!-- <attnrectify v-model="dayatt.inTime" :rowid="dayatt.id" :rectifingrow="rectifingrow" /> -->
+                  {{ dayatt.inTime }}
                 </div>
-
-
                 <div>
                   <swipes v-show="dayatt.swipesOut.length > 0" :swipes="dayatt.swipesOut" class=""
                     :cssbg="getAttRowColor(dayatt)" />
@@ -117,21 +108,19 @@
             </div>
 
             <div class="">
-              <btnhr_rectify v-show="dayatt.dayType == 505 && !isOTAppling &&
+              <!-- <btnhr_rectify v-show="dayatt.dayType == 505 && !isOTAppling &&
                 (!isrectifing || rectifingrow == dayatt.id)
                 " :rowid="dayatt.id" :rectifingrow="rectifingrow" ref="ref_btnrectify"
-                @save_rectification="save_rectification" @click="setRectifing(dayatt.id)" @canceledit="cancelRectify" />
+                @save_rectification="save_rectification" @click="setRectifing(dayatt.id)" @canceledit="cancelRectify" /> -->
 
               <div v-show="!isrectifing &&
-                dayatt.dayType == 505 &&
-                !isOTAppling &&
+                dayatt.dayType == 505 && !isOTAppling &&
                 (!isrectifing || rectifingrow == dayatt.id)
                 "
                 class="w-1/2 p-2 font-bold text-center border-gray-500  rounded-md cursor-pointer gap-x-1 hover:bg-blue-500 hover:text-white"
                 @click="showRectifing(dayatt.id)">
                 Rectify
               </div>
-
               <!-- && loggeduser.granted.indexOf('hradmin')>-1 -->
             </div>
             <div class="flex">
@@ -162,12 +151,12 @@
               </span>
             </div>
             <div>
-
-              <!-- <div v-show="loggeduser.granted.indexOf('hradmin') > -1 || loggeduser.granted.indexOf('admin') > -1"
+              <div
+                v-show="userStore.loggedUser.granted.indexOf('hradmin') > -1 || userStore.loggedUser.granted.indexOf('admin') > -1"
                 class="w-4/5 p-1 p-2 font-bold text-center border-gray-500 rounded rounded-md cursor-pointer gap-x-1 hover:bg-blue-500 hover:text-white"
                 @click="getReCalcOT(dayatt)">
                 ReCalc.OT
-              </div> -->
+              </div>
             </div>
 
           </div>
@@ -177,13 +166,29 @@
             <RectifyForm class="flex text-gray-800 gap-x-4">
               <div>
                 <span class="pr-4">In Time</span>
-                <input v-model="rectificationRequest.inTime" :disabled="dayatt.inTime != '00:00' ? true : false"
-                  type="time" />
+                <input type="time" :value="dayatt.inTime !== '00:00' ? dayatt.inTime : rectificationRequest.inTime"
+                  @input="(e) => {
+                    if (dayatt.inTime != '00:00') {
+                      dayatt.inTime = dayatt.inTime
+                    } else {
+                      rectificationRequest.inTime = e.target.value
+                    }
+                  }" :disabled="dayatt.inTime !== '00:00'" />
+                <!-- <input v-model="rectificationRequest.inTime" :disabled="dayatt.inTime != '00:00' ? true : false"
+                  type="time" /> -->
               </div>
               <div>
                 <span class="pr-4">Out Time </span>
-                <input v-model="rectificationRequest.outTime" :disabled="dayatt.outTime != '00:00' ? true : false"
-                  type="time" />
+                <input type="time" :value="dayatt.outTime !== '00:00' ? dayatt.outTime : rectificationRequest.outTime"
+                  @input="(e) => {
+                    if (dayatt.outTime !== '00:00') {
+                      rectificationRequest.outTime = dayatt.outTime
+                    } else {
+                      rectificationRequest.outTime = e.target.value
+                    }
+                  }" :disabled="dayatt.outTime !== '00:00'" />
+                <!-- <input v-model="rectificationRequest.outTime" :disabled="dayatt.outTime != '00:00' ? true : false"
+                  type="time" /> -->
               </div>
 
               <div>
@@ -200,7 +205,6 @@
               <div
                 class="p-2 px-1 font-bold text-center border-gray-500 rounded rounded-md cursor-pointer hover:bg-blue-500 hover:text-white"
                 @click="isrectifing = false, rectifingrow = -1">
-                >
                 Cancel
               </div>
             </RectifyForm>
@@ -282,11 +286,11 @@ import attnrectify from '~/components/hr/attnrectify'
 import swipes from '~/components/hr/swipes'
 import datediff from '~/components/hr/datediff'
 import { useHrStore } from '~/stores/modules/hrStore'
+import { useUserStore } from '~/stores/modules/userStore'
 
 // import * as Global from '@/assets/js/Global'
 //import * as myfilter from '@/plugins/myfilter'
 //import { mapState, mapGetters, mapActions, mapMutations } from 'vuex'
-
 export default {
   props: ['empno', 'empname', 'isOTEntitled'],
 
@@ -340,55 +344,49 @@ export default {
     attnrectify,
   },
   computed: {
-    // ...mapState({
-    //   loggeduser: (state) => state.loggeduser,
-    //   attendence: (state) => state.hr.attendencedetails.attendence,
-    //   OTApllyDetails: (state) => state.hr.OTApllyDetails,
-    // }),
-
     getAttRowColor() {
       return (dayatt) => {
         try {
           let rowclass =
-            dayatt.daytype == 503 ||
-              dayatt.daytype == 503.1 ||
-              dayatt.daytype == 503.5 ||
-              dayatt.daytype == 503.3
+            dayatt.dayType == 503 ||
+              dayatt.dayType == 503.1 ||
+              dayatt.dayType == 503.5 ||
+              dayatt.dayType == 503.3
               ? 'cssShortLeave'
-              : dayatt.daytype == 504 ||
-                dayatt.daytype == 504.1 ||
-                dayatt.daytype == 504.5 ||
-                dayatt.daytype == 504.3
+              : dayatt.dayType == 504 ||
+                dayatt.dayType == 504.1 ||
+                dayatt.dayType == 504.5 ||
+                dayatt.dayType == 504.3
                 ? 'cssHalfday'
-                : dayatt.daytype == 505 ||
-                  dayatt.daytype == 505.1 ||
-                  dayatt.daytype == 505.5 ||
-                  dayatt.daytype == 505.3
+                : dayatt.dayType == 505 ||
+                  dayatt.dayType == 505.1 ||
+                  dayatt.dayType == 505.5 ||
+                  dayatt.dayType == 505.3
                   ? 'cssInComplete'
-                  : dayatt.daytype == 506
+                  : dayatt.dayType == 506
                     ? 'cssHoliday'
-                    : (dayatt.daytype == 507 ||
-                      dayatt.daytype == 507.1 ||
-                      dayatt.daytype == 507.5 ||
-                      dayatt.daytype == 507.3)
+                    : (dayatt.dayType == 507 ||
+                      dayatt.dayType == 507.1 ||
+                      dayatt.dayType == 507.5 ||
+                      dayatt.dayType == 507.3)
                       ? 'cssMovement'
-                      : dayatt.daytype ==
-                        (dayatt.daytype == 508 ||
-                          dayatt.daytype == 508.1 ||
-                          dayatt.daytype == 508.5 ||
-                          dayatt.daytype == 508.3)
+                      : dayatt.dayType ==
+                        (dayatt.dayType == 508 ||
+                          dayatt.dayType == 508.1 ||
+                          dayatt.dayType == 508.5 ||
+                          dayatt.dayType == 508.3)
                         ? 'cssLeave'
                         : dayatt.weektype == 501
                           ? 'cssSaturday'
                           : dayatt.weektype == 502
                             ? 'cssSunday'
-                            : dayatt.daytype == 510
+                            : dayatt.dayType == 510
                               ? 'cssSWA'
-                              : dayatt.daytype == 511
+                              : dayatt.dayType == 511
                                 ? 'cssTransport'
                                 : 'cssDefault'
 
-          // : dayatt.daytype == 509
+          // : dayatt.dayType == 509
           //       ? 'cssNoPay'
           return rowclass
         } catch {
@@ -407,57 +405,57 @@ export default {
 
           let dayname =
 
-            dayatt.daytype == 503
+            dayatt.dayType == 503
               ? 'ShortLeave'
-              : dayatt.daytype == 504
+              : dayatt.dayType == 504
                 ? 'Halfday'
-                : dayatt.daytype == 504.1
+                : dayatt.dayType == 504.1
                   ? 'Halfday-Apprv. Pending'
-                  : dayatt.daytype == 504.5
+                  : dayatt.dayType == 504.5
                     ? 'HFA'
-                    : dayatt.daytype == 504.3
+                    : dayatt.dayType == 504.3
                       ? 'Halfday-Apprv. Rejected'
-                      : dayatt.daytype == 509
+                      : dayatt.dayType == 509
                         ? 'No-Pay'
-                        : dayatt.daytype == 505.1
+                        : dayatt.dayType == 505.1
                           ? 'Rect. Apprv. Pending'
-                          : dayatt.daytype == 505.5
+                          : dayatt.dayType == 505.5
                             ? 'Rect. Approved'
-                            : dayatt.daytype == 505.3
+                            : dayatt.dayType == 505.3
                               ? 'Rectt. Apprv. Rejected'
-                              : dayatt.daytype == 507
+                              : dayatt.dayType == 507
                                 ? 'Movement'
-                                : dayatt.daytype == 507.1
+                                : dayatt.dayType == 507.1
                                   ? 'Movement-Apprv.Pending'
-                                  : dayatt.daytype == 507.5
+                                  : dayatt.dayType == 507.5
                                     ? 'MA'
-                                    : dayatt.daytype == 507.3
+                                    : dayatt.dayType == 507.3
                                       ? 'Movement Apprv. Rejected'
-                                      : dayatt.daytype == 508
+                                      : dayatt.dayType == 508
                                         ? 'Leave'
-                                        : dayatt.daytype == 508.1
+                                        : dayatt.dayType == 508.1
                                           ? 'Leave Apprv. Pending'
-                                          : dayatt.daytype == 508.5
+                                          : dayatt.dayType == 508.5
                                             ? 'LA'
-                                            : dayatt.daytype == 508.3
+                                            : dayatt.dayType == 508.3
                                               ? 'Leave Apprv. Rejected'
                                               : dayatt.weektype == 501
                                                 ? 'Saturday'
                                                 : dayatt.weektype == 502
                                                   ? 'Sunday'
-                                                  : dayatt.daytype == 510
+                                                  : dayatt.dayType == 510
                                                     ? dayatt.comment
-                                                    : dayatt.daytype == 511
+                                                    : dayatt.dayType == 511
                                                       ? 'Transport'
-                                                      : dayatt.daytype == 100.1
+                                                      : dayatt.dayType == 100.1
                                                         ? 'OT Apprv. Pending'
-                                                        : dayatt.daytype == 100.5
+                                                        : dayatt.dayType == 100.5
                                                           ? 'OTA'
-                                                          : dayatt.daytype == 100.3
+                                                          : dayatt.dayType == 100.3
                                                             ? 'OT Apprv. Rejected'
-                                                            : dayatt.daytype == 506
+                                                            : dayatt.dayType == 506
                                                               ? 'Holiday'
-                                                              : dayatt.daytype == 505
+                                                              : dayatt.dayType == 505
                                                                 ? 'InComplete'
 
                                                                 : dayatt.comment
@@ -472,7 +470,13 @@ export default {
 
   async created() {
     this.hrStore = useHrStore();
+    this.userStore = useUserStore()
     this.showLoading = this.$showLoading;
+
+    if (dayatt.outTime !== '00:00') {
+      rectificationRequest.outTime = dayatt.outTime
+    }
+
   },
 
   methods: {
@@ -485,7 +489,7 @@ export default {
       this.dtto = myfilter.toInputTypeDate(
         new Date(date.getFullYear(), date.getMonth() + 1, 0)
       )
-      await this.getAttendence({
+      await this.getAttendenceByEmp({
         from_date: this.dtfrom,
         to_date: this.dtto,
         empno: this.empno,
@@ -518,9 +522,9 @@ export default {
         return
       }
 
-      let item_attn = this.attendence.alattendences.filter((att) => {
-        return att.id == row_id
-      })[0]
+      // let item_attn = hrStore.attendence.alattendences.filter((att) => {
+      //   return att.id == row_id
+      // })[0]
 
       if (
         this.validateRectificationApply()
@@ -530,9 +534,11 @@ export default {
           intime: this.rectificationRequest.inTime,
           outtime: this.rectificationRequest.outTime,
           comment: this.rectificationRequest.reason,
-          user: this.loggeduser,
+          // user: this.loggeduser,
         }
-        await this.setManualRectification(req, this.showLoading)
+
+        const hrStore = useHrStore();
+        await hrStore.setManualRectification(req, this.showLoading)
 
         this.rectifingrow = -1
         this.isrectifing = false
@@ -559,7 +565,7 @@ export default {
 
       //console.log(JSON.stringify(this.attenViewRequest))
 
-      // await this.getAttendence(this.attenViewRequest)
+      await this.getAttendenceByEmp(this.attenViewRequest, this.showLoading)
 
     },
 
