@@ -220,17 +220,14 @@ export const useHrStore = defineStore('hrStore', {
     },
 
     async setOTManual(req,showLoading) {
-      console.log("setOTManual:",req);
-      console.log("showLoading:",showLoading);
-      
       const loadingAlert = showLoading(''); 
       try {
         console.log("req:",req);   
-        const response = await axios.get(`${import.meta.env.VITE_API_URL}/hr/Attendence/SetOTManual`, {params: { Id: req.attendance_id, otHours: req.intime}});   
+        const response = await axios.get(`${import.meta.env.VITE_API_URL}/hr/Attendance/SetOTManual`, {params: { Id: req.id, otHours: req.otHours}});   
         console.log("response:",response);   
         if (response.data.isSuccess) {    
           this.empdetails = response.data.data.data || {};
-          // this.showToast('Loading successful!', 'success'); 
+          this.showToast('OT apply successful!', 'success'); 
        }
        else{
         console.error('Loading error:', response.data.message);       
