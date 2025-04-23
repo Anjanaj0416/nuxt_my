@@ -166,7 +166,7 @@
         <button
           @click="handleSideButton"
           :class="[
-            `fixed p-4 text-white transition-all duration-300 transform bg-${store.pageData.css.btnColor} rounded-full shadow-xl bottom-16 right-4 hover:scale-105`,
+            `fixed p-4 text-white transition-all duration-300 transform bg-${store.pageData.standard.btnColor} rounded-full shadow-xl bottom-16 right-4 hover:scale-105`,
             'bg-blue-900'
           ]"
         >

@@ -22,34 +22,32 @@
           <section class="w-full px-2 py-8 rounded-lg lg:px-4 bg-gray-50">
             <h1 class="mb-6 text-3xl font-semibold text-gray-800">Sale</h1>
             <div class="grid grid-cols-1 gap-8 mx-auto sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 max-w-7xl">          
-                <!-- Product Card -->
-                <div 
-                    v-for="(product, index) in products"
-                    :key="index"
-                    class="relative p-4 text-center transition duration-300 bg-white shadow-md rounded-2xl hover:shadow-xl"
-                    >
-                    <div
-                        v-if="product.discount"
-                        class="absolute z-10 px-2 py-1 text-xs font-bold text-white bg-red-500 rounded-full top-4 left-4"
-                    >
-                        {{ product.discount }}
-                    </div>
-                    <img
-                        :src="product.image"
-                        :alt="product.title"
-                        class="object-cover w-full h-48 mb-4 rounded-lg"
-                    />
-                    <p class="font-medium text-gray-700">{{ product.title }}</p>
-                    <p v-if="product.originalPrice" class="mt-1 text-sm text-gray-500 line-through">
-                        {{ product.originalPrice }}
-                    </p>
-                    <p class="mt-1 text-sm font-bold text-gray-900">{{ product.price }}</p>
-                    <button class="mt-3 inline-block border-2 text-gray-600 text-xs font-semibold px-4 py-1.5 rounded-full hover:bg-gray-100 transition">
-                        Shop Now
-                    </button>
-                    </div>
-
-  
+              <!-- Product Card -->
+              <div 
+                  v-for="(product, index) in products"
+                  :key="index"
+                  class="relative p-4 text-center transition duration-300 bg-white shadow-md rounded-2xl hover:shadow-xl"
+                  >
+                  <div
+                      v-if="product.discount"
+                      class="absolute z-10 px-2 py-1 text-xs font-bold text-white bg-red-500 rounded-full top-4 left-4"
+                  >
+                      {{ product.discount }}
+                  </div>
+                  <img
+                      :src="product.image"
+                      :alt="product.title"
+                      class="object-cover w-full h-48 mb-4 rounded-lg"
+                  />
+                  <p class="font-medium text-gray-700">{{ product.title }}</p>
+                  <p v-if="product.originalPrice" class="mt-1 text-sm text-gray-500 line-through">
+                      {{ product.originalPrice }}
+                  </p>
+                  <p class="mt-1 text-sm font-bold text-gray-900">{{ product.price }}</p>
+                  <button class="mt-3 inline-block border-2 text-gray-600 text-xs font-semibold px-4 py-1.5 rounded-full hover:bg-gray-100 transition">
+                      Shop Now
+                  </button>
+              </div>
             </div>
           </section>
         </div>

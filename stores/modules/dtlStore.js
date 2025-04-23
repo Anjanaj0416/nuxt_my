@@ -16,7 +16,7 @@ import OurServicesImg from '../../assets/img/digitalTechLabs/standard/girlimage.
 export const useStandpageStore = defineStore("standpage", {
   state: () => ({
     pageData: {
-      css:{
+      standard:{
           // section1
           btnColor: "purple-700",
           logo: "Logo",
@@ -38,33 +38,38 @@ export const useStandpageStore = defineStore("standpage", {
           // section3
           product:{
             section2Title: "Blouses & Shirts",
-            productDetails:{
-              productBgColor:"purple-700",
-              product1:{
-                name: "WOMENS CARGO PANT",
-                productImg1,
-                discount: " Up to 5% off",
-                price: "4,300",
+            products: [
+              {
+                image: productImg1,
+                alt: "Black T-shirt",
+                title: "Comfort Fit Crew Neck T-shirt – Black",
+                price: "Rs.990.00",
               },
-              product2:{
-                name: "ETHNIC FUSION KURTHI SET",
-                productImg2,
-                discount: " Up to 15% off",
-                price: "2,599",
+              {
+                image: productImg2,
+                alt: "Space Blue T-shirt",
+                title: "Comfort Fit Crew Neck T-shirt – Space Blue",
+                price: "Rs.990.00",
               },
-              product3:{
-                name: "WOMENS WIDE LEG PANT",
-                productImg3,
-                discount: " ",
-                price: "3,900",
+              {
+                image: productImg3,
+                alt: "Sky Blue T-shirt",
+                title: "Comfort Fit Crew Neck T-shirt – Sky Blue",
+                price: "Rs.990.00",
               },
-              product4:{
-                name: "AMANI RIBBED CO - ORD SET",
-                productImg4,
-                discount: " ",
-                price: "6,990",
+              {
+                image: productImg4,
+                alt: "Muted Green T-shirt",
+                title: "Comfort Fit Crew Neck T-shirt – Muted Green",
+                price: "Rs.990.00",
               },
-            },
+              {
+                image: productImg1,
+                alt: "Sapphire Blue T-shirt",
+                title: "Comfort Fit Crew Neck T-shirt – Sapphire Blue",
+                price: "Rs.990.00",
+              },
+            ],
           },
           // section4
           aboutParagraph: {
@@ -83,6 +88,27 @@ export const useStandpageStore = defineStore("standpage", {
             email:"info@example.com",
             Paragraph2:"Lorem ipsum dolor sit amet consectetur adipisicing elit. Dolorum, aspernatur facilis molestiae deserunt expedita voluptatum amet vero quae quasi sunt hic officiis illo velit est necessitatibus doloremque quas nemo et.",
           },
+          // section6
+          brand: [
+            {
+              image: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSfdbmcwxOGNJpIncH4RuLgWzQjNGnXJgzFzsSyRxFfIUzdgQCwHDbLbfeWlIc_3D70KmE&usqp=CAUg",
+            },
+            {
+              image: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTSRUrkrNkGAgreGVdPun-upZiPRcpZzf_oyA&s",
+            },
+            {
+              image: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTKCSXc039TSXrlop1Qlx6XLaTfL7aGz49NzA&s",
+            },
+            {
+              image: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTzauVhVXcdXcwh82ID82C50vvf1106Sm9Ogg&s",
+            },
+            {
+              image: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRsoGXzWn6B9Wf0Cu0EEXVActiShg8jfG1QaA&s",
+            },
+            {
+              image: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTlnlbQKyeZnutwavifhGkk3NJinRyqzB3BGw&s",
+            },
+          ]          
         },
       premium:{
         // section1

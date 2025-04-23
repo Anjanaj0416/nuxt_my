@@ -1,10 +1,10 @@
 <template>
   
   <section class="bg-center bg-cover">
-    <nav :class="[`fixed top-0 left-0 z-50 w-full bg-${store.pageData.css.navbar.navbarColor}`,'bg-blue-100']">
+    <nav :class="[`fixed top-0 left-0 z-50 w-full bg-${store.pageData.standard.navbar.navbarColor}`,'bg-blue-100']">
       <div class="flex flex-wrap items-center justify-between max-w-screen-xl p-4 mx-auto">
         <a href="/template/standard/standard" class="flex items-center space-x-3">
-          <span class="self-center text-2xl font-semibold text-white">{{ store.pageData.css.logo || 'Logo' }}</span>
+          <span class="self-center text-2xl font-semibold text-white">{{ store.pageData.standard.logo || 'Logo' }}</span>
         </a>
 
         <!-- Mobile Menu Button -->
@@ -51,7 +51,7 @@
       <div class="w-full mx-auto mt-16 lg:gap-8 xl:gap-0 lg:mt-16">
         <!-- Responsive Image -->
         <img 
-          :src="store.pageData.css.navbar.navImg1" 
+          :src="store.pageData.standard.navbar.navImg1" 
           class="object-cover w-full h-auto" 
           alt="mockup" 
         />
@@ -61,25 +61,25 @@
 
   <section id="service" class="py-8 bg-white">
     <div class="container mx-auto ">
-      <h2 class="text-4xl font-bold text-center">{{store.pageData.css.services.title || 'Title' }}</h2>
-      <p class="max-w-lg mx-auto mt-4 text-center text-gray-600">{{store.pageData.css.services.subTitle}}</p>
+      <h2 class="text-4xl font-bold text-center">{{store.pageData.standard.services.title || 'Title' }}</h2>
+      <p class="max-w-lg mx-auto mt-4 text-center text-gray-600">{{store.pageData.standard.services.subTitle}}</p>
       <div class="grid gap-8 mt-8 md:grid-cols-2">
         <div>
-          <img :src="store.pageData.css.services.OurServicesImg" />
+          <img :src="store.pageData.standard.services.OurServicesImg" />
 
         </div>
         <div class="px-4 sm:px-8">
           <p class="max-w-lg mt-4 text-base leading-relaxed text-gray-600">
-            {{store.pageData.css.services.paragraph1 || 'sample' }}
+            {{store.pageData.standard.services.paragraph1 || 'sample' }}
             <br><br>
-            {{store.pageData.css.services.paragraph2 || 'sample' }}
+            {{store.pageData.standard.services.paragraph2 || 'sample' }}
             <br><br>
-            {{store.pageData.css.services.paragraph3 || 'sample'}}
+            {{store.pageData.standard.services.paragraph3 || 'sample'}}
           </p>
           
           <NuxtLink 
             to="/services" 
-            :class="[`inline-block px-6 py-2 mt-4 text-white transition-all bg-${store.pageData.css.btnColor} rounded-lg `,'bg-blue-900']">
+            :class="[`inline-block px-6 py-2 mt-4 text-white transition-all bg-${store.pageData.standard.btnColor} rounded-lg `,'bg-blue-900']">
             Learn More
           </NuxtLink>
         </div>
@@ -87,460 +87,28 @@
     </div>
   </section>
 
-  <section id="product" :class="`py-8 antialiased bg-gray-100 md:py-12`">
-    <div class="max-w-screen-xl px-4 mx-auto 2xl:px-0">
-      <!-- Heading & Filters -->
-      <div class="items-end justify-between mb-4 space-y-4 sm:flex sm:space-y-0 md:mb-8">
-        <div>
-          <h2 class="mt-3 text-xl font-semibold text-gray-900 dark:text-white sm:text-2xl">{{store.pageData.css.product.section2Title}}</h2>
-        </div>
-        <div class="flex items-center space-x-4">
-          <button data-modal-toggle="filterModal" data-modal-target="filterModal" type="button" class="flex items-center justify-center w-full px-3 py-2 text-sm font-medium text-gray-900 bg-white border border-gray-200 rounded-lg hover:bg-gray-100 hover:text-primary-700 focus:z-10 focus:outline-none focus:ring-4 focus:ring-gray-100 dark:border-gray-600 dark:bg-gray-800 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white dark:focus:ring-gray-700 sm:w-auto">
-            <svg class="-ms-0.5 me-2 h-4 w-4" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="none" viewBox="0 0 24 24">
-              <path stroke="currentColor" stroke-linecap="round" stroke-width="2" d="M18.796 4H5.204a1 1 0 0 0-.753 1.659l5.302 6.058a1 1 0 0 1 .247.659v4.874a.5.5 0 0 0 .2.4l3 2.25a.5.5 0 0 0 .8-.4v-7.124a1 1 0 0 1 .247-.659l5.302-6.059c.566-.646.106-1.658-.753-1.658Z" />
-            </svg>
-            Filters
-            <svg class="-me-0.5 ms-2 h-4 w-4" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="none" viewBox="0 0 24 24">
-              <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="m19 9-7 7-7-7" />
-            </svg>
-          </button>
-          <button id="sortDropdownButton1" data-dropdown-toggle="dropdownSort1" type="button" class="flex items-center justify-center w-full px-3 py-2 text-sm font-medium text-gray-900 bg-white border border-gray-200 rounded-lg hover:bg-gray-100 hover:text-primary-700 focus:z-10 focus:outline-none focus:ring-4 focus:ring-gray-100 dark:border-gray-600 dark:bg-gray-800 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white dark:focus:ring-gray-700 sm:w-auto">
-            <svg class="-ms-0.5 me-2 h-4 w-4" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="none" viewBox="0 0 24 24">
-              <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7 4v16M7 4l3 3M7 4 4 7m9-3h6l-6 6h6m-6.5 10 3.5-7 3.5 7M14 18h4" />
-            </svg>
-            Sort
-            <svg class="-me-0.5 ms-2 h-4 w-4" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="none" viewBox="0 0 24 24">
-              <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="m19 9-7 7-7-7" />
-            </svg>
-          </button>
-        </div>
+  <section id="product" class="px-4 py-12 bg-gradient-to-b from-gray-50 to-white">
+    <h2 class="mb-10 text-xl font-bold text-center text-gray-800 uppercase">
+      {{ store.pageData.standard.product.section2Title }}
+    </h2>
+  
+    <div class="grid grid-cols-1 gap-8 mx-auto sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-5 max-w-7xl">
+      
+      <!-- Product Card -->
+      <div class="p-4 text-center transition duration-300 bg-white shadow-md rounded-2xl hover:shadow-xl" 
+        v-for="(product, index) in store.pageData.standard.product.products"
+        :key="index"
+      >
+        <img :src="product.image" :alt="product.alt" class="object-cover w-full h-48 mb-4 rounded-lg" />
+        <p class="text-sm font-medium text-gray-700">{{ product.title }}</p>
+        <p class="mt-1 text-sm font-bold text-gray-900">{{ product.price }}</p>
+        <button class="mt-3 inline-block border-2 text-gray-600 text-xs font-semibold px-4 py-1.5 rounded-full hover:bg-gray-100 transition">Shop Now</button>
       </div>
-      <!-- product -->
-      <div class="grid gap-4 mb-4 sm:grid-cols-2 md:mb-8 lg:grid-cols-3 xl:grid-cols-4">
-        <div class="bg-white border border-gray-200 rounded-lg shadow-sm dark:border-gray-700 dark:bg-gray-800">
-          <div :class="`w-full h-56 bg-${store.pageData.css.product.productDetails.productBgColor}`">
-            <a href="#" class="">
-              <img class="h-full mx-auto dark:hidden" :src="store.pageData.css.product.productDetails.product1.productImg1" alt="" />
-              <img class="hidden h-full mx-auto dark:block" :src="store.pageData.css.product.productDetails.product1.productImg1" alt="" />
-            </a>
-          </div>
-
-          <div class="p-6 pt-6">
-            <div class="flex items-center justify-between gap-4 mb-4">
-              <span class="me-2 rounded bg-primary-100 px-2.5 py-0.5 text-xs font-medium text-primary-800 dark:bg-primary-900 dark:text-primary-300">{{store.pageData.css.product.productDetails.product1.discount}}</span>
-
-              <div class="flex items-center justify-end gap-1">
-                <button type="button" data-tooltip-target="tooltip-quick-look-6" class="p-2 text-gray-500 rounded-lg hover:bg-gray-100 hover:text-gray-900 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white">
-                  <span class="sr-only"> Quick look </span>
-                  <svg class="w-5 h-5" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="none" viewBox="0 0 24 24">
-                    <path stroke="currentColor" stroke-width="2" d="M21 12c0 1.2-4.03 6-9 6s-9-4.8-9-6c0-1.2 4.03-6 9-6s9 4.8 9 6Z" />
-                    <path stroke="currentColor" stroke-width="2" d="M15 12a3 3 0 1 1-6 0 3 3 0 0 1 6 0Z" />
-                  </svg>
-                </button>
-                <div id="tooltip-quick-look-6" role="tooltip" class="absolute z-10 invisible inline-block px-3 py-2 text-sm font-medium text-white transition-opacity duration-300 bg-gray-900 rounded-lg shadow-sm opacity-0 tooltip dark:bg-gray-700" data-popper-placement="top">
-                  Quick look
-                  <div class="tooltip-arrow" data-popper-arrow=""></div>
-                </div>
-
-                <button type="button" data-tooltip-target="tooltip-add-to-favorites-6" class="p-2 text-gray-500 rounded-lg hover:bg-gray-100 hover:text-gray-900 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white">
-                  <span class="sr-only"> Add to Favorites </span>
-                  <svg class="w-5 h-5" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
-                    <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6C6.5 1 1 8 5.8 13l6.2 7 6.2-7C23 8 17.5 1 12 6Z" />
-                  </svg>
-                </button>
-                <div id="tooltip-add-to-favorites-6" role="tooltip" class="absolute z-10 invisible inline-block px-3 py-2 text-sm font-medium text-white transition-opacity duration-300 bg-gray-900 rounded-lg shadow-sm opacity-0 tooltip dark:bg-gray-700" data-popper-placement="top">
-                  Add to favorites
-                  <div class="tooltip-arrow" data-popper-arrow=""></div>
-                </div>
-              </div>
-            </div>
-
-            <a href="#" class="text-lg font-semibold leading-tight text-gray-900 hover:underline dark:text-white">{{store.pageData.css.product.productDetails.product1.name}}</a>
-
-            <div class="flex items-center gap-2 mt-2">
-              <div class="flex items-center">
-                <svg class="w-4 h-4 text-yellow-400" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 24 24">
-                  <path d="M13.8 4.2a2 2 0 0 0-3.6 0L8.4 8.4l-4.6.3a2 2 0 0 0-1.1 3.5l3.5 3-1 4.4c-.5 1.7 1.4 3 2.9 2.1l3.9-2.3 3.9 2.3c1.5 1 3.4-.4 3-2.1l-1-4.4 3.4-3a2 2 0 0 0-1.1-3.5l-4.6-.3-1.8-4.2Z" />
-                </svg>
-
-                <svg class="w-4 h-4 text-yellow-400" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 24 24">
-                  <path d="M13.8 4.2a2 2 0 0 0-3.6 0L8.4 8.4l-4.6.3a2 2 0 0 0-1.1 3.5l3.5 3-1 4.4c-.5 1.7 1.4 3 2.9 2.1l3.9-2.3 3.9 2.3c1.5 1 3.4-.4 3-2.1l-1-4.4 3.4-3a2 2 0 0 0-1.1-3.5l-4.6-.3-1.8-4.2Z" />
-                </svg>
-
-                <svg class="w-4 h-4 text-yellow-400" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 24 24">
-                  <path d="M13.8 4.2a2 2 0 0 0-3.6 0L8.4 8.4l-4.6.3a2 2 0 0 0-1.1 3.5l3.5 3-1 4.4c-.5 1.7 1.4 3 2.9 2.1l3.9-2.3 3.9 2.3c1.5 1 3.4-.4 3-2.1l-1-4.4 3.4-3a2 2 0 0 0-1.1-3.5l-4.6-.3-1.8-4.2Z" />
-                </svg>
-
-                <svg class="w-4 h-4 text-yellow-400" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 24 24">
-                  <path d="M13.8 4.2a2 2 0 0 0-3.6 0L8.4 8.4l-4.6.3a2 2 0 0 0-1.1 3.5l3.5 3-1 4.4c-.5 1.7 1.4 3 2.9 2.1l3.9-2.3 3.9 2.3c1.5 1 3.4-.4 3-2.1l-1-4.4 3.4-3a2 2 0 0 0-1.1-3.5l-4.6-.3-1.8-4.2Z" />
-                </svg>
-
-                <svg class="w-4 h-4 text-yellow-400" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 24 24">
-                  <path d="M13.8 4.2a2 2 0 0 0-3.6 0L8.4 8.4l-4.6.3a2 2 0 0 0-1.1 3.5l3.5 3-1 4.4c-.5 1.7 1.4 3 2.9 2.1l3.9-2.3 3.9 2.3c1.5 1 3.4-.4 3-2.1l-1-4.4 3.4-3a2 2 0 0 0-1.1-3.5l-4.6-.3-1.8-4.2Z" />
-                </svg>
-              </div>
-
-              <p class="text-sm font-medium text-gray-900 dark:text-white">4.9</p>
-              <p class="text-sm font-medium text-gray-500 dark:text-gray-400">(1,076)</p>
-            </div>
-
-            <ul class="flex items-center gap-4 mt-2">
-              <li class="flex items-center gap-2">
-                <svg class="w-4 h-4 text-gray-500 dark:text-gray-400" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
-                  <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 7h6l2 4m-8-4v8m0-8V6a1 1 0 0 0-1-1H4a1 1 0 0 0-1 1v9h2m8 0H9m4 0h2m4 0h2v-4m0 0h-5m3.5 5.5a2.5 2.5 0 1 1-5 0 2.5 2.5 0 0 1 5 0Zm-10 0a2.5 2.5 0 1 1-5 0 2.5 2.5 0 0 1 5 0Z" />
-                </svg>
-                <p class="text-sm font-medium text-gray-500 dark:text-gray-400">Fast Delivery</p>
-              </li>
-
-              <li class="flex items-center gap-2">
-                <svg class="w-4 h-4 text-gray-500 dark:text-gray-400" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
-                  <path stroke="currentColor" stroke-linecap="round" stroke-width="2" d="M8 7V6c0-.6.4-1 1-1h11c.6 0 1 .4 1 1v7c0 .6-.4 1-1 1h-1M3 18v-7c0-.6.4-1 1-1h11c.6 0 1 .4 1 1v7c0 .6-.4 1-1 1H4a1 1 0 0 1-1-1Zm8-3.5a1.5 1.5 0 1 1-3 0 1.5 1.5 0 0 1 3 0Z" />
-                </svg>
-                <p class="text-sm font-medium text-gray-500 dark:text-gray-400">Best Price</p>
-              </li>
-            </ul>
-
-            <div class="flex items-center justify-between gap-4 mt-4">
-              <p class="text-2xl font-extrabold leading-tight text-gray-900 dark:text-white">Rs.{{store.pageData.css.product.productDetails.product1.price}}</p>
-            </div>
-            <div class="flex items-center justify-between gap-4 mt-4">
-              <button 
-                type="button" 
-                :class="[
-                  'inline-flex items-center justify-center rounded-lg border-2 px-5 py-2.5 text-sm font-medium text-black focus:outline-none focus:ring-4',
-                  `border-${store.pageData.css.btnColor}`,   
-                  `hover:bg-${store.pageData.css.btnColor}`,
-                  'hover:text-black'
-                ]"
-              >
-                <svg class="w-5 h-5 -ms-2 me-2" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="none" viewBox="0 0 24 24">
-                  <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 4h1.5L8 16m0 0h8m-8 0a2 2 0 1 0 0 4 2 2 0 0 0 0-4Zm8 0a2 2 0 1 0 0 4 2 2 0 0 0 0-4Zm.75-3H7.5M11 7H6.312M17 4v6m-3-3h6" />
-                </svg>
-                Add to cart
-              </button>
-            </div>
-          </div>
-        </div>
-
-        <div class="bg-white border border-gray-200 rounded-lg shadow-sm dark:border-gray-700 dark:bg-gray-800">
-          <div :class="`w-full h-56 bg-${store.pageData.css.product.productDetails.productBgColor}`">
-            <a href="#" class="">
-              <img class="h-full mx-auto dark:hidden" :src="store.pageData.css.product.productDetails.product2.productImg2" alt="" />
-              <img class="hidden h-full mx-auto dark:block" :src="store.pageData.css.product.productDetails.product2.productImg2" alt="" />
-            </a>
-          </div>
-
-          <div class="p-6 pt-6">
-            <div class="flex items-center justify-between gap-4 mb-4">
-              <span class="me-2 rounded bg-primary-100 px-2.5 py-0.5 text-xs font-medium text-primary-800 dark:bg-primary-900 dark:text-primary-300">{{store.pageData.css.product.productDetails.product2.discount}}</span>
-
-              <div class="flex items-center justify-end gap-1">
-                <button type="button" data-tooltip-target="tooltip-quick-look-6" class="p-2 text-gray-500 rounded-lg hover:bg-gray-100 hover:text-gray-900 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white">
-                  <span class="sr-only"> Quick look </span>
-                  <svg class="w-5 h-5" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="none" viewBox="0 0 24 24">
-                    <path stroke="currentColor" stroke-width="2" d="M21 12c0 1.2-4.03 6-9 6s-9-4.8-9-6c0-1.2 4.03-6 9-6s9 4.8 9 6Z" />
-                    <path stroke="currentColor" stroke-width="2" d="M15 12a3 3 0 1 1-6 0 3 3 0 0 1 6 0Z" />
-                  </svg>
-                </button>
-                <div id="tooltip-quick-look-6" role="tooltip" class="absolute z-10 invisible inline-block px-3 py-2 text-sm font-medium text-white transition-opacity duration-300 bg-gray-900 rounded-lg shadow-sm opacity-0 tooltip dark:bg-gray-700" data-popper-placement="top">
-                  Quick look
-                  <div class="tooltip-arrow" data-popper-arrow=""></div>
-                </div>
-
-                <button type="button" data-tooltip-target="tooltip-add-to-favorites-6" class="p-2 text-gray-500 rounded-lg hover:bg-gray-100 hover:text-gray-900 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white">
-                  <span class="sr-only"> Add to Favorites </span>
-                  <svg class="w-5 h-5" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
-                    <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6C6.5 1 1 8 5.8 13l6.2 7 6.2-7C23 8 17.5 1 12 6Z" />
-                  </svg>
-                </button>
-                <div id="tooltip-add-to-favorites-6" role="tooltip" class="absolute z-10 invisible inline-block px-3 py-2 text-sm font-medium text-white transition-opacity duration-300 bg-gray-900 rounded-lg shadow-sm opacity-0 tooltip dark:bg-gray-700" data-popper-placement="top">
-                  Add to favorites
-                  <div class="tooltip-arrow" data-popper-arrow=""></div>
-                </div>
-              </div>
-            </div>
-
-            <a href="#" class="text-lg font-semibold leading-tight text-gray-900 hover:underline dark:text-white">{{store.pageData.css.product.productDetails.product2.name}}</a>
-
-            <div class="flex items-center gap-2 mt-2">
-              <div class="flex items-center">
-                <svg class="w-4 h-4 text-yellow-400" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 24 24">
-                  <path d="M13.8 4.2a2 2 0 0 0-3.6 0L8.4 8.4l-4.6.3a2 2 0 0 0-1.1 3.5l3.5 3-1 4.4c-.5 1.7 1.4 3 2.9 2.1l3.9-2.3 3.9 2.3c1.5 1 3.4-.4 3-2.1l-1-4.4 3.4-3a2 2 0 0 0-1.1-3.5l-4.6-.3-1.8-4.2Z" />
-                </svg>
-
-                <svg class="w-4 h-4 text-yellow-400" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 24 24">
-                  <path d="M13.8 4.2a2 2 0 0 0-3.6 0L8.4 8.4l-4.6.3a2 2 0 0 0-1.1 3.5l3.5 3-1 4.4c-.5 1.7 1.4 3 2.9 2.1l3.9-2.3 3.9 2.3c1.5 1 3.4-.4 3-2.1l-1-4.4 3.4-3a2 2 0 0 0-1.1-3.5l-4.6-.3-1.8-4.2Z" />
-                </svg>
-
-                <svg class="w-4 h-4 text-yellow-400" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 24 24">
-                  <path d="M13.8 4.2a2 2 0 0 0-3.6 0L8.4 8.4l-4.6.3a2 2 0 0 0-1.1 3.5l3.5 3-1 4.4c-.5 1.7 1.4 3 2.9 2.1l3.9-2.3 3.9 2.3c1.5 1 3.4-.4 3-2.1l-1-4.4 3.4-3a2 2 0 0 0-1.1-3.5l-4.6-.3-1.8-4.2Z" />
-                </svg>
-
-                <svg class="w-4 h-4 text-yellow-400" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 24 24">
-                  <path d="M13.8 4.2a2 2 0 0 0-3.6 0L8.4 8.4l-4.6.3a2 2 0 0 0-1.1 3.5l3.5 3-1 4.4c-.5 1.7 1.4 3 2.9 2.1l3.9-2.3 3.9 2.3c1.5 1 3.4-.4 3-2.1l-1-4.4 3.4-3a2 2 0 0 0-1.1-3.5l-4.6-.3-1.8-4.2Z" />
-                </svg>
-
-                <svg class="w-4 h-4 text-yellow-400" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 24 24">
-                  <path d="M13.8 4.2a2 2 0 0 0-3.6 0L8.4 8.4l-4.6.3a2 2 0 0 0-1.1 3.5l3.5 3-1 4.4c-.5 1.7 1.4 3 2.9 2.1l3.9-2.3 3.9 2.3c1.5 1 3.4-.4 3-2.1l-1-4.4 3.4-3a2 2 0 0 0-1.1-3.5l-4.6-.3-1.8-4.2Z" />
-                </svg>
-              </div>
-
-              <p class="text-sm font-medium text-gray-900 dark:text-white">4.9</p>
-              <p class="text-sm font-medium text-gray-500 dark:text-gray-400">(1,076)</p>
-            </div>
-
-            <ul class="flex items-center gap-4 mt-2">
-              <li class="flex items-center gap-2">
-                <svg class="w-4 h-4 text-gray-500 dark:text-gray-400" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
-                  <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 7h6l2 4m-8-4v8m0-8V6a1 1 0 0 0-1-1H4a1 1 0 0 0-1 1v9h2m8 0H9m4 0h2m4 0h2v-4m0 0h-5m3.5 5.5a2.5 2.5 0 1 1-5 0 2.5 2.5 0 0 1 5 0Zm-10 0a2.5 2.5 0 1 1-5 0 2.5 2.5 0 0 1 5 0Z" />
-                </svg>
-                <p class="text-sm font-medium text-gray-500 dark:text-gray-400">Fast Delivery</p>
-              </li>
-
-              <li class="flex items-center gap-2">
-                <svg class="w-4 h-4 text-gray-500 dark:text-gray-400" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
-                  <path stroke="currentColor" stroke-linecap="round" stroke-width="2" d="M8 7V6c0-.6.4-1 1-1h11c.6 0 1 .4 1 1v7c0 .6-.4 1-1 1h-1M3 18v-7c0-.6.4-1 1-1h11c.6 0 1 .4 1 1v7c0 .6-.4 1-1 1H4a1 1 0 0 1-1-1Zm8-3.5a1.5 1.5 0 1 1-3 0 1.5 1.5 0 0 1 3 0Z" />
-                </svg>
-                <p class="text-sm font-medium text-gray-500 dark:text-gray-400">Best Price</p>
-              </li>
-            </ul>
-
-            <div class="flex items-center justify-between gap-4 mt-4">
-              <p class="text-2xl font-extrabold leading-tight text-gray-900 dark:text-white">Rs.{{store.pageData.css.product.productDetails.product1.price}}</p>
-            </div>
-            <div class="flex items-center justify-between gap-4 mt-4">
-              <button 
-                type="button" 
-                :class="[
-                  'inline-flex items-center justify-center rounded-lg border-2 px-5 py-2.5 text-sm font-medium text-black focus:outline-none focus:ring-4',
-                  `border-${store.pageData.css.btnColor}`,   
-                  `hover:bg-${store.pageData.css.btnColor}`,
-                  'hover:text-black'
-                ]"
-              >
-                <svg class="w-5 h-5 -ms-2 me-2" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="none" viewBox="0 0 24 24">
-                  <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 4h1.5L8 16m0 0h8m-8 0a2 2 0 1 0 0 4 2 2 0 0 0 0-4Zm8 0a2 2 0 1 0 0 4 2 2 0 0 0 0-4Zm.75-3H7.5M11 7H6.312M17 4v6m-3-3h6" />
-                </svg>
-                Add to cart
-              </button>
-            </div>
-          </div>
-        </div>
-
-        <div class="bg-white border border-gray-200 rounded-lg shadow-sm dark:border-gray-700 dark:bg-gray-800">
-          <div :class="`w-full h-56 bg-${store.pageData.css.product.productDetails.productBgColor}`">
-            <a href="#" class="">
-              <img class="h-full mx-auto dark:hidden" :src="store.pageData.css.product.productDetails.product3.productImg3" alt="" />
-              <img class="hidden h-full mx-auto dark:block" :src="store.pageData.css.product.productDetails.product3.productImg3" alt="" />
-            </a>
-          </div>
-
-          <div class="p-6 pt-6">
-            <div class="flex items-center justify-between gap-4 mb-4">
-              <span class="me-2 rounded bg-primary-100 px-2.5 py-0.5 text-xs font-medium text-primary-800 dark:bg-primary-900 dark:text-primary-300">{{store.pageData.css.product.productDetails.product1.discount}}</span>
-
-              <div class="flex items-center justify-end gap-1">
-                <button type="button" data-tooltip-target="tooltip-quick-look-6" class="p-2 text-gray-500 rounded-lg hover:bg-gray-100 hover:text-gray-900 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white">
-                  <span class="sr-only"> Quick look </span>
-                  <svg class="w-5 h-5" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="none" viewBox="0 0 24 24">
-                    <path stroke="currentColor" stroke-width="2" d="M21 12c0 1.2-4.03 6-9 6s-9-4.8-9-6c0-1.2 4.03-6 9-6s9 4.8 9 6Z" />
-                    <path stroke="currentColor" stroke-width="2" d="M15 12a3 3 0 1 1-6 0 3 3 0 0 1 6 0Z" />
-                  </svg>
-                </button>
-                <div id="tooltip-quick-look-6" role="tooltip" class="absolute z-10 invisible inline-block px-3 py-2 text-sm font-medium text-white transition-opacity duration-300 bg-gray-900 rounded-lg shadow-sm opacity-0 tooltip dark:bg-gray-700" data-popper-placement="top">
-                  Quick look
-                  <div class="tooltip-arrow" data-popper-arrow=""></div>
-                </div>
-
-                <button type="button" data-tooltip-target="tooltip-add-to-favorites-6" class="p-2 text-gray-500 rounded-lg hover:bg-gray-100 hover:text-gray-900 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white">
-                  <span class="sr-only"> Add to Favorites </span>
-                  <svg class="w-5 h-5" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
-                    <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6C6.5 1 1 8 5.8 13l6.2 7 6.2-7C23 8 17.5 1 12 6Z" />
-                  </svg>
-                </button>
-                <div id="tooltip-add-to-favorites-6" role="tooltip" class="absolute z-10 invisible inline-block px-3 py-2 text-sm font-medium text-white transition-opacity duration-300 bg-gray-900 rounded-lg shadow-sm opacity-0 tooltip dark:bg-gray-700" data-popper-placement="top">
-                  Add to favorites
-                  <div class="tooltip-arrow" data-popper-arrow=""></div>
-                </div>
-              </div>
-            </div>
-
-            <a href="#" class="text-lg font-semibold leading-tight text-gray-900 hover:underline dark:text-white">{{store.pageData.css.product.productDetails.product3.name}}</a>
-
-            <div class="flex items-center gap-2 mt-2">
-              <div class="flex items-center">
-                <svg class="w-4 h-4 text-yellow-400" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 24 24">
-                  <path d="M13.8 4.2a2 2 0 0 0-3.6 0L8.4 8.4l-4.6.3a2 2 0 0 0-1.1 3.5l3.5 3-1 4.4c-.5 1.7 1.4 3 2.9 2.1l3.9-2.3 3.9 2.3c1.5 1 3.4-.4 3-2.1l-1-4.4 3.4-3a2 2 0 0 0-1.1-3.5l-4.6-.3-1.8-4.2Z" />
-                </svg>
-
-                <svg class="w-4 h-4 text-yellow-400" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 24 24">
-                  <path d="M13.8 4.2a2 2 0 0 0-3.6 0L8.4 8.4l-4.6.3a2 2 0 0 0-1.1 3.5l3.5 3-1 4.4c-.5 1.7 1.4 3 2.9 2.1l3.9-2.3 3.9 2.3c1.5 1 3.4-.4 3-2.1l-1-4.4 3.4-3a2 2 0 0 0-1.1-3.5l-4.6-.3-1.8-4.2Z" />
-                </svg>
-
-                <svg class="w-4 h-4 text-yellow-400" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 24 24">
-                  <path d="M13.8 4.2a2 2 0 0 0-3.6 0L8.4 8.4l-4.6.3a2 2 0 0 0-1.1 3.5l3.5 3-1 4.4c-.5 1.7 1.4 3 2.9 2.1l3.9-2.3 3.9 2.3c1.5 1 3.4-.4 3-2.1l-1-4.4 3.4-3a2 2 0 0 0-1.1-3.5l-4.6-.3-1.8-4.2Z" />
-                </svg>
-
-                <svg class="w-4 h-4 text-yellow-400" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 24 24">
-                  <path d="M13.8 4.2a2 2 0 0 0-3.6 0L8.4 8.4l-4.6.3a2 2 0 0 0-1.1 3.5l3.5 3-1 4.4c-.5 1.7 1.4 3 2.9 2.1l3.9-2.3 3.9 2.3c1.5 1 3.4-.4 3-2.1l-1-4.4 3.4-3a2 2 0 0 0-1.1-3.5l-4.6-.3-1.8-4.2Z" />
-                </svg>
-
-                <svg class="w-4 h-4 text-yellow-400" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 24 24">
-                  <path d="M13.8 4.2a2 2 0 0 0-3.6 0L8.4 8.4l-4.6.3a2 2 0 0 0-1.1 3.5l3.5 3-1 4.4c-.5 1.7 1.4 3 2.9 2.1l3.9-2.3 3.9 2.3c1.5 1 3.4-.4 3-2.1l-1-4.4 3.4-3a2 2 0 0 0-1.1-3.5l-4.6-.3-1.8-4.2Z" />
-                </svg>
-              </div>
-
-              <p class="text-sm font-medium text-gray-900 dark:text-white">4.9</p>
-              <p class="text-sm font-medium text-gray-500 dark:text-gray-400">(1,076)</p>
-            </div>
-
-            <ul class="flex items-center gap-4 mt-2">
-              <li class="flex items-center gap-2">
-                <svg class="w-4 h-4 text-gray-500 dark:text-gray-400" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
-                  <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 7h6l2 4m-8-4v8m0-8V6a1 1 0 0 0-1-1H4a1 1 0 0 0-1 1v9h2m8 0H9m4 0h2m4 0h2v-4m0 0h-5m3.5 5.5a2.5 2.5 0 1 1-5 0 2.5 2.5 0 0 1 5 0Zm-10 0a2.5 2.5 0 1 1-5 0 2.5 2.5 0 0 1 5 0Z" />
-                </svg>
-                <p class="text-sm font-medium text-gray-500 dark:text-gray-400">Fast Delivery</p>
-              </li>
-
-              <li class="flex items-center gap-2">
-                <svg class="w-4 h-4 text-gray-500 dark:text-gray-400" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
-                  <path stroke="currentColor" stroke-linecap="round" stroke-width="2" d="M8 7V6c0-.6.4-1 1-1h11c.6 0 1 .4 1 1v7c0 .6-.4 1-1 1h-1M3 18v-7c0-.6.4-1 1-1h11c.6 0 1 .4 1 1v7c0 .6-.4 1-1 1H4a1 1 0 0 1-1-1Zm8-3.5a1.5 1.5 0 1 1-3 0 1.5 1.5 0 0 1 3 0Z" />
-                </svg>
-                <p class="text-sm font-medium text-gray-500 dark:text-gray-400">Best Price</p>
-              </li>
-            </ul>
-
-            <div class="flex items-center justify-between gap-4 mt-4">
-              <p class="text-2xl font-extrabold leading-tight text-gray-900 dark:text-white">Rs.{{store.pageData.css.product.productDetails.product3.price}}</p>
-            </div>
-            <div class="flex items-center justify-between gap-4 mt-4">
-              <button 
-                type="button" 
-                :class="[
-                  'inline-flex items-center justify-center rounded-lg border-2 px-5 py-2.5 text-sm font-medium text-black focus:outline-none focus:ring-4',
-                  `border-${store.pageData.css.btnColor}`,   
-                  `hover:bg-${store.pageData.css.btnColor}`,
-                  'hover:text-black'
-                ]"
-              >
-                <svg class="w-5 h-5 -ms-2 me-2" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="none" viewBox="0 0 24 24">
-                  <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 4h1.5L8 16m0 0h8m-8 0a2 2 0 1 0 0 4 2 2 0 0 0 0-4Zm8 0a2 2 0 1 0 0 4 2 2 0 0 0 0-4Zm.75-3H7.5M11 7H6.312M17 4v6m-3-3h6" />
-                </svg>
-                Add to cart
-              </button>
-            </div>
-          </div>
-        </div>
-
-        <div class="bg-white border border-gray-200 rounded-lg shadow-sm dark:border-gray-700 dark:bg-gray-800">
-          <div :class="`w-full h-56 bg-${store.pageData.css.product.productDetails.productBgColor}`">
-            <a href="#" class="">
-              <img class="h-full mx-auto dark:hidden" :src="store.pageData.css.product.productDetails.product4.productImg4" alt="" />
-              <img class="hidden h-full mx-auto dark:block" :src="store.pageData.css.product.productDetails.product4.productImg4" alt="" />
-            </a>
-          </div>
-
-          <div class="p-6 pt-6">
-            <div class="flex items-center justify-between gap-4 mb-4">
-              <span class="me-2 rounded bg-primary-100 px-2.5 py-0.5 text-xs font-medium text-primary-800 dark:bg-primary-900 dark:text-primary-300">{{store.pageData.css.product.productDetails.product1.discount}}</span>
-
-              <div class="flex items-center justify-end gap-1">
-                <button type="button" data-tooltip-target="tooltip-quick-look-6" class="p-2 text-gray-500 rounded-lg hover:bg-gray-100 hover:text-gray-900 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white">
-                  <span class="sr-only"> Quick look </span>
-                  <svg class="w-5 h-5" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="none" viewBox="0 0 24 24">
-                    <path stroke="currentColor" stroke-width="2" d="M21 12c0 1.2-4.03 6-9 6s-9-4.8-9-6c0-1.2 4.03-6 9-6s9 4.8 9 6Z" />
-                    <path stroke="currentColor" stroke-width="2" d="M15 12a3 3 0 1 1-6 0 3 3 0 0 1 6 0Z" />
-                  </svg>
-                </button>
-                <div id="tooltip-quick-look-6" role="tooltip" class="absolute z-10 invisible inline-block px-3 py-2 text-sm font-medium text-white transition-opacity duration-300 bg-gray-900 rounded-lg shadow-sm opacity-0 tooltip dark:bg-gray-700" data-popper-placement="top">
-                  Quick look
-                  <div class="tooltip-arrow" data-popper-arrow=""></div>
-                </div>
-
-                <button type="button" data-tooltip-target="tooltip-add-to-favorites-6" class="p-2 text-gray-500 rounded-lg hover:bg-gray-100 hover:text-gray-900 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white">
-                  <span class="sr-only"> Add to Favorites </span>
-                  <svg class="w-5 h-5" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
-                    <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6C6.5 1 1 8 5.8 13l6.2 7 6.2-7C23 8 17.5 1 12 6Z" />
-                  </svg>
-                </button>
-                <div id="tooltip-add-to-favorites-6" role="tooltip" class="absolute z-10 invisible inline-block px-3 py-2 text-sm font-medium text-white transition-opacity duration-300 bg-gray-900 rounded-lg shadow-sm opacity-0 tooltip dark:bg-gray-700" data-popper-placement="top">
-                  Add to favorites
-                  <div class="tooltip-arrow" data-popper-arrow=""></div>
-                </div>
-              </div>
-            </div>
-
-            <a href="#" class="text-lg font-semibold leading-tight text-gray-900 hover:underline dark:text-white">{{store.pageData.css.product.productDetails.product4.name}}</a>
-
-            <div class="flex items-center gap-2 mt-2">
-              <div class="flex items-center">
-                <svg class="w-4 h-4 text-yellow-400" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 24 24">
-                  <path d="M13.8 4.2a2 2 0 0 0-3.6 0L8.4 8.4l-4.6.3a2 2 0 0 0-1.1 3.5l3.5 3-1 4.4c-.5 1.7 1.4 3 2.9 2.1l3.9-2.3 3.9 2.3c1.5 1 3.4-.4 3-2.1l-1-4.4 3.4-3a2 2 0 0 0-1.1-3.5l-4.6-.3-1.8-4.2Z" />
-                </svg>
-
-                <svg class="w-4 h-4 text-yellow-400" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 24 24">
-                  <path d="M13.8 4.2a2 2 0 0 0-3.6 0L8.4 8.4l-4.6.3a2 2 0 0 0-1.1 3.5l3.5 3-1 4.4c-.5 1.7 1.4 3 2.9 2.1l3.9-2.3 3.9 2.3c1.5 1 3.4-.4 3-2.1l-1-4.4 3.4-3a2 2 0 0 0-1.1-3.5l-4.6-.3-1.8-4.2Z" />
-                </svg>
-
-                <svg class="w-4 h-4 text-yellow-400" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 24 24">
-                  <path d="M13.8 4.2a2 2 0 0 0-3.6 0L8.4 8.4l-4.6.3a2 2 0 0 0-1.1 3.5l3.5 3-1 4.4c-.5 1.7 1.4 3 2.9 2.1l3.9-2.3 3.9 2.3c1.5 1 3.4-.4 3-2.1l-1-4.4 3.4-3a2 2 0 0 0-1.1-3.5l-4.6-.3-1.8-4.2Z" />
-                </svg>
-
-                <svg class="w-4 h-4 text-yellow-400" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 24 24">
-                  <path d="M13.8 4.2a2 2 0 0 0-3.6 0L8.4 8.4l-4.6.3a2 2 0 0 0-1.1 3.5l3.5 3-1 4.4c-.5 1.7 1.4 3 2.9 2.1l3.9-2.3 3.9 2.3c1.5 1 3.4-.4 3-2.1l-1-4.4 3.4-3a2 2 0 0 0-1.1-3.5l-4.6-.3-1.8-4.2Z" />
-                </svg>
-
-                <svg class="w-4 h-4 text-yellow-400" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 24 24">
-                  <path d="M13.8 4.2a2 2 0 0 0-3.6 0L8.4 8.4l-4.6.3a2 2 0 0 0-1.1 3.5l3.5 3-1 4.4c-.5 1.7 1.4 3 2.9 2.1l3.9-2.3 3.9 2.3c1.5 1 3.4-.4 3-2.1l-1-4.4 3.4-3a2 2 0 0 0-1.1-3.5l-4.6-.3-1.8-4.2Z" />
-                </svg>
-              </div>
-
-              <p class="text-sm font-medium text-gray-900 dark:text-white">4.9</p>
-              <p class="text-sm font-medium text-gray-500 dark:text-gray-400">(1,076)</p>
-            </div>
-
-            <ul class="flex items-center gap-4 mt-2">
-              <li class="flex items-center gap-2">
-                <svg class="w-4 h-4 text-gray-500 dark:text-gray-400" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
-                  <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 7h6l2 4m-8-4v8m0-8V6a1 1 0 0 0-1-1H4a1 1 0 0 0-1 1v9h2m8 0H9m4 0h2m4 0h2v-4m0 0h-5m3.5 5.5a2.5 2.5 0 1 1-5 0 2.5 2.5 0 0 1 5 0Zm-10 0a2.5 2.5 0 1 1-5 0 2.5 2.5 0 0 1 5 0Z" />
-                </svg>
-                <p class="text-sm font-medium text-gray-500 dark:text-gray-400">Fast Delivery</p>
-              </li>
-
-              <li class="flex items-center gap-2">
-                <svg class="w-4 h-4 text-gray-500 dark:text-gray-400" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
-                  <path stroke="currentColor" stroke-linecap="round" stroke-width="2" d="M8 7V6c0-.6.4-1 1-1h11c.6 0 1 .4 1 1v7c0 .6-.4 1-1 1h-1M3 18v-7c0-.6.4-1 1-1h11c.6 0 1 .4 1 1v7c0 .6-.4 1-1 1H4a1 1 0 0 1-1-1Zm8-3.5a1.5 1.5 0 1 1-3 0 1.5 1.5 0 0 1 3 0Z" />
-                </svg>
-                <p class="text-sm font-medium text-gray-500 dark:text-gray-400">Best Price</p>
-              </li>
-            </ul>
-
-            <div class="flex items-center justify-between gap-4 mt-4">
-              <p class="text-2xl font-extrabold leading-tight text-gray-900 dark:text-white">Rs.{{store.pageData.css.product.productDetails.product4.price}}</p>
-            </div>
-            <div class="flex items-center justify-between gap-4 mt-4">
-              <button 
-                type="button" 
-                :class="[
-                  'inline-flex items-center justify-center rounded-lg border-2 px-5 py-2.5 text-sm font-medium text-black focus:outline-none focus:ring-4',
-                  `border-${store.pageData.css.btnColor}`,   
-                  `hover:bg-${store.pageData.css.btnColor}`,
-                  'hover:text-black'
-                ]"
-              >
-                <svg class="w-5 h-5 -ms-2 me-2" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="none" viewBox="0 0 24 24">
-                  <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 4h1.5L8 16m0 0h8m-8 0a2 2 0 1 0 0 4 2 2 0 0 0 0-4Zm8 0a2 2 0 1 0 0 4 2 2 0 0 0 0-4Zm.75-3H7.5M11 7H6.312M17 4v6m-3-3h6" />
-                </svg>
-                Add to cart
-              </button>
-            </div>
-          </div>
-        </div>
-
-      </div>
-      <div class="w-full text-center">
-        <button type="button" :class="[`rounded-lg border border-${store.pageData.css.btnColor}  px-5 py-2.5 text-sm font-medium text-gray-900 hover:bg-gray-100 hover:text-primary-700 focus:z-10 focus:outline-none focus:ring-4 focus:ring-gray-100 dark:border-gray-600 dark:bg-gray-800 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white dark:focus:ring-gray-700`, 'border-gray-600']">Show more</button>
-      </div>
+  
+      
+    </div>
+    <div class="mt-6 text-2xl font-bold text-center text-gray-800 uppercase">
+      <button class="mt-3 inline-block border-2 text-gray-600 text-xs font-semibold px-4 py-1.5 rounded-full hover:bg-gray-100 transition">Shop Other</button>
     </div>
   </section>
 
@@ -588,46 +156,18 @@
     
   <section id="contact" class="py-8 antialiased md:py-16">
     <div class="grid max-w-screen-xl grid-cols-2 gap-8 px-4 mx-auto text-gray-500 dark:text-gray-400 sm:grid-cols-3 sm:gap-12 lg:grid-cols-6">
-      <a href="#" class="flex items-center md:justify-center">
+      <a
+        href="#"
+        class="flex items-center justify-center p-4 transition-transform duration-500 ease-in-out transform "
+        v-for="(product, index) in store.pageData.standard.brand"
+        :key="index"
+        data-aos="fade-up"
+        :data-aos-delay="index * 100"
+      >
         <img 
-          src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSfdbmcwxOGNJpIncH4RuLgWzQjNGnXJgzFzsSyRxFfIUzdgQCwHDbLbfeWlIc_3D70KmE&usqp=CAUg" 
-          class="object-cover w-full h-auto" 
-          alt="mockup" 
-        />
-      </a>
-      <a href="#" class="flex items-center md:justify-center">
-        <img 
-          src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTSRUrkrNkGAgreGVdPun-upZiPRcpZzf_oyA&s" 
-          class="object-cover w-full h-auto" 
-          alt="mockup" 
-        />
-      </a>
-      <a href="#" class="flex items-center md:justify-center">
-        <img 
-          src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTKCSXc039TSXrlop1Qlx6XLaTfL7aGz49NzA&s" 
-          class="object-cover w-full h-auto" 
-          alt="mockup" 
-        />
-      </a>
-      <a href="#" class="flex items-center md:justify-center">
-        <img 
-          src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTzauVhVXcdXcwh82ID82C50vvf1106Sm9Ogg&s" 
-          class="object-cover w-full h-auto" 
-          alt="mockup" 
-        />
-      </a>
-      <a href="#" class="flex items-center md:justify-center">
-        <img 
-          src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRsoGXzWn6B9Wf0Cu0EEXVActiShg8jfG1QaA&s" 
-          class="object-cover w-full h-auto" 
-          alt="mockup" 
-        />
-      </a>
-      <a href="#" class="flex items-center md:justify-center">
-        <img 
-          src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTlnlbQKyeZnutwavifhGkk3NJinRyqzB3BGw&s" 
-          class="object-cover w-full h-auto" 
-          alt="mockup" 
+          :src="product.image"
+          class="object-contain w-20 h-20"
+          alt="brand logo" 
         />
       </a>
     </div>
@@ -638,10 +178,10 @@
     <div class="relative z-10 grid max-w-screen-xl grid-cols-1 gap-12 px-6 mx-auto md:grid-cols-2">
       <div>
         <h1 class="text-4xl font-extrabold leading-tight md:text-5xl">
-          {{store.pageData.css.contactSection.title}}
+          {{store.pageData.standard.contactSection.title}}
         </h1>
         <p class="max-w-lg mt-4 text-lg text-gray-300">
-          {{store.pageData.css.contactSection.Paragraph1}}
+          {{store.pageData.standard.contactSection.Paragraph1}}
         </p>
         
         <div class="grid grid-cols-1 gap-6 mt-6 md:grid-cols-1">
@@ -649,30 +189,30 @@
               <div class="p-2 bg-white rounded-full shadow-md">
                   <img src="https://img.icons8.com/ios-filled/50/map-marker.png" alt="Address" class="w-4 h-4">
               </div>
-              <p class="text-normal">{{store.pageData.css.contactSection.address}}</p>
+              <p class="text-normal">{{store.pageData.standard.contactSection.address}}</p>
           </div>
           <div class="flex items-center gap-4">
               <div class="p-2 bg-white rounded-full shadow-md">
                   <img src="https://img.icons8.com/ios-filled/50/phone.png" alt="Phone" class="w-4 h-4">
               </div>
-              <a href="tel:+1234567890" class="text-normal">{{store.pageData.css.contactSection.phone}}</a>
+              <a href="tel:+1234567890" class="text-normal">{{store.pageData.standard.contactSection.phone}}</a>
           </div>
           <div class="flex items-center gap-4">
               <div class="p-2 bg-white rounded-full shadow-md">
                   <img src="https://img.icons8.com/ios-filled/50/email.png" alt="Email" class="w-4 h-4">
               </div>
-              <a href="mailto:info@example.com" class="text-normal">{{store.pageData.css.contactSection.email}}</a>
+              <a href="mailto:info@example.com" class="text-normal">{{store.pageData.standard.contactSection.email}}</a>
           </div>
         </div>
       </div>
       <!-- Contact Form -->
       <div class="p-6 ">
-          <p class="mb-4 text-sm text-white">{{store.pageData.css.contactSection.Paragraph2}}</p> 
+          <p class="mb-4 text-sm text-white">{{store.pageData.standard.contactSection.Paragraph2}}</p> 
       </div>
     </div>
   </section>
 
-  <footer :class="[`p-4 mt-16 bg-white border-t-4 border-${store.pageData.css.btnColor} sm:p-6 `,'bg-blue-900']">
+  <footer :class="[`p-4 mt-16 bg-white border-t-4 border-${store.pageData.standard.btnColor} sm:p-6 `,'bg-blue-900']">
     <div class="max-w-screen-xl mx-auto">
         <div class="md:flex md:justify-between">
             <div class="mb-6 md:mb-0">
