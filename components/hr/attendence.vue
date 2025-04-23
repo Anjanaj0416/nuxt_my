@@ -14,7 +14,8 @@
           </div>
         </div>
 
-        <datediff :empno="empno" ref="datediffRef" @click="getLoadAttendnece" class="mb-2 sm:mb-0" />
+        <datediff :empno="empno" ref="datediffRef" @click="getLoadAttendnece" @date-change="handleDateChange"
+          class="mb-2 sm:mb-0" />
         <div class="flex flex-wrap items-center justify-between gap-4 rounded-md sm:justify-start">
           <div
             class="w-full p-2 font-bold text-center text-gray-700 border border-white rounded-md sm:w-auto hover:text-white">
@@ -166,13 +167,14 @@
             <RectifyForm class="flex text-gray-800 gap-x-4">
               <div>
                 <span class="pr-4">In Time</span>
-                <input type="time" :value="getInTime(dayatt)" :disabled="dayatt.inTime !== '00:00'"
+                <input type="time" :value="rectificationRequest.inTime" :disabled="dayatt.inTime !== '00:00'"
                   @input="(e) => handleInTimeChange(e, dayatt)" />
               </div>
               <div>
                 <span class="pr-4">Out Time </span>
-                <input type="time" :value="dayatt.outTime !== '00:00' ? dayatt.outTime : rectificationRequest.outTime"
-                  :disabled="dayatt.outTime !== '00:00'" @input="(e) => handleOutTimeChange(e, dayatt)" />
+                <input type="time" :value="rectificationRequest.outTime" :disabled="dayatt.outTime !== '00:00'"
+                  @input="(e) => handleOutTimeChange(e, dayatt)" />
+                <!-- :value="dayatt.outTime !== '00:00' ? dayatt.outTime : rectificationRequest.outTime" -->
               </div>
 
               <div>
@@ -182,13 +184,13 @@
 
               <div
                 class="p-2 px-1 font-bold text-center border-gray-500 rounded rounded-md cursor-pointer hover:bg-blue-500 hover:text-white"
-                @click="save_rectification(dayatt.id)">
+                @click="save_rectification(dayatt.id, dayatt.empNo)">
                 Apply
               </div>
 
               <div
                 class="p-2 px-1 font-bold text-center border-gray-500 rounded rounded-md cursor-pointer hover:bg-blue-500 hover:text-white"
-                @click="isrectifing = false, rectifingrow = -1">
+                @click="isrectifing = false, rectifingrow = -1, rectificationRequest.outTime = '00.00', rectificationRequest.inTime = '00.00', rectificationRequest.reason = ''">
                 Cancel
               </div>
             </RectifyForm>
@@ -302,13 +304,11 @@ export default {
         reason: '',
       },
       oTPreApprovalRequest: {
-        empno: '',
-        date: '',
-        inTime: '00:00',
-        outTime: '00:00',
+        EmpNo: '',
+        Date: '',
         OTFrom: '',
         OTTo: '',
-        otHour: '',
+        OTHour: '',
         Reason: '',
       },
       oTManualRequest: {
@@ -498,7 +498,7 @@ export default {
       }
     },
 
-    async save_rectification(row_id) {
+    async save_rectification(row_id, empNo) {
       if (!confirm('Sure to apply this Rectification?')) {
         return
       }
@@ -515,9 +515,20 @@ export default {
           intime: this.rectificationRequest.inTime,
           outtime: this.rectificationRequest.outTime,
           comment: this.rectificationRequest.reason,
-          // user: this.loggeduser,
-        }
+        };
+
+        const fromDate = this.$refs.datediffRef.dtfrom;
+        const toDate = this.$refs.datediffRef.dtto;
+
+        let attendenceByEmpReq = {
+          EmpNo: empNo,
+          FromDate: fromDate,
+          ToDate: toDate,
+        };
+        console.log("attendenceByEmpReq:", attendenceByEmpReq);
+
         await this.hrStore.setManualRectification(req, this.showLoading)
+        await this.hrStore.getAttendenceByEmp(attendenceByEmpReq, this.showLoading)
 
         this.rectifingrow = -1
         this.isrectifing = false
@@ -544,24 +555,31 @@ export default {
 
       //console.log(JSON.stringify(this.attenViewRequest))
 
-      await this.getAttendenceByEmp(this.attenViewRequest, this.showLoading)
+      await this.hrStore.getAttendenceByEmp(this.attenViewRequest, this.showLoading)
 
     },
 
     async setApplyOT(otDate) {
-      this.oTPreApprovalRequest.empno = this.empno
+      this.oTPreApprovalRequest.EmpNo = this.empno
       this.oTPreApprovalRequest.date = otDate
+
       if (this.validateOTApply()) {
         if (confirm('Sure to apply this OT Pre-Approval?')) {
           let req = {
-            oTPreApprovalRequest: this.oTPreApprovalRequest,
-            user: this.loggeduser,
+            EmpNo: oTPreApprovalRequest.EmpNo,
+            Date: oTPreApprovalRequest.Date,
+            OTFrom: oTPreApprovalRequest.OTFrom,
+            OTTo: oTPreApprovalRequest.OTTo,
+            OTHour: oTPreApprovalRequest.OTHour,
+            Reason: oTPreApprovalRequest.Reason,
           }
-          //console.log(req)
-          await this.setOTApproval(req);
+          console.log(req)
+          await this.setOTApproval(req, this.showLoading);
         }
         this.oTPreApprovalRequest.OTFrom = ''
         this.oTPreApprovalRequest.OTTo = ''
+        this.oTPreApprovalRequest.OTHour = ''
+        his.oTPreApprovalRequest.Reason = ''
         this.isOTAppling = false
         this.otApplingRow = -1
       }
@@ -584,18 +602,6 @@ export default {
       // }
     },
 
-    getInTime(dayatt) {
-
-      if (!dayatt.id || dayatt.id === '00000000-0000-0000-0000-000000000000') {
-        return ''; // Or handle it differently
-      }
-      if (dayatt.inTime !== '00:00') {
-        this.rectificationRequest.inTime = dayatt.inTime;
-        return dayatt.inTime;
-      }
-      return this.rectificationRequest.inTime;
-    },
-
     handleInTimeChange(e, dayatt) {
       if (!dayatt.id || dayatt.id === '00000000-0000-0000-0000-000000000000') return;
 
@@ -606,14 +612,6 @@ export default {
       } else {
         this.rectificationRequest.inTime = e.target.value;
       }
-    },
-
-    getOutTime(dayatt) {
-      if (dayatt.outTime !== '00:00') {
-        this.rectificationRequest.outTime = dayatt.outTime;
-        return dayatt.outTime;
-      }
-      return this.rectificationRequest.outTime;
     },
 
     handleOutTimeChange(e, dayatt) {
@@ -713,8 +711,13 @@ export default {
         return att.id == rowId
       })[0]
 
-      this.rectificationRequest.inTime = item_attn.intime;
-      this.rectificationRequest.outTime = item_attn.outtime;
+      if (item_attn.inTime !== '00:00') {
+        this.rectificationRequest.inTime = item_attn.inTime;
+      }
+
+      if (item_attn.outTime !== '00:00') {
+        this.rectificationRequest.outTime = item_attn.outTime;
+      }
     },
 
     async getclose() {

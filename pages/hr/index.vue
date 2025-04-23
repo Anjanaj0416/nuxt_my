@@ -155,12 +155,7 @@
                 </div>
 
                 <!-- Attendance -->
-                <div @click="
-                  init_attendence(emp.empno);//, FromDate: $refs.atten.$refs.datediffRef.dtfrom, ToDate: $refs.atten.$refs.datediffRef.dtto
-                cur_sec = 'attendence';
-                selectedrow = emp.id;
-                isSecClose = false;
-                isLoading = true;
+                <div @click="init_attendence(emp.empno, emp.id);//, FromDate: $refs.atten.$refs.datediffRef.dtfrom, ToDate: $refs.atten.$refs.datediffRef.dtto
                 " class="p-2 border-2 rounded-lg cursor-pointer hover:text-blue-800">
                   Attendance
                 </div>
@@ -392,7 +387,8 @@ export default {
       dtfrom: null,
       dtto: null,
       isLoading: false,
-      showLoading: null
+      showLoading: null,
+      hrStore: null,
     }
   },
 
@@ -566,16 +562,20 @@ export default {
       })
     },
 
-    async init_attendence(empId) {
+    async init_attendence(empId, rowId) {
       // await this.$refs.atten[row_no].init()
+
+      this.cur_sec = 'attendence';
+      this.selectedrow = rowId;
+      this.isSecClose = false;
+      this.isLoading = true;
+
       let req = {
         EmpNo: empId,
         FromDate: this.dtfrom,
         ToDate: this.dtto,
       }
-
-      const hrStore = useHrStore();
-      await hrStore.getAttendenceByEmp(req, this.showLoading);
+      await this.hrStore.getAttendenceByEmp(req, this.showLoading);
 
       this.isLoading = false;
 
