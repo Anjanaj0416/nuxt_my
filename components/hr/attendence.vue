@@ -166,29 +166,13 @@
             <RectifyForm class="flex text-gray-800 gap-x-4">
               <div>
                 <span class="pr-4">In Time</span>
-                <input type="time" :value="dayatt.inTime !== '00:00' ? dayatt.inTime : rectificationRequest.inTime"
-                  @input="(e) => {
-                    if (dayatt.inTime != '00:00') {
-                      dayatt.inTime = dayatt.inTime
-                    } else {
-                      rectificationRequest.inTime = e.target.value
-                    }
-                  }" :disabled="dayatt.inTime !== '00:00'" />
-                <!-- <input v-model="rectificationRequest.inTime" :disabled="dayatt.inTime != '00:00' ? true : false"
-                  type="time" /> -->
+                <input type="time" :value="getInTime(dayatt)" :disabled="dayatt.inTime !== '00:00'"
+                  @input="(e) => handleInTimeChange(e, dayatt)" />
               </div>
               <div>
                 <span class="pr-4">Out Time </span>
                 <input type="time" :value="dayatt.outTime !== '00:00' ? dayatt.outTime : rectificationRequest.outTime"
-                  @input="(e) => {
-                    if (dayatt.outTime !== '00:00') {
-                      rectificationRequest.outTime = dayatt.outTime
-                    } else {
-                      rectificationRequest.outTime = e.target.value
-                    }
-                  }" :disabled="dayatt.outTime !== '00:00'" />
-                <!-- <input v-model="rectificationRequest.outTime" :disabled="dayatt.outTime != '00:00' ? true : false"
-                  type="time" /> -->
+                  :disabled="dayatt.outTime !== '00:00'" @input="(e) => handleOutTimeChange(e, dayatt)" />
               </div>
 
               <div>
@@ -332,6 +316,8 @@ export default {
         comment: '',
       },
       showLoading: null,
+      userStore: null,
+      hrStore: null,
     }
   },
 
@@ -472,11 +458,6 @@ export default {
     this.hrStore = useHrStore();
     this.userStore = useUserStore()
     this.showLoading = this.$showLoading;
-
-    if (dayatt.outTime !== '00:00') {
-      rectificationRequest.outTime = dayatt.outTime
-    }
-
   },
 
   methods: {
@@ -522,9 +503,9 @@ export default {
         return
       }
 
-      // let item_attn = hrStore.attendence.alattendences.filter((att) => {
-      //   return att.id == row_id
-      // })[0]
+      let item_attn = this.hrStore.attendence.alattendences.filter((att) => {
+        return att.id == row_id
+      })[0]
 
       if (
         this.validateRectificationApply()
@@ -536,9 +517,7 @@ export default {
           comment: this.rectificationRequest.reason,
           // user: this.loggeduser,
         }
-
-        const hrStore = useHrStore();
-        await hrStore.setManualRectification(req, this.showLoading)
+        await this.hrStore.setManualRectification(req, this.showLoading)
 
         this.rectifingrow = -1
         this.isrectifing = false
@@ -597,13 +576,53 @@ export default {
           otHours: this.oTManualRequest.otHour,
           comment: this.oTManualRequest.comment,
         }
-        const hrStore = useHrStore();
-        await hrStore.setOTManual(req, this.showLoading)
+        await this.hrStore.setOTManual(req, this.showLoading)
       }
       this.oTManualRequest.otHour = ''
       this.isOTManualAppling = false
       this.otApplingRow = -1
       // }
+    },
+
+    getInTime(dayatt) {
+
+      if (!dayatt.id || dayatt.id === '00000000-0000-0000-0000-000000000000') {
+        return ''; // Or handle it differently
+      }
+      if (dayatt.inTime !== '00:00') {
+        this.rectificationRequest.inTime = dayatt.inTime;
+        return dayatt.inTime;
+      }
+      return this.rectificationRequest.inTime;
+    },
+
+    handleInTimeChange(e, dayatt) {
+      if (!dayatt.id || dayatt.id === '00000000-0000-0000-0000-000000000000') return;
+
+      console.log("handleInTimeChange:", dayatt);
+
+      if (dayatt.inTime !== '00:00') {
+        this.rectificationRequest.inTime = dayatt.inTime;
+      } else {
+        this.rectificationRequest.inTime = e.target.value;
+      }
+    },
+
+    getOutTime(dayatt) {
+      if (dayatt.outTime !== '00:00') {
+        this.rectificationRequest.outTime = dayatt.outTime;
+        return dayatt.outTime;
+      }
+      return this.rectificationRequest.outTime;
+    },
+
+    handleOutTimeChange(e, dayatt) {
+      console.log("handleOutTimeChange:", dayatt);
+      if (dayatt.outTime !== '00:00') {
+        this.rectificationRequest.outTime = dayatt.outTime;
+      } else {
+        this.rectificationRequest.outTime = e.target.value;
+      }
     },
 
     showMessage({ type, message }) {
@@ -690,7 +709,7 @@ export default {
       this.rectifingrow = rowId
       this.isrectifing = true
 
-      let item_attn = this.attendence.alattendences.filter((att) => {
+      let item_attn = this.hrStore.attendence.alattendences.filter((att) => {
         return att.id == rowId
       })[0]
 
