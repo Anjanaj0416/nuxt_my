@@ -92,6 +92,9 @@ export const useHrStore = defineStore('hrStore', {
         },
       ]
     },
+    OTApllyDetails: {
+      ot_hours: 0,
+    },
     initData: {},
     authToken: "",
     isLoading: true,
@@ -104,6 +107,10 @@ export const useHrStore = defineStore('hrStore', {
   actions: {
     async clearAttendance(){
       this.attendence = {};
+    },
+
+    async otCancel(){
+      this.OTApllyDetails.ot_hours = 0;
     },
 
     async getInitEmployee() {
@@ -201,7 +208,7 @@ export const useHrStore = defineStore('hrStore', {
         const response = await axios.get(`${import.meta.env.VITE_API_URL}/hr/Attendance/SetOTManual`, {params: { Id: req.id, otHours: req.otHours}});   
         console.log("response:",response);   
         if (response.data.isSuccess) {    
-          this.empdetails = response.data.data.data || {};
+          // this.empdetails = response.data.data.data || {};
           this.showToast('OT apply successful!', 'success'); 
        }
        else{
@@ -221,11 +228,18 @@ export const useHrStore = defineStore('hrStore', {
       const loadingAlert = showLoading(''); 
       try {
         console.log("req:",req);   
-        const response = await axios.get(`${import.meta.env.VITE_API_URL}/hr/Attendance/SetOTApproval`, req);   
+        const response = await axios.post(`${import.meta.env.VITE_API_URL}/hr/Attendance/SetOTApproval`, req);   
         console.log("response:",response);   
-        if (response.data.isSuccess) {    
-          this.empdetails = response.data.data.data || {};
-          this.showToast('OT apply successful!', 'success'); 
+        if (response.data.isSuccess) { 
+
+          const attendenceReq = {
+            EmpNo: req.EmpNo,
+            FromDate: req.FromDate,
+            ToDate: req.ToDate
+          };
+          await this.getAttendenceByEmp(attendenceReq, showLoading);
+          
+          // this.showToast('OT apply successful!', 'success'); 
        }
        else{
         console.error('Loading error:', response.data.message);       
@@ -247,20 +261,45 @@ export const useHrStore = defineStore('hrStore', {
         const response = await axios.get(`${import.meta.env.VITE_API_URL}/hr/Attendance/SetManualRectification`, {params: { Id: req.attendance_id, InTime: req.intime, OutTime: req.outtime}});   
         console.log("response:",response);   
         if (response.data.isSuccess) {    
-          this.empdetails = response.data.data.data || {};
+          // this.empdetails = response.data.data.data || {};
           // this.showToast('Rectify apply successful!', 'success'); 
+
+          const attendenceReq = {
+            EmpNo: req.EmpNo,
+            FromDate: req.FromDate,
+            ToDate: req.ToDate
+          };
+          await this.getAttendenceByEmp(attendenceReq, showLoading);
        }
        else{
         console.error('Loading error:', response.data.message);       
         // this.showToast(response.data.message, 'error'); 
        }
-       
-        
       } catch (error) {
         console.error('Loading error:', error);
         this.showToast(error.response.data.Message, 'error'); 
       }
       loadingAlert.close();
+    },
+
+    async getOTHours(req) {
+      // const loadingAlert = showLoading(''); 
+      try {
+        console.log("req:",req);   
+        const response = await axios.post(`${import.meta.env.VITE_API_URL}/hr/Attendance/GetOTHours`, req);   
+        console.log("response:",response);   
+        if (response.data.isSuccess) {    
+          this.OTApllyDetails.ot_hours = response.data.data.data;
+       }
+       else{
+        console.error('Loading error:', response.data.message);       
+        // this.showToast(response.data.message, 'error'); 
+       }
+      } catch (error) {
+        console.error('Loading error:', error);
+        // this.showToast(error.response.data.Message, 'error'); 
+      }
+      // loadingAlert.close();
     },
     
     async showToast(message,type) {

@@ -208,7 +208,7 @@
                 <input v-model="oTPreApprovalRequest.OTTo" @blur="calcOTHours" type="time" />
               </div>
               |
-              <!-- <div class="">OT Hrs : {{ OTApllyDetails.ot_hours }}</div> -->
+              <div class="">OT Hrs : {{ hrStore.OTApllyDetails.ot_hours }}</div>
               |
               <div>
                 <span class="pr-4">Nature Of Works</span>
@@ -223,7 +223,7 @@
 
               <div
                 class="p-2 px-1 font-bold text-center border-gray-500 rounded rounded-md cursor-pointer hover:bg-blue-500 hover:text-white"
-                @click="isOTAppling = false, otApplingRow = -1">
+                @click="oTApplingCancel()">
                 Cancel
               </div>
             </OTApplyForm>
@@ -234,10 +234,10 @@
             <OTManualForm class="flex text-gray-800 gap-x-4">
               <div>
                 <span class="pr-4">Hours</span>
-                <input v-model="oTManualRequest.otHour" @blur="calcOTHours" type="text" />
+                <input v-model="oTManualRequest.otHour" type="text" />
               </div>
               |
-              <!-- <div class="">OT Hrs : {{ OTApllyDetails.ot_hours }}</div> -->
+              <div class="">OT Hrs : {{ oTManualRequest.otHour === '' ? 0 : oTManualRequest.otHour }}</div>
               |
               <div>
                 <span class="pr-4">Comment</span>
@@ -252,7 +252,7 @@
 
               <div
                 class="p-2 px-1 font-bold text-center border-gray-500 rounded rounded-md cursor-pointer hover:bg-blue-500 hover:text-white"
-                @click="isOtManual = false, otManualRow = -1">
+                @click="manualOTApplingCancel()">
                 Cancel
               </div>
             </OTManualForm>
@@ -316,6 +316,7 @@ export default {
         comment: '',
       },
       showLoading: null,
+      isLoading: false,
       userStore: null,
       hrStore: null,
     }
@@ -488,14 +489,27 @@ export default {
         this.oTPreApprovalRequest.OTFrom != '' &&
         this.oTPreApprovalRequest.OTTo != ''
       ) {
-        await this.getOTHours({
-          empno: this.empno,
+        await this.hrStore.getOTHours({
+          EmpNo: this.empno,
           OTFrom: this.oTPreApprovalRequest.OTFrom,
           OTTo: this.oTPreApprovalRequest.OTTo,
-          user: this.loggeduser,
         })
-        this.oTPreApprovalRequest.otHour = this.OTApllyDetails.ot_hours
       }
+    },
+
+    async oTApplingCancel() {
+      this.oTPreApprovalRequest.OTFrom = ''
+      this.oTPreApprovalRequest.OTTo = ''
+      this.isOTAppling = false
+      this.otApplingRow = -1
+      await this.hrStore.otCancel();
+    },
+
+    async manualOTApplingCancel() {
+      this.oTManualRequest.otHour = ''
+      this.isOtManual = false
+      this.otManualRow = -1
+      await this.hrStore.otCancel();
     },
 
     async save_rectification(row_id, empNo) {
@@ -510,25 +524,21 @@ export default {
       if (
         this.validateRectificationApply()
       ) {
+        const fromDate = this.$refs.datediffRef.dtfrom;
+        const toDate = this.$refs.datediffRef.dtto;
+
         let req = {
           attendance_id: row_id,
           intime: this.rectificationRequest.inTime,
           outtime: this.rectificationRequest.outTime,
           comment: this.rectificationRequest.reason,
-        };
-
-        const fromDate = this.$refs.datediffRef.dtfrom;
-        const toDate = this.$refs.datediffRef.dtto;
-
-        let attendenceByEmpReq = {
           EmpNo: empNo,
           FromDate: fromDate,
           ToDate: toDate,
         };
-        console.log("attendenceByEmpReq:", attendenceByEmpReq);
+        console.log("req:", req);
 
         await this.hrStore.setManualRectification(req, this.showLoading)
-        await this.hrStore.getAttendenceByEmp(attendenceByEmpReq, this.showLoading)
 
         this.rectifingrow = -1
         this.isrectifing = false
@@ -563,43 +573,57 @@ export default {
       this.oTPreApprovalRequest.EmpNo = this.empno
       this.oTPreApprovalRequest.date = otDate
 
+      const fromDate = this.$refs.datediffRef.dtfrom;
+      const toDate = this.$refs.datediffRef.dtto;
+
       if (this.validateOTApply()) {
         if (confirm('Sure to apply this OT Pre-Approval?')) {
           let req = {
-            EmpNo: oTPreApprovalRequest.EmpNo,
-            Date: oTPreApprovalRequest.Date,
-            OTFrom: oTPreApprovalRequest.OTFrom,
-            OTTo: oTPreApprovalRequest.OTTo,
-            OTHour: oTPreApprovalRequest.OTHour,
-            Reason: oTPreApprovalRequest.Reason,
+            EmpNo: this.oTPreApprovalRequest.EmpNo,
+            Date: this.oTPreApprovalRequest.Date,
+            OTFrom: this.oTPreApprovalRequest.OTFrom,
+            OTTo: this.oTPreApprovalRequest.OTTo,
+            OTHour: this.oTPreApprovalRequest.OTHour,
+            Reason: this.oTPreApprovalRequest.Reason,
+            FromDate: fromDate,
+            ToDate: toDate,
           }
-          console.log(req)
-          await this.setOTApproval(req, this.showLoading);
+          console.log("req:", req)
+          await this.hrStore.setOTApproval(req, this.showLoading);
         }
         this.oTPreApprovalRequest.OTFrom = ''
         this.oTPreApprovalRequest.OTTo = ''
         this.oTPreApprovalRequest.OTHour = ''
-        his.oTPreApprovalRequest.Reason = ''
+        this.oTPreApprovalRequest.Reason = ''
         this.isOTAppling = false
         this.otApplingRow = -1
+        await this.hrStore.otCancel();
       }
     },
 
     async applyOTManual(rowId) {
 
-      // if (this.validateOTApply()) {
-      if (confirm('Sure to apply this OT Manual?')) {
-        let req = {
-          id: rowId,
-          otHours: this.oTManualRequest.otHour,
-          comment: this.oTManualRequest.comment,
+      const fromDate = this.$refs.datediffRef.dtfrom;
+      const toDate = this.$refs.datediffRef.dtto;
+
+      if (this.validateManualOTApply()) {
+        if (confirm('Sure to apply this OT Manual?')) {
+          let req = {
+            id: rowId,
+            otHours: this.oTManualRequest.otHour,
+            comment: this.oTManualRequest.comment,
+            FromDate: fromDate,
+            ToDate: toDate,
+            EmpNo: this.empno
+          }
+          await this.hrStore.setOTManual(req, this.showLoading)
         }
-        await this.hrStore.setOTManual(req, this.showLoading)
+        this.oTManualRequest.otHour = ''
+        this.oTManualRequest.comment = ''
+        this.isOTManualAppling = false
+        this.otApplingRow = -1
+        await this.hrStore.otCancel();
       }
-      this.oTManualRequest.otHour = ''
-      this.isOTManualAppling = false
-      this.otApplingRow = -1
-      // }
     },
 
     handleInTimeChange(e, dayatt) {
@@ -670,7 +694,10 @@ export default {
         this.show_error('Invalid Nature Of Work');
         return false;
       }
+      return true
+    },
 
+    validateManualOTApply() {
       if (this.oTManualRequest.otHour == '') {
         this.show_error('Invalid OT Hours');
         return false;
@@ -680,7 +707,6 @@ export default {
         this.show_error('Invalid Comment');
         return false
       }
-
       return true
     },
 
