@@ -142,7 +142,7 @@ export default {
           this.$showToast("Login successful!", "success");
           try {
             const redirectToCookie = useCookie("redirectTo");
-            if (redirectToCookie != "") {
+            if (redirectToCookie.value != "") {
               this.$router.push(redirectToCookie.value);
             } else {
               this.$router.push("/dashboard");

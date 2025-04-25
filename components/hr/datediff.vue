@@ -55,7 +55,7 @@ export default {
 
   methods: {
     async load() {
-      this.$emit('click', { dtfrom: this.dtfrom, dtto: this.dtto });
+      this.$emit('date-change', { dtfrom: this.dtfrom, dtto: this.dtto });
 
       let req = {
         EmpNo: this.empno,
@@ -63,7 +63,7 @@ export default {
         ToDate: this.dtto,
       }
       const hrStore = useHrStore();
-      await hrStore.getProcessAttendenceLogsByEmp(req, this.showLoading);
+      await hrStore.getAttendenceByEmp(req, this.showLoading);
     },
   },
 

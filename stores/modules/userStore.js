@@ -24,9 +24,11 @@ export const useUserStore = defineStore('user', {
           this.loggedUser =response.data.loggedUser;
           this.assetsBaseUrl =response.data.loggedUser.resourceURLRoot;
          
-          // localStorage.setItem('assetsBaseUrl', this.loggedUser.resourceURLRoot); // Save assetsBaseUrl to localStorage if needed
-          // localStorage.setItem('token', this.token);  // Save token to localStorage if needed
-          // localStorage.setItem('refreshToken', this.refreshToken);         
+          localStorage.setItem('assetsBaseUrl', this.loggedUser.resourceURLRoot); // Save assetsBaseUrl to localStorage if needed
+          localStorage.setItem('token', this.token);  // Save token to localStorage if needed
+          localStorage.setItem('refreshToken', this.refreshToken); 
+          document.cookie = `token=${this.token}; path=/; max-age=3600; Secure`;
+                  
        }
        else{        
         this.showToast('Login error:'+response.data.message,'error');
@@ -43,6 +45,13 @@ export const useUserStore = defineStore('user', {
       this.token = null;
       localStorage.clear();
       //this.showToast('User Logged out!','success');
+    },
+
+    loadFromStorage() {
+      if (process.client) {
+        const storedToken = useCookie('token').value;
+        if (storedToken) this.token = storedToken;
+      }
     },
 
     showToast(message,type) {

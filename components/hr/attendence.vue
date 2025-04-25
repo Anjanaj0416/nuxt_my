@@ -14,7 +14,8 @@
           </div>
         </div>
 
-        <datediff :empno="empno" ref="datediffRef" @click="getLoadAttendnece" class="mb-2 sm:mb-0" />
+        <datediff :empno="empno" ref="datediffRef" @date-change="handleDateChange" class="mb-2 sm:mb-0" />
+        <!-- @click="getLoadAttendnece"  -->
         <div class="flex flex-wrap items-center justify-between gap-4 rounded-md sm:justify-start">
           <div
             class="w-full p-2 font-bold text-center text-gray-700 border border-white rounded-md sm:w-auto hover:text-white">
@@ -40,7 +41,6 @@
           </div>
         </div>
       </div>
-
 
       <div class="absolute top-0 right-0 hidden px-4 mt-16 sm:hidden md:block">
         <atten_colorbox />
@@ -74,15 +74,9 @@
             <!-- <div>{{ $options.filters.toReadableDate(dayatt.date) }}</div> -->
             <div class="mx-auto">
               <div class="flex gap-x-2 ">
-
                 <div>
-                  <!-- <attnrectify
-                  v-model="dayatt.intime"
-                  :rowid="dayatt.id"
-                  :rectifingrow="rectifingrow"
-                /> -->
+                  <!-- <attnrectify v-model="dayatt.intime" :rowid="dayatt.id" :rectifingrow="rectifingrow" /> -->
                   {{ dayatt.date.split('T')[0] }}
-
                 </div>
                 <div>
                   <swipes v-show="dayatt.swipesIn.length > 0" :swipes="dayatt.swipesIn" class=""
@@ -94,11 +88,9 @@
             <div class="mx-auto">
               <div class="flex gap-x-2">
                 <div>
-                  <attnrectify v-model="dayatt.outTime" :rowid="dayatt.id" :rectifingrow="rectifingrow" />
-                  {{ dayatt.outTime }}
+                  <!-- <attnrectify v-model="dayatt.inTime" :rowid="dayatt.id" :rectifingrow="rectifingrow" /> -->
+                  {{ dayatt.inTime }}
                 </div>
-
-
                 <div>
                   <swipes v-show="dayatt.swipesOut.length > 0" :swipes="dayatt.swipesOut" class=""
                     :cssbg="getAttRowColor(dayatt)" />
@@ -117,21 +109,19 @@
             </div>
 
             <div class="">
-              <btnhr_rectify v-show="dayatt.dayType == 505 && !isOTAppling &&
+              <!-- <btnhr_rectify v-show="dayatt.dayType == 505 && !isOTAppling &&
                 (!isrectifing || rectifingrow == dayatt.id)
                 " :rowid="dayatt.id" :rectifingrow="rectifingrow" ref="ref_btnrectify"
-                @save_rectification="save_rectification" @click="setRectifing(dayatt.id)" @canceledit="cancelRectify" />
+                @save_rectification="save_rectification" @click="setRectifing(dayatt.id)" @canceledit="cancelRectify" /> -->
 
               <div v-show="!isrectifing &&
-                dayatt.dayType == 505 &&
-                !isOTAppling &&
+                dayatt.dayType == 505 && !isOTAppling &&
                 (!isrectifing || rectifingrow == dayatt.id)
                 "
                 class="w-1/2 p-2 font-bold text-center border-gray-500  rounded-md cursor-pointer gap-x-1 hover:bg-blue-500 hover:text-white"
                 @click="showRectifing(dayatt.id)">
                 Rectify
               </div>
-
               <!-- && loggeduser.granted.indexOf('hradmin')>-1 -->
             </div>
             <div class="flex">
@@ -162,12 +152,12 @@
               </span>
             </div>
             <div>
-
-              <!-- <div v-show="loggeduser.granted.indexOf('hradmin') > -1 || loggeduser.granted.indexOf('admin') > -1"
+              <div
+                v-show="userStore.loggedUser.granted.indexOf('hradmin') > -1 || userStore.loggedUser.granted.indexOf('admin') > -1"
                 class="w-4/5 p-1 p-2 font-bold text-center border-gray-500 rounded rounded-md cursor-pointer gap-x-1 hover:bg-blue-500 hover:text-white"
                 @click="getReCalcOT(dayatt)">
                 ReCalc.OT
-              </div> -->
+              </div>
             </div>
 
           </div>
@@ -177,13 +167,14 @@
             <RectifyForm class="flex text-gray-800 gap-x-4">
               <div>
                 <span class="pr-4">In Time</span>
-                <input v-model="rectificationRequest.inTime" :disabled="dayatt.inTime != '00:00' ? true : false"
-                  type="time" />
+                <input type="time" :value="rectificationRequest.inTime" :disabled="dayatt.inTime !== '00:00'"
+                  @input="(e) => handleInTimeChange(e, dayatt)" />
               </div>
               <div>
                 <span class="pr-4">Out Time </span>
-                <input v-model="rectificationRequest.outTime" :disabled="dayatt.outTime != '00:00' ? true : false"
-                  type="time" />
+                <input type="time" :value="rectificationRequest.outTime" :disabled="dayatt.outTime !== '00:00'"
+                  @input="(e) => handleOutTimeChange(e, dayatt)" />
+                <!-- :value="dayatt.outTime !== '00:00' ? dayatt.outTime : rectificationRequest.outTime" -->
               </div>
 
               <div>
@@ -193,14 +184,13 @@
 
               <div
                 class="p-2 px-1 font-bold text-center border-gray-500 rounded rounded-md cursor-pointer hover:bg-blue-500 hover:text-white"
-                @click="save_rectification(dayatt.id)">
+                @click="save_rectification(dayatt.id, dayatt.empNo)">
                 Apply
               </div>
 
               <div
                 class="p-2 px-1 font-bold text-center border-gray-500 rounded rounded-md cursor-pointer hover:bg-blue-500 hover:text-white"
-                @click="isrectifing = false, rectifingrow = -1">
-                >
+                @click="isrectifing = false, rectifingrow = -1, rectificationRequest.outTime = '00.00', rectificationRequest.inTime = '00.00', rectificationRequest.reason = ''">
                 Cancel
               </div>
             </RectifyForm>
@@ -218,7 +208,7 @@
                 <input v-model="oTPreApprovalRequest.OTTo" @blur="calcOTHours" type="time" />
               </div>
               |
-              <!-- <div class="">OT Hrs : {{ OTApllyDetails.ot_hours }}</div> -->
+              <div class="">OT Hrs : {{ hrStore.OTApllyDetails.ot_hours }}</div>
               |
               <div>
                 <span class="pr-4">Nature Of Works</span>
@@ -233,7 +223,7 @@
 
               <div
                 class="p-2 px-1 font-bold text-center border-gray-500 rounded rounded-md cursor-pointer hover:bg-blue-500 hover:text-white"
-                @click="isOTAppling = false, otApplingRow = -1">
+                @click="oTApplingCancel()">
                 Cancel
               </div>
             </OTApplyForm>
@@ -244,10 +234,10 @@
             <OTManualForm class="flex text-gray-800 gap-x-4">
               <div>
                 <span class="pr-4">Hours</span>
-                <input v-model="oTManualRequest.otHour" @blur="calcOTHours" type="text" />
+                <input v-model="oTManualRequest.otHour" type="text" />
               </div>
               |
-              <!-- <div class="">OT Hrs : {{ OTApllyDetails.ot_hours }}</div> -->
+              <div class="">OT Hrs : {{ oTManualRequest.otHour === '' ? 0 : oTManualRequest.otHour }}</div>
               |
               <div>
                 <span class="pr-4">Comment</span>
@@ -262,7 +252,7 @@
 
               <div
                 class="p-2 px-1 font-bold text-center border-gray-500 rounded rounded-md cursor-pointer hover:bg-blue-500 hover:text-white"
-                @click="isOtManual = false, otManualRow = -1">
+                @click="manualOTApplingCancel()">
                 Cancel
               </div>
             </OTManualForm>
@@ -282,11 +272,11 @@ import attnrectify from '~/components/hr/attnrectify'
 import swipes from '~/components/hr/swipes'
 import datediff from '~/components/hr/datediff'
 import { useHrStore } from '~/stores/modules/hrStore'
+import { useUserStore } from '~/stores/modules/userStore'
 
 // import * as Global from '@/assets/js/Global'
 //import * as myfilter from '@/plugins/myfilter'
 //import { mapState, mapGetters, mapActions, mapMutations } from 'vuex'
-
 export default {
   props: ['empno', 'empname', 'isOTEntitled'],
 
@@ -314,13 +304,11 @@ export default {
         reason: '',
       },
       oTPreApprovalRequest: {
-        empno: '',
-        date: '',
-        inTime: '00:00',
-        outTime: '00:00',
+        EmpNo: '',
+        Date: '',
         OTFrom: '',
         OTTo: '',
-        otHour: '',
+        OTHour: '',
         Reason: '',
       },
       oTManualRequest: {
@@ -328,6 +316,9 @@ export default {
         comment: '',
       },
       showLoading: null,
+      isLoading: false,
+      userStore: null,
+      hrStore: null,
     }
   },
 
@@ -340,55 +331,49 @@ export default {
     attnrectify,
   },
   computed: {
-    // ...mapState({
-    //   loggeduser: (state) => state.loggeduser,
-    //   attendence: (state) => state.hr.attendencedetails.attendence,
-    //   OTApllyDetails: (state) => state.hr.OTApllyDetails,
-    // }),
-
     getAttRowColor() {
       return (dayatt) => {
         try {
           let rowclass =
-            dayatt.daytype == 503 ||
-              dayatt.daytype == 503.1 ||
-              dayatt.daytype == 503.5 ||
-              dayatt.daytype == 503.3
+            dayatt.dayType == 503 ||
+              dayatt.dayType == 503.1 ||
+              dayatt.dayType == 503.5 ||
+              dayatt.dayType == 503.3
               ? 'cssShortLeave'
-              : dayatt.daytype == 504 ||
-                dayatt.daytype == 504.1 ||
-                dayatt.daytype == 504.5 ||
-                dayatt.daytype == 504.3
+              : dayatt.dayType == 504 ||
+                dayatt.dayType == 504.1 ||
+                dayatt.dayType == 504.5 ||
+                dayatt.dayType == 504.3
                 ? 'cssHalfday'
-                : dayatt.daytype == 505 ||
-                  dayatt.daytype == 505.1 ||
-                  dayatt.daytype == 505.5 ||
-                  dayatt.daytype == 505.3
+                : dayatt.dayType == 505 ||
+                  dayatt.dayType == 505.1 ||
+                  dayatt.dayType == 505.5 ||
+                  dayatt.dayType == 505.3
                   ? 'cssInComplete'
-                  : dayatt.daytype == 506
+                  : dayatt.dayType == 506
                     ? 'cssHoliday'
-                    : (dayatt.daytype == 507 ||
-                      dayatt.daytype == 507.1 ||
-                      dayatt.daytype == 507.5 ||
-                      dayatt.daytype == 507.3)
+                    : (dayatt.dayType == 507 ||
+                      dayatt.dayType == 507.1 ||
+                      dayatt.dayType == 507.5 ||
+                      dayatt.dayType == 507.3)
                       ? 'cssMovement'
-                      : dayatt.daytype ==
-                        (dayatt.daytype == 508 ||
-                          dayatt.daytype == 508.1 ||
-                          dayatt.daytype == 508.5 ||
-                          dayatt.daytype == 508.3)
+                      : dayatt.dayType ==
+                        (dayatt.dayType == 508 ||
+                          dayatt.dayType == 508.1 ||
+                          dayatt.dayType == 508.5 ||
+                          dayatt.dayType == 508.3)
                         ? 'cssLeave'
                         : dayatt.weektype == 501
                           ? 'cssSaturday'
                           : dayatt.weektype == 502
                             ? 'cssSunday'
-                            : dayatt.daytype == 510
+                            : dayatt.dayType == 510
                               ? 'cssSWA'
-                              : dayatt.daytype == 511
+                              : dayatt.dayType == 511
                                 ? 'cssTransport'
                                 : 'cssDefault'
 
-          // : dayatt.daytype == 509
+          // : dayatt.dayType == 509
           //       ? 'cssNoPay'
           return rowclass
         } catch {
@@ -407,57 +392,57 @@ export default {
 
           let dayname =
 
-            dayatt.daytype == 503
+            dayatt.dayType == 503
               ? 'ShortLeave'
-              : dayatt.daytype == 504
+              : dayatt.dayType == 504
                 ? 'Halfday'
-                : dayatt.daytype == 504.1
+                : dayatt.dayType == 504.1
                   ? 'Halfday-Apprv. Pending'
-                  : dayatt.daytype == 504.5
+                  : dayatt.dayType == 504.5
                     ? 'HFA'
-                    : dayatt.daytype == 504.3
+                    : dayatt.dayType == 504.3
                       ? 'Halfday-Apprv. Rejected'
-                      : dayatt.daytype == 509
+                      : dayatt.dayType == 509
                         ? 'No-Pay'
-                        : dayatt.daytype == 505.1
+                        : dayatt.dayType == 505.1
                           ? 'Rect. Apprv. Pending'
-                          : dayatt.daytype == 505.5
+                          : dayatt.dayType == 505.5
                             ? 'Rect. Approved'
-                            : dayatt.daytype == 505.3
+                            : dayatt.dayType == 505.3
                               ? 'Rectt. Apprv. Rejected'
-                              : dayatt.daytype == 507
+                              : dayatt.dayType == 507
                                 ? 'Movement'
-                                : dayatt.daytype == 507.1
+                                : dayatt.dayType == 507.1
                                   ? 'Movement-Apprv.Pending'
-                                  : dayatt.daytype == 507.5
+                                  : dayatt.dayType == 507.5
                                     ? 'MA'
-                                    : dayatt.daytype == 507.3
+                                    : dayatt.dayType == 507.3
                                       ? 'Movement Apprv. Rejected'
-                                      : dayatt.daytype == 508
+                                      : dayatt.dayType == 508
                                         ? 'Leave'
-                                        : dayatt.daytype == 508.1
+                                        : dayatt.dayType == 508.1
                                           ? 'Leave Apprv. Pending'
-                                          : dayatt.daytype == 508.5
+                                          : dayatt.dayType == 508.5
                                             ? 'LA'
-                                            : dayatt.daytype == 508.3
+                                            : dayatt.dayType == 508.3
                                               ? 'Leave Apprv. Rejected'
                                               : dayatt.weektype == 501
                                                 ? 'Saturday'
                                                 : dayatt.weektype == 502
                                                   ? 'Sunday'
-                                                  : dayatt.daytype == 510
+                                                  : dayatt.dayType == 510
                                                     ? dayatt.comment
-                                                    : dayatt.daytype == 511
+                                                    : dayatt.dayType == 511
                                                       ? 'Transport'
-                                                      : dayatt.daytype == 100.1
+                                                      : dayatt.dayType == 100.1
                                                         ? 'OT Apprv. Pending'
-                                                        : dayatt.daytype == 100.5
+                                                        : dayatt.dayType == 100.5
                                                           ? 'OTA'
-                                                          : dayatt.daytype == 100.3
+                                                          : dayatt.dayType == 100.3
                                                             ? 'OT Apprv. Rejected'
-                                                            : dayatt.daytype == 506
+                                                            : dayatt.dayType == 506
                                                               ? 'Holiday'
-                                                              : dayatt.daytype == 505
+                                                              : dayatt.dayType == 505
                                                                 ? 'InComplete'
 
                                                                 : dayatt.comment
@@ -472,6 +457,7 @@ export default {
 
   async created() {
     this.hrStore = useHrStore();
+    this.userStore = useUserStore()
     this.showLoading = this.$showLoading;
   },
 
@@ -485,7 +471,7 @@ export default {
       this.dtto = myfilter.toInputTypeDate(
         new Date(date.getFullYear(), date.getMonth() + 1, 0)
       )
-      await this.getAttendence({
+      await this.getAttendenceByEmp({
         from_date: this.dtfrom,
         to_date: this.dtto,
         empno: this.empno,
@@ -503,36 +489,56 @@ export default {
         this.oTPreApprovalRequest.OTFrom != '' &&
         this.oTPreApprovalRequest.OTTo != ''
       ) {
-        await this.getOTHours({
-          empno: this.empno,
+        await this.hrStore.getOTHours({
+          EmpNo: this.empno,
           OTFrom: this.oTPreApprovalRequest.OTFrom,
           OTTo: this.oTPreApprovalRequest.OTTo,
-          user: this.loggeduser,
         })
-        this.oTPreApprovalRequest.otHour = this.OTApllyDetails.ot_hours
       }
     },
 
-    async save_rectification(row_id) {
+    async oTApplingCancel() {
+      this.oTPreApprovalRequest.OTFrom = ''
+      this.oTPreApprovalRequest.OTTo = ''
+      this.isOTAppling = false
+      this.otApplingRow = -1
+      await this.hrStore.otCancel();
+    },
+
+    async manualOTApplingCancel() {
+      this.oTManualRequest.otHour = ''
+      this.isOtManual = false
+      this.otManualRow = -1
+      await this.hrStore.otCancel();
+    },
+
+    async save_rectification(row_id, empNo) {
       if (!confirm('Sure to apply this Rectification?')) {
         return
       }
 
-      let item_attn = this.attendence.alattendences.filter((att) => {
+      let item_attn = this.hrStore.attendence.alattendences.filter((att) => {
         return att.id == row_id
       })[0]
 
       if (
         this.validateRectificationApply()
       ) {
+        const fromDate = this.$refs.datediffRef.dtfrom;
+        const toDate = this.$refs.datediffRef.dtto;
+
         let req = {
           attendance_id: row_id,
           intime: this.rectificationRequest.inTime,
           outtime: this.rectificationRequest.outTime,
           comment: this.rectificationRequest.reason,
-          user: this.loggeduser,
-        }
-        await this.setManualRectification(req, this.showLoading)
+          EmpNo: empNo,
+          FromDate: fromDate,
+          ToDate: toDate,
+        };
+        console.log("req:", req);
+
+        await this.hrStore.setManualRectification(req, this.showLoading)
 
         this.rectifingrow = -1
         this.isrectifing = false
@@ -559,45 +565,86 @@ export default {
 
       //console.log(JSON.stringify(this.attenViewRequest))
 
-      // await this.getAttendence(this.attenViewRequest)
+      await this.hrStore.getAttendenceByEmp(this.attenViewRequest, this.showLoading)
 
     },
 
     async setApplyOT(otDate) {
-      this.oTPreApprovalRequest.empno = this.empno
+      this.oTPreApprovalRequest.EmpNo = this.empno
       this.oTPreApprovalRequest.date = otDate
+
+      const fromDate = this.$refs.datediffRef.dtfrom;
+      const toDate = this.$refs.datediffRef.dtto;
+
       if (this.validateOTApply()) {
         if (confirm('Sure to apply this OT Pre-Approval?')) {
           let req = {
-            oTPreApprovalRequest: this.oTPreApprovalRequest,
-            user: this.loggeduser,
+            EmpNo: this.oTPreApprovalRequest.EmpNo,
+            Date: this.oTPreApprovalRequest.Date,
+            OTFrom: this.oTPreApprovalRequest.OTFrom,
+            OTTo: this.oTPreApprovalRequest.OTTo,
+            OTHour: this.oTPreApprovalRequest.OTHour,
+            Reason: this.oTPreApprovalRequest.Reason,
+            FromDate: fromDate,
+            ToDate: toDate,
           }
-          //console.log(req)
-          await this.setOTApproval(req);
+          console.log("req:", req)
+          await this.hrStore.setOTApproval(req, this.showLoading);
         }
         this.oTPreApprovalRequest.OTFrom = ''
         this.oTPreApprovalRequest.OTTo = ''
+        this.oTPreApprovalRequest.OTHour = ''
+        this.oTPreApprovalRequest.Reason = ''
         this.isOTAppling = false
         this.otApplingRow = -1
+        await this.hrStore.otCancel();
       }
     },
 
     async applyOTManual(rowId) {
 
-      // if (this.validateOTApply()) {
-      if (confirm('Sure to apply this OT Manual?')) {
-        let req = {
-          id: rowId,
-          otHours: this.oTManualRequest.otHour,
-          comment: this.oTManualRequest.comment,
+      const fromDate = this.$refs.datediffRef.dtfrom;
+      const toDate = this.$refs.datediffRef.dtto;
+
+      if (this.validateManualOTApply()) {
+        if (confirm('Sure to apply this OT Manual?')) {
+          let req = {
+            id: rowId,
+            otHours: this.oTManualRequest.otHour,
+            comment: this.oTManualRequest.comment,
+            FromDate: fromDate,
+            ToDate: toDate,
+            EmpNo: this.empno
+          }
+          await this.hrStore.setOTManual(req, this.showLoading)
         }
-        const hrStore = useHrStore();
-        await hrStore.setOTManual(req, this.showLoading)
+        this.oTManualRequest.otHour = ''
+        this.oTManualRequest.comment = ''
+        this.isOTManualAppling = false
+        this.otApplingRow = -1
+        await this.hrStore.otCancel();
       }
-      this.oTManualRequest.otHour = ''
-      this.isOTManualAppling = false
-      this.otApplingRow = -1
-      // }
+    },
+
+    handleInTimeChange(e, dayatt) {
+      if (!dayatt.id || dayatt.id === '00000000-0000-0000-0000-000000000000') return;
+
+      console.log("handleInTimeChange:", dayatt);
+
+      if (dayatt.inTime !== '00:00') {
+        this.rectificationRequest.inTime = dayatt.inTime;
+      } else {
+        this.rectificationRequest.inTime = e.target.value;
+      }
+    },
+
+    handleOutTimeChange(e, dayatt) {
+      console.log("handleOutTimeChange:", dayatt);
+      if (dayatt.outTime !== '00:00') {
+        this.rectificationRequest.outTime = dayatt.outTime;
+      } else {
+        this.rectificationRequest.outTime = e.target.value;
+      }
     },
 
     showMessage({ type, message }) {
@@ -647,7 +694,10 @@ export default {
         this.show_error('Invalid Nature Of Work');
         return false;
       }
+      return true
+    },
 
+    validateManualOTApply() {
       if (this.oTManualRequest.otHour == '') {
         this.show_error('Invalid OT Hours');
         return false;
@@ -657,7 +707,6 @@ export default {
         this.show_error('Invalid Comment');
         return false
       }
-
       return true
     },
 
@@ -684,12 +733,17 @@ export default {
       this.rectifingrow = rowId
       this.isrectifing = true
 
-      let item_attn = this.attendence.alattendences.filter((att) => {
+      let item_attn = this.hrStore.attendence.alattendences.filter((att) => {
         return att.id == rowId
       })[0]
 
-      this.rectificationRequest.inTime = item_attn.intime;
-      this.rectificationRequest.outTime = item_attn.outtime;
+      if (item_attn.inTime !== '00:00') {
+        this.rectificationRequest.inTime = item_attn.inTime;
+      }
+
+      if (item_attn.outTime !== '00:00') {
+        this.rectificationRequest.outTime = item_attn.outTime;
+      }
     },
 
     async getclose() {
