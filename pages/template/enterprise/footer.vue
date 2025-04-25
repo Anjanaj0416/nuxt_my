@@ -1,85 +1,6 @@
 <template>
-  
-    <section class="bg-center bg-cover">
-      <nav :class="[`fixed top-0 left-0 z-50 w-full bg-${store.pageData.css.navbar.navbarColor}`,'bg-blue-900']">
-        <div class="flex flex-wrap items-center justify-between max-w-screen-xl p-4 mx-auto">
-        <a href="/template/standard/standard" class="flex items-center space-x-3">
-          <span class="self-center text-2xl font-semibold text-white">{{ store.pageData.css.logo || 'Logo' }}</span>
-        </a>
-  
-          <!-- Mobile Menu Button -->
-          <button @click="toggleMenu" class="inline-flex items-center justify-center w-10 h-10 p-2 text-sm text-gray-500 rounded-lg md:hidden hover:bg-gray-100 focus:outline-none focus:ring-2 focus:ring-gray-200">
-            <span class="sr-only">Open main menu</span>
-            <svg class="w-5 h-5" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 17 14">
-              <path stroke="purple" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M1 1h15M1 7h15M1 13h15"/>
-            </svg>
-          </button>
-  
-          <!-- Desktop Navbar -->
-          <div class="hidden md:block md:w-auto">
-            <ul class="flex space-x-8 font-medium">
-              <li><a href="#" class="text-white hover:text-gray-300">Home</a></li>
-              <li><a href="#service" class="text-white hover:text-gray-300">Services</a></li>
-              <li><a href="#product" class="text-white hover:text-gray-300">Product</a></li>
-              <li><a href="#about" class="text-white hover:text-gray-300">About</a></li>
-              <li><a href="#contact" class="text-white hover:text-gray-300">Contact</a></li>
-            </ul>
-          </div>
-        </div>
-      </nav>
-  
-      <!-- Mobile Side Drawer -->
-      <div v-if="isMenuOpen" @click="closeMenu" class="fixed inset-0 z-40 bg-black bg-opacity-50"></div>
-  
-      <div
-        :class="isMenuOpen ? 'translate-x-0' : 'translate-x-full'"
-        class="fixed top-0 right-0 z-50 w-64 h-full p-5 transition-transform transform bg-white shadow-lg"
-      >
-        <button @click="closeMenu" class="absolute text-gray-600 top-4 right-4 hover:text-black">
-          ✖
-        </button>
-        <ul class="mt-10 space-y-4 font-medium">
-          <li><a href="#" class="text-gray-800 hover:text-gray-300">Home</a></li>
-          <li><a href="#service" class="text-gray-800 hover:text-gray-300">Services</a></li>
-          <li><a href="#product" class="text-gray-800 hover:text-gray-300">Product</a></li>
-          <li><a href="#about" class="text-gray-800 hover:text-gray-300">About</a></li>
-          <li><a href="#contact" class="text-gray-800 hover:text-gray-300">Contact</a></li>
-        </ul>
-      </div>
-    </section>
-  
-    <!-- <div>
-     data:{{store.pageData.css}}
-    </div> -->
-      
-    <section id="contact" class="mt-28">
-      <div class="grid max-w-screen-xl gap-8 px-4 py-8 mx-auto lg:py-16 lg:grid-cols-12">
-        <!-- Text Content -->
-        <div class="place-self-center lg:col-span-7">
-          <h2 class="text-4xl font-bold leading-none">
-            {{ store.pageData.css.aboutParagraph.title }}
-          </h2>
-          <p class="max-w-lg mt-4 text-base leading-relaxed text-gray-600">
-            {{ store.pageData.css.aboutParagraph.Paragraph1 }}
-          </p>
-          <p class="max-w-lg mt-4 text-base leading-relaxed text-gray-600">
-            {{ store.pageData.css.aboutParagraph.Paragraph2 }}
-          </p>
-        </div>
 
-        <!-- Image -->
-        <div class="flex justify-center mt-8 lg:mt-0 lg:col-span-5 lg:justify-end">
-          <img 
-            :src="store.pageData.css.aboutParagraph.aboutImg" 
-            class="w-full max-w-sm h-[40vh] object-cover"
-            alt="Team or Company Image"
-            style="border-radius: 85vw 0 85vw 85vw; object-position: center;"
-          >
-        </div>
-      </div>
-    </section>
-  
-    <footer class="fixed left-0 w-full py-4 mt-auto bg-white border-t-4 border-purple-800 lg:bottom-0 sm:p-6">
+<footer :class="[`p-4 mt-16 bg-white border-t-4 border-${store.pageData.enterprise.btnColor} sm:p-6 `,'bg-blue-900']">
       <div class="max-w-screen-xl mx-auto">
           <div class="md:flex md:justify-between">
               <div class="mb-6 md:mb-0">
@@ -106,7 +27,7 @@
                         </li>
                     </ul>
                 </div>
-  
+    
                   <div>
                       <h2 class="mb-6 text-sm font-semibold text-gray-900 uppercase dark:text-white">Follow us</h2>
                       <ul class="text-gray-600 dark:text-gray-400">
@@ -149,108 +70,78 @@
           </div>
       </div>
     </footer>
-  
-   <whatsappChats />
-  
     
-  </template>
+    </template>
     
-  <script>
-    import { ref, computed } from "vue";
-    import { useStandpageStore } from '~/stores/modules/dtlStore';
-    import whatsappChats from '../chat/whatsappChat.vue';
-
-  
-
-   definePageMeta({
-      layout: 'standard',   
-     // middleware: 'auth',
-     });
-     
-    export default {
+    <script setup>
+      import "swiper/css";
+      import "swiper/css/pagination";
+      import "swiper/css/autoplay";
+      import { useStandpageStore } from '~/stores/modules/dtlStore';
+    </script>
+    
+    <script>
+      definePageMeta({
+        layout: 'bst',
+      });
+    
+      export default {
+        data() {
+          return {
+            imageroot: process.env.Assets_83,
+            isMenuOpen: false,
+                isSidebarOpen: false,
+                isDropdownOpen: false,
+          };
+        },
+        async mounted() {
+          
+        },
+        async created() {
+          this.store = useStandpageStore();
       
-      components: {whatsappChats},
-      props:[''],
-      data() {
-        return {
-          imageroot: process.env.Assets_83,
-          isMenuOpen: false,
-          isSidebarOpen: false,
-          isDropdownOpen: false,
-          showChatBox: false,  // Ensures the chat box starts hidden
-          newMessage: '',
-          messages: [],
-          autoReplied: false,
-          backendMessageShown: false, 
-        }
-  
-      },
-      async mounted() {
-       
-      },
-      async created() {     
-         this.store = useStandpageStore();
-        //  console.log('color:',store);
-         
-       },
-      watch: {},
-      computed: {
-  
-      },
-      methods: {
-        toggleMenu() {
-          this.isMenuOpen = !this.isMenuOpen;
         },
-        closeMenu() {
-          this.isMenuOpen = false;
+        watch: {},
+        computed: {
+          // ...mapState({
+          //   //loggeduser: (state) => state.loggeduser,
+          // }),
         },
-        closeAll(event) {
-          if (
-            this.isSidebarOpen &&
-            !this.$el.querySelector('aside')?.contains(event.target) &&
-            window.innerWidth < 768
-          ) {
-            this.isSidebarOpen = false;
-          }
-          if (
-            this.isDropdownOpen &&
-            !this.$el.querySelector('.relative.ml-3')?.contains(event.target)
-          ) {
-            this.isDropdownOpen = false;
-          }
+        methods: {
+          
+          handleSideButton() {
+            this.showChatBox = !this.showChatBox;
+            if (this.showChatBox) {
+              // Initially, show the welcome message
+              this.messages = [{ text: "Hi! Please wait, we're preparing to assist you.", isUser: false }];
+            }
+          },
+          
         },
-        handleSideButton() {
-          this.showChatBox = !this.showChatBox;
-          if (this.showChatBox) {
-            // Initially, show the welcome message
-            this.messages = [{ text: "Hi! Please wait, we're preparing to assist you.", isUser: false }];
-          }
+        mounted() {
+          document.addEventListener('click', this.closeAll);
         },
-        
-      },
-      mounted() {
-        document.addEventListener('click', this.closeAll);
-      },
-      beforeUnmount() {
-        document.removeEventListener('click', this.closeAll);
-      },
-      async beforeMount() {
-      },
-      head() {
-        return {
-          title: 'Starter Package',
-        }
-      },
-    }
-  
+        beforeUnmount() {
+          document.removeEventListener('click', this.closeAll);
+        },
+        head() {
+          return {
+            title: 'Intranet - Digital Tech Labs',
+          };
+        },
+      };
     </script>
     
     <style scoped>
-    .csscmd{
+    /* Utility Classes */
+    .html {
+      scroll-behavior: smooth;
+    }
+    .csscmd {
       @apply p-2 text-center bg-blue-200 rounded;
     }
-    .csscmd:hover{
-      @apply bg-blue-200 cursor-pointer;
+    .csscmd:hover {
+      @apply bg-blue-300 cursor-pointer;
     }
     
     .cssBox {
@@ -258,19 +149,11 @@
       @apply border-gray-500 rounded p-2;
     }
   
-    @keyframes slideInFromRight {
-      0% { transform: translateX(100%); }
-      100% { transform: translateX(0); }
-    }
+    /* Navbar Specific */
+  nav a {
+    @apply px-3  rounded-lg transition-colors;
+  }
   
-    .chat-box-enter-active {
-      animation: slideInFromRight 0.5s ease-in-out;
-    }
   
-    .chat-box-leave-active {
-      animation: slideInFromRight 0.5s reverse ease-in-out;
-    }
     </style>
-    
-    
     

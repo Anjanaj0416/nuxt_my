@@ -1,7 +1,6 @@
 <template>
 
-
-  <section class="bg-center bg-cover">
+  <section class="fixed top-0 left-0 z-50 w-full bg-center bg-cover">
     <nav class="h-10 bg-white shadow">
       <div class="flex items-center justify-between h-full max-w-screen-xl px-4 mx-auto">
         <!-- Left side - You can put a logo or name here -->
@@ -48,7 +47,7 @@
           <ul class="flex space-x-8 font-medium">
             <li><a href="/template/premium/product" class="text-white hover:text-gray-300">Men</a></li>
             <li><a href="/template/premium/product" class="text-white hover:text-gray-300">Women</a></li>
-            <li><a href="#product" class="text-white hover:text-gray-300">Gallery </a></li>
+            <li><a href="/template/premium/gallery" class="text-white hover:text-gray-300">Gallery </a></li>
             <li><a href="/template/premium/aboutUs" class="text-white hover:text-gray-300">About</a></li>
             <li><a href="#contact" class="text-white hover:text-gray-300">Contact</a></li>
           </ul>
@@ -61,33 +60,34 @@
       :class="isMenuOpen ? 'translate-x-0' : 'translate-x-full'"
       class="fixed top-0 right-0 z-50 w-64 h-full p-5 transition-transform transform bg-white shadow-lg"
     >
+
       <button @click="closeMenu" class="absolute text-gray-600 top-4 right-4 hover:text-black">
         ✖
       </button>
       <ul class="mt-10 space-y-4 font-medium">
-        <li><a href="#" class="text-gray-800 hover:text-gray-300">Home</a></li>
-        <li><a href="#service" class="text-gray-800 hover:text-gray-300">Services</a></li>
-        <li><a href="#product" class="text-gray-800 hover:text-gray-300">Product</a></li>
+        <li><a href="/template/premium/premium" class="text-gray-800 hover:text-gray-300">Home</a></li>
+        <li><a href="/template/premium/product" class="text-gray-800 hover:text-gray-300">Men</a></li>
+        <li><a href="/template/premium/product" class="text-gray-800 hover:text-gray-300">Women</a></li>
+        <li><a href="/template/premium/gallery" class="text-gray-800 hover:text-gray-300">Gallery</a></li>
         <li><a href="/template/premium/aboutUs" class="text-gray-800 hover:text-gray-300">About</a></li>
         <li><a href="#contact" class="text-gray-800 hover:text-gray-300">Contact</a></li>
       </ul>
     </div>
   </section>
   
-
-  <section class="px-4 py-12 ">
+  <section class="px-4 py-12 mt-12">
     <div class="min-h-screen p-6 text-white ">
       <!-- Breadcrumbs -->
       <div class="mb-4 text-sm text-gray-400">
-        <a href="#" class="hover:underline">Home</a> / 
-        <a href="#" class="hover:underline">Products</a> / 
+        <a href="#" class="hover:underline">Home</a> /
+        <a href="#" class="hover:underline">Products</a> /
         <span class="text-gray-800">Electronics</span>
       </div>
 
       <!-- Layout -->
-      <div class="flex gap-6">
+      <div class="flex flex-col gap-6 lg:flex-row">
         <!-- Sidebar Filters -->
-        <aside class="w-64 p-4 text-gray-800 rounded-lg bg-gray-50">
+        <aside class="w-full p-4 text-gray-800 rounded-lg lg:w-64 bg-gray-50">
           <h2 class="mb-4 text-lg font-semibold">Categories</h2>
           <ul class="space-y-2 text-sm">
             <li><input type="checkbox" class="mr-2" /> TOPS</li>
@@ -99,7 +99,7 @@
         </aside>
 
         <!-- Product Grid -->
-        <section class="px-4 py-12 rounded-lg bg-gray-50">
+        <section class="w-full px-2 py-8 rounded-lg lg:px-4 bg-gray-50">
           <h1 class="mb-6 text-3xl font-semibold text-gray-800">Women</h1>
           <div class="grid grid-cols-1 gap-8 mx-auto sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-5 max-w-7xl">
             
@@ -171,7 +171,6 @@
       </div>
     </div>
   </section>
-  
   
   <footer :class="[`p-4 mt-16 bg-white border-t-4 border-${store.pageData.css.btnColor} sm:p-6 `,'bg-blue-900']">
     <div class="max-w-screen-xl mx-auto">
@@ -262,72 +261,90 @@
     
   
   
-    // Mobile Menu Toggle
-    const menuOpen = ref(false);
-    const toggleMenu = () => {
-      menuOpen.value = !menuOpen.value;
-    };
+    const isMenuOpen = ref(false)
+
+function toggleMenu() {
+  isMenuOpen.value = !isMenuOpen.value
+}
+
+function closeMenu() {
+  isMenuOpen.value = false
+}
   
   
   
   </script>
   
   <script>
-  definePageMeta({
-    layout: 'bst',
-  });
+    definePageMeta({
+      layout: 'bst',
+    });
   
-  export default {
-    data() {
-      return {
-        imageroot: process.env.Assets_83,
-        isMenuOpen: false,
-            isSidebarOpen: false,
-            isDropdownOpen: false,
-      };
-    },
-    async mounted() {
-       
-    },
-    async created() {
-      this.store = useStandpageStore();
-  
-    },
-    watch: {},
-    computed: {
-      // ...mapState({
-      //   //loggeduser: (state) => state.loggeduser,
-      // }),
-    },
-    methods: {
-      toggleMenu() {
-            this.isMenuOpen = !this.isMenuOpen;
-          },
-          closeMenu() {
-            this.isMenuOpen = false;
-          },
-          closeAll(event) {
-            if (
-              this.isSidebarOpen &&
-              !this.$el.querySelector('aside')?.contains(event.target) &&
-              window.innerWidth < 768
-            ) {
-              this.isSidebarOpen = false;
-            }
-            if (
-              this.isDropdownOpen &&
-              !this.$el.querySelector('.relative.ml-3')?.contains(event.target)
-            ) {
-              this.isDropdownOpen = false;
-            }
-          },
-    },
-    head() {
-      return {
-        title: 'Intranet - Digital Tech Labs',
-      };
-    },
-  };
+    export default {
+      data() {
+        return {
+          imageroot: process.env.Assets_83,
+          isMenuOpen: false,
+              isSidebarOpen: false,
+              isDropdownOpen: false,
+        };
+      },
+      async mounted() {
+        
+      },
+      async created() {
+        this.store = useStandpageStore();
+    
+      },
+      watch: {},
+      computed: {
+        // ...mapState({
+        //   //loggeduser: (state) => state.loggeduser,
+        // }),
+      },
+      methods: {
+        toggleMenu() {
+          this.isMenuOpen = !this.isMenuOpen;
+        },
+        closeMenu() {
+          this.isMenuOpen = false;
+        },
+        closeAll(event) {
+          if (
+            this.isSidebarOpen &&
+            !this.$el.querySelector('aside')?.contains(event.target) &&
+            window.innerWidth < 768
+          ) {
+            this.isSidebarOpen = false;
+          }
+          if (
+            this.isDropdownOpen &&
+            !this.$el.querySelector('.relative.ml-3')?.contains(event.target)
+          ) {
+            this.isDropdownOpen = false;
+          }
+        },
+        handleSideButton() {
+          this.showChatBox = !this.showChatBox;
+          if (this.showChatBox) {
+            // Initially, show the welcome message
+            this.messages = [{ text: "Hi! Please wait, we're preparing to assist you.", isUser: false }];
+          }
+        },
+        
+      },
+      mounted() {
+        document.addEventListener('click', this.closeAll);
+      },
+      beforeUnmount() {
+        document.removeEventListener('click', this.closeAll);
+      },
+      head() {
+        return {
+          title: 'Intranet - Digital Tech Labs',
+        };
+      },
+    };
   </script>
   
   <style scoped>
