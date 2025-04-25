@@ -29,7 +29,7 @@
         </nav>
         <nav :class="[`bg-${store.pageData.premium.navbar.navbarColor}`,'bg-blue-800']">
             <div class="flex flex-wrap items-center justify-between max-w-screen-xl p-4 mx-auto">
-            <a href="/template/premium/premium" class="flex items-center space-x-3">
+            <a href="/template/premium" class="flex items-center space-x-3">
                 <span class="self-center text-2xl font-semibold text-white">{{ store.pageData.premium.logo || 'Logo' }}</span>
             </a>
         

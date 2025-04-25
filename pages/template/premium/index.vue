@@ -48,8 +48,8 @@
     <div class="relative overflow-hidden shadow-lg rounded-3xl">
       <img src="../../../assets/img/digitalTechLabs/standard/girlimage.jpg" alt="Cricket Jersey" class="object-cover w-full h-full" />
       <div class="absolute inset-0 flex flex-col justify-end p-8 text-white bg-black/50">
-        <h2 class="text-4xl font-extrabold tracking-tight">New Year Clothing</h2>
-        <p class="mt-2 text-sm">Celebrate in style with our exclusive New Year collection</p>
+        <h2 class="text-4xl font-extrabold tracking-tight">{{ store.pageData.premium.second.title }}</h2>
+        <p class="mt-2 text-sm">{{ store.pageData.premium.second.subTitle }}</p>
         <button class="px-5 py-2 mt-4 text-sm font-semibold text-black transition-all duration-300 bg-white rounded-lg hover:bg-gray-200 w-fit">
           SHOP ALL
         </button>
@@ -60,7 +60,7 @@
     <div class="flex flex-col justify-between">
       <!-- Title and Button -->
       <div>
-        <h2 class="text-4xl font-bold text-gray-900">New Year Specials</h2>
+        <h2 class="text-4xl font-bold text-gray-900">{{ store.pageData.premium.second.title }}</h2>
         <p class="mt-2 text-gray-700">Limited edition merchandise just for this festive season!</p>
         <button class="px-6 py-2 mt-6 font-semibold text-white transition-all duration-300 bg-black rounded-lg hover:bg-gray-800">
           VIEW PRODUCTS
@@ -69,56 +69,29 @@
   
       <!-- Product Cards -->
       <div class="grid grid-cols-1 gap-6 mt-10 sm:grid-cols-3">
-        <!-- Product 1 -->
-        <div class="p-4 text-center transition-all duration-300 bg-white border shadow rounded-xl hover:shadow-xl">
+        <div
+          v-for="(product, index) in store.pageData.premium.second.secondDataProduct"
+          :key="index"
+          class="p-4 text-center transition-all duration-300 bg-white border shadow rounded-xl hover:shadow-xl"
+        >
           <div class="relative">
-            <span class="absolute top-0 left-0 px-2 py-1 text-xs font-bold text-white bg-red-500 rounded-tr-md rounded-bl-md">Hot</span>
-            <img src="../../../assets/img/digitalTechLabs/standard/s1.png" alt="Cap" class="object-contain mx-auto h-28" />
+            <span
+              v-if="product.promo"
+              class="absolute top-0 left-0 px-2 py-1 text-xs font-bold text-white bg-red-500 rounded-tr-md rounded-bl-md"
+            >
+              Hot
+            </span>
+            <img
+              :src="product.image"
+              :alt="product.alt"
+              class="object-contain mx-auto h-28"
+            />
           </div>
-          <p class="mt-4 text-sm text-gray-600">Cricket Mesh Cap</p>
-          <p class="mt-1 text-base font-bold text-black">Rs. 2,490.00</p>
-          <button class="mt-3 inline-block border-2 text-gray-600 text-xs font-semibold px-4 py-1.5 rounded-full hover:bg-gray-100 transition">Shop Now</button>
-  
-        </div>
-  
-        <!-- Product 2 -->
-        <div class="p-4 text-center transition duration-300 bg-white border shadow-md rounded-xl hover:shadow-xl">
-          <img src="../../../assets/img/digitalTechLabs/standard/s1.png" alt="Cap" class="object-contain mx-auto h-28" />
-          <p class="font-medium text-gray-700">Comfort Fit Crew Neck T-shirt – Black</p>
-          <p class="mt-1 text-lg font-bold text-gray-900">Rs.990.00</p>
-          <button class="mt-3 inline-block border-2 text-gray-600 text-xs font-semibold px-4 py-1.5 rounded-full hover:bg-gray-100 transition">Shop Now</button>
-        </div>
-  
-        <!-- Product 2 -->
-        <div class="p-4 text-center transition duration-300 bg-white border shadow-md rounded-xl hover:shadow-xl">
-          <img src="../../../assets/img/digitalTechLabs/standard/s1.png" alt="Cap" class="object-contain mx-auto h-28" />
-          <p class="font-medium text-gray-700">Comfort Fit Crew Neck T-shirt – Black</p>
-          <p class="mt-1 text-lg font-bold text-gray-900">Rs.990.00</p>
-          <button class="mt-3 inline-block border-2 text-gray-600 text-xs font-semibold px-4 py-1.5 rounded-full hover:bg-gray-100 transition">Shop Now</button>
-        </div>
-  
-        <!-- Product 2 -->
-        <div class="p-4 text-center transition duration-300 bg-white border shadow-md rounded-xl hover:shadow-xl">
-          <img src="../../../assets/img/digitalTechLabs/standard/s1.png" alt="Cap" class="object-contain mx-auto h-28" />
-          <p class="font-medium text-gray-700">Comfort Fit Crew Neck T-shirt – Black</p>
-          <p class="mt-1 text-lg font-bold text-gray-900">Rs.990.00</p>
-          <button class="mt-3 inline-block border-2 text-gray-600 text-xs font-semibold px-4 py-1.5 rounded-full hover:bg-gray-100 transition">Shop Now</button>
-        </div>
-  
-        <!-- Product 2 -->
-        <div class="p-4 text-center transition duration-300 bg-white border shadow-md rounded-xl hover:shadow-xl">
-          <img src="../../../assets/img/digitalTechLabs/standard/s1.png" alt="Cap" class="object-contain mx-auto h-28" />
-          <p class="font-medium text-gray-700">Comfort Fit Crew Neck T-shirt – Black</p>
-          <p class="mt-1 text-lg font-bold text-gray-900">Rs.990.00</p>
-          <button class="mt-3 inline-block border-2 text-gray-600 text-xs font-semibold px-4 py-1.5 rounded-full hover:bg-gray-100 transition">Shop Now</button>
-        </div>
-  
-        <!-- Product 3 -->
-        <div class="p-4 text-center transition duration-300 bg-white border shadow-md rounded-xl hover:shadow-xl">
-          <img src="../../../assets/img/digitalTechLabs/standard/s1.png" alt="Cap" class="object-contain mx-auto h-28" />
-          <p class="font-medium text-gray-700">Comfort Fit Crew Neck T-shirt – Black</p>
-          <p class="mt-1 text-lg font-bold text-gray-900">Rs.990.00</p>
-          <button class="mt-3 inline-block border-2 text-gray-600 text-xs font-semibold px-4 py-1.5 rounded-full hover:bg-gray-100 transition">Shop Now</button>
+          <p class="mt-4 text-sm text-gray-600">{{ product.title }}</p>
+          <p class="mt-1 text-base font-bold text-black">{{ product.price }}</p>
+          <button class="mt-3 inline-block border-2 text-gray-600 text-xs font-semibold px-4 py-1.5 rounded-full hover:bg-gray-100 transition">
+            Shop Now
+          </button>
         </div>
       </div>
     </div>
@@ -126,46 +99,23 @@
   
   <section class="px-4 py-12 bg-gradient-to-b from-gray-50 to-white">
     <h2 class="mb-10 text-2xl font-bold text-center text-gray-800 uppercase">
-      Shop for Women's
+      {{ store.pageData.premium.first.firstTitle }}
     </h2>
   
     <div class="grid grid-cols-1 gap-8 mx-auto sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-5 max-w-7xl">
       
       <!-- Product Card -->
-      <div class="p-4 text-center transition duration-300 bg-white shadow-md rounded-2xl hover:shadow-xl">
-        <img src="../../../assets/img/digitalTechLabs/standard/s1.png" alt="Black T-shirt" class="object-cover w-full h-48 mb-4 rounded-lg" />
-        <p class="font-medium text-gray-700">Comfort Fit Crew Neck T-shirt – Black</p>
-        <p class="mt-1 text-lg font-bold text-gray-900">Rs.990.00</p>
+      <div class="p-4 text-center transition duration-300 bg-white shadow-md rounded-2xl hover:shadow-xl" 
+        v-for="(product, index) in store.pageData.premium.first.firstTitleDataSlider"
+        :key="index"
+      >
+        <img :src="product.image" :alt="product.alt" class="object-cover w-full h-48 mb-4 rounded-lg" />
+        <p class="text-sm font-medium text-gray-700">{{ product.title }}</p>
+        <p class="mt-1 text-sm font-bold text-gray-900">{{ product.price }}</p>
         <button class="mt-3 inline-block border-2 text-gray-600 text-xs font-semibold px-4 py-1.5 rounded-full hover:bg-gray-100 transition">Shop Now</button>
       </div>
   
-      <div class="p-4 text-center transition duration-300 bg-white shadow-md rounded-2xl hover:shadow-xl">
-        <img src="../../../assets/img/digitalTechLabs/standard/s2.png" alt="Space Blue T-shirt" class="object-cover w-full h-48 mb-4 rounded-lg" />
-        <p class="font-medium text-gray-700">Comfort Fit Crew Neck T-shirt – Space Blue</p>
-        <p class="mt-1 text-lg font-bold text-gray-900">Rs.990.00</p>
-        <button class="mt-3 inline-block border-2 text-gray-600 text-xs font-semibold px-4 py-1.5 rounded-full hover:bg-gray-100 transition">Shop Now</button>
-      </div>
-  
-      <div class="p-4 text-center transition duration-300 bg-white shadow-md rounded-2xl hover:shadow-xl">
-        <img src="../../../assets/img/digitalTechLabs/standard/s3.png" alt="Sky Blue T-shirt" class="object-cover w-full h-48 mb-4 rounded-lg" />
-        <p class="font-medium text-gray-700">Comfort Fit Crew Neck T-shirt – Sky Blue</p>
-        <p class="mt-1 text-lg font-bold text-gray-900">Rs.990.00</p>
-        <button class="mt-3 inline-block border-2 text-gray-600 text-xs font-semibold px-4 py-1.5 rounded-full hover:bg-gray-100 transition">Shop Now</button>
-      </div>
-  
-      <div class="p-4 text-center transition duration-300 bg-white shadow-md rounded-2xl hover:shadow-xl">
-        <img src="../../../assets/img/digitalTechLabs/standard/s1.png" alt="Muted Green T-shirt" class="object-cover w-full h-48 mb-4 rounded-lg" />
-        <p class="font-medium text-gray-700">Comfort Fit Crew Neck T-shirt – Muted Green</p>
-        <p class="mt-1 text-lg font-bold text-gray-900">Rs.990.00</p>
-        <button class="mt-3 inline-block border-2 text-gray-600 text-xs font-semibold px-4 py-1.5 rounded-full hover:bg-gray-100 transition">Shop Now</button>
-      </div>
-  
-      <div class="p-4 text-center transition duration-300 bg-white shadow-md rounded-2xl hover:shadow-xl">
-        <img src="../../../assets/img/digitalTechLabs/standard/s1.png" alt="Sapphire Blue T-shirt" class="object-cover w-full h-48 mb-4 rounded-lg" />
-        <p class="font-medium text-gray-700">Comfort Fit Crew Neck T-shirt – Sapphire Blue</p>
-        <p class="mt-1 text-lg font-bold text-gray-900">Rs.990.00</p>
-        <button class="mt-3 inline-block border-2 text-gray-600 text-xs font-semibold px-4 py-1.5 rounded-full hover:bg-gray-100 transition">Shop Now</button>
-      </div>
+      
     </div>
     <div class="mt-6 text-2xl font-bold text-center text-gray-800 uppercase">
       <button class="mt-3 inline-block border-2 text-gray-600 text-xs font-semibold px-4 py-1.5 rounded-full hover:bg-gray-100 transition">Shop Other</button>
@@ -174,46 +124,23 @@
   
   <section class="px-4 py-12 bg-gradient-to-b from-gray-50 to-white">
     <h2 class="mb-10 text-2xl font-bold text-center text-gray-800 uppercase">
-      Shop for Men
+      {{ store.pageData.premium.first.firstTitle }}
     </h2>
   
     <div class="grid grid-cols-1 gap-8 mx-auto sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-5 max-w-7xl">
       
       <!-- Product Card -->
-      <div class="p-4 text-center transition duration-300 bg-white shadow-md rounded-2xl hover:shadow-xl">
-        <img src="../../../assets/img/digitalTechLabs/standard/s1.png" alt="Black T-shirt" class="object-cover w-full h-48 mb-4 rounded-lg" />
-        <p class="font-medium text-gray-700">Comfort Fit Crew Neck T-shirt – Black</p>
-        <p class="mt-1 text-lg font-bold text-gray-900">Rs.990.00</p>
+      <div class="p-4 text-center transition duration-300 bg-white shadow-md rounded-2xl hover:shadow-xl" 
+        v-for="(product, index) in store.pageData.premium.first.firstTitleDataSlider"
+        :key="index"
+      >
+        <img :src="product.image" :alt="product.alt" class="object-cover w-full h-48 mb-4 rounded-lg" />
+        <p class="text-sm font-medium text-gray-700">{{ product.title }}</p>
+        <p class="mt-1 text-sm font-bold text-gray-900">{{ product.price }}</p>
         <button class="mt-3 inline-block border-2 text-gray-600 text-xs font-semibold px-4 py-1.5 rounded-full hover:bg-gray-100 transition">Shop Now</button>
       </div>
   
-      <div class="p-4 text-center transition duration-300 bg-white shadow-md rounded-2xl hover:shadow-xl">
-        <img src="../../../assets/img/digitalTechLabs/standard/s2.png" alt="Space Blue T-shirt" class="object-cover w-full h-48 mb-4 rounded-lg" />
-        <p class="font-medium text-gray-700">Comfort Fit Crew Neck T-shirt – Space Blue</p>
-        <p class="mt-1 text-lg font-bold text-gray-900">Rs.990.00</p>
-        <button class="mt-3 inline-block border-2 text-gray-600 text-xs font-semibold px-4 py-1.5 rounded-full hover:bg-gray-100 transition">Shop Now</button>
-      </div>
-  
-      <div class="p-4 text-center transition duration-300 bg-white shadow-md rounded-2xl hover:shadow-xl">
-        <img src="../../../assets/img/digitalTechLabs/standard/s3.png" alt="Sky Blue T-shirt" class="object-cover w-full h-48 mb-4 rounded-lg" />
-        <p class="font-medium text-gray-700">Comfort Fit Crew Neck T-shirt – Sky Blue</p>
-        <p class="mt-1 text-lg font-bold text-gray-900">Rs.990.00</p>
-        <button class="mt-3 inline-block border-2 text-gray-600 text-xs font-semibold px-4 py-1.5 rounded-full hover:bg-gray-100 transition">Shop Now</button>
-      </div>
-  
-      <div class="p-4 text-center transition duration-300 bg-white shadow-md rounded-2xl hover:shadow-xl">
-        <img src="../../../assets/img/digitalTechLabs/standard/s1.png" alt="Muted Green T-shirt" class="object-cover w-full h-48 mb-4 rounded-lg" />
-        <p class="font-medium text-gray-700">Comfort Fit Crew Neck T-shirt – Muted Green</p>
-        <p class="mt-1 text-lg font-bold text-gray-900">Rs.990.00</p>
-        <button class="mt-3 inline-block border-2 text-gray-600 text-xs font-semibold px-4 py-1.5 rounded-full hover:bg-gray-100 transition">Shop Now</button>
-      </div>
-  
-      <div class="p-4 text-center transition duration-300 bg-white shadow-md rounded-2xl hover:shadow-xl">
-        <img src="../../../assets/img/digitalTechLabs/standard/s1.png" alt="Sapphire Blue T-shirt" class="object-cover w-full h-48 mb-4 rounded-lg" />
-        <p class="font-medium text-gray-700">Comfort Fit Crew Neck T-shirt – Sapphire Blue</p>
-        <p class="mt-1 text-lg font-bold text-gray-900">Rs.990.00</p>
-        <button class="mt-3 inline-block border-2 text-gray-600 text-xs font-semibold px-4 py-1.5 rounded-full hover:bg-gray-100 transition">Shop Now</button>
-      </div>
+      
     </div>
     <div class="mt-6 text-2xl font-bold text-center text-gray-800 uppercase">
       <button class="mt-3 inline-block border-2 text-gray-600 text-xs font-semibold px-4 py-1.5 rounded-full hover:bg-gray-100 transition">Shop Other</button>
@@ -226,7 +153,7 @@
       
       <!-- Contact Form -->
       <div class="p-6 ">
-          <p class="mb-4 text-sm text-white">{{store.pageData.css.contactSection.Paragraph2}}</p> 
+          <p class="mb-4 text-sm text-white">{{store.pageData.standard.contactSection.Paragraph2}}</p> 
       </div>
     </div>
   </section>
@@ -354,13 +281,13 @@
   
     const sliders = ref([
     {
-      img: new URL('@/assets/img/digitalTechLabs/standard/home.png', import.meta.url).href
+      img: new URL('@/assets/img/digitalTechLabs/standard/premiumnav.png', import.meta.url).href
     },
     {
       img: new URL('@/assets/img/digitalTechLabs/home.png', import.meta.url).href
     },
     {
-      img: new URL('@/assets/img/digitalTechLabs/home.png', import.meta.url).href
+      img: new URL('@/assets/img/digitalTechLabs/premiumnav.png', import.meta.url).href
     },
   ]);
   
