@@ -1,0 +1,20 @@
+api - live
+https://mcleapi.dtl.lk/api
+api - dev
+https://localhost:7237/api
+
+Postmon API Namespace- 
+MiracleAPI_8.0
+
+
+git pull origin develop
+
+npm run dev
+npm run build
+node .output/server/index.mjs
+
+
+pm2 restart dtlapp
+pm2 list
+
+npm install --legacy-peer-deps

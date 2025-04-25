@@ -1,154 +1,48 @@
-<!-- https://flowbite.com/docs/components/avatar/ -->
 
-<template>
-    <section>
-        <div class="flex  cssbtnarray">  
-         <div @click="goToLogin">Login</div> 
-         <div @click="goToChangeLogin">change login</div>
-        </div>
-      
-    </section>
-    <!-- <input type="text" oninput="this.value = this.value.replace(/[^0-9.]/g, '').replace(/(\..*?)\..*/g, '$1');" > -->
-  </template>
-  
-  <script>
-  //import textInput from '~/components/customcontrol/textinput'
-  //import * as Global from '@/assets/js/Global'
-  //import * as myfilter from '@/plugins/myfilter'
- // import { mapState, mapGetters, mapActions, mapMutations } from 'pinia'
- definePageMeta({
-    layout: 'default'
-   });
-  export default {
-   
-    components: {},
-    props:[''],
-    data() {
-      return {
-        imageroot: process.env.Assets_83,
-      }
-    },
-    async mounted() {},
-    watch: {},
-    computed: {
-        goToLogin(){
-            this.$router.push('/user/login')
-        },
-        goToChangeLogin(){
-            this.$router.push('/user/changelogin')
-        },
-      // ...mapState({
-      //   //loggeduser: (state) => state.loggeduser,
-      // }),
-    },
-    methods: {
-      // ...mapActions({
-      //   //  getWGInitData: 'reservedaddetail/getWGInitData',
-      // }),
-      //   ...mapMutations({
-      //   //resetEmail: 'office/RESET_EMAIL',
-      //    //showMessage: 'PUSH_NOTIFICATION',
-      // }),
-      //  this.processing_year = new Date().getFullYear()
-       //this.$emit('Load_MonthlyBrakeDown',req)
-       //this.$refs.catcomp.initCategoryItem(-1)
-       //this.$emit('input', this.selected_item.trim());
-    // show_error(msg) {
-    //     this.showMessage({
-    //       type: 'Failed',
-    //       message: msg,
-    //     })
-    //   },
-    //    show_msg(msg) {
-    //     this.showMessage({
-    //       type: 'success',
-    //       message: msg,
-    //     })
-    //   },
-      // async copyContent(value) {
-      //   try {
-      //      await navigator.clipboard.writeText(value)
-      //      this.show_msg('Content copied to clipboard')
-  
-      //   } catch (err) {
-      //     this.show_msg('Failed to copy :'+err)
-      //   }
-      // },
-      //     async copyContent(value) {
-      //   try {
-      //      await navigator.clipboard.writeText(value)
-      //      this.show_msg('Content copied to clipboard')
-  
-      //   } catch (err) {
-      //     this.show_msg('Failed to copy :'+err)
-      //   }
-      // },
-      //  async downloadReportKotukole(){
-      //   if(confirm('Do you want to Download?')){
-      //      await this.get_DownloadKotukole({book:this.book});
-      //      window.open(this.csv_root+'/reports/'+this.csv_name, '_blank');
-      //   }
-      // },
-    },
-    async beforeMount() {
-      // if (this.loggeduser.granted.indexOf('workgroup') > -1 || this.loggeduser.usergroup == 'Supervisor' ) {
-      // } else {
-      //   this.show_error('Not Allowed to access this page')
-      //   this.$router.push('/')
-      // }
-  
-    },
-    head() {
-      return {
-        title: 'Intranet - Digital Tech Labs',
-      }
-    },
-  }
-  
-  //Validation
-  //-------------------------------------------------
-  // async cmdSearchOrg(){
-  //       if(this.isAtleasetOneExisitsForSearch()){
-  //      await this.getOrganizationData(this.organizationSearch);
-  //       }
-  //     },
-  
-  // 	-------------------
-  
-  
-  //  isAtleasetOneExisitsForSearch(){
-  //  let isAtleasetOneExisitsForSearch = false;
-  
-  
-  //  if(this.organizationSearch.person.trim()!='' ){
-  //         if( this.organizationSearch.person.trim().length  <= 3 ){
-  //             this.show_error('Invalid person , More than three Letters Requied for search');
-  //         }
-  //         else{ isAtleasetOneExisitsForSearch = true;}
-  
-  //       }
-  // 	  return isAtleasetOneExisitsForSearch;
-  // 	  }
-  </script>
-  
-  <style scoped>
-  .csscmd{
-    @apply p-2 text-center bg-blue-200 rounded;
-  }
-  .csscmd:hover{
-    @apply bg-blue-200 cursor-pointer;
-  }
-  
-  .cssBox {
-    border: 1px solid;
-    @apply border-gray-500 rounded p-2;
-  }
+<template >
+  <section class="mt-24 mx-4 my-8 md:mx-10 lg:mx-24">
+    <div class="p-4">
+      <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+        <CompanyCard  imgUrl="https://rainbowpages.lk/uploads/listings/logo/l/lakan1g.jpg"/>
+        <CompanyCard imgUrl="https://rainbowpages.lk/uploads/listings/logo/d/deepn1g2.jpg"/>
+        <CompanyCard imgUrl="https://rainbowpages.lk/uploads/listings/logo/d/douglassc.jpg"/>
+        <CompanyCard  imgUrl="https://rainbowpages.lk/uploads/listings/logo/h/hayleys_agricul.jpg"/>
+        <!-- Add more <CompanyCard /> as needed -->
+      </div>
+    </div>
+  </section>
+</template>
 
-  .cssbtnarray div{
-    border: 1px solid;
-    @apply border-gray-500 rounded p-2 mx-2 hover:bg-gray-400 cursor-pointer;
+
+
+
+
+<script>
+import CompanyCard from '@/components/test/vender_listing_card.vue'
+export default {
+  layout: 'default',
+  components: {CompanyCard},
+  data() {
+    return {
+      // greeting: '',
+      // sum: 0,
+    }
+  },
+  mounted() {
+    // Access plugin through this
+   // this.greeting = this.$myUtility.greet("Nuxt User")
+  //  this.sum = this.$myUtility.add(10, 20)
+   // this.toInputTypeDate = this.$myUtility.toInputTypeDate("2025-04-20")
+  },
+  computed: {
+
+  },
+  head() {
+    return {
+      title: 'Intranet - Digital Tech Labs',
+    }
   }
-  </style>
-  
-  
-  
+}
+</script>
+
+<style scoped></style>

@@ -1,230 +1,200 @@
 <template>
   <section class="flex items-center justify-center min-h-screen px-4 bg-gray-100">
-    <!-- Sign Up Card -->
-    <div class="flex flex-col items-center w-full max-w-4xl overflow-hidden bg-white rounded-lg shadow-lg md:flex-row">
-      <!-- Left Section -->
-      <div class="w-full p-6 text-center md:w-1/2 md:text-left">
-        <h2 @click="showComp='index41'" class="text-2xl font-bold text-gray-800">
-          Market Place
-        </h2>
-        <!-- <div @click="showComp='index1'" class="cursor-pointer">Login</div> -->
-        <!-- <div @click="showComp='login'" class="cursor-pointer">Login</div> -->
-        <p class="mt-4 text-gray-600">
-          To learn more, visit
-          <a href="assets/img/Login.png" class="text-indigo-600 underline" target="_blank">
-            marketplace
-          </a>.
+    <div
+      class="flex flex-col items-center w-full max-w-5xl overflow-hidden bg-white shadow-2xl rounded-3xl md:flex-row">
+      <div class="w-full p-10 text-center bg-white md:w-1/2">
+        <a href="/">
+          <img src="/assets/img/LogoDigitalTechLab.png" alt="Logo" class="mx-auto w-36" />
+        </a>
+        <!-- <h2 @click="showComp = 'index41'" class="mt-4 text-3xl font-bold text-indigo-800 transition cursor-pointer hover:text-indigo-600">
+        Digital Tech Labs
+      </h2> -->
+        <p class="mt-4 text-sm leading-relaxed text-gray-600">
+          Innovative backbone of the organization, where cutting-edge tech is crafted to enhance workflows, elevate user
+          experience, and drive the digital future.
         </p>
-        <div class="mt-8">
-          <!-- <img
-            src="img/Login.png"
-            alt="AWS Logo"
-            class="w-32"
-          /> -->
-        </div>
       </div>
 
-      <!-- Right Section -->
-      <div class="w-full p-6 md:w-1/2 bg-gray-50">
-        <h3 class="mb-6 text-2xl font-semibold text-center text-gray-700">
-          Sign up
-        </h3>
-        <form @submit.prevent="handleSignup" class="space-y-4">
-          <!-- Email Input -->
+      <!-- Right Panel -->
+      <div class="w-full p-10 bg-white md:w-1/2">
+        <h3 class="mb-6 text-3xl font-semibold text-center text-indigo-900">Sign In</h3>
+
+        <form @submit.prevent="handleLogin" class="space-y-5">
+          <!-- Email -->
           <div>
-            <label class="block text-sm font-medium text-gray-600">Email</label>
-            <input
-              type="email"
-              v-model="email"
-              placeholder="Enter Email"
-              required
-              class="w-full p-2 mt-2 text-sm border rounded-md focus:ring-indigo-500 focus:border-indigo-500"
-            />
+            <label class="block mb-1 text-sm font-medium text-gray-700">Email</label>
+            <input type="email" v-model="loginDetails.userName" placeholder="Enter your email" required
+              class="w-full px-4 py-2 text-sm border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-300" />
+            <div v-if="!loginDetails.userName" class="mt-1 text-sm text-red-500">
+              Please enter your username.
+            </div>
           </div>
-          <!-- Password Input -->
+
+          <!-- Password -->
           <div>
-            <label class="block text-sm font-medium text-gray-600">Password</label>
-            <input
-              type="password"
-              v-model="password"
-              placeholder="Enter Password"
-              required
-              class="w-full p-2 mt-2 text-sm border rounded-md focus:ring-indigo-500 focus:border-indigo-500"
-            />
+            <label class="block mb-1 text-sm font-medium text-gray-700">Password</label>
+            <div class="relative">
+              <input :type="showPassword ? 'text' : 'password'" v-model="loginDetails.password"
+                placeholder="Enter your password" required
+                class="w-full px-4 py-2 pr-10 text-sm border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-300" />
+              <button type="button" @click="togglePassword"
+                class="absolute inset-y-0 flex items-center text-black right-3">
+                <!-- Icons -->
+                <svg v-if="showPassword" xmlns="http://www.w3.org/2000/svg" class="w-5 h-5" fill="none"
+                  viewBox="0 0 24 24" stroke="currentColor">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                    d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" />
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                    d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.478 0-8.268-2.943-9.542-7z" />
+                </svg>
+                <svg v-else xmlns="http://www.w3.org/2000/svg" class="w-5 h-5" fill="none" viewBox="0 0 24 24"
+                  stroke="currentColor">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                    d="M13.875 18.825A10.05 10.05 0 0112 19c-4.478 0-8.268-2.943-9.542-7a10.05 10.05 0 012.304-3.65M15 12a3 3 0 00-3-3m3 3a3 3 0 01-3 3m0 0l-4.875-4.875M9.879 9.88L4.22 4.22" />
+                </svg>
+              </button>
+            </div>
+            <div v-if="!loginDetails.password" class="mt-1 text-sm text-red-500">
+              Please enter valid password.
+            </div>
           </div>
+
           <!-- Sign In Button -->
-          <button
-            type="submit"
-            class="w-full px-4 py-2 font-semibold text-white rounded-lg hover:bg-indigo-800 btn">
-            Sign in
+          <button @click="GetLogin" type="button"
+            class="w-full py-2 text-white transition bg-blue-900 rounded-lg hover:bg-indigo-800">
+            Sign In
           </button>
+
           <div class="flex justify-end">
-            <a href="/user/changelogin" class="text-sm text-indigo-800 hover:underline">
+            <a href="/user/changelogin" class="text-sm text-indigo-600 hover:underline">
               Forgot Password?
             </a>
           </div>
+
+          <!-- Separator -->
+          <div class="flex items-center justify-center gap-2 my-6 text-sm text-gray-400">
+            <hr class="w-1/4 border-gray-300" />
+            OR
+            <hr class="w-1/4 border-gray-300" />
+          </div>
+
+          <!-- Sign Up -->
+          <button @click="goToRegister"
+            class="w-full px-4 py-2 font-semibold text-gray-700 bg-gray-100 rounded-lg hover:bg-gray-200">
+            Sign up for a new account
+          </button>
         </form>
-
-        <!-- Separator -->
-        <div class="flex items-center my-6">
-          <hr class="w-full border-gray-300" />
-          <span class="mx-2 text-sm text-gray-500">OR</span>
-          <hr class="w-full border-gray-300" />
-        </div>
-
-        <!-- Sign Up Button -->
-        <button
-          @click="goToRegister"
-          class="w-full px-4 py-2 font-semibold text-gray-700 bg-gray-100 rounded-lg hover:bg-gray-200">
-          Sign up for a new account
-        </button>
       </div>
     </div>
   </section>
-</template>
-  
-  <script>
-  import changelogin from '~/pages/user/changelogin'
-  import register from '~/pages/user/register.vue'
-  //import textInput from '~/components/customcontrol/textinput'
-  //import * as Global from '@/assets/js/Global'
-  //import * as myfilter from '@/plugins/myfilter'
- // import { mapState, mapGetters, mapActions, mapMutations } from 'pinia'
-   definePageMeta({
-    layout: 'loginlayout'
-   });
 
-  export default {
-    components: {changelogin,register},
-    props:[''],
-    data() {
-      return {
-        imageroot: process.env.Assets_83,
+</template>
+
+<script>
+import changelogin from "~/pages/user/changelogin";
+import register from "~/pages/user/register.vue";
+import logo from "~/assets/img/Logo.png";
+import { useUserStore } from "~/stores/modules/userStore";
+// import { ref } from "vue";
+// import Swal from "sweetalert2";
+
+//import textInput from '~/components/customcontrol/textinput'
+//// import * as Global from '@/assets/js/Global'
+////import * as myfilter from '@/plugins/myfilter'
+// import { mapState, mapGetters, mapActions, mapMutations } from 'pinia'
+definePageMeta({
+  layout: "loginlayout",
+});
+
+export default {
+  components: { changelogin, register, logo },
+  props: [""],
+  data() {
+    return {
+      imageroot: process.env.Assets_83,
+      loginDetails: {
+        userName: "thushara",
+        password: "",
+      },
+      showPassword: false,
+      showLoading: null,
+    };
+  },
+
+  async mounted() {
+    this.userStore = useUserStore();
+    await this.userStore.logout();
+  },
+  watch: {},
+  created() {
+    this.showLoading = this.$showLoading;
+  },
+  computed: {},
+  methods: {
+    async GetLogin() {
+      await this.userStore.login(this.loginDetails, this.showLoading);
+      //api Call using pinia
+      try {
+        var token = this.userStore.token;
+        if (token === null) {
+          this.$showToast("Login Failed!", "error");
+        } else {
+          this.$showToast("Login successful!", "success");
+          try {
+            const redirectToCookie = useCookie("redirectTo");
+            if (redirectToCookie != "") {
+              this.$router.push(redirectToCookie.value);
+            } else {
+              this.$router.push("/dashboard");
+            }
+          } catch (error) { this.$router.push("/dashboard"); }
+        }
+      } catch (error) {
+        this.$showToast(
+          "Login failed. Please check your credentials.",
+          "error"
+        );
       }
     },
-    async mounted() {},
-    watch: {},
-    computed: {
-      // ...mapState({
-      //   //loggeduser: (state) => state.loggeduser,
-      // }),
-    },
-    methods: {
-      goToChangeLogin() {
-        this.$router.push('/user/changelogin'); // Navigate to /user/changelogin
+
+    goToChangeLogin() {
+      this.$router.push("/user/changelogin"); // Navigate to /user/changelogin
     },
     goToHomePage() {
-        this.$router.push('/user/index'); // Navigate to /user/changelogin
+      this.$router.push("/user/index"); // Navigate to /user/changelogin
     },
     goToRegister() {
-        this.$router.push('/user/register'); // Navigate to /user/changelogin
+      this.$router.push("/user/register"); // Navigate to /user/changelogin
     },
-      // ...mapActions({
-      //   //  getWGInitData: 'reservedaddetail/getWGInitData',
-      // }),
-      //   ...mapMutations({
-      //   //resetEmail: 'office/RESET_EMAIL',
-      //    //showMessage: 'PUSH_NOTIFICATION',
-      // }),
-      //  this.processing_year = new Date().getFullYear()
-       //this.$emit('Load_MonthlyBrakeDown',req)
-       //this.$refs.catcomp.initCategoryItem(-1)
-       //this.$emit('input', this.selected_item.trim());
-    // show_error(msg) {
-    //     this.showMessage({
-    //       type: 'Failed',
-    //       message: msg,
-    //     })
-    //   },
-    //    show_msg(msg) {
-    //     this.showMessage({
-    //       type: 'success',
-    //       message: msg,
-    //     })
-    //   },
-      // async copyContent(value) {
-      //   try {
-      //      await navigator.clipboard.writeText(value)
-      //      this.show_msg('Content copied to clipboard')
-  
-      //   } catch (err) {
-      //     this.show_msg('Failed to copy :'+err)
-      //   }
-      // },
-      //     async copyContent(value) {
-      //   try {
-      //      await navigator.clipboard.writeText(value)
-      //      this.show_msg('Content copied to clipboard')
-  
-      //   } catch (err) {
-      //     this.show_msg('Failed to copy :'+err)
-      //   }
-      // },
-      //  async downloadReportKotukole(){
-      //   if(confirm('Do you want to Download?')){
-      //      await this.get_DownloadKotukole({book:this.book});
-      //      window.open(this.csv_root+'/reports/'+this.csv_name, '_blank');
-      //   }
-      // },
+    togglePassword() {
+      this.showPassword = !this.showPassword;
     },
-    async beforeMount() {
-      // if (this.loggeduser.granted.indexOf('workgroup') > -1 || this.loggeduser.usergroup == 'Supervisor' ) {
-      // } else {
-      //   this.show_error('Not Allowed to access this page')
-      //   this.$router.push('/')
-      // }
-  
-    },
-    head() {
-      return {
-        title: 'Intranet - Digital Tech Labs',
-      }
-    },
-  }
-  
-  //Validation
-  //-------------------------------------------------
-  // async cmdSearchOrg(){
-  //       if(this.isAtleasetOneExisitsForSearch()){
-  //      await this.getOrganizationData(this.organizationSearch);
-  //       }
-  //     },
-  
-  // 	-------------------
-  
-  
-  //  isAtleasetOneExisitsForSearch(){
-  //  let isAtleasetOneExisitsForSearch = false;
-  
-  
-  //  if(this.organizationSearch.person.trim()!='' ){
-  //         if( this.organizationSearch.person.trim().length  <= 3 ){
-  //             this.show_error('Invalid person , More than three Letters Requied for search');
-  //         }
-  //         else{ isAtleasetOneExisitsForSearch = true;}
-  
-  //       }
-  // 	  return isAtleasetOneExisitsForSearch;
-  // 	  }
-  </script>
-  
-  <style scoped>
-  .csscmd{
-    @apply p-2 text-center bg-blue-200 rounded;
-  }
-  .csscmd:hover{
-    @apply bg-blue-200 cursor-pointer;
-  }
-  
-  .cssBox {
-    border: 1px solid;
-    @apply border-gray-500 rounded p-2;
-  }
+    validateLogin() { },
+  },
+  async beforeMount() { },
+  head() {
+    return {
+      title: "Intranet - Digital Tech Labs",
+    };
+  },
+};
+</script>
 
-  .btn{
-    background-color: #072556; 
-  }
-  </style>
-  
-  
-  
+<style scoped>
+.csscmd {
+  @apply p-2 text-center bg-blue-200 rounded;
+}
+
+.csscmd:hover {
+  @apply bg-blue-200 cursor-pointer;
+}
+
+.cssBox {
+  border: 1px solid;
+  @apply border-gray-500 rounded p-2;
+}
+
+.btn {
+  background-color: #072556;
+}
+</style>

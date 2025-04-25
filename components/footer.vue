@@ -2,9 +2,13 @@
 
 <template>
     <section>
-      <div class="p-4 mt-4 text-white bg-gray-300">
-      <p class="text-black">&copy; 2024 My Nuxt App</p>
-    </div>
+      <div class="fixed bottom-0 w-full bg-gray-500 cssfotter">
+            <div class="flex items-center whitespace-nowrap animate-marquee">
+                <p class="p-4 text-lg font-medium">
+                    &copy; 2025 Digital Tech Labs — Innovation at its Finest 🚀
+                </p>
+            </div>
+        </div>
       
     </section>
     <!-- <input type="text" oninput="this.value = this.value.replace(/[^0-9.]/g, '').replace(/(\..*?)\..*/g, '$1');" > -->
@@ -12,8 +16,8 @@
   
   <script>
   //import textInput from '~/components/customcontrol/textinput'
-  //import * as Global from '@/assets/js/Global'
-  //import * as myfilter from '@/plugins/myfilter'
+  //// import * as Global from '@/assets/js/Global'
+  ////import * as myfilter from '@/plugins/myfilter'
  // import { mapState, mapGetters, mapActions, mapMutations } from 'pinia'
   
   export default {
@@ -123,6 +127,14 @@
   </script>
   
   <style scoped>
+  .cssfotter{
+    height: 60px; /* Adjust the footer height */
+  background-color: #072556;
+  color: white;
+  text-align: center;
+  padding: 10px;
+  line-height: 30px;
+  }
   .csscmd{
     @apply p-2 text-center bg-blue-200 rounded;
   }
@@ -134,6 +146,18 @@
     border: 1px solid;
     @apply border-gray-500 rounded p-2;
   }
+  @keyframes marquee {
+    from {
+        transform: translateX(100%);
+    }
+    to {
+        transform: translateX(-100%);
+    }
+}
+
+.animate-marquee {
+    animation: marquee 15s linear infinite;
+}
   </style>
   
   

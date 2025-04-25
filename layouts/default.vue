@@ -1,10 +1,10 @@
 <template>
-  <section>
+  <section class="page-container">
     <headercomp/> 
     
     <!-- The page content will be injected here -->
-    <main class="p-4 ">
-      <slot />
+    <main class="content">
+      <NuxtPage />
     </main>
 
     <footercomp/>
@@ -16,8 +16,19 @@ import headercomp from '~/components/header'
 import footercomp from '~/components/footer'
 export default {
   components: {headercomp,footercomp},
+  
 }
 </script>
 
 <style scoped>
+.page-container {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+}
+
+.content {
+  flex-grow: 1; /* Allows the content to take the available space */
+}
+
 </style>
