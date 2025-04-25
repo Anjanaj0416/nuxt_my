@@ -269,7 +269,11 @@
     import whatsappChats from '../chat/whatsappChat.vue';
     import headers from "./header.vue";
     import footers from "./footer.vue";
-  
+
+    import img1 from './../../../assets/img/digitalTechLabs/standard/premiumnav.png'
+    import img2 from './../../../assets/img/digitalTechLabs/standard/home2.png'
+    import img3 from './../../../assets/img/digitalTechLabs/standard/premiumnav.png'
+      
     // Mobile Menu Toggle
     const isMenuOpen = ref(false)
     function toggleMenu() {
@@ -280,16 +284,10 @@
     }
   
     const sliders = ref([
-    {
-      img: new URL('@/assets/img/digitalTechLabs/standard/premiumnav.png', import.meta.url).href
-    },
-    {
-      img: new URL('@/assets/img/digitalTechLabs/home.png', import.meta.url).href
-    },
-    {
-      img: new URL('@/assets/img/digitalTechLabs/premiumnav.png', import.meta.url).href
-    },
-  ]);
+      { img: img1 },
+      { img: img2 },
+      { img: img3 },
+    ])
   
   const branches = [
     {
