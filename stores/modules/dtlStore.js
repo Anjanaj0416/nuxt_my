@@ -158,6 +158,44 @@ export const useStandpageStore = defineStore("standpage", {
             },
           ], 
         },
+        // section4
+        second:{
+          title:"New Year Clothing",
+          subTitle: "Celebrate in style with our exclusive New Year collection",
+          secondDataProduct: [
+            {
+              image: productImg1,
+              promo: true,
+              alt: "Black T-shirt",
+              title: "Comfort Fit Crew Neck T-shirt – Black",
+              price: "Rs.990.00",
+            },
+            {
+              image: productImg2,
+              alt: "Space Blue T-shirt",
+              title: "Comfort Fit Crew Neck T-shirt – Space Blue",
+              price: "Rs.990.00",
+            },
+            {
+              image: productImg3,
+              alt: "Sky Blue T-shirt",
+              title: "Comfort Fit Crew Neck T-shirt – Sky Blue",
+              price: "Rs.990.00",
+            },
+            {
+              image: productImg4,
+              alt: "Muted Green T-shirt",
+              title: "Comfort Fit Crew Neck T-shirt – Muted Green",
+              price: "Rs.990.00",
+            },
+            {
+              image: productImg1,
+              alt: "Sapphire Blue T-shirt",
+              title: "Comfort Fit Crew Neck T-shirt – Sapphire Blue",
+              price: "Rs.990.00",
+            },
+          ], 
+        }
       },
       enterprise: {
         // section1

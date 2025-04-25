@@ -6,20 +6,20 @@
       <!-- Text Content -->
       <div class="place-self-center lg:col-span-7">
         <h2 class="text-4xl font-bold leading-none">
-          {{ store.pageData.css.aboutParagraph.title }}
+          {{ store.pageData.standard.aboutParagraph.title }}
         </h2>
         <p class="max-w-lg mt-4 text-base leading-relaxed text-gray-600">
-          {{ store.pageData.css.aboutParagraph.Paragraph1 }}
+          {{ store.pageData.standard.aboutParagraph.Paragraph1 }}
         </p>
         <p class="max-w-lg mt-4 text-base leading-relaxed text-gray-600">
-          {{ store.pageData.css.aboutParagraph.Paragraph2 }}
+          {{ store.pageData.standard.aboutParagraph.Paragraph2 }}
         </p>
       </div>
 
       <!-- Image -->
       <div class="flex justify-center mt-8 lg:mt-0 lg:col-span-5 lg:justify-end">
         <img 
-          :src="store.pageData.css.aboutParagraph.aboutImg" 
+          :src="store.pageData.standard.aboutParagraph.aboutImg" 
           class="w-full max-w-sm h-[40vh] object-cover"
           alt="Team or Company Image"
           style="border-radius: 85vw 0 85vw 85vw; object-position: center;"
