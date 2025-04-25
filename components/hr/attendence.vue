@@ -14,7 +14,7 @@
           </div>
         </div>
 
-        <datediff :empno="empno" ref="datediffRef" @date-change="handleDateChange" class="mb-2 sm:mb-0" />
+        <datediff ref="datediffRef" @date-change="handleDateChange" class="mb-2 sm:mb-0" />
         <!-- @click="getLoadAttendnece"  -->
         <div class="flex flex-wrap items-center justify-between gap-4 rounded-md sm:justify-start">
           <div
@@ -495,6 +495,15 @@ export default {
           OTTo: this.oTPreApprovalRequest.OTTo,
         })
       }
+    },
+
+    async handleDateChange(reqFromDateDiff) {
+      let req = {
+        EmpNo: this.empno,
+        FromDate: reqFromDateDiff.dtfrom,
+        ToDate: reqFromDateDiff.dtto,
+      }
+      await this.hrStore.getAttendenceByEmp(req, this.showLoading);
     },
 
     async oTApplingCancel() {

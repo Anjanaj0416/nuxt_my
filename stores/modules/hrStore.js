@@ -95,7 +95,13 @@ export const useHrStore = defineStore('hrStore', {
     OTApllyDetails: {
       ot_hours: 0,
     },
-    initData: {},
+    absense: {
+      arrabsences: [],
+    },
+    initData: {
+      initEmployee: {},
+      initAbsence: {},
+    },
     authToken: "",
     isLoading: true,
   }),
@@ -118,7 +124,7 @@ export const useHrStore = defineStore('hrStore', {
         const response = await axios.get(`${import.meta.env.VITE_API_URL}/hr/Employee/GetInitEmployee`);   
         // console.log("response:",response);   
         if (response.data.isSuccess) {    
-          this.initData = response.data.data.data || [];
+          this.initData.initEmployee = response.data.data.data || [];
           this.showToast('Loading successful!', 'success'); 
        }
        else{
@@ -300,6 +306,65 @@ export const useHrStore = defineStore('hrStore', {
         // this.showToast(error.response.data.Message, 'error'); 
       }
       // loadingAlert.close();
+    },
+
+    async getMovementInitData() {
+      const loadingAlert = showLoading(''); 
+      try {
+        const response = await axios.post(`${import.meta.env.VITE_API_URL}/hr/Movement/GetMovementInitData`);   
+        console.log("response:",response);   
+        if (response.data.isSuccess) {    
+          this.OTApllyDetails.ot_hours = response.data.data.data;
+       }
+       else{
+        console.error('Loading error:', response.data.message);       
+        this.showToast(response.data.message, 'error'); 
+       }
+      } catch (error) {
+        console.error('Loading error:', error);
+        this.showToast(error.response.data.Message, 'error'); 
+      }
+      loadingAlert.close();
+    },
+
+    async getAbsenceInitData() {
+      const loadingAlert = showLoading(''); 
+      try {
+        const response = await axios.post(`${import.meta.env.VITE_API_URL}/hr/Absence/GetAbsenceInitData`);   
+        console.log("response:",response);   
+        if (response.data.isSuccess) {    
+          this.initData.initAbsence = response.data.data.data;
+       }
+       else{
+        console.error('Loading error:', response.data.message);       
+        this.showToast(response.data.message, 'error'); 
+       }
+      } catch (error) {
+        console.error('Loading error:', error);
+        this.showToast(error.response.data.Message, 'error'); 
+      }
+      loadingAlert.close();
+    },
+
+    async getLeaveBalance(req,showLoading ) {
+      const loadingAlert = showLoading(''); 
+      console.log("req:",req);   
+      try {
+        console.log("req:",req);   
+        const response = await axios.get(`${import.meta.env.VITE_API_URL}/hr/Absence/GetLeaveBalance`,{params: { empNo: req.empNo, year: req.year}});   
+        console.log("response:",response);   
+        if (response.data.isSuccess) {    
+          this.absense.arrabsences = response.data.data.data.arrLeaveBalances;
+       }
+       else{
+        console.error('Loading error:', response.data.message);       
+        this.showToast(response.data.message, 'error'); 
+       }
+      } catch (error) {
+        console.error('Loading error:', error);
+        this.showToast(error.response.data.Message, 'error'); 
+      }
+      loadingAlert.close();
     },
     
     async showToast(message,type) {
