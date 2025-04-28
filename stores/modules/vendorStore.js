@@ -12,11 +12,12 @@ export const useVendorStore = defineStore("vendorStore", {
   //this.showToast('Login successful!', 'success'); //success ,error ,warning,info
   actions: {
     //addEditVendor
-    async addEditVendor(showLoading) {
+    async addEditVendor(formData) {
+      console.log("Saving vendor data:", formData);
       const loadingAlert = showLoading(''); 
       try {
         const response = await axios.post(
-          `${import.meta.env.VITE_API_URL}/b2b/Vendor/AddEditVendor`
+          `${import.meta.env.VITE_API_URL}/qms/Vendor/AddEditVendor`
         );
 
         if (response.data.isSuccess) {
@@ -30,12 +31,12 @@ export const useVendorStore = defineStore("vendorStore", {
       loadingAlert.close();
     },
 
-//loadInitVendor
+    //loadInitVendor
     async loadInitVendor(showLoading) {
       const loadingAlert = showLoading(''); 
       try {
         const response = await axios.get(
-          `${import.meta.env.VITE_API_URL}/b2b/Vendor/InitVendor`
+          `${import.meta.env.VITE_API_URL}/qms/Vendor/InitVendor`
         );
 
         if (response.data.isSuccess) {
