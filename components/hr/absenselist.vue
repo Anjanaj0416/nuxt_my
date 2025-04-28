@@ -7,8 +7,7 @@
             Absence Details
           </div>
 
-          <div v-show="hrStore.loggeduser.username === empno">
-            <!-- || hrStore.loggeduser.granted.indexOf('hradmin') > -1 -->
+          <div v-show="userStore?.loggedUser?.name === empno || userStore?.loggedUser?.granted === 'hradmin'">
             <btnapplyleave name="Apply" title="Apply Leave" @click="applyleave" />
           </div>
         </div>
@@ -50,8 +49,8 @@
       <div v-for="(ab, index) in hrStore.absense.arrabsences" :key="ab.id" :index="index">
         <div class="grid w-full grid-cols-1 p-2 mt-1 text-center text-white rounded-md lg:grid-cols-9 lg:w-5/6"
           v-bind:class="[getAbsenceRowColor(ab)]">
-          <!-- <div>{{ $options.filters.toReadableDate(ab.startDate) }}</div>
-          <div>{{ $options.filters.toReadableDate(ab.endDate) }}</div> -->
+          <div>{{ $myUtility.toReadableDate(ab.startDate) }}</div>
+          <div>{{ $myUtility.toReadableDate(ab.endDate) }}</div>
           <div>{{ ab.absenceType }}</div>
           <div>{{ ab.durationDays }}</div>
           <div>{{ ab.durationinMinutes }}</div>
@@ -86,6 +85,8 @@
 import datediff from '~/components/hr/datediff'
 import btnapplyleave from '~/components/hr/btnapplyleave'
 import { useHrStore } from '~/stores/modules/hrStore';
+import { useUserStore } from '~/stores/modules/userStore';
+const { $myUtility } = useNuxtApp();
 
 // import * as Global from '@/assets/js/Global'
 // import * as myfilter from '@/plugins/myfilter'
@@ -130,6 +131,7 @@ export default {
   },
   async created() {
     this.hrStore = useHrStore();
+    this.userStore = useUserStore();
     this.showLoading = this.$showLoading;
   },
   methods: {
@@ -152,26 +154,30 @@ export default {
       //   new Date(date.getFullYear(), date.getMonth() + 1, 0)
       // )
 
-      await this.viewAbsence({
-        fromdate: this.dtfrom,
-        todate: this.dtto,
-        empno: this.empno,
-        user: this.loggeduser,
-      })
+      // await this.viewAbsence({
+      //   fromdate: this.dtfrom,
+      //   todate: this.dtto,
+      //   empno: this.empno,
+      //   user: this.loggeduser,
+      // })
     },
-    async LoadAbsence(req) {
-      this.dtfrom = req.dtfrom;
-      this.dtto = req.dtto;
+    async LoadAbsence() {
+      const fromDate = this.$refs.datediffRef.dtfrom;
+      const toDate = this.$refs.datediffRef.dtto;
 
-
-
-      await this.hrStore.getLeaveBalance()
+      let req = {
+        empNo: this.empno,
+        fromDate: fromDate,
+        toDate: toDate,
+      }
+      await this.hrStore.getViewAbsences(req, this.showLoading);
     },
     getclose() {
       this.$emit('exit')
+      this.hrStore.clearAbsence();
     },
     async applyleave() {
-      let leaveYear = new Date(this.dtfrom).getFullYear()
+      let leaveYear = new Date().getFullYear()
       this.$emit('absenseapply', { empNo: this.empno, leaveYear: leaveYear })
     },
     async deleteRecord(id) {

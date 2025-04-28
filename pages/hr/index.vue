@@ -170,7 +170,7 @@
                 </div>
 
                 <!-- Leave Details -->
-                <div v-show="userStore.loggedUser.username == emp.empno || userStore.loggedUser.userGroup == 'Supervisor' ||
+                <div v-show="userStore.loggedUser.username == emp.empno || userStore.loggedUser.userGroup == 'hradmin' ||
                   userStore.loggedUser.userGroup?.toLowerCase().indexOf('admin') > -1
                   " title="Leave Details" @click="
                     init_absense(emp.empno);
@@ -594,16 +594,15 @@ export default {
       const currentYear = new Date().getFullYear();
       let req = {
         empNo: empNo,
-        year: currentYear,
+        fromDate: this.dtfrom,
+        toDate: this.dtto,
       }
-      await this.hrStore.getLeaveBalance(req, this.showLoading);
+      await this.hrStore.getViewAbsences(req, this.showLoading);
     },
 
     async goto_absenseapply(req) {
-
-      this.leaveyear = req.leaveYear;
-      await this.leaveBalance({ empNo: req.empNo, year: req.leaveYear, user: this.loggeduser })
-      await this.initiateLeaves()
+      await this.hrStore.getLeaveBalance(req, this.showLoading)
+      await this.hrStore.getAbsenceInitData()
       this.cur_sec = 'absenseapply'
     },
 

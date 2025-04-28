@@ -115,6 +115,10 @@ export const useHrStore = defineStore('hrStore', {
       this.attendence = {};
     },
 
+    async clearAbsence(){
+      this.absense.arrabsences = [];
+    },
+
     async otCancel(){
       this.OTApllyDetails.ot_hours = 0;
     },
@@ -328,12 +332,31 @@ export const useHrStore = defineStore('hrStore', {
     },
 
     async getAbsenceInitData() {
-      const loadingAlert = showLoading(''); 
+      // const loadingAlert = showLoading(''); 
       try {
-        const response = await axios.post(`${import.meta.env.VITE_API_URL}/hr/Absence/GetAbsenceInitData`);   
+        const response = await axios.get(`${import.meta.env.VITE_API_URL}/hr/Absence/GetAbsenceInitData`);   
         console.log("response:",response);   
         if (response.data.isSuccess) {    
           this.initData.initAbsence = response.data.data.data;
+       }
+       else{
+        console.error('Loading error:', response.data.message);       
+        // this.showToast(response.data.message, 'error'); 
+       }
+      } catch (error) {
+        console.error('Loading error:', error);
+        // this.showToast(error.response.data.Message, 'error'); 
+      }
+      // loadingAlert.close();
+    },
+
+    async getViewAbsences(req,showLoading) {
+      const loadingAlert = showLoading(''); 
+      try {
+        const response = await axios.get(`${import.meta.env.VITE_API_URL}/hr/Absence/GetViewAbsences`,{params: {empNo: req.empNo, fromDate: req.fromDate, toDate: req.toDate}});   
+        console.log("response:",response);   
+        if (response.data.isSuccess) {   
+          this.absense.arrabsences = response.data.data.data.arrAbsences || [];
        }
        else{
         console.error('Loading error:', response.data.message);       
@@ -348,10 +371,9 @@ export const useHrStore = defineStore('hrStore', {
 
     async getLeaveBalance(req,showLoading ) {
       const loadingAlert = showLoading(''); 
-      console.log("req:",req);   
       try {
         console.log("req:",req);   
-        const response = await axios.get(`${import.meta.env.VITE_API_URL}/hr/Absence/GetLeaveBalance`,{params: { empNo: req.empNo, year: req.year}});   
+        const response = await axios.get(`${import.meta.env.VITE_API_URL}/hr/Absence/GetLeaveBalance`,{params: { empNo: req.empNo, year: req.leaveYear}});   
         console.log("response:",response);   
         if (response.data.isSuccess) {    
           this.absense.arrabsences = response.data.data.data.arrLeaveBalances;

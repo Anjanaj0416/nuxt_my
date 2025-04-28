@@ -55,8 +55,6 @@ export default {
   methods: {
     async load() {
       this.$emit('date-change', { dtfrom: this.dtfrom, dtto: this.dtto });
-
-
     },
   },
 
