@@ -13,7 +13,7 @@
               p-1
               rounded-md
             ">
-            Appling Leave {{ leaveyear }}
+            Appling Leave - {{ leaveyear }}
           </div>
         </div>
         <div class="cursor-pointer hover:text-gray-600" title="Exit Leave Apply" @click="goto_absenceview">
@@ -23,34 +23,31 @@
           </svg>
         </div>
       </div>
+
       <div class="grid grid-cols-1 lg:grid-cols-2 gap-x-4 mt-2 w-full lg:w-4/5">
         <div class="my-4 bg-gray-600 px-4 py-8 text-white rounded">
           <div class="grid grid-cols-2 gap-y-2">
             <div class="">Absence Type</div>
             <div class="">
-
-              <selectinput2 v-model="hrStore.initData.initAbsence.arrAbsenceType"
-                :cur_item="hrStore.initData.initAbsence.arrAbsenceType"
+              <selectinput2 v-model="absense_apply.absence_type" :cur_item="absense_apply.absence_type"
                 :selections="hrStore.initData.initAbsence.arrAbsenceType" />
             </div>
 
             <div class="">Absence Reason</div>
             <div class="">
-              <!-- <selectinput2
-                v-model="absense_apply.absence_reason"
-                :cur_item="absense_apply.absence_reason"
-                :selections="arr_absence_reason"
-              /> -->
+              <!-- <selectinput2 v-model="absense_apply.absence_reason" :cur_item="absense_apply.absence_reason"
+                :selections="hrStore.initData.initAbsence.arrAbsenceTeason" />
+              <br /> -->
               <input type="text" v-model="absense_apply.absence_reason"
                 class="text-black w-full rounded p-1 border-gray-500 rounded p-2" />
             </div>
 
-            <div class="" v-show="absense_apply.absence_type != 'Short Leave'">
+            <div class="" v-show="absense_apply.absence_type !== 'Short Leave'">
               Leave Type
             </div>
-            <div class="" v-show="absense_apply.absence_type != 'Short Leave'">
+            <div class="" v-show="absense_apply.absence_type !== 'Short Leave'">
               <selectinput2 v-model="absense_apply.leave_type" :cur_item="absense_apply.leave_type"
-                :selections="arr_leave_type" />
+                :selections="hrStore.initData.initAbsence.arrLeaveType" />
             </div>
 
 
@@ -65,42 +62,37 @@
 
           <div class="mt-2">
             <div class="font-bold"></div>
-
             <div class="grid grid-cols-6 my-4">
               <div>Date</div>
               <div>
                 <input class="text-gray-600 rounded p-1" type="date" v-model="absense_apply.start_date"
                   @change="LoadLeaveBalance" />
               </div>
-              <div class="text-right pr-2" v-show="absense_apply.absence_type == 'Short Leave'">
+              <div class="text-right pr-2" v-show="absense_apply.absence_type === 'Short Leave'">
                 Short Leave Start
               </div>
-              <div v-show="absense_apply.absence_type == 'Short Leave'">
+              <div v-show="absense_apply.absence_type === 'Short Leave'">
                 <input class="text-gray-600 rounded p-1" v-model="absense_apply.start_time" type="time" />
               </div>
 
-              <div v-show="absense_apply.absence_type == 'Short Leave'" class="text-right pr-2">
+              <div v-show="absense_apply.absence_type === 'Short Leave'" class="text-right pr-2">
                 Short Leave End
               </div>
-              <div v-show="absense_apply.absence_type == 'Short Leave'">
+              <div v-show="absense_apply.absence_type === 'Short Leave'">
                 <input class="text-gray-600 rounded p-1" type="time" v-model="absense_apply.end_time" />
               </div>
             </div>
 
             <div class="grid grid-cols-4 mt-2 w-1/2">
-              <!-- <div>
+              <div>
                 <div v-show="absense_apply.absence_type != 'Short Leave'">
                   To Date
                 </div>
               </div>
               <div>
-                <input
-                  v-show="absense_apply.absence_type != 'Short Leave'"
-                  class="text-gray-600 rounded p-1"
-                  type="date"
-                  v-model="absense_apply.end_date"
-                />
-              </div> -->
+                <input v-show="absense_apply.absence_type != 'Short Leave'" class="text-gray-600 rounded p-1"
+                  type="date" v-model="absense_apply.end_date" />
+              </div>
 
             </div>
 
@@ -154,6 +146,7 @@ export default {
         },
       },
       leave_entitle_year: -1,
+      showLoading: null,
       hrStore: null,
     }
   },
@@ -164,7 +157,6 @@ export default {
   async created() {
     this.hrStore = useHrStore()
   },
-
   beforeMount() {
     this.leave_entitle_year = new Date().getFullYear();
   },
@@ -208,7 +200,7 @@ export default {
 
     async LoadLeaveBalance() {
       this.leave_entitle_year = new Date(this.absense_apply.start_date).getFullYear();
-      await this.Load_LeaveBalance({ empNo: this.empno, year: this.leave_entitle_year, user: this.loggeduser })
+      await this.hrStore.getLeaveBalance({ empNo: this.empno, year: this.leave_entitle_year }, this.sho)
     },
 
     validate() {
@@ -256,25 +248,25 @@ export default {
         return false
       }
 
-      // if (this.absense_apply.absence_type == 'Short Leave') {
-      //   this.absense_apply.end_date = this.absense_apply.start_date
-      // }
+      if (this.absense_apply.absence_type == 'Short Leave') {
+        this.absense_apply.end_date = this.absense_apply.start_date
+      }
 
-      // if (this.absense_apply.leave_type == 'full day') {
-      //   const diffTime =
-      //     new Date(this.absense_apply.end_date) -
-      //     new Date(this.absense_apply.start_date)
+      if (this.absense_apply.leave_type == 'full day') {
+        const diffTime =
+          new Date(this.absense_apply.end_date) -
+          new Date(this.absense_apply.start_date)
 
-      //   const diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24))
+        const diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24))
 
-      //   if (diffDays <= 0) {
-      //     this.showMessage({
-      //       type: 'Failed',
-      //       message: 'Start and End Date Invalid',
-      //     })
-      //     return false
-      //   }
-      // }
+        if (diffDays <= 0) {
+          this.showMessage({
+            type: 'Failed',
+            message: 'Start and End Date Invalid',
+          })
+          return false
+        }
+      }
       return true
     },
 

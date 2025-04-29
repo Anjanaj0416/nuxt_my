@@ -49,8 +49,8 @@
       <div v-for="(ab, index) in hrStore.absense.arrabsences" :key="ab.id" :index="index">
         <div class="grid w-full grid-cols-1 p-2 mt-1 text-center text-white rounded-md lg:grid-cols-9 lg:w-5/6"
           v-bind:class="[getAbsenceRowColor(ab)]">
-          <div>{{ $myUtility.toReadableDate(ab.startDate) }}</div>
-          <div>{{ $myUtility.toReadableDate(ab.endDate) }}</div>
+          <div>{{ myUtility.toReadableDate(ab.startDate) }}</div>
+          <div>{{ myUtility.toReadableDate(ab.endDate) }}</div>
           <div>{{ ab.absenceType }}</div>
           <div>{{ ab.durationDays }}</div>
           <div>{{ ab.durationinMinutes }}</div>
@@ -86,7 +86,6 @@ import datediff from '~/components/hr/datediff'
 import btnapplyleave from '~/components/hr/btnapplyleave'
 import { useHrStore } from '~/stores/modules/hrStore';
 import { useUserStore } from '~/stores/modules/userStore';
-const { $myUtility } = useNuxtApp();
 
 // import * as Global from '@/assets/js/Global'
 // import * as myfilter from '@/plugins/myfilter'
@@ -104,6 +103,7 @@ export default {
       dtfrom: '',
       dtto: '',
       showLoading: null,
+      myUtility: null,
     }
   },
 
@@ -133,6 +133,9 @@ export default {
     this.hrStore = useHrStore();
     this.userStore = useUserStore();
     this.showLoading = this.$showLoading;
+
+    const { $myUtility } = useNuxtApp();
+    this.myUtility = $myUtility;
   },
   methods: {
     // ...mapActions({
