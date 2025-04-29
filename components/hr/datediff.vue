@@ -34,7 +34,6 @@ import btnhr_load from '~/components/hr/btnhr_load'
 import { useHrStore } from '~/stores/modules/hrStore';
 
 export default {
-  props: ['empno'],
   components: { btnhr_load, },
 
   data() {
@@ -56,14 +55,6 @@ export default {
   methods: {
     async load() {
       this.$emit('date-change', { dtfrom: this.dtfrom, dtto: this.dtto });
-
-      let req = {
-        EmpNo: this.empno,
-        FromDate: this.dtfrom,
-        ToDate: this.dtto,
-      }
-      const hrStore = useHrStore();
-      await hrStore.getAttendenceByEmp(req, this.showLoading);
     },
   },
 
