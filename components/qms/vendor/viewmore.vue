@@ -95,7 +95,7 @@
 
 <script>
 
-import { useVendorStore } from "~/stores/modules/vendorStore";
+import { useVendorStore } from "~/stores/modules/qms/vendorStore";
 import closebtn from "~/components/customcontrol/modal_close_button";
 import ImageLable from "~/components/customcontrol/ImageLable";
 

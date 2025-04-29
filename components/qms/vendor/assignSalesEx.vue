@@ -44,7 +44,7 @@
 <script>
 import closebtn from "~/components/customcontrol/modal_close_button";
 import serach_Input from '~/components/customcontrol/SearchInput'
-import { useVendorStore } from "~/stores/modules/vendorStore";
+import { useVendorStore } from "~/stores/modules/qms/vendorStore";
 
 export default {
   components: { closebtn, serach_Input },

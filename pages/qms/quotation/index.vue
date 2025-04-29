@@ -139,11 +139,11 @@ import LinkBtn from "~/components/customcontrol/Link";
 import SearchComp from "~/components/customcontrol/SearchComp";
 import FilterTab from "~/components/customcontrol/FilterTab";
 
-import ViewMore from "~/components/quotation/viewmore";
-import ApproveView from "~/components/quotation/approve";
-import AddEdit from "~/components/quotation/addedit.vue";
+import ViewMore from "~/components/qms/quotation/viewmore";
+import ApproveView from "~/components/qms/quotation/approve";
+import AddEdit from "~/components/qms/quotation/addedit.vue";
 
-import { useQuotationStore } from "~/stores/modules/quotationStore";
+import { useQuotationStore } from "~/stores/modules/qms/quotationStore";
 
 
 definePageMeta({
