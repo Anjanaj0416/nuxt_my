@@ -245,7 +245,7 @@
 <script>
 import { reactive, computed } from "vue";
 import closebtn from "~/components/customcontrol/modal_close_button";
-import { useQuotationStore } from "~/stores/modules/quotationStore";
+import { useQuotationStore } from "~/stores/modules/qms/quotationStore";
 
 export default {
   components: { closebtn },

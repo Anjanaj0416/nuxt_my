@@ -31,9 +31,9 @@
             Packages
           </button>
           <div v-if="showDropdown" class="absolute left-0 z-50 w-40 mt-2 text-blue-900 bg-white rounded shadow-md">
-            <NuxtLink @click="closeDropdown" to="/template/standard" class="block px-4 py-2 hover:bg-blue-100">Standard</NuxtLink>
-            <NuxtLink @click="closeDropdown" to="/template/premium" class="block px-4 py-2 hover:bg-blue-100">Premium</NuxtLink>
-            <NuxtLink @click="closeDropdown" to="/template/enterprise" class="block px-4 py-2 hover:bg-blue-100">Enterprise</NuxtLink>
+            <NuxtLink @click="closeDropdown" to="/portfoliopackages/standard" class="block px-4 py-2 hover:bg-blue-100">Standard</NuxtLink>
+            <NuxtLink @click="closeDropdown" to="/portfoliopackages/premium" class="block px-4 py-2 hover:bg-blue-100">Premium</NuxtLink>
+            <NuxtLink @click="closeDropdown" to="/portfoliopackages/enterprise" class="block px-4 py-2 hover:bg-blue-100">Enterprise</NuxtLink>
           </div>
         </div>
         <!-- Talk to Us Button -->
