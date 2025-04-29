@@ -151,8 +151,7 @@
               </span>
             </div>
             <div>
-              <div
-                v-show="userStore.loggedUser.granted.indexOf('hradmin') > -1 || userStore.loggedUser.granted.indexOf('admin') > -1"
+              <div v-show="userStore.loggedUser.granted === 'hradmin' || userStore.loggedUser.granted === 'hradmin'"
                 class="w-4/5 p-1 p-2 font-bold text-center border-gray-500 rounded rounded-md cursor-pointer gap-x-1 hover:bg-blue-500 hover:text-white"
                 @click="getReCalcOT(dayatt)">
                 ReCalc.OT

@@ -22,6 +22,7 @@ export default defineNuxtConfig({
     { src: '@/plugins/myfilter.js' },
     { src: '@/plugins/axios.js' },
     { src: '@/plugins/init.js' },
+    { src: '@/plugins/piniaPersist.client.js' },
   ],
 
   runtimeConfig: {

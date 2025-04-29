@@ -2,7 +2,7 @@ import { defineStore } from 'pinia';
 import axios from 'axios';
 import Swal from 'sweetalert2';
 
-export const useUserStore = defineStore('user', {
+export const useUserStore = defineStore('userStore', {
   state: () => ({
     user: null,
     token: null,
@@ -17,16 +17,13 @@ export const useUserStore = defineStore('user', {
       const loadingAlert = showLoading(''); 
       try {
         const response = await axios.post(`${import.meta.env.VITE_API_URL}/IAM/Login`, loginDetails);      
-       
+                                      
         if (response.data.isSuccess) {
           
           this.token = response.data.authToken;  // Assuming the response contains a 'token'
           this.loggedUser =response.data.loggedUser;
           this.assetsBaseUrl =response.data.loggedUser.resourceURLRoot;
-         
-          localStorage.setItem('assetsBaseUrl', this.loggedUser.resourceURLRoot); // Save assetsBaseUrl to localStorage if needed
-          localStorage.setItem('token', this.token);  // Save token to localStorage if needed
-          localStorage.setItem('refreshToken', this.refreshToken); 
+          
           document.cookie = `token=${this.token}; path=/; max-age=3600; Secure`;
                   
        }
