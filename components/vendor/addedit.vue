@@ -59,14 +59,14 @@
                 <label class="block text-sm font-bold text-gray-600">Last Name</label>
                 <input
                   type="text"
-                  v-model="form.lastname"
-                  @input="clearError('lastname')"
+                  v-model="form.lastName"
+                  @input="clearError('lastName')"
                   placeholder="Enter Last Name"
                   required
                   class="w-full p-2 mt-2 text-sm border rounded-md focus:ring-indigo-500 focus:border-indigo-500"
                 />
-                <p v-if="validationErrors.lastname" class="mt-2 text-sm text-red-600">
-                  {{ validationErrors.lastname }}
+                <p v-if="validationErrors.lastName" class="mt-2 text-sm text-red-600">
+                  {{ validationErrors.lastName }}
                 </p>
               </div>
               <div class="">
@@ -184,9 +184,9 @@
             <div>
               <label class="block text-sm font-bold text-gray-600">BR</label>
               <div class="relative mt-2">
-                <input type="file" @change="handleImageUpload('brImage', $event)" class="w-full p-2 text-sm border rounded-md" />
+                <input type="file" @change="handleImageUpload('brCopy', $event)" class="w-full p-2 text-sm border rounded-md" />
               </div>
-              <p v-if="validationErrors.brImage" class="mt-2 text-sm text-red-600">{{ validationErrors.brImage }}</p>
+              <p v-if="validationErrors.brCopy" class="mt-2 text-sm text-red-600">{{ validationErrors.brCopy }}</p>
             </div>
           
 
@@ -333,8 +333,8 @@ export default {
           this.validationErrors.firstName = "Please enter First Name!";
           hasErrors = true;
         }
-        if (!this.form.lastname) {
-          this.validationErrors.lastname = "Please enter Last Name!";
+        if (!this.form.lastName) {
+          this.validationErrors.lastName = "Please enter Last Name!";
           hasErrors = true;
         }
         if (!this.form.vendorImage) {
@@ -415,8 +415,8 @@ export default {
           this.validationErrors.shopCoverImage = "Please upload a Shop Cover Image!";
           hasErrors = true;
         }
-        if (!this.form.brImage) {
-          this.validationErrors.brImage = "Please upload a Shop BR!";
+        if (!this.form.brCopy) {
+          this.validationErrors.brCopy = "Please upload a Shop BR!";
           hasErrors = true;
         }
 
