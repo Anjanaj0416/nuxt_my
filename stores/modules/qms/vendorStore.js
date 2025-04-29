@@ -22,11 +22,11 @@ export const useVendorStore = defineStore("vendorStore", {
       });
       try {
         const response = await axios.post(
-          `${import.meta.env.VITE_API_URL}/qms/Vendor/AddEditVendor`
+          `${import.meta.env.VITE_API_URL}/qms/Vendor/AddEditVendor`,formData  
         );
 
         if (response.data.isSuccess) {
-          this.initVendor = response.data.data.data;
+          this.AddEditVendor = response.data.data.data;
         } else {
           this.showToast(response.data.message, "error");
         }
@@ -37,14 +37,18 @@ export const useVendorStore = defineStore("vendorStore", {
     },
 
     //loadInitVendor
-    async loadInitVendor(showLoading) {
-      const loadingAlert = Swal.fire({
-        title: 'Loading...',
-        allowOutsideClick: false,
-        didOpen: () => {
-          Swal.showLoading();
-        },
-      });
+    async loadInitVendor(showLoading = true) {
+      let loadingAlert;
+      if (showLoading) {
+        loadingAlert = Swal.fire({
+          title: 'Loading...',
+          allowOutsideClick: false,
+          didOpen: () => {
+            Swal.showLoading();
+          },
+        });
+      }
+
       try {
         const response = await axios.get(
           `${import.meta.env.VITE_API_URL}/qms/Vendor/InitVendor`
@@ -56,9 +60,12 @@ export const useVendorStore = defineStore("vendorStore", {
           this.showToast(response.data.message, "error");
         }
       } catch (error) {
-        this.showToast(response.data.message, "error");
+        this.showToast("Failed to load vendor data", "error");
       }
-      loadingAlert.close();
+
+      if (showLoading && loadingAlert) {
+        loadingAlert.close();
+      }
     },
 
     //loadListVendors

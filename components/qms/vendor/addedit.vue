@@ -141,14 +141,27 @@
               </div>
               <div class="">
                 <label class="block text-sm font-bold text-gray-600">City</label>
-                <input
+                <!-- <input
                   type="text"
                   v-model="form.city"
                   @input="clearError('city')"
                   placeholder="Enter city"
                   required
                   class="w-full p-2 mt-2 text-sm border rounded-md focus:ring-indigo-500 focus:border-indigo-500"
-                />
+                /> -->
+                <select
+                  v-model="form.city"
+                  @change="clearError('city')"
+                  required
+                  class="w-full p-2 mt-2 text-sm border rounded-md focus:ring-indigo-500 focus:border-indigo-500"
+                >
+                  <option value="" disabled>Select a city</option>
+                  <option v-for="city in vendorStore.initVendor.listCities" :key="city.id" :value="city.name">
+                      {{ city.name }}
+                  </option>
+                </select>
+
+
                   <!-- {{form.city}} -->
                 <p v-if="validationErrors.city" class="mt-2 text-sm text-red-600">
                   {{ validationErrors.city }}
@@ -189,6 +202,21 @@
               <p v-if="validationErrors.brCopy" class="mt-2 text-sm text-red-600">{{ validationErrors.brCopy }}</p>
             </div>
           
+
+            <div class="">
+              <label class="block text-sm font-bold text-gray-600">VAT Number</label>
+              <input
+                type="text"
+                v-model="form.vatNo"
+                @input="clearError('vatNo')"
+                placeholder="Enter vatNo"
+                required
+                class="w-full p-2 mt-2 text-sm border rounded-md focus:ring-indigo-500 focus:border-indigo-500"
+              />
+              <p v-if="validationErrors.vatNo" class="mt-2 text-sm text-red-600">
+                {{ validationErrors.vatNo }}
+              </p>
+            </div>
 
             <div class="">
               <label class="block text-sm font-bold text-gray-600">Description</label>
@@ -282,7 +310,25 @@ export default {
       isOpen: true,
       curVendor: {},
       validationErrors: {},
-      form: {},
+      form: {
+        // firstName: '',
+        //   lastName: '',
+        //   customerRef: '',
+        //   phone: '',
+        //   email: '',
+        //   shopAddress1: '',
+        //   shopAddress2: '',
+        //   city: '',
+        //   description: '',
+        //   vatNo: '',
+        //   accountNumber: '',
+        //   bankName: '',
+        //   branch: '',
+        //   shopName: '',
+        //   shopContactNo: '',
+        //   shopLogo: '',
+        //   vendorImage: ''
+      },
       imageroot: "",
     };
   },
@@ -298,36 +344,49 @@ export default {
     this.vendorStore = useVendorStore();  // Initialize the store correctly
     this.curVendor = this.vendorStore.curVendor;
     this.imageroot = this.vendorStore.initVendor.baseUrl;
+    this.vendorStore.loadInitVendor(this.showLoading)   
+
+    this.vendorStore.loadInitVendor().then(() => {
+      if (this.vendorStore.curVendor) {
+        Object.assign(this.form, this.vendorStore.curVendor);
+      }
+      console.log('city :', this.vendorStore.initVendor);
+    });
+
     // If editing, populate the form with the current vendor data
     if (this.curVendor) {
       Object.assign(this.form, this.curVendor); // Pre-fill the form with vendor data
     }
   },
   methods: {
+    closeModal() {
+      this.isOpen = false;
+      this.$emit('close');
+    },
+    clearError(field) {
+      this.validationErrors[field] = '';
+    },
     cancel() {
       // Clear the form and validation errors when canceling
       Object.keys(this.form).forEach((key) => {
-        this.form[key] = "";
+        this.form[key] = '';
       });
       Object.keys(this.validationErrors).forEach((key) => {
-        this.validationErrors[key] = "";
+        this.validationErrors[key] = '';
       });
-      this.closeModal(); // This will call the new method
+      this.closeModal();
     },
-
     handleImageUpload(fieldName, event) {
       const file = event.target.files[0];
       if (file) {
-        this.form[fieldName] = file; // Add the image to form data
+        this.form[fieldName] = file.name;
       }
     },
 
-   
     handleSubmit() {
         this.clearValidationErrors();
 
         let hasErrors = false;
-
 
         if (!this.form.firstName) {
           this.validationErrors.firstName = "Please enter First Name!";
@@ -378,6 +437,10 @@ export default {
             this.validationErrors.phone = 'Please enter a valid 10-digit contact number!';
             hasErrors = true;
           }
+        }
+        if (!this.form.vatNo) {
+          this.validationErrors.vatNo = "Please enter vatNo!";
+          hasErrors = true;
         }
         if (!this.form.description) {
           this.validationErrors.description = "Please enter Description!";
@@ -431,9 +494,7 @@ export default {
         this.closeModal(); // Close modal after submission
     },
 
-    closeModal() {
-      this.isOpen = false; // Set modal visibility to false to close it
-    },
+
 
     clearValidationErrors() {
       Object.keys(this.validationErrors).forEach((key) => {
@@ -441,20 +502,20 @@ export default {
       });
     },
 
-    convertToFormData(formObject) {
-      const formData = new FormData();
+    // convertToFormData(formObject) {
+    //   const formData = new FormData();
 
-      Object.keys(formObject).forEach((key) => {
-        const value = formObject[key];
-        if (value instanceof File) {
-          formData.append(key, value);
-        } else {
-          formData.append(key, value);
-        }
-      });
+    //   Object.keys(formObject).forEach((key) => {
+    //     const value = formObject[key];
+    //     if (value instanceof File) {
+    //       formData.append(key, value);
+    //     } else {
+    //       formData.append(key, value);
+    //     }
+    //   });
 
-      return formData;
-    },
+    //   return formData;
+    // },
 
   },
 };
