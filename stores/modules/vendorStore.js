@@ -12,11 +12,12 @@ export const useVendorStore = defineStore("vendorStore", {
   //this.showToast('Login successful!', 'success'); //success ,error ,warning,info
   actions: {
     //addEditVendor
-    async addEditVendor(showLoading) {
+    async addEditVendor(formData) {
+      console.log("Saving vendor data:", formData);
       const loadingAlert = showLoading(''); 
       try {
         const response = await axios.post(
-          `${import.meta.env.VITE_API_URL}/b2b/Vendor/AddEditVendor`
+          `${import.meta.env.VITE_API_URL}/qms/Vendor/AddEditVendor`
         );
 
         if (response.data.isSuccess) {
@@ -30,12 +31,12 @@ export const useVendorStore = defineStore("vendorStore", {
       loadingAlert.close();
     },
 
-//loadInitVendor
+    //loadInitVendor
     async loadInitVendor(showLoading) {
       const loadingAlert = showLoading(''); 
       try {
         const response = await axios.get(
-          `${import.meta.env.VITE_API_URL}/b2b/Vendor/InitVendor`
+          `${import.meta.env.VITE_API_URL}/qms/Vendor/InitVendor`
         );
 
         if (response.data.isSuccess) {
@@ -50,32 +51,36 @@ export const useVendorStore = defineStore("vendorStore", {
     },
 
     //loadListVendors
-    async loadListVendors(req,showLoading) {
-      const loadingAlert = showLoading(''); 
+    async loadListVendors(req) {
+      const loadingAlert = Swal.fire({
+        title: 'Loading...',
+        allowOutsideClick: false,
+        didOpen: () => {
+          Swal.showLoading();
+        },
+      });
+    
       try {
         const response = await axios.get(
-          `${import.meta.env.VITE_API_URL}/b2b/Vendor/VendorList?keyword=${
-            req.keyword
-          }&searchBy=${req.searchBy}`
+          `${import.meta.env.VITE_API_URL}/qms/Vendor/VendorList?keyword=${req.keyword}&searchBy=${req.searchBy}`
         );
-  
-        if ( response.data.isSuccess) {     
-          if (response.data.data.count == 0) {           
-            this.listVendor = [];           
+    
+        if (response.data.isSuccess) {
+          if (response.data.data.count == 0) {
+            this.listVendor = [];
           } else {
             this.listVendor = response.data.data.data;
           }
-          
-
           this.showToast(response.data.message, "success");
         } else {
           this.showToast(response.data.message, "error");
         }
       } catch (error) {
-        this.showToast(response.data.message, "error");
+        this.showToast(error.message, "error"); // use error.message here, not response.data.message
       }
-      loadingAlert.close();
+      Swal.close(); // Close loading manually
     },
+    
 
     ResetVendor() {
       this.curVendor.id = "00000000-0000-0000-0000-000000000000";
