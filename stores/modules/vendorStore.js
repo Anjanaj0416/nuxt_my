@@ -7,14 +7,19 @@ export const useVendorStore = defineStore("vendorStore", {
     listVendor: [],
     curVendor: {},
     initVendor: {},
-   
   }),
   //this.showToast('Login successful!', 'success'); //success ,error ,warning,info
   actions: {
     //addEditVendor
     async addEditVendor(formData) {
       console.log("Saving vendor data:", formData);
-      const loadingAlert = showLoading(''); 
+      const loadingAlert = Swal.fire({
+        title: 'Saving...',
+        allowOutsideClick: false,
+        didOpen: () => {
+          Swal.showLoading();
+        },
+      });
       try {
         const response = await axios.post(
           `${import.meta.env.VITE_API_URL}/qms/Vendor/AddEditVendor`
@@ -33,7 +38,13 @@ export const useVendorStore = defineStore("vendorStore", {
 
     //loadInitVendor
     async loadInitVendor(showLoading) {
-      const loadingAlert = showLoading(''); 
+      const loadingAlert = Swal.fire({
+        title: 'Loading...',
+        allowOutsideClick: false,
+        didOpen: () => {
+          Swal.showLoading();
+        },
+      });
       try {
         const response = await axios.get(
           `${import.meta.env.VITE_API_URL}/qms/Vendor/InitVendor`
@@ -81,7 +92,6 @@ export const useVendorStore = defineStore("vendorStore", {
       Swal.close(); // Close loading manually
     },
     
-
     ResetVendor() {
       this.curVendor.id = "00000000-0000-0000-0000-000000000000";
       this.curVendor.firstName = "xxx";
