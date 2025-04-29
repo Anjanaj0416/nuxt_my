@@ -269,7 +269,7 @@
 <script>
 import { reactive, computed } from "vue";
 import closebtn from "~/components/customcontrol/modal_close_button";
-import { useVendorStore } from "~/stores/modules/vendorStore";
+import { useVendorStore } from "~/stores/modules/qms/vendorStore";
 // import imagecomp from "~/components/customcontrol/imagepicker";
 import serach_Input from "~/components/customcontrol/SearchInput";
 

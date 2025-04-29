@@ -90,15 +90,15 @@ import Lable from "~/components/customcontrol/Lable";
 import Button from "~/components/customcontrol/Button";
 import ImageLable from "~/components/customcontrol/ImageLable";
 import LinkBtn from "~/components/customcontrol/Link";
-import AddEdit from "~/components/vendor/addedit";
-import ViewMore from "~/components/vendor/viewmore";
-import AssignRso from "~/components/vendor/assignSalesEx";
+import AddEdit from "~/components/qms/vendor/addedit";
+import ViewMore from "~/components/qms/vendor/viewmore";
+import AssignRso from "~/components/qms/vendor/assignSalesEx";
 import FilterTab from "~/components/customcontrol/FilterTab";
 import SearchComp from "~/components/customcontrol/SearchComp";
-import InfoCard from "~/components/vendor/InfoCard.vue";
+import InfoCard from "~/components/qms/vendor/InfoCard.vue";
 
 
-import { useVendorStore } from "~/stores/modules/vendorStore";
+import { useVendorStore } from "~/stores/modules/qms/vendorStore";
 
 
 definePageMeta({
