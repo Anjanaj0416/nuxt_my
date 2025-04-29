@@ -14,7 +14,7 @@
           </div>
         </div>
 
-        <datediff :empno="empno" ref="datediffRef" @date-change="handleDateChange" class="mb-2 sm:mb-0" />
+        <datediff ref="datediffRef" @date-change="handleDateChange" class="mb-2 sm:mb-0" />
         <!-- @click="getLoadAttendnece"  -->
         <div class="flex flex-wrap items-center justify-between gap-4 rounded-md sm:justify-start">
           <div
@@ -66,8 +66,6 @@
         <div class="hidden lg:block"></div>
       </div>
       <div v-for="dayatt in hrStore.attendence.alattendences" :key="dayatt">
-        <!-- {{dayatt}} <br>
-         {{ getDayTypeName(dayatt) }} -->
         <div class="w-full p-2 mt-1 text-white bg-gray-600 rounded-md lg:w-5/6" v-bind:class="[getAttRowColor(dayatt)]">
           <div class="grid grid-cols-1 text-center lg:grid-cols-12">
             <div>{{ dayatt.empNo }}</div>
@@ -101,8 +99,9 @@
             <div>{{ dayatt.outTime }} </div>
             <div>{{ dayatt.inLocation }}</div>
             <div>{{ dayatt.outLocation }}</div>
-            <div>{{ getDayTypeName(dayatt.dayType) }}</div>
+            <div>{{ dayatt.overTime }}</div>
             <div>test</div>
+            <!-- <div>{{ getDayTypeName(dayatt.dayType) }}</div> -->
             <div>
               <span v-show="dayatt.lateMin > 0">
                 Late {{ dayatt.weekType }} min</span>
@@ -495,6 +494,15 @@ export default {
           OTTo: this.oTPreApprovalRequest.OTTo,
         })
       }
+    },
+
+    async handleDateChange(reqFromDateDiff) {
+      let req = {
+        EmpNo: this.empno,
+        FromDate: reqFromDateDiff.dtfrom,
+        ToDate: reqFromDateDiff.dtto,
+      }
+      await this.hrStore.getAttendenceByEmp(req, this.showLoading);
     },
 
     async oTApplingCancel() {

@@ -23,14 +23,15 @@
           </svg>
         </div>
       </div>
-
       <div class="grid grid-cols-1 lg:grid-cols-2 gap-x-4 mt-2 w-full lg:w-4/5">
         <div class="my-4 bg-gray-600 px-4 py-8 text-white rounded">
           <div class="grid grid-cols-2 gap-y-2">
             <div class="">Absence Type</div>
             <div class="">
-              <selectinput2 v-model="absense_apply.absence_type" :cur_item="absense_apply.absence_type"
-                :selections="arr_absence_type" />
+
+              <selectinput2 v-model="hrStore.initData.initAbsence.arrAbsenceType"
+                :cur_item="hrStore.initData.initAbsence.arrAbsenceType"
+                :selections="hrStore.initData.initAbsence.arrAbsenceType" />
             </div>
 
             <div class="">Absence Reason</div>
@@ -122,6 +123,7 @@
 import selectinput2 from '~/components/customcontrol/selectinput2'
 import btnhr_Save from '~/components/hr/btnhr_button'
 import leave_entitlement from '~/components/hr/leave_entitlement'
+import { useHrStore } from '~/stores/modules/hrStore'
 // import imagecomp from '~/components/customcontrol/fupload'
 
 // import * as Global from '@/assets/js/Global'
@@ -152,33 +154,21 @@ export default {
         },
       },
       leave_entitle_year: -1,
+      hrStore: null,
     }
   },
 
   computed: {
-    // ...mapState({
-    //   loggeduser: (state) => state.loggeduser,
-    //   arr_absence_type: (state) => state.hr.absense.arr_absence_type,
-    //   arr_leave_type: (state) => state.hr.absense.arr_leave_type,
-    //   leave_medical_document: (state) => state.hr.leave_medical_document,
-    //   arr_absence_reason: (state) => state.hr.absense.arr_absence_reason,
-    //   leaveBalance: (state) => state.hr.absense.leaveBalance,
-    // }),
   },
+
+  async created() {
+    this.hrStore = useHrStore()
+  },
+
   beforeMount() {
     this.leave_entitle_year = new Date().getFullYear();
   },
   methods: {
-    // ...mapActions({
-    //   // getEmployeeByID: 'hr/getEmployeeByID',
-    //   setLeave: 'hr/setLeave',
-    //   setMedicalDocument: 'hr/setMedicalDocument',
-    //   Load_LeaveBalance: 'hr/leaveBalance',
-    // }),
-    // ...mapMutations({
-    //   showMessage: 'PUSH_NOTIFICATION',
-    //   // reset: 'hr/RESET_ABSENCE',
-    // }),
     async init() { },
     goto_absenceview() {
       this.$emit('goto_absenceview')
