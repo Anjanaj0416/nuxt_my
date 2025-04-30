@@ -21,17 +21,55 @@ export const useVendorStore = defineStore("vendorStore", {
         },
       });
       try {
-        const response = await axios.post(
-          `${import.meta.env.VITE_API_URL}/qms/Vendor/AddEditVendor`,formData  
-        );
+        const fd = new FormData();
+
+          // Append text fields
+          fd.append('AccountNumber', formData.AccountNumber);
+          fd.append('BRCopy', formData.BRCopy);
+          fd.append('BankName', formData.BankName);
+          fd.append('Branch', formData.Branch);
+          fd.append('Description', formData.Description);
+          fd.append('Email', formData.Email);
+          fd.append('FirstName', formData.FirstName);
+          fd.append('HolderName', formData.HolderName);
+          fd.append('LastName', formData.LastName);
+          fd.append('Phone', formData.Phone);
+          fd.append('ShopAddress1', formData.ShopAddress1);
+          fd.append('ShopAddress2', formData.ShopAddress2);
+          fd.append('ShopContactNo', formData.ShopContactNo);
+          fd.append('ShopName', formData.ShopName);
+          fd.append('VATNo', formData.VATNo);
+
+          // Append file fields if they are available
+          if (formData.ShopCoverImage) {
+            fd.append('ShopCoverImage', formData.ShopCoverImage);
+          }
+          if (formData.ShopLogo) {
+            fd.append('ShopLogo', formData.ShopLogo);
+          }
+          if (formData.VendorImage) {
+            fd.append('VendorImage', formData.VendorImage);
+          }
+          const response = await axios.post(
+            `${import.meta.env.VITE_API_URL}/qms/Vendor/AddEditVendor`, fd, 
+            {
+              headers: {
+                'Content-Type': 'multipart/form-data',
+              },
+            }
+          );
 
         if (response.data.isSuccess) {
+          this.showToast(response.data.message);
           this.AddEditVendor = response.data.data.data;
         } else {
           this.showToast(response.data.message, "error");
         }
       } catch (error) {
+        console.error(error);
+        
         this.showToast(response.data.message, "error");
+        
       }
       loadingAlert.close();
     },
