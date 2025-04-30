@@ -43,7 +43,7 @@
 </template>
 
 <script>
-import { useQuotationStore } from "~/stores/modules/quotationStore";
+import { useQuotationStore } from "~/stores/modules/qms/quotationStore";
 
 import closebtn from "~/components/customcontrol/modal_close_button";
 import Lable from "~/components/customcontrol/Lable";

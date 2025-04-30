@@ -7,20 +7,26 @@ export const useVendorStore = defineStore("vendorStore", {
     listVendor: [],
     curVendor: {},
     initVendor: {},
-   
   }),
   //this.showToast('Login successful!', 'success'); //success ,error ,warning,info
   actions: {
     //addEditVendor
-    async addEditVendor(showLoading) {
-      const loadingAlert = showLoading(''); 
+    async addEditVendor(formData) {
+      console.log("Saving vendor data:", formData);
+      const loadingAlert = Swal.fire({
+        title: 'Saving...',
+        allowOutsideClick: false,
+        didOpen: () => {
+          Swal.showLoading();
+        },
+      });
       try {
         const response = await axios.post(
-          `${import.meta.env.VITE_API_URL}/b2b/Vendor/AddEditVendor`
+          `${import.meta.env.VITE_API_URL}/qms/Vendor/AddEditVendor`,formData  
         );
 
         if (response.data.isSuccess) {
-          this.initVendor = response.data.data.data;
+          this.AddEditVendor = response.data.data.data;
         } else {
           this.showToast(response.data.message, "error");
         }
@@ -30,12 +36,22 @@ export const useVendorStore = defineStore("vendorStore", {
       loadingAlert.close();
     },
 
-//loadInitVendor
-    async loadInitVendor(showLoading) {
-      const loadingAlert = showLoading(''); 
+    //loadInitVendor
+    async loadInitVendor(showLoading = true) {
+      let loadingAlert;
+      if (showLoading) {
+        loadingAlert = Swal.fire({
+          title: 'Loading...',
+          allowOutsideClick: false,
+          didOpen: () => {
+            Swal.showLoading();
+          },
+        });
+      }
+
       try {
         const response = await axios.get(
-          `${import.meta.env.VITE_API_URL}/b2b/Vendor/InitVendor`
+          `${import.meta.env.VITE_API_URL}/qms/Vendor/InitVendor`
         );
 
         if (response.data.isSuccess) {
@@ -44,39 +60,45 @@ export const useVendorStore = defineStore("vendorStore", {
           this.showToast(response.data.message, "error");
         }
       } catch (error) {
-        this.showToast(response.data.message, "error");
+        this.showToast("Failed to load vendor data", "error");
       }
-      loadingAlert.close();
+
+      if (showLoading && loadingAlert) {
+        loadingAlert.close();
+      }
     },
 
     //loadListVendors
-    async loadListVendors(req,showLoading) {
-      const loadingAlert = showLoading(''); 
+    async loadListVendors(req) {
+      const loadingAlert = Swal.fire({
+        title: 'Loading...',
+        allowOutsideClick: false,
+        didOpen: () => {
+          Swal.showLoading();
+        },
+      });
+    
       try {
         const response = await axios.get(
-          `${import.meta.env.VITE_API_URL}/b2b/Vendor/VendorList?keyword=${
-            req.keyword
-          }&searchBy=${req.searchBy}`
+          `${import.meta.env.VITE_API_URL}/qms/Vendor/VendorList?keyword=${req.keyword}&searchBy=${req.searchBy}`
         );
-  
-        if ( response.data.isSuccess) {     
-          if (response.data.data.count == 0) {           
-            this.listVendor = [];           
+    
+        if (response.data.isSuccess) {
+          if (response.data.data.count == 0) {
+            this.listVendor = [];
           } else {
             this.listVendor = response.data.data.data;
           }
-          
-
           this.showToast(response.data.message, "success");
         } else {
           this.showToast(response.data.message, "error");
         }
       } catch (error) {
-        this.showToast(response.data.message, "error");
+        this.showToast(error.message, "error"); // use error.message here, not response.data.message
       }
-      loadingAlert.close();
+      Swal.close(); // Close loading manually
     },
-
+    
     ResetVendor() {
       this.curVendor.id = "00000000-0000-0000-0000-000000000000";
       this.curVendor.firstName = "xxx";
