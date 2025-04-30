@@ -70,6 +70,18 @@
               vendorStore.curVendor = vd;
               GoToQuotation();"
           />
+          <LinkBtn
+            v-if="vd.isActive === true"
+            label="Delete"
+            class="text-red-600"
+            @click="DeleteVendor(vd)"
+          />
+          <LinkBtn
+            v-else
+            label="Restore"
+            class="text-green-600"
+            @click="RestoreVendor(vd)"
+          />
         </div>
       </div>
     
@@ -136,7 +148,8 @@ export default {
         { label: "Shop Contact", key: "shopContactNo" },
         { label: "Email", key: "email" },
         { label: "City", key: "city" },
-        { label: "Status", key: "isActive" }
+        { label: "Status", key: "isActive" },
+        { label: "Action", key: "" }
       ],
       imageroot:'',
       showLoading:null,
@@ -182,6 +195,17 @@ export default {
     GoToQuotation() {     
       this.isAssignRso = true;
       this.$router.push("/quotation"); 
+    },
+    DeleteVendor(vendor) {
+      if (confirm("Are you sure you want to delete this vendor?")) {
+        this.vendorStore.deleteVendor(vendor); 
+      }
+    },
+
+    RestoreVendor(vendor) {
+      if (confirm("Do you want to restore this vendor?")) {
+        this.vendorStore.restoreVendor(vendor); 
+      }
     },
   },
 };

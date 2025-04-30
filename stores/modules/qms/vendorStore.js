@@ -136,10 +136,70 @@ export const useVendorStore = defineStore("vendorStore", {
       }
       Swal.close(); // Close loading manually
     },
+
+    // DeleteVendors
+    async deleteVendor(vendor) {
+      Swal.fire({
+        title: 'Loading...',
+        allowOutsideClick: false,
+        didOpen: () => {
+          Swal.showLoading();
+        },
+      });
+
+      try {
+        const response = await axios.get(
+          `${import.meta.env.VITE_API_URL}/qms/Vendor/DeleteVendor?id=${vendor.id}`
+        );
+
+        if (response.data.isSuccess) {
+          this.showToast(response.data.message, "success");
+          this.AddEditVendor = response.data.data.data;
+        } else {
+          this.showToast(response.data.message, "error");
+        }
+      } catch (error) {
+        console.error(error);
+        const message = error.response?.data?.message || error.message;
+        this.showToast(message, "error");
+      }
+
+      Swal.close();
+    },
+
+
+    //RestoreVendor
+    async restoreVendor(vendor) {
+      const loadingAlert = Swal.fire({
+        title: 'Restoring...',
+        allowOutsideClick: false,
+        didOpen: () => {
+          Swal.showLoading();
+        },
+      });
+    
+      try {
+        const response = await axios.get(
+          `${import.meta.env.VITE_API_URL}/Vendor/RestoreVendor/${vendor.id}`
+        );
+    
+        if (response.data.isSuccess) {
+          this.listVendor = response.data.data?.data || [];
+          this.showToast(response.data.message, "success");
+        } else {
+          this.showToast(response.data.message, "error");
+        }
+      } catch (error) {
+        this.showToast(error.message, "error");
+      }
+    
+      Swal.close();
+    },    
+    
     
     ResetVendor() {
       this.curVendor.id = "00000000-0000-0000-0000-000000000000";
-      this.curVendor.firstName = "xxx";
+      this.curVendor.firstName = "";
       this.curVendor.lastName = "";
       this.curVendor.customerRef = "";
       this.curVendor.phone = "";

@@ -17,11 +17,21 @@
           <h3 class="font-bold">Company Details</h3>
             <!-- Vendor Image -->
           <div class="grid grid-cols-3 gap-4 mt-4">
-            <div class="" v-if="isEditing">
+              <div class="" v-if="isEditing">
                 <label class="block text-sm font-bold text-gray-600">Customer Ref</label>
                 <input
                   type="text"
                   v-model="form.customerRef"
+                  disabled
+                  placeholder="Vendor ID (read-only)"
+                  class="w-full p-2 mt-2 text-sm bg-gray-100 border rounded-md"
+                />
+              </div>
+              <div class="" v-if="isEditing">
+                <label class="block text-sm font-bold text-gray-600">shopName</label>
+                <input
+                  type="text"
+                  v-model="form.shopName"
                   disabled
                   placeholder="Vendor ID (read-only)"
                   class="w-full p-2 mt-2 text-sm bg-gray-100 border rounded-md"
@@ -351,8 +361,8 @@ async created() {
 
     // Only assign the specific fields you need
     if (this.curVendor) {
-      this.form.ShopName = this.curVendor.ShopName || '';
-      this.form.customerRef = this.curVendor.customerRef || ''; // Add more fields as necessary
+      this.form.shopName = this.curVendor.ShopName || '';
+      this.form.customerRef = this.curVendor.customerRef || ''; 
     }
 
     console.log('City :', this.vendorStore.initVendor);
