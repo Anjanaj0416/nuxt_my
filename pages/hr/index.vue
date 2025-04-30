@@ -5,8 +5,8 @@
       class="flex flex-col items-center justify-between h-24 px-4 pt-6 my-10 bg-gray-300 cssTop lg:flex-row md:flex-row">
       <div class="my-2 text-lg font-bold capitalize lg:text-xl lg:my-0">
         <div class="flex gap-x-4 lg:gap-x-8">
-          <div class="relative cssmenu_sec" v-show="this.userStore.loggedUser.granted.indexOf('hradmin') > -1 ||
-            this.userStore.loggedUser.granted.indexOf('hr_mgr') > -1
+          <div class="relative cssmenu_sec" v-show="this.userStore.loggedUser.granted === 'hradmin' ||
+            this.userStore?.loggedUser?.granted === 'hr_mgr'
             ">
             <div class="cursor-pointer" @click="ismenuopen = !ismenuopen">
               <svg xmlns="http://www.w3.org/2000/svg" class="w-6 h-6" fill="none" viewBox="0 0 24 24"
@@ -18,8 +18,8 @@
           </div>
 
           <div class="flex items-center justify-center">
-            <search_dashboard v-show="this.userStore.loggedUser.granted.indexOf('hradmin') > -1"
-              placeholder="Search Employee" :arrsections="arrsections_DBSerach" @getsearch="search_begin_DBSerach" />
+            <search_dashboard v-show="this.userStore?.loggedUser?.granted === 'hradmin'" placeholder="Search Employee"
+              :arrsections="arrsections_DBSerach" @getsearch="search_begin_DBSerach" />
           </div>
         </div>
       </div>
@@ -129,7 +129,6 @@
                 <div class="cssdatarowitem lg:border-0">
                   <span class="lg:hidden">Supervisor</span>
                   {{ emp.supervisor }}
-                  <!-- getSupervisorName(emp.supervisor) -->
                 </div>
                 <div class="cssdatarowitem lg:border-0">
                   <span class="lg:hidden">Department</span>
@@ -162,7 +161,7 @@
 
                 <!-- Apply OT -->
                 <div
-                  v-show="!emp.isOTAllow && (userStore.loggedUser.username == emp.empno || userStore.loggedUser.userGroup == 'Supervisor' || userStore.loggedUser.userGroup?.toLowerCase().indexOf('admin') > -1)"
+                  v-show="!emp.isOTAllow && (userStore.loggedUser.username == emp.empno || userStore.loggedUser.userGroup == 'Supervisor' || userStore.loggedUser.userGroup?.toLowerCase() === 'admin')"
                   title="OT Apply"
                   @click="init_otapply(index); cur_sec = 'otapply'; selectedrow = emp.id; isSecClose = false;"
                   class="p-2 border-2 rounded-lg cursor-pointer hover:text-blue-800">
@@ -171,7 +170,7 @@
 
                 <!-- Leave Details -->
                 <div v-show="userStore.loggedUser.username == emp.empno || userStore.loggedUser.userGroup == 'hradmin' ||
-                  userStore.loggedUser.userGroup?.toLowerCase().indexOf('admin') > -1
+                  userStore.loggedUser.userGroup?.toLowerCase() === 'admin'
                   " title="Leave Details" @click="
                     init_absense(emp.empno);
                   cur_sec = 'absense';
@@ -182,8 +181,9 @@
                 </div>
 
                 <!-- Movement Details -->
-                <div v-show="userStore.loggedUser.username == emp.empno || userStore.loggedUser.userGroup == 'Supervisor' ||
-                  userStore.loggedUser.userGroup?.toLowerCase().indexOf('admin') > -1
+                <!-- .indexOf('admin') > -1 -->
+                <div v-show="userStore.loggedUser.username == emp.empno || userStore.loggedUser.userGroup === 'Supervisor' ||
+                  userStore.loggedUser?.userGroup?.toLowerCase() === 'admin'
                   " title="Movement Details" @click="
                     init_movement(index);
                   cur_sec = 'movement';
@@ -240,7 +240,7 @@
                 !isSecClose
                 ">
 
-                <absencecreate ref="absenseapply" :empno="emp.empno" :leaveyear="leaveyear"
+                <absencecreate ref="absenseapply" :empno="emp.empno" :leaveyear="leaveYear"
                   @goto_absenceview="goto_absenceview" />
               </div>
               <!-- End view Absense Create -->
@@ -416,40 +416,6 @@ export default {
   },
 
   computed: {
-    // ...mapState({
-    //   dashboard: (state) => state.hr.dashboard,
-
-    //   alempdetails: (state) => state.hr.dashboard.alempdetails,
-    //   initData: (state) => state.hr.dashboard.initData,
-    // }),
-
-    getSupervisorName() {
-      return (supno) => {
-        try {
-          let detSup = this.initData.arrManagers.filter((sup) => {
-            return sup.id.indexOf(supno) > -1
-          })[0]
-
-          return detSup.value
-        } catch {
-          return ''
-        }
-      }
-    },
-
-    getDepartment() {
-      return (deptid) => {
-        try {
-          let detstatus = this.initData.arrDepartments.filter((type) => {
-            return type.id == deptid
-          })[0]
-
-          return detstatus.value
-        } catch {
-          return ''
-        }
-      }
-    },
   },
   async beforeMount() {
     const req = {
@@ -601,6 +567,7 @@ export default {
     },
 
     async goto_absenseapply(req) {
+      this.leaveYear = req.leaveYear;
       await this.hrStore.getLeaveBalance(req, this.showLoading)
       await this.hrStore.getAbsenceInitData()
       this.cur_sec = 'absenseapply'

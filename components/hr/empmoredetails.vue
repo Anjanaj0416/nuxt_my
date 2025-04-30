@@ -4,7 +4,7 @@
     <div class="relative min-h-screen px-4 pt-2 text-sm" v-show="hrStore.empdetails.id">
       <div class="absolute top-0 right-0 flex mt-8 mr-8 gap-x-4">
         <!-- <div v-show="this.loggeduser.granted.indexOf('hradmin') > -1" class="btn" @click="setEdit">Edit</div>-->
-        <div v-show="userStore.loggedUser.granted.indexOf('hradmin') > -1" class="btn" @click="setdelete">Delete</div>
+        <div v-show="userStore.loggedUser.granted === 'hradmin'" class="btn" @click="setdelete">Delete</div>
 
         <div class="cursor-pointer text-gray-500 hover:text-gray-800" title="Exit Employee Details" @click="getclose">
           <svg xmlns="http://www.w3.org/2000/svg" class="w-8 h-8" fill="none" viewBox="0 0 24 24" stroke="currentColor">

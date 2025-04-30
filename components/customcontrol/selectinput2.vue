@@ -29,14 +29,15 @@ components: { selectinput2,  },
 -->
 <template>
   <article>
-    <label class="block text-sm text-gray-00">{{ label }}</label>
+    <!-- <label class="block text-sm text-gray-00">{{ label }}</label> -->
     <select :class="cssclass" @change="onChange"
-      class="cssselect w-full border-gray-500 rounded p-2 h-8 text-gray-700 bg-white rounded px-2" v-model="cur_item">
+      class="cssselect w-full border-gray-500 rounded p-2 h-8 text-gray-700 bg-white rounded px-2" :value="cur_item">
+      <!--  v-model="cur_item -->
       <option v-for="sitem in selections" :key="sitem" :value="sitem" :v-bind:value="sitem"
         :selected="sitem === cur_item" class="uppercase px-2"> {{ sitem }}</option>
     </select>
 
-    <p class="text-xs ml-1 text-red-700 italic">{{ err }}</p>
+    <!-- <p class="text-xs ml-1 text-red-700 italic">{{ err }}</p> -->
 
   </article>
 </template>
@@ -59,13 +60,14 @@ export default {
   },
   methods: {
     onChange() {
+      let newValue = event.target.value;
+      console.log("new value:", newValue);
 
-      this.$emit('changed', this.cur_item)
+      this.$emit('update:modelValue', newValue);
+      this.$emit('changed', newValue)
     },
   },
   beforeMount() {
-    console.log("selections:", selections);
-
   },
 }
 </script>

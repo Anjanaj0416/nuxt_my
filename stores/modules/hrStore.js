@@ -373,7 +373,7 @@ export const useHrStore = defineStore('hrStore', {
       const loadingAlert = showLoading(''); 
       try {
         console.log("req:",req);   
-        const response = await axios.get(`${import.meta.env.VITE_API_URL}/hr/Absence/GetLeaveBalance`,{params: { empNo: req.empNo, year: req.leaveYear}});   
+        const response = await axios.get(`${import.meta.env.VITE_API_URL}/hr/Absence/GetLeaveBalance`,{params: { empNo: req.empNo, year: req.year}});   
         console.log("response:",response);   
         if (response.data.isSuccess) {    
           this.absense.arrabsences = response.data.data.data.arrLeaveBalances;
