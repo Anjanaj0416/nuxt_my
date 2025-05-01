@@ -7,33 +7,86 @@ export const useVendorStore = defineStore("vendorStore", {
     listVendor: [],
     curVendor: {},
     initVendor: {},
-   
   }),
   //this.showToast('Login successful!', 'success'); //success ,error ,warning,info
   actions: {
     //addEditVendor
     async addEditVendor(formData) {
       console.log("Saving vendor data:", formData);
-      const loadingAlert = showLoading(''); 
+      const loadingAlert = Swal.fire({
+        title: 'Saving...',
+        allowOutsideClick: false,
+        didOpen: () => {
+          Swal.showLoading();
+        },
+      });
       try {
-        const response = await axios.post(
-          `${import.meta.env.VITE_API_URL}/qms/Vendor/AddEditVendor`
-        );
+        const fd = new FormData();
+
+          // Append text fields
+          fd.append('AccountNumber', formData.AccountNumber);
+          fd.append('BRCopy', formData.BRCopy);
+          fd.append('BankName', formData.BankName);
+          fd.append('Branch', formData.Branch);
+          fd.append('Description', formData.Description);
+          fd.append('Email', formData.Email);
+          fd.append('FirstName', formData.FirstName);
+          fd.append('HolderName', formData.HolderName);
+          fd.append('LastName', formData.LastName);
+          fd.append('Phone', formData.Phone);
+          fd.append('ShopAddress1', formData.ShopAddress1);
+          fd.append('ShopAddress2', formData.ShopAddress2);
+          fd.append('ShopContactNo', formData.ShopContactNo);
+          fd.append('ShopName', formData.ShopName);
+          fd.append('VATNo', formData.VATNo);
+
+          // Append file fields if they are available
+          if (formData.ShopCoverImage) {
+            fd.append('ShopCoverImage', formData.ShopCoverImage);
+          }
+          if (formData.ShopLogo) {
+            fd.append('ShopLogo', formData.ShopLogo);
+          }
+          if (formData.VendorImage) {
+            fd.append('VendorImage', formData.VendorImage);
+          }
+          const response = await axios.post(
+            `${import.meta.env.VITE_API_URL}/qms/Vendor/AddEditVendor`, fd, 
+            {
+              headers: {
+                'Content-Type': 'multipart/form-data',
+              },
+            }
+          );
 
         if (response.data.isSuccess) {
-          this.initVendor = response.data.data.data;
+          this.showToast(response.data.message);
+          this.AddEditVendor = response.data.data.data;
         } else {
           this.showToast(response.data.message, "error");
         }
       } catch (error) {
+        console.error(error);
+        
         this.showToast(response.data.message, "error");
+        
       }
       loadingAlert.close();
     },
 
     //loadInitVendor
-    async loadInitVendor(showLoading) {
-      const loadingAlert = showLoading(''); 
+    async loadInitVendor(showLoading = true) {
+      let loadingAlert;
+      if (showLoading) {
+        loadingAlert = Swal.fire({
+          title: 'Loading...',
+          allowOutsideClick: false,
+          didOpen: () => {
+            Swal.showLoading();
+          },
+        });
+      }
+
       try {
         const response = await axios.get(
           `${import.meta.env.VITE_API_URL}/qms/Vendor/InitVendor`
@@ -45,9 +98,12 @@ export const useVendorStore = defineStore("vendorStore", {
           this.showToast(response.data.message, "error");
         }
       } catch (error) {
-        this.showToast(response.data.message, "error");
+        this.showToast("Failed to load vendor data", "error");
       }
-      loadingAlert.close();
+
+      if (showLoading && loadingAlert) {
+        loadingAlert.close();
+      }
     },
 
     //loadListVendors
@@ -81,7 +137,6 @@ export const useVendorStore = defineStore("vendorStore", {
       Swal.close(); // Close loading manually
     },
     
-
     ResetVendor() {
       this.curVendor.id = "00000000-0000-0000-0000-000000000000";
       this.curVendor.firstName = "xxx";
