@@ -65,8 +65,8 @@
             <div class="grid grid-cols-6 my-4">
               <div>Date</div>
               <div>
-                <input class="text-gray-600 rounded p-1" type="date" v-model="absense_apply.start_date"
-                  @change="LoadLeaveBalance" />
+                <input class="text-gray-600 rounded p-1" type="date" v-model="absense_apply.start_date" />
+                <!-- @change="LoadLeaveBalance" -->
               </div>
               <div class="text-right pr-2" v-show="absense_apply.absence_type === 'Short Leave'">
                 Short Leave Start
@@ -93,7 +93,6 @@
                 <input v-show="absense_apply.absence_type != 'Short Leave'" class="text-gray-600 rounded p-1"
                   type="date" v-model="absense_apply.end_date" />
               </div>
-
             </div>
 
             <div class="mt-8 w-full flex justify-end gap-x-4">
@@ -104,7 +103,7 @@
         </div>
 
         <div class="my-4">
-          <!-- <leave_entitlement :leaveBalances="leaveBalance.arrLeaveBalances" :year="leaveyear" /> -->
+          <leave_entitlement :leaveBalances="hrStore.absense.arrLeaveBalances" :year="leaveyear" />
         </div>
       </div>
     </div>
@@ -123,7 +122,7 @@ import { useHrStore } from '~/stores/modules/hrStore'
 //import { mapState, mapGetters, mapActions, mapMutations } from 'vuex'
 
 export default {
-  props: ['empno', 'leaveyear'],
+  props: ['empno', 'leaveyear', 'fromDate', 'toDate'],
   components: { selectinput2, btnhr_Save, leave_entitlement },
   data() {
     return {
@@ -151,7 +150,8 @@ export default {
     }
   },
 
-  computed: {
+  created() {
+    this.showLoading = this.$showLoading;
   },
 
   async created() {
@@ -178,30 +178,35 @@ export default {
       }
 
       this.absense_apply.empNo = this.empno
-      let req = {
-        empNo: this.absense_apply.empNo,
-        absence_type: this.absense_apply.absence_type,
-        absence_reason: this.absense_apply.absence_reason,
-        leave_type: this.absense_apply.leave_type,
-        start_date: this.absense_apply.start_date,
-        start_time: this.absense_apply.start_time,
-        medical_report: this.leave_medical_document,
-        //end_date: this.absense_apply.end_date,
-        end_date: this.absense_apply.start_date,
-        end_time: this.absense_apply.end_time,
+      let reqSetLeave = {
+        EmpNo: this.absense_apply.empNo,
+        AbsenceType: this.absense_apply.absence_type,
+        AbsenceReason: this.absense_apply.absence_reason,
+        LeaveType: this.absense_apply.leave_type,
+        StartDate: this.absense_apply.start_date,
+        StartTime: this.absense_apply.start_time,
+        // MedicalReport: this.leave_medical_document,
+        EndDate: this.absense_apply.end_date,
+        EndTime: this.absense_apply.end_time,
+      };
 
-        user: this.loggeduser,
+      await this.hrStore.setLeave(reqSetLeave, this.showLoading)
+
+      let reqGetViewAbsences = {
+        empNo: this.absense_apply.empNo,
+        fromDate: this.fromDate,
+        toDate: this.toDate,
       }
-      // console.log( JSON.stringify(req))
-      await this.setLeave(req)
-      this.getClear()
+
+      await this.hrStore.getViewAbsences(reqGetViewAbsences, this.showLoading)
+      this.getClear();
       this.$emit('goto_absenceview')
     },
 
-    async LoadLeaveBalance() {
-      this.leave_entitle_year = new Date(this.absense_apply.start_date).getFullYear();
-      await this.hrStore.getLeaveBalance({ empNo: this.empno, year: this.leave_entitle_year }, this.sho)
-    },
+    // async LoadLeaveBalance() {
+    //   this.leave_entitle_year = new Date(this.absense_apply.start_date).getFullYear();
+    //   await this.hrStore.getLeaveBalance({ empNo: this.empno, year: this.leave_entitle_year }, this.showLoading)
+    // },
 
     validate() {
       if (this.absense_apply.absence_type == '') {
@@ -252,7 +257,7 @@ export default {
         this.absense_apply.end_date = this.absense_apply.start_date
       }
 
-      if (this.absense_apply.leave_type == 'full day') {
+      if (this.absense_apply.leave_type === 'full day') {
         const diffTime =
           new Date(this.absense_apply.end_date) -
           new Date(this.absense_apply.start_date)

@@ -165,6 +165,9 @@ export default {
       // })
     },
     async LoadAbsence() {
+      this.dtfrom = this.$refs.datediffRef.dtfrom;
+      this.dtto = this.$refs.datediffRef.dtto;
+
       const fromDate = this.$refs.datediffRef.dtfrom;
       const toDate = this.$refs.datediffRef.dtto;
 
