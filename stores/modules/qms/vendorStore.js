@@ -20,59 +20,53 @@ export const useVendorStore = defineStore("vendorStore", {
           Swal.showLoading();
         },
       });
+    
       try {
         const fd = new FormData();
-
-          // Append text fields
-          fd.append('AccountNumber', formData.AccountNumber);
-          fd.append('BRCopy', formData.BRCopy);
-          fd.append('BankName', formData.BankName);
-          fd.append('Branch', formData.Branch);
-          fd.append('Description', formData.Description);
-          fd.append('Email', formData.Email);
-          fd.append('FirstName', formData.FirstName);
-          fd.append('HolderName', formData.HolderName);
-          fd.append('LastName', formData.LastName);
-          fd.append('Phone', formData.Phone);
-          fd.append('ShopAddress1', formData.ShopAddress1);
-          fd.append('ShopAddress2', formData.ShopAddress2);
-          fd.append('ShopContactNo', formData.ShopContactNo);
-          fd.append('ShopName', formData.ShopName);
-          fd.append('VATNo', formData.VATNo);
-
-          // Append file fields if they are available
-          if (formData.ShopCoverImage) {
-            fd.append('ShopCoverImage', formData.ShopCoverImage);
-          }
-          if (formData.ShopLogo) {
-            fd.append('ShopLogo', formData.ShopLogo);
-          }
-          if (formData.VendorImage) {
-            fd.append('VendorImage', formData.VendorImage);
-          }
-          const response = await axios.post(
-            `${import.meta.env.VITE_API_URL}/qms/Vendor/AddEditVendor`, fd, 
-            {
-              headers: {
-                'Content-Type': 'multipart/form-data',
-              },
-            }
-          );
-
+    
+        // Append text fields
+        fd.append('AccountNumber', formData.AccountNumber);
+        fd.append('BankName', formData.BankName);
+        fd.append('Branch', formData.Branch);
+        fd.append('Description', formData.Description);
+        fd.append('Email', formData.Email);
+        fd.append('FirstName', formData.FirstName);
+        fd.append('HolderName', formData.HolderName);
+        fd.append('LastName', formData.LastName);
+        fd.append('Phone', formData.Phone);
+        fd.append('city', formData.city?.id || ''); // fixed here
+        fd.append('ShopAddress1', formData.ShopAddress1);
+        fd.append('ShopAddress2', formData.ShopAddress2);
+        fd.append('ShopContactNo', formData.ShopContactNo);
+        fd.append('ShopName', formData.ShopName);
+        fd.append('VATNo', formData.VATNo);
+    
+        // Append file fields if they are available
+        if (formData.brCopy) fd.append('BRCopy', formData.brCopy);
+        if (formData.shopCoverImage) fd.append('ShopCoverImage', formData.shopCoverImage);
+        if (formData.shopLogo) fd.append('ShopLogo', formData.shopLogo);
+        if (formData.vendorImage) fd.append('VendorImage', formData.vendorImage);
+    
+        const response = await axios.post(
+          `${import.meta.env.VITE_API_URL}/qms/Vendor/AddEditVendor`, fd, 
+        );
+    
         if (response.data.isSuccess) {
           this.showToast(response.data.message);
           this.AddEditVendor = response.data.data.data;
         } else {
           this.showToast(response.data.message, "error");
         }
+    
       } catch (error) {
         console.error(error);
-        
-        this.showToast(response.data.message, "error");
-        
+        const message = error.response?.data?.message || "An error occurred while saving vendor data.";
+        this.showToast(message, "error");
       }
+    
       loadingAlert.close();
     },
+    
 
     //loadInitVendor
     async loadInitVendor(showLoading = true) {
@@ -200,7 +194,8 @@ export const useVendorStore = defineStore("vendorStore", {
       }
     
       Swal.close();
-    },    
+    }, 
+    
     
     
     ResetVendor() {

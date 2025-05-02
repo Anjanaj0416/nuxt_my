@@ -113,7 +113,7 @@ export default {
     return {
       imageroot: process.env.Assets_83,
       loginDetails: {
-        userName: "thushara",
+        userName: "10805",
         password: "",
       },
       showPassword: false,

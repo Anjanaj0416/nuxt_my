@@ -12,7 +12,7 @@
       <!-- Modal Content (scrollable) -->
       <div class="modal-content">
         <div class="form-content">
-          <!-- {{ curVendor }} -->
+          {{ curVendor }}
 
           <h3 class="font-bold">Company Details</h3>
             <!-- Vendor Image -->
@@ -27,56 +27,46 @@
                   class="w-full p-2 mt-2 text-sm bg-gray-100 border rounded-md"
                 />
               </div>
-              <div class="" v-if="isEditing">
-                <label class="block text-sm font-bold text-gray-600">shopName</label>
-                <input
-                  type="text"
-                  v-model="form.shopName"
-                  disabled
-                  placeholder="Vendor ID (read-only)"
-                  class="w-full p-2 mt-2 text-sm bg-gray-100 border rounded-md"
-                />
-              </div>
               <div class="">
                 <label class="block text-sm font-bold text-gray-600">Company Name</label>
                 <input
                   type="text"
-                  v-model="form.ShopName"
-                  @input="clearError('ShopName')"
+                  v-model="form.shopName"
+                  @input="clearError('shopName')"
                   placeholder="Enter Shop Name"
                   required
                   class="w-full p-2 mt-2 text-sm border rounded-md focus:ring-indigo-500 focus:border-indigo-500"
                 />
-                <p v-if="validationErrors.ShopName" class="mt-2 text-sm text-red-600">
-                  {{ validationErrors.ShopName }}
+                <p v-if="validationErrors.shopName" class="mt-2 text-sm text-red-600">
+                  {{ validationErrors.shopName }}
                 </p>
               </div>
               <div class="">
                 <label class="block text-sm font-bold text-gray-600">First Name</label>
                 <input
                   type="text"
-                  v-model="form.FirstName"
-                  @input="clearError('FirstName')"
+                  v-model="form.firstName"
+                  @input="clearError('firstName')"
                   placeholder="Enter First Name"
                   required
                   class="w-full p-2 mt-2 text-sm border rounded-md focus:ring-indigo-500 focus:border-indigo-500"
                 />
-                <p v-if="validationErrors.FirstName" class="mt-2 text-sm text-red-600">
-                  {{ validationErrors.FirstName }}
+                <p v-if="validationErrors.firstName" class="mt-2 text-sm text-red-600">
+                  {{ validationErrors.firstName }}
                 </p>
               </div>
               <div class="">
                 <label class="block text-sm font-bold text-gray-600">Last Name</label>
                 <input
                   type="text"
-                  v-model="form.LastName"
-                  @input="clearError('LastName')"
+                  v-model="form.lastName"
+                  @input="clearError('lastName')"
                   placeholder="Enter Last Name"
                   required
                   class="w-full p-2 mt-2 text-sm border rounded-md focus:ring-indigo-500 focus:border-indigo-500"
                 />
-                <p v-if="validationErrors.LastName" class="mt-2 text-sm text-red-600">
-                  {{ validationErrors.LastName }}
+                <p v-if="validationErrors.lastName" class="mt-2 text-sm text-red-600">
+                  {{ validationErrors.lastName }}
                 </p>
               </div>
               <div class="">
@@ -111,118 +101,120 @@
                 <label class="block text-sm font-bold text-gray-600">Contact Number</label>
                 <input
                   type="tel"
-                  v-model="form.ShopContactNo"
-                  @input="clearError('ShopContactNo')"
+                  v-model="form.shopContactNo"
+                  @input="clearError('shopContactNo')"
                   placeholder="Enter Contact Number"
                   maxlength="10"
                   class="w-full p-2 mt-2 text-sm border rounded-md focus:ring-indigo-500 focus:border-indigo-500"
                 />
-                <p v-if="validationErrors.ShopContactNo" class="mt-2 text-sm text-red-600">
-                  {{ validationErrors.ShopContactNo }}
+                <p v-if="validationErrors.shopContactNo" class="mt-2 text-sm text-red-600">
+                  {{ validationErrors.shopContactNo }}
                 </p>
               </div>
               <div class="">
                 <label class="block text-sm font-bold text-gray-600">Address Line 1</label>
                 <input
                   type="text"
-                  v-model="form.ShopAddress1"
-                  @input="clearError('ShopAddress1')"
+                  v-model="form.shopAddress1"
+                  @input="clearError('shopAddress1')"
                   placeholder="Enter Address Line 1"
                   required
                   class="w-full p-2 mt-2 text-sm border rounded-md focus:ring-indigo-500 focus:border-indigo-500"
                 />
-                <p v-if="validationErrors.ShopAddress1" class="mt-2 text-sm text-red-600">
-                  {{ validationErrors.ShopAddress1 }}
+                <p v-if="validationErrors.shopAddress1" class="mt-2 text-sm text-red-600">
+                  {{ validationErrors.shopAddress1 }}
                 </p>
               </div>
               <div class="">
                 <label class="block text-sm font-bold text-gray-600">Address Line 2</label>
                 <input
                   type="text"
-                  v-model="form.ShopAddress2"
-                  @input="clearError('ShopAddress2')"
+                  v-model="form.shopAddress2"
+                  @input="clearError('shopAddress2')"
                   placeholder="Enter Address Line 2"
                   required
                   class="w-full p-2 mt-2 text-sm border rounded-md focus:ring-indigo-500 focus:border-indigo-500"
                 />
-                <p v-if="validationErrors.ShopAddress2" class="mt-2 text-sm text-red-600">
-                  {{ validationErrors.ShopAddress2 }}
+                <p v-if="validationErrors.shopAddress2" class="mt-2 text-sm text-red-600">
+                  {{ validationErrors.shopAddress2 }}
                 </p>
               </div>
               <div class="">
-                <label class="block text-sm font-bold text-gray-600">City</label>
+                <label class="block text-sm font-bold text-gray-600">city</label>
                 <!-- <input
                   type="text"
-                  v-model="form.City"
-                  @input="clearError('City')"
-                  placeholder="Enter City"
+                  v-model="form.city"
+                  @input="clearError('city')"
+                  placeholder="Enter city"
                   required
                   class="w-full p-2 mt-2 text-sm border rounded-md focus:ring-indigo-500 focus:border-indigo-500"
                 /> -->
                 <!-- <select
-                  v-model="form.City"
-                  @change="clearError('City')"
+                  v-model="form.city"
+                  @change="clearError('city')"
                   required
                   class="w-full p-2 mt-2 text-sm border text-black rounded-md focus:ring-indigo-500 focus:border-indigo-500"
                 >
-                  <option value="" disabled>Select a City</option>
-                  <option v-for="City in vendorStore.initVendor.listCities" :key="City.id" :value="City.value">
-                      {{ City.value }}
+                  <option value="" disabled>Select a city</option>
+                  <option v-for="city in vendorStore.initVendor.listCities" :key="city.id" :value="city.value">
+                      {{ city.value }}
                   </option>
                 </select> -->
                 <Vue3Select
-  v-model="form.City"
-  :options="vendorStore.initVendor.listCities"
-  option-label="value" 
-  option-value="id"   
-  placeholder="Select a City"
-  class="w-full p-2 mt-2 text-sm border text-black rounded-md"
-  @blur="clearError('City')"
-  filterable 
-/>
+                  v-model="form.city"
+                  :options="vendorStore.initVendor.listCities"
+                  :get-option-label="option => option.value"
+                  :get-option-value="option => option.id"
+                  placeholder="Select a city"
+                  class="w-full mt-2 text-sm border rounded-md "
+                  @blur="clearError('city')"
+                  filterable
+                />
 
 
 
 
 
-                  <!-- {{form.City}} -->
-                <p v-if="validationErrors.City" class="mt-2 text-sm text-red-600">
-                  {{ validationErrors.City }}
+
+
+                  <!-- {{form.city}} -->
+                <p v-if="validationErrors.city" class="mt-2 text-sm text-red-600">
+                  {{ validationErrors.city }}
                 </p>
               </div>
             <div>
               <label class="block text-sm font-bold text-gray-600">Vendor Image</label>
               <div class="relative mt-2">
-                <input type="file" @change="handleImageUpload('VendorImage', $event)" class="w-full p-2 text-sm border rounded-md" />
+                <input type="file" @change="handleImageUpload('vendorImage', $event)" class="w-full p-2 text-sm border rounded-md" />
               </div>
-              <p v-if="validationErrors.VendorImage" class="mt-2 text-sm text-red-600">{{ validationErrors.VendorImage }}</p>
+              <p v-if="validationErrors.vendorImage" class="mt-2 text-sm text-red-600">{{ validationErrors.vendorImage }}</p>
             </div>
 
             <!-- Shop Logo -->
             <div>
               <label class="block text-sm font-bold text-gray-600">Shop Logo</label>
               <div class="relative mt-2">
-                <input type="file" @change="handleImageUpload('ShopLogo', $event)" class="w-full p-2 text-sm border rounded-md" />
+                <input type="file" @change="handleImageUpload('shopLogo', $event)" class="w-full p-2 text-sm border rounded-md" />
               </div>
-              <p v-if="validationErrors.ShopLogo" class="mt-2 text-sm text-red-600">{{ validationErrors.ShopLogo }}</p>
+              <p v-if="validationErrors.shopLogo" class="mt-2 text-sm text-red-600">{{ validationErrors.shopLogo }}</p>
             </div>
 
             <!-- Shop Cover Image -->
             <div>
               <label class="block text-sm font-bold text-gray-600">Shop Cover Image</label>
               <div class="relative mt-2">
-                <input type="file" @change="handleImageUpload('ShopCoverImage', $event)" class="w-full p-2 text-sm border rounded-md" />
+                <input type="file" @change="handleImageUpload('shopCoverImage', $event)" class="w-full p-2 text-sm border rounded-md" />
               </div>
-              <p v-if="validationErrors.ShopCoverImage" class="mt-2 text-sm text-red-600">{{ validationErrors.ShopCoverImage }}</p>
+              <p v-if="validationErrors.shopCoverImage" class="mt-2 text-sm text-red-600">{{ validationErrors.shopCoverImage }}</p>
             </div>
 
             <!-- BR Image -->
             <div>
               <label class="block text-sm font-bold text-gray-600">BR</label>
               <div class="relative mt-2">
-                <input type="file" @change="handleImageUpload('BRCopy', $event)" class="w-full p-2 text-sm border rounded-md" />
+                <input type="file" @change="handleImageUpload('brCopy', $event)" class="w-full p-2 text-sm border rounded-md" />
               </div>
-              <p v-if="validationErrors.BRCopy" class="mt-2 text-sm text-red-600">{{ validationErrors.BRCopy }}</p>
+              <p v-if="validationErrors.brCopy" class="mt-2 text-sm text-red-600">{{ validationErrors.brCopy }}</p>
             </div>
           
 
@@ -230,29 +222,29 @@
               <label class="block text-sm font-bold text-gray-600">VAT Number</label>
               <input
                 type="text"
-                v-model="form.VATNo"
-                @input="clearError('VATNo')"
-                placeholder="Enter VATNo"
+                v-model="form.vatNo"
+                @input="clearError('vatNo')"
+                placeholder="Enter vatNo"
                 required
                 class="w-full p-2 mt-2 text-sm border rounded-md focus:ring-indigo-500 focus:border-indigo-500"
               />
-              <p v-if="validationErrors.VATNo" class="mt-2 text-sm text-red-600">
-                {{ validationErrors.VATNo }}
+              <p v-if="validationErrors.vatNo" class="mt-2 text-sm text-red-600">
+                {{ validationErrors.vatNo }}
               </p>
             </div>
 
             <div class="">
-              <label class="block text-sm font-bold text-gray-600">Description</label>
+              <label class="block text-sm font-bold text-gray-600">description</label>
               <input
                 type="text"
-                v-model="form.Description"
-                @input="clearError('Description')"
-                placeholder="Enter Description"
+                v-model="form.description"
+                @input="clearError('description')"
+                placeholder="Enter description"
                 required
                 class="w-full p-2 mt-2 text-sm border rounded-md focus:ring-indigo-500 focus:border-indigo-500"
               />
-              <p v-if="validationErrors.Description" class="mt-2 text-sm text-red-600">
-                {{ validationErrors.Description }}
+              <p v-if="validationErrors.description" class="mt-2 text-sm text-red-600">
+                {{ validationErrors.description }}
               </p>
             </div>
           </div>
@@ -262,39 +254,39 @@
           <div class="grid grid-cols-3 gap-4 mt-4">
             <div class="">
               <label class="block text-sm font-bold text-gray-600">Bank Name</label>
-              <input type="text" v-model="form.BankName" @input="clearError('BankName')" placeholder="Enter Bank Name"
+              <input type="text" v-model="form.bankName" @input="clearError('bankName')" placeholder="Enter Bank Name"
                 required
                 class="w-full p-2 mt-2 text-sm border rounded-md focus:ring-indigo-500 focus:border-indigo-500" />
-              <p v-if="validationErrors.BankName" class="mt-2 text-sm text-red-600">
-                {{ validationErrors.BankName }}
+              <p v-if="validationErrors.bankName" class="mt-2 text-sm text-red-600">
+                {{ validationErrors.bankName }}
               </p>
             </div>
             <div class="">
-              <label class="block text-sm font-bold text-gray-600">Bank Branch</label>
-              <input type="text" v-model="form.Branch" @input="clearError('Branch')" placeholder="Enter Bank Branch"
+              <label class="block text-sm font-bold text-gray-600">Bank branch</label>
+              <input type="text" v-model="form.branch" @input="clearError('branch')" placeholder="Enter Bank branch"
                 required
                 class="w-full p-2 mt-2 text-sm border rounded-md focus:ring-indigo-500 focus:border-indigo-500" />
-              <p v-if="validationErrors.Branch" class="mt-2 text-sm text-red-600">
-                {{ validationErrors.Branch }}
+              <p v-if="validationErrors.branch" class="mt-2 text-sm text-red-600">
+                {{ validationErrors.branch }}
               </p>
             </div>
 
             <div class="">
               <label class="block text-sm font-bold text-gray-600">Bank Account No</label>
-              <input type="text" v-model="form.AccountNumber" @input="clearError('AccountNumber')"
+              <input type="text" v-model="form.accountNumber" @input="clearError('accountNumber')"
                 placeholder="Enter ank Account No" required
                 class="w-full p-2 mt-2 text-sm border rounded-md focus:ring-indigo-500 focus:border-indigo-500" />
-              <p v-if="validationErrors.AccountNumber" class="mt-2 text-sm text-red-600">
-                {{ validationErrors.AccountNumber }}
+              <p v-if="validationErrors.accountNumber" class="mt-2 text-sm text-red-600">
+                {{ validationErrors.accountNumber }}
               </p>
             </div>
             <div class="">
               <label class="block text-sm font-bold text-gray-600">Card Holder Name</label>
-              <input type="text" v-model="form.HolderName" @input="clearError('HolderName')"
+              <input type="text" v-model="form.holderName" @input="clearError('holderName')"
                 placeholder="Enter Card Colder Name" required
                 class="w-full p-2 mt-2 text-sm border rounded-md focus:ring-indigo-500 focus:border-indigo-500" />
-              <p v-if="validationErrors.HolderName" class="mt-2 text-sm text-red-600">
-                {{ validationErrors.HolderName }}
+              <p v-if="validationErrors.holderName" class="mt-2 text-sm text-red-600">
+                {{ validationErrors.holderName }}
               </p>
             </div>
           </div>
@@ -334,26 +326,26 @@ export default {
       curVendor: {},
       validationErrors: {},
       form: {
-        FirstName: '',
-        LastName: '',
+        firstName: '',
+        lastName: '',
         customerRef: '',
         Phone: '',
         Email: '',
-        ShopAddress1: '',
-        ShopAddress2: '',
-        City: '',
-        Description: '',
-        VATNo: '',
-        AccountNumber: '',
-        BankName: '',
-        Branch: '',
-        ShopName: '',
-        ShopContactNo: '',
-        ShopLogo: null,
-        VendorImage: null,
-        ShopCoverImage: null,
-        BRCopy: null,
-        HolderName: ''
+        shopAddress1: '',
+        shopAddress2: '',
+        city: '',
+        description: '',
+        vatNo: '',
+        accountNumber: '',
+        bankName: '',
+        branch: '',
+        shopName: '',
+        shopContactNo: '',
+        shopLogo: null,
+        vendorImage: null,
+        shopCoverImage: null,
+        brCopy: null,
+        holderName: ''
       },
       imageroot: "",
     };
@@ -374,12 +366,33 @@ async created() {
     this.imageroot = this.vendorStore.initVendor.baseUrl;
 
     // Only assign the specific fields you need
-    if (this.curVendor) {
-      this.form.shopName = this.curVendor.ShopName || '';
-      this.form.customerRef = this.curVendor.customerRef || ''; 
-    }
+    // if (this.curVendor) {
+    //   this.form.customerRef = this.curVendor.customerRef || ''; 
+    //   this.form.shopName = this.curVendor.shoptName || '';
+    //   this.form.firstName = this.curVendor.firstName || '';
+    //   this.form.lastName = this.curVendor.lastName || '';
+    //   this.form.Phone = this.curVendor.phone || '';
+    //   this.form.Email = this.curVendor.email || '';
+    //   this.form.shopContactNo = this.curVendor.shopContactNo || '';
+    //   this.form.shopAddress1 = this.curVendor.shopAddress1 || '';
+    //   this.form.shopAddress2 = this.curVendor.shopAddress2 || '';
+    //   this.form.city = this.curVendor.city || '';
+    //   this.form.description = this.curVendor.description || '';
+    //   this.form.vatNo = this.curVendor.vatNo || '';
+    //   this.form.city = this.curVendor.city || '';
+    //   this.form.city = this.curVendor.city || '';
+    //   this.form.city = this.curVendor.city || '';
+    //   this.form.city = this.curVendor.city || '';
+    //   this.form.city = this.curVendor.city || '';
+    //   this.form.city = this.curVendor.city || '';
+    //   this.form.city = this.curVendor.city || '';
 
-    console.log('City :', this.vendorStore.initVendor);
+
+
+
+    // }
+
+    console.log('city :', this.vendorStore.initVendor);
   },
   methods: {
        closeModal() {
@@ -411,16 +424,16 @@ async created() {
 
         let hasErrors = false;
 
-        if (!this.form.FirstName) {
-          this.validationErrors.FirstName = "Please enter First Name!";
+        if (!this.form.firstName) {
+          this.validationErrors.firstName = "Please enter First Name!";
           hasErrors = true;
         }
-        if (!this.form.LastName) {
-          this.validationErrors.LastName = "Please enter Last Name!";
+        if (!this.form.lastName) {
+          this.validationErrors.lastName = "Please enter Last Name!";
           hasErrors = true;
         }
-        if (!this.form.VendorImage) {
-          this.validationErrors.VendorImage = "Please enter Image!";
+        if (!this.form.vendorImage) {
+          this.validationErrors.vendorImage = "Please enter Image!";
           hasErrors = true;
         }
         if (!this.form.Email) {
@@ -432,23 +445,23 @@ async created() {
             this.validationErrors.Email = 'Please enter a valid Email address!';
             hasErrors = true;
           }
-        }if (!this.form.ShopName) {
-          this.validationErrors.ShopName = "Please enter Company Name!";
+        }if (!this.form.shopName) {
+          this.validationErrors.shopName = "Please enter Company Name!";
           hasErrors = true;
-        }if (!this.form.ShopContactNo) {
-          this.validationErrors.ShopContactNo = 'Please enter Contact Number!';
+        }if (!this.form.shopContactNo) {
+          this.validationErrors.shopContactNo = 'Please enter Contact Number!';
           hasErrors = true;
         } else {
           const contactNoRegex = /^[0-9]{10}$/;
-          if (!contactNoRegex.test(this.form.ShopContactNo)) {
-            this.validationErrors.ShopContactNo = 'Please enter a valid 10-digit contact number!';
+          if (!contactNoRegex.test(this.form.shopContactNo)) {
+            this.validationErrors.shopContactNo = 'Please enter a valid 10-digit contact number!';
             hasErrors = true;
           }
-        }if (!this.form.ShopAddress1) {
-          this.validationErrors.ShopAddress1 = "Please enter Address1!";
+        }if (!this.form.shopAddress1) {
+          this.validationErrors.shopAddress1 = "Please enter Address1!";
           hasErrors = true;
-        }if (!this.form.City) {
-          this.validationErrors.City = "Please enter City!";
+        }if (!this.form.city) {
+          this.validationErrors.city = "Please enter city!";
           hasErrors = true;
         }
         if (!this.form.Phone) {
@@ -461,48 +474,48 @@ async created() {
             hasErrors = true;
           }
         }
-        if (!this.form.VATNo) {
-          this.validationErrors.VATNo = "Please enter VATNo!";
+        if (!this.form.vatNo) {
+          this.validationErrors.vatNo = "Please enter vatNo!";
           hasErrors = true;
         }
-        if (!this.form.Description) {
-          this.validationErrors.Description = "Please enter Description!";
+        if (!this.form.description) {
+          this.validationErrors.description = "Please enter description!";
           hasErrors = true;
         }
 
         // Simple validation: Company name must not be empty
-        if (!this.form.BankName) {
-          this.validationErrors.BankName = "Please enter Bank Name!";
+        if (!this.form.bankName) {
+          this.validationErrors.bankName = "Please enter Bank Name!";
           hasErrors = true;
         }
-        if (!this.form.Branch) {
-          this.validationErrors.Branch = "Please enter Branch!";
+        if (!this.form.branch) {
+          this.validationErrors.branch = "Please enter branch!";
           hasErrors = true;
         }
-        if (!this.form.HolderName) {
-          this.validationErrors.HolderName = "Please enter Account Holder Name!";
+        if (!this.form.holderName) {
+          this.validationErrors.holderName = "Please enter Account Holder Name!";
           hasErrors = true;
         }
-        if (!this.form.AccountNumber) {
-          this.validationErrors.AccountNumber = "Please enter Account Number!";
+        if (!this.form.accountNumber) {
+          this.validationErrors.accountNumber = "Please enter Account Number!";
           hasErrors = true;
         }
 
         // Validation for images (check if images are uploaded)
-        if (!this.form.VendorImage) {
-          this.validationErrors.VendorImage = "Please upload a Vendor Image!";
+        if (!this.form.vendorImage) {
+          this.validationErrors.vendorImage = "Please upload a Vendor Image!";
           hasErrors = true;
         }
-        if (!this.form.ShopLogo) {
-          this.validationErrors.ShopLogo = "Please upload a Shop Logo!";
+        if (!this.form.shopLogo) {
+          this.validationErrors.shopLogo = "Please upload a Shop Logo!";
           hasErrors = true;
         }
-        if (!this.form.ShopCoverImage) {
-          this.validationErrors.ShopCoverImage = "Please upload a Shop Cover Image!";
+        if (!this.form.shopCoverImage) {
+          this.validationErrors.shopCoverImage = "Please upload a Shop Cover Image!";
           hasErrors = true;
         }
-        if (!this.form.BRCopy) {
-          this.validationErrors.BRCopy = "Please upload a Shop BR!";
+        if (!this.form.brCopy) {
+          this.validationErrors.brCopy = "Please upload a Shop BR!";
           hasErrors = true;
         }
 
@@ -621,7 +634,7 @@ button {
 }
 
 button:hover {
-  opaCity: 0.8;
+  opacity: 0.8;
 }
 
 @media (max-width: 768px) {

@@ -1,5 +1,5 @@
 <template>
-  <section class="justify-center min-h-screen px-4 mt-24 lg:px-80">  
+  <section class="justify-center min-h-screen px-4 mt-24 lg:px-80 mb-52">  
     <div class="text-2xl uppercase">Vendors</div>
       <div class="flex flex-col items-center justify-between mt-2 mb-8 md:flex-row">
         <div class="w-full mb-4 md:mb-0">
@@ -51,40 +51,45 @@
         <!-- {{ vd }} -->
         <!-- Button Group -->
         <div class="grid grid-cols-2 gap-2 -my-6 sm:flex sm:flex-row sm:justify-end">
-          <LinkBtn label="View More"   @click="
+          <LinkBtn label="View More" class="!bg-transparent !text-blue-900 hover:underline hover:!text-blue-800"    @click="
               vendorStore.curVendor = vd;
               GoToViewMore();"
           /> 
         
-          <LinkBtn label="Edit"  @click="
+          <LinkBtn label="Edit" class="!bg-transparent !text-blue-900 hover:underline hover:!text-blue-800"  @click="
               vendorStore.curVendor = vd;
               GoToAddEdit();"
           />
           
-          <LinkBtn label="Assign RSO"  @click="
+          <LinkBtn label="Assign RSO" class="!bg-transparent !text-blue-900 hover:underline hover:!text-blue-800"  @click="
               vendorStore.curVendor = vd;
               GoToAssignSalesEx();"
           />
             
-          <LinkBtn label="View Quotations"  @click="
+          <LinkBtn label="View Quotations" class="!bg-transparent !text-blue-900 hover:underline hover:!text-blue-800" @click="
               vendorStore.curVendor = vd;
               GoToQuotation();"
           />
           <LinkBtn
             v-if="vd.isActive === true"
             label="Delete"
-            class="text-red-600"
+            class="!text-red-600 !bg-transparent hover:underline hover:!text-blue-800"
             @click="DeleteVendor(vd)"
           />
           <LinkBtn
             v-else
             label="Restore"
-            class="text-green-600"
+            class="!text-green-600 !bg-transparent hover:underline hover:!text-blue-800"
             @click="RestoreVendor(vd)"
           />
         </div>
       </div>
-    
+      <div
+        v-if="vendorStore.listVendor.length === 0"
+        class="p-4 text-center text-gray-500"
+      >
+        No vendors found.
+      </div>
 
     <!-- <div class="cssDataSec">
       {{ vendorStore.initVendor.baseUrl }} <br>
@@ -144,7 +149,7 @@ export default {
       vendorFields: [
         { label: "", key: "shopLogo" },
         { label: "Customer Ref", key: "customerRef" },
-        { label: "Name", key: "firstName", secondKey: "lastname" },
+        { label: "Shop Name", key: "shopName"},
         { label: "Shop Contact", key: "shopContactNo" },
         { label: "Email", key: "email" },
         { label: "City", key: "city" },

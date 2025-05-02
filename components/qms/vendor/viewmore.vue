@@ -114,6 +114,7 @@ export default {
           { label: "Branch Name", key: "branch" },
           // { label: "Bank Branch Code", key: "branchCode" },
           { label: "Bank Account No", key: "accountNumber" },
+          { label: "Bank Holder Name", key: "holderName" },
           // { label: "Bank Swift Code", key: "swiftCode" }
         ],
         // bannerFields: [
@@ -132,6 +133,7 @@ export default {
           { label: "Shop Address 1", key: "shopAddress1" },
           { label: "Shop Address 2", key: "shopAddress2" },
           { label: "City", key: "city" },
+          { label: "Vat No", key: "vatNo" },
           { label: "Description", key: "description" },
           { label: "Image", key: "vendorImage" },
           { label: "Shop Logo", key: "shopLogo" },
