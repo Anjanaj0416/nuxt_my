@@ -13,6 +13,7 @@ export const useVendorStore = defineStore("vendorStore", {
     //addEditVendor
     async addEditVendor(formData) {
       console.log("Saving vendor data:", formData);
+    
       const loadingAlert = Swal.fire({
         title: 'Saving...',
         allowOutsideClick: false,
@@ -25,47 +26,49 @@ export const useVendorStore = defineStore("vendorStore", {
         const fd = new FormData();
     
         // Append text fields
-        fd.append('AccountNumber', formData.AccountNumber);
-        fd.append('BankName', formData.BankName);
-        fd.append('Branch', formData.Branch);
-        fd.append('Description', formData.Description);
-        fd.append('Email', formData.Email);
-        fd.append('FirstName', formData.FirstName);
-        fd.append('HolderName', formData.HolderName);
-        fd.append('LastName', formData.LastName);
-        fd.append('Phone', formData.Phone);
-        fd.append('city', formData.city?.id || ''); // fixed here
-        fd.append('ShopAddress1', formData.ShopAddress1);
-        fd.append('ShopAddress2', formData.ShopAddress2);
-        fd.append('ShopContactNo', formData.ShopContactNo);
-        fd.append('ShopName', formData.ShopName);
-        fd.append('VATNo', formData.VATNo);
+        fd.append('AccountNumber', formData.AccountNumber || '');
+        fd.append('BankName', formData.BankName || '');
+        fd.append('Branch', formData.Branch || '');
+        fd.append('Description', formData.Description || '');
+        fd.append('Email', formData.Email || '');
+        fd.append('FirstName', formData.FirstName || '');
+        fd.append('HolderName', formData.HolderName || '');
+        fd.append('LastName', formData.LastName || '');
+        fd.append('Phone', formData.Phone || '');
+        fd.append('City', formData.City?.id || formData.city?.id || ''); // FIXED casing
+        fd.append('ShopAddress1', formData.ShopAddress1 || '');
+        fd.append('ShopAddress2', formData.ShopAddress2 || '');
+        fd.append('ShopContactNo', formData.ShopContactNo || '');
+        fd.append('ShopName', formData.ShopName || '');
+        fd.append('VATNo', formData.VATNo || '');
     
-        // Append file fields if they are available
-        if (formData.brCopy) fd.append('BRCopy', formData.brCopy);
-        if (formData.shopCoverImage) fd.append('ShopCoverImage', formData.shopCoverImage);
-        if (formData.shopLogo) fd.append('ShopLogo', formData.shopLogo);
-        if (formData.vendorImage) fd.append('VendorImage', formData.vendorImage);
+        // Append file fields
+        if (formData.BRCopy) fd.append('BRCopy', formData.BRCopy);
+        if (formData.ShopCoverImage) fd.append('ShopCoverImage', formData.ShopCoverImage);
+        if (formData.ShopLogo) fd.append('ShopLogo', formData.ShopLogo);
+        if (formData.VendorImage) fd.append('VendorImage', formData.VendorImage);
     
         const response = await axios.post(
-          `${import.meta.env.VITE_API_URL}/qms/Vendor/AddEditVendor`, fd, 
+          `${import.meta.env.VITE_API_URL}/qms/Vendor/AddEditVendor`,
+          fd
         );
     
-        if (response.data.isSuccess) {
-          this.showToast(response.data.message);
-          this.AddEditVendor = response.data.data.data;
+        if (response.data?.IsSuccess) {
+          this.showToast("Vendor saved successfully", "success");
         } else {
-          this.showToast(response.data.message, "error");
+          console.error("Error saving vendor:", err);
+          this.showToast(response.data?.Message || "Save failed", "error");
         }
     
-      } catch (error) {
-        console.error(error);
-        const message = error.response?.data?.message || "An error occurred while saving vendor data.";
-        this.showToast(message, "error");
+      } catch (err) {
+        console.error("Error saving vendor:", err);
+        this.showToast(err.response?.data?.Message || "Something went wrong", "error");
       }
     
       loadingAlert.close();
     },
+    
+    
     
 
     //loadInitVendor
