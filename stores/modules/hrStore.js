@@ -97,6 +97,7 @@ export const useHrStore = defineStore('hrStore', {
     },
     absense: {
       arrabsences: [],
+      arrLeaveBalances:[]
     },
     initData: {
       initEmployee: {},
@@ -353,6 +354,7 @@ export const useHrStore = defineStore('hrStore', {
     async getViewAbsences(req,showLoading) {
       const loadingAlert = showLoading(''); 
       try {
+        console.log("req:",req,showLoading);  
         const response = await axios.get(`${import.meta.env.VITE_API_URL}/hr/Absence/GetViewAbsences`,{params: {empNo: req.empNo, fromDate: req.fromDate, toDate: req.toDate}});   
         console.log("response:",response);   
         if (response.data.isSuccess) {   
@@ -372,11 +374,31 @@ export const useHrStore = defineStore('hrStore', {
     async getLeaveBalance(req,showLoading ) {
       const loadingAlert = showLoading(''); 
       try {
-        console.log("req:",req);   
-        const response = await axios.get(`${import.meta.env.VITE_API_URL}/hr/Absence/GetLeaveBalance`,{params: { empNo: req.empNo, year: req.year}});   
+        console.log("req:",req,showLoading);   
+        const response = await axios.get(`${import.meta.env.VITE_API_URL}/hr/Absence/GetLeaveBalance`,{params: { empNo: req.empNo, year: req.leaveYear}});   
         console.log("response:",response);   
         if (response.data.isSuccess) {    
-          this.absense.arrabsences = response.data.data.data.arrLeaveBalances;
+          this.absense.arrLeaveBalances = response.data.data.data.arrLeaveBalances;
+       }
+       else{
+        console.error('Loading error:', response.data.message);       
+        this.showToast(response.data.message, 'error'); 
+       }
+      } catch (error) {
+        console.error('Loading error:', error);
+        this.showToast(error.response.data.Message, 'error'); 
+      }
+      loadingAlert.close();
+    },
+
+    async setLeave(req,showLoading ) {
+      const loadingAlert = showLoading(''); 
+      try {
+        console.log("req:",req);   
+        const response = await axios.post(`${import.meta.env.VITE_API_URL}/hr/Absence/SetLeave`,req);   
+        console.log("response:",response);   
+        if (response.data.isSuccess) {   
+          this.showToast(response.data.message, 'success');  
        }
        else{
         console.error('Loading error:', response.data.message);       

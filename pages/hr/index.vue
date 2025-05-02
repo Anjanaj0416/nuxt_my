@@ -240,8 +240,8 @@
                 !isSecClose
                 ">
 
-                <absencecreate ref="absenseapply" :empno="emp.empno" :leaveyear="leaveYear"
-                  @goto_absenceview="goto_absenceview" />
+                <absencecreate ref="absenseapply" :empno="emp.empno" :leaveyear="leaveYear" :fromDate="dtfrom"
+                  :toDate="dtto" @goto_absenceview="goto_absenceview" />
               </div>
               <!-- End view Absense Create -->
 
