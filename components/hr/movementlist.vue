@@ -1,9 +1,6 @@
 <template>
   <section>
-    Lorem ipsum dolor sit amet, consectetur adipisicing elit. Cum, id? Iure tempore optio deserunt modi temporibus
-    facilis quidem atque voluptatibus quam dolorum rem similique, placeat distinctio? Inventore nisi magni laboriosam
-    adipisci autem. Pariatur atque assumenda omnis, alias veritatis vel asperiores voluptates nesciunt molestias
-    aspernatur? Quisquam id autem veritatis eveniet ullam.
+    {{ hrStore }}
     <!-- <div class="relative min-h-screen px-4 pt-4 text-sm">
       <div class="flex flex-col justify-between lg:flex-row">
         <div class="flex mb-4 gap-x-4 lg:mb-0">
@@ -11,7 +8,8 @@
             Movement Details
           </div>
 
-          <div v-show="hrStore.loggeduser.username == empno || hrStore.loggeduser.granted.indexOf('hradmin') > -1">
+          
+          <div v-show="hrStore.loggeduser.userName == empno || hrStore.loggeduser.granted === 'hradmin'">
             <btnapplyleave name="Apply" title="Apply Movement" @click="applymovement" />
           </div>
         </div>
@@ -85,7 +83,7 @@ import { useHrStore } from '~/stores/modules/hrStore'
 
 
 // import * as Global from '@/assets/js/Global'
-//import * as myfilter from '@/plugins/myfilter'
+import * as myfilter from '@/plugins/myfilter'
 //import { mapState, mapGetters, mapActions, mapMutations } from 'vuex'
 
 export default {
@@ -141,7 +139,7 @@ export default {
     //   reset: 'hr/RESET_MOVEMENT',
     // }),
     async init() {
-      this.reset()
+      // this.reset()
       var date = new Date()
       this.dtfrom = myfilter.toInputTypeDate(
         new Date(date.getFullYear(), date.getMonth(), 1)

@@ -16,7 +16,9 @@ export const useUserStore = defineStore('userStore', {
     async login(loginDetails,showLoading) {
       const loadingAlert = showLoading(''); 
       try {
-        const response = await axios.post(`${import.meta.env.VITE_API_URL}/IAM/Login`, loginDetails);      
+        const response = await axios.post(`${import.meta.env.VITE_API_URL}/IAM/Login`, loginDetails); 
+        console.log("response:",response);
+             
                                       
         if (response.data.isSuccess) {
           
@@ -33,6 +35,8 @@ export const useUserStore = defineStore('userStore', {
        
         
       } catch (error) {     
+        console.error("error:",error);
+        
         this.showToast('Network Error! Login failed. Please try again.','error');     
       }
       loadingAlert.close();

@@ -354,7 +354,7 @@ export const useHrStore = defineStore('hrStore', {
     async getViewAbsences(req,showLoading) {
       const loadingAlert = showLoading(''); 
       try {
-        console.log("req:",req,showLoading);  
+        console.log("req:",req);  
         const response = await axios.get(`${import.meta.env.VITE_API_URL}/hr/Absence/GetViewAbsences`,{params: {empNo: req.empNo, fromDate: req.fromDate, toDate: req.toDate}});   
         console.log("response:",response);   
         if (response.data.isSuccess) {   
@@ -362,11 +362,11 @@ export const useHrStore = defineStore('hrStore', {
        }
        else{
         console.error('Loading error:', response.data.message);       
-        this.showToast(response.data.message, 'error'); 
+        // this.showToast(response.data.message, 'error'); 
        }
       } catch (error) {
         console.error('Loading error:', error);
-        this.showToast(error.response.data.Message, 'error'); 
+        // this.showToast(error.response.data.Message, 'error'); 
       }
       loadingAlert.close();
     },
@@ -382,6 +382,26 @@ export const useHrStore = defineStore('hrStore', {
        }
        else{
         console.error('Loading error:', response.data.message);       
+        // this.showToast(response.data.message, 'error'); 
+       }
+      } catch (error) {
+        console.error('Loading error:', error);
+        // this.showToast(error.response.data.Message, 'error'); 
+      }
+      loadingAlert.close();
+    },
+
+    async setLeave(req,showLoading) {
+      const loadingAlert = showLoading(''); 
+      try {
+        console.log("req:",req,showLoading);   
+        const response = await axios.post(`${import.meta.env.VITE_API_URL}/hr/Absence/SetLeave`,req);   
+        console.log("response:",response);   
+        if (response.data.isSuccess) {   
+          this.showToast(response.data.message, 'success');  
+       }
+       else{
+        console.error('Loading error:', response.data.message);       
         this.showToast(response.data.message, 'error'); 
        }
       } catch (error) {
@@ -391,14 +411,14 @@ export const useHrStore = defineStore('hrStore', {
       loadingAlert.close();
     },
 
-    async setLeave(req,showLoading ) {
+    async getDeleteAbsence(req,showLoading) {
       const loadingAlert = showLoading(''); 
       try {
         console.log("req:",req);   
-        const response = await axios.post(`${import.meta.env.VITE_API_URL}/hr/Absence/SetLeave`,req);   
+        const response = await axios.get(`${import.meta.env.VITE_API_URL}/hr/Absence/GetDeleteAbsence`,{params: {Id: req.absendce_id}});   
         console.log("response:",response);   
         if (response.data.isSuccess) {   
-          this.showToast(response.data.message, 'success');  
+          this.showToast("Leave removed successfully!", 'success');  
        }
        else{
         console.error('Loading error:', response.data.message);       

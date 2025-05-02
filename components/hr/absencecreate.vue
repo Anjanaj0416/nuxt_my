@@ -150,13 +150,11 @@ export default {
     }
   },
 
-  created() {
+  async created() {
+    this.hrStore = useHrStore();
     this.showLoading = this.$showLoading;
   },
 
-  async created() {
-    this.hrStore = useHrStore()
-  },
   beforeMount() {
     this.leave_entitle_year = new Date().getFullYear();
   },
@@ -257,21 +255,21 @@ export default {
         this.absense_apply.end_date = this.absense_apply.start_date
       }
 
-      if (this.absense_apply.leave_type === 'full day') {
-        const diffTime =
-          new Date(this.absense_apply.end_date) -
-          new Date(this.absense_apply.start_date)
+      // if (this.absense_apply.leave_type === 'full day') {
+      //   const diffTime =
+      //     new Date(this.absense_apply.end_date) -
+      //     new Date(this.absense_apply.start_date)
 
-        const diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24))
+      //   const diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24))
 
-        if (diffDays <= 0) {
-          this.showMessage({
-            type: 'Failed',
-            message: 'Start and End Date Invalid',
-          })
-          return false
-        }
-      }
+      //   if (diffDays <= 0) {
+      //     this.showMessage({
+      //       type: 'Failed',
+      //       message: 'Start and End Date Invalid',
+      //     })
+      //     return false
+      //   }
+      // }
       return true
     },
 
