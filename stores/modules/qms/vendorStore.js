@@ -153,8 +153,13 @@ export const useVendorStore = defineStore("vendorStore", {
         );
 
         if (response.data.isSuccess) {
-          this.showToast(response.data.message, "success");
           this.AddEditVendor = response.data.data.data;
+          this.showToast(response.data.message, "success");
+          // Reload Nuxt page after short delay
+          setTimeout(() => {
+            window.location.reload(); 
+          }, 1000);
+
         } else {
           this.showToast(response.data.message, "error");
         }
@@ -164,7 +169,8 @@ export const useVendorStore = defineStore("vendorStore", {
         this.showToast(message, "error");
       }
 
-      Swal.close();
+      loadingAlert.close();
+
     },
 
 

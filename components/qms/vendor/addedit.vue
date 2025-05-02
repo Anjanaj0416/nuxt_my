@@ -151,25 +151,38 @@
               </div>
               <div class="">
                 <label class="block text-sm font-bold text-gray-600">City</label>
-                <input
+                <!-- <input
                   type="text"
                   v-model="form.City"
                   @input="clearError('City')"
                   placeholder="Enter City"
                   required
                   class="w-full p-2 mt-2 text-sm border rounded-md focus:ring-indigo-500 focus:border-indigo-500"
-                />
+                /> -->
                 <!-- <select
                   v-model="form.City"
                   @change="clearError('City')"
                   required
-                  class="w-full p-2 mt-2 text-sm border rounded-md focus:ring-indigo-500 focus:border-indigo-500"
+                  class="w-full p-2 mt-2 text-sm border text-black rounded-md focus:ring-indigo-500 focus:border-indigo-500"
                 >
                   <option value="" disabled>Select a City</option>
-                  <option v-for="City in vendorStore.initVendor.listCities" :key="City.id" :value="City.name">
-                      {{ City.name }}
+                  <option v-for="City in vendorStore.initVendor.listCities" :key="City.id" :value="City.value">
+                      {{ City.value }}
                   </option>
                 </select> -->
+                <Vue3Select
+  v-model="form.City"
+  :options="vendorStore.initVendor.listCities"
+  option-label="value" 
+  option-value="id"   
+  placeholder="Select a City"
+  class="w-full p-2 mt-2 text-sm border text-black rounded-md"
+  @blur="clearError('City')"
+  filterable 
+/>
+
+
+
 
 
                   <!-- {{form.City}} -->
@@ -346,6 +359,7 @@ export default {
     };
   },
   computed: {
+    
     isEditing() {
       return (
         this.curVendor &&
