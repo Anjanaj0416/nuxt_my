@@ -166,6 +166,7 @@ export default {
     ImageChanged() {
       this.leavedocDetails.imagechanged = true
     },
+
     async getSave() {
       if (!this.validate()) {
         return

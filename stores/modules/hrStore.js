@@ -99,9 +99,13 @@ export const useHrStore = defineStore('hrStore', {
       arrabsences: [],
       arrLeaveBalances:[]
     },
+    movement:{
+      arrmovements: [],
+    },
     initData: {
       initEmployee: {},
       initAbsence: {},
+      initMovement: {},
     },
     authToken: "",
     isLoading: true,
@@ -313,25 +317,6 @@ export const useHrStore = defineStore('hrStore', {
       // loadingAlert.close();
     },
 
-    async getMovementInitData() {
-      const loadingAlert = showLoading(''); 
-      try {
-        const response = await axios.post(`${import.meta.env.VITE_API_URL}/hr/Movement/GetMovementInitData`);   
-        console.log("response:",response);   
-        if (response.data.isSuccess) {    
-          this.OTApllyDetails.ot_hours = response.data.data.data;
-       }
-       else{
-        console.error('Loading error:', response.data.message);       
-        this.showToast(response.data.message, 'error'); 
-       }
-      } catch (error) {
-        console.error('Loading error:', error);
-        this.showToast(error.response.data.Message, 'error'); 
-      }
-      loadingAlert.close();
-    },
-
     async getAbsenceInitData() {
       // const loadingAlert = showLoading(''); 
       try {
@@ -427,6 +412,71 @@ export const useHrStore = defineStore('hrStore', {
       } catch (error) {
         console.error('Loading error:', error);
         this.showToast(error.response.data.Message, 'error'); 
+      }
+      loadingAlert.close();
+    },
+
+    async getMovementInitData(showLoading) {
+      const loadingAlert = showLoading(''); 
+      try {
+        const response = await axios.get(`${import.meta.env.VITE_API_URL}/hr/Movement/GetMovementInitData`);   
+        console.log("response:",response);   
+        if (response.data.isSuccess) {    
+          this.initData.initMovement = response.data.data.data;
+       }
+       else{
+        console.error('Loading error:', response.data.message);       
+        // this.showToast(response.data.message, 'error'); 
+       }
+      } catch (error) {
+        console.error('Loading error:', error);
+        // this.showToast(error.response.data.Message, 'error'); 
+      }
+      loadingAlert.close();
+    },
+
+    async getViewMovement(req,showLoading) {
+      const loadingAlert = showLoading(''); 
+      try {
+        console.log("req:",req);  
+        const response = await axios.get(`${import.meta.env.VITE_API_URL}/hr/Movement/GetViewMovement`,{params: {empNo: req.empNo, fromDate: req.fromDate, toDate: req.toDate}});   
+        console.log("response:",response);   
+        if (response.data.isSuccess) {   
+          this.movement.arrmovements = response.data.data.data.arrMovements || [];
+       }
+       else{
+        console.error('Loading error:', response.data.message);  
+        if (response.data.statusCode === 400) {
+          this.movement.arrmovements = [];
+        }     
+        // this.showToast(response.data.message, 'error'); 
+       }
+      } catch (error) {
+        console.error('Loading error:', error);
+        // this.showToast(error.response.data.Message, 'error'); 
+      }
+      loadingAlert.close();
+    },
+
+    async setMovement(req,showLoading) {
+      const loadingAlert = showLoading(''); 
+      try {
+        console.log("req:",req);  
+        const response = await axios.post(`${import.meta.env.VITE_API_URL}/hr/Movement/SetMovement`,req);   
+        console.log("response:",response);   
+        if (response.data.isSuccess) {   
+          this.showToast(response.data.message, 'success'); 
+       }
+       else{
+        console.error('Loading error:', response.data.message);  
+        if (response.data.statusCode === 400) {
+          this.movement.arrmovements = [];
+        }     
+        // this.showToast(response.data.message, 'error'); 
+       }
+      } catch (error) {
+        console.error('Loading error:', error);
+        // this.showToast(error.response.data.Message, 'error'); 
       }
       loadingAlert.close();
     },
