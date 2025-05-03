@@ -55,50 +55,46 @@
           <div class="grid grid-cols-4 my-2 gap-y-2">
             <div>Movement Type</div>
             <div class="">
-              <selectinput2 v-model="movement_apply.movementType" :cur_item="movement_apply.movementType"
-                :selections="arr_movement_by" @changed=movementTypeChanged />
-
+              <selectinput2 v-model="movementType" :cur_item="movement_apply.movementType"
+                :selections="hrStore.initData.initMovement.arrMovementType" @changed=movementTypeChanged />
             </div>
 
             <div class="text-right px-2">Movement Period</div>
             <div class="">
               <selectinput2 v-model="movement_apply.movementPeriod" :cur_item="movement_apply.movementPeriod"
-                :selections="arr_movementPeriod" @changed=movementTypeChanged />
+                :selections="hrStore.initData.initMovement.arrMovementPeriod" @changed=movementTypeChanged />
 
             </div>
-            <!-- <div class="text-right" v-show="!isWFH">Start From</div>
-            <div class=""  v-show="!isWFH">
-              <selectinput2
-                v-model="movement_apply.start_from"
-                :cur_item="movement_apply.start_from"
-                :selections="arr_startfrom"
-              />
-            </div> -->
+            <div class="" v-show="!isWFH">Start From</div>
+            <div class="" v-show="!isWFH">
+              <selectinput2 v-model="movement_apply.start_from" :cur_item="movement_apply.start_from"
+                :selections="hrStore.initData.initMovement.arrStartFrom" />
+            </div>
 
-            <div v-show="!isWFH">From Location</div>
+            <div class="text-right px-2" v-show="!isWFH">From Location</div>
             <div class="" v-show="!isWFH">
               <input class="text-gray-600 w-full rounded p-1" v-model="movement_apply.from_location" type="text" />
             </div>
 
-            <div class="text-right px-2" v-show="!isWFH">To Location</div>
+            <div class="" v-show="!isWFH">To Location</div>
             <div class="" v-show="!isWFH">
               <input class="text-gray-600 w-full rounded p-1" v-model="movement_apply.to_location" type="text" />
             </div>
 
-            <div v-show="!isWFH">Distance</div>
+            <div class="text-right px-2" v-show="!isWFH">Distance</div>
             <div class="" v-show="!isWFH">
               <input class="text-gray-600 w-full rounded p-1" v-model="movement_apply.distance" type="text" />
             </div>
 
-            <div class="text-right px-2" v-show="!isWFH">Vehicle No</div>
+            <div class="" v-show="!isWFH">Vehicle No</div>
             <div class="" v-show="!isWFH">
               <input class="text-gray-600 w-full rounded p-1" v-model="movement_apply.vehicle_number" type="text" />
             </div>
 
-            <div v-show="!isWFH">Travel By</div>
+            <div class="text-right px-2" v-show="!isWFH">Travel By</div>
             <div class="" v-show="!isWFH">
               <selectinput2 v-model="movement_apply.travel_by" :cur_item="movement_apply.travel_by"
-                :selections="arr_travelby" />
+                :selections="hrStore.initData.initMovement.arrTravelBy" />
             </div>
           </div>
         </div>
@@ -117,6 +113,7 @@
 import selectinput2 from '~/components/customcontrol/selectinput2'
 import btnhr_Save from '~/components/hr/btnhr_button'
 import leave_entitlement from '~/components/hr/leave_entitlement'
+import { useHrStore } from '~/stores/modules/hrStore'
 
 // import * as Global from '@/assets/js/Global'
 //import * as myfilter from '@/plugins/myfilter'
@@ -133,7 +130,7 @@ export default {
         date: '',
         out_time: '00:00',
         in_time: '00:00',
-        //start_from: '',
+        start_from: '',
         from_location: '',
         to_location: '',
         distance: '0',
@@ -143,27 +140,19 @@ export default {
         movementPeriod: '',
         user: {},
       },
+      hrStore: null,
+      showLoading: null,
     }
   },
 
+  async created() {
+    this.hrStore = useHrStore();
+    this.showLoading = this.$showLoading;
+  },
+
   computed: {
-    // ...mapState({
-    //   loggeduser: (state) => state.loggeduser,
-    //   //arr_startfrom: (state) => state.hr.movementdetails.arr_start_from,
-    //   arr_travelby: (state) => state.hr.movementdetails.arr_travel_by,
-    //   arr_movement_by: (state) => state.hr.movementdetails.arr_movement_by,
-    //   arr_movementPeriod: (state) => state.hr.movementdetails.arr_movementPeriod,
-    // }),
   },
   methods: {
-    // ...mapActions({
-    //   // getEmployeeByID: 'hr/getEmployeeByID',
-    //   setMovement: 'hr/setMovement',
-    // }),
-    // ...mapMutations({
-    //   showMessage: 'PUSH_NOTIFICATION',
-    //   reset: 'hr/RESET_MOVEMENT',
-    // }),
     async init() { },
     goto_movementview() {
       this.$emit('goto_movementview')
@@ -172,10 +161,22 @@ export default {
       if (!this.validate()) {
         return
       }
-      this.movement_apply.empNo = this.empno
-      this.movement_apply.user = this.loggeduser
+      let req = {
+        EmpNo: this.empno,
+        Date: this.movement_apply.date,
+        InTime: this.movement_apply.in_time,
+        OutTime: this.movement_apply.out_time,
+        StartFrom: this.movement_apply.start_from,
+        FromLocation: this.movement_apply.from_location,
+        ToLocation: this.movement_apply.to_location,
+        Distance: this.movement_apply.distance,
+        VehicleNumber: this.movement_apply.vehicle_number,
+        TravelBy: this.movement_apply.travel_by,
+        MovementType: this.movement_apply.movementType,
+        MovementPeriod: this.movement_apply.movementPeriod,
+      }
       //console.log(JSON.stringify(this.movement_apply));
-      await this.setMovement(this.movement_apply)
+      await this.hrStore.setMovement(req, this.showLoading)
       this.$emit('goto_movementview')
     },
     movementTypeChanged(selected_item) {
@@ -234,12 +235,15 @@ export default {
       this.movement_apply.out_time = ''
       this.movement_apply.in_date = ''
       this.movement_apply.in_time = ''
-      //this.movement_apply.start_from = ''
+      this.movement_apply.start_from = ''
       this.movement_apply.from_location = ''
       this.movement_apply.to_location = ''
       this.movement_apply.distance = ''
       this.movement_apply.vehicle_number = ''
       this.movement_apply.travel_by = ''
+      this.movement_apply.movementType = ''
+      this.movement_apply.movementPeriod = ''
+      this.movement_apply.date = ''
     },
   },
 }

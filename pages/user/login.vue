@@ -114,7 +114,7 @@ export default {
       imageroot: process.env.Assets_83,
       loginDetails: {
         userName: "10805",
-        password: "",
+        password: "1234",
       },
       showPassword: false,
       showLoading: null,

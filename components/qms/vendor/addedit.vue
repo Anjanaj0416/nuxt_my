@@ -15,210 +15,273 @@
           <!-- {{ curVendor }} -->
 
           <h3 class="font-bold">Company Details</h3>
-            <!-- Vendor Image -->
+          <!-- Vendor Image -->
+
           <div class="grid grid-cols-3 gap-4 mt-4">
-            <div class="" v-if="isEditing">
-                <label class="block text-sm font-bold text-gray-600">Customer Ref</label>
-                <input
-                  type="text"
-                  v-model="form.customerRef"
-                  disabled
-                  placeholder="Vendor ID (read-only)"
-                  class="w-full p-2 mt-2 text-sm bg-gray-100 border rounded-md"
-                />
-              </div>
-              <div class="">
-                <label class="block text-sm font-bold text-gray-600">Company Name</label>
-                <input
-                  type="text"
-                  v-model="form.ShopName"
-                  @input="clearError('ShopName')"
-                  placeholder="Enter Shop Name"
-                  required
-                  class="w-full p-2 mt-2 text-sm border rounded-md focus:ring-indigo-500 focus:border-indigo-500"
-                />
-                <p v-if="validationErrors.ShopName" class="mt-2 text-sm text-red-600">
-                  {{ validationErrors.ShopName }}
-                </p>
-              </div>
-              <div class="">
-                <label class="block text-sm font-bold text-gray-600">First Name</label>
-                <input
-                  type="text"
-                  v-model="form.FirstName"
-                  @input="clearError('FirstName')"
-                  placeholder="Enter First Name"
-                  required
-                  class="w-full p-2 mt-2 text-sm border rounded-md focus:ring-indigo-500 focus:border-indigo-500"
-                />
-                <p v-if="validationErrors.FirstName" class="mt-2 text-sm text-red-600">
-                  {{ validationErrors.FirstName }}
-                </p>
-              </div>
-              <div class="">
-                <label class="block text-sm font-bold text-gray-600">Last Name</label>
-                <input
-                  type="text"
-                  v-model="form.LastName"
-                  @input="clearError('LastName')"
-                  placeholder="Enter Last Name"
-                  required
-                  class="w-full p-2 mt-2 text-sm border rounded-md focus:ring-indigo-500 focus:border-indigo-500"
-                />
-                <p v-if="validationErrors.LastName" class="mt-2 text-sm text-red-600">
-                  {{ validationErrors.LastName }}
-                </p>
-              </div>
-              <div class="">
-                <label class="block text-sm font-bold text-gray-600">Phone</label>
-                <input
-                type="text"
-                  v-model="form.Phone"
-                  @input="clearError('Phone')"
-                  placeholder="Enter Phone"
-                  class="w-full p-2 mt-2 text-sm border rounded-md focus:ring-indigo-500 focus:border-indigo-500"
-                  required
-                />
-                <p v-if="validationErrors.Phone" class="mt-2 text-sm text-red-600">
-                  {{ validationErrors.Phone }}
-                </p>
-              </div>
-              <div class="">
-                <label class="block text-sm font-bold text-gray-600">Email</label>
-                <input
-                  type="Email"
-                  v-model="form.Email"
-                  @input="clearError('Email')"
-                  placeholder="Enter Email"
-                  class="w-full p-2 mt-2 text-sm border rounded-md focus:ring-indigo-500 focus:border-indigo-500"
-                  required
-                />
-                <p v-if="validationErrors.Email" class="mt-2 text-sm text-red-600">
-                  {{ validationErrors.Email }}
-                </p>
-              </div>
-              <div class="">
-                <label class="block text-sm font-bold text-gray-600">Contact Number</label>
-                <input
-                  type="tel"
-                  v-model="form.ShopContactNo"
-                  @input="clearError('ShopContactNo')"
-                  placeholder="Enter Contact Number"
-                  maxlength="10"
-                  class="w-full p-2 mt-2 text-sm border rounded-md focus:ring-indigo-500 focus:border-indigo-500"
-                />
-                <p v-if="validationErrors.ShopContactNo" class="mt-2 text-sm text-red-600">
-                  {{ validationErrors.ShopContactNo }}
-                </p>
-              </div>
-              <div class="">
-                <label class="block text-sm font-bold text-gray-600">Address Line 1</label>
-                <input
-                  type="text"
-                  v-model="form.ShopAddress1"
-                  @input="clearError('ShopAddress1')"
-                  placeholder="Enter Address Line 1"
-                  required
-                  class="w-full p-2 mt-2 text-sm border rounded-md focus:ring-indigo-500 focus:border-indigo-500"
-                />
-                <p v-if="validationErrors.ShopAddress1" class="mt-2 text-sm text-red-600">
-                  {{ validationErrors.ShopAddress1 }}
-                </p>
-              </div>
-              <div class="">
-                <label class="block text-sm font-bold text-gray-600">Address Line 2</label>
-                <input
-                  type="text"
-                  v-model="form.ShopAddress2"
-                  @input="clearError('ShopAddress2')"
-                  placeholder="Enter Address Line 2"
-                  required
-                  class="w-full p-2 mt-2 text-sm border rounded-md focus:ring-indigo-500 focus:border-indigo-500"
-                />
-                <p v-if="validationErrors.ShopAddress2" class="mt-2 text-sm text-red-600">
-                  {{ validationErrors.ShopAddress2 }}
-                </p>
-              </div>
-              <div class="">
-                <label class="block text-sm font-bold text-gray-600">City</label>
-                <!-- <input
-                  type="text"
-                  v-model="form.City"
-                  @input="clearError('City')"
-                  placeholder="Enter City"
-                  required
-                  class="w-full p-2 mt-2 text-sm border rounded-md focus:ring-indigo-500 focus:border-indigo-500"
-                /> -->
-                <Vue3Select
-                  v-model="form.City"
-                  :options="vendorStore.initVendor.listCities"
-                  :get-option-label="option => option.value"
-                  :get-option-value="option => option.id"
-                  placeholder="Select a city"
-                  class="w-full mt-2 text-sm border rounded-md "
-                  @blur="clearError('City')"
-                  filterable
-                />
-
-
-                  <!-- {{form.City}} -->
-                <p v-if="validationErrors.City" class="mt-2 text-sm text-red-600">
-                  {{ validationErrors.City }}
-                </p>
-              </div>
-              <uploader
-  v-model="form.VendorImage"
-  :label="'Vendor Image'"
-  :validationError="validationErrors.VendorImage"
-/>
-
-<uploader
-  v-model="form.ShopLogo"
-  :label="'Shop Logo'"
-  :validationError="validationErrors.ShopLogo"
-/>
-
-<uploader
-  v-model="form.ShopCoverImage"
-  :label="'Shop Cover Image'"
-  :validationError="validationErrors.ShopCoverImage"
-/>
-
-<uploader
-  v-model="form.BRCopy"
-  :label="'BR'"
-  :validationError="validationErrors.BRCopy"
-/>
-
-          
-
             <div class="">
-              <label class="block text-sm font-bold text-gray-600">VAT Number</label>
+              <label class="block text-sm font-bold text-gray-600"
+                >Customer Ref</label
+              >
+
               <input
                 type="text"
-                v-model="form.VATNo"
-                @input="clearError('VATNo')"
-                placeholder="Enter VATNo"
+                v-model="curVendor.customerRef"
+                disabled
+                placeholder="Vendor ID (read-only)"
+                class="w-full p-2 mt-2 text-sm bg-gray-100 border rounded-md"
+              />
+            </div>
+            <div class="">
+              <label class="block text-sm font-bold text-gray-600"
+                >Company Name</label
+              >
+              <input
+                type="text"
+                v-model="curVendor.shopName"
+                placeholder="Enter Shop Name"
                 required
                 class="w-full p-2 mt-2 text-sm border rounded-md focus:ring-indigo-500 focus:border-indigo-500"
               />
-              <p v-if="validationErrors.VATNo" class="mt-2 text-sm text-red-600">
-                {{ validationErrors.VATNo }}
+              <p v-if="err.ShopName" class="mt-2 text-sm text-red-600">
+                {{ err.ShopName }}
+              </p>
+            </div>
+            <div class="">
+              <label class="block text-sm font-bold text-gray-600"
+                >First Name</label
+              >
+              <input
+                type="text"
+                v-model="curVendor.firstName"
+                placeholder="Enter First Name"
+                required
+                class="w-full p-2 mt-2 text-sm border rounded-md focus:ring-indigo-500 focus:border-indigo-500"
+              />
+              <p v-if="err.firstName" class="mt-2 text-sm text-red-600">
+                {{ err.firstName }}
               </p>
             </div>
 
             <div class="">
-              <label class="block text-sm font-bold text-gray-600">Description</label>
+              <label class="block text-sm font-bold text-gray-600"
+                >Last Name</label
+              >
               <input
                 type="text"
-                v-model="form.Description"
-                @input="clearError('Description')"
+                v-model="curVendor.lastName"
+                placeholder="Enter Last Name"
+                required
+                class="w-full p-2 mt-2 text-sm border rounded-md focus:ring-indigo-500 focus:border-indigo-500"
+              />
+              <p v-if="err.lastName" class="mt-2 text-sm text-red-600">
+                {{ err.lastName }}
+              </p>
+            </div>
+            <div class="">
+              <label class="block text-sm font-bold text-gray-600">Phone</label>
+
+              <input
+                type="text"
+                v-model="curVendor.phone"
+                placeholder="Enter Phone"
+                class="w-full p-2 mt-2 text-sm border rounded-md focus:ring-indigo-500 focus:border-indigo-500"
+                required
+              />
+              <p v-if="err.phone" class="mt-2 text-sm text-red-600">
+                {{ err.phone }}
+              </p>
+            </div>
+
+            <div class="">
+              <label class="block text-sm font-bold text-gray-600">Email</label>
+              <input
+                type="Email"
+                v-model="curVendor.email"
+                placeholder="Enter Email"
+                class="w-full p-2 mt-2 text-sm border rounded-md focus:ring-indigo-500 focus:border-indigo-500"
+                required
+              />
+              <p v-if="err.email" class="mt-2 text-sm text-red-600">
+                {{ err.email }}
+              </p>
+            </div>
+            <div class="">
+              <label class="block text-sm font-bold text-gray-600"
+                >Contact Number</label
+              >
+              <input
+                type="tel"
+                v-model="curVendor.shopContactNo"
+                placeholder="Enter Contact Number"
+                maxlength="10"
+                class="w-full p-2 mt-2 text-sm border rounded-md focus:ring-indigo-500 focus:border-indigo-500"
+              />
+              <p v-if="err.shopContactNo" class="mt-2 text-sm text-red-600">
+                {{ err.shopContactNo }}
+              </p>
+            </div>
+            <div class="">
+              <label class="block text-sm font-bold text-gray-600"
+                >Address Line 1</label
+              >
+              <input
+                type="text"
+                v-model="curVendor.shopAddress1"
+                placeholder="Enter Address Line 1"
+                required
+                class="w-full p-2 mt-2 text-sm border rounded-md focus:ring-indigo-500 focus:border-indigo-500"
+              />
+              <p v-if="err.shopAddress1" class="mt-2 text-sm text-red-600">
+                {{ err.shopAddress1 }}
+              </p>
+            </div>
+
+            <div class="">
+              <label class="block text-sm font-bold text-gray-600"
+                >Address Line 2</label
+              >
+              <input
+                type="text"
+                v-model="curVendor.shopAddress2"
+                placeholder="Enter Address Line 2"
+                required
+                class="w-full p-2 mt-2 text-sm border rounded-md focus:ring-indigo-500 focus:border-indigo-500"
+              />
+              <p v-if="err.shopAddress2" class="mt-2 text-sm text-red-600">
+                {{ err.shopAddress2 }}
+              </p>
+            </div>
+
+            <div class="">
+              <label class="block text-sm font-bold text-gray-600">District</label>
+           
+              <serach_Input
+                :arrItems="getDistinctDistricts"
+                ref="refDistrict"
+                label=""
+                v-model="curVendor.district"
+                @selectItem="GetSelectDistrict"
+              />
+              <p v-if="err.district" class="mt-2 text-sm text-red-600">
+                {{ err.district }}
+              </p>
+            </div>
+
+            <div class="">
+              <label class="block text-sm font-bold text-gray-600">City</label>
+          
+              <serach_Input
+                :arrItems="filteredCities"
+                ref="refCity"
+                label=""
+                v-model="curVendor.city"
+                @selectItem="GetSelectCity"
+              />
+              <p v-if="err.city" class="mt-2 text-sm text-red-600">
+                {{ err.city }}
+              </p>
+            </div>
+
+
+            <div class="">
+              <label class="block text-sm font-bold text-gray-600"
+                >VAT Number</label
+              >
+              <input
+                type="text"
+                v-model="curVendor.vatNo"
+                placeholder="Enter VATNo"
+                required
+                class="w-full p-2 mt-2 text-sm border rounded-md focus:ring-indigo-500 focus:border-indigo-500"
+              />
+              <p v-if="err.vatNo" class="mt-2 text-sm text-red-600">
+                {{ err.vatNo }}
+              </p>
+            </div>
+
+            <div class="">
+              <label class="block text-sm font-bold text-gray-600"
+                >Description</label
+              >
+              <input
+                type="text"
+                v-model="curVendor.description"
                 placeholder="Enter Description"
                 required
                 class="w-full p-2 mt-2 text-sm border rounded-md focus:ring-indigo-500 focus:border-indigo-500"
               />
-              <p v-if="validationErrors.Description" class="mt-2 text-sm text-red-600">
-                {{ validationErrors.Description }}
+              <p v-if="err.description" class="mt-2 text-sm text-red-600">
+                {{ err.description }}
+              </p>
+            </div>
+
+            <!--Vendor Image -->
+            <div>
+              <label class="block text-sm font-bold text-gray-600"
+                >Vendor Image</label
+              >
+              <div class="relative mt-2">
+                <imagecomp
+                  :existing_image_path="imageroot + curVendor.vendorImage"
+                  @deleteExistingImage="curVendor.vendorImage = ''"
+                  @GetSelectedImage="GetSelectedVendorImage"
+                  ref="refVendorImage"
+                />
+              </div>
+              <p v-if="err.vendorImage" class="mt-2 text-sm text-red-600">
+                {{ err.vendorImage }}
+              </p>
+            </div>
+
+            <!-- Shop Logo -->
+            <div>
+              <label class="block text-sm font-bold text-gray-600"
+                >Shop Logo</label
+              >
+              <div class="relative mt-2">
+                <imagecomp
+                  :existing_image_path="imageroot + curVendor.shopLogo"
+                  @deleteExistingImage="curVendor.shopLogo = ''"
+                  @GetSelectedImage="GetSelectedShopImage"
+                  ref="refShopLogo"
+                />
+              </div>
+              <p v-if="err.shopLogo" class="mt-2 text-sm text-red-600">
+                {{ err.shopLogo }}
+              </p>
+            </div>
+
+            <!-- Shop Cover Image -->
+            <div>
+              <label class="block text-sm font-bold text-gray-600"
+                >Shop Cover Image</label
+              >
+              <div class="relative mt-2">
+                <imagecomp
+                  :existing_image_path="imageroot + curVendor.shopCoverImage"
+                  @deleteExistingImage="curVendor.shopCoverImage = ''"
+                  @GetSelectedImage="GetSelectedShopCoverImage"
+                  ref="refShopCoverImage"
+                />
+              </div>
+              <p v-if="err.shopCoverImage" class="mt-2 text-sm text-red-600">
+                {{ err.shopCoverImage }}
+              </p>
+            </div>
+
+            <!-- BR Image -->
+            <div>
+              <label class="block text-sm font-bold text-gray-600">BR</label>
+              <div class="relative mt-2">
+                <imagecomp
+                  :existing_image_path="imageroot + curVendor.brCopy"
+                  @deleteExistingImage="curVendor.brCopy = ''"
+                  @GetSelectedImage="GetSelectedBRCopy"
+                  ref="refBRCopy"
+                />
+              </div>
+              <p v-if="err.brCopy" class="mt-2 text-sm text-red-600">
+                {{ err.brCopy }}
               </p>
             </div>
           </div>
@@ -227,41 +290,72 @@
           <h3 class="mt-4 font-bold">Bank Details</h3>
           <div class="grid grid-cols-3 gap-4 mt-4">
             <div class="">
-              <label class="block text-sm font-bold text-gray-600">Bank Name</label>
-              <input type="text" v-model="form.BankName" @input="clearError('BankName')" placeholder="Enter Bank Name"
+              <label class="block text-sm font-bold text-gray-600"
+                >Bank Name</label
+              >
+              <input
+                type="text"
+                v-model="curVendor.bankName"
+                placeholder="Enter Bank Name"
                 required
-                class="w-full p-2 mt-2 text-sm border rounded-md focus:ring-indigo-500 focus:border-indigo-500" />
-              <p v-if="validationErrors.BankName" class="mt-2 text-sm text-red-600">
-                {{ validationErrors.BankName }}
+                class="w-full p-2 mt-2 text-sm border rounded-md focus:ring-indigo-500 focus:border-indigo-500"
+              />
+              <p v-if="err.bankName" class="mt-2 text-sm text-red-600">
+                {{ err.bankName }}
               </p>
             </div>
             <div class="">
-              <label class="block text-sm font-bold text-gray-600">Bank Branch</label>
-              <input type="text" v-model="form.Branch" @input="clearError('Branch')" placeholder="Enter Bank Branch"
+              <label class="block text-sm font-bold text-gray-600"
+                >Bank Branch</label
+              >
+              <input
+                type="text"
+                v-model="curVendor.branch"
+                placeholder="Enter Bank Branch"
                 required
-                class="w-full p-2 mt-2 text-sm border rounded-md focus:ring-indigo-500 focus:border-indigo-500" />
-              <p v-if="validationErrors.Branch" class="mt-2 text-sm text-red-600">
-                {{ validationErrors.Branch }}
+                class="w-full p-2 mt-2 text-sm border rounded-md focus:ring-indigo-500 focus:border-indigo-500"
+              />
+              <p v-if="err.branch" class="mt-2 text-sm text-red-600">
+                {{ err.branch }}
               </p>
             </div>
 
             <div class="">
-              <label class="block text-sm font-bold text-gray-600">Bank Account No</label>
-              <input type="text" v-model="form.AccountNumber" @input="clearError('AccountNumber')"
-                placeholder="Enter ank Account No" required
-                class="w-full p-2 mt-2 text-sm border rounded-md focus:ring-indigo-500 focus:border-indigo-500" />
-              <p v-if="validationErrors.AccountNumber" class="mt-2 text-sm text-red-600">
-                {{ validationErrors.AccountNumber }}
+              <label class="block text-sm font-bold text-gray-600"
+                >Bank Account No</label
+              >
+              <input
+                type="text"
+                v-model="curVendor.accountNumber"
+                placeholder="Enter ank Account No"
+                required
+                class="w-full p-2 mt-2 text-sm border rounded-md focus:ring-indigo-500 focus:border-indigo-500"
+              />
+              <p v-if="err.accountNumber" class="mt-2 text-sm text-red-600">
+                {{ err.accountNumber }}
               </p>
             </div>
             <div class="">
-              <label class="block text-sm font-bold text-gray-600">Card Holder Name</label>
-              <input type="text" v-model="form.HolderName" @input="clearError('HolderName')"
-                placeholder="Enter Card Colder Name" required
-                class="w-full p-2 mt-2 text-sm border rounded-md focus:ring-indigo-500 focus:border-indigo-500" />
-              <p v-if="validationErrors.HolderName" class="mt-2 text-sm text-red-600">
-                {{ validationErrors.HolderName }}
+              <label class="block text-sm font-bold text-gray-600"
+                >Card Holder Name</label
+              >
+              <input
+                type="text"
+                v-model="curVendor.holderName"
+                placeholder="Enter Card Colder Name"
+                required
+                class="w-full p-2 mt-2 text-sm border rounded-md focus:ring-indigo-500 focus:border-indigo-500"
+              />
+              <p v-if="err.holderName" class="mt-2 text-sm text-red-600">
+                {{ err.holderName }}
               </p>
+            </div>
+            <div class="">
+              <label class="block text-sm font-bold text-gray-600"
+                >Status</label
+              >
+
+              <toggleoption v-model="curVendor.isActive" />
             </div>
           </div>
         </div>
@@ -272,13 +366,13 @@
         <button @click="cancel" class="cancel-button">Cancel</button>
         <button @click="handleSubmit" class="confirm-button">Save</button>
       </div> -->
+     
       <div class="modal-footer">
         <button @click="cancel" class="cancel-button">Cancel</button>
-        <button @click="handleSubmit" class="confirm-button">
-          {{ isEditing ? 'Update Vendor' : 'Save Vendor' }}
+        <button @click="GetSaveVendor" class="confirm-button">
+          {{ isEditing ? "Update Vendor" : "Save Vendor" }}
         </button>
       </div>
-
     </div>
   </div>
 </template>
@@ -287,42 +381,24 @@
 import { reactive, computed } from "vue";
 import closebtn from "~/components/customcontrol/modal_close_button";
 import { useVendorStore } from "~/stores/modules/qms/vendorStore";
-// import imagecomp from "~/components/customcontrol/imagepicker";
+import imagecomp from "~/components/customcontrol/imagepicker";
+import ImageLable from "~/components/customcontrol/ImageLable";
 import serach_Input from "~/components/customcontrol/SearchInput";
-import uploader from "./uploader.vue";
+import { useUserStore } from "~/stores/modules/userStore";
+import toggleoption from "~/components/customcontrol/toggleoption";
 
-import upload from "./uploader.vue";
-
+definePageMeta({
+  layout: "default",
+});
 export default {
-  components: { closebtn, serach_Input,uploader },
+  components: { closebtn, serach_Input, ImageLable, imagecomp, toggleoption },
   data() {
     return {
       isOpen: true,
       curVendor: {},
-      validationErrors: {},
-      form: {
-        FirstName: '',
-        LastName: '',
-        customerRef: '',
-        Phone: '',
-        Email: '',
-        ShopAddress1: '',
-        ShopAddress2: '',
-        City: '',
-        Description: '',
-        VATNo: '',
-        AccountNumber: '',
-        BankName: '',
-        Branch: '',
-        ShopName: '',
-        ShopContactNo: '',
-        ShopLogo: null,
-        VendorImage: null,
-        ShopCoverImage: null,
-        BRCopy: null,
-        HolderName: ''
-      },
+      err: {},
       imageroot: "",
+      showLoading: null,
     };
   },
   computed: {
@@ -332,260 +408,257 @@ export default {
         this.curVendor.id !== "00000000-0000-0000-0000-000000000000"
       );
     },
-  },
-async created() {
-    this.vendorStore = useVendorStore();
-    await this.vendorStore.loadInitVendor(); // Await here once
-    this.curVendor = this.vendorStore.curVendor;
-    this.imageroot = this.vendorStore.initVendor.baseUrl;
 
-    // Only assign the specific fields you need
-    if (this.curVendor) {
-      this.form.ShopName = this.curVendor.shopName || '';
-      this.form.customerRef = this.curVendor.customerRef || '';
-      this.form.FirstName = this.curVendor.firstName || '';
-      this.form.LastName = this.curVendor.lastName || '';
-      this.form.Phone = this.curVendor.phone || '';
-      this.form.Email = this.curVendor.email || '';
-      this.form.ShopAddress1 = this.curVendor.shopAddress1 || '';
-      this.form.ShopAddress2 = this.curVendor.shopAddress2 || '';
-      this.form.City = this.curVendor.city || '';
-      this.form.Description = this.curVendor.description || '';
-      this.form.VATNo = this.curVendor.vatNo || '';
-      this.form.AccountNumber = this.curVendor.accountNumber || '';
-      this.form.BankName = this.curVendor.bankName || '';
-      this.form.Branch = this.curVendor.branch || '';
-      this.form.ShopContactNo = this.curVendor.shopContactNo || '';
-      this.form.HolderName = this.curVendor.holderName || '';
-      this.form.ShopLogo = this.curVendor.shopLogo || null;
-      this.form.VendorImage = this.curVendor.vendorImage || null;
-      this.form.ShopCoverImage = this.curVendor.shopCoverImage || null;
-      this.form.BRCopy = this.curVendor.brCopy || null;
-    }
+    getDistinctDistricts() {
+      try {
+        const districtsMap = new Map();
 
+        this.vendorStore.initVendor.listDistrictCities.forEach((item) => {
+          if (!districtsMap.has(item.districtId)) {
+            districtsMap.set(item.districtId, {
+              id: item.districtId,
+              value: item.districtName,
+            });
+          }
+        });
 
-    console.log('City :', this.vendorStore.initVendor);
-  },
-  methods: {
-       closeModal() {
-      this.isOpen = false;
-      this.$emit('close');
-    },
-    clearError(field) {
-      this.validationErrors[field] = '';
-    },
-    cancel() {
-      // Clear the form and validation errors when canceling
-      Object.keys(this.form).forEach((key) => {
-        this.form[key] = '';
-      });
-      Object.keys(this.validationErrors).forEach((key) => {
-        this.validationErrors[key] = '';
-      });
-      this.closeModal();
-    },
-    handleImageUpload(fieldName, event) {
-      const file = event.target.files[0];
-      if (file) {
-        this.form[fieldName] = file;
+        return Array.from(districtsMap.values()).sort((a, b) =>
+          a.value.localeCompare(b.value)
+        );
+      } catch (error) {
+        // console.log(error);
+        return [];
       }
     },
 
-    handleSubmit() {
-        this.clearValidationErrors();
+    filteredCities() {      
+    if (!this.curVendor.district) return [];  
 
-        let hasErrors = false;
+    return this.vendorStore.initVendor.listDistrictCities
+      .filter(city => city.districtId === this.curVendor.district)
+      .sort((a, b) => a.cityName.localeCompare(b.cityName))
+      .map(city => ({
+        id: city.cityId,
+        value: city.cityName
+      }));
+  },
 
-        if (!this.form.FirstName) {
-          this.validationErrors.FirstName = "Please enter First Name!";
-          hasErrors = true;
-        }
-        if (!this.form.LastName) {
-          this.validationErrors.LastName = "Please enter Last Name!";
-          hasErrors = true;
-        }
-        if (!this.form.VendorImage) {
-          this.validationErrors.VendorImage = "Please enter Image!";
-          hasErrors = true;
-        }
-        if (!this.form.Email) {
-          this.validationErrors.Email = 'Please enter an Email!';
-          hasErrors = true;
-        } else {
-          const EmailRegex = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
-          if (!EmailRegex.test(this.form.Email)) {
-            this.validationErrors.Email = 'Please enter a valid Email address!';
-            hasErrors = true;
-          }
-        }if (!this.form.ShopName) {
-          this.validationErrors.ShopName = "Please enter Company Name!";
-          hasErrors = true;
-        }if (!this.form.ShopContactNo) {
-          this.validationErrors.ShopContactNo = 'Please enter Contact Number!';
-          hasErrors = true;
-        } else {
-          const contactNoRegex = /^[0-9]{10}$/;
-          if (!contactNoRegex.test(this.form.ShopContactNo)) {
-            this.validationErrors.ShopContactNo = 'Please enter a valid 10-digit contact number!';
-            hasErrors = true;
-          }
-        }if (!this.form.ShopAddress1) {
-          this.validationErrors.ShopAddress1 = "Please enter Address1!";
-          hasErrors = true;
-        }if (!this.form.City) {
-          this.validationErrors.City = "Please enter City!";
-          hasErrors = true;
-        }
-        if (!this.form.Phone) {
-          this.validationErrors.Phone = 'Please enter Phone Number!';
-          hasErrors = true;
-        } else {
-          const contactNoRegex1 = /^[0-9]{10}$/;
-          if (!contactNoRegex1.test(this.form.Phone)) {
-            this.validationErrors.Phone = 'Please enter a valid 10-digit contact number!';
-            hasErrors = true;
-          }
-        }
-        if (!this.form.VATNo) {
-          this.validationErrors.VATNo = "Please enter VATNo!";
-          hasErrors = true;
-        }
-        if (!this.form.Description) {
-          this.validationErrors.Description = "Please enter Description!";
-          hasErrors = true;
-        }
 
-        // Simple validation: Company name must not be empty
-        if (!this.form.BankName) {
-          this.validationErrors.BankName = "Please enter Bank Name!";
-          hasErrors = true;
-        }
-        if (!this.form.Branch) {
-          this.validationErrors.Branch = "Please enter Branch!";
-          hasErrors = true;
-        }
-        if (!this.form.HolderName) {
-          this.validationErrors.HolderName = "Please enter Account Holder Name!";
-          hasErrors = true;
-        }
-        if (!this.form.AccountNumber) {
-          this.validationErrors.AccountNumber = "Please enter Account Number!";
-          hasErrors = true;
-        }
 
-        // Validation for images (check if images are uploaded)
-        if (!this.form.VendorImage) {
-          this.validationErrors.VendorImage = "Please upload a Vendor Image!";
-          hasErrors = true;
-        }
-        if (!this.form.ShopLogo) {
-          this.validationErrors.ShopLogo = "Please upload a Shop Logo!";
-          hasErrors = true;
-        }
-        if (!this.form.ShopCoverImage) {
-          this.validationErrors.ShopCoverImage = "Please upload a Shop Cover Image!";
-          hasErrors = true;
-        }
-        if (!this.form.BRCopy) {
-          this.validationErrors.BRCopy = "Please upload a Shop BR!";
-          hasErrors = true;
-        }
-
-        if (hasErrors) return; // Prevent submission if there are errors
-
-        // Log the form data to the console
-        console.log("Form Data:", this.form);
-
-        // Pass the form data to the vendorStore
-        this.vendorStore.addEditVendor(this.form);
-
-        this.closeModal(); // Close modal after submission
+  },
+  async created() {
+    this.vendorStore = useVendorStore();
+    this.userStore = useUserStore();
+    this.curVendor = this.vendorStore.curVendor;
+    this.imageroot = this.userStore.loggedUser.resourceURLRoot;
+    this.showLoading = this.$showLoading;
+  },
+  mounted() {
+    this.$refs.refCity.initItem(this.curVendor.city);
+    this.$refs.refDistrict.initItem(this.curVendor.district);
+  },
+  methods: {
+    closeModal() {
+      this.isOpen = false;
+      this.$emit("close");
     },
 
+    cancel() {
+      this.clearErr();
+      this.closeModal();
+    },
+    GetSelectedShopImage(image) {
+      this.curVendor.shopLogoFile = image;
+    },
 
+    GetSelectedVendorImage(image) {
+      this.curVendor.vendorImageFile = image;
+    },
+    GetSelectedShopCoverImage(image) {
+      this.curVendor.shopCoverImageFile = image;
+    },
+    GetSelectedBRCopy(image) {
+      this.curVendor.brCopyFile = image;
+    },
 
-    clearValidationErrors() {
-      Object.keys(this.validationErrors).forEach((key) => {
-        this.validationErrors[key] = "";
+    GetSaveVendor() {
+      if (this.IsValidate()) {
+        this.$showConfirm(
+          "Are you sure you want to Save this Vendor?",
+          "warning"
+        ).then(async (result) => {
+          if (result) {
+            const formData = this.convertToFormData(this.curVendor);
+            await this.vendorStore.addEditVendor(formData, this.showLoading);
+            this.closeModal();
+          } else {
+            console.log("Action canceled");
+          }
+        });
+      }
+    },
+
+    IsValidate() {
+      this.clearErr();
+
+      let IsValidate = true;
+
+      if (!this.curVendor.firstName) {
+        this.err.firstName = "Please enter First Name!";
+        IsValidate = false;
+      }
+
+      if (!this.curVendor.lastName) {
+        this.err.lastName = "Please enter Last Name!";
+        IsValidate = false;
+      }
+      // if (!this.curVendor.vendorImage) {
+      //   this.err.vendorImage = "Please enter Image!";
+      //   IsValidate = false;
+      // }
+      if (!this.curVendor.email) {
+        this.err.email = "Please enter an Email!";
+        IsValidate = false;
+      } else {
+        const EmailRegex = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
+        if (!EmailRegex.test(this.curVendor.email)) {
+          this.err.email = "Please enter a valid Email address!";
+          IsValidate = false;
+        }
+      }
+      if (!this.curVendor.shopName) {
+        this.err.shopName = "Please enter Company Name!";
+        IsValidate = false;
+      }
+      if (!this.curVendor.shopContactNo) {
+        this.err.shopContactNo = "Please enter Contact Number!";
+        IsValidate = false;
+      } else {
+        const contactNoRegex = /^[0-9]{10}$/;
+        if (!contactNoRegex.test(this.curVendor.shopContactNo)) {
+          this.err.shopContactNo =
+            "Please enter a valid 10-digit contact number!";
+          IsValidate = false;
+        }
+      }
+      if (!this.curVendor.shopAddress1) {
+        this.err.shopAddress1 = "Please enter Address1!";
+        IsValidate = false;
+      }
+      if (!this.curVendor.city) {
+        this.err.city = "Please enter City!";
+        IsValidate = false;
+      }
+      if (!this.curVendor.phone) {
+        this.err.phone = "Please enter Phone Number!";
+        IsValidate = false;
+      } else {
+        const contactNoRegex1 = /^[0-9]{10}$/;
+        if (!contactNoRegex1.test(this.curVendor.phone)) {
+          this.err.phonev = "Please enter a valid 10-digit contact number!";
+          IsValidate = false;
+        }
+      }
+      if (!this.curVendor.vatNo?.trim?.()) {
+        this.err.vatNo = "Please enter VATNo!";
+        IsValidate = false;
+      }
+      if (!this.curVendor.description?.trim?.()) {
+        this.err.description = "Please enter Description!";
+        IsValidate = false;
+      }
+
+      // Simple validation: Company name must not be empty
+      if (!this.curVendor.bankName) {
+        this.err.bankName = "Please enter Bank Name!";
+        IsValidate = false;
+      }
+      if (!this.curVendor.branch) {
+        this.err.Branch = "Please enter Branch!";
+        IsValidate = false;
+      }
+      if (!this.curVendor.holderName) {
+        this.err.holderName = "Please enter Account Holder Name!";
+        IsValidate = false;
+      }
+      if (!this.curVendor.accountNumber) {
+        this.err.accountNumber = "Please enter Account Number!";
+        IsValidate = false;
+      }
+
+      // Validation for images (check if images are uploaded)
+      // if (!this.curVendor.vendorImage) {
+      //   this.err.vendorImage = "Please upload a Vendor Image!";
+      //   IsValidate = false;
+      // }
+      // console.log(this.curVendor.shopLogo)
+      // if (!this.curVendor.shopLogo) {
+      //   this.err.shopLogo = "Please upload a Shop Logo!";
+      //   IsValidate = false;
+      // }
+      // if (!this.curVendor.shopCoverImage) {
+      //   this.err.shopCoverImage = "Please upload a Shop Cover Image!";
+      //   IsValidate = false;
+      // }
+      console.log(this.curVendor.brCopyFile);
+
+      if (this.curVendor.brCopy == "" && !this.curVendor.brCopyFile?.trim?.()) {
+        this.err.brCopy = "Please upload a Shop BR!";
+        IsValidate = false;
+      }
+      return IsValidate;
+    },
+
+    clearErr() {
+      Object.keys(this.err).forEach((key) => {
+        this.err[key] = "";
       });
     },
 
-    // convertToFormData(formObject) {
-    //   const formData = new FormData();
+    GetSelectCity(id) {
+      this.curVendor.city = id;
+    },
+    GetSelectDistrict(id){
+      
+      this.curVendor.district = id;
+      //alert(this.curVendor.district )
+    },
 
-    //   Object.keys(formObject).forEach((key) => {
-    //     const value = formObject[key];
-    //     if (value instanceof File) {
-    //       formData.append(key, value);
-    //     } else {
-    //       formData.append(key, value);
-    //     }
-    //   });
+    convertToFormData(formObject) {
+      const formData = new FormData();
+      formData.append("Id", this.curVendor.id);
+      formData.append("FirstName", this.curVendor.firstName);
+      formData.append("LastName", this.curVendor.lastName);
+      formData.append("Phone", this.curVendor.phone);
+      formData.append("Email", this.curVendor.email);
+      formData.append("ShopName", this.curVendor.shopName);
+      formData.append("ShopContactNo", this.curVendor.shopContactNo);
+      formData.append("ShopAddress1", this.curVendor.shopAddress1);
+      formData.append("ShopAddress2", this.curVendor.shopAddress2);
+      formData.append("District", this.curVendor.district);
+      formData.append("City", this.curVendor.city);
 
-    //   return formData;
-    // },
+      formData.append("VendorImageFile", this.curVendor.vendorImageFile);
+      formData.append("ShopLogoFile", this.curVendor.shopLogoFile);
+      formData.append("ShopCoverImageFile", this.curVendor.shopCoverImageFile);
+      formData.append("BRCopyFile", this.curVendor.brCopyFile);
 
+      formData.append("Description", this.curVendor.description);
+      formData.append("VATNo", this.curVendor.vatNo);
+
+      formData.append("BankName", this.curVendor.bankName);
+      formData.append("Branch", this.curVendor.branch);
+      formData.append("HolderName", this.curVendor.holderName);
+      formData.append("AccountNumber", this.curVendor.accountNumber);
+      formData.append("IsActive", this.curVendor.isActive);
+      return formData;
+    },
   },
 };
 </script>
 
 <style scoped>
 /* Modal Styling */
-.modal-overlay {
-  position: fixed;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  background: rgba(0, 0, 0, 0.5);
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  z-index: 9999;
-}
-
-.modal {
-  background: white;
-  width: 80%;
-  max-width: 600px;
-  border-radius: 8px;
-  display: flex;
-  flex-direction: column;
-  height: 90%;
-  position: relative;
-}
-
-.modal-header {
-  background: #0b2145;
-  padding: 15px;
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  color: white;
-}
-
-.modal-title {
-  margin: 0;
-  font-size: 18px;
-  font-weight: bold;
-}
-
-.modal-content {
-  padding: 20px;
-  max-height: 80%;
-  overflow-y: auto;
-  flex-grow: 1;
-}
-
-.modal-footer {
-  background: #f1f1f1;
-  padding: 15px;
-  display: flex;
-  justify-content: space-between;
-  position: absolute;
-  bottom: 0;
-  width: 100%;
-}
 
 button {
   padding: 10px 20px;
@@ -606,7 +679,7 @@ button {
 }
 
 button:hover {
-  opaCity: 0.8;
+  opacity: 0.8;
 }
 
 @media (max-width: 768px) {
