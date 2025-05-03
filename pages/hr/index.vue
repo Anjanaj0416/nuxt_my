@@ -185,7 +185,7 @@
                 <div v-show="userStore.loggedUser.username == emp.empno || userStore.loggedUser.userGroup === 'Supervisor' ||
                   userStore.loggedUser?.userGroup?.toLowerCase() === 'admin'
                   " title="Movement Details" @click="
-                    init_movement(index);
+                    init_movement(emp.empno, index);
                   cur_sec = 'movement';
                   selectedrow = emp.id;
                   isSecClose = false;
@@ -257,7 +257,7 @@
                 selectedrow == emp.id &&
                 !isSecClose
                 ">
-                <!-- <movementcreate ref="movementapply" :empno="emp.empno" @goto_movementview="goto_movementview" /> -->
+                <movementcreate ref="movementapply" :empno="emp.empno" @goto_movementview="goto_movementview" />
               </div>
 
               <!-- End view movement -->
@@ -547,8 +547,14 @@ export default {
 
     },
 
-    async init_movement(row_no) {
-      await this.$refs.movement[row_no].init()
+    async init_movement(empId, rowId) {
+      // await this.$refs.movement[row_no].init()
+      let req = {
+        empNo: empId,
+        fromDate: this.dtfrom,
+        toDate: this.dtto,
+      }
+      await this.hrStore.getViewMovement(req, this.showLoading);
     },
 
     async init_timecard(row_no) {
@@ -577,8 +583,10 @@ export default {
       // await this.$refs.otapply[row_no].init()
     },
 
-    goto_movementapply(empno) {
+    async goto_movementapply() {
       this.cur_sec = 'movementapply'
+
+      await this.hrStore.getMovementInitData(this.showLoading);
     },
 
     goto_absenceview() {

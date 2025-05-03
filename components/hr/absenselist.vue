@@ -179,17 +179,30 @@ export default {
       await this.hrStore.getViewAbsences(req, this.showLoading);
     },
     getclose() {
-      this.$emit('exit')
+      this.$emit('exit');
+      this.dtfrom = '';
+      this.dtto = '';
       this.hrStore.clearAbsence();
     },
     async applyleave() {
       let leaveYear = new Date().getFullYear()
       this.$emit('absenseapply', { empNo: this.empno, leaveYear: leaveYear })
     },
+
     async deleteRecord(id) {
       if (confirm('Sure to delete this Absence?')) {
-        let req = { absendce_id: id, user: this.loggeduser }
-        await this.deleteAbsence(req)
+        let req = { absendce_id: id }
+        await this.hrStore.getDeleteAbsence(req, this.showLoading)
+
+        const fromDate = this.$refs.datediffRef.dtfrom;
+        const toDate = this.$refs.datediffRef.dtto;
+
+        let reqGetViewAbsences = {
+          empNo: this.empno,
+          fromDate: fromDate,
+          toDate: toDate,
+        }
+        await this.hrStore.getViewAbsences(reqGetViewAbsences, this.showLoading);
       }
     },
   },

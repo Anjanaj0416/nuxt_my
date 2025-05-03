@@ -17,8 +17,10 @@ export const useUserStore = defineStore('userStore', {
 
       const loadingAlert = showLoading(''); 
       try {
+
         const response = await axios.post(`${import.meta.env.VITE_API_URL}/IAM/Login`, loginDetails);      
         loadingAlert.close();                            
+
         if (response.data.isSuccess) {
           
           this.token = response.data.authToken;  // Assuming the response contains a 'token'
@@ -35,6 +37,8 @@ export const useUserStore = defineStore('userStore', {
        
         
       } catch (error) {     
+        console.error("error:",error);
+        
         this.showToast('Network Error! Login failed. Please try again.','error');     
       }
       
