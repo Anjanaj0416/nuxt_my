@@ -7,6 +7,8 @@ export const useVendorStore = defineStore("vendorStore", {
     listVendor: [],
     curVendor: {},
     initVendor: {},
+    listLeads:[],
+    InitLeads:{},
   }),
   persist: true,
 
@@ -132,6 +134,51 @@ export const useVendorStore = defineStore("vendorStore", {
         this.showToast(error.message, "error");
       }
     },
+
+//loadListLeads
+async loadListLeads(req, showLoading) {
+  const loadingAlert = showLoading("");
+  try {
+    const response = await axios.get(
+      `${import.meta.env.VITE_API_URL}/qms/Vendor/GetVendorLeads?keyword=${
+        req.keyword
+      }&searchBy=${req.searchBy}`
+    );
+    loadingAlert.close();
+
+    if (response.data.isSuccess) {
+      if (response.data.data.count == 0) {
+        this.listLeads = [];
+        this.showToast(response.data.message, "error");
+      } else {
+        this.listLeads = response.data.data.data;
+        console.log( this.listLeads)
+      }
+      this.showToast(response.data.message, "success");
+    } else {
+      this.showToast(response.data.message, "error");
+    }
+  } catch (error) {
+    this.showToast(error.message, "error");
+  }
+},
+
+ //loadInitVendor
+ async GetInitLeads(showLoading) {
+  try {
+    const response = await axios.get(
+      `${import.meta.env.VITE_API_URL}/qms/Vendor/GetInitLeads`
+    );
+
+    if (response.data.isSuccess) {
+      this.InitLeads = response.data.data.data;
+    } else {
+      this.showToast(response.data.message, "error");
+    }
+  } catch (error) {
+    this.showToast("Failed to load vendor data", "error");
+  }
+},
 
     ResetVendor() {
       this.curVendor.id = "00000000-0000-0000-0000-000000000000";
