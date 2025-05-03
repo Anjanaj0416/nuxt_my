@@ -1,6 +1,6 @@
 import { defineStore } from 'pinia';
 import axios from 'axios';
-import Swal from 'sweetalert2';
+import Swal from 'sweetalert2'
 
 export const useUserStore = defineStore('userStore', {
   state: () => ({
@@ -13,16 +13,18 @@ export const useUserStore = defineStore('userStore', {
   persist: true,
 
   actions: {
-    async login(loginDetails,showLoading) {
+    async login(loginDetails,showLoading) {   
+
       const loadingAlert = showLoading(''); 
       try {
         const response = await axios.post(`${import.meta.env.VITE_API_URL}/IAM/Login`, loginDetails);      
-                                      
+        loadingAlert.close();                            
         if (response.data.isSuccess) {
           
           this.token = response.data.authToken;  // Assuming the response contains a 'token'
           this.loggedUser =response.data.loggedUser;
           this.assetsBaseUrl =response.data.loggedUser.resourceURLRoot;
+         // console.log(this.loggedUser )
           
           document.cookie = `token=${this.token}; path=/; max-age=3600; Secure`;
                   
@@ -35,7 +37,7 @@ export const useUserStore = defineStore('userStore', {
       } catch (error) {     
         this.showToast('Network Error! Login failed. Please try again.','error');     
       }
-      loadingAlert.close();
+      
     },
 
     logout() {
@@ -51,7 +53,8 @@ export const useUserStore = defineStore('userStore', {
       }
     },
 
-    showToast(message,type) {
+    showToast(message,type) { 
+
       Swal.fire({
         icon: type,
         title: type,
@@ -61,6 +64,7 @@ export const useUserStore = defineStore('userStore', {
         toast: true,
         position: 'top-end',
       });
+    
     },
   },
 });

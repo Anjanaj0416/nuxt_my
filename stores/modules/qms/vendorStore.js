@@ -8,85 +8,84 @@ export const useVendorStore = defineStore("vendorStore", {
     curVendor: {},
     initVendor: {},
   }),
+  persist: true,
+
   //this.showToast('Login successful!', 'success'); //success ,error ,warning,info
   actions: {
-    //addEditVendor
-    async addEditVendor(formData) {
-      console.log("Saving vendor data:", formData);
-      const loadingAlert = Swal.fire({
-        title: 'Saving...',
-        allowOutsideClick: false,
-        didOpen: () => {
-          Swal.showLoading();
-        },
-      });
+    //Update vendor
+    async GetAssignSalesRef(req, showLoading) {
+      const loadingAlert = showLoading("");
       try {
-        const fd = new FormData();
+        const response = await axios.post(
+          `${import.meta.env.VITE_API_URL}/qms/Vendor/GetAssignSalesRef`,
+          req
+        );
 
-          // Append text fields
-          fd.append('AccountNumber', formData.AccountNumber);
-          fd.append('BRCopy', formData.BRCopy);
-          fd.append('BankName', formData.BankName);
-          fd.append('Branch', formData.Branch);
-          fd.append('Description', formData.Description);
-          fd.append('Email', formData.Email);
-          fd.append('FirstName', formData.FirstName);
-          fd.append('HolderName', formData.HolderName);
-          fd.append('LastName', formData.LastName);
-          fd.append('Phone', formData.Phone);
-          fd.append('ShopAddress1', formData.ShopAddress1);
-          fd.append('ShopAddress2', formData.ShopAddress2);
-          fd.append('ShopContactNo', formData.ShopContactNo);
-          fd.append('ShopName', formData.ShopName);
-          fd.append('VATNo', formData.VATNo);
-
-          // Append file fields if they are available
-          if (formData.ShopCoverImage) {
-            fd.append('ShopCoverImage', formData.ShopCoverImage);
-          }
-          if (formData.ShopLogo) {
-            fd.append('ShopLogo', formData.ShopLogo);
-          }
-          if (formData.VendorImage) {
-            fd.append('VendorImage', formData.VendorImage);
-          }
-          const response = await axios.post(
-            `${import.meta.env.VITE_API_URL}/qms/Vendor/AddEditVendor`, fd, 
-            {
-              headers: {
-                'Content-Type': 'multipart/form-data',
-              },
-            }
-          );
-
+        loadingAlert.close();
         if (response.data.isSuccess) {
           this.showToast(response.data.message);
-          this.AddEditVendor = response.data.data.data;
         } else {
           this.showToast(response.data.message, "error");
         }
       } catch (error) {
         console.error(error);
-        
-        this.showToast(response.data.message, "error");
-        
+        //  this.showToast(response.data.message, "error");
       }
+    },
+
+   //Update vendor
+   async GetVendorById(id, showLoading) {   
+    
+  
+    const loadingAlert = showLoading("");
+
+    try {
+      const response = await axios.get(`${import.meta.env.VITE_API_URL}/qms/Vendor/GetVendorById?id=`+id );
+
       loadingAlert.close();
+      if (response.data.isSuccess) {
+        this.curVendor = response.data.data.data;
+        //this.showToast(response.data.message);
+      } else {
+        this.showToast(response.data.message, "error");
+      }
+    } catch (error) {
+      console.error(error);
+      //  this.showToast(response.data.message, "error");
+    }
+  },
+
+    //addEditVendor
+    async addEditVendor(formData, showLoading) {
+      try {
+       
+      
+        const response = await axios.post(
+          `${import.meta.env.VITE_API_URL}/qms/Vendor/AddEditVendor`,
+          formData,
+          {
+            headers: {
+              "Content-Type": "multipart/form-data",
+            },
+          }
+        );
+
+        if (response.data.isSuccess) {         
+          this.showToast(response.data.message);       
+       
+          this.listVendor = response.data.data.data;
+        
+        } else {
+          this.showToast(response.data.message, "error");
+        }
+      } catch (error) {
+        // console.error(error)
+        this.showToast('Error in server call', "error");
+       }
     },
 
     //loadInitVendor
-    async loadInitVendor(showLoading = true) {
-      let loadingAlert;
-      if (showLoading) {
-        loadingAlert = Swal.fire({
-          title: 'Loading...',
-          allowOutsideClick: false,
-          didOpen: () => {
-            Swal.showLoading();
-          },
-        });
-      }
-
+    async loadInitVendor(showLoading) {
       try {
         const response = await axios.get(
           `${import.meta.env.VITE_API_URL}/qms/Vendor/InitVendor`
@@ -100,43 +99,36 @@ export const useVendorStore = defineStore("vendorStore", {
       } catch (error) {
         this.showToast("Failed to load vendor data", "error");
       }
-
-      if (showLoading && loadingAlert) {
-        loadingAlert.close();
-      }
     },
 
     //loadListVendors
-    async loadListVendors(req) {
-      const loadingAlert = Swal.fire({
-        title: 'Loading...',
-        allowOutsideClick: false,
-        didOpen: () => {
-          Swal.showLoading();
-        },
-      });
-    
+    async loadListVendors(req, showLoading) {
+      const loadingAlert = showLoading("");
       try {
         const response = await axios.get(
-          `${import.meta.env.VITE_API_URL}/qms/Vendor/VendorList?keyword=${req.keyword}&searchBy=${req.searchBy}`
+          `${import.meta.env.VITE_API_URL}/qms/Vendor/VendorList?keyword=${
+            req.keyword
+          }&searchBy=${req.searchBy}`
         );
-    
+        loadingAlert.close();
+
         if (response.data.isSuccess) {
           if (response.data.data.count == 0) {
             this.listVendor = [];
+            this.showToast(response.data.message, "error");
           } else {
             this.listVendor = response.data.data.data;
+            console.log( this.listVendor)
           }
           this.showToast(response.data.message, "success");
         } else {
           this.showToast(response.data.message, "error");
         }
       } catch (error) {
-        this.showToast(error.message, "error"); // use error.message here, not response.data.message
+        this.showToast(error.message, "error");
       }
-      Swal.close(); // Close loading manually
     },
-    
+
     ResetVendor() {
       this.curVendor.id = "00000000-0000-0000-0000-000000000000";
       this.curVendor.firstName = "xxx";
