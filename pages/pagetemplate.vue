@@ -156,6 +156,19 @@
   //       }
   // 	  return isAtleasetOneExisitsForSearch;
   // 	  }
+
+     // GetCityById() {
+    //   return (id) => {
+    //     try {
+    //       let objCity = this.vendorStore.initVendor.listCities.filter((city) => {
+    //         return city.id == id
+    //       })[0]
+    //       return objCity.value
+    //     } catch {
+    //       return ''
+    //     }
+    //   }
+    // },
   </script>
   
   <style scoped>

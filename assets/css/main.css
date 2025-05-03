@@ -1,0 +1,68 @@
+.swal2-container {
+    z-index: 10000 !important;
+  }
+  
+  .swal2-popup {
+    z-index: 10001 !important;
+  }
+  
+  .custom-zindex {
+    z-index: 10001 !important;
+  }
+
+  .modal-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.5);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 5000;
+  }
+  
+  .modal {
+    background: white;
+    width: 80%;
+    max-width: 600px;
+    border-radius: 8px;
+    display: flex;
+    flex-direction: column;
+    height: 90%;
+    position: relative;
+  }
+  
+  .modal-header {
+    background: #0b2145;
+    padding: 15px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    color: white;
+  }
+  
+  .modal-title {
+    margin: 0;
+    font-size: 18px;
+    font-weight: bold;
+  }
+  
+  .modal-content {
+    padding: 20px;
+    max-height: 450px;
+    overflow-y: scroll;
+    flex-grow: 1;
+  }
+  
+  .modal-footer {
+    background: #f1f1f1;
+    padding: 15px;
+    display: flex;
+    justify-content: space-between;
+    position: absolute;
+    bottom: 0;
+    width: 100%;
+  }
+  

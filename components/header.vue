@@ -34,7 +34,7 @@
           <img
             src="/assets/img/LogoDigitalTechLab.png" 
             alt="Digital Tech Labs Logo"
-            class="w-16 px-2 rounded-full"
+            class="w-32 px-2 rounded-full"
           />
           <span class="text-xl font-bold text-white">Digital Tech Labs</span>
         </div>
@@ -42,8 +42,8 @@
        
         <div class="relative flex items-center ml-3">
         
-          
-          <span class="ml-2 text-white">{{loggedUser.userName}}</span>  
+        
+          <span class="ml-2 text-white uppercase">{{loggedUser.name}}<br><span class="text-xs"> {{loggedUser.userName}}</span></span>  
           
           <!-- Profile Image Button -->
           <div>
@@ -53,7 +53,7 @@
             >
               <img
                 class="w-8 h-8 rounded-full"
-                src="https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?ixlib=rb-1.2.1&auto=format&fit=facearea&facepad=2&w=256&h=256&q=80"
+                :src="loggedUser.resourceURLRoot+loggedUser.image"
                 alt="Profile"
               />
             </button>
@@ -76,7 +76,7 @@
 
          
         </div>
-
+   
 
       </header>
     </div>

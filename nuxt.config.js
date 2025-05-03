@@ -9,7 +9,7 @@ export default defineNuxtConfig({
   pinia: {
     autoImports: ['defineStore']
   },
-  css: ['@/assets/css/tailwind.css'],
+  css: ['@/assets/css/tailwind.css', '@/assets/css/main.css'],
   postcss: {
     plugins: {
       tailwindcss: {},
