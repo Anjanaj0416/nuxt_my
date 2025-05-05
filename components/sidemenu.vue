@@ -128,6 +128,11 @@ export default {
           to: "/",
           icon: "M12 12c2.21 0 4-1.79 4-4s-1.79-4-4-4s-4 1.79-4 4s1.79 4 4 4zM12 14c-4.42 0-8 2.79-8 6v2h16v-2c0-3.21-3.58-6-8-6z",
           submenu: [
+          {
+              name: "Leads",
+              to: "/qms/vendor/leads",
+              icon: "M12 12c2.21 0 4-1.79 4-4s-1.79-4-4-4s-4 1.79-4 4s1.79 4 4 4zM12 14c-4.42 0-8 2.79-8 6v2h16v-2c0-3.21-3.58-6-8-6z",
+            },
             {
               name: "Vendor",
               to: "/qms/vendor",
