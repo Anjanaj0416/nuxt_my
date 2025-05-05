@@ -480,6 +480,28 @@ export const useHrStore = defineStore('hrStore', {
       }
       loadingAlert.close();
     },
+
+    async getDeleteMovement(req,showLoading) {
+      const loadingAlert = showLoading(''); 
+      try {
+        console.log("req:",req);  
+        const response = await axios.get(`${import.meta.env.VITE_API_URL}/hr/Movement/GetDeleteMovement`,{params: {Id: req.movement_id}});   
+        console.log("response:",response);   
+        if (response.data.isSuccess) {   
+          this.showToast(response.data.message, 'success'); 
+       }
+       else{
+        console.error('Loading error:', response.data.message);  
+        if (response.data.statusCode === 400) {
+        }     
+        this.showToast(response.data.message, 'error'); 
+       }
+      } catch (error) {
+        console.error('Loading error:', error);
+        // this.showToast(error.response.data.Message, 'error'); 
+      }
+      loadingAlert.close();
+    },
     
     async showToast(message,type) {
       const Swal = (await import('sweetalert2')).default;

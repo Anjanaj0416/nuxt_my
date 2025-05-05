@@ -59,7 +59,7 @@
           <div>{{ mv.distace }}</div>
           <div>{{ mv.status }}</div>
           <div>{{ mv.pendingAt }}</div>
-          <div title="Delete record" @click="deleteRecord(mv.movementId)">
+          <div title="Delete record" @click="deleteRecord(mv.id)">
             <svg xmlns="http://www.w3.org/2000/svg" class="w-6 h-6" fill="none" viewBox="0 0 24 24"
               stroke="currentColor">
               <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
@@ -169,8 +169,18 @@ export default {
     },
     async deleteRecord(id) {
       if (confirm('Sure to delete this record?')) {
-        let req = { movement_id: id, user: this.loggeduser }
-        await this.deleteMovement(req)
+        let req = { movement_id: id }
+        await this.hrStore.getDeleteMovement(req, this.showLoading)
+
+        this.dtfrom = this.$refs.datediffRef.dtfrom;
+        this.dtto = this.$refs.datediffRef.dtto;
+
+        let reqGetViewMovement = {
+          fromDate: this.dtfrom,
+          toDate: this.dtto,
+          empNo: this.empno,
+        }
+        await this.hrStore.getViewMovement(reqGetViewMovement, this.showLoading)
       }
     },
   },

@@ -257,7 +257,8 @@
                 selectedrow == emp.id &&
                 !isSecClose
                 ">
-                <movementcreate ref="movementapply" :empno="emp.empno" @goto_movementview="goto_movementview" />
+                <movementcreate ref="movementapply" :empno="emp.empno" :dtFrom=dtfrom :dtTo=dtto
+                  @goto_movementview="goto_movementview" />
               </div>
 
               <!-- End view movement -->
