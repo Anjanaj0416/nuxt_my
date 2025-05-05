@@ -14,6 +14,8 @@
   ////import * as myfilter from '@/plugins/myfilter'
  //import Swal from 'sweetalert2';
  //import { useSampleStore  } from '~/stores/modules/sampleStore';
+ import { useUserStore } from "~/stores/modules/userStore";
+ import LinkBtn from "~/components/customcontrol/Link";
 
  definePageMeta({
     layout: 'default',   
@@ -22,11 +24,12 @@
    
   export default {
     
-    components: {},
+    components: {LinkBtn},
     props:[''],
     data() {
       return {
-        imageroot: process.env.Assets_83,
+        imageroot: "",
+        showLoading: null,
        
       }
     },
@@ -34,13 +37,13 @@
      
     },
     async created() {
-      //this.sampleStore = useSampleStore();
+      this.userStore = useUserStore();
+      this.showLoading = this.$showLoading;
+      this.imageroot = this.userStore.loggedUser.resourceURLRoot;
     },
     watch: {},
     computed: {
-      // ...mapState({
-      //   //loggeduser: (state) => state.loggeduser,
-      // }),
+  
     },
     methods: {
      
