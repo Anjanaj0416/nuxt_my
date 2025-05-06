@@ -16,36 +16,41 @@
       role="navigation"
       :aria-hidden="!isOpen"
     >
-      <div class="flex items-center justify-between px-6 py-3 bg-gray-900">
-        <router-link to="/">
-          <img
-            src="/assets/img/LogoDigitalTechLab.png"
-            alt="Logo"
-            class="w-8 h-8 mr-2"
-        /></router-link>
-        <h1 class="text-lg font-semibold tracking-wide">INTRANET</h1>
-        <button
-          @click="$emit('close-sidebar')"
-          class="p-2 text-white rounded-full hover:bg-gray-700 focus:outline-none"
-          aria-label="Close Sidebar"
-        >
-          <!-- Close Icon -->
-          <svg
-            class="w-6 h-6"
-            fill="none"
-            stroke="currentColor"
-            stroke-width="2"
-            viewBox="0 0 24 24"
-            xmlns="http://www.w3.org/2000/svg"
-          >
-            <path
-              stroke-linecap="round"
-              stroke-linejoin="round"
-              d="M6 18L18 6M6 6l12 12"
-            />
-          </svg>
-        </button>
-      </div>
+      <!-- Top Navbar -->
+  <div class="flex items-center justify-between px-6 py-4 bg-gray-900 shadow-md">
+    <!-- Logo -->
+    <router-link to="/" class="flex items-center space-x-2">
+      <img
+        src="/assets/img/LogoDigitalTechLab.png"
+        alt="Logo"
+        class="w-28 h-auto rounded-full"
+      />
+    </router-link>
+
+    <!-- Close Button -->
+    <button
+      @click="$emit('close-sidebar')"
+      class="p-2 text-white rounded-full hover:bg-gray-700 focus:outline-none transition duration-200"
+      aria-label="Close Sidebar"
+    >
+      <svg
+        class="w-6 h-6"
+        fill="none"
+        stroke="currentColor"
+        stroke-width="2"
+        viewBox="0 0 24 24"
+        xmlns="http://www.w3.org/2000/svg"
+      >
+        <path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12" />
+      </svg>
+    </button>
+  </div>
+
+  <!-- Subheader -->
+  <div class="flex items-center justify-between px-6 py-3 bg-gradient-to-r from-gray-800 to-gray-700 text-white">
+    <h1 class="text-xl font-semibold tracking-wide">INTRANET</h1>
+  </div>
+
 
       <!-- Sidebar Navigation -->
       <nav class="p-4">
@@ -194,6 +199,17 @@ export default {
               {
                   name: "Add Cities",
                   to: "/qms/system",
+                },            
+              ],
+            },
+            {
+              name: "Level 3",
+              to: "#",
+              icon: "M7.732 16.5q.212 0 .356-.144T8.23 16v-5q0-.213-.144-.356q-.144-.144-.357-.144t-.356.144T7.23 11v5q0 .213.144.356t.357.144m3.769 0q.213 0 .356-.144T12 16V8q0-.213-.144-.356t-.357-.144t-.356.144T11 8v8q0 .213.144.356t.357.144m3.769 0q.213 0 .356-.144t.143-.356v-2q0-.213-.144-.356t-.356-.144t-.356.144t-.144.356v2q0 .213.144.356q.144.144.357.144M18 8q-.213 0-.357-.144T17.5 7.5V6H16q-.213 0-.356-.144t-.144-.357t.144-.356T16 5h1.5V3.5q0-.213.144-.356T18.001 3t.356.144t.143.356V5H20q.213 0 .356.144t.144.357t-.144.356T20 6h-1.5v1.5q0 .213-.144.356T17.999 8M5.116 20q-.691 0-1.153-.462T3.5 18.384V5.616q0-.691.463-1.153T5.115 4h8.808q.213 0 .356.144t.144.356v2.962q0 .666.475 1.14t1.14.475H19q.213 0 .356.144t.144.356v8.808q0 .69-.462 1.153T17.884 20z",
+              submenu: [
+              {
+                  name: "Add Cities",
+                  to: "/",
                 },            
               ],
             },

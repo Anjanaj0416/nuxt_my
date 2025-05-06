@@ -34,9 +34,9 @@
           <img
             src="/assets/img/LogoDigitalTechLab.png" 
             alt="Digital Tech Labs Logo"
-            class="w-32 px-2 rounded-full"
+            class="w-28 h-auto rounded-full"
           />
-          <span class="text-xl font-bold text-white">Digital Tech Labs</span>
+          <!-- <span class="text-xl font-bold text-white">Digital Tech Labs</span> -->
         </div>
         </NuxtLink>
        
