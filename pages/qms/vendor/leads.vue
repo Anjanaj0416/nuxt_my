@@ -43,8 +43,11 @@
                   'bg-green-100 text-green-800 dark:bg-green-900 dark:text-green-300': lead.status === 'RSOAssigned',
                   'bg-yellow-100 text-yellow-800 dark:bg-yellow-900 dark:text-yellow-300': lead.status === 'Pending',
                   'bg-red-100 text-red-800 dark:bg-red-900 dark:text-red-300': lead.status === 'Cancelled',
-                  'bg-gray-100 text-gray-800 dark:bg-gray-900 dark:text-gray-300': !lead.status,
+                  'bg-orange-100 text-orange-800 dark:bg-orange-900 dark:text-orange-300': lead.status === 'Hold',
+                  'bg-teal-100 text-teal-800 dark:bg-teal-900 dark:text-teal-300': lead.status === 'Completed',
+                  // 'bg-pink-100 text-pink-800 dark:bg-pink-900 dark:text-pink-300': lead.status === 'Rejected'
                 }"
+
                 class="text-xs font-medium me-2 px-2.5 py-0.5 rounded-full"
               >
                 {{ lead.status || 'Unknown' }}
@@ -62,7 +65,7 @@
 
 
         <!-- Expandable More Section -->
-        <div class="grid grid-cols-2 gap-2 -my-6 mt-1 sm:flex sm:flex-row sm:justify-end">
+        <div class="grid grid-cols-2 gap-2 mt-1 -my-6 sm:flex sm:flex-row sm:justify-end">
           <LinkBtn
             :label="isMore && rowIndex === index ? 'Less' : 'More'"
             class="text-black dark:bg-transparent dark:text-blue-900 dark:hover:bg-transparent"
@@ -75,7 +78,7 @@
         <div v-if="isMore && rowIndex === index">
           <!-- {{ lead }} -->
           <section class="flex flex-col gap-5 p-4 mt-2 bg-white sm:p-6">
-            <div class="grid grid-cols-1 sm:grid-cols-3 gap-4">
+            <div class="grid grid-cols-1 gap-4 sm:grid-cols-3">
               <div
                 class="text-center sm:text-left"
                 v-for="(field, idx) in showAllFields"
@@ -93,13 +96,13 @@
                     'bg-gray-100 text-gray-800 dark:bg-gray-900 dark:text-gray-300':
                     lead.isActive === undefined,
                   }"
-                    class="inline-block text-xs font-medium px-3 py-1 rounded-full mt-1"
+                    class="inline-block px-3 py-1 mt-1 text-xs font-medium rounded-full"
                   >
                     {{ lead.isActive || 'Unknown' }}
                   </span>
                 </template>
                 <template v-else>
-                  <p class="text-sm text-gray-500 mt-1">
+                  <p class="mt-1 text-sm text-gray-500">
                     {{ lead[field.key] }} {{ field.secondKey ? lead[field.secondKey] : "" }}
                   </p>
                 </template>
@@ -107,7 +110,7 @@
             </div>
 
             <!-- Editable Fields -->
-            <div class="grid grid-cols-1 sm:grid-cols-1 gap-4">
+            <div class="grid grid-cols-1 gap-4 sm:grid-cols-1">
               <div class="w-full sm:w-1/2">
                 <selectinput2
                   v-model="lead.status"
@@ -132,7 +135,7 @@
 
             <!-- Action Buttons -->
             <div class="flex justify-end pt-2">
-              <LinkBtn  class="px-5 py-2 text-sm font-medium text-blue-950 border-blue-950 border-2 bg-white rounded-lg shadow hover:bg-blue-900 hover:text-white focus:outline-none focus:ring-2 focus:ring-blue-400 dark:bg-blue-500 dark:hover:bg-blue-600 transition"
+              <LinkBtn  class="px-5 py-2 text-sm font-medium transition bg-white border-2 rounded-lg shadow text-blue-950 border-blue-950 hover:bg-blue-900 hover:text-white focus:outline-none focus:ring-2 focus:ring-blue-400 dark:bg-blue-500 dark:hover:bg-blue-600"
               variant="primary" label="Update"  @click="GetUpdateLead(lead)" />
             </div>
           </section>
