@@ -28,13 +28,13 @@
             ></path>
           </svg>
         </button>
-        <NuxtLink to="/">
+        <NuxtLink to="/dashboard">
           <!-- Logo and Name -->
         <div class="flex items-center space-x-2 ml-14">
           <img
             src="/assets/img/LogoDigitalTechLab.png" 
             alt="Digital Tech Labs Logo"
-            class="w-28 h-auto rounded-full"
+            class="h-auto rounded-full w-28"
           />
           <!-- <span class="text-xl font-bold text-white">Digital Tech Labs</span> -->
         </div>

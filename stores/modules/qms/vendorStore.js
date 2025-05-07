@@ -182,12 +182,8 @@ export const useVendorStore = defineStore("vendorStore", {
     async EditLeads(req, showLoading) {
       try {
         const response = await axios.post(
-          `${import.meta.env.VITE_API_URL}/qms/Vendor/SetUpdateVendorLead`,
-          req,
-
+          `${import.meta.env.VITE_API_URL}/qms/Vendor/SetUpdateVendorLead`,req,    
         );
-        // console.log(response);
-
         if (response.data.isSuccess) {  
                  
           this.showToast(response.data.message);       

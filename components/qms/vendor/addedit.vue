@@ -12,7 +12,6 @@
       <!-- Modal Content (scrollable) -->
       <div class="modal-content">
         <div class="form-content">
-          <!-- {{ curVendor }} -->
 
           <h3 class="font-bold">Company Details</h3>
           <!-- Vendor Image -->
@@ -356,6 +355,7 @@
         </div>
       </div>
 
+
       <!-- Modal Footer -->
       <!-- <div class="modal-footer">
         <button @click="cancel" class="cancel-button">Cancel</button>
@@ -670,7 +670,7 @@ export default {
 .modal {
   background: white;
   width: 80%;
-  max-width: 600px;
+  max-width: 800px;
   border-radius: 8px;
   display: flex;
   flex-direction: column;
