@@ -172,7 +172,7 @@
                 <div v-show="userStore.loggedUser.username === emp.empno || userStore.loggedUser.userGroup === 'hradmin' ||
                   userStore.loggedUser.userGroup?.toLowerCase() === 'admin'
                   " title="Leave Details" @click="
-                    init_absense(emp.empno);
+                    init_absense(emp.empno, emp.id);
                   cur_sec = 'absense';
                   selectedrow = emp.id;
                   isSecClose = false;
@@ -184,7 +184,7 @@
                 <div v-show="userStore.loggedUser.username === emp.empno || userStore.loggedUser.userGroup === 'Supervisor' ||
                   userStore.loggedUser?.userGroup?.toLowerCase() === 'admin'
                   " title="Movement Details" @click="
-                    init_movement(emp.empno, index);
+                    init_movement(emp.empno, emp.id);//index
                   cur_sec = 'movement';
                   selectedrow = emp.id;
                   isSecClose = false;
@@ -514,6 +514,12 @@ export default {
 
     async init_movement(empId, rowId) {
       // await this.$refs.movement[row_no].init()
+
+      this.cur_sec = 'movement'
+      this.isSecClose = true
+      this.selectedrow = rowId
+      this.isSecClose = false
+
       let req = {
         empNo: empId,
         fromDate: this.dtfrom,
@@ -524,14 +530,25 @@ export default {
 
     async init_timecard(empId, row_no) {
       // await this.$refs.timecardcomp[row_no].init()
+
+      this.cur_sec = 'timecard'
+      this.isSecClose = true
+      this.selectedrow = row_no
+      this.isSecClose = false
+
       let req = {
         empNo: empId,
       }
       await this.hrStore.getTimeCards(req, this.showLoading);
     },
 
-    async init_absense(empNo) {
+    async init_absense(empNo, rowId) {
       // await this.$refs.absense[row_no].init()
+      this.cur_sec = 'absense'
+      this.isSecClose = true
+      this.selectedrow = rowId
+      this.isSecClose = false
+
       const currentYear = new Date().getFullYear();
       let req = {
         empNo: empNo,

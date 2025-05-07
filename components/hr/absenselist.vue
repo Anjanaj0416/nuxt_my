@@ -7,8 +7,9 @@
             Absence Details
           </div>
 
-          <div v-show="userStore?.loggedUser?.name === empno || userStore?.loggedUser?.granted === 'hradmin'">
-            <btnapplyleave name="Apply" title="Apply Leave" @click="applyleave" />
+          <div
+            v-show="userStore?.loggedUser?.userName === empno || userStore?.loggedUser?.granted.indexOf('hradmin') > 0">
+            <btnapplyleave name=" Apply" title="Apply Leave" @click="applyleave" />
           </div>
         </div>
 

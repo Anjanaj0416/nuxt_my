@@ -60,16 +60,16 @@
         <div
           class="grid grid-cols-2 gap-2 p-2 mt-1 text-center text-white rounded-md sm:grid-cols-4 md:grid-cols-6 lg:grid-cols-11 lg:w-5/6"
           v-bind:class="[getTimeCardRowColor(jc)]">
-          <div>{{ jc.emp_Name }}</div>
-          <div>{{ jc.month_name }}</div>
-          <div>{{ jc.total_hours }}</div>
-          <div>{{ jc.total_single_ot }}</div>
-          <div>{{ jc.total_double_ot }}</div>
+          <div>{{ jc.empName }}</div>
+          <div>{{ jc.monthName }}</div>
+          <div>{{ jc.totalHours }}</div>
+          <div>{{ jc.totalSingleOT }}</div>
+          <div>{{ jc.totalDoubleOT }}</div>
           <div>{{ jc.leaves }}</div>
           <div>{{ jc.shortLeave }}</div>
-          <div>{{ jc.halfdays }}</div>
+          <div>{{ jc.halfDays }}</div>
           <div>{{ jc.movement }}</div>
-          <div>{{ jc.pendingat }}</div>
+          <div>{{ jc.pendingAt }}</div>
           <div>{{ jc.status }}</div>
         </div>
       </div>
@@ -105,6 +105,8 @@ export default {
         year: '',
         month: '',
       },
+      hrStore: null,
+      showLoading: null,
     }
   },
 
@@ -135,6 +137,7 @@ export default {
 
   async created() {
     this.hrStore = useHrStore();
+    this.showLoading = this.$showLoading;
   },
 
   methods: {
@@ -178,8 +181,8 @@ export default {
       this.year = dt.getFullYear()
       this.month = this.month_names[dt.getMonth() - 1]
 
-      let req = { empno: this.empno, user: this.loggeduser }
-      await this.getTimeCards(req)
+      let req = { empNo: this.empno }
+      await this.hrStore.getTimeCards(req, this.showLoading)
 
     },
 
