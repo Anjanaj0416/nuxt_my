@@ -7,6 +7,9 @@ export default defineNuxtPlugin(nuxtApp => {
     Swal.fire({
       position: 'top-end',
       icon: icon,
+      customClass: {
+        popup: 'custom-zindex'
+      },
       title: message,
       showConfirmButton: false,
       timer: 1500,
@@ -17,6 +20,9 @@ export default defineNuxtPlugin(nuxtApp => {
   nuxtApp.provide('showAlert', (message, icon = 'success') => {  //success ,error ,warning ,info
     Swal.fire({      
       icon: icon,
+      customClass: {
+        popup: 'custom-zindex'
+      },
       title: message,
       showConfirmButton: true,    
       toast: false,
@@ -35,7 +41,13 @@ export default defineNuxtPlugin(nuxtApp => {
   nuxtApp.provide('showConfirm', (message, icon = 'warning') => {
     return Swal.fire({
       title: message,
+      customClass: {
+        popup: 'custom-zindex'
+      },
       icon: icon,  // 'warning', 'info', 'question', etc.
+      customClass: {
+        popup: 'custom-zindex'
+      },
       showCancelButton: true, // Shows the Cancel button
       confirmButtonText: 'Yes',
       cancelButtonText: 'No',
@@ -62,6 +74,9 @@ export default defineNuxtPlugin(nuxtApp => {
   nuxtApp.provide('showInput', (message, inputPlaceholder = 'Enter here') => {
     return Swal.fire({
       title: message,
+      customClass: {
+        popup: 'custom-zindex'
+      },
       input: 'text', // You can use 'text', 'email', 'password', 'textarea', etc.
       inputPlaceholder: inputPlaceholder,
       showCancelButton: true,
@@ -94,6 +109,9 @@ export default defineNuxtPlugin(nuxtApp => {
   nuxtApp.provide('showHtmlAlert', (htmlContent) => {
     Swal.fire({
       title: 'Custom HTML',
+      customClass: {
+        popup: 'custom-zindex'
+      },
       html: htmlContent,  // Pass any HTML content here
       showConfirmButton: true,
       confirmButtonText: 'Okay'
@@ -106,6 +124,9 @@ export default defineNuxtPlugin(nuxtApp => {
   nuxtApp.provide('showLoading', (message = 'Loading..') => {
     return Swal.fire({
       title: message,
+      customClass: {
+        popup: 'custom-zindex'
+      },
       didOpen: () => {
         Swal.showLoading();
       },
@@ -124,6 +145,9 @@ export default defineNuxtPlugin(nuxtApp => {
       position: 'top-end',
       icon: icon,
       title: message,
+      customClass: {
+        popup: 'custom-zindex'
+      },
       showConfirmButton: false,
       timer: timer,
       toast: true,
@@ -141,6 +165,9 @@ export default defineNuxtPlugin(nuxtApp => {
   nuxtApp.provide('showImageAlert', (message, imageUrl) => {
     Swal.fire({
       title: message,
+      customClass: {
+        popup: 'custom-zindex'
+      },
       imageUrl: imageUrl,  // URL of the image you want to show
       imageWidth: 400,
       imageHeight: 200,
@@ -161,6 +188,9 @@ export default defineNuxtPlugin(nuxtApp => {
   nuxtApp.provide('showCustomButtons', (message, icon = 'success') => {
     Swal.fire({
       title: message,
+      customClass: {
+        popup: 'custom-zindex'
+      },
       icon: icon,
       showCancelButton: true,
       confirmButtonText: 'Proceed',
