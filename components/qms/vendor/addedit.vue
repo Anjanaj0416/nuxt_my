@@ -17,12 +17,9 @@
           <h3 class="font-bold">Company Details</h3>
           <!-- Vendor Image -->
 
-          <div class="grid grid-cols-3 gap-4 mt-4">
-            <div class="">
-              <label class="block text-sm font-bold text-gray-600"
-                >Customer Ref</label
-              >
-
+          <div class="grid grid-cols-2 gap-4 mt-4 sm:grid-cols-2 md:grid-cols-3">
+            <div class=""  v-if="isEditing">
+              <label class="block text-sm font-bold text-gray-600">Customer Ref</label>
               <input
                 type="text"
                 v-model="curVendor.customerRef"
@@ -288,7 +285,7 @@
 
           <hr class="my-4" />
           <h3 class="mt-4 font-bold">Bank Details</h3>
-          <div class="grid grid-cols-3 gap-4 mt-4">
+          <div class="grid grid-cols-2 gap-4 mt-4 sm:grid-cols-2 md:grid-cols-3">
             <div class="">
               <label class="block text-sm font-bold text-gray-600"
                 >Bank Name</label
@@ -351,9 +348,7 @@
               </p>
             </div>
             <div class="">
-              <label class="block text-sm font-bold text-gray-600"
-                >Status</label
-              >
+              <label class="block text-sm font-bold text-gray-600">Status</label>
 
               <toggleoption v-model="curVendor.isActive" />
             </div>
@@ -441,7 +436,7 @@ export default {
         id: city.cityId,
         value: city.cityName
       }));
-  },
+    },
 
 
 
@@ -659,6 +654,61 @@ export default {
 
 <style scoped>
 /* Modal Styling */
+.modal-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0, 0, 0, 0.5);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 9999;
+}
+
+.modal {
+  background: white;
+  width: 80%;
+  max-width: 600px;
+  border-radius: 8px;
+  display: flex;
+  flex-direction: column;
+  height: 90%;
+  position: relative;
+}
+
+.modal-header {
+  background: #0b2145;
+  padding: 15px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  color: white;
+}
+
+.modal-title {
+  margin: 0;
+  font-size: 18px;
+  font-weight: bold;
+}
+
+.modal-content {
+  padding: 20px;
+  max-height: 80%;
+  overflow-y: auto;
+  flex-grow: 1;
+}
+
+.modal-footer {
+  background: #f1f1f1;
+  padding: 15px;
+  display: flex;
+  justify-content: space-between;
+  position: absolute;
+  bottom: 0;
+  width: 100%;
+}
 
 button {
   padding: 10px 20px;
@@ -679,7 +729,7 @@ button {
 }
 
 button:hover {
-  opacity: 0.8;
+  opaCity: 0.8;
 }
 
 @media (max-width: 768px) {

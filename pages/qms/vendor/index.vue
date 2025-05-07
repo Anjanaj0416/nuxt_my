@@ -22,65 +22,60 @@
     <FilterTab @selected="SetSelectedFilter" :arrFilter="arrFilter" />
 
     <div
-      class="flex flex-col gap-5 p-2 mt-2 bg-white border-2 rounded-md shadow-md sm:p-6"
+      class="flex flex-col gap-5 p-4 mt-4 bg-white border rounded-lg shadow-sm sm:p-6"
       v-for="(vd, index) in vendorStore.listVendor"
       :key="index"
     >
-      <div class="flex flex-col justify-between sm:flex-row">
-        <div
-          class="flex flex-col text-center sm:text-left"
-          v-for="(field, index) in vendorFields"
-          :key="index"
-        >
-          <h1 class="text-base font-semibold text-gray-700">
-            {{ field.label }}
-          </h1>
-          <p
-            v-if="field.key === 'shopLogo'"
-            class="flex justify-center text-center"
+      <div class="flex flex-col gap-4 sm:flex-row sm:justify-between sm:items-start">
+        <div class="grid w-full grid-cols-2 gap-2 lg:grid-cols-8 sm:grid-cols-3 md:grid-cols-8">
+          <div
+            class="flex flex-col text-center sm:text-left"
+            v-for="(field, idx) in vendorFields"
+            :key="idx"
           >
-            <ImageLable
-              :imageUrl="imageroot + `/${vd[field.key]}`"
-              alt="Shop Logo"
-              v-if="vd[field.key]"
-            />
-            <span v-else class="text-sm text-gray-500"
-              >No Shop Logo Available</span
-            >
-          </p>
+            <h1 class="text-sm font-semibold text-gray-700">
+              {{ field.label }}
+            </h1>
 
-          <p v-else-if="field.key !== 'isActive'" class="text-sm text-gray-500">
-            {{ vd[field.key] }} {{ field.secondKey ? vd[field.secondKey] : "" }}
-          </p>
-          <span
-            v-else
-            :class="{
-              'bg-green-100 text-green-800 dark:bg-green-900 dark:text-green-300':
-                vd.isActive === true,
-              'bg-red-100 text-red-800 dark:bg-red-900 dark:text-red-300':
-                vd.isActive === false,
-              'bg-gray-100 text-gray-800 dark:bg-gray-900 dark:text-gray-300':
-                vd.isActive === undefined,
-            }"
-            class="text-xs font-medium me-2 px-2.5 py-0.5 rounded-full"
-          >
-            {{ vd.isActive ? "Active" : "Inactive" }}
-          </span>
+            <p
+              v-if="field.key === 'shopLogo'"
+              class="flex items-center justify-center h-16 text-center"
+            >
+              <ImageLable
+                :imageUrl="imageroot + `/${vd[field.key]}`"
+                alt="Shop Logo"
+                v-if="vd[field.key]"
+              />
+              <span v-else class="text-xs text-gray-500">No Shop Logo</span>
+            </p>
+
+            <p
+              v-else-if="field.key !== 'isActive'"
+              class="text-xs text-gray-600"
+            >
+              {{ vd[field.key] }} {{ field.secondKey ? vd[field.secondKey] : "" }}
+            </p>
+
+            <span
+              v-else
+              :class="{
+                'bg-green-100 text-green-700': vd.isActive === true,
+                'bg-red-100 text-red-700': vd.isActive === false,
+                'bg-gray-100 text-gray-700': vd.isActive === undefined,
+              }"
+              class="text-xs font-medium px-2.5 py-0.5 rounded-full inline-block mt-1"
+            >
+              {{ vd.isActive ? "Active" : "Inactive" }}
+            </span>
+          </div>
         </div>
-        <hr class="block w-full mt-2 border-gray-300 sm:hidden" />
       </div>
-      <!-- {{ vd }} -->
-      <!-- Button Group -->
-      <div
-        class="grid grid-cols-2 gap-2 -my-6 sm:flex sm:flex-row sm:justify-end"
-      >
+
+      <div  class="grid grid-cols-2 gap-2 sm:flex sm:flex-row sm:justify-end sm:gap-4">
         <LinkBtn label="Edit" @click="GoToAddEdit(vd.id)" />
 
         <LinkBtn
-          v-if="
-            !vd.rsoNo &&
-            this.userStore.loggedUser.granted.includes('vendor_mgt')
-          "
+          v-if="!vd.rsoNo && userStore.loggedUser.granted.includes('vendor_mgt')"
           label="Assign RSO"
           @click="GoToAssignSalesEx(vd.id)"
         />
@@ -94,6 +89,7 @@
         />
       </div>
     </div>
+
 
     <AddEdit v-if="isAddEdit" @close="isAddEdit = !isAddEdit" />
 
