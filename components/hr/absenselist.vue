@@ -108,10 +108,6 @@ export default {
   },
 
   computed: {
-    // ...mapState({
-    //   loggeduser: (state) => state.loggeduser,
-    //   absense: (state) => state.hr.absense,
-    // }),
     getAbsenceRowColor() {
       return (ab) => {
         try {
@@ -182,7 +178,7 @@ export default {
       this.$emit('exit');
       this.dtfrom = '';
       this.dtto = '';
-      this.hrStore.clearAbsence();
+      // this.hrStore.clearAbsence();
     },
     async applyleave() {
       let leaveYear = new Date().getFullYear()

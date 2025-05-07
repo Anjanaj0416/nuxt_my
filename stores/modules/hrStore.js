@@ -4,6 +4,9 @@ import axios from 'axios';
 export const useHrStore = defineStore('hrStore', {
   state: () => ({
     loggeduser: {},
+    dashboard: {
+      workgroupjobcount: null,
+    },
     alempdetails: [],
     empdetails: {
       isresigned : false,
@@ -102,6 +105,12 @@ export const useHrStore = defineStore('hrStore', {
     movement:{
       arrmovements: [],
     },
+    timecard:{
+      arrtimecard: [],
+    },
+    workgroup:{
+      arrJobCardDetails: [],
+    },
     initData: {
       initEmployee: {},
       initAbsence: {},
@@ -116,16 +125,52 @@ export const useHrStore = defineStore('hrStore', {
    //this.showToast('Loading successful!', 'success'); //success ,error ,warning,info
 
   actions: {
-    async clearAttendance(){
+    async clearAll(){
       this.attendence = {};
-    },
-
-    async clearAbsence(){
       this.absense.arrabsences = [];
+      this.movement.arrmovements = [];
+      this.timecard.arrtimecard = [];
     },
 
     async otCancel(){
       this.OTApllyDetails.ot_hours = 0;
+    },
+
+    async getWorkLoadCount() {
+      try {
+        const response = await axios.get(`${import.meta.env.VITE_API_URL}/hr/WorkLoad/GetWorkLoadCount`);   
+        console.log("response:",response);   
+        if (response.data.isSuccess) {    
+          this.dashboard.workgroupjobcount = response.data.data.count || 0;
+       }
+       else{
+        console.error('Loading error:', response.data.message);       
+       }
+        
+      } catch (error) {
+        console.error('Loading error:', error);
+        // this.showToast(error.response.data.Message, 'error'); 
+      }
+    },
+
+    async getWorkLoadDetails(showLoading) {
+      const loadingAlert = showLoading(''); 
+      try {
+        const response = await axios.get(`${import.meta.env.VITE_API_URL}/hr/WorkLoad/GetWorkLoadDetails`);   
+        console.log("response:",response);   
+        if (response.data.isSuccess) {    
+          this.workgroup.arrJobCardDetails =  [];//response.data.data.data ||
+          this.showToast('Loading successful!', 'success'); 
+       }
+       else{
+        console.error('Loading error:', response.data.message);       
+       }
+        
+      } catch (error) {
+        console.error('Loading error:', error);
+        // this.showToast(error.response.data.Message, 'error'); 
+      }
+      loadingAlert.close();
     },
 
     async getInitEmployee() {
@@ -351,6 +396,9 @@ export const useHrStore = defineStore('hrStore', {
        }
       } catch (error) {
         console.error('Loading error:', error);
+        if (error.response && error.response.status === 400) {
+          this.absense.arrabsences = [];
+        } 
         // this.showToast(error.response.data.Message, 'error'); 
       }
       loadingAlert.close();
@@ -446,13 +494,13 @@ export const useHrStore = defineStore('hrStore', {
        }
        else{
         console.error('Loading error:', response.data.message);  
-        if (response.data.statusCode === 400) {
-          this.movement.arrmovements = [];
-        }     
         // this.showToast(response.data.message, 'error'); 
        }
       } catch (error) {
         console.error('Loading error:', error);
+        if (error.response && error.response.status === 400) {
+          this.movement.arrmovements = [];
+        } 
         // this.showToast(error.response.data.Message, 'error'); 
       }
       loadingAlert.close();
@@ -498,6 +546,30 @@ export const useHrStore = defineStore('hrStore', {
        }
       } catch (error) {
         console.error('Loading error:', error);
+        // this.showToast(error.response.data.Message, 'error'); 
+      }
+      loadingAlert.close();
+    },
+
+    async getTimeCards(req,showLoading) {
+      const loadingAlert = showLoading(''); 
+      try {
+        console.log("req:",req);  
+        const response = await axios.get(`${import.meta.env.VITE_API_URL}/hr/WorkLoad/GetTimeCards`,{params: {empNo: req.empNo}});   
+        console.log("response:",response);   
+        if (response.data.isSuccess) {   
+          this.timecard.arrtimecard = response.data.data.data || []
+          this.showToast(response.data.message, 'success'); 
+       }
+       else{
+        console.error('Loading error:', response.data.message);  
+        this.showToast(response.data.message, 'error'); 
+       }
+      } catch (error) {
+        console.error('Loading error:', error);
+        if (error.response && error.response.status === 400) {
+          this.timecard.arrtimecard = [];
+        } 
         // this.showToast(error.response.data.Message, 'error'); 
       }
       loadingAlert.close();
