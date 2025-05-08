@@ -74,15 +74,15 @@ export const useQuotationStore = defineStore("QuotationStore", {
       loadingAlert.close();
     },
 
-      async loadListQuotations(req,showLoading) {
-        const loadingAlert = showLoading(''); 
+    async loadListQuotations(req,showLoading) {
+      const loadingAlert = showLoading(''); 
       try {
-
         const response = await axios.get(
           `${import.meta.env.VITE_API_URL}/b2b/Quotation/QuotationList?keyword=${
             req.keyword
           }&searchBy=${req.searchBy}`
         );
+        console.log(response);
   
         if ( response.data.isSuccess) {     
           if (response.data.data.count == 0) {           
