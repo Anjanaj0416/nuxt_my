@@ -28,18 +28,44 @@ components: { selectinput2,  },
 --------------------------------------
 -->
 <template>
-  <article>
-    <!-- <label class="block text-sm text-gray-00">{{ label }}</label> -->
-    <select :class="cssclass" @change="onChange"
-      class="cssselect w-full border-gray-500 rounded p-2 h-8 text-gray-700 bg-white rounded px-2" :value="cur_item">
-      <!--  v-model="cur_item -->
-      <option v-for="sitem in selections" :key="sitem" :value="sitem" :v-bind:value="sitem"
-        :selected="sitem === cur_item" class="uppercase px-2"> {{ sitem }}</option>
+ <article class="w-full">
+  <label v-if="label" class="block mb-1 text-sm font-medium text-gray-700 ">
+    {{ label }}
+  </label>
+
+  <div class="relative">
+    <select
+      :class="[
+        cssclass,
+        'appearance-none w-full border border-gray-300  rounded-md px-3 py-2 pr-10 bg-white  text-gray-700  shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition duration-150 ease-in-out'
+      ]"
+      @change="onChange"
+      :value="cur_item"
+    >
+      <option
+        v-for="sitem in selections"
+        :key="sitem"
+        :value="sitem"
+        :selected="sitem === cur_item"
+        class="uppercase"
+      >
+        {{ sitem }}
+      </option>
     </select>
 
-    <!-- <p class="text-xs ml-1 text-red-700 italic">{{ err }}</p> -->
+    <!-- Custom dropdown icon -->
+    <div class="absolute inset-y-0 right-0 flex items-center px-2 pointer-events-none">
+      <svg class="w-4 h-4 text-gray-500 dark:text-gray-300" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7" />
+      </svg>
+    </div>
+  </div>
 
-  </article>
+  <p v-if="err" class="mt-1 text-xs text-red-600 dark:text-red-400 italic">
+    {{ err }}
+  </p>
+</article>
+
 </template>
 
 <script>
@@ -61,7 +87,7 @@ export default {
   methods: {
     onChange() {
       let newValue = event.target.value;
-      console.log("new value:", newValue);
+      // console.log("new value:", newValue);
 
       this.$emit('update:modelValue', newValue);
       this.$emit('changed', newValue)
