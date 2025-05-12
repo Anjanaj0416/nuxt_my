@@ -8,6 +8,7 @@ MiracleAPI_8.0
 
 
 git pull origin develop
+git pull origin Integration
 
 npm run dev
 npm run build

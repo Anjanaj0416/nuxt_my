@@ -1,7 +1,7 @@
 <template>
 
 <section class="justify-center min-h-screen px-4 mt-24 mb-20 lg:px-80">
-    <div class="text-2xl uppercase">Vendors</div>
+    <div class="text-2xl uppercase">Quotations</div>
     <div
       class="flex flex-col items-center justify-between mt-2 mb-8 md:flex-row"
     >

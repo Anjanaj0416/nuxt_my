@@ -595,7 +595,7 @@ export default {
       //   this.err.shopCoverImage = "Please upload a Shop Cover Image!";
       //   IsValidate = false;
       // }
-      console.log(this.curVendor.brCopyFile);
+      //console.log(this.curVendor.brCopyFile);
 
       if (this.curVendor.brCopy == "" && !this.curVendor.brCopyFile?.trim?.()) {
         this.err.brCopy = "Please upload a Shop BR!";
