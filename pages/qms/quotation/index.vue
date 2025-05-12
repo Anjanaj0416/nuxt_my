@@ -1,22 +1,24 @@
 <template>
-  <div>
-    <section class="justify-center min-h-screen px-4 mt-24 lg:px-80">
-      <div class="text-2xl uppercase">Quotations</div>
-      <div class="flex flex-col items-center justify-between mt-2 md:flex-row">
-        <div class="w-full mb-4 md:mb-0">
-          <div class="mr-2">
-            <Button 
-              class="w-24" 
-              label="New" 
-              variant="primary" 
-              @click="GoToAddNew" 
-            />
-          </div>
-        </div>
-        <div class="w-full md:w-auto">
-          <SearchComp @DoSearch="GetSearch" />
+
+<section class="justify-center min-h-screen px-4 mt-24 mb-20 lg:px-80">
+    <div class="text-2xl uppercase">Quotations</div>
+    <div
+      class="flex flex-col items-center justify-between mt-2 mb-8 md:flex-row"
+    >
+      <div class="w-full mb-4 md:mb-0">
+        <div class="mr-2">
+          <Button
+            class="w-24"
+            label="New"
+            variant="primary"
+            @click="GoToAddNew"
+          />
         </div>
       </div>
+      <div class="w-full md:w-auto">
+        <SearchComp @DoSearch="GetSearch" />
+      </div>
+    </div>
 
       <FilterTab @selected="SetSelectedFilter" :arrFilter="arrFilter" />
 
@@ -121,6 +123,10 @@
         </div>
       </div>
 
+      <div v-if="!quotationStore.listQuotation.length" class="mt-4 text-center text-blue-950">
+        No quotations found.
+      </div>
+
       <ViewMore
         v-if="isViewMore"
         @close="isViewMore = !isViewMore"
@@ -129,7 +135,7 @@
       <ApproveView v-if="isApproving" @close="CloseApprovingView()"  />
       <AddEdit v-if="isAddEdit" @close="isAddEdit = false" />
     </section>
-  </div>
+ 
 </template>
 
 <script>
@@ -178,13 +184,13 @@ export default {
     this.quotationStore = useQuotationStore();
     this.showLoading = this.$showLoading;
 
-    await this.quotationStore.loadListQuotations({
-      keyword: "",
-      searchBy: this.searchBy,
-    },this.showLoading);
+    //await this.quotationStore.loadListQuotations({
+    //   keyword: "",
+    //   searchBy: this.searchBy,
+    // },this.showLoading);
    
-    await this.quotationStore.loadInitQuotation(this.showLoading);
-    this.imageroot = this.quotationStore.initQuotation.baseUrl;
+    //await this.quotationStore.loadInitQuotation(this.showLoading);
+   // this.imageroot = this.quotationStore.initQuotation.baseUrl;
    
 
  
@@ -193,7 +199,7 @@ export default {
 
     GoToAddNew() {
       this.quotationStore.ResetQuotation();
-      this.isAddEdit = true; // Ensure modal state updates
+      this.isAddEdit = true;
     },
 
     async GoToViewAllQuoVer() {

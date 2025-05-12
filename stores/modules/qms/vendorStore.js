@@ -9,6 +9,7 @@ export const useVendorStore = defineStore("vendorStore", {
     initVendor: {},
     listLeads:[],
     InitLeads:{},
+    curLeads:{},
   }),
   persist: true,
 
@@ -27,7 +28,8 @@ export const useVendorStore = defineStore("vendorStore", {
         if (response.data.isSuccess) {
           this.showToast(response.data.message);
         } else {
-          this.showToast(response.data.message, "error");
+          console.error("Error saving vendor:", err);
+          this.showToast(response.data?.Message || "Save failed", "error");
         }
       } catch (error) {
         console.error(error);
@@ -85,7 +87,7 @@ export const useVendorStore = defineStore("vendorStore", {
         this.showToast('Error in server call', "error");
        }
     },
-
+    
     //loadInitVendor
     async loadInitVendor(showLoading) {
       try {
@@ -131,54 +133,76 @@ export const useVendorStore = defineStore("vendorStore", {
       }
     },
 
-//loadListLeads
-async loadListLeads(req, showLoading) {
-  const loadingAlert = showLoading("");
-  try {
-    const response = await axios.get(
-      `${import.meta.env.VITE_API_URL}/qms/Vendor/GetVendorLeads?keyword=${
-        req.keyword
-      }&searchBy=${req.searchBy}`
-    );
-    loadingAlert.close();
+    //loadListLeads
+    async loadListLeads(req, showLoading) {
+      const loadingAlert = showLoading("");
+      try {
+        const response = await axios.get(
+          `${import.meta.env.VITE_API_URL}/qms/Vendor/GetVendorLeads?keyword=${
+            req.keyword
+          }&searchBy=${req.searchBy}`
+        );
+        loadingAlert.close();
 
-    if (response.data.isSuccess) {
-      if (response.data.data.count == 0) {
-        this.listLeads = [];
-        this.showToast(response.data.message, "error");
-      } else {
-        this.listLeads = response.data.data.data;
-        console.log( this.listLeads)
+        if (response.data.isSuccess) {
+          if (response.data.data.count == 0) {
+            this.listLeads = [];
+            this.showToast(response.data.message, "error");
+          } else {
+            this.listLeads = response.data.data.data;
+            console.log( this.listLeads)
+          }
+          this.showToast(response.data.message, "success");
+        } else {
+          this.showToast(response.data.message, "error");
+        }
+      } catch (error) {
+        this.showToast(error.message, "error");
       }
-      this.showToast(response.data.message, "success");
-    } else {
-      this.showToast(response.data.message, "error");
-    }
-  } catch (error) {
-    this.showToast(error.message, "error");
-  }
-},
+    },
 
- //loadInitVendor
- async GetInitLeads(showLoading) {
-  try {
-    const response = await axios.get(
-      `${import.meta.env.VITE_API_URL}/qms/Vendor/GetInitLeads`
-    );
+    //loadInitVendor
+    async GetInitLeads(showLoading) {
+      try {
+        const response = await axios.get(
+          `${import.meta.env.VITE_API_URL}/qms/Vendor/GetInitLeads`
+        );
 
-    if (response.data.isSuccess) {
-      this.InitLeads = response.data.data.data;
-    } else {
-      this.showToast(response.data.message, "error");
-    }
-  } catch (error) {
-    this.showToast("Failed to load vendor data", "error");
-  }
-},
+        if (response.data.isSuccess) {
+          this.InitLeads = response.data.data.data;
+        } else {
+          this.showToast(response.data.message, "error");
+        }
+      } catch (error) {
+        this.showToast("Failed to load vendor data", "error");
+      }
+    },
+
+    //addLeads
+    async EditLeads(req, showLoading) {
+      try {
+        const response = await axios.post(
+          `${import.meta.env.VITE_API_URL}/qms/Vendor/SetUpdateVendorLead`,req,    
+        );
+        if (response.data.isSuccess) {  
+                 
+          this.showToast(response.data.message);       
+       
+          this.listLeads = response.data.data.data;
+          // console.log(response.data.data.data);
+          
+        } else {
+          this.showToast(response.data.message, "error");
+        }
+      } catch (error) {
+        // console.error(error)
+        this.showToast('Error in server call', "error");
+       }
+    },
 
     ResetVendor() {
       this.curVendor.id = "00000000-0000-0000-0000-000000000000";
-      this.curVendor.firstName = "xxx";
+      this.curVendor.firstName = "";
       this.curVendor.lastName = "";
       this.curVendor.customerRef = "";
       this.curVendor.phone = "";

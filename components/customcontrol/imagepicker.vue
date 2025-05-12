@@ -42,9 +42,9 @@ import imagecomp from "~/components/customcontrol/imagepicker";
      
       <!-- Selecting Image Section -->
       <div
-        class="mt-2 rounded border-2 p-2 w-full border-blue-800"       
+        class="w-full p-2 mt-2 border-2 border-blue-800 rounded"       
       >
-        <p class="overflow-hidden mb-2">
+        <p class="mb-2 overflow-hidden">
           <input
             type="file"
             ref="fileInput"
@@ -63,13 +63,13 @@ import imagecomp from "~/components/customcontrol/imagepicker";
         <div class="relative" v-if="previewImage" >
       
           <div
-            class="absolute top-0 right-0 text-red-600  cursor-pointer"
+            class="absolute top-0 right-0 text-red-600 cursor-pointer"
             @click="removeNewImg"
             title="remove image"           
           >
             <svg
               xmlns="http://www.w3.org/2000/svg"
-              class="h-8 w-8"
+              class="w-8 h-8"
               fill="none"
               viewBox="0 0 24 24"
               stroke="currentColor"
@@ -84,7 +84,7 @@ import imagecomp from "~/components/customcontrol/imagepicker";
           </div>
 
           <img          
-            class="h-20 w-full"
+            class="w-full h-20"
             :src="previewImage"
           />
         </div>
@@ -96,13 +96,13 @@ import imagecomp from "~/components/customcontrol/imagepicker";
         <div class="relative mt-2" v-if="existing_path">
           
           <div 
-            class="absolute top-0 right-0  text-red-600 cursor-pointer"
+            class="absolute top-0 right-0 text-red-600 cursor-pointer"
             @click="removeExistingImg"
             title="Remove Existing image"           
           >
             <svg
               xmlns="http://www.w3.org/2000/svg"
-              class="h-8 w-8"
+              class="w-8 h-8"
               fill="none"
               viewBox="0 0 24 24"
               stroke="currentColor"
@@ -118,7 +118,7 @@ import imagecomp from "~/components/customcontrol/imagepicker";
 
           <div>
             <a :href="existing_path" target="blank">
-              <img class="h-20 w-full" :src="existing_path" />
+              <img class="w-full h-20" :src="existing_path" />
             </a>
           </div>
         </div>
