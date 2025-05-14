@@ -2,7 +2,7 @@
   <section class="flex items-center justify-center min-h-screen px-4 bg-gray-100">
     <div
       class="flex flex-col items-center w-full max-w-5xl overflow-hidden bg-white shadow-2xl rounded-3xl md:flex-row">
-      <div class="w-full p-4 bg-white md:w-1/2">
+      <div class="w-full p-4 bg-blue md:w-1/2">
         <a href="/">
           <img src="/assets/img/digitalTechLabs/login.jpg" alt="Logo"   class="w-full mx-auto" />
         </a>

@@ -42,6 +42,7 @@ components: { selectinput2,  },
       @change="onChange"
       :value="cur_item"
     >
+    <option disabled value="" selected v-if="!cur_item">Please select</option>
       <option
         v-for="sitem in selections"
         :key="sitem"
@@ -61,7 +62,7 @@ components: { selectinput2,  },
     </div>
   </div>
 
-  <p v-if="err" class="mt-1 text-xs text-red-600 dark:text-red-400 italic">
+  <p v-if="err" class="mt-1 text-xs italic text-red-600 dark:text-red-400">
     {{ err }}
   </p>
 </article>

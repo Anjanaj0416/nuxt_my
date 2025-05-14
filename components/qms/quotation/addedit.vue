@@ -13,26 +13,23 @@
       <!-- Modal Content (scrollable) -->
       <div class="modal-content">
         <div class="form-content">
-          <div class="grid grid-cols-1 md:grid-cols-2 my-2 gap-2">
+          <div class="grid grid-cols-1 gap-2 my-2 md:grid-cols-2">
             <div>
-              <label class="block text-sm font-bold text-gray-600"
-                >Select Merchant</label
-              >
+              <label class="block text-sm font-bold text-gray-600">Select Merchant</label>
               <serach_Input
                 :arrItems="quotationStore.initQuotation.listVendors"
                 ref="refDistrict"
                 label=""
                 v-model="quotation.merchantId"
                 @selectItem="GetSelectMerchant"
+                @input="err.merchantId = ''"
               />
               <p v-if="err.merchantId" class="mt-2 text-xs text-red-500">
                 {{ err.merchantId }}
               </p>
             </div>
             <div>
-              <label class="block text-sm font-bold text-gray-600"
-                >Select Main District</label
-              >
+              <label class="block text-sm font-bold text-gray-600">Select Main District</label>
 
               <serach_Input
                 :arrItems="quotationStore.initQuotation.listDistricts"
@@ -40,6 +37,7 @@
                 label=""
                 v-model="quotation.mainDistrictId"
                 @selectItem="GetSelectMainDistrict"
+                @input="err.mainDistrictId = ''"
               />
               <p v-if="err.mainDistrictId" class="mt-2 text-xs text-red-500">
                 {{ err.mainDistrictId }}
@@ -48,21 +46,20 @@
           </div>
 
           <div class="grid grid-cols-1 my-4">
-            <label class="block text-sm font-bold text-gray-600">
-              Maximum 4 Districts can be selected including main district</label
-            >
+            <label class="block text-sm font-bold text-gray-600">Maximum 4 Districts can be selected including main district</label>
 
             <inputtags_search
               class="w-full"
               :arrItems="quotationStore.initQuotation.listDistricts"
               @GetSelectedIds="GetSelectedOtherDistrictIds"
             />
+            <!-- <p v-if="err.listDistricts" class="mt-2 text-xs text-red-500">
+              {{ err.listDistricts }}
+            </p> -->
           </div>
           <div class="grid grid-cols-2 my-4">
             <div>
-              <label class="block text-sm font-bold text-gray-600">
-                Select Product Category</label
-              >
+              <label class="block text-sm font-bold text-gray-600">Select Product Category</label>
 
               <selectinput2
                 class="my-2"
@@ -73,23 +70,12 @@
                 label=""
                 @changed="changedcurProductCategory"
               />
-              <p
-                v-if="err.curProductCategory"
-                class="mt-2 text-xs text-red-500"
-              >
-                {{ err.curProductCategory }}
-              </p>
+              
             </div>
           </div>
 
           <!-- Show Bundles List -->
-          <label
-            class="block text-sm font-bold text-gray-600"
-            v-if="curPkgList.length > 0"
-          >
-            Available Packages</label
-          >
-
+          <label class="block text-sm font-bold text-gray-600" v-if="curPkgList.length > 0">Available Packages</label>
           <div class="grid grid-cols-1 my-2">
             <!-- Package List -->
             <ul class="flex w-full gap-2 mt-4 overflow-x-auto no-scrollbar">
@@ -150,11 +136,9 @@
               v-if="quotation.listOrderItem.length > 0"
             >
               <!-- Header Row -->
-              <div
-                class="hidden w-full p-2 text-center bg-gray-100 rounded-lg shadow-sm sm:p-2 dark:bg-gray-100 dark:border-gray-700 lg:block"
-              >
+              <div class="hidden w-full p-2 text-center bg-gray-100 rounded-lg shadow-sm sm:p-2 dark:bg-gray-100 dark:border-gray-700 lg:block">
                 <div
-                  class="grid grid-cols-1 gap-1 text-xs text-gray-700 uppercase sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-6"
+                  class="grid grid-cols-1 gap-1 text-xs text-gray-700 uppercase sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-7"
                 >
                   <div class="p-2">Index</div>
                   <div class="p-2">Description</div>
@@ -165,23 +149,22 @@
                     <span class="text-xs font-bold text-red-500">(Rs.)</span>
                   </div>
                   <div class="p-2">Total</div>
+                  <div class="p-2"></div>
                 </div>
               </div>
 
               <!-- Package Items -->
-              <div
-                class="w-full p-2 text-center bg-white rounded-lg shadow-sm sm:p-4 dark:bg-gray-100 dark:border-gray-700 overflow-y-auto max-h-[300px]"
-              >
+              <div class="w-full p-2 text-center bg-white rounded-lg shadow-sm sm:p-4 dark:bg-gray-100 dark:border-gray-700 overflow-y-auto max-h-[300px]">
                 <div
                   v-for="(orderItem, index) in quotation.listOrderItem"
                   :key="index"
                 >
                   <div
-                    class="grid grid-cols-1 gap-4 py-2 text-xs text-gray-700 uppercase sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-6 relative"
+                    class="relative grid grid-cols-1 gap-4 py-2 text-xs text-gray-700 uppercase sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-7"
                   >
                     <div class="flex items-center justify-center">
                       <p class="mr-2 sm:hidden">Index:</p>
-                      <strong>{{ orderItem.index }}</strong>
+                      <strong>{{ index + 1 }}</strong>
                     </div>
                     <div class="flex items-center justify-center">
                       <p class="mr-2 sm:hidden">Description:</p>
@@ -189,23 +172,27 @@
                     </div>
                     <div class="flex items-center justify-center">
                       <p class="mr-2 sm:hidden">Unit Price :</p>
-                      <strong>
-                        {{ this.$myUtility.toLKR(orderItem.unitPrice) }}</strong
-                      >
+                      <strong>{{ this.$myUtility.toLKR(orderItem.unitPrice) }}</strong>
                     </div>
                     <div class="flex items-center justify-center">
-                      <p class="mr-2 sm:hidden">Qty:</p>
-                      <strong> {{ orderItem.qty }}</strong>
+                      <input
+                        type="number"
+                        class="block p-1 text-xs text-gray-900 border border-gray-300 rounded-lg w-42 sm:w-12 bg-gray-50 sm:text-sm dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+                        placeholder="In Rupees"
+                        v-model="orderItem.qty"
+                        @input="updateTotalPrice(index)"
+                      />
                     </div>
 
                     <!-- Discount Input -->
                     <div class="flex flex-col items-center justify-center">
                       <p class="mb-2 sm:hidden">Discount:</p>
                       <input
-                        type="text"
+                        type="number"
                         class="block p-1 text-xs text-gray-900 border border-gray-300 rounded-lg w-42 sm:w-12 bg-gray-50 sm:text-sm dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
                         placeholder="In Rupees"
                         v-model="orderItem.discount"
+                        @input="updateTotalPrice(index)"
                       />
                       <!-- @input="updateTotalPrice(index)" -->
                     </div>
@@ -213,13 +200,11 @@
                     <!-- Total Price -->
                     <div class="flex items-center justify-center">
                       <p class="mr-2 sm:hidden">Total:</p>
-                      <strong>
-                        {{ this.$myUtility.toLKR(orderItem.total) }}
-                      </strong>
+                      <strong>{{ this.$myUtility.toLKR(orderItem.total) }}</strong>
                     </div>
 
                     <!-- Remove Button -->
-                    <div class="absolute right-0 top-0 -mt-4 -mr-4">
+                    <div class="flex items-center justify-center">
                       <button
                         type="button"
                         @click="GetRemoveRow(index)"
@@ -233,33 +218,105 @@
                 </div>
               </div>
             </div>
-
-            <div v-else>
+            <!-- <div v-else>
               <p class="mt-6 text-center text-gray-500">
                 Please select a packages
               </p>
-            </div>
+            </div> -->
+            <p v-if="err.packageError" class="mt-2 text-sm text-center text-red-500">
+              {{ err.packageError }}
+            </p>
           </div>
           <!-- End order item section -->
+
+          <!-- show the instalment -->
+          <!-- Input for adding installments -->
+          <div>
+            <label class="block mt-12 text-sm font-bold text-gray-600">Installment</label>
+            <div class="grid grid-cols-3 gap-2">
+              <input
+                v-model="newInstallmentCount"
+                type="number"
+                placeholder="Enter number of installments"
+                required
+                class="w-full p-2 mt-2 text-sm border rounded-md focus:ring-indigo-500 focus:border-blue-500"
+              />
+              <button
+                type="button"
+                @click="AddInstallments"
+                class="px-4 py-2 mt-2 text-white bg-blue-900 rounded hover:bg-blue-950"
+              >
+                Add Installments
+              </button>
+            </div>
+          </div>
+
+          <div v-if="quotation.listInstallment.length > 0" class="mt-8">
+            <div class="hidden w-full p-2 text-center bg-gray-100 rounded-lg shadow-sm sm:p-2 dark:bg-gray-100 dark:border-gray-700 lg:block">
+              <!-- Header -->
+              <div class="grid grid-cols-1 gap-1 text-xs text-gray-700 uppercase sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-3">
+                <div class="p-2">Installment</div>
+                <div class="p-2">Fee (LKR)</div>
+                <div class="p-2">Action</div>
+              </div>
+            </div>
+
+            <!-- Installment List -->
+            <div class="w-full p-2 text-center bg-white rounded-lg shadow-sm sm:p-4 dark:bg-gray-100 dark:border-gray-700 overflow-y-auto max-h-[300px]">
+
+              <div v-for="(item, index) in quotation.listInstallment" :key="index" class="grid grid-cols-1 gap-1 text-xs text-gray-700 border-t border-gray-200 sm:grid-cols-3 md:grid-cols-3 lg:grid-cols-3 hover:bg-gray-50">
+                
+                <div class="px-4 py-2">{{ item.installment }}</div>
+                <div class="px-4 py-2">
+                  <input
+                    type="number"
+                    v-model.number="item.fee"
+                    placeholder="Enter fee"
+                    class="w-full px-2 py-1 border rounded focus:ring-indigo-500 focus:border-indigo-500"
+                    required
+                  />
+                </div>
+                <div class="px-4 py-2 text-center">
+                  <button
+                    type="button"
+                    @click="RemoveInstallment(index)"
+                    class="text-sm text-red-600 hover:underline"
+                  >
+                    Remove
+                  </button>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <p v-if="err.installmentError" class="mt-6 text-sm text-center text-red-500">
+              {{ err.installmentError }}
+          </p>
 
           <!-- Quotation Summery Section -->
           <div class="flex flex-col md:min-h-screen sm:min-h-screen min-h-64">
             <div class="flex-grow"></div>
             <div class="sticky bottom-0 w-full p-4 bg-white">
               <div class="flex justify-end">
-                <div
-                  class="flex items-center justify-between w-64 p-4 bg-white rounded-lg shadow-md"
-                >
-                  <p class="text-sm text-gray-500">Subtotal</p>
-                  <div class="flex items-center">
+                <div class="flex flex-col w-64 gap-2 p-4 bg-white rounded-lg shadow-md">
+                  <div class="flex items-center justify-between">
+                    <p class="text-sm text-gray-500">VAT</p>
+                    <p class="text-xl font-medium text-gray-700">
+                      {{ quotationStore.initQuotation.vatRate }}%
+                    </p>
+                  </div>
+                  <div class="flex items-center justify-between">
+                    <p class="text-sm text-gray-500">Subtotal</p>
                     <p class="text-xl font-medium text-gray-900">
                       {{ this.$myUtility.toLKR(quotation.netTotal) }}
                     </p>
                   </div>
+                  
                 </div>
               </div>
             </div>
           </div>
+
           <!--End  Quotation Summery Section -->
           {{ quotation.quotation }}
         </div>
@@ -312,8 +369,8 @@ export default {
         mainDistrictId: "",
         listAdditionalDistricts: [],
         listOrderItem: [],
-        vat:0.00,
-        netTotal: 0.0,
+        vat:0,
+        netTotal: 0,
         installment:1,
         listInstallment:[],
       },
@@ -346,19 +403,25 @@ export default {
   methods: {
     GetSelectMerchant(id) {
       this.quotation.merchantId = id;
+      this.err.merchantId = '';
     },
     GetSelectMainDistrict(id) {
       this.quotation.mainDistrictId = id;
+      this.err.mainDistrictId = '';
     },
     GetSelectedOtherDistrictIds(listIds) {
       if (listIds.length < this.quotationStore.initQuotation.noOfMaxDistricts) {
         this.quotation.listAdditionalDistricts = listIds;
+        this.err.listDistricts = '';
+        console.log(listIds);
+        
       } else {
         this.$showAlert("Maximum four districts can be selected!", "error");
       }
     },
     changedcurProductCategory(type) {
       this.curProductCategory = type;
+      this.err.curProductCategory = '';
       if (type == "ProductLinks") {
         this.curPkgList =
           this.quotationStore.initQuotation.listPackageProductLinks;
@@ -382,6 +445,9 @@ export default {
         discount: 0.0,
         total: pkg.packagePrice,
       };
+      if (!this.selectedPackages.includes(pkg)) {
+      this.selectedPackages.push(pkg);
+    }
       this.quotation.listOrderItem.push(orderItem);
     },
     GetRemoveRow(index) {
@@ -395,34 +461,95 @@ export default {
     GetPrint() {      
       if(!this.IsValidated()) return;
       console.log(JSON.stringify(this.quotation))
-
-
-
-      
     //this.clearerr();
       //this.closeModal();
     },
+    AddInstallments() {
+      if (!this.newInstallmentCount || this.newInstallmentCount <= 0) return;
 
-    IsValidated(){
-     let isValidated = true;
+      this.quotation.listInstallment = [];
 
-    //  // Check if vendor is selected
-    //   if (!this.selectedCustomerRef) {
-    //     this.err.customerRef = "Please select a vendor!";
-    //     hasErrors = true;
-    //   }
-
-    //   // Validate radio button selection
-    //   if (!this.selectedRadio) {
-    //     this.err.selectedRadio =
-    //       "Please select a package type (Bundles or Subscriptions)!";
-    //     hasErrors = true;
-    //   }
-
-    //   if (hasErrors) return;
-
-     return isValidated;
+      for (let i = 1; i <= this.newInstallmentCount; i++) {
+      this.quotation.listInstallment.push({
+        installment: `Installment ${i}`,
+        fee: 0
+      });
+    }
+      },
+    RemoveInstallment(index) {
+      this.quotation.listInstallment.splice(index, 1);
     },
+
+    updateTotalPrice(index) {
+      const packageItem = this.selectedPackages[index];
+
+      // Ensure the discount is a valid number
+      let discount = parseFloat(packageItem.discount);
+      if (isNaN(discount)) discount = 0; // If discount is not a valid number, default to 0.
+
+      // Parse the price (if it's a string, remove any non-numeric characters, like '$')
+      let price = parseFloat(
+        packageItem.displayPrice.replace(/[^0-9.-]+/g, "")
+      );
+      if (isNaN(price)) price = 0; // If price is invalid, set to 0.
+
+      // Calculate the discount amount
+      const discountAmount = price * (discount / 100);
+      const totalPrice = price - discountAmount;
+      console.log("totalPrice:", totalPrice);
+
+      // Update the total price
+      packageItem.totalPrice = totalPrice.toFixed(2);
+    },
+  
+
+
+    IsValidated() {
+      let isValidated = true;
+      this.err = {}; // Clear previous errors
+
+      // Check Merchant
+      if (!this.quotation.merchantId) {
+        this.err.merchantId = "Please select a Merchant!";
+        isValidated = false;
+      }
+
+      // Check Main District
+      if (!this.quotation.mainDistrictId) {
+        this.err.mainDistrictId = "Please select a Main District!";
+        isValidated = false;
+      }
+
+      // Check Other Districts (max 4 including main)
+      if (!this.selectedListDistricts || this.selectedListDistricts.length === 0) {
+        this.err.listDistricts = "Please select at least one district!";
+        isValidated = false;
+      } else if (this.selectedListDistricts.length > 4) {
+        this.err.listDistricts = "You can select a maximum of 4 districts including the main district!";
+        isValidated = false;
+      }
+
+      // Check Product Category
+      if (!this.curProductCategory) {
+        this.err.curProductCategory = "Please select a Product Category!";
+        isValidated = false;
+      }
+
+      // Package validation
+      if (!this.quotation.listOrderItem || this.quotation.listOrderItem.length === 0) {
+        this.err.packageError = "Please select at least one package!";
+        isValidated = false;
+      }
+
+      // Installment validation
+      if (!this.quotation.listInstallment || this.quotation.listInstallment.length === 0) {
+        this.err.installmentError = "Please add at least one installment!";
+        isValidated = false;
+      }
+
+      return isValidated;
+    },
+
 
     closeModal() {
       this.isOpen = false;
@@ -461,15 +588,7 @@ export default {
       console.log("Selected item:", item);
     },
 
-    handlePackage() {
-      if (this.selectedPackages.length === 0) {
-        this.err.selectedRadio = "Please select at least one package.";
-      } else {
-        this.err.selectedRadio = "";
-        // Show the selected packages data in the alert
-        alert("Selected Packages: " + JSON.stringify(this.selectedPackages));
-      }
-    },
+
     updateTotalPrice(index) {
       const packageItem = this.selectedPackages[index];
 
@@ -492,6 +611,12 @@ export default {
       packageItem.totalPrice = totalPrice.toFixed(2);
     },
   },
+  mounted() {
+    this.quotation.listOrderItem.forEach((_, index) => {
+      this.updateTotalPrice(index);
+    });
+  },
+
 };
 </script>
 

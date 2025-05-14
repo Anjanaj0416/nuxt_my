@@ -24,7 +24,7 @@ data() {
 
 <template>
   <section>
-    <div class="rounded  py-4 cursor-pointer flex flex-wrap h-auto gap-3">
+    <div class="flex flex-wrap h-auto gap-3 py-4 rounded cursor-pointer">
       <div v-for="item in arrSelectedItems" :key="item">
         <tag
           :item="item"
@@ -32,13 +32,13 @@ data() {
         />
       </div>
 
-      <div class="cursor-pointer -mt-4">
+      <div class="-mt-4 cursor-pointer">
         <serachInput
           :arrItems="arrItems"
           ref="compSelect"
           label=""
           @selectItem="addItem"
-          class="w-48 border-gray-500 rounded p-2"
+          class="w-48 p-2 border-gray-500 rounded"
         />
       </div>
     </div>
