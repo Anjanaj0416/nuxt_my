@@ -1,23 +1,32 @@
 <!-- Usage:
-<tag class="w-16"/>
+<tag
+          :item="item"
+          @deletetag="GetDeleteTag"          
+        />
 
-import tag from '~/components/tailwindcomp/tag'
+import tag from '~/components/customcontrol/tag'
 
  components: {
-tag
+   tag
  },
 
   methods: {
- userclick(){
+ GetDeleteTag(id) {
+      try {
+       
+        var index = this.arrSelectedIDs.findIndex((o) => o.id === id);
+        this.arrSelectedIDs.splice(index, 1);
+
+      } catch (e) {}
       
-    }
+    },
 -->
 
 
 <template>
   <section >
     <div class="csstag relative">
- <div class="cssbtn absolute top-0 right-0 border-gray-500 rounded p-2 text-blue-700 hover:bg-red-600 hover:text-white rounded-full -mr-2  -mt-2 cursor-pointer" @click="del_tag">
+ <div class="cssbtn absolute top-0 right-0 border-gray-500 rounded p-2 text-blue-700 hover:bg-red-600 hover:text-white  -mr-2  -mt-2 cursor-pointer" @click="del_tag">
         <svg
           xmlns="http://www.w3.org/2000/svg"
           class="h-3 w-3"
@@ -34,9 +43,8 @@ tag
         </svg>
       </div>
 
-    <div class="truncate text-gray-600 w-32" title="">
-        <div v-show="!istageditable || !isedit" @click="isedit='true'" class="truncate" :title="value"> {{value}}     </div>
-        <div v-show="isedit && istageditable"> <input  class=" bg-transparent  px-1"  :value="value"  @input="updateValue($event.target.value)" type="text" @blur="isedit=false"></div>
+    <div class="truncate text-red w-32" title="">
+        {{item.value}}
     </div>
 
     </div>
@@ -45,19 +53,17 @@ tag
 
 <script>
 export default {
-  props: ['value','istageditable'],
+  props: ['item'],
   components: {},
    data() {
     return {
-    isedit:false,
+   
     }
   },
   methods: {
-     updateValue: function (value) {
-      this.$emit('input', value.trim())
-    },
-    del_tag(){
-       this.$emit('deletetag', this.value)
+   
+    del_tag(){   
+       this.$emit('deletetag', this.item.id)
     }
 
   },
