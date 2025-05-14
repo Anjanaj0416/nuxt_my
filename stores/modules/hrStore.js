@@ -579,7 +579,7 @@ export const useHrStore = defineStore('hrStore', {
       const loadingAlert = showLoading(''); 
       try {
         console.log("req:",req);  
-        const response = await axios.get(`${import.meta.env.VITE_API_URL}/hr/WorkLoad/SetTimeCardWorkLoad`,req);   
+        const response = await axios.post(`${import.meta.env.VITE_API_URL}/hr/WorkLoad/SetTimeCardWorkLoad`,req);   
         console.log("response:",response);   
         if (response.data.isSuccess) {   
           this.showToast(response.data.message, 'success'); 

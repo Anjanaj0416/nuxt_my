@@ -2,6 +2,7 @@
   <section>
     Lorem, ipsum dolor sit amet consectetur adipisicing elit. Mollitia, delectus? Totam ea voluptatem aut enim nam saepe
     illum asperiores maxime?
+
   </section>
 </template>
 
