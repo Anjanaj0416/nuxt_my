@@ -19,6 +19,7 @@
  
  import LinkBtn from "~/components/customcontrol/Link";
   import Button from "~/components/customcontrol/Button";
+  import selectinput2 from "~/components/customcontrol/selectinput2";
 
  definePageMeta({
     layout: 'default',   
@@ -27,7 +28,7 @@
    
   export default {
     
-    components: {LinkBtn,Button},
+    components: {LinkBtn,Button,selectinput2},
     props:[''],
     data() {
       return {

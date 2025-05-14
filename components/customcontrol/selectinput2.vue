@@ -86,10 +86,7 @@ export default {
   },
   methods: {
     onChange() {
-      let newValue = event.target.value;
-      // console.log("new value:", newValue);
-
-      this.$emit('update:modelValue', newValue);
+      let newValue = event.target.value;     
       this.$emit('changed', newValue)
     },
   },
