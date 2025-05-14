@@ -1,14 +1,15 @@
 <template>
   <section>
-    Lorem ipsum dolor sit amet consectetur adipisicing elit. Exercitationem minima consectetur earum omnis magni ducimus
-    at quia distinctio ipsam? Cupiditate veritatis porro saepe sapiente, quam ipsa! Alias non temporibus consectetur.
+    Lorem, ipsum dolor sit amet consectetur adipisicing elit. Mollitia, delectus? Totam ea voluptatem aut enim nam saepe
+    illum asperiores maxime?
+
   </section>
 </template>
-
 
 <script>
 import datediff from '~/components/customcontrol/datediff'
 import btnhr from '~/components/hr/btnhr'
+import { useUserStore } from '~/stores/modules/userStore'
 
 // import * as Global from '@/assets/js/Global'
 //import * as myfilter from '@/plugins/myfilter'
@@ -35,14 +36,11 @@ export default {
         Reason: '',
       },
       Tot_OT_Hours: '0.00',
+      userStore: null,
     }
   },
 
   computed: {
-    // ...mapState({
-    //   loggeduser: (state) => state.loggeduser,
-    //   OTApllyDetails: (state) => state.hr.OTApllyDetails,
-    // }),
     getOTApplyRowColor() {
       return (ot) => {
         try {
@@ -60,6 +58,11 @@ export default {
       }
     },
   },
+
+  async created() {
+    this.userStore = useUserStore();
+  },
+
   methods: {
     // ...mapActions({
     //   getOTApprovals: 'hr/getOTApprovals',

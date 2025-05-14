@@ -755,8 +755,7 @@ export default {
 
     async getclose() {
       this.$emit('exit')
-      await this.hrStore.clearAttendance();
-    },
+    },    
 
     getDownload() {
       if (this.dtfrom != '' && this.dtto != "") {

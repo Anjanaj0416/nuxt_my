@@ -120,7 +120,7 @@ import { useHrStore } from '~/stores/modules/hrStore'
 //import { mapState, mapGetters, mapActions, mapMutations } from 'vuex'
 
 export default {
-  props: ['empno'],
+  props: ['empno', 'dtFrom', 'dtTo'],
   components: { selectinput2, btnhr_Save, leave_entitlement },
   data() {
     return {
@@ -140,6 +140,8 @@ export default {
         movementPeriod: '',
         user: {},
       },
+      dtfrom: null,
+      dtto: null,
       hrStore: null,
       showLoading: null,
     }
@@ -176,7 +178,15 @@ export default {
         MovementPeriod: this.movement_apply.movementPeriod,
       }
       //console.log(JSON.stringify(this.movement_apply));
-      await this.hrStore.setMovement(req, this.showLoading)
+      await this.hrStore.setMovement(req, this.showLoading);
+
+      let reqGetViewMovement = {
+        fromDate: this.dtFrom,
+        toDate: this.dtTo,
+        empNo: this.empno,
+      }
+
+      await this.hrStore.getViewMovement(reqGetViewMovement, this.showLoading)
       this.$emit('goto_movementview')
     },
     movementTypeChanged(selected_item) {
@@ -205,9 +215,6 @@ export default {
         this.show_error('Invalid In Date')
         return false
       }
-
-
-      console.log(this.movement_apply.in_time)
 
       if (!this.isWFH && this.movement_apply.out_time > this.movement_apply.in_time) {
         this.show_error('Invalid  Mov.  Start Time  and    End Time')
