@@ -227,10 +227,8 @@
               {{ err.packageError }}
             </p>
           </div>
-          <!-- End order item section -->
 
-          <!-- show the instalment -->
-          <!-- Input for adding installments -->
+          <!-- installments month selected-->
           <div>
             <label class="block mt-12 text-sm font-bold text-gray-600">Installment</label>
             <div class="grid grid-cols-3 gap-2">
@@ -250,48 +248,58 @@
               </button>
             </div>
           </div>
-
-          <div v-if="quotation.listInstallment.length > 0" class="mt-8">
-            <div class="hidden w-full p-2 text-center bg-gray-100 rounded-lg shadow-sm sm:p-2 dark:bg-gray-100 dark:border-gray-700 lg:block">
-              <!-- Header -->
-              <div class="grid grid-cols-1 gap-1 text-xs text-gray-700 uppercase sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-3">
-                <div class="p-2">Installment</div>
-                <div class="p-2">Fee (LKR)</div>
-                <div class="p-2">Action</div>
-              </div>
-            </div>
-
-            <!-- Installment List -->
-            <div class="w-full p-2 text-center bg-white rounded-lg shadow-sm sm:p-4 dark:bg-gray-100 dark:border-gray-700 overflow-y-auto max-h-[300px]">
-
-              <div v-for="(item, index) in quotation.listInstallment" :key="index" class="grid grid-cols-1 gap-1 text-xs text-gray-700 border-t border-gray-200 sm:grid-cols-3 md:grid-cols-3 lg:grid-cols-3 hover:bg-gray-50">
-                
-                <div class="px-4 py-2">{{ item.installment }}</div>
-                <div class="px-4 py-2">
-                  <input
-                    type="number"
-                    v-model.number="item.fee"
-                    placeholder="Enter fee"
-                    class="w-full px-2 py-1 border rounded focus:ring-indigo-500 focus:border-indigo-500"
-                    required
-                  />
+              
+          <!-- Installment month price enter -->
+          <div>
+            <div class="grid grid-cols-1 gap-4 mt-4" v-if="quotation.listInstallment.length > 0" >
+              <!-- Header Row -->
+              <div class="hidden w-full p-2 text-center bg-gray-100 rounded-lg shadow-sm sm:p-2 dark:bg-gray-100 dark:border-gray-700 lg:block">
+                <div
+                  class="grid grid-cols-1 gap-1 text-xs text-gray-700 uppercase sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-7"
+                >
+                  <div class="p-2">Installment</div>
+                  <div class="p-2">Fee (LKR)</div>
+                  <div class="p-2"></div>
                 </div>
-                <div class="px-4 py-2 text-center">
-                  <button
-                    type="button"
-                    @click="RemoveInstallment(index)"
-                    class="text-sm text-red-600 hover:underline"
+              </div>
+
+              <div class="w-full p-2 text-center bg-white rounded-lg shadow-sm sm:p-4 dark:bg-gray-100 dark:border-gray-700 overflow-y-auto max-h-[300px]">
+                <div v-for="(item, index) in quotation.listInstallment" :key="index" >
+                  <div
+                    class="relative grid grid-cols-1 gap-4 py-2 text-xs text-gray-700 uppercase sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-7"
                   >
-                    Remove
-                  </button>
+                    <div class="flex items-center justify-center">
+                      <p class="mr-2 sm:hidden">installment:</p>
+                      <!-- <strong>{{ index + 1 }}</strong> -->
+                      <strong>{{ item.installment }}</strong>
+                    </div>
+                    <div class="flex items-center justify-center">
+                      <input
+                        type="number"
+                        class="block p-1 text-xs text-gray-900 border border-gray-300 rounded-lg w-42 sm:w-12 bg-gray-50 sm:text-sm dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+                        placeholder="Enter fee"
+                        v-model.number="item.fee"
+                      />
+                    </div>
+                    <!-- Remove Button -->
+                    <div class="flex items-center justify-center">
+                      <button
+                        type="button"
+                        @click="RemoveInstallment(index)"
+                        class="text-sm text-red-600 hover:underline"
+                      >
+                        Remove
+                      </button>
+                    </div>
+                  </div>
+                  <hr class="my-2 border-gray-300 dark:border-gray-600" />
                 </div>
               </div>
             </div>
-          </div>
-
-          <p v-if="err.installmentError" class="mt-6 text-sm text-center text-red-500">
+            <p v-if="err.installmentError" class="mt-6 text-sm text-center text-red-500">
               {{ err.installmentError }}
-          </p>
+            </p>
+          </div>
 
           <!-- Quotation Summery Section -->
           <div class="flex flex-col md:min-h-screen sm:min-h-screen min-h-64">
@@ -563,59 +571,8 @@ export default {
      //}
     },
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-    handleRadioChange(type) {
-      this.selectedRadio = type;
-      this.selectedItemId = null;
-    },
-
-    selectPackage(item) {
-      console.log("Selected item:", item);
-    },
-
-
-    updateTotalPrice(index) {
-      const packageItem = this.selectedPackages[index];
-
-      // Ensure the discount is a valid number
-      let discount = parseFloat(packageItem.discount);
-      if (isNaN(discount)) discount = 0; // If discount is not a valid number, default to 0.
-
-      // Parse the price (if it's a string, remove any non-numeric characters, like '$')
-      let price = parseFloat(
-        packageItem.displayPrice.replace(/[^0-9.-]+/g, "")
-      );
-      if (isNaN(price)) price = 0; // If price is invalid, set to 0.
-
-      // Calculate the discount amount
-      const discountAmount = price * (discount / 100);
-      const totalPrice = price - discountAmount;
-      console.log("totalPrice:", totalPrice);
-
-      // Update the total price
-      packageItem.totalPrice = totalPrice.toFixed(2);
-    },
   },
-  mounted() {
-    this.quotation.listOrderItem.forEach((_, index) => {
-      this.updateTotalPrice(index);
-    });
-  },
+
 
 };
 </script>
