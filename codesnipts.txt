@@ -9,6 +9,7 @@ MiracleAPI_8.0
 
 git pull origin develop
 git pull origin Integration
+git pull origin Thilini
 
 npm run dev
 npm run build

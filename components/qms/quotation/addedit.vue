@@ -159,6 +159,7 @@
                   v-for="(orderItem, index) in quotation.listOrderItem"
                   :key="index"
                 >
+               <div>
                   <div
                     class="relative grid grid-cols-1 gap-4 py-2 text-xs text-gray-700 uppercase sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-7"
                   >
@@ -177,7 +178,8 @@
                     <div class="flex items-center justify-center">
                       <input
                         type="number"
-                        class="block p-1 text-xs text-gray-900 border border-gray-300 rounded-lg w-42 sm:w-12 bg-gray-50 sm:text-sm dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+                        min="1"
+                        class="block p-1 text-xs text-gray-900 border border-gray-300 rounded-lg w-42 sm:w-16 bg-gray-50 sm:text-sm dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
                         placeholder="In Rupees"
                         v-model="orderItem.qty"
                         @input="updateTotalPrice(index)"
@@ -189,8 +191,9 @@
                       <p class="mb-2 sm:hidden">Discount:</p>
                       <input
                         type="number"
-                        class="block p-1 text-xs text-gray-900 border border-gray-300 rounded-lg w-42 sm:w-12 bg-gray-50 sm:text-sm dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
-                        placeholder="In Rupees"
+                         min="0"
+                        class="block p-1 text-xs text-gray-900 border border-gray-300 rounded-lg w-64 sm:w-24 bg-gray-50 sm:text-sm dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+                        placeholder="In Rupeesdds"
                         v-model="orderItem.discount"
                         @input="updateTotalPrice(index)"
                       />
@@ -205,15 +208,25 @@
 
                     <!-- Remove Button -->
                     <div class="flex items-center justify-center">
-                      <button
-                        type="button"
-                        @click="GetRemoveRow(index)"
-                        class="font-semibold text-red-500 hover:text-red-700"
-                      >
-                        Remove
-                      </button>
+                    
+                       <div class="text-center">
+          <button
+            type="button"
+            @click="GetRemoveRow(index)"
+            class="text-red-600 hover:text-red-800"
+            title="Remove"
+          >
+            <!-- Trash icon (Heroicons) -->
+            <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 mx-auto" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6M9 7h6m-6 0V5a1 1 0 011-1h4a1 1 0 011 1v2" />
+            </svg>
+          </button>
+        </div>
                     </div>
                   </div>
+                  </div>
+                  <div class="text-left">{{ orderItem.packageDescription.replaceAll('<br/>', ' ||| ') }}</div>
                   <hr class="my-2 border-gray-300 dark:border-gray-600" />
                 </div>
               </div>
@@ -231,63 +244,64 @@
 
           <!-- show the instalment -->
           <!-- Input for adding installments -->
-          <div>
-            <label class="block mt-12 text-sm font-bold text-gray-600">Installment</label>
-            <div class="grid grid-cols-3 gap-2">
-              <input
-                v-model="newInstallmentCount"
-                type="number"
-                placeholder="Enter number of installments"
-                required
-                class="w-full p-2 mt-2 text-sm border rounded-md focus:ring-indigo-500 focus:border-blue-500"
-              />
-              <button
-                type="button"
-                @click="AddInstallments"
-                class="px-4 py-2 mt-2 text-white bg-blue-900 rounded hover:bg-blue-950"
-              >
-                Add Installments
-              </button>
-            </div>
-          </div>
+        <div class="flex flex-col md:flex-row justify-between gap-6 mt-8">
+    <!-- Left Side: Installment Count Input -->
+    <div class="flex-1">
+      <label class="block text-sm font-bold text-gray-600 mb-1">Installments</label>
+      <input
+        v-model.number="quotation.installment"
+        type="number"
+        min="1"
+        max="3"
+        placeholder="Enter number of installments"
+        @change="AddInstallments"
+        required
+        class="w-20s p-2 text-sm border rounded-md focus:ring-indigo-500 focus:border-blue-500"
+      />
+    </div>
 
-          <div v-if="quotation.listInstallment.length > 0" class="mt-8">
-            <div class="hidden w-full p-2 text-center bg-gray-100 rounded-lg shadow-sm sm:p-2 dark:bg-gray-100 dark:border-gray-700 lg:block">
-              <!-- Header -->
-              <div class="grid grid-cols-1 gap-1 text-xs text-gray-700 uppercase sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-3">
-                <div class="p-2">Installment</div>
-                <div class="p-2">Fee (LKR)</div>
-                <div class="p-2">Action</div>
-              </div>
-            </div>
+    <!-- Right Side: Installment List -->
+    <div class="w-full md:w-1/3 bg-white rounded-lg shadow-sm dark:bg-gray-100 border dark:border-gray-300 overflow-y-auto max-h-[300px]">
+      <div
+        v-for="(item, index) in listInstallmentDetails"
+        :key="index"
+        class="grid grid-cols-3 items-center text-xs text-gray-700 border-t border-gray-200 hover:bg-gray-50 px-2 py-2"
+      >
+        <!-- Installment label -->
+        <div class="truncate">{{ item.installment }}</div>
 
-            <!-- Installment List -->
-            <div class="w-full p-2 text-center bg-white rounded-lg shadow-sm sm:p-4 dark:bg-gray-100 dark:border-gray-700 overflow-y-auto max-h-[300px]">
+        <!-- Fee input -->
+        <div>
+          <input
+            type="number"
+            v-model.number="item.fee"
+            min="1"
+            placeholder="Fee"
+            class="w-20 px-2 py-1 border rounded text-xs focus:ring-indigo-500 focus:border-indigo-500"
+            required
+          />
+        </div>
 
-              <div v-for="(item, index) in quotation.listInstallment" :key="index" class="grid grid-cols-1 gap-1 text-xs text-gray-700 border-t border-gray-200 sm:grid-cols-3 md:grid-cols-3 lg:grid-cols-3 hover:bg-gray-50">
-                
-                <div class="px-4 py-2">{{ item.installment }}</div>
-                <div class="px-4 py-2">
-                  <input
-                    type="number"
-                    v-model.number="item.fee"
-                    placeholder="Enter fee"
-                    class="w-full px-2 py-1 border rounded focus:ring-indigo-500 focus:border-indigo-500"
-                    required
-                  />
-                </div>
-                <div class="px-4 py-2 text-center">
-                  <button
-                    type="button"
-                    @click="RemoveInstallment(index)"
-                    class="text-sm text-red-600 hover:underline"
-                  >
-                    Remove
-                  </button>
-                </div>
-              </div>
-            </div>
-          </div>
+        <!-- Remove icon -->
+        <div class="text-center">
+          <button
+            type="button"
+            @click="RemoveInstallment(index)"
+            class="text-red-600 hover:text-red-800"
+            title="Remove"
+          >
+            <!-- Trash icon (Heroicons) -->
+            <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 mx-auto" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6M9 7h6m-6 0V5a1 1 0 011-1h4a1 1 0 011 1v2" />
+            </svg>
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+            
+        
 
           <p v-if="err.installmentError" class="mt-6 text-sm text-center text-red-500">
               {{ err.installmentError }}
@@ -299,14 +313,9 @@
             <div class="sticky bottom-0 w-full p-4 bg-white">
               <div class="flex justify-end">
                 <div class="flex flex-col w-64 gap-2 p-4 bg-white rounded-lg shadow-md">
+                
                   <div class="flex items-center justify-between">
-                    <p class="text-sm text-gray-500">VAT</p>
-                    <p class="text-xl font-medium text-gray-700">
-                      {{ quotationStore.initQuotation.vatRate }}%
-                    </p>
-                  </div>
-                  <div class="flex items-center justify-between">
-                    <p class="text-sm text-gray-500">Subtotal</p>
+                    <p class="text-sm text-gray-500">Net Total</p>
                     <p class="text-xl font-medium text-gray-900">
                       {{ this.$myUtility.toLKR(quotation.netTotal) }}
                     </p>
@@ -375,6 +384,7 @@ export default {
         listInstallment:[],
       },
 
+      listInstallmentDetails:[],
 
       curPkgList: [],
     };
@@ -439,7 +449,8 @@ export default {
       let orderItem = {
         index: this.quotation.listOrderItem.length + 1,
         packageId:pkg.id,
-        packageCategory:pkg.packageCategory,       
+        packageCategory:pkg.packageCategory,  
+        packageDescription:pkg.packageDescription   ,  
         unitPrice: pkg.packagePrice,
         qty: 1,
         discount: 0.0,
@@ -465,19 +476,27 @@ export default {
       //this.closeModal();
     },
     AddInstallments() {
-      if (!this.newInstallmentCount || this.newInstallmentCount <= 0) return;
+      if (!this.quotation.installment || this.quotation.installment <= 0 )
+      { 
+        this.$showCustomToast('Invalid Installment!', 'error', 3000); 
+        return;
+      }
+      if(this.quotation.installment >3){
+        this.$showCustomToast('Maximum three Installment allowed !', 'error', 3000); 
+        return;
+      }
 
-      this.quotation.listInstallment = [];
+      this.listInstallmentDetails = [];
 
-      for (let i = 1; i <= this.newInstallmentCount; i++) {
-      this.quotation.listInstallment.push({
+      for (let i = 1; i <= this.quotation.installment; i++) {
+      this.listInstallmentDetails.push({
         installment: `Installment ${i}`,
         fee: 0
       });
     }
       },
     RemoveInstallment(index) {
-      this.quotation.listInstallment.splice(index, 1);
+      this.listInstallmentDetails.splice(index, 1);
     },
 
     updateTotalPrice(index) {
