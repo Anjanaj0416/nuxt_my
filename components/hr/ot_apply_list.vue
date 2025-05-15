@@ -185,13 +185,15 @@ export default {
         this.oTPreApprovalRequest.OTFrom != '' &&
         this.oTPreApprovalRequest.OTTo != ''
       ) {
-        await this.getOTHours({
+
+        let req = {
           empno: this.empno,
           OTFrom: this.oTPreApprovalRequest.OTFrom,
           OTTo: this.oTPreApprovalRequest.OTTo,
-          user: this.loggeduser,
-        })
-        this.oTPreApprovalRequest.otHour = this.OTApllyDetails.ot_hours
+        };
+
+        await this.hrStore.getOTHours(req);
+        this.oTPreApprovalRequest.otHour = this.hrStore.OTApllyDetails.ot_hours
       }
     },
 
@@ -262,10 +264,16 @@ export default {
       if (this.validate()) {
         if (confirm('Sure to apply this OT Pre-Approval?')) {
           let req = {
-            oTPreApprovalRequest: this.oTPreApprovalRequest,
-            user: this.loggeduser,
+            EmpNo: this.oTPreApprovalRequest.empno,
+            Date: this.oTPreApprovalRequest.date,
+            OTFrom: this.oTPreApprovalRequest.OTFrom,
+            OTTo: this.oTPreApprovalRequest.OTTo,
+            OTHour: this.oTPreApprovalRequest.otHour,
+            Reason: this.oTPreApprovalRequest.Reason,
+            // FromDate: fromDate,
+            // ToDate: toDate,
           }
-          await this.setOTApproval(req)
+          await this.hrStore.setOTApproval(req, this.showLoading)
         }
         this.oTPreApprovalRequest.OTFrom = ''
         this.oTPreApprovalRequest.OTTo = ''
@@ -290,6 +298,7 @@ export default {
     },
 
     async getclose() {
+      this.oTPreApprovalRequest = {};
       this.dtfrom = '';
       this.dtto = '';
       this.$emit('exit')
