@@ -27,7 +27,7 @@ components: { selectinput2,  },
 
 --------------------------------------
 -->
-<template>
+<!-- <template>
  <article class="w-full">
   <label v-if="label" class="block mb-1 text-sm font-medium text-gray-700 ">
     {{ label }}
@@ -54,7 +54,7 @@ components: { selectinput2,  },
       </option>
     </select>
 
-    <!-- Custom dropdown icon -->
+
     <div class="absolute inset-y-0 right-0 flex items-center px-2 pointer-events-none">
       <svg class="w-4 h-4 text-gray-500 dark:text-gray-300" fill="none" stroke="currentColor" viewBox="0 0 24 24">
         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7" />
@@ -101,4 +101,84 @@ export default {
   @apply h-6;
 
 }
+</style> -->
+
+
+<template>
+ <article class="w-full">
+  <label v-if="label" class="block mb-1 text-sm font-medium text-gray-700 ">
+    {{ label }}
+  </label>
+
+  <div class="relative">
+    <select
+      :class="[
+        cssclass,
+        'appearance-none w-full border border-gray-300 rounded-md px-3 py-2 pr-10 bg-white text-gray-700 shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition duration-150 ease-in-out'
+      ]"
+      :value="modelValue"
+      @change="onChange"
+    >
+      <option disabled value="" v-if="!modelValue">Please select</option>
+      <option
+        v-for="sitem in selections"
+        :key="sitem"
+        :value="sitem"
+        class="uppercase"
+      >
+        {{ sitem }}
+      </option>
+    </select>
+
+    <!-- Custom dropdown icon -->
+    <div class="absolute inset-y-0 right-0 flex items-center px-2 pointer-events-none">
+      <svg class="w-4 h-4 text-gray-500 dark:text-gray-300" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7" />
+      </svg>
+    </div>
+  </div>
+
+  <p v-if="err" class="mt-1 text-xs italic text-red-600 dark:text-red-400">
+    {{ err }}
+  </p>
+</article>
+</template>
+
+<script>
+export default {
+  props: {
+    selections: {
+      type: Array,
+      default: () => []
+    },
+    modelValue: {
+      type: String,
+      default: ''
+    },
+    err: {
+      type: String,
+      default: ''
+    },
+    label: {
+      type: String,
+      default: ''
+    },
+    cssclass: {
+      type: String,
+      default: ''
+    }
+  },
+  methods: {
+    onChange(event) {
+      const newValue = event.target.value;
+      this.$emit('update:modelValue', newValue); 
+      this.$emit('changed', newValue); 
+      console.log('Selected:', newValue);
+    }
+  }
+}
+</script>
+
+<style scoped>
+/* You can keep or add custom styles here */
 </style>

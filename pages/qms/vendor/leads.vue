@@ -2,13 +2,22 @@
   <section class="justify-center min-h-screen px-4 mt-24 mb-20 lg:px-80">
     <div class="text-2xl uppercase">Merchant Leads</div>
       <div
-        class="flex flex-col items-center justify-between mt-2 mb-8 md:flex-row"
-      >
-        <div class="w-full mb-4 md:mb-0"></div>
-        <div class="w-full md:w-auto">
-          <SearchComp @DoSearch="GetSearch" />
+      class="flex flex-col items-center justify-between mt-2 mb-8 md:flex-row"
+    >
+      <div class="w-full mb-4 md:mb-0">
+        <div class="mr-2">
+          <Button
+            class="w-24"
+            label="New"
+            variant="primary"
+            @click="GoToAddNew"
+          />
         </div>
       </div>
+      <div class="w-full md:w-auto">
+        <SearchComp @DoSearch="GetSearch" />
+      </div>
+    </div>
 
         <FilterTab @selected="SetSelectedFilter" :arrFilter="arrFilter" />
 
@@ -17,6 +26,7 @@
         v-for="(lead, index) in vendorStore.listLeads"
         :key="index"
       >
+      <!-- {{ lead }} -->
       <div class="flex justify-start">
         <span
           class="inline-block px-3 py-1 text-sm font-semibold text-blue-800 bg-blue-100 rounded-full dark:bg-blue-900 dark:text-blue-300"
@@ -65,7 +75,9 @@
 
 
         <!-- Expandable More Section -->
-        <div class="grid grid-cols-2 gap-2 mt-1 -my-6 sm:flex sm:flex-row sm:justify-end">
+        <div
+          class="flex flex-col items-center gap-2 mt-2 mb-4 sm:flex-row sm:justify-end sm:mb-9 sm:mt-1 sm:-my-6"
+        >
           <LinkBtn
             :label="isMore && rowIndex === index ? 'Less' : 'More'"
             class="text-black dark:bg-transparent dark:text-blue-900 dark:hover:bg-transparent"
@@ -102,14 +114,18 @@
                   </span>
                 </template>
                 <template v-else>
-                  <p class="mt-1 text-sm text-gray-500">
+                  <p
+                    :class="['mt-1 text-sm text-gray-500', field.class]"
+                  >
                     {{ lead[field.key] }} {{ field.secondKey ? lead[field.secondKey] : "" }}
                   </p>
+
                 </template>
               </div>
             </div>
 
             <!-- Editable Fields -->
+             
             <div class="grid grid-cols-1 gap-4 sm:grid-cols-1">
               <div class="w-full sm:w-1/2">
                 <selectinput2
@@ -120,10 +136,8 @@
                   label="Lead Status"
                 />
               </div>
-
               <div class="w-full sm:w-1/2">
                 <h2 class="text-sm font-semibold text-gray-700">Comment</h2>
-
                 <textarea
                   v-model="lead.comment"
                   class="w-full p-2 border rounded-md resize-none"
@@ -140,9 +154,10 @@
             </div>
           </section>
         </div>
-
       </div>
+    <AddLeads v-if="isAddLeads" @close="isAddLeads = false" />
 
+    <AddRso v-if="isAddRso" :leadId="selectedLeadId" @close="isAddRso = false; currentRsoLead = null" />
 
   </section>
 
@@ -156,6 +171,10 @@ import { useVendorStore } from "~/stores/modules/qms/vendorStore";
 import SearchComp from "~/components/customcontrol/SearchComp";
 import LinkBtn from "~/components/customcontrol/Link";
 import selectinput2 from "~/components/customcontrol/selectinput2";
+import AddLeads from "~/components/qms/vendor/addLeads";
+import Button from "~/components/customcontrol/Button.vue";
+import AddRso from "~/components/qms/vendor/assignSalesEx.vue"
+
 
 definePageMeta({
   layout: "default",
@@ -163,39 +182,42 @@ definePageMeta({
 });
 
 export default {
-  components: { FilterTab, SearchComp, LinkBtn,selectinput2 },
+  components: { FilterTab, SearchComp, LinkBtn,selectinput2,AddLeads,Button,AddRso },
   props: [""],
   data() {
     return {
       arrFilter: ["Pending", "Completed", "Cancelled", "Hold", "RSOAssigned"],
       imageroot: "",
       showLoading: null,
+      isAddLeads: false,
+      isAddRso: false,
       searchBy: "",
       isMore: false,
       rowIndex:-1,
       err:{status:''},
       vendorFields: [
         { label: "Company Name", key: "companyName"},
-        { label: "Industry", key: "industry" },
-        { label: "Company Contact", key: "companyPhone" },
-        { label: "Email", key: "companyEmail" },
+        { label: "Business Type ", key: "industry" },
+        { label: "Company Contact 1", key: "companyPhone" },
+        { label: "Company Email", key: "companyEmail" },
         { label: "City", key: "city" },
 
         { label: "Status", key: "status" },
       ],
       showAllFields: [
-        { label: "Address 1", key: "address1"},
-        { label: "Address 2", key: "address2" },
+        { label: "Company Contact 2", key: "companyPhone" },
+        { label: "Address", key: "address1"},
+        // { label: "Address 2", key: "address2" },
         { label: "District", key: "district" },
-        { label: "BusinessRegNo", key: "businessRegNo" },
-        { label: "contact Person First Name", key: "contactPersonFirstName" },
-        { label: "Contact Person Last name", key: "contactPersonLastname" },
-        { label: "Contact Phone No", key: "contactPhoneNo" },
-        { label: "Contact Mobile", key: "contactMobile" },
-        { label: "Contact Email", key: "contactEmail" },
+        // { label: "BusinessRegNo", key: "businessRegNo" },
+        { label: "contact Person Name", key: "contactPersonFirstName", secondKey: "contactPersonLastname" },
+        // { label: "Contact Person Last name", key: "contactPersonLastname" },
+        { label: "Person Contact 1", key: "contactPhoneNo" },
+        { label: "Person Contact 2", key: "contactMobile" },
+        { label: "Person Email", key: "contactEmail" },
         { label: "Contact Designation", key: "contactDesignation" },
-        { label: "Comment", key: "comment" },
         { label: "Status", key: "isActive" },
+        { label: "Comment", key: "comment", class: "max-h-[150px] overflow-auto whitespace-pre-wrap break-words" }
       ],
     };
   },
@@ -227,7 +249,13 @@ export default {
     },
     GetUpdateLead(lead) {
       var request = {  Id: lead.id, Comment: lead.comment,Status: lead.status } ;
-      // console.log(request);
+      if (lead.status === 'RSOAssigned') {
+        this.selectedLeadId = lead.id;
+        this.isAddRso = true;
+        // console.log(this.selectedLeadId);
+        return;
+      }
+      console.log(request);
       this.$showConfirm(
         "Are you sure you want to update this lead?",
         "warning"
@@ -239,7 +267,9 @@ export default {
         }
       });
     },
-
+    GoToAddNew() {
+      this.isAddLeads = true;
+    },
 
   },
   async beforeMount() {

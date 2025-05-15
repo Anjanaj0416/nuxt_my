@@ -1,6 +1,7 @@
 import { defineStore } from "pinia";
 import axios from "axios";
 import Swal from "sweetalert2";
+import { log10 } from "chart.js/helpers";
 
 export const useVendorStore = defineStore("vendorStore", {
   state: () => ({
@@ -10,6 +11,8 @@ export const useVendorStore = defineStore("vendorStore", {
     listLeads:[],
     InitLeads:{},
     curLeads:{},
+    addLeads:{},
+
   }),
   persist: true,
 
@@ -180,6 +183,7 @@ export const useVendorStore = defineStore("vendorStore", {
 
     //addLeads
     async EditLeads(req, showLoading) {
+      // console.log(req);
       try {
         const response = await axios.post(
           `${import.meta.env.VITE_API_URL}/qms/Vendor/SetUpdateVendorLead`,req,    

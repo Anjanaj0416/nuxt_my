@@ -52,6 +52,12 @@ export default {
       err: { rsoNo: "" },
     };
   },
+  props: {
+    leadId: {
+      type: [String, Number],
+      required: true
+    }
+  },
   async created() {
     this.showLoading = this.$showLoading;
     this.vendorStore = useVendorStore();
@@ -67,7 +73,13 @@ export default {
     async GetSave() {
       if (this.IsValidate()) {
         this.vendorStore.curVendor.rsoNo = this.rsoNo;
-        const req = { Id: this.vendorStore.curVendor.id, RSONo: this.rsoNo };
+        // const req = { Id: this.vendorStore.curVendor.id, RSONo: this.rsoNo };
+        const req = {
+          Id: this.vendorStore.curVendor.id || this.leadId,
+          RSONo: this.rsoNo,
+        };
+        console.log(JSON.stringify(req, null, 2));
+        
         await this.vendorStore.GetAssignSalesRef(req, this.showLoading);
         this.closeModal();
       }

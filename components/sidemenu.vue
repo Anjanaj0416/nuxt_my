@@ -7,7 +7,7 @@
     ></div>
     <aside
       :class="[
-        'fixed inset-y-0 left-0 z-40 w-64 bg-gray-800 text-white shadow-lg transform transition-transform duration-300 ease-in-out',
+        'fixed inset-y-0 left-0 z-40 w-64 bg-gray-800 text-white overflow-y-auto shadow-lg transform transition-transform duration-300 ease-in-out',
         isOpen ? 'translate-x-0' : '-translate-x-full',
       ]"
       role="navigation"
@@ -51,7 +51,7 @@
           <!-- Top-level link or menu -->
           <div v-if="link.submenu">
             <div
-              @click="toggleSubmenu(link.name)"
+              @click="toggleSubmenu(link.name); "
               class="flex items-center justify-between px-4 py-2 rounded cursor-pointer hover:bg-blue-800"
             >
               <div class="flex items-center">
@@ -83,7 +83,7 @@
               <div v-for="submenu in link.submenu" :key="submenu.name">
                 <div v-if="submenu.submenu">
                   <div
-                    @click="toggleSubmenu(submenu.name)"
+                    @click="toggleSubmenu(submenu.name); $emit('close-sidebar')"
                     class="flex items-center justify-between px-3 py-2 text-gray-300 rounded cursor-pointer hover:bg-blue-800"
                   >
                     <span>{{ submenu.name }}</span>
@@ -106,6 +106,7 @@
                       :key="child.name"
                       :to="child.to"
                       class="block px-3 py-1 text-sm text-gray-400 rounded hover:text-white hover:bg-blue-700"
+                      @click.native="$emit('close-sidebar')"
                     >
                       {{ child.name }}
                     </router-link>
@@ -117,6 +118,7 @@
                   v-else
                   :to="submenu.to"
                   class="block px-3 py-2 text-gray-300 rounded hover:text-white hover:bg-blue-800"
+                  @click.native="$emit('close-sidebar')"
                 >
                   {{ submenu.name }}
                 </router-link>
@@ -129,6 +131,7 @@
             v-else
             :to="link.to"
             class="flex items-center px-4 py-2 rounded hover:bg-blue-800"
+            @click.native="$emit('close-sidebar')"
           >
             <svg
               class="w-5 h-5 mr-2"
@@ -143,6 +146,7 @@
           </router-link>
         </div>
       </nav>
+
     </aside>
   </div>
 </template>
