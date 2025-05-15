@@ -7,8 +7,9 @@
             Absence Details
           </div>
 
-          <div v-show="userStore?.loggedUser?.name === empno || userStore?.loggedUser?.granted === 'hradmin'">
-            <btnapplyleave name="Apply" title="Apply Leave" @click="applyleave" />
+          <div
+            v-show="userStore?.loggedUser?.userName === empno || userStore?.loggedUser?.granted.indexOf('hradmin') > 0">
+            <btnapplyleave name=" Apply" title="Apply Leave" @click="applyleave" />
           </div>
         </div>
 
@@ -108,10 +109,6 @@ export default {
   },
 
   computed: {
-    // ...mapState({
-    //   loggeduser: (state) => state.loggeduser,
-    //   absense: (state) => state.hr.absense,
-    // }),
     getAbsenceRowColor() {
       return (ab) => {
         try {
@@ -182,7 +179,7 @@ export default {
       this.$emit('exit');
       this.dtfrom = '';
       this.dtto = '';
-      this.hrStore.clearAbsence();
+      // this.hrStore.clearAbsence();
     },
     async applyleave() {
       let leaveYear = new Date().getFullYear()

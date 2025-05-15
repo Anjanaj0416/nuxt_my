@@ -27,12 +27,13 @@
       <div
         class="flex-col items-center hidden -my-4 lg:pt-4 lg:flex-row gap-y-4 lg:gap-y-0 gap-x-4 lg:gap-x-8 md:pt-4 md:flex-row lg:flex">
         <!-- Hide on mobile -->
-        <!-- <div v-show="userStore.loggedUser.usergroup.indexOf('Supervisor') > -1 ||
-          userStore.loggedUser.usergroup.indexOf('HRAdmin') > -1
+        <div v-show="userStore.loggedUser.userGroup === 'Supervisor' ||
+          userStore.loggedUser.userGroup === 'admin'
           ">
-          <btnwgstatus name="workgroup" :wgjobcount="dashboard.workgroupjobcount" @click="getviewwg" />
-        </div> -->
-        <!-- <img class="w-32 lg:w-40" src="~/assets/images/HR.png" alt="HR Image" /> -->
+          <!-- HRAdmin -->
+          <btnwgstatus name="workgroup" :wgjobcount="hrStore.dashboard.workgroupjobcount" @click="getviewwg" />
+        </div>
+        <img class="w-32 lg:w-40" src="~/assets/img/digitalTechLabs/DigitalTechLabsLogo.jpg" alt="HR Image" />
       </div>
     </div>
 
@@ -82,10 +83,10 @@
             </div>
           </div> -->
           <div class="flex flex-col items-center md:pt-4 md:flex-row sm:gap-y-0 lg:hidden sm:justify-start">
-            <!-- <div
-              v-show="userStore.loggedUser.usergroup.indexOf('Supervisor') > -1 || userStore.loggedUser.usergroup.indexOf('HRAdmin') > -1">
-              <btnwgstatus name="workgroup" :wgjobcount="dashboard.workgroupjobcount" @click="getviewwg" />
-            </div> -->
+            <div v-show="userStore.loggedUser.userGroup === 'Supervisor' || userStore.loggedUser.userGroup === 'admin'">
+              <!-- HRAdmin -->
+              <btnwgstatus name="workgroup" :wgjobcount="hrStore.dashboard.workgroupjobcount" @click="getviewwg" />
+            </div>
           </div>
         </div>
 
@@ -97,7 +98,7 @@
             <div class="rounded-md">
               <div class="grid grid-cols-1 text-center cssdatarow lg:grid-cols-8">
                 <div class="cssdatarowitem lg:border-0">
-                  <!-- <span class="lg:hidden ">Employee Name</span> -->
+                  <span class="lg:hidden ">Employee Name</span>
                   <div class="flex gap-x-2">
                     <!-- https://assets.dtl.lk/web/assets/HR/dtl/avator/jzwoq1xc637788970715290762.png -->
 
@@ -133,7 +134,6 @@
                 <div class="cssdatarowitem lg:border-0">
                   <span class="lg:hidden">Department</span>
                   {{ emp.department }}
-                  <!-- getDepartment(emp.department) -->
                 </div>
                 <div class="flex gap-2 cursor-pointer cssdatarowitem lg:border-0" @click="gotoUserguide">
                   <div>
@@ -161,7 +161,7 @@
 
                 <!-- Apply OT -->
                 <div
-                  v-show="!emp.isOTAllow && (userStore.loggedUser.username == emp.empno || userStore.loggedUser.userGroup == 'Supervisor' || userStore.loggedUser.userGroup?.toLowerCase() === 'admin')"
+                  v-show="!emp.isOTAllow && (userStore.loggedUser.username === emp.empno || userStore.loggedUser.userGroup === 'Supervisor' || userStore.loggedUser.userGroup?.toLowerCase() === 'admin')"
                   title="OT Apply"
                   @click="init_otapply(index); cur_sec = 'otapply'; selectedrow = emp.id; isSecClose = false;"
                   class="p-2 border-2 rounded-lg cursor-pointer hover:text-blue-800">
@@ -169,10 +169,10 @@
                 </div>
 
                 <!-- Leave Details -->
-                <div v-show="userStore.loggedUser.username == emp.empno || userStore.loggedUser.userGroup == 'hradmin' ||
+                <div v-show="userStore.loggedUser.username === emp.empno || userStore.loggedUser.userGroup === 'hradmin' ||
                   userStore.loggedUser.userGroup?.toLowerCase() === 'admin'
                   " title="Leave Details" @click="
-                    init_absense(emp.empno);
+                    init_absense(emp.empno, emp.id);
                   cur_sec = 'absense';
                   selectedrow = emp.id;
                   isSecClose = false;
@@ -181,11 +181,10 @@
                 </div>
 
                 <!-- Movement Details -->
-                <!-- .indexOf('admin') > -1 -->
-                <div v-show="userStore.loggedUser.username == emp.empno || userStore.loggedUser.userGroup === 'Supervisor' ||
+                <div v-show="userStore.loggedUser.username === emp.empno || userStore.loggedUser.userGroup === 'Supervisor' ||
                   userStore.loggedUser?.userGroup?.toLowerCase() === 'admin'
                   " title="Movement Details" @click="
-                    init_movement(emp.empno, index);
+                    init_movement(emp.empno, emp.id);//index
                   cur_sec = 'movement';
                   selectedrow = emp.id;
                   isSecClose = false;
@@ -195,7 +194,7 @@
 
                 <!-- Time Card Details -->
                 <div title="Time Card Details" @click="
-                  init_timecard(index);
+                  init_timecard(emp.empno, index);
                 cur_sec = 'timecard';
                 selectedrow = emp.id;
                 isSecClose = false;
@@ -208,7 +207,7 @@
               <!-- Card Sections -->
               <!-- View Emplyee  Details -->
 
-              <div v-show="cur_sec.toLowerCase() == 'viewemployee' &&
+              <div v-show="cur_sec.toLowerCase() === 'viewemployee' &&
                 selectedrow == emp.id &&
                 !isSecClose
                 ">
@@ -217,7 +216,7 @@
               </div>
 
               <!-- view Attendence -->
-              <div v-show="cur_sec.toLowerCase() == 'attendence' &&
+              <div v-show="cur_sec.toLowerCase() === 'attendence' &&
                 selectedrow == emp.id &&
                 !isSecClose
                 ">
@@ -226,7 +225,7 @@
               </div>
 
               <!-- view Absense -->
-              <div v-show="cur_sec.toLowerCase() == 'absense' &&
+              <div v-show="cur_sec.toLowerCase() === 'absense' &&
                 selectedrow == emp.id &&
                 !isSecClose
                 ">
@@ -235,7 +234,7 @@
               <!-- End view Absense -->
 
               <!-- view Absense Create -->
-              <div v-show="cur_sec.toLowerCase() == 'absenseapply' &&
+              <div v-show="cur_sec.toLowerCase() === 'absenseapply' &&
                 selectedrow == emp.id &&
                 !isSecClose
                 ">
@@ -246,18 +245,19 @@
               <!-- End view Absense Create -->
 
               <!-- view movement -->
-              <div v-show="cur_sec.toLowerCase() == 'movement' &&
+              <div v-show="cur_sec.toLowerCase() === 'movement' &&
                 selectedrow == emp.id &&
                 !isSecClose
                 ">
                 <movementlist ref="movement" :empno="emp.empno" @exit="exit" @movementapply="goto_movementapply" />
               </div>
 
-              <div v-show="cur_sec.toLowerCase() == 'movementapply' &&
+              <div v-show="cur_sec.toLowerCase() === 'movementapply' &&
                 selectedrow == emp.id &&
                 !isSecClose
                 ">
-                <movementcreate ref="movementapply" :empno="emp.empno" @goto_movementview="goto_movementview" />
+                <movementcreate ref="movementapply" :empno="emp.empno" :dtFrom=dtfrom :dtTo=dtto
+                  @goto_movementview="goto_movementview" />
               </div>
 
               <!-- End view movement -->
@@ -276,7 +276,7 @@
                 selectedrow == emp.id &&
                 !isSecClose
                 ">
-                <!-- <timecarddetails ref="timecardcomp" :empno="emp.empno" @exit="exit" /> -->
+                <timecarddetails ref="timecardcomp" :empno="emp.empno" @exit="exit" />
               </div>
               <!-- End Job Card Details   -->
             </div>
@@ -293,8 +293,8 @@
 
       <!--  Special Work Arrangemnt  -->
       <div>
-        <!-- <special_work_arrangement v-show="cur_sec.toLowerCase() == 'special_work_arrangement'"
-          ref="comp_special_work_arrangement" @exitpopup="exitpopup" /> -->
+        <special_work_arrangement v-show="cur_sec.toLowerCase() == 'special_work_arrangement'"
+          ref="comp_special_work_arrangement" @exitpopup="exitpopup" />
       </div>
       <!-- End  Special Work Arrangemnt  -->
 
@@ -425,55 +425,20 @@ export default {
 
     this.search_begin_DBSerach(req);
     this.assetsBaseUrl = localStorage.getItem("assetsBaseUrl");
-    // await this.getReportInitData()
-    // await this.getMovementInitData()
 
-    // if (this.userStore.loggedUser.granted.indexOf('user') > -1) {
-    //   await this.initEmployee()
-    //   if (this.userStore.loggedUser.granted.indexOf('hradmin') > -1) {
-    //     //ishradmin
-    //     await this.searchEmployees({
-    //       keyword: '',
-    //       searchby: 101,
-    //       user: this.loggeduser,
-    //     })
-    //   }
-    //   else if (this.userStore.loggedUser.usergroup == 'Supervisor') {
-    //     //isSupervisor
+    // let reqGetWorkLoadCount = {
 
-    //     await this.searchEmployees({
-    //       keyword: this.userStore.loggedUser.username,
-    //       searchby: 108,
-    //       user: this.loggeduser,
-    //     })
-    //     // isSupervisor
-
-    //     if (this.userStore.loggedUser.usergroup == 'Supervisor') {
-    //       await this.getWorkLoadCount({ user: this.loggeduser })
-    //     }
-
-    //   }
-    //   else {
-    //     //isEmployee
-    //     await this.searchEmployees({
-    //       keyword: this.userStore.loggedUser.username,
-    //       searchby: 101,
-    //       user: this.loggeduser,
-    //     })
-    //   }
-    // } else {
-    //   this.showMessage({
-    //     type: 'Failed',
-    //     message: 'Not Allowed to access this page',
-    //   })
-    //   this.$router.push('/')
-    // }
+    // };
+    await this.hrStore.getWorkLoadCount(this.showLoading);
   },
 
   methods: {
-    exit() {
+    async exit() {
       this.isSecClose = true
       this.cur_sec = ''
+
+      await this.hrStore.clearAll();
+
     },
     exitpopup() {
       this.cur_sec = ''
@@ -549,6 +514,12 @@ export default {
 
     async init_movement(empId, rowId) {
       // await this.$refs.movement[row_no].init()
+
+      this.cur_sec = 'movement'
+      this.isSecClose = true
+      this.selectedrow = rowId
+      this.isSecClose = false
+
       let req = {
         empNo: empId,
         fromDate: this.dtfrom,
@@ -557,12 +528,27 @@ export default {
       await this.hrStore.getViewMovement(req, this.showLoading);
     },
 
-    async init_timecard(row_no) {
-      await this.$refs.timecardcomp[row_no].init()
+    async init_timecard(empId, row_no) {
+      // await this.$refs.timecardcomp[row_no].init()
+
+      this.cur_sec = 'timecard'
+      this.isSecClose = true
+      this.selectedrow = row_no
+      this.isSecClose = false
+
+      let req = {
+        empNo: empId,
+      }
+      await this.hrStore.getTimeCards(req, this.showLoading);
     },
 
-    async init_absense(empNo) {
+    async init_absense(empNo, rowId) {
       // await this.$refs.absense[row_no].init()
+      this.cur_sec = 'absense'
+      this.isSecClose = true
+      this.selectedrow = rowId
+      this.isSecClose = false
+
       const currentYear = new Date().getFullYear();
       let req = {
         empNo: empNo,
