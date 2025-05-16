@@ -20,7 +20,7 @@
               <input
                 type="text"
                 v-model="addLeads.companyName"
-                placeholder="Enter companyName"
+                placeholder="Enter company Name"
                 required
                 class="w-full p-2 mt-2 text-sm border rounded-md focus:ring-indigo-500 focus:border-indigo-500"
               />
@@ -41,6 +41,19 @@
               />
               <p v-if="err.shopAddress1" class="mt-2 text-sm text-red-600">
                 {{ err.shopAddress1 }}
+              </p>
+            </div>
+            <div class="">
+              <label class="block text-sm font-bold text-gray-600">Address Line 2</label>
+              <input
+                type="text"
+                v-model="addLeads.shopAddress2"
+                placeholder="Enter Address Line 2"
+                required
+                class="w-full p-2 mt-2 text-sm border rounded-md focus:ring-indigo-500 focus:border-indigo-500"
+              />
+              <p v-if="err.shopAddress2" class="mt-2 text-sm text-red-600">
+                {{ err.shopAddress2}}
               </p>
             </div>
             <div class="">
@@ -73,31 +86,31 @@
               </p> -->
             </div>
             <div class="">
-              <label class="block text-sm font-bold text-gray-600">Contact Number 1</label>
+              <label class="block text-sm font-bold text-gray-600">Contact Number</label>
               <input
                 type="tel"
-                v-model="addLeads.contactNo1 "
+                v-model="addLeads.contactNo"
                 :maxlength="10"
                 placeholder="Enter Contact Number"
                 maxlength="10"
                 class="w-full p-2 mt-2 text-sm border rounded-md focus:ring-indigo-500 focus:border-indigo-500"
               />
-              <p v-if="err.contactNo1 " class="mt-2 text-sm text-red-600">
-                {{ err.contactNo1  }}
+              <p v-if="err.contactNo" class="mt-2 text-sm text-red-600">
+                {{ err.contactNo }}
               </p>
             </div>
             <div class="">
-              <label class="block text-sm font-bold text-gray-600">Contact Number 2</label>
+              <label class="block text-sm font-bold text-gray-600">Mobile Number</label>
               <input
                 type="text"
-                v-model="addLeads.contactNo2"
+                v-model="addLeads.mobileNo"
                 :maxlength="10"
-                placeholder="Enter contactNo2"
+                placeholder="Enter MobileNo"
                 class="w-full p-2 mt-2 text-sm border rounded-md focus:ring-indigo-500 focus:border-indigo-500"
                 required
               />
-              <p v-if="err.contactNo2" class="mt-2 text-sm text-red-600">
-                {{ err.contactNo2 }}
+              <p v-if="err.mobileNo" class="mt-2 text-sm text-red-600">
+                {{ err.mobileNo }}
               </p>
             </div>
             <div class="">
@@ -155,14 +168,14 @@
           </div>
 
           <hr class="my-4" />
-          <h3 class="mt-4 font-bold">Other Information</h3>
+          <h3 class="mt-4 font-bold">Person Information</h3>
           <div class="grid grid-cols-2 gap-4 mt-4 mb-36 sm:grid-cols-2 md:grid-cols-3 sm:mb-0">
             <div class="">
-              <label class="block text-sm font-bold text-gray-600">Contact Person Name </label>
+              <label class="block text-sm font-bold text-gray-600">Name</label>
               <input
                 type="text"
                 v-model="addLeads.contactPersonName"
-                placeholder="Enter Contact Person Name"
+                placeholder="Enter Name"
                 required
                 class="w-full p-2 mt-2 text-sm border rounded-md focus:ring-indigo-500 focus:border-indigo-500"
               />
@@ -186,12 +199,12 @@
             </div>
 
             <div class="">
-              <label class="block text-sm font-bold text-gray-600">Person Contact Number 1</label>
+              <label class="block text-sm font-bold text-gray-600">Contact Number</label>
               <input
                 type="text"
                 v-model="addLeads.personContactNumber1"
                 :maxlength="10"
-                placeholder="Person Contact Number 1"
+                placeholder="Enter Contact Number"
                 required
                 class="w-full p-2 mt-2 text-sm border rounded-md focus:ring-indigo-500 focus:border-indigo-500"
               />
@@ -200,25 +213,25 @@
               </p>
             </div>
             <div class="">
-              <label class="block text-sm font-bold text-gray-600">Person Contact Number 2</label>
+              <label class="block text-sm font-bold text-gray-600">Mobile Number</label>
               <input
                 type="text"
-                v-model="addLeads.personContactNumber2"
+                v-model="addLeads.personMobileNo"
                 :maxlength="10"
-                placeholder="Enter Person Contact Number 2"
+                placeholder="Enter Mobile Number"
                 required
                 class="w-full p-2 mt-2 text-sm border rounded-md focus:ring-indigo-500 focus:border-indigo-500"
               />
-              <p v-if="err.personContactNumber2" class="mt-2 text-sm text-red-600">
-                {{ err.personContactNumber2 }}
+              <p v-if="err.personMobileNo" class="mt-2 text-sm text-red-600">
+                {{ err.personMobileNo }}
               </p>
             </div>
             <div class="">
-              <label class="block text-sm font-bold text-gray-600">Person Email Address</label>
+              <label class="block text-sm font-bold text-gray-600">Email</label>
               <input
                 type="text"
                 v-model="addLeads.personEmailAddress"
-                placeholder="Enter Person Email Address"
+                placeholder="Enter Email"
                 required
                 class="w-full p-2 mt-2 text-sm border rounded-md focus:ring-indigo-500 focus:border-indigo-500"
               />
@@ -261,10 +274,11 @@ export default {
       addLeads : {
         companyName: "",
         shopAddress1: "",
+        shopAddress2: "",
         district: "",
         city: "",
         contactNo1: "",
-        contactNo2: "",
+        mobileNo: "",
         email: "",
         web:"",
         businessType: "",
@@ -272,7 +286,7 @@ export default {
         contactPersonName: "",
         designation: "",
         personContactNumber1: "",
-        personContactNumber2: "",
+        personMobileNo: "",
         personEmailAddress: ""
       },
       err: {},
@@ -327,7 +341,7 @@ export default {
     this.vendorStore = useVendorStore();
     this.userStore = useUserStore();
    // this.addLeads   = this.vendorStore.addLeads  ;
-   console.log(JSON.stringify(this.addLeads ));
+    console.log(JSON.stringify(this.addLeads ));
     this.imageroot = this.userStore.loggedUser.resourceURLRoot;
     this.showLoading = this.$showLoading;
   },
@@ -372,98 +386,102 @@ export default {
 
       let IsValidate = true;
 
-      if (!this.addLeads  .businessType) {
-        this.err.businessType = "Please enter Business Type!";
+      if (!this.addLeads.businessType) {
+        this.err.businessType = "Please Enter Business Type!";
         IsValidate = false;
       }
-      if (!this.addLeads  .businessRegNum) {
-        this.err.businessRegNum = "Please enter Business Registration Number!";
+      if (!this.addLeads.businessRegNum) {
+        this.err.businessRegNum = "Please Enter Business Registration Number!";
         IsValidate = false;
       }
-      if (!this.addLeads  .email) {
-        this.err.email = "Please enter an Email!";
+      if (!this.addLeads.email) {
+        this.err.email = "Please Enter an Email!";
         IsValidate = false;
       } else {
         const EmailRegex = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
-        if (!EmailRegex.test(this.addLeads  .email)) {
-          this.err.email = "Please enter a valid Email address!";
+        if (!EmailRegex.test(this.addLeads.email)) {
+          this.err.email = "Please Enter a valid Email address!";
           IsValidate = false;
         }
       }
-      if (!this.addLeads  .companyName) {
-        this.err.companyName = "Please enter Company Name!";
+      if (!this.addLeads.companyName) {
+        this.err.companyName = "Please Enter Company Name!";
         IsValidate = false;
       }
-      if (!this.addLeads  .contactNo1 ) {
-        this.err.contactNo1  = "Please enter Contact Number!";
+      if (!this.addLeads.contactNo) {
+        this.err.contactNo = "Please Enter Contact Number!";
         IsValidate = false;
       } else {
         const contactNoRegex = /^[0-9]{10}$/;
-        if (!contactNoRegex.test(this.addLeads  .contactNo1 )) {
-          this.err.contactNo1  =
-            "Please enter a valid 10-digit contact number!";
+        if (!contactNoRegex.test(this.addLeads .contactNo)) {
+          this.err.contactNo =
+            "Please Enter a valid 10-digit contact number!";
           IsValidate = false;
         }
       }
-      if (!this.addLeads  .shopAddress1) {
-        this.err.shopAddress1 = "Please enter Address1!";
+      if (!this.addLeads.shopAddress1) {
+        this.err.shopAddress1 = "Please Enter Address 1!";
+        IsValidate = false;
+      }
+      if (!this.addLeads.shopAddress2) {
+        this.err.shopAddress2 = "Please Enter Address 2!";
         IsValidate = false;
       }
       // if (!this.addLeads  .district) {
-      //   this.err.district = "Please enter District!";
+      //   this.err.district = "Please Enter District!";
       //   IsValidate = false;
       // }
       // if (!this.addLeads  .city) {
-      //   this.err.city = "Please enter City!";
+      //   this.err.city = "Please Enter City!";
       //   IsValidate = false;
       // }
-      if (!this.addLeads  .contactNo2) {
-        this.err.contactNo2 = "Please enter contactNo2 Number!";
+      if (!this.addLeads.mobileNo) {
+        this.err.mobileNo = "Please Enter mobile Number!";
         IsValidate = false;
       } else {
         const contactNoRegex1 = /^[0-9]{10}$/;
-        if (!contactNoRegex1.test(this.addLeads  .contactNo2)) {
-          this.err.contactNo2v = "Please enter a valid 10-digit contact number!";
+        if (!contactNoRegex1.test(this.addLeads.mobileNo)) {
+          this.err.mobileNov = "Please Enter a valid 10-digit Mobile Number!";
           IsValidate = false;
         }
       }
-      if (!this.addLeads  .web) {
-        this.err.web = "Please enter Website!";
+      if (!this.addLeads.web) {
+        this.err.web = "Please Enter Website!";
         IsValidate = false;
       }
-      if (!this.addLeads  .personEmailAddress) {
-        this.err.personEmailAddress = "Please enter Person Email Address!";
+      if (!this.addLeads.personEmailAddress) {
+        this.err.personEmailAddress = "Please Enter Email Address!";
         IsValidate = false;
       }
 
       // Other information validation
-      if (!this.addLeads  .contactPersonName) {
-        this.err.contactPersonName = "Please enter Bank Name!";
+      if (!this.addLeads.contactPersonName) {
+        this.err.contactPersonName = "Please Enter Name!";
         IsValidate = false;
       }
-      if (!this.addLeads  .designation ) {
-        this.err.designation  = "Please enter designation !";
+      if (!this.addLeads.designation ) {
+        this.err.designation  = "Please Enter Designation !";
         IsValidate = false;
       }
 
-      if (!this.addLeads  .personContactNumber1) {
-        this.err.personContactNumber1 = "Please enter Person contactNo1  Number!";
+      if (!this.addLeads.personContactNumber1) {
+        this.err.personContactNumber1 = "Please Enter Contact Number!";
         IsValidate = false;
       } else {
         const contactNoRegex1 = /^[0-9]{10}$/;
-        if (!contactNoRegex1.test(this.addLeads  .personContactNumber1)) {
-          this.err.personContactNumber1 = "Please enter a valid 10-digit contact number!";
+        if (!contactNoRegex1.test(this.addLeads.personContactNumber1)) {
+          this.err.personContactNumber1 = "Please Enter a valid 10-digit Contact Number!";
           IsValidate = false;
         }
       }
 
-      if (!this.addLeads  .personContactNumber2) {
-        this.err.personContactNumber2 = "Please enter Person contactNo2 Number!";
+      if (!this.addLeads.personMobileNo) {
+        this.err.personMobileNo = "Please Enter Mobile Number!";
         IsValidate = false;
       } else {
         const contactNoRegex1 = /^[0-9]{10}$/;
-        if (!contactNoRegex1.test(this.addLeads  .personContactNumber2)) {
-          this.err.personContactNumber2 = "Please enter a valid 10-digit contact number!";
+        if (!contactNoRegex1.test(this.addLeads.personMobileNo)) {
+          this.err.personMobileNo = "Please Enter a valid 10-digit Mobile Number!";
           IsValidate = false;
         }
       }
@@ -500,8 +518,8 @@ export default {
   height: 100%;
   background: rgba(0, 0, 0, 0.5);
   display: flex;
-  justify-content: center;
-  align-items: center;
+  justify-content: cEnter;
+  align-items: cEnter;
   z-index: 9999;
 }
 
@@ -521,7 +539,7 @@ export default {
   padding: 15px;
   display: flex;
   justify-content: space-between;
-  align-items: center;
+  align-items: cEnter;
   color: white;
 }
 

@@ -208,21 +208,20 @@
 
                     <!-- Remove Button -->
                     <div class="flex items-center justify-center">
-                    
-                       <div class="text-center">
-          <button
-            type="button"
-            @click="GetRemoveRow(index)"
-            class="text-red-600 hover:text-red-800"
-            title="Remove"
-          >
-            <!-- Trash icon (Heroicons) -->
-            <svg xmlns="http://www.w3.org/2000/svg" class="w-4 h-4 mx-auto" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6M9 7h6m-6 0V5a1 1 0 011-1h4a1 1 0 011 1v2" />
-            </svg>
-          </button>
-        </div>
+                      <div class="text-center">
+                        <button
+                          type="button"
+                          @click="GetRemoveRow(index)"
+                          class="text-red-600 hover:text-red-800"
+                          title="Remove"
+                        >
+                          <!-- Trash icon (Heroicons) -->
+                          <svg xmlns="http://www.w3.org/2000/svg" class="w-4 h-4 mx-auto" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                              d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6M9 7h6m-6 0V5a1 1 0 011-1h4a1 1 0 011 1v2" />
+                          </svg>
+                        </button>
+                      </div>
                     </div>
                   </div>
                   </div>
@@ -241,13 +240,12 @@
             </p>
           </div>
 
-          <!-- show the instalment -->
+
           <!-- Input for adding installments -->
         <div>
-          <div class="flex flex-col justify-between gap-6 mt-8 md:flex-row">
-            <!-- Left Side: Installment Count Input -->
-            <div class="flex-1">
-              <label class="block mb-1 text-sm font-bold text-gray-600">Installments</label>
+          <div class="grid grid-cols-2 gap-4 my-4">
+            <div>
+              <label class="block text-sm font-bold text-gray-600">Select Product Category</label>
               <input
                 v-model.number="quotation.installment"
                 type="number"
@@ -256,16 +254,17 @@
                 placeholder="Enter number of installments"
                 @change="AddInstallments"
                 required
-                class="p-2 text-sm border rounded-md w-20s focus:ring-indigo-500 focus:border-blue-500"
+                class="w-full p-2 my-2 text-sm border rounded-md focus:ring-indigo-500 focus:border-blue-500"
               />
             </div>
+          </div>
 
-            <!-- Right Side: Installment List -->
-            <div class="w-full md:w-1/3 bg-white rounded-lg shadow-sm dark:bg-gray-100 border dark:border-gray-300 overflow-y-auto max-h-[300px]">
+          <div>
+            <div class="w-full md:w-1/3 bg-white rounded-lg  dark:bg-gray-100  dark:border-gray-300 overflow-y-auto max-h-[300px]">
               <div
                 v-for="(item, index) in listInstallmentDetails"
                 :key="index"
-                class="grid items-center grid-cols-3 px-2 py-2 text-xs text-gray-700 border-t border-gray-200 hover:bg-gray-50"
+                class="grid items-center grid-cols-3 px-2 py-2 text-xs text-gray-700 border border-t border-gray-200 shadow-sm hover:bg-gray-50"
               >
                 <!-- Installment label -->
                 <div class="truncate">{{ item.installment }}</div>
@@ -499,25 +498,21 @@ export default {
     },
 
     updateTotalPrice(index) {
-      const packageItem = this.selectedPackages[index];
+      const orderItem = this.quotation.listOrderItem[index];
 
-      // Ensure the discount is a valid number
-      let discount = parseFloat(packageItem.discount);
-      if (isNaN(discount)) discount = 0; // If discount is not a valid number, default to 0.
+      let discount = parseFloat(orderItem.discount);
+      if (isNaN(discount)) discount = 0;
 
-      // Parse the price (if it's a string, remove any non-numeric characters, like '$')
-      let price = parseFloat(
-        packageItem.displayPrice.replace(/[^0-9.-]+/g, "")
-      );
-      if (isNaN(price)) price = 0; // If price is invalid, set to 0.
+      let unitPrice = parseFloat(orderItem.unitPrice);
+      if (isNaN(unitPrice)) unitPrice = 0;
 
-      // Calculate the discount amount
-      const discountAmount = price * (discount / 100);
-      const totalPrice = price - discountAmount;
-      console.log("totalPrice:", totalPrice);
+      let qty = parseInt(orderItem.qty);
+      if (isNaN(qty)) qty = 1;
 
-      // Update the total price
-      packageItem.totalPrice = totalPrice.toFixed(2);
+      const discountAmount = (unitPrice * qty) * (discount / 100);
+      const totalPrice = (unitPrice * qty) - discountAmount;
+
+      orderItem.total = totalPrice.toFixed(2);
     },
   
 
