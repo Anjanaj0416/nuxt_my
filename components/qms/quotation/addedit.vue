@@ -53,9 +53,9 @@
               :arrItems="quotationStore.initQuotation.listDistricts"
               @GetSelectedIds="GetSelectedOtherDistrictIds"
             />
-            <!-- <p v-if="err.listDistricts" class="mt-2 text-xs text-red-500">
+            <p v-if="err.listDistricts" class="mt-2 text-xs text-red-500">
               {{ err.listDistricts }}
-            </p> -->
+            </p>
           </div>
           <div class="grid grid-cols-2 my-4">
             <div>
@@ -183,8 +183,12 @@
                         placeholder="In Rupees"
                         v-model="orderItem.qty"
                         @input="updateTotalPrice(index)"
+
                       />
                     </div>
+                    <!-- <span class="mt-1 text-xs text-blue-600">
+                      {{ orderItem.qty}} 
+                        </span> -->
 
                     <!-- Discount Input -->
                     <div class="flex flex-col items-center justify-center">
@@ -196,6 +200,7 @@
                         placeholder="In Rupeesdds"
                         v-model="orderItem.discount"
                         @input="updateTotalPrice(index)"
+
                       />
                       <!-- @input="updateTotalPrice(index)" -->
                     </div>
@@ -204,6 +209,7 @@
                     <div class="flex items-center justify-center">
                       <p class="mr-2 sm:hidden">Total:</p>
                       <strong>{{ this.$myUtility.toLKR(orderItem.total) }}</strong>
+
                     </div>
 
                     <!-- Remove Button -->
@@ -260,7 +266,7 @@
           </div>
 
           <div>
-            <div class="w-full md:w-1/3 bg-white rounded-lg  dark:bg-gray-100  dark:border-gray-300 overflow-y-auto max-h-[300px]">
+            <div class="w-full md:w-2/4 bg-white rounded-lg  dark:bg-gray-100  dark:border-gray-300 overflow-y-auto max-h-[300px]">
               <div
                 v-for="(item, index) in listInstallmentDetails"
                 :key="index"
@@ -380,6 +386,7 @@ export default {
         netTotal: 0,
         installment:1,
         listInstallment:[],
+        totalAmount: 0,
       },
 
       listInstallmentDetails:[],
@@ -418,6 +425,7 @@ export default {
       this.err.mainDistrictId = '';
     },
     GetSelectedOtherDistrictIds(listIds) {
+      this.selectedListDistricts = listIds;
       if (listIds.length < this.quotationStore.initQuotation.noOfMaxDistricts) {
         this.quotation.listAdditionalDistricts = listIds;
         this.err.listDistricts = '';
@@ -473,47 +481,87 @@ export default {
     //this.clearerr();
       //this.closeModal();
     },
+    // AddInstallments() {
+    //   if (!this.quotation.installment || this.quotation.installment <= 0 )
+    //   { 
+    //     this.$showCustomToast('Invalid Installment!', 'error', 3000); 
+    //     return;
+    //   }
+    //   if(this.quotation.installment >3){
+    //     this.$showCustomToast('Maximum three Installment allowed !', 'error', 3000); 
+    //     return;
+    //   }
+
+    //   this.listInstallmentDetails = [];
+
+    //   for (let i = 1; i <= this.quotation.installment; i++) {
+    //     this.listInstallmentDetails.push({
+    //       installment: `Installment ${i}`,
+    //       fee: 0
+    //     });
+    //     this.quotation.listInstallment = this.listInstallmentDetails;
+    //   }
+    // },
     AddInstallments() {
-      if (!this.quotation.installment || this.quotation.installment <= 0 )
-      { 
-        this.$showCustomToast('Invalid Installment!', 'error', 3000); 
+      const n = this.quotation.installment;
+      const total = Number(this.quotation.totalAmount);
+      console.log(total);
+
+      if (!n || n <= 0) {
+        this.$showCustomToast('Invalid Installment!', 'error', 3000);
         return;
       }
-      if(this.quotation.installment >3){
-        this.$showCustomToast('Maximum three Installment allowed !', 'error', 3000); 
+
+      if (n > 3) {
+        this.$showCustomToast('Maximum three Installments allowed!', 'error', 3000);
+        return;
+      }
+
+      if (!total || total <= 0) {
+        this.$showCustomToast('Total amount not available or invalid.', 'error', 3000);
         return;
       }
 
       this.listInstallmentDetails = [];
 
-      for (let i = 1; i <= this.quotation.installment; i++) {
-      this.listInstallmentDetails.push({
-        installment: `Installment ${i}`,
-        fee: 0
-      });
-    }
-      },
+      const perInstallment = Math.floor(total / n);
+      const remainder = total % n;
+
+      for (let i = 1; i <= n; i++) {
+        this.listInstallmentDetails.push({
+          installment: `Installment ${i}`,
+          fee: i === 1 ? perInstallment + remainder : perInstallment,
+        });
+      }
+
+      this.quotation.listInstallment = this.listInstallmentDetails;
+    },
+
+    //////////////////
+
     RemoveInstallment(index) {
       this.listInstallmentDetails.splice(index, 1);
     },
 
     updateTotalPrice(index) {
-      const orderItem = this.quotation.listOrderItem[index];
+      const item = this.quotation.listOrderItem[index];
+      const qty = Number(item.qty) || 0;
+      const price = Number(item.unitPrice) || 0;
+      const discount = Number(item.discount) || 0;
 
-      let discount = parseFloat(orderItem.discount);
-      if (isNaN(discount)) discount = 0;
+      let total = qty * price * (1 - discount / 100);
+      if (total < 0) total = 0;
 
-      let unitPrice = parseFloat(orderItem.unitPrice);
-      if (isNaN(unitPrice)) unitPrice = 0;
-
-      let qty = parseInt(orderItem.qty);
-      if (isNaN(qty)) qty = 1;
-
-      const discountAmount = (unitPrice * qty) * (discount / 100);
-      const totalPrice = (unitPrice * qty) - discountAmount;
-
-      orderItem.total = totalPrice.toFixed(2);
+      item.total = total;
+      console.log(total);
+      
     },
+
+
+
+  GetRemoveRow(index) {
+    this.quotation.listOrderItem.splice(index, 1);
+  },
   
 
 
@@ -535,12 +583,10 @@ export default {
 
       // Check Other Districts (max 4 including main)
       if (!this.selectedListDistricts || this.selectedListDistricts.length === 0) {
-        this.err.listDistricts = "Please select at least one district!";
-        isValidated = false;
-      } else if (this.selectedListDistricts.length > 4) {
-        this.err.listDistricts = "You can select a maximum of 4 districts including the main district!";
+        this.err.listDistricts = "Please select at least one district before submitting.";
         isValidated = false;
       }
+
 
       // Check Product Category
       if (!this.curProductCategory) {
@@ -555,10 +601,11 @@ export default {
       }
 
       // Installment validation
-      if (!this.quotation.listInstallment || this.quotation.listInstallment.length === 0) {
+      if (!this.listInstallmentDetails || this.listInstallmentDetails.length === 0) {
         this.err.installmentError = "Please add at least one installment!";
         isValidated = false;
       }
+
 
       return isValidated;
     },

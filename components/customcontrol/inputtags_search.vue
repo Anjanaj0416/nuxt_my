@@ -68,22 +68,39 @@ export default {
     resetItems() {
      
     },
-    addItem(id) {
+    // addItem(id) {
       
+    //   var index = this.arrSelectedItems.findIndex((o) => o.id === id);
+
+    //   if (index == -1) {
+    //     let selected_item = this.arrItems.filter((item) => {
+    //       return item.id == id;
+    //     })[0];
+
+    //     this.arrSelectedItems.push(selected_item);
+    //     this.arrSelectedIDs.push(selected_item.id);
+       
+    //     this.$emit("GetSelectedIds",  this.arrSelectedIDs.slice());
+    //   } else {
+     
+    //      this.$showAlert("Item Already Exisits!", "error");
+    //   }
+    // },
+    addItem(id) {
+      if (this.arrSelectedItems.length >= 4) {
+        this.$showAlert("Maximum 4 districts can be selected!", "error");
+        return;
+      }
+
       var index = this.arrSelectedItems.findIndex((o) => o.id === id);
-
       if (index == -1) {
-        let selected_item = this.arrItems.filter((item) => {
-          return item.id == id;
-        })[0];
-
+        let selected_item = this.arrItems.find((item) => item.id == id);
         this.arrSelectedItems.push(selected_item);
         this.arrSelectedIDs.push(selected_item.id);
-       
-        this.$emit("GetSelectedIds",  this.arrSelectedIDs.slice());
+        this.$emit("GetSelectedIds", this.arrSelectedIDs.slice());
       } else {
-     
-         this.$showAlert("Item Already Exisits!", "error");
+        this.$showAlert("Oops! You’ve already selected this district.", "error");
+
       }
     },
     GetDeleteTag(id) {
