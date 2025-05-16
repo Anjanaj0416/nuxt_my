@@ -261,6 +261,9 @@ export default {
 
     async setApplyOT() {
       this.oTPreApprovalRequest.empno = this.empno
+      this.dtfrom = this.$refs.datediffRef.dtfrom;
+      this.dtto = this.$refs.datediffRef.dtto;
+
       if (this.validate()) {
         if (confirm('Sure to apply this OT Pre-Approval?')) {
           let req = {
@@ -270,13 +273,16 @@ export default {
             OTTo: this.oTPreApprovalRequest.OTTo,
             OTHour: this.oTPreApprovalRequest.otHour,
             Reason: this.oTPreApprovalRequest.Reason,
-            // FromDate: fromDate,
-            // ToDate: toDate,
+            FromDate: this.dtfrom,
+            ToDate: this.dtto,
+            Note: "OTBtn"
           }
           await this.hrStore.setOTApproval(req, this.showLoading)
         }
         this.oTPreApprovalRequest.OTFrom = ''
+
         this.oTPreApprovalRequest.OTTo = ''
+        this.oTPreApprovalRequest = {}
       }
     },
 
@@ -287,12 +293,14 @@ export default {
         }
         await this.hrStore.setDeleteOTApproval(req, this.showLoading);
 
+        this.dtfrom = this.$refs.datediffRef.dtfrom;
+        this.dtto = this.$refs.datediffRef.dtto;
+
         let reqSetDeleteOTApproval = {
           empNo: this.empno,
           fromDate: this.dtfrom,
           toDate: this.dtto,
         };
-
         await this.hrStore.getOTApprovals(reqSetDeleteOTApproval, this.showLoading);
       }
     },

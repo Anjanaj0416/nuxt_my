@@ -317,13 +317,24 @@ export const useHrStore = defineStore('hrStore', {
         console.log("response:",response);   
         if (response.data.isSuccess) { 
 
-          const attendenceReq = {
-            EmpNo: req.EmpNo,
-            FromDate: req.FromDate,
-            ToDate: req.ToDate
-          };
-          await this.getAttendenceByEmp(attendenceReq, showLoading);
-          
+          if (req.Note) {
+            const reqGetOTApprovals = {
+              empNo: req.EmpNo,
+              fromDate: req.FromDate,
+              toDate: req.ToDate
+            };
+            
+            this.OTApllyDetails.ot_hours = 0;
+            await this.getOTApprovals(reqGetOTApprovals, showLoading);
+
+          } else {
+            const attendenceReq = {
+              EmpNo: req.EmpNo,
+              FromDate: req.OTFrom,
+              ToDate: req.OTTo
+            };
+            await this.getAttendenceByEmp(attendenceReq, showLoading);
+          }
           // this.showToast('OT apply successful!', 'success'); 
        }
        else{
@@ -334,7 +345,7 @@ export const useHrStore = defineStore('hrStore', {
         
       } catch (error) {
         console.error('Loading error:', error);
-        this.showToast(error.response.data.Message, 'error'); 
+        // this.showToast(error.response.data.Message, 'error'); 
       }
       loadingAlert.close();
     },
@@ -356,7 +367,7 @@ export const useHrStore = defineStore('hrStore', {
         
       } catch (error) {
         console.error('Loading error:', error);
-        this.showToast(error.response.data.Message, 'error'); 
+        // this.showToast(error.response.data.Message, 'error'); 
       }
       loadingAlert.close();
     },
