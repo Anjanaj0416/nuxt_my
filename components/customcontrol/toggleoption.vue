@@ -12,19 +12,22 @@
         @change="onToggle"
         class="sr-only"
       />
+      <!-- Background -->
       <div
-        class="block bg-gray-300 w-14 h-8 rounded-full"
-        :class="{ 'bg-blue-500': modelValue }"
+        class="block w-10 h-5 transition-colors duration-300 rounded-full"
+        :class="modelValue ? 'bg-blue-900' : 'bg-gray-300'"
       ></div>
+      <!-- Toggle Dot -->
       <div
-        class="dot absolute left-1 top-1 bg-white w-6 h-6 rounded-full transition"
-        :class="{ 'translate-x-6': modelValue }"
+        class="dot absolute left-0.5 top-0.5 bg-white w-4 h-4 rounded-full shadow-md transition-transform duration-300"
+        :class="{ 'translate-x-5': modelValue }"
       ></div>
     </div>
-    <div class="ml-3 text-gray-700 font-medium">
-      {{ modelValue ? 'On' : 'Off' }}
+    <div class="ml-2 text-sm font-medium text-gray-600">
+      {{ modelValue ? 'Active' : 'Inactive' }}
     </div>
   </label>
+
 </template>
 
 <script setup>
