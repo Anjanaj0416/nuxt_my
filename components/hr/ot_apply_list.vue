@@ -229,36 +229,6 @@ export default {
       // this.getTot_OT_Hours()
     },
 
-    validate() {
-      if (this.oTPreApprovalRequest.date == '') {
-        this.show_error('Invalid Date')
-        return false
-      }
-
-      if (this.oTPreApprovalRequest.OTFrom == '') {
-        this.show_error('Invalid OT From Time')
-        return false
-      }
-
-      if (this.oTPreApprovalRequest.OTTo == '') {
-        this.show_error('Invalid OT To Time')
-        return false
-      }
-
-      if (this.oTPreApprovalRequest.Reason == '') {
-        this.show_error('Invalid Nature Of Work')
-        return false
-      }
-
-      return true
-    },
-    show_error(msg) {
-      this.showMessage({
-        type: 'Failed',
-        message: msg,
-      })
-    },
-
     async setApplyOT() {
       this.oTPreApprovalRequest.empno = this.empno
       this.dtfrom = this.$refs.datediffRef.dtfrom;
@@ -279,9 +249,6 @@ export default {
           }
           await this.hrStore.setOTApproval(req, this.showLoading)
         }
-        this.oTPreApprovalRequest.OTFrom = ''
-
-        this.oTPreApprovalRequest.OTTo = ''
         this.oTPreApprovalRequest = {}
       }
     },
@@ -327,6 +294,36 @@ export default {
       } catch {
         this.Tot_OT_Hours = 0.00
       }
+    },
+
+    validate() {
+      if (this.oTPreApprovalRequest.date == '') {
+        this.show_error('Invalid Date')
+        return false
+      }
+
+      if (this.oTPreApprovalRequest.OTFrom == '') {
+        this.show_error('Invalid OT From Time')
+        return false
+      }
+
+      if (this.oTPreApprovalRequest.OTTo == '') {
+        this.show_error('Invalid OT To Time')
+        return false
+      }
+
+      if (this.oTPreApprovalRequest.Reason == '') {
+        this.show_error('Invalid Nature Of Work')
+        return false
+      }
+
+      return true
+    },
+    show_error(msg) {
+      this.showMessage({
+        type: 'Failed',
+        message: msg,
+      })
     },
   },
 }
