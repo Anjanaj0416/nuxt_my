@@ -163,7 +163,7 @@
                 <div
                   v-show="!emp.isOTAllow && (userStore.loggedUser.username === emp.empno || userStore.loggedUser.userGroup === 'Supervisor' || userStore.loggedUser.userGroup?.toLowerCase() === 'admin')"
                   title="OT Apply"
-                  @click="init_otapply(index); cur_sec = 'otapply'; selectedrow = emp.id; isSecClose = false;"
+                  @click="init_otapply(index, emp.empno); cur_sec = 'otapply'; selectedrow = emp.id; isSecClose = false;"
                   class="p-2 border-2 rounded-lg cursor-pointer hover:text-blue-800">
                   Apply OT
                 </div>
@@ -565,8 +565,14 @@ export default {
       this.cur_sec = 'absenseapply'
     },
 
-    async init_otapply(row_no) {
-      // await this.$refs.otapply[row_no].init()
+    async init_otapply(row_no, empno) {
+      let req = {
+        empNo: empno,
+        fromDate: this.dtfrom,
+        toDate: this.dtto,
+      }
+
+      await this.hrStore.getOTApprovals(req, this.showLoading);
     },
 
     async goto_movementapply() {

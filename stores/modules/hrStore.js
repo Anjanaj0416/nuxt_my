@@ -96,6 +96,7 @@ export const useHrStore = defineStore('hrStore', {
       ]
     },
     OTApllyDetails: {
+      arrOTApply:[],
       ot_hours: 0,
     },
     absense: {
@@ -130,6 +131,7 @@ export const useHrStore = defineStore('hrStore', {
       this.absense.arrabsences = [];
       this.movement.arrmovements = [];
       this.timecard.arrtimecard = [];
+      this.OTApllyDetails.arrOTApply = [];
     },
 
     async otCancel(){
@@ -261,6 +263,29 @@ export const useHrStore = defineStore('hrStore', {
       loadingAlert.close();
     },
 
+    async getOTApprovals(req,showLoading) {
+      const loadingAlert = showLoading(''); 
+      try {
+        console.log("req:",req);   
+        const response = await axios.get(`${import.meta.env.VITE_API_URL}/hr/Attendance/GetOTApprovals`, {params: { EmpNo: req.empNo, DtFrom: req.fromDate, DtTo: req.toDate}});   
+        console.log("response:",response);   
+        if (response.data.isSuccess) {    
+          this.OTApllyDetails.arrOTApply = response.data.data.data || [];
+          this.showToast('Loading successful!', 'success'); 
+       }
+       else{
+        console.error('Loading error:', response.data.message);       
+        // this.showToast(response.data.message, 'error'); 
+       }
+       
+        
+      } catch (error) {
+        console.error('Loading error:', error);
+        this.showToast(error.response.data.Message, 'error'); 
+      }
+      loadingAlert.close();
+    },
+
     async setOTManual(req,showLoading) {
       const loadingAlert = showLoading(''); 
       try {
@@ -292,13 +317,24 @@ export const useHrStore = defineStore('hrStore', {
         console.log("response:",response);   
         if (response.data.isSuccess) { 
 
-          const attendenceReq = {
-            EmpNo: req.EmpNo,
-            FromDate: req.FromDate,
-            ToDate: req.ToDate
-          };
-          await this.getAttendenceByEmp(attendenceReq, showLoading);
-          
+          if (req.Note) {
+            const reqGetOTApprovals = {
+              empNo: req.EmpNo,
+              fromDate: req.FromDate,
+              toDate: req.ToDate
+            };
+            
+            this.OTApllyDetails.ot_hours = 0;
+            await this.getOTApprovals(reqGetOTApprovals, showLoading);
+
+          } else {
+            const attendenceReq = {
+              EmpNo: req.EmpNo,
+              FromDate: req.OTFrom,
+              ToDate: req.OTTo
+            };
+            await this.getAttendenceByEmp(attendenceReq, showLoading);
+          }
           // this.showToast('OT apply successful!', 'success'); 
        }
        else{
@@ -309,7 +345,29 @@ export const useHrStore = defineStore('hrStore', {
         
       } catch (error) {
         console.error('Loading error:', error);
-        this.showToast(error.response.data.Message, 'error'); 
+        // this.showToast(error.response.data.Message, 'error'); 
+      }
+      loadingAlert.close();
+    },
+
+    async setDeleteOTApproval(req,showLoading) {
+      const loadingAlert = showLoading(''); 
+      try {
+        console.log("req:",req);   
+        const response = await axios.get(`${import.meta.env.VITE_API_URL}/hr/Attendance/SetDeleteOTApproval`, {params: {Id: req.id}});   
+        console.log("response:",response);   
+        if (response.data.isSuccess) { 
+          // this.showToast(response.data.message, 'success'); 
+       }
+       else{
+        console.error('Loading error:', response.data.message);       
+        // this.showToast(response.data.message, 'error'); 
+       }
+       
+        
+      } catch (error) {
+        console.error('Loading error:', error);
+        // this.showToast(error.response.data.Message, 'error'); 
       }
       loadingAlert.close();
     },
