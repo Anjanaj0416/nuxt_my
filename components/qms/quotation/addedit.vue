@@ -74,7 +74,8 @@
             </div>
           </div>
 
-          <!-- Show Bundles List -->
+        <!-- Package -->
+        <div>
           <label class="block text-sm font-bold text-gray-600" v-if="curPkgList.length > 0">Available Packages</label>
           <div class="grid grid-cols-1 my-2">
             <!-- Package List -->
@@ -245,9 +246,9 @@
               {{ err.packageError }}
             </p>
           </div>
+        </div>
 
-
-          <!-- Input for adding installments -->
+        <!-- Input for adding installments -->
         <div>
           <div class="grid grid-cols-2 gap-4 my-4">
             <div>
@@ -282,6 +283,7 @@
                     v-model.number="item.fee"
                     min="1"
                     placeholder="Fee"
+                    @input="handleInstallmentChange(index)"
                     class="w-20 px-2 py-1 text-xs border rounded focus:ring-indigo-500 focus:border-indigo-500"
                     required
                   />
@@ -321,7 +323,7 @@
                   <div class="flex items-center justify-between">
                     <p class="text-sm text-gray-500">Net Total</p>
                     <p class="text-xl font-medium text-gray-900">
-                      {{ this.$myUtility.toLKR(quotation.netTotal) }}
+                       {{ quotation.netTotal.toFixed(2) }}
                     </p>
                   </div>
                   
@@ -396,17 +398,7 @@ export default {
   },
 
   computed: {
-    subtotal() {
-      return this.selectedPackages
-        .reduce((total, packageItem) => {
-          const totalPrice = parseFloat(packageItem.totalPrice);
-          const displayPrice = parseFloat(
-            packageItem.displayPrice.replace(/[^0-9.-]+/g, "")
-          );
-          return total + (isNaN(totalPrice) ? displayPrice : totalPrice);
-        }, 0)
-        .toFixed(2);
-    },
+
   },
 
   async created() {
@@ -466,6 +458,7 @@ export default {
       this.selectedPackages.push(pkg);
     }
       this.quotation.listOrderItem.push(orderItem);
+      this.netTotalPrice();
     },
     GetRemoveRow(index) {
       this.quotation.listOrderItem.splice(index, 1);
@@ -475,72 +468,80 @@ export default {
         this.err[key] = "";
       });
     },
-    GetPrint() {      
-      if(!this.IsValidated()) return;
-      console.log(JSON.stringify(this.quotation))
-    //this.clearerr();
-      //this.closeModal();
-    },
-    // AddInstallments() {
-    //   if (!this.quotation.installment || this.quotation.installment <= 0 )
-    //   { 
-    //     this.$showCustomToast('Invalid Installment!', 'error', 3000); 
-    //     return;
-    //   }
-    //   if(this.quotation.installment >3){
-    //     this.$showCustomToast('Maximum three Installment allowed !', 'error', 3000); 
-    //     return;
-    //   }
-
-    //   this.listInstallmentDetails = [];
-
-    //   for (let i = 1; i <= this.quotation.installment; i++) {
-    //     this.listInstallmentDetails.push({
-    //       installment: `Installment ${i}`,
-    //       fee: 0
-    //     });
-    //     this.quotation.listInstallment = this.listInstallmentDetails;
-    //   }
-    // },
     AddInstallments() {
-      const n = this.quotation.installment;
-      const total = Number(this.quotation.totalAmount);
-      console.log(total);
+      const count = this.quotation.installment;
 
-      if (!n || n <= 0) {
+      if (!count || count <= 0) {
         this.$showCustomToast('Invalid Installment!', 'error', 3000);
         return;
       }
 
-      if (n > 3) {
+      if (count > 3) {
         this.$showCustomToast('Maximum three Installments allowed!', 'error', 3000);
         return;
       }
 
-      if (!total || total <= 0) {
-        this.$showCustomToast('Total amount not available or invalid.', 'error', 3000);
+      const total = Math.round(
+        this.quotation.listOrderItem.reduce((sum, item) => sum + (+item.total || 0), 0) * 100
+      ) / 100;
+
+      const base = Math.floor((total / count) * 100) / 100;
+      const remainder = Math.round((total - base * count) * 100) / 100;
+
+      this.listInstallmentDetails = Array.from({ length: count }, (_, i) => ({
+        installment: `Installment ${i + 1}`,
+        fee: i + 1 === count ? Math.round((base + remainder) * 100) / 100 : base
+      }));
+
+      this.quotation.listInstallment = this.listInstallmentDetails.map(item => item.fee);
+
+    },
+
+    handleInstallmentChange(changedIndex) {
+      let netTotal = this.quotation.listOrderItem.reduce(
+        (sum, item) => sum + (Number(item.total) || 0),
+        0
+      );
+      netTotal = Math.round(netTotal * 100) / 100;
+
+      // Mark current as manual
+      this.listInstallmentDetails[changedIndex].manual = true;
+
+      // Calculate manual total and find auto indexes
+      let manualTotal = 0;
+      const autoIndexes = [];
+
+      this.listInstallmentDetails.forEach((item, idx) => {
+        if (item.manual) {
+          manualTotal += Number(item.fee) || 0;
+        } else {
+          autoIndexes.push(idx);
+        }
+      });
+
+      const remaining = Math.round((netTotal - manualTotal) * 100) / 100;
+
+      if (remaining < 0) {
+        this.$showCustomToast('Total exceeds allowed amount!', 'error', 3000);
         return;
       }
 
-      this.listInstallmentDetails = [];
+      const base = Math.floor((remaining / autoIndexes.length) * 100) / 100;
+      const lastRemainder = Math.round((remaining - base * autoIndexes.length) * 100) / 100;
 
-      const perInstallment = Math.floor(total / n);
-      const remainder = total % n;
+      autoIndexes.forEach((idx, i) => {
+        this.listInstallmentDetails[idx].fee = i === autoIndexes.length - 1
+          ? Math.round((base + lastRemainder) * 100) / 100
+          : base;
+      });
 
-      for (let i = 1; i <= n; i++) {
-        this.listInstallmentDetails.push({
-          installment: `Installment ${i}`,
-          fee: i === 1 ? perInstallment + remainder : perInstallment,
-        });
-      }
-
-      this.quotation.listInstallment = this.listInstallmentDetails;
+      this.quotation.listInstallment = [...this.listInstallmentDetails];
     },
-
-    //////////////////
 
     RemoveInstallment(index) {
       this.listInstallmentDetails.splice(index, 1);
+      this.quotation.installment = this.listInstallmentDetails.length;
+      this.AddInstallments(); 
     },
 
     updateTotalPrice(index) {
@@ -554,14 +555,39 @@ export default {
 
       item.total = total;
       console.log(total);
-      
+
+      this.netTotalPrice();
+
+      // Only update installments if they already exist
+      if (this.quotation.installment && this.listInstallmentDetails.length > 0) {
+        this.AddInstallments(); 
+      }
+    },
+    
+    GetRemoveRow(index) {
+      this.quotation.listOrderItem.splice(index, 1);
+      this.netTotalPrice();
+    },
+    
+  netTotalPrice() {
+    this.quotation.netTotal = this.quotation.listOrderItem.reduce((acc, item) => {
+      const total = Number(item.total) || 0;
+      return acc + total;
+    }, 0);
+
+    // this.quotation.totalAmount = this.quotation.netTotal + (this.quotation.vat || 0);
+    this.quotation.totalAmount = this.quotation.netTotal;
+  },
+
+    GetPrint() {  
+       this.netTotalPrice();   
+      if(!this.IsValidated()) return;
+      console.log(JSON.stringify(this.quotation, null, 2))
+      //this.clearerr();
+      //this.closeModal();
     },
 
 
-
-  GetRemoveRow(index) {
-    this.quotation.listOrderItem.splice(index, 1);
-  },
   
 
 
