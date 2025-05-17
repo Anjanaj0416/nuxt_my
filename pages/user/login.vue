@@ -72,17 +72,16 @@
           </div>
 
           <!-- Separator -->
-          <div class="flex items-center justify-center gap-2 my-6 text-sm text-gray-400">
+          <!-- <div class="flex items-center justify-center gap-2 my-6 text-sm text-gray-400">
             <hr class="w-1/4 border-gray-300" />
             OR
             <hr class="w-1/4 border-gray-300" />
           </div>
 
-          <!-- Sign Up -->
           <button @click="goToRegister"
             class="w-full px-4 py-2 font-semibold text-gray-700 bg-gray-100 rounded-lg hover:bg-gray-200">
             Sign up for a new account
-          </button>
+          </button> -->
         </form>
       </div>
     </div>

@@ -8,6 +8,7 @@ export const useUserStore = defineStore('userStore', {
     token: null,
     loggedUser:{},
     assetsBaseUrl: null,
+    updateProfile:{},
   }),
 
   persist: true,
@@ -42,6 +43,32 @@ export const useUserStore = defineStore('userStore', {
         this.showToast('Network Error! Login failed. Please try again.','error');     
       }
       
+    },
+
+    async profileUpdate(formData, showLoading) {
+      try {
+        const response = await axios.post(
+          `${import.meta.env.VITE_API_URL}/hr/Employee/GetUpdateProfile`,
+          formData,
+          {
+            headers: {
+              "Content-Type": "multipart/form-data",
+            },
+          }
+        );
+
+        if (response.data.isSuccess) {         
+          this.showToast(response.data.message);       
+       
+          this.listVendor = response.data.data.data;
+        
+        } else {
+          this.showToast(response.data.message, "error");
+        }
+      } catch (error) {
+        // console.error(error)
+        this.showToast('Error in server call', "error");
+       }
     },
 
     logout() {
