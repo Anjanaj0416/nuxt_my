@@ -62,7 +62,7 @@
             v-if="isDropdownOpen"
             class="absolute right-0 z-10 w-48 py-1 mt-2 origin-top-right bg-white rounded-md shadow-lg ring-1 ring-black/5"
           >
-            <a href="#" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100">
+            <a  @click="GoToProfile" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100">
               Your Profile
             </a>
             <a href="#" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100">
@@ -81,16 +81,22 @@
       </header>
     </div>
   </div>
+
+  <profile v-if="isProfile" :userId="loggedUser.id"  @close="isProfile = !isProfile" />
+
+
 </section>
 </template>
 
 <script>
 import Sidebar from "./sidemenu.vue";
 import { useUserStore  } from '~/stores/modules/userStore';
+import profile from "~/pages/user/profile.vue";
 
 export default {
   components: {
     Sidebar,
+    profile,
   },
   data() {
     return {
@@ -98,12 +104,19 @@ export default {
       userStore:null,
       isSidebarOpen: false,
       isDropdownOpen: false,
+      isProfile: false,
     };
     
   },
-  async mounted() {
-  
-  
+
+  methods: {
+    async GoToProfile(id) {
+      this.isProfile = true;
+      this.isDropdownOpen = false;
+    },
+  },
+  mounted() {
+    console.log("Received user ID in profile:", this.userId);
   },
   async created() {
     this.userStore = useUserStore();  

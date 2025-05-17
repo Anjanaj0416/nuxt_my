@@ -53,9 +53,9 @@
               :arrItems="quotationStore.initQuotation.listDistricts"
               @GetSelectedIds="GetSelectedOtherDistrictIds"
             />
-            <!-- <p v-if="err.listDistricts" class="mt-2 text-xs text-red-500">
+            <p v-if="err.listDistricts" class="mt-2 text-xs text-red-500">
               {{ err.listDistricts }}
-            </p> -->
+            </p>
           </div>
           <div class="grid grid-cols-2 my-4">
             <div>
@@ -74,7 +74,8 @@
             </div>
           </div>
 
-          <!-- Show Bundles List -->
+        <!-- Package -->
+        <div>
           <label class="block text-sm font-bold text-gray-600" v-if="curPkgList.length > 0">Available Packages</label>
           <div class="grid grid-cols-1 my-2">
             <!-- Package List -->
@@ -183,8 +184,12 @@
                         placeholder="In Rupees"
                         v-model="orderItem.qty"
                         @input="updateTotalPrice(index)"
+
                       />
                     </div>
+                    <!-- <span class="mt-1 text-xs text-blue-600">
+                      {{ orderItem.qty}} 
+                        </span> -->
 
                     <!-- Discount Input -->
                     <div class="flex flex-col items-center justify-center">
@@ -196,6 +201,7 @@
                         placeholder="In Rupeesdds"
                         v-model="orderItem.discount"
                         @input="updateTotalPrice(index)"
+
                       />
                       <!-- @input="updateTotalPrice(index)" -->
                     </div>
@@ -204,25 +210,25 @@
                     <div class="flex items-center justify-center">
                       <p class="mr-2 sm:hidden">Total:</p>
                       <strong>{{ this.$myUtility.toLKR(orderItem.total) }}</strong>
+
                     </div>
 
                     <!-- Remove Button -->
                     <div class="flex items-center justify-center">
-                    
-                       <div class="text-center">
-          <button
-            type="button"
-            @click="GetRemoveRow(index)"
-            class="text-red-600 hover:text-red-800"
-            title="Remove"
-          >
-            <!-- Trash icon (Heroicons) -->
-            <svg xmlns="http://www.w3.org/2000/svg" class="w-4 h-4 mx-auto" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6M9 7h6m-6 0V5a1 1 0 011-1h4a1 1 0 011 1v2" />
-            </svg>
-          </button>
-        </div>
+                      <div class="text-center">
+                        <button
+                          type="button"
+                          @click="GetRemoveRow(index)"
+                          class="text-red-600 hover:text-red-800"
+                          title="Remove"
+                        >
+                          <!-- Trash icon (Heroicons) -->
+                          <svg xmlns="http://www.w3.org/2000/svg" class="w-4 h-4 mx-auto" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                              d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6M9 7h6m-6 0V5a1 1 0 011-1h4a1 1 0 011 1v2" />
+                          </svg>
+                        </button>
+                      </div>
                     </div>
                   </div>
                   </div>
@@ -240,14 +246,13 @@
               {{ err.packageError }}
             </p>
           </div>
+        </div>
 
-          <!-- show the instalment -->
-          <!-- Input for adding installments -->
+        <!-- Input for adding installments -->
         <div>
-          <div class="flex flex-col justify-between gap-6 mt-8 md:flex-row">
-            <!-- Left Side: Installment Count Input -->
-            <div class="flex-1">
-              <label class="block mb-1 text-sm font-bold text-gray-600">Installments</label>
+          <div class="grid grid-cols-2 gap-4 my-4">
+            <div>
+              <label class="block text-sm font-bold text-gray-600">Select Product Category</label>
               <input
                 v-model.number="quotation.installment"
                 type="number"
@@ -256,16 +261,17 @@
                 placeholder="Enter number of installments"
                 @change="AddInstallments"
                 required
-                class="p-2 text-sm border rounded-md w-20s focus:ring-indigo-500 focus:border-blue-500"
+                class="w-full p-2 my-2 text-sm border rounded-md focus:ring-indigo-500 focus:border-blue-500"
               />
             </div>
+          </div>
 
-            <!-- Right Side: Installment List -->
-            <div class="w-full md:w-1/3 bg-white rounded-lg shadow-sm dark:bg-gray-100 border dark:border-gray-300 overflow-y-auto max-h-[300px]">
+          <div>
+            <div class="w-full md:w-2/4 bg-white rounded-lg  dark:bg-gray-100  dark:border-gray-300 overflow-y-auto max-h-[300px]">
               <div
                 v-for="(item, index) in listInstallmentDetails"
                 :key="index"
-                class="grid items-center grid-cols-3 px-2 py-2 text-xs text-gray-700 border-t border-gray-200 hover:bg-gray-50"
+                class="grid items-center grid-cols-3 px-2 py-2 text-xs text-gray-700 border border-t border-gray-200 shadow-sm hover:bg-gray-50"
               >
                 <!-- Installment label -->
                 <div class="truncate">{{ item.installment }}</div>
@@ -277,6 +283,7 @@
                     v-model.number="item.fee"
                     min="1"
                     placeholder="Fee"
+                    @input="handleInstallmentChange(index)"
                     class="w-20 px-2 py-1 text-xs border rounded focus:ring-indigo-500 focus:border-indigo-500"
                     required
                   />
@@ -316,7 +323,7 @@
                   <div class="flex items-center justify-between">
                     <p class="text-sm text-gray-500">Net Total</p>
                     <p class="text-xl font-medium text-gray-900">
-                      {{ this.$myUtility.toLKR(quotation.netTotal) }}
+                       {{ quotation.netTotal.toFixed(2) }}
                     </p>
                   </div>
                   
@@ -381,6 +388,7 @@ export default {
         netTotal: 0,
         installment:1,
         listInstallment:[],
+        totalAmount: 0,
       },
 
       listInstallmentDetails:[],
@@ -390,17 +398,7 @@ export default {
   },
 
   computed: {
-    subtotal() {
-      return this.selectedPackages
-        .reduce((total, packageItem) => {
-          const totalPrice = parseFloat(packageItem.totalPrice);
-          const displayPrice = parseFloat(
-            packageItem.displayPrice.replace(/[^0-9.-]+/g, "")
-          );
-          return total + (isNaN(totalPrice) ? displayPrice : totalPrice);
-        }, 0)
-        .toFixed(2);
-    },
+
   },
 
   async created() {
@@ -419,6 +417,7 @@ export default {
       this.err.mainDistrictId = '';
     },
     GetSelectedOtherDistrictIds(listIds) {
+      this.selectedListDistricts = listIds;
       if (listIds.length < this.quotationStore.initQuotation.noOfMaxDistricts) {
         this.quotation.listAdditionalDistricts = listIds;
         this.err.listDistricts = '';
@@ -459,6 +458,7 @@ export default {
       this.selectedPackages.push(pkg);
     }
       this.quotation.listOrderItem.push(orderItem);
+      this.netTotalPrice();
     },
     GetRemoveRow(index) {
       this.quotation.listOrderItem.splice(index, 1);
@@ -468,57 +468,126 @@ export default {
         this.err[key] = "";
       });
     },
-    GetPrint() {      
-      if(!this.IsValidated()) return;
-      console.log(JSON.stringify(this.quotation))
-    //this.clearerr();
-      //this.closeModal();
-    },
     AddInstallments() {
-      if (!this.quotation.installment || this.quotation.installment <= 0 )
-      { 
-        this.$showCustomToast('Invalid Installment!', 'error', 3000); 
-        return;
-      }
-      if(this.quotation.installment >3){
-        this.$showCustomToast('Maximum three Installment allowed !', 'error', 3000); 
+      const count = this.quotation.installment;
+
+      if (!count || count <= 0) {
+        this.$showCustomToast('Invalid Installment!', 'error', 3000);
         return;
       }
 
-      this.listInstallmentDetails = [];
+      if (count > 3) {
+        this.$showCustomToast('Maximum three Installments allowed!', 'error', 3000);
+        return;
+      }
 
-      for (let i = 1; i <= this.quotation.installment; i++) {
-      this.listInstallmentDetails.push({
-        installment: `Installment ${i}`,
-        fee: 0
+      const total = Math.round(
+        this.quotation.listOrderItem.reduce((sum, item) => sum + (+item.total || 0), 0) * 100
+      ) / 100;
+
+      const base = Math.floor((total / count) * 100) / 100;
+      const remainder = Math.round((total - base * count) * 100) / 100;
+
+      this.listInstallmentDetails = Array.from({ length: count }, (_, i) => ({
+        installment: `Installment ${i + 1}`,
+        fee: i + 1 === count ? Math.round((base + remainder) * 100) / 100 : base
+      }));
+
+      this.quotation.listInstallment = this.listInstallmentDetails.map(item => item.fee);
+
+    },
+
+    handleInstallmentChange(changedIndex) {
+      let netTotal = this.quotation.listOrderItem.reduce(
+        (sum, item) => sum + (Number(item.total) || 0),
+        0
+      );
+      netTotal = Math.round(netTotal * 100) / 100;
+
+      // Mark current as manual
+      this.listInstallmentDetails[changedIndex].manual = true;
+
+      // Calculate manual total and find auto indexes
+      let manualTotal = 0;
+      const autoIndexes = [];
+
+      this.listInstallmentDetails.forEach((item, idx) => {
+        if (item.manual) {
+          manualTotal += Number(item.fee) || 0;
+        } else {
+          autoIndexes.push(idx);
+        }
       });
-    }
-      },
+
+      const remaining = Math.round((netTotal - manualTotal) * 100) / 100;
+
+      if (remaining < 0) {
+        this.$showCustomToast('Total exceeds allowed amount!', 'error', 3000);
+        return;
+      }
+
+      const base = Math.floor((remaining / autoIndexes.length) * 100) / 100;
+      const lastRemainder = Math.round((remaining - base * autoIndexes.length) * 100) / 100;
+
+      autoIndexes.forEach((idx, i) => {
+        this.listInstallmentDetails[idx].fee = i === autoIndexes.length - 1
+          ? Math.round((base + lastRemainder) * 100) / 100
+          : base;
+      });
+
+      this.quotation.listInstallment = [...this.listInstallmentDetails];
+    },
+
     RemoveInstallment(index) {
       this.listInstallmentDetails.splice(index, 1);
+      this.quotation.installment = this.listInstallmentDetails.length;
+      this.AddInstallments(); 
     },
 
     updateTotalPrice(index) {
-      const packageItem = this.selectedPackages[index];
+      const item = this.quotation.listOrderItem[index];
+      const qty = Number(item.qty) || 0;
+      const price = Number(item.unitPrice) || 0;
+      const discount = Number(item.discount) || 0;
 
-      // Ensure the discount is a valid number
-      let discount = parseFloat(packageItem.discount);
-      if (isNaN(discount)) discount = 0; // If discount is not a valid number, default to 0.
+      let total = qty * price * (1 - discount / 100);
+      if (total < 0) total = 0;
 
-      // Parse the price (if it's a string, remove any non-numeric characters, like '$')
-      let price = parseFloat(
-        packageItem.displayPrice.replace(/[^0-9.-]+/g, "")
-      );
-      if (isNaN(price)) price = 0; // If price is invalid, set to 0.
+      item.total = total;
+      console.log(total);
 
-      // Calculate the discount amount
-      const discountAmount = price * (discount / 100);
-      const totalPrice = price - discountAmount;
-      console.log("totalPrice:", totalPrice);
+      this.netTotalPrice();
 
-      // Update the total price
-      packageItem.totalPrice = totalPrice.toFixed(2);
+      // Only update installments if they already exist
+      if (this.quotation.installment && this.listInstallmentDetails.length > 0) {
+        this.AddInstallments(); 
+      }
     },
+    
+    GetRemoveRow(index) {
+      this.quotation.listOrderItem.splice(index, 1);
+      this.netTotalPrice();
+    },
+    
+  netTotalPrice() {
+    this.quotation.netTotal = this.quotation.listOrderItem.reduce((acc, item) => {
+      const total = Number(item.total) || 0;
+      return acc + total;
+    }, 0);
+
+    // this.quotation.totalAmount = this.quotation.netTotal + (this.quotation.vat || 0);
+    this.quotation.totalAmount = this.quotation.netTotal;
+  },
+
+    GetPrint() {  
+       this.netTotalPrice();   
+      if(!this.IsValidated()) return;
+      console.log(JSON.stringify(this.quotation, null, 2))
+      //this.clearerr();
+      //this.closeModal();
+    },
+
+
   
 
 
@@ -540,12 +609,10 @@ export default {
 
       // Check Other Districts (max 4 including main)
       if (!this.selectedListDistricts || this.selectedListDistricts.length === 0) {
-        this.err.listDistricts = "Please select at least one district!";
-        isValidated = false;
-      } else if (this.selectedListDistricts.length > 4) {
-        this.err.listDistricts = "You can select a maximum of 4 districts including the main district!";
+        this.err.listDistricts = "Please select at least one district before submitting.";
         isValidated = false;
       }
+
 
       // Check Product Category
       if (!this.curProductCategory) {
@@ -560,10 +627,11 @@ export default {
       }
 
       // Installment validation
-      if (!this.quotation.listInstallment || this.quotation.listInstallment.length === 0) {
+      if (!this.listInstallmentDetails || this.listInstallmentDetails.length === 0) {
         this.err.installmentError = "Please add at least one installment!";
         isValidated = false;
       }
+
 
       return isValidated;
     },
