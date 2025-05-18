@@ -4,73 +4,116 @@
       <!-- Modal Header -->
       <div class="modal-header">
         <div class="flex items-center gap-4">
-          <div class="relative w-16 h-16">
-            <img
-              :src="previewImage || defaultProfileImage"
-              alt="Profile"
-              class="object-cover w-full h-full bg-white border border-gray-300 rounded-full"
-            />
-            <input
-                type="text"
-                v-model="updateProfile.Name"
-                placeholder="Enter Name"
-                class="w-full p-2 mt-2 text-sm bg-gray-100 border rounded-md"
-            />
+          <h1 class="text-2xl font-bold text-white ">Profile</h1>
 
-          </div>
-          <div class="text-lg font-semibold text-white">Name</div>
         </div>
         <closebtn @close="closeModal" />
       </div>
 
       <!-- Modal Content -->
       <div class="modal-content">
-        <p>User ID: {{ userId }}</p>
-        <div class="grid grid-cols-2 gap-4 mt-4 sm:grid-cols-2 md:grid-cols-2">
-            <div class="">
-              <label class="block text-sm font-bold text-gray-600">Name</label>
-              <input
-                type="text"
-                v-model="updateProfile.Name"
-                placeholder=""
-                class="w-full p-2 mt-2 text-sm bg-gray-100 border rounded-md"
+       <div class="modal-content">
+        <!-- <button @click="toggleEdit"></button> -->
+
+
+        <div v-if="!isEditing" class="mt-2">
+          <div class="bg-white p-6 sm:p-2 ">
+          <div class="flex items-center justify-between mb-6">
+            <div class="flex items-center space-x-4">
+              <img
+                class="w-16 h-16 rounded-full ring-2 ring-indigo-500 hover:scale-105 transition-transform duration-300"
+                :src="profile.resourceURLRoot + profile.image"
+                alt="Profile"
               />
+              <div>
+                <p class="text-lg font-semibold text-gray-800">{{ profile.name }}</p>
+              </div>
             </div>
-            <div class="">
-              <label class="block text-sm font-bold text-gray-600">Email</label>
-              <input
-                type="text"
-                v-model="updateProfile.Emali"
-                placeholder=""
-                class="w-full p-2 mt-2 text-sm bg-gray-100 border rounded-md"
-              />
+            <button
+              @click="toggleEdit"
+              class="px-4 py-2 text-blue-900 text-xl  underline rounded-md hover:text-blue-900 transition-colors"
+            >
+              {{ isEditing ? 'Profile' : 'Edit' }}
+            </button>
+
+          </div>
+          <!-- {{ profile.loggedUserId }} -->
+          <div class="grid grid-cols-1 sm:grid-cols-2 gap-6">
+            <div class="flex flex-col space-y-1">
+              <span class="text-sm text-gray-500">Name</span>
+              <span class="font-medium text-gray-800">{{ profile.name }}</span>
             </div>
-            <div class="">
-              <label class="block text-sm font-bold text-gray-600">Contact Number</label>
-              <input
-                type="text"
-                v-model="updateProfile.Mobile"
-                placeholder="Vendor ID (read-only)"
-                class="w-full p-2 mt-2 text-sm bg-gray-100 border rounded-md"
-              />
+            <div class="flex flex-col space-y-1">
+              <span class="text-sm text-gray-500">Email</span>
+              <span class="font-medium text-gray-800">{{ profile.email }}</span>
             </div>
-            <div class="">
-              <label class="block text-sm font-bold text-gray-600">Identification Code</label>
-              <input
-                type="text"
-                v-model="updateProfile.IdentificationCode"
-                placeholder="Vendor ID (read-only)"
-                class="w-full p-2 mt-2 text-sm bg-gray-100 border rounded-md"
-              />
+            <div class="flex flex-col space-y-1">
+              <span class="text-sm text-gray-500">Mobile</span>
+              <span class="font-medium text-gray-800">{{ profile.mobile }}</span>
             </div>
-           
+            <div class="flex flex-col space-y-1">
+              <span class="text-sm text-gray-500">Identification Code</span>
+              <span class="font-medium text-gray-800">{{ profile.identificationCode }}</span>
+            </div>
+          </div>
+          </div>
         </div>
+
+        <!-- Inputs: show when editing -->
+        <div v-if="isEditing" class="relative bg-white  p-2 sm:p-2">
+          <div class="flex justify-end mb-4">
+            <button
+              @click="toggleEdit"
+              class="px-4 py-2 text-blue-900 text-xl  underline rounded-md hover:text-blue-900 transition-colors"
+            >
+              {{ isEditing ? 'Profile' : 'Edit' }}
+            </button>
+          </div>
+          <div class="grid grid-cols-1 sm:grid-cols-2 gap-6">
+            <div>
+              <label class="block text-sm font-semibold text-gray-700">Name</label>
+              <input
+                type="text"
+                v-model="profile.name"
+                class="w-full mt-2 p-2 text-sm bg-gray-50 border border-gray-300 rounded-md focus:ring-2 focus:ring-indigo-500 focus:outline-none"
+              />
+            </div>
+            <div>
+              <label class="block text-sm font-semibold text-gray-700">Email</label>
+              <input
+                type="text"
+                v-model="profile.email"
+                class="w-full mt-2 p-2 text-sm bg-gray-50 border border-gray-300 rounded-md focus:ring-2 focus:ring-indigo-500 focus:outline-none"
+              />
+            </div>
+            <div>
+              <label class="block text-sm font-semibold text-gray-700">Contact Number</label>
+              <input
+                type="text"
+                v-model="profile.mobile"
+                class="w-full mt-2 p-2 text-sm bg-gray-50 border border-gray-300 rounded-md focus:ring-2 focus:ring-indigo-500 focus:outline-none"
+              />
+            </div>
+            <div>
+              <label class="block text-sm font-semibold text-gray-700">Identification Code</label>
+              <input
+                type="text"
+                v-model="profile.identificationCode"
+                class="w-full mt-2 p-2 text-sm bg-gray-50 border border-gray-300 rounded-md focus:ring-2 focus:ring-indigo-500 focus:outline-none"
+              />
+            </div>
+          </div>
+          {{ profile }}
+        </div>
+
+      </div>
+
       </div>
 
       <!-- Modal Footer -->
       <div class="modal-footer">
         <button @click="closeModal" class="cancel-button">Cancel</button>
-        <button @click="GetSave" class="confirm-button">Save</button>
+        <button v-if="isEditing" @click="GetSave" class="confirm-button">Save</button>
       </div>
     </div>
   </div>
@@ -94,14 +137,13 @@ export default {
       showLoading: null,
       err: { },
       defaultProfileImage: "",
-      updateProfile:{
-
-      }
+      profile:{},
+      isEditing: false,
     };
   },
   props: {
-    userId: {
-      type: [String, Number],
+    profile: {
+      type: Object,
       required: true
     }
   },
@@ -119,45 +161,46 @@ export default {
       this.$emit("close");
     },
 
-    GetUpdateProfileImage(image) {
-      this.updateProfile.ImageFile = image;
+    GetprofileImage(image) {
+      this.profile.ImageFile = image;
+    },
+
+    toggleEdit() {
+      this.isEditing = !this.isEditing;
+      if (!this.isEditing) {
+        // When exiting edit mode (clicking 'Profile' button), you can call save if you want:
+        this.GetSave();
+      }
     },
 
     async GetSave() {
       const userStore = useUserStore();
       const formData = new FormData();
 
-      formData.append("Id", userStore.updateProfile.Id);
-      formData.append("Name", userStore.updateProfile.Name);
-      formData.append("Email", userStore.updateProfile.Email);
-      formData.append("Mobile", userStore.updateProfile.Mobile);
-      formData.append("IdentificationCode", userStore.updateProfile.IdentificationCode);
+      formData.append("Id", this.profile.loggedUserId); 
+      formData.append("Name", this.profile.name || "");
+      formData.append("Email", this.profile.email || "");
+      formData.append("Mobile", this.profile.mobile || "");
+      formData.append("IdentificationCode", this.profile.identificationCode || "");
 
-      if (userStore.updateProfile.ImageFile) {
-        formData.append("Image", userStore.updateProfile.ImageFile);
+      if (this.profile.ImageFile) {
+        formData.append("Image", this.profile.ImageFile);
+      } else {
+        formData.append("Image", this.profile.image || "");
       }
-      console.log(formData);
+
+            // console.log('Form Data as Object:', formDataObj);
       return
-      await userStore.profileUpdate(formData, this.showLoading);
-
-
-      this.closeModal();
+      try {
+        await userStore.profileUpdate(formData, this.showLoading);
+        this.isEditing = false; 
+        this.closeModal();      
+      } catch (e) {
+        console.error("Error while updating profile:", e);
+      }
     },
 
-    onImageChange(e) {
-        const file = e.target.files[0];
-        if (file && file.type.startsWith('image/')) {
-            const reader = new FileReader();
-            reader.onload = (event) => {
-            this.previewImage = event.target.result;
-            };
-            reader.readAsDataURL(file);
-            console.log(file);
-            
-        } else {
-            alert("Please upload a valid image file.");
-        }
-    },
+
     
     IsValidate() {
       let isValid = true;
