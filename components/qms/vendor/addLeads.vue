@@ -90,9 +90,9 @@
               <input
                 type="tel"
                 v-model="addLeads.contactNo"
-                :maxlength="10"
+               
                 placeholder="Enter Contact Number"
-                maxlength="10"
+               maxlength="10"
                 class="w-full p-2 mt-2 text-sm border rounded-md focus:ring-indigo-500 focus:border-indigo-500"
               />
               <p v-if="err.contactNo" class="mt-2 text-sm text-red-600">
@@ -139,20 +139,7 @@
                 {{ err.web }}
               </p>
             </div>
-            <div class="">
-              <label class="block text-sm font-bold text-gray-600">Business Type</label>
-              <input
-                type="text"
-                v-model="addLeads.businessType"
-                placeholder="Ex:Construction/ Service etc"
-                class="w-full p-2 mt-2 text-sm border rounded-md focus:ring-indigo-500 focus:border-indigo-500"
-                required
-              />
-              <p v-if="err.businessType" class="mt-2 text-sm text-red-600">
-                {{ err.businessType }}
-              </p>
-            </div>
-            <div class="">
+             <div class="">
               <label class="block text-sm font-bold text-gray-600">Business Registration Number</label>
               <input
                 type="text"
@@ -165,7 +152,35 @@
                 {{ err.businessRegNum }}
               </p>
             </div>
+              <div>
+    <label class="block text-sm font-bold text-gray-600">Business Type</label>
+    <input
+      type="text"
+      v-model="addLeads.businessType"
+      placeholder="Ex: Construction / Service etc"
+      class="w-full p-2 mt-2 text-sm border rounded-md focus:ring-indigo-500 focus:border-indigo-500"
+      required
+    />
+    <p v-if="err.businessType" class="mt-2 text-sm text-red-600">
+      {{ err.businessType }}
+    </p>
+  </div>           
           </div>
+
+           <!-- More Details -->
+  <div class="w-full">
+    <label class="block text-sm font-bold text-gray-600">More Details</label>
+    <textarea
+      v-model="addLeads.moreDetails"
+      placeholder="Add any extra information here"
+      class="w-full p-2 mt-2 text-sm border rounded-md focus:ring-indigo-500 focus:border-indigo-500"
+      required
+      rows="4"
+    ></textarea>
+    <p v-if="err.moreDetails" class="mt-2 text-sm text-red-600">
+      {{ err.moreDetails }}
+    </p>
+  </div>
 
           <hr class="my-4" />
           <h3 class="mt-4 font-bold">Person Information</h3>
@@ -282,12 +297,14 @@ export default {
         email: "",
         web:"",
         businessType: "",
+        moreDetails:'Ex: No of Links-200 || iS Stored Available',
+
         businessRegNum: "",
         contactPersonName: "",
         designation: "",
         personContactNumber1: "",
         personMobileNo: "",
-        personEmailAddress: ""
+        personEmailAddress: "",
       },
       err: {},
       imageroot: "",
@@ -366,7 +383,7 @@ export default {
           "Are you sure you want to Save this Vendor?",
           "warning"
         ).then(async (result) => {
-          if (result) {
+          if (result.isConfirmed) {
           //  const formData = (this.addLeads  );
            // console.log('Leads:',formData);
            // console.log('Leads JSON:', JSON.stringify(addLeads , null, 2));

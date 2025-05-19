@@ -1,13 +1,15 @@
 <template>
   <section>
     <!-- Start Top Header -->
+    
     <div
       class="flex flex-col items-center justify-between h-24 px-4 pt-6 my-10 bg-gray-300 cssTop lg:flex-row md:flex-row">
       <div class="my-2 text-lg font-bold capitalize lg:text-xl lg:my-0">
         <div class="flex gap-x-4 lg:gap-x-8">
-          <div class="relative cssmenu_sec" v-show="this.userStore.loggedUser.granted === 'hradmin' ||
-            this.userStore?.loggedUser?.granted === 'hr_mgr'
+          <div class="relative cssmenu_sec" v-show="userStore.loggedUser.granted.indexOf('hradmin')>-1 ||
+            userStore.loggedUser.granted.indexOf('hr_mgr')>-1 
             ">
+           
             <div class="cursor-pointer" @click="ismenuopen = !ismenuopen">
               <svg xmlns="http://www.w3.org/2000/svg" class="w-6 h-6" fill="none" viewBox="0 0 24 24"
                 stroke="currentColor">
@@ -18,7 +20,8 @@
           </div>
 
           <div class="flex items-center justify-center">
-            <search_dashboard v-show="this.userStore?.loggedUser?.granted === 'hradmin'" placeholder="Search Employee"
+           
+            <search_dashboard v-show="userStore.loggedUser.granted.indexOf('hradmin')>-1" placeholder="Search Employee"
               :arrsections="arrsections_DBSerach" @getsearch="search_begin_DBSerach" />
           </div>
         </div>
@@ -27,13 +30,13 @@
       <div
         class="flex-col items-center hidden -my-4 lg:pt-4 lg:flex-row gap-y-4 lg:gap-y-0 gap-x-4 lg:gap-x-8 md:pt-4 md:flex-row lg:flex">
         <!-- Hide on mobile -->
-        <div v-show="userStore.loggedUser.userGroup === 'Supervisor' ||
+        <div class="mr-8" v-show="userStore.loggedUser.userGroup === 'Supervisor' ||
           userStore.loggedUser.userGroup === 'admin'
           ">
           <!-- HRAdmin -->
           <btnwgstatus name="workgroup" :wgjobcount="hrStore.dashboard.workgroupjobcount" @click="getviewwg" />
         </div>
-        <img class="w-32 lg:w-40" src="~/assets/img/digitalTechLabs/DigitalTechLabsLogo.jpg" alt="HR Image" />
+       
       </div>
     </div>
 
@@ -89,6 +92,7 @@
             </div>
           </div>
         </div>
+     
 
         <!-- Employees List  -->
         <div class="cssemplist" v-for="(emp, index) in hrStore.alempdetails" :key="emp">
@@ -100,10 +104,10 @@
                 <div class="cssdatarowitem lg:border-0">
                   <span class="lg:hidden ">Employee Name</span>
                   <div class="flex gap-x-2">
-                    <!-- https://assets.dtl.lk/web/assets/HR/dtl/avator/jzwoq1xc637788970715290762.png -->
+                  
 
-                    <img class="w-8 h-8 transform rounded hover:scale-150"
-                      :src="userStore.assetsBaseUrl + '/HR/dtl/avator/' + emp.image" alt="" />
+                    <img class="w-16 h-16 transform rounded hover:scale-125"
+                      :src="userStore.assetsBaseUrl + '/HR/'+userStore.loggedUser.branchCode+'/avator/' + emp.image" alt="" />
                     {{ emp.empname }}
                   </div>
                 </div>
@@ -146,49 +150,50 @@
                   <div>User Guide</div>
                 </div>
               </div>
-
+   <!-- {{userStore.loggedUser}} -->
               <div class="flex flex-wrap justify-end gap-4 px-4 pb-2">
                 <!-- Employee Details -->
-                <div @click="init_employee(emp.id)" class="p-2 border-2 rounded-lg cursor-pointer hover:text-blue-800">
+                <div @click="init_employee(emp.id)" class="p-2 border-2 rounded-lg cursor-pointer hover:text-blue-200">
                   Emp. Details
                 </div>
 
                 <!-- Attendance -->
                 <div @click="init_attendence(emp.empno, emp.id);//, FromDate: $refs.atten.$refs.datediffRef.dtfrom, ToDate: $refs.atten.$refs.datediffRef.dtto
-                " class="p-2 border-2 rounded-lg cursor-pointer hover:text-blue-800">
+                " class="p-2 border-2 rounded-lg cursor-pointer hover:text-blue-200">
                   Attendance
                 </div>
 
                 <!-- Apply OT -->
+           
                 <div
-                  v-show="!emp.isOTAllow && (userStore.loggedUser.username === emp.empno || userStore.loggedUser.userGroup === 'Supervisor' || userStore.loggedUser.userGroup?.toLowerCase() === 'admin')"
+                  v-show="!emp.isOTAllow && (userStore.loggedUser.userName === emp.empno || userStore.loggedUser.userGroup === 'Supervisor' || userStore.loggedUser.userGroup?.toLowerCase() === 'admin')"
                   title="OT Apply"
                   @click="init_otapply(index, emp.empno); cur_sec = 'otapply'; selectedrow = emp.id; isSecClose = false;"
-                  class="p-2 border-2 rounded-lg cursor-pointer hover:text-blue-800">
+                  class="p-2 border-2 rounded-lg cursor-pointer hover:text-blue-200">
                   Apply OT
                 </div>
 
                 <!-- Leave Details -->
-                <div v-show="userStore.loggedUser.username === emp.empno || userStore.loggedUser.userGroup === 'hradmin' ||
+                <div v-show="userStore.loggedUser.userName === emp.empno || userStore.loggedUser.userGroup === 'hradmin' ||
                   userStore.loggedUser.userGroup?.toLowerCase() === 'admin'
                   " title="Leave Details" @click="
                     init_absense(emp.empno, emp.id);
                   cur_sec = 'absense';
                   selectedrow = emp.id;
                   isSecClose = false;
-                  " class="p-2 border-2 rounded-lg cursor-pointer hover:text-blue-800">
+                  " class="p-2 border-2 rounded-lg cursor-pointer hover:text-blue-200">
                   Leave
                 </div>
 
                 <!-- Movement Details -->
-                <div v-show="userStore.loggedUser.username === emp.empno || userStore.loggedUser.userGroup === 'Supervisor' ||
+                <div v-show="userStore.loggedUser.userName === emp.empno || userStore.loggedUser.userGroup === 'Supervisor' ||
                   userStore.loggedUser?.userGroup?.toLowerCase() === 'admin'
                   " title="Movement Details" @click="
                     init_movement(emp.empno, emp.id);//index
                   cur_sec = 'movement';
                   selectedrow = emp.id;
                   isSecClose = false;
-                  " class="p-2 border-2 rounded-lg cursor-pointer hover:text-blue-800">
+                  " class="p-2 border-2 rounded-lg cursor-pointer hover:text-blue-200">
                   Movement
                 </div>
 
@@ -198,7 +203,7 @@
                 cur_sec = 'timecard';
                 selectedrow = emp.id;
                 isSecClose = false;
-                " class="p-2 border-2 rounded-lg cursor-pointer hover:text-blue-800">
+                " class="p-2 border-2 rounded-lg cursor-pointer hover:text-blue-200">
                   Time Card
                 </div>
               </div>
@@ -419,8 +424,9 @@ export default {
   },
   async beforeMount() {
     const req = {
-      searchval: "",
-      searchby: 106
+      searchval: this.userStore.loggedUser.userName,
+      searchby: 101,
+      
     }
 
     this.search_begin_DBSerach(req);

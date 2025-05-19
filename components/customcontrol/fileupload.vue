@@ -37,7 +37,7 @@ import fileuploader from "~/components/customcontrol/fileupload";
             <input
               type="file"
               ref="reffile"
-              accept=".xlsx"
+              :accept="fileType"
               class="text-sm"
               @change="getAttach"
             />
@@ -50,7 +50,7 @@ import fileuploader from "~/components/customcontrol/fileupload";
 </template>
 <script>
 export default {
-  props: ["caption"],
+  props: ["caption", "fileType"],
   data() {
     return {
       file: "",

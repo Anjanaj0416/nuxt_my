@@ -11,6 +11,8 @@ git pull origin develop
 git pull origin Integration
 git pull origin Thilini
 
+git push origin HEAD:develop
+
 npm run dev
 npm run build
 node .output/server/index.mjs

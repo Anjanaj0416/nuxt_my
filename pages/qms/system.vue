@@ -2,8 +2,10 @@
 
 <template>
   <section class="justify-center min-h-screen px-4 mt-24 mb-20 lg:px-80">
-    <div class="text-2xl uppercase">System Data - QMS</div>
+    <div class="text-2xl uppercase">System Data</div>
     <hr />
+
+    <!-- QMS System Data -->
     <div class="cssPackages" v-if="sectionId == 801">
       <p class="text-lg">Package Details</p>
       <!-- dd  {{ userStore.assetsBaseUrl }}-->
@@ -118,6 +120,7 @@
           caption="Attach Bundle Links Details"
           @FileChanged="GetFileChangedBundleLinks"
           ref="refFile"
+          fileType=".xlsx"
         />
         <Button
           class="w-16 h-8"
@@ -129,6 +132,7 @@
     </div>
 
     <div class="cssCities" v-if="sectionId == 802">Add New Cities</div>
+    <!-- End QMS System Data -->
   </section>
   <!-- <input type="text" oninput="this.value = this.value.replace(/[^0-9.]/g, '').replace(/(\..*?)\..*/g, '$1');" > -->
 </template>
@@ -169,7 +173,7 @@ export default {
     this.showLoading = this.$showLoading;
     this.userStore = useUserStore();
     this.quotationStore = useQuotationStore();
-    this.quotationStore.loadInitPackages(this.showLoading);
+    await this.quotationStore.loadInitPackages(this.showLoading);
 
     this.fileroot = this.userStore.loggedUser.resourceURLRoot;
 
@@ -196,7 +200,7 @@ export default {
       this.fileBundleinks = fileBundleLinks;
     },
 
-    GetUploadProductLinks() {
+    async GetUploadProductLinks() {
       if (!this.fileProductLinks) {
         this.$showCustomToast(
           "Please attach the ProductLinks file",
@@ -205,12 +209,25 @@ export default {
         );
         return;
       }
-      const formData = new FormData();
-      formData.append("fileProductLinks", this.fileProductLinks);
-      this.quotationStore.GetUploadProductLinks(formData, this.showLoading);
+
+      this.$showConfirm(
+        "Are you sure you want to update productlinks details?",
+        "warning"
+      ).then(async (result) => {
+        if (result.isConfirmed) {
+          const formData = new FormData();
+          formData.append("fileProductLinks", this.fileProductLinks);
+          await this.quotationStore.GetUploadProductLinks(
+            formData,
+            this.showLoading
+          );
+        } else {
+          console.log("Action canceled");
+        }
+      });
     },
 
-    GetUploadServiceLinks() {
+    async GetUploadServiceLinks() {
       if (!this.fileServiceLinks) {
         this.$showCustomToast(
           "Please attach the ServiceLinks file",
@@ -219,12 +236,26 @@ export default {
         );
         return;
       }
-      const formData = new FormData();
-      formData.append("fileServiceLinks", this.fileServiceLinks);
-      this.quotationStore.GetUploadServiceLinks(formData, this.showLoading);
+
+      this.$showConfirm(
+        "Are you sure you want to update ServiceLinks details?",
+        "warning"
+      ).then(async (result) => {
+        if (result.isConfirmed) {
+          const formData = new FormData();
+          formData.append("fileServiceLinks", this.fileServiceLinks);
+          await this.quotationStore.GetUploadServiceLinks(
+            formData,
+            this.showLoading
+          );
+        } else {
+          console.log("Action canceled");
+        }
+      });
     },
-    GetUploadHybridLinks() {
-       if (!this.fileHybridLinks) {
+
+    async GetUploadHybridLinks() {
+      if (!this.fileHybridLinks) {
         this.$showCustomToast(
           "Please attach the HybridLinks file",
           "success",
@@ -232,12 +263,25 @@ export default {
         );
         return;
       }
-      const formData = new FormData();
-      formData.append("fileHybridLinks", this.fileHybridLinks);
-      this.quotationStore.GetUploadHybridLinks(formData, this.showLoading);
+      this.$showConfirm(
+        "Are you sure you want to update HybridLinks details?",
+        "warning"
+      ).then(async (result) => {
+        if (result.isConfirmed) {
+          const formData = new FormData();
+          formData.append("fileHybridLinks", this.fileHybridLinks);
+          await this.quotationStore.GetUploadHybridLinks(
+            formData,
+            this.showLoading
+          );
+        } else {
+          console.log("Action canceled");
+        }
+      });
     },
-    GetUploadBundleLinks() {
-         if (!this.fileBundleLinks) {
+
+    async GetUploadBundleLinks() {
+      if (!this.fileBundleLinks) {
         this.$showCustomToast(
           "Please attach the BundleLinks file",
           "success",
@@ -245,9 +289,22 @@ export default {
         );
         return;
       }
-      const formData = new FormData();
-      formData.append("fileBundleLinks", this.fileBundleLinks);
-      this.quotationStore.GetUploadBundleLinks(formData, this.showLoading);
+
+      this.$showConfirm(
+        "Are you sure you want to update BundleLinks details?",
+        "warning"
+      ).then(async (result) => {
+        if (result.isConfirmed) {
+          const formData = new FormData();
+          formData.append("fileBundleLinks", this.fileBundleLinks);
+          await this.quotationStore.GetUploadBundleLinks(
+            formData,
+            this.showLoading
+          );
+        } else {
+          console.log("Action canceled");
+        }
+      });
     },
 
     // async copyContent(value) {
