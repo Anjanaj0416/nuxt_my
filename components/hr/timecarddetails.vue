@@ -184,8 +184,8 @@ export default {
       if (confirm('Sure to Create this Time Card?')) {
 
         let year = parseInt(this.year)
-        let month = this.month;//parseInt(this.month_names.indexOf(this.month) + 1);
-        let req = { empNo: this.empno, monthName: month, year: year }
+        let month = parseInt(this.month_names.indexOf(this.month) + 1);//this.month;
+        let req = { EmpNo: this.empno, Month: month, Year: year }
 
         await this.hrStore.getCreateTimeCard(req, this.showLoading)
         this.getRefresh();

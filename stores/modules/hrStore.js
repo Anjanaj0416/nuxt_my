@@ -640,7 +640,7 @@ export const useHrStore = defineStore('hrStore', {
         const response = await axios.post(`${import.meta.env.VITE_API_URL}/hr/WorkLoad/SetTimeCardWorkLoad`,req);   
         console.log("response:",response);   
         if (response.data.isSuccess) {   
-          this.showToast(response.data.message, 'success'); 
+          // this.showToast(response.data.message, 'success'); 
        }
        else{
         console.error('Loading error:', response.data.message);  
