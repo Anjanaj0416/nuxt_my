@@ -7,22 +7,19 @@
         <closebtn @close="closeModal" />
       </div>
 
-      <!-- Modal Content (scrollable) -->
+      <!-- Modal Content -->
       <div class="modal-content">
         <div class="form-content">
-          <div class="text-sm text-gray-800">Sales Executive</div>
-          <div>
-            <serach_Input
-              :arrItems="vendorStore.initVendor.listRSOs"
-              ref="rsocomp"
-              label="Sales Exec."
-              v-model="rsoNo"
-              @selectItem="SelectAgent"
-            />
-          </div>
+          <div class="mb-1 text-xs text-gray-800">Sales Executive</div>
+          <serach_Input
+            :arrItems="vendorStore.initVendor.listRSOs"
+            ref="rsocomp"
+            label="Sales Exec."
+            v-model="rsoNo"
+            @selectItem="SelectAgent"
+          />
 
-          <!-- Error message for Sales Executive selection -->
-          <div v-if="err.rsoNo" class="mt-2 text-sm text-red-500">
+          <div v-if="err.rsoNo" class="mt-1 text-xs text-red-500">
             {{ err.rsoNo }}
           </div>
         </div>
@@ -37,15 +34,13 @@
   </div>
 </template>
 
-
 <script>
 import closebtn from "~/components/customcontrol/modal_close_button";
 import serach_Input from "~/components/customcontrol/SearchInput";
 import { useVendorStore } from "~/stores/modules/qms/vendorStore";
-definePageMeta({
-  layout: 'default',   
 
- });
+definePageMeta({ layout: 'default' });
+
 export default {
   components: { closebtn, serach_Input },
   data() {
@@ -54,10 +49,14 @@ export default {
       isOpen: true,
       rsoNo: "",
       showLoading: null,
-      err: {
-        rsoNo: "",
-      },
+      err: { rsoNo: "" },
     };
+  },
+  props: {
+    leadId: {
+      type: [String, Number],
+      required: true
+    }
   },
   async created() {
     this.showLoading = this.$showLoading;
@@ -73,67 +72,74 @@ export default {
     },
     async GetSave() {
       if (this.IsValidate()) {
-       
-         this.vendorStore.curVendor.rsoNo = this.rsoNo;  
-         let req = {Id:this.vendorStore.curVendor.id,RSONo: this.rsoNo};       
-         await this.vendorStore.GetAssignSalesRef(req,this.showLoading);         
+        this.vendorStore.curVendor.rsoNo = this.rsoNo;
+        // const req = { Id: this.vendorStore.curVendor.id, RSONo: this.rsoNo };
+        const req = {
+          Id: this.vendorStore.curVendor.id || this.leadId,
+          RSONo: this.rsoNo,
+        };
+        console.log(JSON.stringify(req, null, 2));
+        
+        await this.vendorStore.GetAssignSalesRef(req, this.showLoading);
         this.closeModal();
       }
     },
     IsValidate() {
-      let isValidate = true;
-
-      if (this.rsoNo == "") {
-        this.err.rsoNo = "Please select a Sales Executive!";
-        isValidate = false;
-      } else {
-        this.err.rsoNo = "";
-      }
-
-      return isValidate;
-    },
-
-    objectToFormData(obj) {
-      const formData = new FormData();
-
-      for (const key in obj) {
-        if (!obj.hasOwnProperty(key)) continue;
-
-        const value = obj[key];
-
-        if (value === null || value === undefined) continue;
-
-        if (value instanceof File) {
-          formData.append(key, value);
-        } else if (Array.isArray(value)) {
-          value.forEach((v, i) => {
-            formData.append(`${key}[${i}]`, v);
-          });
-        } else {
-          formData.append(key, value.toString());
-        }
-      }
-
-      return formData;
+      let isValid = true;
+      this.err.rsoNo = this.rsoNo ? "" : "Please select a Sales Executive!";
+      return !!this.rsoNo;
     },
   },
 };
 </script>
 
 <style scoped>
-/* Modal Overlay */
+.modal-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: rgba(0, 0, 0, 0.3);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 999;
+}
+
+.modal {
+  background: white;
+  width: 600px;
+  height: 300px;
+  border-radius: 8px;
+  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+  overflow: hidden;
+  font-size: 14px;
+}
+
+.modal-header,
+.modal-footer {
+  padding: 10px 15px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.modal-title {
+  font-size: 16px;
+  font-weight: bold;
+}
+
 .modal-content {
-   
-    height: 150px!important
-   
-  }
+  padding: 10px 15px;
+}
 
 button {
-  padding: 10px 20px;
+  padding: 6px 12px;
   border: none;
   cursor: pointer;
-  font-size: 14px;
-  border-radius: 5px;
+  font-size: 13px;
+  border-radius: 4px;
 }
 
 .cancel-button {
@@ -147,30 +153,13 @@ button {
 }
 
 button:hover {
-  opacity: 0.8;
+  opacity: 0.85;
 }
 
-/* Mobile Styles */
+/* Responsive for mobile */
 @media (max-width: 768px) {
   .modal {
-    width: 100%; /* Full width on mobile */
-    height: 100%; /* Full screen height on mobile */
-    border-radius: 0; /* Remove rounded corners for mobile */
-  }
-
-  .modal-header {
-    padding: 10px;
-  }
-
-  .modal-content {
-    padding: 10px;
-    max-height: none; /* Remove max-height for mobile */
-    overflow-y: auto; /* Enable scroll */
-    max-height: 80%;
-  }
-
-  .modal-footer {
-    padding: 10px;
+    width: 90%;
   }
 }
 </style>

@@ -1,6 +1,18 @@
 <!-- usage
- 
+      
+ import Button from "~/components/customcontrol/Button";
+   components: {Button},
+<Button
+            class="w-24"
+            label="Upload"
+            variant="primary"
+            @click="GetUploadProductLinks"
+          />
 
+methods: {
+ GetUploadProductLinks(){
+
+     },
 
 -->
 

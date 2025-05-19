@@ -15,7 +15,11 @@
  //import Swal from 'sweetalert2';
  //import { useSampleStore  } from '~/stores/modules/sampleStore';
  import { useUserStore } from "~/stores/modules/userStore";
+ //import { useQuotationStore } from "~/stores/modules/qms/quotationStore";
+ 
  import LinkBtn from "~/components/customcontrol/Link";
+  import Button from "~/components/customcontrol/Button";
+  import selectinput2 from "~/components/customcontrol/selectinput2";
 
  definePageMeta({
     layout: 'default',   
@@ -24,7 +28,7 @@
    
   export default {
     
-    components: {LinkBtn},
+    components: {LinkBtn,Button,selectinput2},
     props:[''],
     data() {
       return {

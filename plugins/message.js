@@ -31,7 +31,7 @@ export default defineNuxtPlugin(nuxtApp => {
 
 //UseCase
 // this.$showConfirm('Are you sure you want to delete this item?', 'warning').then((result) => {
-//   if (result) {
+//   if (result.isConfirmed) {
 //     console.log('Item deleted');
 //   } else {
 //     console.log('Action canceled');

@@ -21,7 +21,7 @@
 </svg>
       </div>
       <div>{{ name }} </div>
-      <div class="rounded-full bg-green-400 py-1 px-2 text-center font-bold absolute right-0 top-0 text-white -m-6"> {{wgjobcount}} </div>
+      <div class="rounded-full bg-blue-600 py-1 px-2 text-center font-bold absolute right-0 top-0 text-white -m-4"> {{wgjobcount}} </div>
     </div>
   </section>
 </template>

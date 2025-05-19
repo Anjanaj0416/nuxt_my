@@ -3,6 +3,9 @@ import axios from 'axios';
 
 export const useHrStore = defineStore('hrStore', {
   state: () => ({
+    initHRDetails:{
+      urlEmployeeDetailsXlsx:'',
+    },
     loggeduser: {},
     dashboard: {
       workgroupjobcount: null,
@@ -126,6 +129,53 @@ export const useHrStore = defineStore('hrStore', {
    //this.showToast('Loading successful!', 'success'); //success ,error ,warning,info
 
   actions: {
+
+    //GetUpdateEmployeeDetails
+     async GetUpdateEmployeeDetails(formData,showLoading) {
+    
+      const loadingAlert = showLoading("");
+     
+      try {
+        const response = await axios.post(
+          `${import.meta.env.VITE_API_URL}/hr/Employee/GetUploadEmployees`,
+           formData,
+          {
+            headers: {
+              "Content-Type": "multipart/form-data",
+            },
+          }
+        );
+        loadingAlert.close();
+        if (response.data.isSuccess) {
+           this.showToast('Employee Details Updated successful!', 'success');
+        } else {
+          this.showToast(response.data.message, "error");
+        }
+      } catch (error) {
+        this.showToast(response.data.message, "error");
+      }
+    },
+
+   //loadInitHRDetails
+    async loadInitHRDetails(showLoading) {
+
+      const loadingAlert = showLoading("");
+     
+      try {
+        const response = await axios.get(
+          `${import.meta.env.VITE_API_URL}/hr/HRCommon/GetInitHRDetails`
+        );
+        loadingAlert.close();
+        if (response.data.isSuccess) {
+         this.initHRDetails = response.data.data.data;
+        } else {
+          this.showToast(response.data.message, "error");
+        }
+      } catch (error) {
+        this.showToast(response.data.message, "error");
+      }
+    },
+
     async clearAll(){
       this.attendence = {};
       this.absense.arrabsences = [];
@@ -199,7 +249,7 @@ export const useHrStore = defineStore('hrStore', {
       const loadingAlert = showLoading(''); 
       try {
         const response = await axios.post(`${import.meta.env.VITE_API_URL}/hr/Employee/SearchEmployees`, req);   
-       
+       console.log(response)
         if (response.data.isSuccess) {    
           this.alempdetails = response.data.data.data.alpagedetails[0].alempdetails || [];
           this.showToast('Loading successful!', 'success'); 
