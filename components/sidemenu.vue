@@ -234,7 +234,8 @@ const links = [
         name: 'HR',
         submenu: [
             { name: 'Upload Employee Details', to: '/hr/system?ps=701' },       
-          { name: 'Add Holidays', to: '/hr/system?ps=702' },       
+          { name: 'Set Holidays', to: '/hr/system?ps=702' },  
+           { name: 'Set Special Work Arrangement', to: '/hr/system?ps=703' },         
           
         ],
       },
@@ -248,7 +249,18 @@ const links = [
         name: 'HR',
         
         submenu: [
-          { name: 'Employee OT report', to: '#' },       
+          { name: 'OT Individual Report', to: '#' },
+          { name: 'OT Month End Summery Report', to: '#' },
+            
+          { name: 'Daily Presence Report', to: '#' },       
+          { name: 'Employee Rectification Report', to: '#' },       
+          { name: 'Employee leave Annual Report', to: '#' },       
+          { name: 'Annual Summery Report', to: '#' },       
+          { name: 'TimeCard Summery Report', to: '#' },       
+          { name: 'No Pay Summery Report', to: '#' },       
+          { name: 'No Pay Monthly Report', to: '#' },       
+          { name: 'Supervisor Approval Pending Summery', to: '#' },  
+          { name: 'HR - Month End Report Summery', to: '#' },    
           
         ],
       },
