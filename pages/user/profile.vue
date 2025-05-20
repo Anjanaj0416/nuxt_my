@@ -9,14 +9,14 @@
       </div>
 
       <!-- Modal Body -->
-      <div class="px-6 py-8 space-y-4 overflow-y-auto ">
+      <div class="px-6 py-2 space-y-4 overflow-y-auto ">
         <!-- Profile View Mode -->
         <div v-if="!isEditing">
           <div class="flex items-center justify-between mb-4">
             <div class="flex items-center gap-4">
               <img
                 class="object-cover w-16 h-16 transition-transform rounded-full ring-2 ring-indigo-500 hover:scale-105"
-                :src="profile.resourceURLRoot + profile.image || 'https://img.icons8.com/ios/50/user-male-circle--v1.png'"
+                :src="profile.image || 'https://img.icons8.com/ios/50/user-male-circle--v1.png'"
                 alt="Profile Picture"
               />
               <!-- <img
@@ -55,7 +55,7 @@
 
         <!-- Edit Mode -->
         <div v-if="isEditing">
-          <div class="flex justify-end mb-4">
+          <div class="flex justify-end">
             <button @click="toggleEdit1" class="px-4 py-2 text-xl text-blue-900 transition-colors rounded-md hover:underline hover:text-blue-900">Cancel Edit</button>
           </div>
 
@@ -138,6 +138,7 @@ export default {
   },
   async created() {
     this.showLoading = this.$showLoading;
+      this.userStore = useUserStore();
 
   },
   methods: {
@@ -173,13 +174,12 @@ export default {
     GetSave() {
       if (this.IsValidate()) {
         this.$showConfirm(
-          "Are you sure you want to Save this Vendor?",
+          "Are you sure you want to Save this Profile Details?",
           "warning"
         ).then(async (result) => {
           if (result) {
-            const formData = this.convertProfileToFormData(this.profile);
-            const userStore = useUserStore();
-            await userStore.profileUpdate(formData, this.showLoading);
+            const formData = this.convertProfileToFormData(this.profile);         
+            await this.userStore.profileUpdate(formData, this.showLoading);
             this.closeModal();
           } else {
             console.log("Action canceled");

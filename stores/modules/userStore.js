@@ -94,7 +94,7 @@ export const useUserStore = defineStore('userStore', {
 
       try {
         const response = await axios.get(
-          `https://mcleapi.dtl.lk/api/hr/Employee/GetInitProfile`,
+          `${import.meta.env.VITE_API_URL}/hr/Employee/GetInitProfile`,
           { params: { Id: id } }
         );
 
@@ -136,7 +136,7 @@ export const useUserStore = defineStore('userStore', {
         icon: type,
         title: type,
         text: message,
-        timer: 3000,
+        timer: 5000,
         showConfirmButton: false,
         toast: true,
         position: 'top-end',

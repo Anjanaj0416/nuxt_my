@@ -1,5 +1,5 @@
 <template>
-  <section class="flex items-center justify-center min-h-screen px-4 bg-gray-100">
+  <section class="flex items-center justify-center min-h-screen px-4 bg-gray-100" v-if="isOpen">
     <!-- Sign Up Card -->
     <div class="flex flex-col items-center w-full max-w-2xl overflow-hidden bg-white shadow-2xl rounded-3xl md:flex-row">
      
@@ -172,7 +172,7 @@
   import toggleoption from "~/components/customcontrol/toggleoption";
 
   definePageMeta({
-    layout: "default",
+    layout: "",
   });
   export default {
     components: { closebtn, serach_Input, ImageLable, imagecomp, toggleoption },
@@ -183,6 +183,7 @@
       confirmPassword: '', 
       showConfirmPassword: false, 
       newPassword: '',
+      isOpen:true,
       code: '',
       user: {
         userName: '',
@@ -213,6 +214,7 @@
     closeModal() {
       this.isOpen = false;
       this.$emit("close");
+      this.goToLogin();
     },
 
     cancel() {
@@ -242,10 +244,9 @@
               userName: this.user.userName,
               identificationCode: this.user.identificationCode,
               confirmPassword: this.user.confirmPassword,
-            };
-         console.log(req);
+            };      
          
-             await this.userStore.GetChangePassword( req, this.showLoading );
+             await this.userStore.GetChangePassword( req, this.showLoading );         
             this.closeModal();
           } else {
             console.log("Action canceled");

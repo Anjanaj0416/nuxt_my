@@ -41,9 +41,9 @@
         </NuxtLink>
        
         <div class="relative flex items-center ml-3">
+       
         
-        
-          <span class="ml-2 text-white uppercase">{{loggedUser.name}}<br><span class="text-xs"> {{loggedUser.userName}}</span></span>  
+          <span class="ml-2 text-white uppercase">{{userStore.loggedUser.name}}<br><span class="text-xs"> {{userStore.loggedUser.userName}}</span></span>  
           
           <!-- Profile Image Button -->
           <div>
@@ -53,7 +53,7 @@
             >
               <img
                 class="w-8 h-8 rounded-full"
-                :src="loggedUser.resourceURLRoot+loggedUser.image"
+                :src="userStore.loggedUser.resourceURLRoot+userStore.loggedUser.image"
                 alt="Profile"
               />
             </button>
@@ -118,10 +118,10 @@ export default {
     // },
   async GoToProfile() {
     try {
-      const response = await this.userStore.fetchProfileData(this.loggedUser.id, this.$showLoading); 
+      const response = await this.userStore.fetchProfileData(this.userStore.loggedUser.id, this.$showLoading); 
       if (response && response.data) {
         this.profileData = response.data.data;
-        this.profileData.loggedUserId = this.loggedUser.id;
+        this.profileData.loggedUserId = this.userStore.loggedUser.id;
         this.isProfile = true;
         this.isDropdownOpen = false;
       }
@@ -132,7 +132,7 @@ export default {
   }
   },
   mounted() {
-    console.log("Received user ID in profile:", this.userId);
+   // console.log("Received user ID in profile:", this.userId);
   },
   async created() {
     this.userStore = useUserStore();

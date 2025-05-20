@@ -41,7 +41,7 @@ export const useUserStore = defineStore('sample', {
       icon: type,
       title: type,
       text: message,
-      timer: 3000,
+      timer: 5000,
       showConfirmButton: false,
       toast: true,
       position: 'top-end',
