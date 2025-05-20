@@ -82,7 +82,8 @@
     </div>
   </div>
 
-  <profile v-if="isProfile" :userId="loggedUser.id"  @close="isProfile = !isProfile" />
+  <profile v-if="isProfile" :profile="profileData" @close="isProfile = !isProfile" />
+
 
 
 </section>
@@ -105,15 +106,30 @@ export default {
       isSidebarOpen: false,
       isDropdownOpen: false,
       isProfile: false,
+      profileData: null,
     };
     
   },
 
   methods: {
-    async GoToProfile(id) {
-      this.isProfile = true;
-      this.isDropdownOpen = false;
-    },
+    // async GoToProfile(id) {
+    //   this.isProfile = true;
+    //   this.isDropdownOpen = false;
+    // },
+  async GoToProfile() {
+    try {
+      const response = await this.userStore.fetchProfileData(this.loggedUser.id, this.$showLoading); 
+      if (response && response.data) {
+        this.profileData = response.data.data;
+        this.profileData.loggedUserId = this.loggedUser.id;
+        this.isProfile = true;
+        this.isDropdownOpen = false;
+      }
+      console.log('profileData:', this.profileData);
+    } catch (err) {
+      console.error("Error in GoToProfile:", err);
+    }
+  }
   },
   mounted() {
     console.log("Received user ID in profile:", this.userId);

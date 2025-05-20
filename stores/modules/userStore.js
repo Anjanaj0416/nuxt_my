@@ -104,6 +104,36 @@ async GetChangePassword(req,showLoading) {
        }
     },
 
+    async fetchProfileData(id, showLoading) {
+      console.log(id);
+      
+      const loadingAlert = showLoading('');
+
+      try {
+        const response = await axios.get(
+          `https://mcleapi.dtl.lk/api/hr/Employee/GetInitProfile`,
+          { params: { Id: id } }
+        );
+
+        loadingAlert.close();
+
+        if (response.data) {
+          this.profileData = response.data;          
+          return response.data;
+        } else {
+          this.showToast('Failed to fetch profile data.', 'error');
+          return null;
+        }
+
+      } catch (error) {
+        loadingAlert.close();
+        console.error("Profile fetch error:", error);
+        this.showToast('Network error while loading profile.', 'error');
+        return null;
+      }
+    },
+
+
     logout() {
       this.token = null;
       localStorage.clear();
