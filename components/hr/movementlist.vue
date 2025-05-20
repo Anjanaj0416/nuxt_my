@@ -7,7 +7,7 @@
             Movement Details
           </div>
 
-          <div v-show="userStore.loggedUser.userName === empno || userStore.loggedUser.granted === 'hradmin'">
+          <div v-show="userStore.loggedUser.userName === empno || userStore.loggedUser.granted.includes('hradmin')">
             <btnapplyleave name="Apply" title="Apply Movement" @click="applymovement" />
           </div>
         </div>

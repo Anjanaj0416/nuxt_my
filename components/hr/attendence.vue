@@ -151,7 +151,8 @@
               </span>
             </div>
             <div>
-              <div v-show="userStore.loggedUser.granted === 'hradmin' || userStore.loggedUser.granted === 'hradmin'"
+              <div
+                v-show="userStore.loggedUser.granted.includes('hradmin') || userStore.loggedUser.granted.includes('hradmin')"
                 class="w-4/5 p-1 p-2 font-bold text-center border-gray-500 rounded rounded-md cursor-pointer gap-x-1 hover:bg-blue-500 hover:text-white"
                 @click="getReCalcOT(dayatt)">
                 ReCalc.OT
@@ -755,7 +756,7 @@ export default {
 
     async getclose() {
       this.$emit('exit')
-    },    
+    },
 
     getDownload() {
       if (this.dtfrom != '' && this.dtto != "") {

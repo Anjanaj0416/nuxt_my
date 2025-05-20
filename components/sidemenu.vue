@@ -1,98 +1,47 @@
 <template>
   <div>
-    <div
-      v-if="isOpen"
-      class="fixed inset-0 z-30 bg-black bg-opacity-50"
-      @click="$emit('close-sidebar')"
-    ></div>
-    <aside
-      :class="[
-        'fixed inset-y-0 left-0 z-40 w-64 bg-gray-800 text-white overflow-y-auto shadow-lg transform transition-transform duration-300 ease-in-out',
-        isOpen ? 'translate-x-0' : '-translate-x-full',
-      ]"
-      role="navigation"
-      :aria-hidden="!isOpen"
-    >
+    <div v-if="isOpen" class="fixed inset-0 z-30 bg-black bg-opacity-50" @click="$emit('close-sidebar')"></div>
+    <aside :class="[
+      'fixed inset-y-0 left-0 z-40 w-64 bg-gray-800 text-white overflow-y-auto shadow-lg transform transition-transform duration-300 ease-in-out',
+      isOpen ? 'translate-x-0' : '-translate-x-full',
+    ]" role="navigation" :aria-hidden="!isOpen">
       <!-- Top Navbar -->
-      <div
-        class="flex items-center justify-between px-6 py-4 bg-gray-900 shadow-md"
-      >
+      <div class="flex items-center justify-between px-6 py-4 bg-gray-900 shadow-md">
         <!-- Logo -->
         <router-link to="/" class="flex items-center space-x-2">
-          <img
-            src="/assets/img/LogoDigitalTechLab.png"
-            alt="Logo"
-            class="h-auto rounded-full w-28"
-          />
+          <img src="/assets/img/LogoDigitalTechLab.png" alt="Logo" class="h-auto rounded-full w-28" />
         </router-link>
 
         <!-- Close Button -->
-        <button
-          @click="$emit('close-sidebar')"
+        <button @click="$emit('close-sidebar')"
           class="p-2 text-white transition duration-200 rounded-full hover:bg-gray-700 focus:outline-none"
-          aria-label="Close Sidebar"
-        >
-          <svg
-            class="w-6 h-6"
-            fill="none"
-            stroke="currentColor"
-            stroke-width="2"
-            viewBox="0 0 24 24"
-            xmlns="http://www.w3.org/2000/svg"
-          >
-            <path
-              stroke-linecap="round"
-              stroke-linejoin="round"
-              d="M6 18L18 6M6 6l12 12"
-            />
+          aria-label="Close Sidebar">
+          <svg class="w-6 h-6" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"
+            xmlns="http://www.w3.org/2000/svg">
+            <path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12" />
           </svg>
         </button>
       </div>
       <!-- Subheader -->
-      <div
-        class="flex items-center justify-between px-6 py-3 text-white bg-gradient-to-r from-gray-800 to-gray-700"
-      >
+      <div class="flex items-center justify-between px-6 py-3 text-white bg-gradient-to-r from-gray-800 to-gray-700">
         <h1 class="text-xl font-semibold tracking-wide">INTRANET</h1>
       </div>
       <nav class="p-4">
         <div v-for="link in links" :key="link.name">
           <!-- Top-level link or menu -->
           <div v-if="link.submenu">
-            <div
-              @click="toggleSubmenu(link.name)"
-              class="flex items-center justify-between px-4 py-2 rounded cursor-pointer hover:bg-blue-800"
-            >
+            <div @click="toggleSubmenu(link.name)"
+              class="flex items-center justify-between px-4 py-2 rounded cursor-pointer hover:bg-blue-800">
               <div class="flex items-center">
-                <svg
-                  class="w-5 h-5 mr-2"
-                  fill="none"
-                  stroke="currentColor"
-                  viewBox="0 0 24 24"
-                  xmlns="http://www.w3.org/2000/svg"
-                >
-                  <path
-                    :d="link.icon"
-                    stroke-linecap="round"
-                    stroke-linejoin="round"
-                    stroke-width="2"
-                  />
+                <svg class="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24"
+                  xmlns="http://www.w3.org/2000/svg">
+                  <path :d="link.icon" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" />
                 </svg>
                 <span>{{ link.name }}</span>
               </div>
-              <svg
-                :class="{ 'rotate-90': isSubmenuOpen(link.name) }"
-                class="w-4 h-4 transition-transform duration-200"
-                fill="none"
-                stroke="currentColor"
-                viewBox="0 0 24 24"
-                xmlns="http://www.w3.org/2000/svg"
-              >
-                <path
-                  d="M9 5l7 7-7 7"
-                  stroke-width="2"
-                  stroke-linecap="round"
-                  stroke-linejoin="round"
-                />
+              <svg :class="{ 'rotate-90': isSubmenuOpen(link.name) }" class="w-4 h-4 transition-transform duration-200"
+                fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                <path d="M9 5l7 7-7 7" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
               </svg>
             </div>
 
@@ -100,55 +49,33 @@
             <div v-show="isSubmenuOpen(link.name)" class="pl-4 mt-1 space-y-1">
               <div v-for="submenu in link.submenu" :key="submenu.name">
                 <div v-if="submenu.submenu">
-                  <div
-                    @click="
-                      toggleSubmenu(submenu.name);
-                      $emit('close-sidebar');
-                    "
-                    class="flex items-center justify-between px-3 py-2 text-gray-300 rounded cursor-pointer hover:bg-blue-800"
-                  >
+                  <div @click="
+                    toggleSubmenu(submenu.name);
+                  // $emit('close-sidebar');
+                  "
+                    class="flex items-center justify-between px-3 py-2 text-gray-300 rounded cursor-pointer hover:bg-blue-800">
                     <span>{{ submenu.name }}</span>
-                    <svg
-                      :class="{ 'rotate-90': isSubmenuOpen(submenu.name) }"
-                      class="w-3 h-3 transition-transform duration-200"
-                      fill="none"
-                      stroke="currentColor"
-                      viewBox="0 0 24 24"
-                      xmlns="http://www.w3.org/2000/svg"
-                    >
-                      <path
-                        d="M9 5l7 7-7 7"
-                        stroke-width="2"
-                        stroke-linecap="round"
-                        stroke-linejoin="round"
-                      />
+                    <svg :class="{ 'rotate-90': isSubmenuOpen(submenu.name) }"
+                      class="w-3 h-3 transition-transform duration-200" fill="none" stroke="currentColor"
+                      viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                      <path d="M9 5l7 7-7 7" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
                     </svg>
                   </div>
 
                   <!-- Level 3 submenu -->
-                  <div
-                    v-show="isSubmenuOpen(submenu.name)"
-                    class="pl-4 space-y-1"
-                  >
-                    <router-link
-                      v-for="child in submenu.submenu"
-                      :key="child.name"
-                      :to="child.to"
+                  <div v-show="isSubmenuOpen(submenu.name)" class="pl-4 space-y-1">
+                    <router-link v-for="child in submenu.submenu" :key="child.name" :to="child.to"
                       class="block px-3 py-1 text-sm text-gray-400 rounded hover:text-white hover:bg-blue-700"
-                      @click.native="$emit('close-sidebar')"
-                    >
+                      @click.native="$emit('close-sidebar')">
                       {{ child.name }}
                     </router-link>
                   </div>
                 </div>
 
                 <!-- No child submenu -->
-                <router-link
-                  v-else
-                  :to="submenu.to"
+                <router-link v-else :to="submenu.to"
                   class="block px-3 py-2 text-gray-300 rounded hover:text-white hover:bg-blue-800"
-                  @click.native="$emit('close-sidebar')"
-                >
+                  @click.native="$emit('close-sidebar')">
                   {{ submenu.name }}
                 </router-link>
               </div>
@@ -156,25 +83,11 @@
           </div>
 
           <!-- Regular link -->
-          <router-link
-            v-else
-            :to="link.to"
-            class="flex items-center px-4 py-2 rounded hover:bg-blue-800"
-            @click.native="$emit('close-sidebar')"
-          >
-            <svg
-              class="w-5 h-5 mr-2"
-              fill="none"
-              stroke="currentColor"
-              viewBox="0 0 24 24"
-              xmlns="http://www.w3.org/2000/svg"
-            >
-              <path
-                :d="link.icon"
-                stroke-linecap="round"
-                stroke-linejoin="round"
-                stroke-width="2"
-              />
+          <router-link v-else :to="link.to" class="flex items-center px-4 py-2 rounded hover:bg-blue-800"
+            @click.native="$emit('close-sidebar')">
+            <svg class="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24"
+              xmlns="http://www.w3.org/2000/svg">
+              <path :d="link.icon" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" />
             </svg>
             <span>{{ link.name }}</span>
           </router-link>
@@ -235,7 +148,7 @@ const links = [
         to: "",
         icon: "M12 12c2.21 0 4-1.79 4-4s-1.79-4-4-4s-4 1.79-4 4s1.79 4 4 4zM12 14c-4.42 0-8 2.79-8 6v2h16v-2c0-3.21-3.58-6-8-6z",
         submenu: [
-          { name: "Invoice Data Summary Report",  to: "/qms/reports?ps=901", },
+          { name: "Invoice Data Summary Report", to: "/qms/reports?ps=901", },
           { name: "Receipt Data Summary Report ", to: "/qms/reports?ps=902", },
           { name: "Unsettled Advances", to: "/qms/reports?ps=904" },
           { name: "Debtor OS report", to: "/qms/reports?ps=903" },
@@ -257,7 +170,7 @@ const links = [
       {
         name: "Reports",
         to: "#",
-         submenu: [
+        submenu: [
           { name: "OT Individual Report", to: "#" },
           { name: "OT Month End Summery Report", to: "#" },
 

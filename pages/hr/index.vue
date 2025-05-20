@@ -1,7 +1,7 @@
 <template>
   <section>
     <!-- Start Top Header -->
-    
+
     <div
       class="flex flex-col items-center justify-between h-24 px-4 pt-6 my-10 bg-gray-300 cssTop lg:flex-row md:flex-row">
       <div class="my-2 text-lg font-bold capitalize lg:text-xl lg:my-0">
@@ -20,8 +20,8 @@
           </div> -->
 
           <div class="flex items-center justify-center md:ml-8">
-           
-            <search_dashboard v-show="userStore.loggedUser.granted.indexOf('hradmin')>-1" placeholder="Search Employee"
+
+            <search_dashboard v-show="userStore.loggedUser.granted.includes('hradmin')" placeholder="Search Employee"
               :arrsections="arrsections_DBSerach" @getsearch="search_begin_DBSerach" />
           </div>
         </div>
@@ -36,7 +36,7 @@
           <!-- HRAdmin -->
           <btnwgstatus name="workgroup" :wgjobcount="hrStore.dashboard.workgroupjobcount" @click="getviewwg" />
         </div>
-       
+
       </div>
     </div>
 
@@ -92,7 +92,7 @@
             </div>
           </div>
         </div>
-     
+
 
         <!-- Employees List  -->
         <div class="cssemplist" v-for="(emp, index) in hrStore.alempdetails" :key="emp">
@@ -104,10 +104,11 @@
                 <div class="cssdatarowitem lg:border-0">
                   <span class="lg:hidden ">Employee Name</span>
                   <div class="flex gap-x-2">
-                  
+
 
                     <img class="w-16 h-16 transform rounded hover:scale-125"
-                      :src="userStore.assetsBaseUrl + '/HR/'+userStore.loggedUser.branchCode+'/avator/' + emp.image" alt="" />
+                      :src="userStore.assetsBaseUrl + '/HR/' + userStore.loggedUser.branchCode + '/avator/' + emp.image"
+                      alt="" />
                     {{ emp.empname }}
                   </div>
                 </div>
@@ -150,7 +151,7 @@
                   <div>User Guide</div>
                 </div>
               </div>
-   <!-- {{userStore.loggedUser}} -->
+              <!-- {{userStore.loggedUser}} -->
               <div class="flex flex-wrap justify-end gap-4 px-4 pb-2">
                 <!-- Employee Details -->
                 <div @click="init_employee(emp.id)" class="p-2 border-2 rounded-lg cursor-pointer hover:text-blue-200">
@@ -164,7 +165,7 @@
                 </div>
 
                 <!-- Apply OT -->
-           
+
                 <div
                   v-show="!emp.isOTAllow && (userStore.loggedUser.userName === emp.empno || userStore.loggedUser.userGroup === 'Supervisor' || userStore.loggedUser.userGroup?.toLowerCase() === 'admin')"
                   title="OT Apply"
@@ -426,7 +427,7 @@ export default {
     const req = {
       searchval: this.userStore.loggedUser.userName,
       searchby: 101,
-      
+
     }
 
     this.search_begin_DBSerach(req);

@@ -10,7 +10,7 @@
           </div>
 
           <!-- Month and Year Selection (Only for HR Admin) -->
-          <div v-show="userStore.loggedUser.granted.indexOf('hradmin') > -1" class="flex items-center gap-2">
+          <div v-show="userStore.loggedUser.granted.includes('hradmin')" class="flex items-center gap-2">
             <selectinput2 class="w-20" v-model="month" :cur_item="month" :selections="month_names" :err="err.month"
               label="Month" />
             <selectinput2 class="w-20" v-model="year" :cur_item="year" :selections="years" :err="err.year"
