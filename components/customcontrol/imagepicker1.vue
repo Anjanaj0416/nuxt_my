@@ -1,6 +1,6 @@
 <template>
     <div>
-      <label class="block mb-2 text-sm font-bold text-gray-600">{{ label }}</label>
+      <!-- <label class="block mb-2 text-sm font-bold text-gray-600">{{ label }}</label> -->
   
       <div
         class="relative flex flex-col items-center justify-center p-6 transition border-2 border-dashed rounded-lg cursor-pointer hover:bg-gray-100"

@@ -16,36 +16,26 @@ export const useUserStore = defineStore('userStore', {
   actions: {
 
 
-async GetChangePassword(req,showLoading) {   
-
+    async GetChangePassword(req, showLoading) {
       const loadingAlert = showLoading(''); 
-      try {
 
-        const response = await axios.post(`${import.meta.env.VITE_API_URL}/IAM/GetChangePassword`, req);      
+      try {
+        const response = await axios.post(
+          `${import.meta.env.VITE_API_URL}/IAM/GetChangePassword`, req);      
+          
         loadingAlert.close();                            
 
         if (response.data.isSuccess) {
-          
-          //this.token = response.data.authToken;  // Assuming the response contains a 'token'
-         // this.loggedUser =response.data.loggedUser;
-        //  this.assetsBaseUrl =response.data.loggedUser.resourceURLRoot;
-         // console.log(this.loggedUser )
-          
-        // document.cookie = `token=${this.token}; path=/; max-age=3600; Secure`;
-                  
-       }
-       else{        
-        this.showToast('Get change Password error:'+response.data.message,'error');
-       }
-       
-        
+          this.showToast(response.data.message);
+        } else {        
+          this.showToast(`Change Password Error: ${response.data.message}`, 'error');
+        }
       } catch (error) {     
-        console.error("error:",error);
-        
-        this.showToast('Network Error! Login failed. Please try again.','error');     
+        console.error("error:", error);
+        this.showToast('Network Error! Password change failed. Please try again.', 'error');     
       }
-      
     },
+
 
     async login(loginDetails,showLoading) {   
 
@@ -79,30 +69,53 @@ async GetChangePassword(req,showLoading) {
     },
 
     async profileUpdate(formData, showLoading) {
+      const loadingAlert = showLoading('');
       try {
         const response = await axios.post(
-          `${import.meta.env.VITE_API_URL}/hr/Employee/GetUpdateProfile`,
-          formData,
-          {
-            headers: {
-              "Content-Type": "multipart/form-data",
-            },
-          }
-        );
-
-        if (response.data.isSuccess) {         
-          this.showToast(response.data.message);       
-       
-          this.listVendor = response.data.data.data;
-        
+        `${import.meta.env.VITE_API_URL}/hr/Employee/GetUpdateProfile`,formData,);
+        loadingAlert.close();
+        if (response.data.isSuccess) {
+          this.showToast(response.data.message);
+          this.updateProfile = response.data.data.data;
         } else {
           this.showToast(response.data.message, "error");
         }
       } catch (error) {
-        // console.error(error)
-        this.showToast('Error in server call', "error");
-       }
+        console.error("error:",error);
+        this.showToast('Network Error! Login failed. Please try again.','error');    
+      }
     },
+
+
+    async fetchProfileData(id, showLoading) {
+      console.log(id);
+      
+      const loadingAlert = showLoading('');
+
+      try {
+        const response = await axios.get(
+          `https://mcleapi.dtl.lk/api/hr/Employee/GetInitProfile`,
+          { params: { Id: id } }
+        );
+
+        loadingAlert.close();
+
+        if (response.data) {
+          this.profileData = response.data;          
+          return response.data;
+        } else {
+          this.showToast('Failed to fetch profile data.', 'error');
+          return null;
+        }
+
+      } catch (error) {
+        loadingAlert.close();
+        console.error("Profile fetch error:", error);
+        this.showToast('Network error while loading profile.', 'error');
+        return null;
+      }
+    },
+
 
     logout() {
       this.token = null;

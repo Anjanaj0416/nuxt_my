@@ -243,6 +243,7 @@
               identificationCode: this.user.identificationCode,
               confirmPassword: this.user.confirmPassword,
             };
+         console.log(req);
          
              await this.userStore.GetChangePassword( req, this.showLoading );
             this.closeModal();
