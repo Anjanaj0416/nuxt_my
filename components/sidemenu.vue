@@ -1,5 +1,5 @@
 <template>
-  <div >
+  <div>
     <div
       v-if="isOpen"
       class="fixed inset-0 z-30 bg-black bg-opacity-50"
@@ -14,7 +14,9 @@
       :aria-hidden="!isOpen"
     >
       <!-- Top Navbar -->
-      <div class="flex items-center justify-between px-6 py-4 bg-gray-900 shadow-md">
+      <div
+        class="flex items-center justify-between px-6 py-4 bg-gray-900 shadow-md"
+      >
         <!-- Logo -->
         <router-link to="/" class="flex items-center space-x-2">
           <img
@@ -23,7 +25,7 @@
             class="h-auto rounded-full w-28"
           />
         </router-link>
-    
+
         <!-- Close Button -->
         <button
           @click="$emit('close-sidebar')"
@@ -38,12 +40,18 @@
             viewBox="0 0 24 24"
             xmlns="http://www.w3.org/2000/svg"
           >
-            <path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12" />
+            <path
+              stroke-linecap="round"
+              stroke-linejoin="round"
+              d="M6 18L18 6M6 6l12 12"
+            />
           </svg>
         </button>
       </div>
       <!-- Subheader -->
-      <div class="flex items-center justify-between px-6 py-3 text-white bg-gradient-to-r from-gray-800 to-gray-700">
+      <div
+        class="flex items-center justify-between px-6 py-3 text-white bg-gradient-to-r from-gray-800 to-gray-700"
+      >
         <h1 class="text-xl font-semibold tracking-wide">INTRANET</h1>
       </div>
       <nav class="p-4">
@@ -51,7 +59,7 @@
           <!-- Top-level link or menu -->
           <div v-if="link.submenu">
             <div
-              @click="toggleSubmenu(link.name); "
+              @click="toggleSubmenu(link.name)"
               class="flex items-center justify-between px-4 py-2 rounded cursor-pointer hover:bg-blue-800"
             >
               <div class="flex items-center">
@@ -62,7 +70,12 @@
                   viewBox="0 0 24 24"
                   xmlns="http://www.w3.org/2000/svg"
                 >
-                  <path :d="link.icon" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" />
+                  <path
+                    :d="link.icon"
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                    stroke-width="2"
+                  />
                 </svg>
                 <span>{{ link.name }}</span>
               </div>
@@ -74,7 +87,12 @@
                 viewBox="0 0 24 24"
                 xmlns="http://www.w3.org/2000/svg"
               >
-                <path d="M9 5l7 7-7 7" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
+                <path
+                  d="M9 5l7 7-7 7"
+                  stroke-width="2"
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                />
               </svg>
             </div>
 
@@ -83,7 +101,10 @@
               <div v-for="submenu in link.submenu" :key="submenu.name">
                 <div v-if="submenu.submenu">
                   <div
-                    @click="toggleSubmenu(submenu.name); $emit('close-sidebar')"
+                    @click="
+                      toggleSubmenu(submenu.name);
+                      $emit('close-sidebar');
+                    "
                     class="flex items-center justify-between px-3 py-2 text-gray-300 rounded cursor-pointer hover:bg-blue-800"
                   >
                     <span>{{ submenu.name }}</span>
@@ -95,12 +116,20 @@
                       viewBox="0 0 24 24"
                       xmlns="http://www.w3.org/2000/svg"
                     >
-                      <path d="M9 5l7 7-7 7" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
+                      <path
+                        d="M9 5l7 7-7 7"
+                        stroke-width="2"
+                        stroke-linecap="round"
+                        stroke-linejoin="round"
+                      />
                     </svg>
                   </div>
 
                   <!-- Level 3 submenu -->
-                  <div v-show="isSubmenuOpen(submenu.name)" class="pl-4 space-y-1">
+                  <div
+                    v-show="isSubmenuOpen(submenu.name)"
+                    class="pl-4 space-y-1"
+                  >
                     <router-link
                       v-for="child in submenu.submenu"
                       :key="child.name"
@@ -140,25 +169,29 @@
               viewBox="0 0 24 24"
               xmlns="http://www.w3.org/2000/svg"
             >
-              <path :d="link.icon" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" />
+              <path
+                :d="link.icon"
+                stroke-linecap="round"
+                stroke-linejoin="round"
+                stroke-width="2"
+              />
             </svg>
             <span>{{ link.name }}</span>
           </router-link>
         </div>
       </nav>
-
     </aside>
   </div>
 </template>
 
 <script setup>
-import { ref } from 'vue';
+import { ref } from "vue";
 
 const props = defineProps({
-  isOpen: Boolean
+  isOpen: Boolean,
 });
 
-const emit = defineEmits(['close-sidebar']);
+const emit = defineEmits(["close-sidebar"]);
 
 const openSubmenus = ref([]);
 
@@ -174,27 +207,39 @@ const isSubmenuOpen = (name) => openSubmenus.value.includes(name);
 
 const links = [
   {
-    name: 'Sales',
-    icon: 'M12 12c2.21 0 4-1.79 4-4s-1.79-4-4-4s-4 1.79-4 4s1.79 4 4 4zM12 14c-4.42 0-8 2.79-8 6v2h16v-2c0-3.21-3.58-6-8-6z',
+    name: "Sales",
+    icon: "M12 12c2.21 0 4-1.79 4-4s-1.79-4-4-4s-4 1.79-4 4s1.79 4 4 4zM12 14c-4.42 0-8 2.79-8 6v2h16v-2c0-3.21-3.58-6-8-6z",
     submenu: [
-      { name: 'Leads', to: '/qms/vendor/leads', icon: "M12 12c2.21 0 4-1.79 4-4s-1.79-4-4-4s-4 1.79-4 4s1.79 4 4 4zM12 14c-4.42 0-8 2.79-8 6v2h16v-2c0-3.21-3.58-6-8-6z", },
-      { name: 'Vendor', to: '/qms/vendor',   icon: "M12 12c2.21 0 4-1.79 4-4s-1.79-4-4-4s-4 1.79-4 4s1.79 4 4 4zM12 14c-4.42 0-8 2.79-8 6v2h16v-2c0-3.21-3.58-6-8-6z", },
-      { name: 'Quotation', to: '/qms/quotation', icon: "M7.732 16.5q.212 0 .356-.144T8.23 16v-5q0-.213-.144-.356q-.144-.144-.357-.144t-.356.144T7.23 11v5q0 .213.144.356t.357.144m3.769 0q.213 0 .356-.144T12 16V8q0-.213-.144-.356t-.357-.144t-.356.144T11 8v8q0 .213.144.356t.357.144m3.769 0q.213 0 .356-.144t.143-.356v-2q0-.213-.144-.356t-.356-.144t-.356.144t-.144.356v2q0 .213.144.356q.144.144.357.144M18 8q-.213 0-.357-.144T17.5 7.5V6H16q-.213 0-.356-.144t-.144-.357t.144-.356T16 5h1.5V3.5q0-.213.144-.356T18.001 3t.356.144t.143.356V5H20q.213 0 .356.144t.144.357t-.144.356T20 6h-1.5v1.5q0 .213-.144.356T17.999 8M5.116 20q-.691 0-1.153-.462T3.5 18.384V5.616q0-.691.463-1.153T5.115 4h8.808q.213 0 .356.144t.144.356v2.962q0 .666.475 1.14t1.14.475H19q.213 0 .356.144t.144.356v8.808q0 .69-.462 1.153T17.884 20z", },
-      { name: 'Invoice', to: '/invoicing', icon: "M6.616 21q-.691 0-1.153-.462T5 19.385V4.615q0-.69.463-1.152T6.616 3h7.213q.323 0 .628.13t.522.349L18.52 7.02q.217.218.348.522t.131.628v2.248q0 .218-.134.379q-.133.162-.345.223q-.362.131-.666.32q-.305.19-.586.47l-5.515 5.497q-.217.217-.351.522q-.134.304-.134.628v1.734q0 .348-.23.578t-.577.23zm7.038-.808V19.12q0-.161.056-.3q.055-.14.186-.271l5.09-5.065q.148-.13.308-.19q.16-.062.32-.062q.165 0 .334.064q.17.065.298.194l.925.944q.123.148.188.308q.064.159.064.319t-.061.322t-.19.31l-5.066 5.066q-.131.13-.27.186q-.14.056-.302.056h-1.073q-.348 0-.577-.23q-.23-.23-.23-.578m5.96-4.176l.924-.956l-.925-.944l-.95.95zM14.807 8H18l-4-4l4 4l-4-4v3.192q0 .348.23.578t.578.23" },
+      {
+        name: "Leads",
+        to: "/qms/vendor/leads",
+        icon: "M12 12c2.21 0 4-1.79 4-4s-1.79-4-4-4s-4 1.79-4 4s1.79 4 4 4zM12 14c-4.42 0-8 2.79-8 6v2h16v-2c0-3.21-3.58-6-8-6z",
+      },
+      {
+        name: "Vendor",
+        to: "/qms/vendor",
+        icon: "M12 12c2.21 0 4-1.79 4-4s-1.79-4-4-4s-4 1.79-4 4s1.79 4 4 4zM12 14c-4.42 0-8 2.79-8 6v2h16v-2c0-3.21-3.58-6-8-6z",
+      },
+      {
+        name: "Quotation",
+        to: "/qms/quotation",
+        icon: "M7.732 16.5q.212 0 .356-.144T8.23 16v-5q0-.213-.144-.356q-.144-.144-.357-.144t-.356.144T7.23 11v5q0 .213.144.356t.357.144m3.769 0q.213 0 .356-.144T12 16V8q0-.213-.144-.356t-.357-.144t-.356.144T11 8v8q0 .213.144.356t.357.144m3.769 0q.213 0 .356-.144t.143-.356v-2q0-.213-.144-.356t-.356-.144t-.356.144t-.144.356v2q0 .213.144.356q.144.144.357.144M18 8q-.213 0-.357-.144T17.5 7.5V6H16q-.213 0-.356-.144t-.144-.357t.144-.356T16 5h1.5V3.5q0-.213.144-.356T18.001 3t.356.144t.143.356V5H20q.213 0 .356.144t.144.357t-.144.356T20 6h-1.5v1.5q0 .213-.144.356T17.999 8M5.116 20q-.691 0-1.153-.462T3.5 18.384V5.616q0-.691.463-1.153T5.115 4h8.808q.213 0 .356.144t.144.356v2.962q0 .666.475 1.14t1.14.475H19q.213 0 .356.144t.144.356v8.808q0 .69-.462 1.153T17.884 20z",
+      },
+      {
+        name: "Invoice",
+        to: "/invoicing",
+        icon: "M6.616 21q-.691 0-1.153-.462T5 19.385V4.615q0-.69.463-1.152T6.616 3h7.213q.323 0 .628.13t.522.349L18.52 7.02q.217.218.348.522t.131.628v2.248q0 .218-.134.379q-.133.162-.345.223q-.362.131-.666.32q-.305.19-.586.47l-5.515 5.497q-.217.217-.351.522q-.134.304-.134.628v1.734q0 .348-.23.578t-.577.23zm7.038-.808V19.12q0-.161.056-.3q.055-.14.186-.271l5.09-5.065q.148-.13.308-.19q.16-.062.32-.062q.165 0 .334.064q.17.065.298.194l.925.944q.123.148.188.308q.064.159.064.319t-.061.322t-.19.31l-5.066 5.066q-.131.13-.27.186q-.14.056-.302.056h-1.073q-.348 0-.577-.23q-.23-.23-.23-.578m5.96-4.176l.924-.956l-.925-.944l-.95.95zM14.807 8H18l-4-4l4 4l-4-4v3.192q0 .348.23.578t.578.23",
+      },
       {
         name: "Reports",
         to: "",
         icon: "M12 12c2.21 0 4-1.79 4-4s-1.79-4-4-4s-4 1.79-4 4s1.79 4 4 4zM12 14c-4.42 0-8 2.79-8 6v2h16v-2c0-3.21-3.58-6-8-6z",
         submenu: [
-          {
-            name: "MonEnd Order Summery",
-            to: "/reports/MonEndOrderSummery",
-          },
-          {
-            name: "Payment Collection",
-            to: "/reports/PaymentCollection",
-          },
-          { name: "Pending Orders", to: "/reports/PendingOrders" },
+          { name: "Invoice Data Summary Report",  to: "/qms/reports?ps=901", },
+          { name: "Receipt Data Summary Report ", to: "/qms/reports?ps=902", },
+          { name: "Unsettled Advances", to: "/qms/reports?ps=904" },
+          { name: "Debtor OS report", to: "/qms/reports?ps=903" },
+          { name: "Commission Calculation report", to: "/qms/reports?ps=905" },
         ],
       },
     ],
@@ -204,79 +249,56 @@ const links = [
     to: "#",
     icon: "M7.732 16.5q.212 0 .356-.144T8.23 16v-5q0-.213-.144-.356q-.144-.144-.357-.144t-.356.144T7.23 11v5q0 .213.144.356t.357.144m3.769 0q.213 0 .356-.144T12 16V8q0-.213-.144-.356t-.357-.144t-.356.144T11 8v8q0 .213.144.356t.357.144m3.769 0q.213 0 .356-.144t.143-.356v-2q0-.213-.144-.356t-.356-.144t-.356.144t-.144.356v2q0 .213.144.356q.144.144.357.144M18 8q-.213 0-.357-.144T17.5 7.5V6H16q-.213 0-.356-.144t-.144-.357t.144-.356T16 5h1.5V3.5q0-.213.144-.356T18.001 3t.356.144t.143.356V5H20q.213 0 .356.144t.144.357t-.144.356T20 6h-1.5v1.5q0 .213-.144.356T17.999 8M5.116 20q-.691 0-1.153-.462T3.5 18.384V5.616q0-.691.463-1.153T5.115 4h8.808q.213 0 .356.144t.144.356v2.962q0 .666.475 1.14t1.14.475H19q.213 0 .356.144t.144.356v8.808q0 .69-.462 1.153T17.884 20z",
     submenu: [
-    {
+      {
         name: "Employee",
         to: "/hr",
       },
-     
+
       {
         name: "Reports",
         to: "#",
+         submenu: [
+          { name: "OT Individual Report", to: "#" },
+          { name: "OT Month End Summery Report", to: "#" },
+
+          { name: "Daily Presence Report", to: "#" },
+          { name: "Employee Rectification Report", to: "#" },
+          { name: "Employee leave Annual Report", to: "#" },
+          { name: "Annual Summery Report", to: "#" },
+          { name: "TimeCard Summery Report", to: "#" },
+          { name: "No Pay Summery Report", to: "#" },
+          { name: "No Pay Monthly Report", to: "#" },
+          { name: "Supervisor Approval Pending Summery", to: "#" },
+          { name: "HR - Month End Report Summery", to: "#" },
+        ],
       },
-      
     ],
   },
- 
-  
+
   {
-    name: 'Settings',
-    icon: 'M12 12c2.21 0 4-1.79 4-4s-1.79-4-4-4s-4 1.79-4 4s1.79 4 4 4zM12 14c-4.42 0-8 2.79-8 6v2h16v-2c0-3.21-3.58-6-8-6z',
-    submenu: [  
+    name: "Settings",
+    icon: "M12 12c2.21 0 4-1.79 4-4s-1.79-4-4-4s-4 1.79-4 4s1.79 4 4 4zM12 14c-4.42 0-8 2.79-8 6v2h16v-2c0-3.21-3.58-6-8-6z",
+    submenu: [
       {
-        name: 'QMS',
+        name: "QMS",
         submenu: [
-          { name: 'Add Packages', to: '/qms/system?ps=801' },  
-           { name: 'Add Cities', to: '/qms/system?ps=802' },            
-          
+          { name: "Add Packages", to: "/qms/system?ps=801" },
+          { name: "Add Cities", to: "/qms/system?ps=802" },
         ],
       },
       {
-        name: 'HR',
+        name: "HR",
         submenu: [
-            { name: 'Upload Employee Details', to: '/hr/system?ps=701' },       
-          { name: 'Set Holidays', to: '/hr/system?ps=702' },  
-           { name: 'Set Special Work Arrangement', to: '/hr/system?ps=703' },         
-          
+          { name: "Upload Employee Details", to: "/hr/system?ps=701" },
+          { name: "Set Holidays", to: "/hr/system?ps=702" },
+          { name: "Set Special Work Arrangement", to: "/hr/system?ps=703" },
         ],
       },
     ],
   },
-   {
-    name: 'Reports',
-   icon: "M7.732 16.5q.212 0 .356-.144T8.23 16v-5q0-.213-.144-.356q-.144-.144-.357-.144t-.356.144T7.23 11v5q0 .213.144.356t.357.144m3.769 0q.213 0 .356-.144T12 16V8q0-.213-.144-.356t-.357-.144t-.356.144T11 8v8q0 .213.144.356t.357.144m3.769 0q.213 0 .356-.144t.143-.356v-2q0-.213-.144-.356t-.356-.144t-.356.144t-.144.356v2q0 .213.144.356q.144.144.357.144M18 8q-.213 0-.357-.144T17.5 7.5V6H16q-.213 0-.356-.144t-.144-.357t.144-.356T16 5h1.5V3.5q0-.213.144-.356T18.001 3t.356.144t.143.356V5H20q.213 0 .356.144t.144.357t-.144.356T20 6h-1.5v1.5q0 .213-.144.356T17.999 8M5.116 20q-.691 0-1.153-.462T3.5 18.384V5.616q0-.691.463-1.153T5.115 4h8.808q.213 0 .356.144t.144.356v2.962q0 .666.475 1.14t1.14.475H19q.213 0 .356.144t.144.356v8.808q0 .69-.462 1.153T17.884 20z",
-    submenu: [  
-      {
-        name: 'HR',
-        
-        submenu: [
-          { name: 'OT Individual Report', to: '#' },
-          { name: 'OT Month End Summery Report', to: '#' },
-            
-          { name: 'Daily Presence Report', to: '#' },       
-          { name: 'Employee Rectification Report', to: '#' },       
-          { name: 'Employee leave Annual Report', to: '#' },       
-          { name: 'Annual Summery Report', to: '#' },       
-          { name: 'TimeCard Summery Report', to: '#' },       
-          { name: 'No Pay Summery Report', to: '#' },       
-          { name: 'No Pay Monthly Report', to: '#' },       
-          { name: 'Supervisor Approval Pending Summery', to: '#' },  
-          { name: 'HR - Month End Report Summery', to: '#' },    
-          
-        ],
-      },
-       {
-        name: 'QMS',
-         
-        submenu: [
-          { name: 'Vendor report', to: '#' },       
-          
-        ],
-      },
-    ],
-  },
+
 ];
 </script>
-
 
 <style scoped>
 .rotate-90 {

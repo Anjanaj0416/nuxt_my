@@ -194,16 +194,17 @@
         identificationCode: '',
         confirmPassword: '',
       },
+       showLoading: null,
     };
   },
 
     computed: {
   },
   async created() {
-    // this.userStore = useUserStore();
-    // this.user = this.userStore.user;
-    //  console.log(JSON.stringify(this.user, null, 2));
-
+    this.showLoading = this.$showLoading;
+    this.userStore = useUserStore();
+    
+  
   },
   mounted() {
 
@@ -233,18 +234,17 @@
     GetResetPassword() {
       if (this.IsValidate()) {
         this.$showConfirm(
-          "Are you sure you want to Save this Vendor?",
+          "Are you sure to change the password?",
           "warning"
         ).then(async (result) => {
-          if (result) {
-            const data = {
+          if (result.isConfirmed) {
+            const req= {
               userName: this.user.userName,
               identificationCode: this.user.identificationCode,
               confirmPassword: this.user.confirmPassword,
             };
-            console.log('Form Data as Object:', data);
-            return
-            await this.vendorStore.addEditVendor(formData, this.showLoading);
+         
+             await this.userStore.GetChangePassword( req, this.showLoading );
             this.closeModal();
           } else {
             console.log("Action canceled");

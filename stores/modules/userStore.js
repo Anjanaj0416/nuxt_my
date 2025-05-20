@@ -14,6 +14,39 @@ export const useUserStore = defineStore('userStore', {
   persist: true,
 
   actions: {
+
+
+async GetChangePassword(req,showLoading) {   
+
+      const loadingAlert = showLoading(''); 
+      try {
+
+        const response = await axios.post(`${import.meta.env.VITE_API_URL}/IAM/GetChangePassword`, req);      
+        loadingAlert.close();                            
+
+        if (response.data.isSuccess) {
+          
+          //this.token = response.data.authToken;  // Assuming the response contains a 'token'
+         // this.loggedUser =response.data.loggedUser;
+        //  this.assetsBaseUrl =response.data.loggedUser.resourceURLRoot;
+         // console.log(this.loggedUser )
+          
+        // document.cookie = `token=${this.token}; path=/; max-age=3600; Secure`;
+                  
+       }
+       else{        
+        this.showToast('Get change Password error:'+response.data.message,'error');
+       }
+       
+        
+      } catch (error) {     
+        console.error("error:",error);
+        
+        this.showToast('Network Error! Login failed. Please try again.','error');     
+      }
+      
+    },
+
     async login(loginDetails,showLoading) {   
 
       const loadingAlert = showLoading(''); 
