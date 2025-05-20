@@ -6,7 +6,7 @@
       class="flex flex-col items-center justify-between h-24 px-4 pt-6 my-10 bg-gray-300 cssTop lg:flex-row md:flex-row">
       <div class="my-2 text-lg font-bold capitalize lg:text-xl lg:my-0">
         <div class="flex gap-x-4 lg:gap-x-8">
-          <div class="relative cssmenu_sec" v-show="userStore.loggedUser.granted.indexOf('hradmin')>-1 ||
+          <!-- <div class="relative cssmenu_sec" v-show="userStore.loggedUser.granted.indexOf('hradmin')>-1 ||
             userStore.loggedUser.granted.indexOf('hr_mgr')>-1 
             ">
            
@@ -17,9 +17,9 @@
               </svg>
             </div>
             <hr_menu v-show="ismenuopen" class="absolute top-0 left-0 z-50 mt-12 ml-2" @click="clickmenuitem" />
-          </div>
+          </div> -->
 
-          <div class="flex items-center justify-center">
+          <div class="flex items-center justify-center md:ml-8">
            
             <search_dashboard v-show="userStore.loggedUser.granted.indexOf('hradmin')>-1" placeholder="Search Employee"
               :arrsections="arrsections_DBSerach" @getsearch="search_begin_DBSerach" />
@@ -334,7 +334,7 @@ import absencecreate from '~/components/hr/absencecreate'
 import movementlist from '~/components/hr/movementlist'
 import movementcreate from '~/components/hr/movementcreate'
 
-import hr_menu from '~/components/hr/hr_menu'
+//import hr_menu from '~/components/hr/hr_menu'
 import holidaylist from '~/components/hr/holidaylist'
 
 import special_work_arrangement from '~/components/hr/special_work_arrangement'
@@ -361,7 +361,7 @@ export default {
     absencecreate,
     movementlist,
     movementcreate,
-    hr_menu,
+    ///hr_menu,
     holidaylist,
     empupdate,
     Ot_apply_list,
