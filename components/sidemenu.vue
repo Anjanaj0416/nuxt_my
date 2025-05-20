@@ -103,7 +103,7 @@
                   <div
                     @click="
                       toggleSubmenu(submenu.name);
-                      $emit('close-sidebar');
+                      // $emit('close-sidebar');
                     "
                     class="flex items-center justify-between px-3 py-2 text-gray-300 rounded cursor-pointer hover:bg-blue-800"
                   >
