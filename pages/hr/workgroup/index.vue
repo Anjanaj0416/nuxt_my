@@ -175,7 +175,7 @@ export default {
     },
   },
   async beforeMount() {
-    if (this.userStore.loggedUser.userGroup === 'admin') {//Supervisor
+    if (this.userStore.loggedUser.userGroup === 'Supervisor') {//Supervisor
       await this.hrStore.getWorkLoadDetails(this.showLoading);
       // await this.hrStore.getWorkLoadDetails({ user: this.userStore.loggedUser })
     } else {
