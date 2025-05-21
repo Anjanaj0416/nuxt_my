@@ -138,7 +138,7 @@ export default {
   },
   async created() {
     this.showLoading = this.$showLoading;
-      this.userStore = useUserStore();
+    this.userStore = useUserStore();
 
   },
   methods: {

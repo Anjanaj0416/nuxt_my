@@ -169,8 +169,8 @@
                       <strong>{{ index + 1 }}</strong>
                     </div>
                     <div class="flex items-center justify-center">
-                      <p class="mr-2 sm:hidden">Description:</p>
-                      <strong>{{ orderItem.packageName }} [{{ orderItem.packageCategory }}]</strong>
+                      <p class="mr-2 sm:hidden">Package Name:</p>
+                      <strong>{{ orderItem.packageName }} </strong>
                     </div>
                     <div class="flex items-center justify-center">
                       <p class="mr-2 sm:hidden">Unit Price :</p>
@@ -232,7 +232,17 @@
                     </div>
                   </div>
                   </div>
-                  <div class="text-left">{{ orderItem.packageDescription.replaceAll('<br/>', ' ||| ') }}</div>
+                  <div class="flex flex-wrap gap-2 mt-2">
+                    <p class="text-sm font-semibold text-gray-600">Description :</p>
+                    <span
+                      v-for="(line, i) in orderItem.packageDescription.split('<br/>')"
+                      :key="i"
+                      class="px-2 py-1 text-xs font-medium text-gray-500 border border-blue-900 rounded-full dark:bg-blue-900 dark:text-blue-100"
+                    >
+                      {{ line }}
+                    </span>
+                  </div>
+
                   <hr class="my-2 border-gray-300 dark:border-gray-600" />
                 </div>
               </div>
@@ -278,6 +288,7 @@
 
                 <!-- Fee input -->
                 <div>
+                  <span>Rs : </span>
                   <input
                     type="number"
                     v-model.number="item.fee"
@@ -427,6 +438,7 @@ export default {
         this.$showAlert("Maximum four districts can be selected!", "error");
       }
     },
+
     changedcurProductCategory(type) {
       this.curProductCategory = type;
       this.err.curProductCategory = '';
@@ -443,10 +455,12 @@ export default {
         this.curPkgList = this.quotationStore.initQuotation.listBundles;
       }
     },
+
     GetAddPkg(pkg) {
       let orderItem = {
         index: this.quotation.listOrderItem.length + 1,
         packageId:pkg.id,
+        packageName:pkg.packageName,
         packageCategory:pkg.packageCategory,  
         packageDescription:pkg.packageDescription   ,  
         unitPrice: pkg.packagePrice,
@@ -460,14 +474,17 @@ export default {
       this.quotation.listOrderItem.push(orderItem);
       this.netTotalPrice();
     },
+
     GetRemoveRow(index) {
       this.quotation.listOrderItem.splice(index, 1);
     },
+    
     clearerr() {
       Object.keys(this.err).forEach((key) => {
         this.err[key] = "";
       });
     },
+
     AddInstallments() {
       const count = this.quotation.installment;
 
@@ -537,7 +554,7 @@ export default {
 
       this.quotation.listInstallment = [...this.listInstallmentDetails];
     },
-
+    
     RemoveInstallment(index) {
       this.listInstallmentDetails.splice(index, 1);
       this.quotation.installment = this.listInstallmentDetails.length;
@@ -569,15 +586,15 @@ export default {
       this.netTotalPrice();
     },
     
-  netTotalPrice() {
-    this.quotation.netTotal = this.quotation.listOrderItem.reduce((acc, item) => {
-      const total = Number(item.total) || 0;
-      return acc + total;
-    }, 0);
+    netTotalPrice() {
+      this.quotation.netTotal = this.quotation.listOrderItem.reduce((acc, item) => {
+        const total = Number(item.total) || 0;
+        return acc + total;
+      }, 0);
 
-    // this.quotation.totalAmount = this.quotation.netTotal + (this.quotation.vat || 0);
-    this.quotation.totalAmount = this.quotation.netTotal;
-  },
+      // this.quotation.totalAmount = this.quotation.netTotal + (this.quotation.vat || 0);
+      this.quotation.totalAmount = this.quotation.netTotal;
+    },
 
     GetPrint() {  
        this.netTotalPrice();   
