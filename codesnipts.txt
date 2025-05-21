@@ -18,7 +18,7 @@ npm run build
 node .output/server/index.mjs
 
 cmd->run as administrator
-pm2 restart dtlapp
 pm2 list
+pm2 restart dtlapp
 pm2 logs dtlapp
 D:\WWWRoot\dtlApp\.output\.output\server -> npm install

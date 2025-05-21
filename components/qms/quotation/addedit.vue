@@ -252,7 +252,7 @@
         <div>
           <div class="grid grid-cols-2 gap-4 my-4">
             <div>
-              <label class="block text-sm font-bold text-gray-600">Select Product Category</label>
+              <label class="block text-sm font-bold text-gray-600">Installments</label>
               <input
                 v-model.number="quotation.installment"
                 type="number"

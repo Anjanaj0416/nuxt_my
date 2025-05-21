@@ -270,12 +270,12 @@
   <script>
   import headercomp from '~/components/header';
   import footercomp from '~/components/footer';
-  import viewInvoice from '~/pages/Invoicing/viewInvoice.vue'
+ // import viewInvoice from '~/pages/Invoicing/viewInvoice.vue'
 
   
   
   export default {
-    components: { headercomp, footercomp,viewInvoice  },
+    components: { headercomp, footercomp  },
     data() {
       return {
         isModalOpen: {

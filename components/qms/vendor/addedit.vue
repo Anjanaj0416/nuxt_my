@@ -256,7 +256,7 @@
           </div>
 
           <hr class="my-4" />
-          <h3 class="mt-4 font-bold">Person Information</h3>
+          <h3 class="mt-4 font-bold">Contact Person </h3>
           <div class="grid grid-cols-2 gap-4 mt-4 sm:grid-cols-2 md:grid-cols-3">
             <div class="">
               <label class="block text-sm font-bold text-gray-600">Name</label>
