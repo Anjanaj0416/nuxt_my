@@ -22,7 +22,7 @@
         <form @submit.prevent="handleLogin" class="space-y-5">
           <!-- Email -->
           <div>
-            <label class="block mb-1 text-sm font-medium text-gray-700">Email</label>
+            <label class="block mb-1 text-sm font-medium text-gray-700">Username</label>
             <input type="email" v-model="loginDetails.userName" placeholder="Enter your email" required
               class="w-full px-4 py-2 text-sm border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-300" />
             <div v-if="!loginDetails.userName" class="mt-1 text-sm text-red-500">

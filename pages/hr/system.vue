@@ -13,7 +13,7 @@
         <p class="underline">Upload Employee Details</p>
 
         <!-- {{ hrStore.initHRDetails }} -->
-        <p>
+        <p class="my-2">
           Click here to view existing employee details -
           <a
             :href="
@@ -25,6 +25,18 @@
             >Download</a
           >
         </p>
+
+        <div class=" my-2">
+        <div>Selection Upload Section</div>
+        <serach_Input
+          :arrItems="arrEmployeeDatailSections"
+          ref="refEmployeeDatailSections"
+          class="w-48"
+       
+            @selectItem="GetSelectSection"
+          v-model="empSection"
+        />
+        </div>
 
         <fileuploader
           v-model="fileEmployeeDetails"
@@ -52,6 +64,7 @@
 ////import * as myfilter from '@/plugins/myfilter'
 //import Swal from 'sweetalert2';
 //import { useSampleStore  } from '~/stores/modules/sampleStore';
+import serach_Input from "~/components/customcontrol/SearchInput";
 import fileuploader from "~/components/customcontrol/fileupload";
 import Button from "~/components/customcontrol/Button";
 
@@ -64,10 +77,20 @@ definePageMeta({
 });
 
 export default {
-  components: { fileuploader, Button },
+  components: { fileuploader, Button,  serach_Input },
   props: [""],
   data() {
     return {
+      arrEmployeeDatailSections: [
+        { id: 100, value: "All" },
+        { id: 102, value: "Departments" },
+        { id: 103, value: "Employee Categories" },
+        { id: 104, value: "Employee Types" },
+        { id: 105, value: "Staff Types" },
+        { id: 106, value: "Roles" },
+        { id: 106, value: "Employee Details" },
+      ],
+      empSection: -1,
       sectionId: -1,
       fileroot: "",
       fileEmployeeDetails: "",
@@ -91,6 +114,10 @@ export default {
   watch: {},
   computed: {},
   methods: {
+    GetSelectSection(id){
+     this.empSection = id;
+    },
+
     GetFileChangedEmployeeDetails(file) {
       this.fileEmployeeDetails = file;
     },
@@ -99,26 +126,34 @@ export default {
       if (!this.fileEmployeeDetails) {
         this.$showCustomToast(
           "Please attach the Employee Details file",
-          "success",
+          "error",
           3000
         );
         return;
       }
 
+     if (this.empSection<0) {
+        this.$showCustomToast(
+          "Please select the employee section",
+          "error",
+          3000
+        );
+        return;
+      }
+      
       this.$showConfirm(
         "Are you sure you want to update employee details?",
         "warning"
       ).then(async (result) => {
         if (result.isConfirmed) {
-          
-          const formData = new FormData();
+          const formData = new FormData();         
           formData.append("fileEmployee", this.fileEmployeeDetails);
+                    formData.append("section", this.empSection);
           await this.hrStore.GetUpdateEmployeeDetails(
             formData,
             this.showLoading
           );
         } else {
-           
           console.log("Action canceled");
         }
       });
