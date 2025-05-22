@@ -138,7 +138,7 @@ export default {
     </div>
   </div>
 
-  <p v-if="err" class="mt-1 text-xs italic text-red-600 dark:text-red-400">
+  <p v-if="err" class="mt-2 text-sm text-red-600">
     {{ err }}
   </p>
 </article>

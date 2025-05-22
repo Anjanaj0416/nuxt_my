@@ -60,12 +60,12 @@
               <selectinput2
                 class="my-2"
                 v-model="country"
-                :cur_item="country"
                 :selections="countryData"
                 :err="err.country"
                 label=""
                 @changed="changedCountryData"
               />
+
               <!-- <p v-if="err.country" class="mt-2 text-sm text-red-600">
                 {{ err.country }}
               </p> -->
@@ -85,7 +85,7 @@
             </div>
             <div class="">
               <label class="block text-sm font-bold text-gray-600">Type of Organization</label>
-              <selectinput2
+             <selectinput2
                 class="my-2"
                 v-model="typeOfOrganization"
                 :cur_item="typeOfOrganization"
@@ -94,6 +94,7 @@
                 label=""
                 @changed="changedTypeOfOrganization"
               />
+
               <!-- <p v-if="err.typeOfOrganization" class="mt-2 text-sm text-red-600">
                 {{ err.typeOfOrganization }}
               </p> -->
@@ -331,7 +332,7 @@ export default {
         vendorEmail: "",
       },
       registrationAuthorityData: [ "Foreign", "Government Affiliated", "Provincial Department of Business Registrations", "Registrar Of Companies", "Other"],
-      countryData: [ "Sri Lanka", "India", "ETC"],
+      countryData: ["Sri Lanka", "India", "ETC"],
       typeOfOrganizationData: [ "Company Limited by Guarantee", "Off-Shore Company", "Overseas Company", "Private Limited Liability Company", "Public Limited Liability Company"],
 
       err: {},
@@ -369,14 +370,17 @@ export default {
     changedRegistrationAuthority(value) {
       this.registrationAuthority = value;
       console.log("Changed to:", value);
+      this.err.registrationAuthority = ""
     },
     changedCountryData(value) {
-      this.countryData = value;
+      this.country = value;
       console.log("Changed to:", value);
+      this.err.country = ""
     },
-    changedTypeOfOrganization(value) {
-      this.countryData = value;
+     changedTypeOfOrganization(value) {
+      this.typeOfOrganization = value;
       console.log("Changed to:", value);
+      this.err.typeOfOrganization = "";
     },
 
     GetSaveData() {
