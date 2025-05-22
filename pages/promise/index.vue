@@ -22,14 +22,14 @@
       class="flex flex-col gap-5 p-4 mt-4 bg-white border rounded-lg shadow-sm sm:p-6"
     >
       <div class="flex flex-col gap-4 sm:flex-row sm:justify-between sm:items-start">
-        <div class="grid w-full grid-cols-2 gap-2 lg:grid-cols-8 sm:grid-cols-3 md:grid-cols-8">
+        <div class="grid w-full grid-cols-2 gap-2 lg:grid-cols-6 sm:grid-cols-3 md:grid-cols-8">
           <div
             class="flex flex-col text-center sm:text-left"
             v-for="(field, idx) in dataFields"
             :key="idx"
           >
             <h1 class="text-sm font-semibold text-gray-700">{{ field.label }}</h1>
-            <p v-if="field.key && field.key !== 'isActive'" class="text-xs text-gray-600">
+            <p v-if="field.key && field.key !== 'isActive'" class="mt-2 text-xs text-gray-600">
               {{ vendor[field.key] }}
             </p>
             <span
@@ -120,64 +120,67 @@ export default {
       isAddEdit: false,
       rowIndex: -1,
       dataList: [
-        {
-          customerId: "Pr001",
-          vendorName: "Promise LK",
-          officerName: "John Doe",
-          officerEmail: "john@promise.lk",
-          officerPosition: "Manager",
-          city: "Colombo",
-          officerId: "of4",
-          nic: "9745874v",
-          offPas:"123",
-          firstName:"test",
-          lastName:"test",
-          bRN:"456",
-          taxIn:"456",
-          NmraRegister:"tex45",
-          contactDesignation:"122",
-          isActive: true,
-        },
-        {
-          customerId: "Pr002",
-          vendorName: "Future Tech",
-          officerName: "Jane Smith",
-          officerEmail: "jane@futuretech.com",
-          officerPosition: "Director",
-          city: "Colombo",
-          officerId: "123",
-          nic: "9745874v",
-          offPas:"123",
-          firstName:"test",
-          lastName:"test",
-          bRN:"456",
-          taxIn:"456",
-          NmraRegister:"tex45",
-          contactDesignation:"122",
-          isActive: false,
-        },
+          {
+            businessRegistrationAuthority: "Pr001",
+            businessName: "Promise LK",
+            country: "John Doe",
+            businessRegistrationNo: "john@promise123",
+            typeOfOrganization: "Manager",
+            registeredAddress: "Colombo",
+            street: "of4",
+            registrationNo: "9745874v",
+            province: "123",
+            state: "test",
+            website: "test",
+            email: "john@promise.lk",
+            OfficerEmail: "jane@futuretech.com",
+            officialTelephoneNo: "456",
+            passportNo: "tex45",
+            isActive: true
+          },
+          {
+            businessRegistrationAuthority: "Pr002",
+            businessName: "Future Tech",
+            country: "Jane Smith",
+            businessRegistrationNo: "jane@futuretech123",
+            typeOfOrganization: "Director",
+            registeredAddress: "Colombo",
+            street: "123",
+            registrationNo: "9745874v",
+            province: "123",
+            state: "test",
+            website: "test",
+            email: "jane@futuretech.com",
+            OfficerEmail: "jane@futuretech.com",
+            officialTelephoneNo: "456",
+            passportNo: "tex45",
+            isActive: false
+          },
       ],
       dataFields: [
-        { label: "Registration ID", key: "customerId" },
-        { label: "Vendor", key: "vendorName" },
-        { label: "Officer Name", key: "officerName" },
-        { label: "Officer Email", key: "officerEmail" },
-        { label: "Officer Position", key: "officerPosition" },
+        { label: "Business  Authority", key: "businessRegistrationAuthority" },
+        { label: "Business Name", key: "businessName" },
+        { label: "Country", key: "country" },
+        { label: "Business Registration No", key: "businessRegistrationNo" },
+        { label: "Type of Organization", key: "typeOfOrganization" },
         { label: "Status", key: "isActive" },
         { label: " ", key: "" },
         { label: "", key: "" },
       ],
       showAllFields: [
-        { label: "City", key: "city" },
-        { label: "Officer Title Id", key: "officerId" },
-        { label: "Officer NIC", key: "nic" },
-        { label: "Officer PASSPORT", key: "offPas" },
-        { label: "Officer First Name", key: "firstName" },
-        { label: "Officer Last Name", key: "lastName" },
-        { label: "Business Registration Number", key: "bRN" },
-        { label: "Tax Identification Number", key: "taxIn" },
-        { label: "NMRA Registration Number", key: "NmraRegister" },
-        { label: "CIDA Registration Number", key: "contactDesignation" },
+        { label: "Registered Address", key: "registeredAddress" },
+        { label: "Street", key: "street" },
+        { label: "registeredAddress", key: "registeredAddress" },
+        { label: "Province", key: "province" },
+        { label: "State", key: "state" },
+        { label: "Website", key: "website" },
+        { label: "Email", key: "email" },
+        { label: "Telephone No.", key: "officialtelephoneno" },
+        { label: "Passport No", key: "PassportNo" },
+        { label: "Officer Name", key: "country" },
+        { label: "officialtelephoneno", key: "officialtelephoneno" },
+        { label: "Mobile phone No ", key: "PassportNo" },
+        { label: "Officer Email", key: "OfficerEmail" },
       ],
     };
   },
