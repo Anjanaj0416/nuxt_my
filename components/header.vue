@@ -33,15 +33,16 @@
             <div>
               <button @click="isDropdownOpen = !isDropdownOpen"
                 class="relative flex items-center justify-center w-10 h-10 ml-3 text-white bg-gray-800 rounded-full focus:outline-none">
-                <img class="w-8 h-8 rounded-full" :src="userImageUrl" alt="Profile" />
-                <!-- :src="userStore.loggedUser.resourceURLRoot + userStore.loggedUser.image" -->
+                <img class="w-8 h-8 rounded-full"
+                  :src="userStore.loggedUser.resourceURLRoot + userStore.loggedUser.image" alt="Profile" />
               </button>
               <!-- Dropdown Menu -->
               <div v-if="isDropdownOpen"
                 class="absolute right-0 z-10 w-48 py-1 mt-2 origin-top-right bg-white rounded-md shadow-lg ring-1 ring-black/5">
-                <a @click="GoToProfile" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100">
+                <button @click="GoToProfile" class="px-4 py-2 text-sm text-gray-700  hover:bg-gray-100">
                   Your Profile
-                </a>
+                </button>
+
                 <a href="#" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100">
                   Settings
                 </a>
@@ -59,7 +60,10 @@
       </div>
     </div>
 
-    <profile v-if="isProfile" :userId="userStore.loggedUser.id" @close="isProfile = !isProfile" />
+    <profile v-if="isProfile" :profile="profileData" @close="isProfile = !isProfile" />
+
+
+
   </section>
 </template>
 
@@ -79,19 +83,33 @@ export default {
       isSidebarOpen: false,
       isDropdownOpen: false,
       isProfile: false,
+      profileData: null,
     };
 
   },
 
   methods: {
-    async GoToProfile(id) {
-      this.isProfile = true;
-      this.isDropdownOpen = false;
-    },
+    // async GoToProfile(id) {
+    //   this.isProfile = true;
+    //   this.isDropdownOpen = false;
+    // },
+    async GoToProfile() {
+      try {
+        const response = await this.userStore.fetchProfileData(this.userStore.loggedUser.id, this.$showLoading);
+        if (response && response.data) {
+          this.profileData = response.data.data;
+          this.profileData.loggedUserId = this.userStore.loggedUser.id;
+          this.isProfile = true;
+          this.isDropdownOpen = false;
+        }
+        console.log('profileData:', this.profileData);
+      } catch (err) {
+        console.error("Error in GoToProfile:", err);
+      }
+    }
   },
   mounted() {
-    console.log("Received user ID in profile:", this.userId);
-
+    // console.log("Received user ID in profile:", this.userId);
   },
   async created() {
     this.userStore = useUserStore();

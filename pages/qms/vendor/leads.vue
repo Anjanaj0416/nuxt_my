@@ -88,7 +88,8 @@
 
         <!-- Expanded Fields -->
         <div v-if="isMore && rowIndex === index">
-          <!-- {{ lead }} -->
+          <!-- <pre>{{ JSON.stringify(lead, null, 2) }}</pre> -->
+
           <section class="flex flex-col gap-5 p-4 mt-2 bg-white sm:p-6">
             <div class="grid grid-cols-1 gap-4 sm:grid-cols-3">
               <div
@@ -198,24 +199,29 @@ export default {
       vendorFields: [
         { label: "Company Name", key: "companyName"},
         { label: "Business Type ", key: "industry" },
-        { label: "Company Contact 1", key: "companyPhone" },
+        { label: "Company Contact Number", key: "companyPhone" },
         { label: "Company Email", key: "companyEmail" },
         { label: "City", key: "city" },
-
         { label: "Status", key: "status" },
       ],
       showAllFields: [
-        { label: "Company Contact 2", key: "companyPhone" },
-        { label: "Address", key: "address1"},
-        // { label: "Address 2", key: "address2" },
+        { label: "Company Mobile Number", key: "companyPhone" },
+        { label: "Address Line 1", key: "address1"},
+        { label: "Address Line 2", key: "address2" },
         { label: "District", key: "district" },
+        { label: "Mobile Number", key: "contactMobile" },
+        { label: "Website", key: "web" },
+        { label: "Business Registration Number", key: "contactPhoneNo" },
+        { label: "More Details", key: "" },
         // { label: "BusinessRegNo", key: "businessRegNo" },
         { label: "contact Person Name", key: "contactPersonFirstName", secondKey: "contactPersonLastname" },
-        // { label: "Contact Person Last name", key: "contactPersonLastname" },
-        { label: "Person Contact 1", key: "contactPhoneNo" },
-        { label: "Person Contact 2", key: "contactMobile" },
-        { label: "Person Email", key: "contactEmail" },
         { label: "Contact Designation", key: "contactDesignation" },
+        { label: "Person Contact Number", key: "contactPhoneNo" },
+        { label: "Person Mobile Number", key: "contactMobile" },
+        { label: "Person Email", key: "contactEmail" },
+
+        // { label: "Contact Person Last name", key: "contactPersonLastname" },
+      
         { label: "Status", key: "isActive" },
         { label: "Comment", key: "comment", class: "max-h-[150px] overflow-auto whitespace-pre-wrap break-words" }
       ],

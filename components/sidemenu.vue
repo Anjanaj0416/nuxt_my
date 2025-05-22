@@ -49,11 +49,13 @@
             <div v-show="isSubmenuOpen(link.name)" class="pl-4 mt-1 space-y-1">
               <div v-for="submenu in link.submenu" :key="submenu.name">
                 <div v-if="submenu.submenu">
-                  <div @click="
-                    toggleSubmenu(submenu.name);
-                  // $emit('close-sidebar');
-                  "
-                    class="flex items-center justify-between px-3 py-2 text-gray-300 rounded cursor-pointer hover:bg-blue-800">
+                  <div
+                    @click="
+                      toggleSubmenu(submenu.name);
+                      // $emit('close-sidebar');
+                    "
+                    class="flex items-center justify-between px-3 py-2 text-gray-300 rounded cursor-pointer hover:bg-blue-800"
+                  >
                     <span>{{ submenu.name }}</span>
                     <svg :class="{ 'rotate-90': isSubmenuOpen(submenu.name) }"
                       class="w-3 h-3 transition-transform duration-200" fill="none" stroke="currentColor"

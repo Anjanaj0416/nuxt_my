@@ -212,7 +212,7 @@ export const useHrStore = defineStore('hrStore', {
         const response = await axios.get(`${import.meta.env.VITE_API_URL}/hr/WorkLoad/GetWorkLoadDetails`);   
         console.log("response:",response);   
         if (response.data.isSuccess) {    
-          this.workgroup.arrJobCardDetails =  [];//response.data.data.data ||
+          this.workgroup.arrJobCardDetails =  response.data.data.data.jobArr || [];
           this.showToast('Loading successful!', 'success'); 
        }
        else{
@@ -622,14 +622,15 @@ export const useHrStore = defineStore('hrStore', {
           this.movement.arrmovements = response.data.data.data.arrMovements || [];
        }
        else{
+        this.movement.arrmovements = []
         console.error('Loading error:', response.data.message);  
         // this.showToast(response.data.message, 'error'); 
        }
       } catch (error) {
         console.error('Loading error:', error);
-        if (error.response && error.response.status === 400) {
-          this.movement.arrmovements = [];
-        } 
+        // if (error.response && error.response.status === 400) {
+        //   this.movement.arrmovements = [];
+        // } 
         // this.showToast(error.response.data.Message, 'error'); 
       }
       loadingAlert.close();
@@ -730,7 +731,7 @@ export const useHrStore = defineStore('hrStore', {
         icon: type,
         title: type,
         text: message,
-        timer: 3000,
+        timer: 5000,
         showConfirmButton: false,
         toast: true,
         position: 'top-end',
