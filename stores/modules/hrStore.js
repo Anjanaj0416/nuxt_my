@@ -101,6 +101,7 @@ export const useHrStore = defineStore('hrStore', {
     OTApllyDetails: {
       arrOTApply:[],
       ot_hours: 0,
+
     },
     absense: {
       arrabsences: [],
@@ -422,6 +423,26 @@ export const useHrStore = defineStore('hrStore', {
       loadingAlert.close();
     },
 
+    async getReCalcOT(req,showLoading) {
+      const loadingAlert = showLoading(''); 
+      try {
+        console.log("req:",req);   
+        const response = await axios.get(`${import.meta.env.VITE_API_URL}/hr/Attendance/GetRecalcOT`, {params: {Id: req.Id}});   
+        console.log("response:",response);   
+        if (response.data.isSuccess) {    
+          // this.OTApllyDetails.ot_hours = response.data.data.data;
+       }
+       else{
+        console.error('Loading error:', response.data.message);       
+        // this.showToast(response.data.message, 'error'); 
+       }
+      } catch (error) {
+        console.error('Loading error:', error);
+        // this.showToast(error.response.data.Message, 'error'); 
+      }
+      loadingAlert.close();
+    },
+
     async setManualRectification(req,showLoading) {
       const loadingAlert = showLoading(''); 
       try {
@@ -694,7 +715,7 @@ export const useHrStore = defineStore('hrStore', {
        }
        else{
         console.error('Loading error:', response.data.message);  
-        this.showToast(response.data.message, 'error'); 
+        // this.showToast(response.data.message, 'error'); 
        }
       } catch (error) {
         console.error('Loading error:', error);

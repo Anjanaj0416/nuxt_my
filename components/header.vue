@@ -33,8 +33,8 @@
             <div>
               <button @click="isDropdownOpen = !isDropdownOpen"
                 class="relative flex items-center justify-center w-10 h-10 ml-3 text-white bg-gray-800 rounded-full focus:outline-none">
-                <img class="w-8 h-8 rounded-full" :src="userStore.loggedUser.resourceURLRoot + userStore.loggedUser.image"
-                  alt="Profile" />
+                <img class="w-8 h-8 rounded-full" :src="userImageUrl" alt="Profile" />
+                <!-- :src="userStore.loggedUser.resourceURLRoot + userStore.loggedUser.image" -->
               </button>
               <!-- Dropdown Menu -->
               <div v-if="isDropdownOpen"
@@ -60,8 +60,6 @@
     </div>
 
     <profile v-if="isProfile" :userId="userStore.loggedUser.id" @close="isProfile = !isProfile" />
-
-
   </section>
 </template>
 
@@ -93,9 +91,18 @@ export default {
   },
   mounted() {
     console.log("Received user ID in profile:", this.userId);
+
   },
   async created() {
     this.userStore = useUserStore();
   },
+
+  computed: {
+    userImageUrl() {
+      return (
+        this.userStore.loggedUser.resourceURLRoot + this.userStore.loggedUser.image
+      );
+    }
+  }
 };
 </script>
