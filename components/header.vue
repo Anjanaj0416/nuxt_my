@@ -17,8 +17,8 @@
           <NuxtLink to="/dashboard">
             <!-- Logo and Name -->
             <div class="flex items-center space-x-2 ml-14">
-              <img src="/assets/img/LogoDigitalTechLab.png" alt="Digital Tech Labs Logo"
-                class="h-auto rounded-full w-28" />
+              <!-- <img src="/assets/img/LogoDigitalTechLab.png" alt="Digital Tech Labs Logo"
+                class="h-auto rounded-full w-28" /> -->
               <!-- <span class="text-xl font-bold text-white">Digital Tech Labs</span> -->
             </div>
           </NuxtLink>
@@ -34,6 +34,7 @@
               <button @click="isDropdownOpen = !isDropdownOpen"
                 class="relative flex items-center justify-center w-10 h-10 ml-3 text-white bg-gray-800 rounded-full focus:outline-none">
                 <img class="w-8 h-8 rounded-full"
+                  v-if="userStore.loggedUser.resourceURLRoot && userStore.loggedUser.image"
                   :src="userStore.loggedUser.resourceURLRoot + userStore.loggedUser.image" alt="Profile" />
               </button>
               <!-- Dropdown Menu -->
@@ -114,13 +115,5 @@ export default {
   async created() {
     this.userStore = useUserStore();
   },
-
-  computed: {
-    userImageUrl() {
-      return (
-        this.userStore.loggedUser.resourceURLRoot + this.userStore.loggedUser.image
-      );
-    }
-  }
 };
 </script>
