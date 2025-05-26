@@ -175,9 +175,8 @@ export default {
     },
   },
   async beforeMount() {
-    if (this.userStore.loggedUser.userGroup === 'Supervisor') {//Supervisor
+    if (this.userStore.loggedUser.userGroup === 'Supervisor') {
       await this.hrStore.getWorkLoadDetails(this.showLoading);
-      // await this.hrStore.getWorkLoadDetails({ user: this.userStore.loggedUser })
     } else {
       this.showMessage({
         type: 'Failed',
@@ -192,12 +191,12 @@ export default {
       //this.viewed_jobs = []
       let index = this.viewed_jobs.find((ind) => ind.jobId == jobId)
       this.viewed_jobs.splice(index, 1)
-      //await this.getWorkLoadDetails({ user: this.loggeduser })
+      // await this.hrStore.getWorkLoadDetails(this.showLoading);
     },
 
     async getRefreshWorkGroup(jobId) {
       this.viewed_jobs = []
-      await this.getWorkLoadDetails({ user: this.loggeduser })
+      await this.hrStore.getWorkLoadDetails(this.showLoading);
     },
 
     // FindTest(job_id){

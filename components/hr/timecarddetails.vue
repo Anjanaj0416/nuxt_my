@@ -185,7 +185,7 @@ export default {
 
         let year = parseInt(this.year)
         let month = parseInt(this.month_names.indexOf(this.month) + 1);//this.month;
-        let req = { EmpNo: this.empno, Month: month, Year: year }
+        let req = { empNo: this.empno, month: month, year: year }
 
         await this.hrStore.getCreateTimeCard(req, this.showLoading)
         this.getRefresh();

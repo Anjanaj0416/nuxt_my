@@ -733,7 +733,10 @@ export default {
         this.show_error('Invalid In or Out Time')
       }
       else {
-        await this.hrStore.getReCalcOT({ Id: attn.id })
+        let req = {
+          Id: attn.id
+        };
+        await this.hrStore.getReCalcOT(req, this.showLoading)
       }
     },
 
