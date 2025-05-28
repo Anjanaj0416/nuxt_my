@@ -1,10 +1,8 @@
 <template>
   <section class="justify-center min-h-screen px-4 mt-24 mb-20 lg:px-80">
     <div class="text-2xl uppercase">Vendors</div>
-    <div
-      class="flex flex-col items-center justify-between mt-2 mb-8 md:flex-row"
-    >
-      <div class="w-full mb-4 md:mb-0">
+    <div class="flex flex-col items-center justify-between mt-2 mb-8 md:flex-row">
+      <!-- <div class="w-full mb-4 md:mb-0">
         <div class="mr-2">
           <Button
             class="w-24"
@@ -13,7 +11,7 @@
             @click="GoToAddNew"
           />
         </div>
-      </div>
+      </div> -->
       <div class="w-full md:w-auto">
         <SearchComp @DoSearch="GetSearch" />
       </div>
@@ -21,72 +19,45 @@
 
     <FilterTab @selected="SetSelectedFilter" :arrFilter="arrFilter" />
 
-    <div
-      class="flex flex-col gap-5 p-4 mt-4 bg-white border rounded-lg shadow-sm sm:p-6"
-      v-for="(vd, index) in vendorStore.listVendor"
-      :key="index"
-    >
+    <div class="flex flex-col gap-5 p-4 mt-4 bg-white border rounded-lg shadow-sm sm:p-6"
+      v-for="(vd, index) in vendorStore.listVendor" :key="index">
       <div class="flex flex-col gap-4 sm:flex-row sm:justify-between sm:items-start">
         <div class="grid w-full grid-cols-2 gap-2 lg:grid-cols-8 sm:grid-cols-3 md:grid-cols-8">
-          <div
-            class="flex flex-col text-center sm:text-left"
-            v-for="(field, idx) in vendorFields"
-            :key="idx"
-          >
+          <div class="flex flex-col text-center sm:text-left" v-for="(field, idx) in vendorFields" :key="idx">
             <h1 class="text-sm font-semibold text-gray-700">
               {{ field.label }}
             </h1>
 
-            <p
-              v-if="field.key === 'shopLogo'"
-              class="flex items-center justify-center h-16 text-center"
-            >
-              <ImageLable
-                :imageUrl="imageroot + `/${vd[field.key]}`"
-                alt="Shop Logo"
-                v-if="vd[field.key]"
-              />
+            <p v-if="field.key === 'shopLogo'" class="flex items-center justify-center h-16 text-center">
+              <ImageLable :imageUrl="imageroot + `/${vd[field.key]}`" alt="Shop Logo" v-if="vd[field.key]" />
               <span v-else class="text-xs text-gray-500">No Shop Logo</span>
             </p>
 
-            <p
-              v-else-if="field.key !== 'isActive'"
-              class="text-xs text-gray-600"
-            >
+            <p v-else-if="field.key !== 'isActive'" class="text-xs text-gray-600">
               {{ vd[field.key] }} {{ field.secondKey ? vd[field.secondKey] : "" }}
             </p>
 
-            <span
-              v-else
-              :class="{
-                'bg-green-100 text-green-700': vd.isActive === true,
-                'bg-red-100 text-red-700': vd.isActive === false,
-                'bg-gray-100 text-gray-700': vd.isActive === undefined,
-              }"
-              class="text-xs font-medium px-2.5 py-0.5 rounded-full inline-block mt-1"
-            >
+            <span v-else :class="{
+              'bg-green-100 text-green-700': vd.isActive === true,
+              'bg-red-100 text-red-700': vd.isActive === false,
+              'bg-gray-100 text-gray-700': vd.isActive === undefined,
+            }" class="text-xs font-medium px-2.5 py-0.5 rounded-full inline-block mt-1">
               {{ vd.isActive ? "Active" : "Inactive" }}
             </span>
           </div>
         </div>
       </div>
 
-      <div  class="grid grid-cols-2 gap-2 sm:flex sm:flex-row sm:justify-end sm:gap-4">
+      <div class="grid grid-cols-2 gap-2 sm:flex sm:flex-row sm:justify-end sm:gap-4">
         <LinkBtn label="Edit" @click="GoToAddEdit(vd.id)" />
 
-        <LinkBtn
-          v-if="!vd.rsoNo && userStore.loggedUser.granted.includes('vendor_mgt')"
-          label="Assign RSO"
-          @click="GoToAssignSalesEx(vd.id)"
-        />
+        <LinkBtn v-if="!vd.rsoNo && userStore.loggedUser.granted.includes('vendor_mgt')" label="Assign RSO"
+          @click="GoToAssignSalesEx(vd.id)" />
 
-        <LinkBtn
-          label="View Quotations"
-          @click="
-            vendorStore.curVendor = vd;
-            GoToQuotation();
-          "
-        />
+        <LinkBtn label="View Quotations" @click="
+          vendorStore.curVendor = vd;
+        GoToQuotation();
+        " />
       </div>
     </div>
 
@@ -136,7 +107,7 @@ export default {
         "Active",
         "Inactive",
         "Phone",
-        "Shopname",       
+        "Shopname",
       ],
       isAddEdit: false,
       isAssignRso: false,
@@ -147,7 +118,7 @@ export default {
       vendorFields: [
         { label: "", key: "shopLogo" },
         { label: "Customer Ref", key: "customerRef" },
-        { label: "Shop Name", key: "shopName"},
+        { label: "Shop Name", key: "shopName" },
         { label: "Shop Contact", key: "shopContactNo" },
         { label: "Email", key: "email" },
         { label: "City", key: "city" },
@@ -201,13 +172,13 @@ export default {
     },
     DeleteVendor(vendor) {
       if (confirm("Are you sure you want to delete this vendor?")) {
-        this.vendorStore.deleteVendor(vendor); 
+        this.vendorStore.deleteVendor(vendor);
       }
     },
 
     RestoreVendor(vendor) {
       if (confirm("Do you want to restore this vendor?")) {
-        this.vendorStore.restoreVendor(vendor); 
+        this.vendorStore.restoreVendor(vendor);
       }
     },
   },
@@ -218,6 +189,7 @@ export default {
 .csscmd {
   @apply p-2 text-center bg-blue-200 rounded;
 }
+
 .csscmd:hover {
   @apply bg-blue-200 cursor-pointer;
 }
@@ -228,8 +200,11 @@ export default {
 }
 
 .cssDataSec {
-  max-height: 400px; /* Limit height */
-  @apply overflow-y-auto; /* Enable vertical scrolling */
-  margin-top: 20px; /* Spacing for the scrollable section */
+  max-height: 400px;
+  /* Limit height */
+  @apply overflow-y-auto;
+  /* Enable vertical scrolling */
+  margin-top: 20px;
+  /* Spacing for the scrollable section */
 }
 </style>

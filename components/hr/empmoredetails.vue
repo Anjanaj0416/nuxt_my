@@ -22,10 +22,11 @@
             <h2 class="mb-5 text-base font-semibold leading-7 text-gray-900">Employee Details</h2>
             <div class="flex -space-x-1 overflow-hidden">
               <div class="pt-4">
-                <!-- <a :href="imageroot + '/user/' + hrStore.empdetails.image" target="_blank">
+                <a :href="userStore.assetsBaseUrl + hrStore.empdetails.image" target="_blank">
+                  <!-- :href="imageroot + '/user/' + hrStore.empdetails.image" -->
                   <img class="w-16 h-16 border-2 border-white rounded"
-                    :src="imageroot + '/user/' + hrStore.empdetails.image" alt="" />
-                </a> -->
+                    :src="userStore.assetsBaseUrl + hrStore.empdetails.image" alt="" />
+                </a>
               </div>
             </div>
           </div>
@@ -144,7 +145,7 @@
 
           <div class="grid grid-cols-1 mt-2 sm:grid-cols-5 sm:gap-x-6">
             <div class="col-span-1">
-              <hr_item item="User Name" :value="hrStore.empdetails.username" />
+              <hr_item item="User Name" :value="hrStore.empdetails.callingname" />
             </div>
             <div class="col-span-1">
               <hr_item item="Has Resigned" :value="hrStore.empdetails.isResign ? 'Yes' : 'No'" />
@@ -160,13 +161,17 @@
 
           <div class="grid grid-cols-1 mt-2 gap-y-4 sm:grid-cols-5 sm:gap-x-6">
             <div class="pt-4">
-              <!-- <label for="price" class="block text-sm font-medium leading-6 text-gray-900">Signature</label> -->
+              <label for="price" class="block text-sm font-medium leading-6 text-gray-900">Signature</label>
               <div class="mt-2">
                 <!-- <a :href="imageroot + '/Resource/HR/signature/' + hrStore.empdetails.signature + '.png'"
                   target="_blank">
                   <img class="w-16 h-16 border-2 border-white rounded"
                     :src="imageroot + '/Resource/HR/signature/' + hrStore.empdetails.signature + '.png'" alt="" />
                 </a> -->
+                <a :href="userStore.assetsBaseUrl + hrStore.empdetails.signature" target="_blank">
+                  <img class="w-16 h-16 border-2 border-white rounded"
+                    :src="userStore.assetsBaseUrl + hrStore.empdetails.signature" alt="" />
+                </a>
               </div>
             </div>
           </div>
@@ -181,7 +186,6 @@
 import { useHrStore } from "~/stores/modules/hrStore";
 import { useUserStore } from "~/stores/modules/userStore";
 import hr_item from '~/components/hr/hr_item'
-//import { mapState } from "vuex";
 
 
 export default {

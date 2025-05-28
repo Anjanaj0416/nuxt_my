@@ -6,10 +6,10 @@
       class="flex flex-col items-center justify-between h-24 px-4 pt-6 my-10 bg-gray-300 cssTop lg:flex-row md:flex-row">
       <div class="my-2 text-lg font-bold capitalize lg:text-xl lg:my-0">
         <div class="flex gap-x-4 lg:gap-x-8">
-          <!-- <div class="relative cssmenu_sec" v-show="userStore.loggedUser.granted.indexOf('hradmin') > -1 ||
-            userStore.loggedUser.granted.indexOf('hr_mgr') > -1
+          <!-- <div class="relative cssmenu_sec" v-show="userStore.loggedUser.granted.indexOf('hradmin')>-1 ||
+            userStore.loggedUser.granted.indexOf('hr_mgr')>-1 
             ">
-
+           
             <div class="cursor-pointer" @click="ismenuopen = !ismenuopen">
               <svg xmlns="http://www.w3.org/2000/svg" class="w-6 h-6" fill="none" viewBox="0 0 24 24"
                 stroke="currentColor">
@@ -86,8 +86,8 @@
             </div>
           </div> -->
           <div class="flex flex-col items-center md:pt-4 md:flex-row sm:gap-y-0 lg:hidden sm:justify-start">
-            <div v-show="userStore.loggedUser.userGroup === 'Supervisor' || userStore.loggedUser.userGroup === 'admin'">
-              <!-- HRAdmin -->
+            <div
+              v-show="userStore.loggedUser.userGroup === 'Supervisor' || userStore.loggedUser.userGroup === 'HRAdmin'">
               <btnwgstatus name="workgroup" :wgjobcount="hrStore.dashboard.workgroupjobcount" @click="getviewwg" />
             </div>
           </div>
@@ -431,7 +431,7 @@ export default {
     }
 
     this.search_begin_DBSerach(req);
-    this.assetsBaseUrl = JSON.parse(localStorage.getItem("assetsBaseUrl")) //localStorage.getItem("assetsBaseUrl");
+    this.assetsBaseUrl = localStorage.getItem("assetsBaseUrl");
 
     // let reqGetWorkLoadCount = {
 

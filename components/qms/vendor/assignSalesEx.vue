@@ -11,13 +11,8 @@
       <div class="modal-content">
         <div class="form-content">
           <div class="mb-1 text-xs text-gray-800">Sales Executive</div>
-          <serach_Input
-            :arrItems="vendorStore.initVendor.listRSOs"
-            ref="rsocomp"
-            label="Sales Exec."
-            v-model="rsoNo"
-            @selectItem="SelectAgent"
-          />
+          <serach_Input :arrItems="vendorStore.initVendor.listRSOs" ref="rsocomp" label="Sales Exec." v-model="rsoNo"
+            @selectItem="SelectAgent" />
 
           <div v-if="err.rsoNo" class="mt-1 text-xs text-red-500">
             {{ err.rsoNo }}
@@ -79,7 +74,7 @@ export default {
           RSONo: this.rsoNo,
         };
         console.log(JSON.stringify(req, null, 2));
-        
+
         await this.vendorStore.GetAssignSalesRef(req, this.showLoading);
         this.closeModal();
       }

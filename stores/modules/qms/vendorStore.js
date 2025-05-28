@@ -31,7 +31,7 @@ export const useVendorStore = defineStore("vendorStore", {
         if (response.data.isSuccess) {
           this.showToast(response.data.message);
         } else {
-          console.error("Error saving vendor:", err);
+          console.error("Error saving vendor:", response);
           this.showToast(response.data?.Message || "Save failed", "error");
         }
       } catch (error) {
@@ -136,6 +136,8 @@ export const useVendorStore = defineStore("vendorStore", {
 
     //loadListLeads
     async loadListLeads(req, showLoading) {
+      console.log("loadListLeads:",req);
+      
      
       const loadingAlert = showLoading("");
       try {
@@ -144,6 +146,8 @@ export const useVendorStore = defineStore("vendorStore", {
             req.keyword
           }&searchBy=${req.searchBy}`
         );
+        console.log("response:",response);
+        
         loadingAlert.close();
 
         if (response.data.isSuccess) {
@@ -182,19 +186,22 @@ export const useVendorStore = defineStore("vendorStore", {
 
     //curLead
     async EditLeads(req, showLoading) {
-      // console.log(req);
+      console.log(req);
       try {
         const response = await axios.post(
           `${import.meta.env.VITE_API_URL}/qms/Vendor/SetUpdateVendorLead`,req,    
         );
+        console.log("response:",response);
         if (response.data.isSuccess) {  
                  
           this.showToast(response.data.message);       
        
-          this.listLeads = response.data.data.data;
-          // console.log(response.data.data.data);
+          // this.listLeads = response.data.data.data;
+          let reqLoadListLeads = { keyword: "", searchBy: req.Status}
+          await loadListLeads(reqLoadListLeads,showLoading)
           
         } else {
+          console.log("response:",response.data.message);
           this.showToast(response.data.message, "error");
         }
       } catch (error) {
