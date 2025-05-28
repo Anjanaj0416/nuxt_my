@@ -10,8 +10,8 @@ export const useVendorStore = defineStore("vendorStore", {
     initVendor: {},
     listLeads:[],
     InitLeads:{},
-    curLeads:{},
-    addLeads:{},
+    curLead:{},
+   
 
   }),
   persist: true,
@@ -123,7 +123,7 @@ export const useVendorStore = defineStore("vendorStore", {
             this.showToast(response.data.message, "error");
           } else {
             this.listVendor = response.data.data.data;
-            console.log( this.listVendor)
+           // console.log( this.listVendor)
           }
           this.showToast(response.data.message, "success");
         } else {
@@ -136,6 +136,7 @@ export const useVendorStore = defineStore("vendorStore", {
 
     //loadListLeads
     async loadListLeads(req, showLoading) {
+     
       const loadingAlert = showLoading("");
       try {
         const response = await axios.get(
@@ -151,7 +152,7 @@ export const useVendorStore = defineStore("vendorStore", {
             this.showToast(response.data.message, "error");
           } else {
             this.listLeads = response.data.data.data;
-            console.log( this.listLeads)
+           // console.log( this.listLeads)
           }
           this.showToast(response.data.message, "success");
         } else {
@@ -179,7 +180,7 @@ export const useVendorStore = defineStore("vendorStore", {
       }
     },
 
-    //addLeads
+    //curLead
     async EditLeads(req, showLoading) {
       // console.log(req);
       try {

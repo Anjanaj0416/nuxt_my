@@ -18,7 +18,7 @@
               <label class="block text-sm font-bold text-gray-600">Select Merchant</label>
               <serach_Input
                 :arrItems="quotationStore.initQuotation.listVendors"
-                ref="refDistrict"
+                ref="refVendor"
                 label=""
                 v-model="quotation.merchantId"
                 @selectItem="GetSelectMerchant"
@@ -32,7 +32,7 @@
               <label class="block text-sm font-bold text-gray-600">Select Main District</label>
 
               <serach_Input
-                :arrItems="quotationStore.initQuotation.listDistricts"
+                :arrItems="listTemp"
                 ref="refDistrict"
                 label=""
                 v-model="quotation.mainDistrictId"
@@ -405,6 +405,7 @@ export default {
       listInstallmentDetails:[],
 
       curPkgList: [],
+        listTemp:[{id:1,value:'abc'},{id:2,value:'def'}],
     };
   },
 

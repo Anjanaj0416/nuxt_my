@@ -19,7 +19,7 @@
               <label class="block text-sm font-bold text-gray-600">Company Name</label>
               <input
                 type="text"
-                v-model="addLeads.companyName"
+                v-model="curLead.companyName"
                 placeholder="Enter company Name"
                 required
                 class="w-full p-2 mt-2 text-sm border rounded-md focus:ring-indigo-500 focus:border-indigo-500"
@@ -34,7 +34,7 @@
               <label class="block text-sm font-bold text-gray-600">Address Line 1</label>
               <input
                 type="text"
-                v-model="addLeads.shopAddress1"
+                v-model="curLead.shopAddress1"
                 placeholder="Enter Address Line 1"
                 required
                 class="w-full p-2 mt-2 text-sm border rounded-md focus:ring-indigo-500 focus:border-indigo-500"
@@ -47,7 +47,7 @@
               <label class="block text-sm font-bold text-gray-600">Address Line 2</label>
               <input
                 type="text"
-                v-model="addLeads.shopAddress2"
+                v-model="curLead.shopAddress2"
                 placeholder="Enter Address Line 2"
                 required
                 class="w-full p-2 mt-2 text-sm border rounded-md focus:ring-indigo-500 focus:border-indigo-500"
@@ -58,17 +58,17 @@
             </div>
             <div class="">
               <label class="block text-sm font-bold text-gray-600">District</label>
-           
+    
                <serach_Input
                 :arrItems="getDistinctDistricts"
                 ref="refDistrict"
                 label=""
-                v-model="addLeads .district"
+                v-model="curLead.district"
                 @selectItem="GetSelectDistrict"
               />
-              <!-- <p v-if="err.district" class="mt-2 text-sm text-red-600">
+              <p v-if="err.district" class="mt-2 text-sm text-red-600">
                 {{ err.district }}
-              </p> -->
+              </p>
             </div>
 
             <div class="">
@@ -78,32 +78,32 @@
                 :arrItems="filteredCities"
                 ref="refCity"
                 label=""
-                v-model="addLeads.city"
+                v-model="curLead.city"
                 @selectItem="GetSelectCity"
               />
-              <!-- <p v-if="err.city" class="mt-2 text-sm text-red-600">
+              <p v-if="err.city" class="mt-2 text-sm text-red-600">
                 {{ err.city }}
-              </p> -->
+              </p>
             </div>
             <div class="">
               <label class="block text-sm font-bold text-gray-600">Contact Number</label>
               <input
                 type="tel"
-                v-model="addLeads.contactNo"
+                v-model="curLead.contacttNo"
                
                 placeholder="Enter Contact Number"
                maxlength="10"
                 class="w-full p-2 mt-2 text-sm border rounded-md focus:ring-indigo-500 focus:border-indigo-500"
               />
-              <p v-if="err.contactNo" class="mt-2 text-sm text-red-600">
-                {{ err.contactNo }}
+              <p v-if="err.contacttNo" class="mt-2 text-sm text-red-600">
+                {{ err.contacttNo }}
               </p>
             </div>
             <div class="">
               <label class="block text-sm font-bold text-gray-600">Mobile Number</label>
               <input
                 type="text"
-                v-model="addLeads.mobileNo"
+                v-model="curLead.mobileNo"
                 :maxlength="10"
                 placeholder="Enter MobileNo"
                 class="w-full p-2 mt-2 text-sm border rounded-md focus:ring-indigo-500 focus:border-indigo-500"
@@ -117,7 +117,7 @@
               <label class="block text-sm font-bold text-gray-600">Email</label>
               <input
                 type="Email"
-                v-model="addLeads.email"
+                v-model="curLead.email"
                 placeholder="Enter Email"
                 class="w-full p-2 mt-2 text-sm border rounded-md focus:ring-indigo-500 focus:border-indigo-500"
                 required
@@ -130,7 +130,7 @@
               <label class="block text-sm font-bold text-gray-600">Website</label>
               <input
                 type="text"
-                v-model="addLeads.web"
+                v-model="curLead.web"
                 placeholder="Enter weblink"
                 class="w-full p-2 mt-2 text-sm border rounded-md focus:ring-indigo-500 focus:border-indigo-500"
                 required
@@ -143,7 +143,7 @@
               <label class="block text-sm font-bold text-gray-600">Business Registration Number</label>
               <input
                 type="text"
-                v-model="addLeads.businessRegNum"
+                v-model="curLead.businessRegNum"
                 placeholder="Enter Business Registration Number"
                 class="w-full p-2 mt-2 text-sm border rounded-md focus:ring-indigo-500 focus:border-indigo-500"
                 required
@@ -156,7 +156,7 @@
     <label class="block text-sm font-bold text-gray-600">Business Type</label>
     <input
       type="text"
-      v-model="addLeads.businessType"
+      v-model="curLead.businessType"
       placeholder="Ex: Construction / Service etc"
       class="w-full p-2 mt-2 text-sm border rounded-md focus:ring-indigo-500 focus:border-indigo-500"
       required
@@ -171,8 +171,8 @@
   <div class="w-full">
     <label class="block text-sm font-bold text-gray-600">More Details</label>
     <textarea
-      v-model="addLeads.moreDetails"
-      placeholder="Add any extra information here"
+      v-model="curLead.moreDetails"
+      placeholder="Quotation related extra information"
       class="w-full p-2 mt-2 text-sm border rounded-md focus:ring-indigo-500 focus:border-indigo-500"
       required
       rows="4"
@@ -189,13 +189,13 @@
               <label class="block text-sm font-bold text-gray-600">Name</label>
               <input
                 type="text"
-                v-model="addLeads.contactPersonName"
+                v-model="curLead.contacttPersonName"
                 placeholder="Enter Name"
                 required
                 class="w-full p-2 mt-2 text-sm border rounded-md focus:ring-indigo-500 focus:border-indigo-500"
               />
-              <p v-if="err.contactPersonName" class="mt-2 text-sm text-red-600">
-                {{ err.contactPersonName }}
+              <p v-if="err.contacttPersonName" class="mt-2 text-sm text-red-600">
+                {{ err.contacttPersonName }}
               </p>
             </div>
             <div class="">
@@ -203,7 +203,7 @@
               >
               <input
                 type="text"
-                v-model="addLeads.designation"
+                v-model="curLead.designation"
                 placeholder="Enter Designation"
                 required
                 class="w-full p-2 mt-2 text-sm border rounded-md focus:ring-indigo-500 focus:border-indigo-500"
@@ -217,41 +217,41 @@
               <label class="block text-sm font-bold text-gray-600">Contact Number</label>
               <input
                 type="text"
-                v-model="addLeads.personContactNumber1"
+                v-model="curLead.contactPersonNumber"
                 :maxlength="10"
                 placeholder="Enter Contact Number"
                 required
                 class="w-full p-2 mt-2 text-sm border rounded-md focus:ring-indigo-500 focus:border-indigo-500"
               />
-              <p v-if="err.personContactNumber1" class="mt-2 text-sm text-red-600">
-                {{ err.personContactNumber1 }}
+              <p v-if="err.contactPersonNumber" class="mt-2 text-sm text-red-600">
+                {{ err.contactPersonNumber }}
               </p>
             </div>
             <div class="">
               <label class="block text-sm font-bold text-gray-600">Mobile Number</label>
               <input
                 type="text"
-                v-model="addLeads.personMobileNo"
+                v-model="curLead.contactPersonMobileNo"
                 :maxlength="10"
                 placeholder="Enter Mobile Number"
                 required
                 class="w-full p-2 mt-2 text-sm border rounded-md focus:ring-indigo-500 focus:border-indigo-500"
               />
-              <p v-if="err.personMobileNo" class="mt-2 text-sm text-red-600">
-                {{ err.personMobileNo }}
+              <p v-if="err.contactPersonMobileNo" class="mt-2 text-sm text-red-600">
+                {{ err.contactPersonMobileNo }}
               </p>
             </div>
             <div class="">
               <label class="block text-sm font-bold text-gray-600">Email</label>
               <input
                 type="text"
-                v-model="addLeads.personEmailAddress"
+                v-model="curLead.contactPersonEmailAddress"
                 placeholder="Enter Email"
                 required
                 class="w-full p-2 mt-2 text-sm border rounded-md focus:ring-indigo-500 focus:border-indigo-500"
               />
-              <p v-if="err.personEmailAddress" class="mt-2 text-sm text-red-600">
-                {{ err.personEmailAddress }}
+              <p v-if="err.contactPersonEmailAddress" class="mt-2 text-sm text-red-600">
+                {{ err.contactPersonEmailAddress }}
               </p>
             </div>
           </div>
@@ -286,13 +286,13 @@ export default {
   data() {
     return {
       isOpen: true,
-      addLeads : {
+      curLead : {
         companyName: "",
         shopAddress1: "",
         shopAddress2: "",
-        district: "",
-        city: "",
-        contactNo1: "",
+        district: -1,
+        city: -1,
+        contactNumber: "",
         mobileNo: "",
         email: "",
         web:"",
@@ -302,11 +302,29 @@ export default {
         businessRegNum: "",
         contactPersonName: "",
         designation: "",
-        personContactNumber1: "",
-        personMobileNo: "",
-        personEmailAddress: "",
+        contacPersonNumber: "",
+        contacPersonMobileNo: "",
+        contacPersonEmailAddress: "",
       },
-      err: {},
+      err: {
+          companyName: "",
+        shopAddress1: "",
+        shopAddress2: "",
+        district: '',
+        city: '',
+        contactNumber: "",
+        mobileNo: "",
+        email: "",
+        web:"",
+        businessType: "",
+        moreDetails:'',
+        businessRegNum: "",
+        contactPersonName: "",
+        designation: "",
+        contacPersonNumber: "",
+        contacPersonMobileNo: "",
+        contacPersonEmailAddress: "",
+      },
       imageroot: "",
       showLoading: null,
     };
@@ -314,16 +332,17 @@ export default {
   computed: {
     isEditing() {
       return (
-        this.addLeads   &&
-        this.addLeads  .id !== "00000000-0000-0000-0000-000000000000"
+        this.curLead   &&
+        this.curLead.id !== "00000000-0000-0000-0000-000000000000"
       );
     },
 
-    getDistinctDistricts() {
+     getDistinctDistricts() {
+         
       try {
         const districtsMap = new Map();
-
-        this.vendorStore.initVendor.listDistrictCities.forEach((item) => {
+        
+        this.vendorStore.InitLeads.listDistrictCities.forEach((item) => {
           if (!districtsMap.has(item.districtId)) {
             districtsMap.set(item.districtId, {
               id: item.districtId,
@@ -331,21 +350,21 @@ export default {
             });
           }
         });
-
+          
         return Array.from(districtsMap.values()).sort((a, b) =>
           a.value.localeCompare(b.value)
         );
       } catch (error) {
-        console.log(error);
+        // console.log(error);
         return [];
       }
     },
 
     filteredCities() {      
-    if (!this.addLeads  .district) return [];  
+    if (!this.curLead.district) return [];  
 
-    return this.vendorStore.initVendor.listDistrictCities
-      .filter(city => city.districtId === this.addLeads  .district)
+    return this.vendorStore.InitLeads.listDistrictCities
+      .filter(city => city.districtId === this.curLead.district)
       .sort((a, b) => a.cityName.localeCompare(b.cityName))
       .map(city => ({
         id: city.cityId,
@@ -355,16 +374,18 @@ export default {
 
   },
   async created() {
-    this.vendorStore = useVendorStore();
+   this.vendorStore = useVendorStore();
     this.userStore = useUserStore();
-   // this.addLeads   = this.vendorStore.addLeads  ;
-    console.log(JSON.stringify(this.addLeads ));
+    this.curLead   = this.vendorStore.curLead  ;
+ 
     this.imageroot = this.userStore.loggedUser.resourceURLRoot;
     this.showLoading = this.$showLoading;
+
+  
   },
   mounted() {
-    this.$refs.refCity.initItem(this.addLeads  .city);
-    this.$refs.refDistrict.initItem(this.addLeads  .district);
+      this.$refs.refCity.initItem(this.curLead.city);
+   this.$refs.refDistrict.initItem(this.curLead.district);
   },
   methods: {
     closeModal() {
@@ -378,19 +399,17 @@ export default {
     },
 
     GetSaveVendor() {
+    
       if (this.IsValidate()) {
         this.$showConfirm(
-          "Are you sure you want to Save this Vendor?",
+          "Are you sure you want to Save this Lead?",
           "warning"
         ).then(async (result) => {
           if (result.isConfirmed) {
-          //  const formData = (this.addLeads  );
-           // console.log('Leads:',formData);
-           // console.log('Leads JSON:', JSON.stringify(addLeads , null, 2));
+          
+            console.log(JSON.stringify(this.curLead ));
 
-            console.log(JSON.stringify(this.addLeads ));
-
-            this.closeModal();
+           // this.closeModal();
           } else {
             console.log("Action canceled");
           }
@@ -403,102 +422,109 @@ export default {
 
       let IsValidate = true;
 
-      if (!this.addLeads.businessType) {
+      if (!this.curLead.businessType) {
         this.err.businessType = "Please Enter Business Type!";
         IsValidate = false;
       }
-      if (!this.addLeads.businessRegNum) {
+      if (!this.curLead.businessRegNum) {
         this.err.businessRegNum = "Please Enter Business Registration Number!";
         IsValidate = false;
       }
-      if (!this.addLeads.email) {
+      if (!this.curLead.email) {
         this.err.email = "Please Enter an Email!";
         IsValidate = false;
       } else {
         const EmailRegex = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
-        if (!EmailRegex.test(this.addLeads.email)) {
+        if (!EmailRegex.test(this.curLead.email)) {
           this.err.email = "Please Enter a valid Email address!";
           IsValidate = false;
         }
       }
-      if (!this.addLeads.companyName) {
+        
+      if (!this.curLead.companyName) {
         this.err.companyName = "Please Enter Company Name!";
         IsValidate = false;
       }
-      if (!this.addLeads.contactNo) {
-        this.err.contactNo = "Please Enter Contact Number!";
+      if (!this.curLead.contacttNo) {
+        this.err.contacttNo = "Please Enter Contact Number!";
         IsValidate = false;
       } else {
         const contactNoRegex = /^[0-9]{10}$/;
-        if (!contactNoRegex.test(this.addLeads .contactNo)) {
-          this.err.contactNo =
+        if (!contactNoRegex.test(this.curLead .contacttNo)) {
+          this.err.contacttNo =
             "Please Enter a valid 10-digit contact number!";
           IsValidate = false;
         }
       }
-      if (!this.addLeads.shopAddress1) {
+     
+      if (!this.curLead.shopAddress1) {
         this.err.shopAddress1 = "Please Enter Address 1!";
         IsValidate = false;
       }
-      if (!this.addLeads.shopAddress2) {
+      if (!this.curLead.shopAddress2) {
         this.err.shopAddress2 = "Please Enter Address 2!";
         IsValidate = false;
       }
-      // if (!this.addLeads  .district) {
+    
+      // if (!this.curLead.district) {
       //   this.err.district = "Please Enter District!";
       //   IsValidate = false;
       // }
-      // if (!this.addLeads  .city) {
+      // if (!this.curLead.city) {
       //   this.err.city = "Please Enter City!";
       //   IsValidate = false;
       // }
-      if (!this.addLeads.mobileNo) {
+     
+      if (!this.curLead.mobileNo) {
         this.err.mobileNo = "Please Enter mobile Number!";
         IsValidate = false;
       } else {
         const contactNoRegex1 = /^[0-9]{10}$/;
-        if (!contactNoRegex1.test(this.addLeads.mobileNo)) {
-          this.err.mobileNov = "Please Enter a valid 10-digit Mobile Number!";
+        if (!contactNoRegex1.test(this.curLead.mobileNo)) {
+          this.err.mobileNo = "Please Enter a valid 10-digit Mobile Number!";
           IsValidate = false;
         }
       }
-      if (!this.addLeads.web) {
+        
+      if (!this.curLead.web) {
         this.err.web = "Please Enter Website!";
         IsValidate = false;
       }
-      if (!this.addLeads.personEmailAddress) {
-        this.err.personEmailAddress = "Please Enter Email Address!";
+      
+      if (!this.curLead.contactPersonEmailAddress) {
+        this.err.contactPersonEmailAddress = "Please Enter Email Address!";
         IsValidate = false;
       }
 
       // Other information validation
-      if (!this.addLeads.contactPersonName) {
-        this.err.contactPersonName = "Please Enter Name!";
+      if (!this.curLead.contacttPersonName) {
+        this.err.contacttPersonName = "Please Enter Name!";
         IsValidate = false;
       }
-      if (!this.addLeads.designation ) {
+      if (!this.curLead.designation ) {
         this.err.designation  = "Please Enter Designation !";
         IsValidate = false;
       }
 
-      if (!this.addLeads.personContactNumber1) {
-        this.err.personContactNumber1 = "Please Enter Contact Number!";
+      if (!this.curLead.contactPersonNumber) {
+        this.err.contactPersonNumber = "Please Enter Contact Number!";
         IsValidate = false;
       } else {
         const contactNoRegex1 = /^[0-9]{10}$/;
-        if (!contactNoRegex1.test(this.addLeads.personContactNumber1)) {
-          this.err.personContactNumber1 = "Please Enter a valid 10-digit Contact Number!";
+        if (!contactNoRegex1.test(this.curLead.contactPersonNumber)) {
+          this.err.contactPersonNumber = "Please Enter a valid 10-digit Contact Number!";
           IsValidate = false;
         }
       }
+     
 
-      if (!this.addLeads.personMobileNo) {
-        this.err.personMobileNo = "Please Enter Mobile Number!";
+      if (!this.curLead.contactPersonMobileNo) {
+        this.err.contactPersonMobileNo = "Please Enter Mobile Number!";
         IsValidate = false;
       } else {
         const contactNoRegex1 = /^[0-9]{10}$/;
-        if (!contactNoRegex1.test(this.addLeads.personMobileNo)) {
-          this.err.personMobileNo = "Please Enter a valid 10-digit Mobile Number!";
+        if (!contactNoRegex1.test(this.curLead.contactPersonMobileNo)) {
+          this.err.contactPersonMobileNo = "Please Enter a valid 10-digit Mobile Number!";
           IsValidate = false;
         }
       }
@@ -513,12 +539,11 @@ export default {
     },
 
     GetSelectCity(id) {
-      this.addLeads  .city = id;
+      this.curLead.city = id;
     },
-    GetSelectDistrict(id){
-      
-      this.addLeads  .district = id;
-      //alert(this.addLeads  .district )
+    GetSelectDistrict(id){      
+      this.curLead.district = id;
+     
     },
 
   },

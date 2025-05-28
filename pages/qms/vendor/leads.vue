@@ -26,6 +26,7 @@
         v-for="(lead, index) in vendorStore.listLeads"
         :key="index"
       >
+      
       <!-- {{ lead }} -->
       <div class="flex justify-start">
         <span
@@ -214,11 +215,11 @@ export default {
         { label: "Business Registration Number", key: "contactPhoneNo" },
         { label: "More Details", key: "" },
         // { label: "BusinessRegNo", key: "businessRegNo" },
-        { label: "contact Person Name", key: "contactPersonFirstName", secondKey: "contactPersonLastname" },
+        { label: "Contact Person Name", key: "contactPersonFirstName", secondKey: "contactPersonLastname" },
         { label: "Contact Designation", key: "contactDesignation" },
-        { label: "Person Contact Number", key: "contactPhoneNo" },
-        { label: "Person Mobile Number", key: "contactMobile" },
-        { label: "Person Email", key: "contactEmail" },
+        { label: "Contact Number", key: "contactPhoneNo" },
+        { label: "Contact Mobile Number", key: "contactMobile" },
+        { label: "Contact Email", key: "contactEmail" },
 
         // { label: "Contact Person Last name", key: "contactPersonLastname" },
       
@@ -232,22 +233,28 @@ export default {
     this.userStore = useUserStore();
     this.vendorStore = useVendorStore();
     this.showLoading = this.$showLoading;
-    this.imageroot = this.userStore.loggedUser.resourceURLRoot;
+    
+
+ await this.vendorStore.GetInitLeads(      
+      this.showLoading
+    );
 
     await this.vendorStore.loadListLeads(
       { keyword: "", searchBy: this.searchBy },
       this.showLoading
     );
 
-    await this.vendorStore.GetInitLeads(      
-      this.showLoading
-    );
+   this.imageroot = this.userStore.loggedUser.resourceURLRoot;
 
   },
   watch: {},
   computed: {},
   methods: {
-    async GetSearch(searchVal) {
+    async GetSearch(searchVal) {       
+       await this.vendorStore.loadListLeads(
+      { keyword: searchVal, searchBy: this.searchBy },
+      this.showLoading
+    );
 
     },
     SetSelectedFilter(type) {
@@ -261,7 +268,7 @@ export default {
         // console.log(this.selectedLeadId);
         return;
       }
-      console.log(request);
+    
       this.$showConfirm(
         "Are you sure you want to update this lead?",
         "warning"

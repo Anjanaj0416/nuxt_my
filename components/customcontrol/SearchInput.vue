@@ -65,16 +65,10 @@
 
 <template>
   <div>
-    <!-- <label v-if="label.indexOf('#')!=-1" class="block text-sm text-gray-00">
-        {{label.substring(0,label.indexOf('#'))}}s
-        <span
-          class="font-bold underline text-gray-600"
-        >{{label.charAt(label.indexOf('#')+1)}}</span>
-        {{label.substring(label.indexOf('#')+2,label.length)}}
-      </label>
-      <label v-if="label.indexOf('#')==-1" class="block text-sm text-gray-00">{{label}}</label> -->
-    
+
+
     <div v-show="!modal">
+    
       <input
         type="text"
         class="w-full p-2 mt-2 text-sm text-gray-700 border rounded-md focus:ring-indigo-500 focus:border-indigo-500"
@@ -84,6 +78,8 @@
         @focus="setfocus"
         placeholder="Search...."
       />
+      <!-- {{ filtered }}
+    zz  {{ Item.value }} -->
       <p class="ml-1 text-xs italic text-red-700">{{ err }}</p>
     </div>
 
@@ -98,6 +94,7 @@
           placeholder="Search...."
           @keydown="control($event)"
         />
+           <!-- pp  {{ Item.value }} -->
         <!-- Search Icon -->
         <div
           class="absolute inset-y-0 right-0 flex items-center pr-3 pointer-events-none"
@@ -135,7 +132,9 @@
       </div>
 
     </div>
+
   </div>
+
 </template>
 
 <script>
@@ -199,6 +198,7 @@ export default {
       this.selecteditem = item.id;
     },
     control(evt) {
+     
       if (evt.keyCode == 38) {
         this.isInItemList = true;
         if (this.filtered.length > 0 && this.active_index > 0) {

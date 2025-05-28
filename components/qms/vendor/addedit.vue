@@ -124,14 +124,17 @@
               </p>
             </div>
             <div class="">
-              <label class="block text-sm font-bold text-gray-600">District</label>
-              <serach_Input
+              <label class="block text-sm font-bold text-gray-600">District</label>            
+          
+               <serach_Input
                 :arrItems="getDistinctDistricts"
                 ref="refDistrict"
                 label=""
                 v-model="curVendor.district"
                 @selectItem="GetSelectDistrict"
+              
               />
+             
               <p v-if="err.district" class="mt-2 text-sm text-red-600">
                 {{ err.district }}
               </p>
@@ -145,6 +148,8 @@
                 v-model="curVendor.city"
                 @selectItem="GetSelectCity"
               />
+
+                
               <p v-if="err.city" class="mt-2 text-sm text-red-600">
                 {{ err.city }}
               </p>
@@ -412,6 +417,7 @@ import closebtn from "~/components/customcontrol/modal_close_button";
 import { useVendorStore } from "~/stores/modules/qms/vendorStore";
 import imagecomp from "~/components/customcontrol/imagepicker";
 import ImageLable from "~/components/customcontrol/ImageLable";
+
 import serach_Input from "~/components/customcontrol/SearchInput";
 import { useUserStore } from "~/stores/modules/userStore";
 import toggleoption from "~/components/customcontrol/toggleoption";
@@ -460,6 +466,7 @@ export default {
       err: {},
       imageroot: "",
       showLoading: null,
+      listTemp:[{id:1,value:'abc'},{id:2,value:'def'}],
     };
   },
   computed: {
@@ -471,6 +478,7 @@ export default {
     },
 
     getDistinctDistricts() {
+  
       try {
         const districtsMap = new Map();
 
