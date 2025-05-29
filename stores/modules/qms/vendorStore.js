@@ -142,7 +142,7 @@ export const useVendorStore = defineStore("vendorStore", {
       const loadingAlert = showLoading("");
       try {
         const response = await axios.get(
-          `${import.meta.env.VITE_API_URL}/qms/Vendor/GetVendorLeads?keyword=${
+          `${import.meta.env.VITE_API_URL}/qms/Leads/GetVendorLeads?keyword=${
             req.keyword
           }&searchBy=${req.searchBy}`
         );
@@ -163,6 +163,7 @@ export const useVendorStore = defineStore("vendorStore", {
           this.showToast(response.data.message, "error");
         }
       } catch (error) {
+        console.error("error",error)
         this.showToast(error.message, "error");
       }
     },
@@ -171,7 +172,7 @@ export const useVendorStore = defineStore("vendorStore", {
     async GetInitLeads(showLoading) {
       try {
         const response = await axios.get(
-          `${import.meta.env.VITE_API_URL}/qms/Vendor/GetInitLeads`
+          `${import.meta.env.VITE_API_URL}/qms/Leads/GetInitLeads`
         );
 
         if (response.data.isSuccess) {
@@ -189,7 +190,7 @@ export const useVendorStore = defineStore("vendorStore", {
       console.log(req);
       try {
         const response = await axios.post(
-          `${import.meta.env.VITE_API_URL}/qms/Vendor/SetUpdateVendorLead`,req,    
+          `${import.meta.env.VITE_API_URL}/qms/Leads/SetUpdateVendorLead`,req,    
         );
         console.log("response:",response);
         if (response.data.isSuccess) {  
@@ -198,14 +199,14 @@ export const useVendorStore = defineStore("vendorStore", {
        
           // this.listLeads = response.data.data.data;
           let reqLoadListLeads = { keyword: "", searchBy: req.Status}
-          await loadListLeads(reqLoadListLeads,showLoading)
+          await this.loadListLeads(reqLoadListLeads,showLoading)
           
         } else {
           console.log("response:",response.data.message);
           this.showToast(response.data.message, "error");
         }
       } catch (error) {
-        // console.error(error)
+        console.error("error:",error)
         this.showToast('Error in server call', "error");
        }
     },
