@@ -65,7 +65,13 @@
 
 <template>
   <div>
-
+    <label
+      v-if="label"
+      :for="modal ? 'txtSearch' : 'txtItem'"
+      class="block text-sm font-medium text-gray-700"
+    >
+      {{ label }}
+    </label>
 
     <div v-show="!modal">
     

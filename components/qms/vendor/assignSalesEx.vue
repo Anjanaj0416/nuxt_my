@@ -10,21 +10,102 @@
       <!-- Modal Content -->
       <div class="modal-content">
         <div class="form-content">
-          <div class="mb-1 text-xs text-gray-800">Sales Executive</div>
-          <serach_Input :arrItems="vendorStore.initVendor.listRSOs" ref="rsocomp" label="Sales Exec." v-model="rsoNo"
-            @selectItem="SelectAgent" />
+          <!-- sales -->
+          <div class="form-content">
+            <!-- SALES SECTION -->
+            <div v-if="!showCityForm">
+              <div class="grid grid-cols-1 gap-4 sm:grid-cols-1">
+                <div class="w-full sm:w-1/2">
+                  <serach_Input 
+                    :arrItems="vendorStore.initVendor.listRSOs" 
+                    ref="rsocomp" 
+                    label="Sales Exec."
+                    v-model="rsoNo"
+                    @selectItem="SelectAgent" 
+                  />
+                  <div v-if="err.rsoNo" class="mt-1 text-xs text-red-500">
+                    {{ err.rsoNo }}
+                  </div>
+                </div>
+                <div class="w-full sm:w-1/2">
+                  <selectinput2 
+                    v-model="district" 
+                    :cur_item="district" 
+                    :selections="[]" 
+                    label="District"
+                  />
+                  <div v-if="err.district" class="mt-1 text-xs text-red-500">
+                    {{ err.district }}
+                  </div>
+                </div>
+                <div class="w-full sm:w-1/2">
+                  <div class="flex items-end justify-between gap-2">
+                    <div class="flex-1">
+                      <selectinput2 
+                        v-model="city" 
+                        :cur_item="city" 
+                        :selections="[]" 
+                        label="City"
+                      />
+                    </div>
+                    <button @click="showAddCity" class="self-end confirm-button h-9">
+                      Add City
+                    </button>
+                  </div>
+                  <div v-if="err.city" class="mt-1 text-xs text-red-500">
+                    {{ err.city }}
+                  </div>
+                </div>
+              </div>
+            </div>
 
-          <div v-if="err.rsoNo" class="mt-1 text-xs text-red-500">
-            {{ err.rsoNo }}
+            <!-- CITY SECTION -->
+            <div v-if="showCityForm">
+              <div class="mt-2 mb-4 text-xl font-semibold text-gray-800">Add New City</div>
+              <div class="grid grid-cols-1 gap-4 sm:grid-cols-1">
+                <div class="w-full sm:w-1/2">
+                  <selectinput2 
+                    v-model="district" 
+                    :cur_item="district" 
+                    :selections="[]" 
+                    label="Select District"
+                    :err="err.district"
+                  />
+                </div>
+
+                <div class="w-full sm:w-1/2">
+                  <label class="block text-sm font-bold text-gray-600">Enter City</label>
+                  <input
+                    type="text"
+                    v-model="city"
+                    placeholder="Enter City"
+                    required
+                    class="w-full p-2 mt-2 text-sm border rounded-md focus:ring-indigo-500 focus:border-indigo-500"
+                  />
+                  <div v-if="err.city" class="mt-1 text-xs text-red-500">
+                    {{ err.city }}
+                  </div>
+                </div>
+              </div>
+
+              
+            </div>
           </div>
         </div>
       </div>
 
-      <!-- Modal Footer -->
-      <div class="modal-footer">
+        <!-- Main Modal Footer -->
+      <div class="modal-footer" v-if="!showCityForm">
         <button @click="closeModal" class="cancel-button">Cancel</button>
         <button @click="GetSave" class="confirm-button">Save</button>
       </div>
+
+      <!-- CITY SECTION Footer -->
+      <div class="modal-footer" v-else>
+        <button @click="cancelAddCity" class="cancel-button">Cancel</button>
+        <button @click="SaveCity" class="confirm-button">Save City</button>
+      </div>
+
     </div>
   </div>
 </template>
@@ -32,19 +113,27 @@
 <script>
 import closebtn from "~/components/customcontrol/modal_close_button";
 import serach_Input from "~/components/customcontrol/SearchInput";
+import selectinput2 from "~/components/customcontrol/selectinput2.vue";
 import { useVendorStore } from "~/stores/modules/qms/vendorStore";
 
 definePageMeta({ layout: 'default' });
 
 export default {
-  components: { closebtn, serach_Input },
+  components: { closebtn, serach_Input, selectinput2 },
   data() {
     return {
       imageroot: process.env.Assets_83,
       isOpen: true,
+      showCityForm: false,
       rsoNo: "",
+      city: "",
+      district:"",
       showLoading: null,
-      err: { rsoNo: "" },
+      err: { 
+        rsoNo: "",
+        city: "",
+        district:"",
+      },
     };
   },
   props: {
@@ -65,6 +154,12 @@ export default {
       this.isOpen = false;
       this.$emit("close");
     },
+    showAddCity() {
+      this.showCityForm = true;
+    },
+    cancelAddCity() {
+      this.showCityForm = false;
+    },
     async GetSave() {
       if (this.IsValidate()) {
         this.vendorStore.curVendor.rsoNo = this.rsoNo;
@@ -81,9 +176,19 @@ export default {
     },
     IsValidate() {
       let isValid = true;
+
       this.err.rsoNo = this.rsoNo ? "" : "Please select a Sales Executive!";
-      return !!this.rsoNo;
-    },
+      if (!this.rsoNo) isValid = false;
+
+      this.err.district = this.district ? "" : "Please select a District!";
+      if (!this.district) isValid = false;
+
+      this.err.city = this.city ? "" : "Please select a City!";
+      if (!this.city) isValid = false;
+
+      return isValid;
+    }
+
   },
 };
 </script>
@@ -105,7 +210,7 @@ export default {
 .modal {
   background: white;
   width: 600px;
-  height: 300px;
+  height: 450px;
   border-radius: 8px;
   box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
   overflow: hidden;
