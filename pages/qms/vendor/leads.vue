@@ -107,6 +107,9 @@
               <h2 class="text-sm font-semibold text-gray-700">Comment</h2>
               <textarea v-model="lead.newComment" class="w-full p-2 border rounded-md resize-none" rows="3"
                 placeholder="Add a comment..." />
+              <p v-if="err.newComment" class="mt-2 text-sm text-red-600">
+                {{ err.newComment }}
+              </p>
             </div>
           </div>
           <!-- {{ lead }} -->
@@ -114,7 +117,7 @@
           <div class="flex justify-end pt-2">
             <LinkBtn
               class="px-5 py-2 text-sm font-medium transition bg-white border-2 rounded-lg shadow text-blue-950 border-blue-950 hover:bg-blue-900 hover:text-white focus:outline-none focus:ring-2 focus:ring-blue-400 dark:bg-blue-500 dark:hover:bg-blue-600"
-              variant="primary" label="Update" @click="GetUpdateLead(lead)" />
+              variant="primary" label="Update" @click="SetUpdateVendorLead(lead)" />
           </div>
         </section>
       </div>
@@ -158,7 +161,7 @@ export default {
       searchBy: "",
       isMore: false,
       rowIndex: -1,
-      err: { status: '' },
+      err: { status: '', newComment: '' },
       vendorFields: [
         { label: "Company Name", key: "companyName" },
         { label: "Business Type ", key: "industry" },
@@ -229,28 +232,60 @@ export default {
     SetSelectedFilter(type) {
       this.searchBy = type;
     },
-    GetUpdateLead(lead) {
+    SetUpdateVendorLead(lead) {
       var request = { Id: lead.id, Comment: lead.newComment, Status: lead.status };
-      if (lead.status === 'RSOAssigned') {
-        this.selectedLeadId = lead.id;
-        this.isAddRso = true;
-        // console.log(this.selectedLeadId);
-        return;
+
+      if (this.IsValidate(lead.newComment, lead.status)) {
+        if (lead.status === 'RSOAssigned') {
+          this.selectedLeadId = lead.id;
+          this.isAddRso = true;
+          // console.log(this.selectedLeadId);
+          return;
+        }
+
+        this.$showConfirm(
+          "Are you sure you want to update this lead?",
+          "warning"
+        ).then(async (result) => {
+          if (result) {
+            await this.vendorStore.SetUpdateVendorLead(request, this.showLoading);
+          } else {
+            // console.log("Action canceled");
+          }
+        });
       }
 
-      this.$showConfirm(
-        "Are you sure you want to update this lead?",
-        "warning"
-      ).then(async (result) => {
-        if (result) {
-          await this.vendorStore.EditLeads(request, this.showLoading);
-        } else {
-          // console.log("Action canceled");
-        }
-      });
     },
     GoToAddNew() {
       this.isAddLeads = true;
+    },
+
+    clearErr() {
+      Object.keys(this.err).forEach((key) => {
+        this.err[key] = "";
+      });
+    },
+
+    IsValidate(comment, status) {
+      console.log("lead:", comment, status);
+
+      this.clearErr();
+
+      let IsValidate = true;
+
+      if (!status) {
+        console.log("status:");
+        this.err.status = "Please Select Lead Status!";
+        IsValidate = false;
+      }
+
+      if (!comment) {
+        console.log("comment:");
+        this.err.newComment = "Please Enter Comment!";
+        IsValidate = false;
+      }
+
+      return IsValidate;
     },
 
   },

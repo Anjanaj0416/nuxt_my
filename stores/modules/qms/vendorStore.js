@@ -23,7 +23,7 @@ export const useVendorStore = defineStore("vendorStore", {
       const loadingAlert = showLoading("");
       try {
         const response = await axios.post(
-          `${import.meta.env.VITE_API_URL}/qms/Vendor/GetAssignSalesRef`,
+          `${import.meta.env.VITE_API_URL}/qms/Leads/GetAssignSalesRef`,
           req
         );
 
@@ -168,7 +168,7 @@ export const useVendorStore = defineStore("vendorStore", {
       }
     },
 
-    //loadInitVendor
+    //loadInitLeads
     async GetInitLeads(showLoading) {
       try {
         const response = await axios.get(
@@ -185,8 +185,34 @@ export const useVendorStore = defineStore("vendorStore", {
       }
     },
 
+    //Add Vendor Lead
+    async SetVendorLead(req, showLoading) {
+      console.log(req);
+      try {
+        const response = await axios.post(
+          `${import.meta.env.VITE_API_URL}/qms/Leads/SetVendorLead`,req,    
+        );
+        console.log("response:",response);
+        if (response.data.isSuccess) {  
+                 
+          this.showToast(response.data.message);       
+       
+          // this.listLeads = response.data.data.data;
+          let reqLoadListLeads = { keyword: "", searchBy: req.Status}
+          await this.loadListLeads(reqLoadListLeads,showLoading)
+          
+        } else {
+          console.log("response:",response.data.message);
+          this.showToast(response.data.message, "error");
+        }
+      } catch (error) {
+        console.error("error:",error)
+        this.showToast('Error in server call', "error");
+       }
+    },
+
     //curLead
-    async EditLeads(req, showLoading) {
+    async SetUpdateVendorLead(req, showLoading) {
       console.log(req);
       try {
         const response = await axios.post(

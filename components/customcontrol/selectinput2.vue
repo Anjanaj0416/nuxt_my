@@ -105,43 +105,47 @@ export default {
 
 
 <template>
- <article class="w-full">
-  <label v-if="label" class="block mb-1 text-sm font-medium text-gray-700 ">
-    {{ label }}
-  </label>
+  <article class="w-full">
+    <label v-if="label" class="block mb-1 text-sm font-medium text-gray-700 ">
+      {{ label }}
+    </label>
 
-  <div class="relative">
-    <select
-      :class="[
+    <div class="relative">
+      <select :class="[
         cssclass,
         'appearance-none w-full border border-gray-300 rounded-md px-3 py-2 pr-10 bg-white text-gray-700 shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition duration-150 ease-in-out'
-      ]"
-      :value="modelValue"
-      @change="onChange"
-    >
-      <option disabled value="" v-if="!modelValue">Please select</option>
-      <option
-        v-for="sitem in selections"
-        :key="sitem"
-        :value="sitem"
-        class="uppercase"
-      >
-        {{ sitem }}
-      </option>
-    </select>
+      ]" :value="modelValue" @change="onChange">
+        <option disabled value="" v-if="!modelValue">Please select</option>
+        <!-- <option  v-for="sitem in selections" :key="sitem" :value="sitem" class="uppercase">
+          {{ sitem }}
+        </option> -->
+        <template v-if="isDistrict">
+          <option v-for="item in selections" :key="item.id" :value="item.id">
+            {{ item.name }}
+          </option>
+        </template>
 
-    <!-- Custom dropdown icon -->
-    <div class="absolute inset-y-0 right-0 flex items-center px-2 pointer-events-none">
-      <svg class="w-4 h-4 text-gray-500 dark:text-gray-300" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7" />
-      </svg>
+        <template v-else>
+          <option v-for="item in selections" :key="item || item" :value="item">
+            {{ item }}
+          </option>
+        </template>
+
+
+      </select>
+
+      <!-- Custom dropdown icon -->
+      <div class="absolute inset-y-0 right-0 flex items-center px-2 pointer-events-none">
+        <svg class="w-4 h-4 text-gray-500 dark:text-gray-300" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7" />
+        </svg>
+      </div>
     </div>
-  </div>
 
-  <p v-if="err" class="mt-2 text-sm text-red-600">
-    {{ err }}
-  </p>
-</article>
+    <p v-if="err" class="mt-2 text-sm text-red-600">
+      {{ err }}
+    </p>
+  </article>
 </template>
 
 <script>
@@ -152,9 +156,10 @@ export default {
       default: () => []
     },
     modelValue: {
-      type: String,
+      type: [String, Number],
       default: ''
     },
+    isDistrict: Boolean,
     err: {
       type: String,
       default: ''
@@ -170,10 +175,25 @@ export default {
   },
   methods: {
     onChange(event) {
-      const newValue = event.target.value;
-      this.$emit('update:modelValue', newValue); 
-      this.$emit('changed', newValue); 
-      console.log('Selected:', newValue);
+      if (this.isDistrict) {
+        const selectedIndex = event.target.value;
+        console.log("selectedIndex:", selectedIndex);
+
+        const selectedOption = this.selections.find(i => i.id == selectedIndex);
+        console.log("selectedOption:", selectedOption);
+
+        this.$emit('update:modelValue', selectedIndex);
+        this.$emit('changed', selectedOption);
+        console.log('Selected:', JSON.stringify(selectedOption, null, 2));
+
+      } else {
+        const newValue = event.target.value;
+        this.$emit('update:modelValue', newValue);
+        this.$emit('changed', newValue);
+        console.log('Selected:', newValue);
+      }
+
+
     }
   }
 }

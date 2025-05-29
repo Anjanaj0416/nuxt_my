@@ -16,37 +16,24 @@
             <div v-if="!showCityForm">
               <div class="grid grid-cols-1 gap-4 sm:grid-cols-1">
                 <div class="w-full sm:w-1/2">
-                  <serach_Input 
-                    :arrItems="vendorStore.initVendor.listRSOs" 
-                    ref="rsocomp" 
-                    label="Sales Exec."
-                    v-model="rsoNo"
-                    @selectItem="SelectAgent" 
-                  />
+                  <serach_Input :arrItems="vendorStore.initVendor.listRSOs" ref="rsocomp" label="Sales Exec."
+                    v-model="rsoNo" @selectItem="SelectAgent" />
                   <div v-if="err.rsoNo" class="mt-1 text-xs text-red-500">
                     {{ err.rsoNo }}
                   </div>
                 </div>
                 <div class="w-full sm:w-1/2">
-                  <selectinput2 
-                    v-model="district" 
-                    :cur_item="district" 
-                    :selections="[]" 
-                    label="District"
-                  />
+                  <selectinput2 v-model="district" :cur_item="district" :selections="getDistricts" :isDistrict="true"
+                    @changed="onDistrictChange" label="District" />
                   <div v-if="err.district" class="mt-1 text-xs text-red-500">
                     {{ err.district }}
                   </div>
                 </div>
                 <div class="w-full sm:w-1/2">
-                  <div class="flex items-end justify-between gap-2">
+                  <div v-if="filteredCities.length" class="flex items-end justify-between gap-2">
                     <div class="flex-1">
-                      <selectinput2 
-                        v-model="city" 
-                        :cur_item="city" 
-                        :selections="[]" 
-                        label="City"
-                      />
+                      <selectinput2 v-model="city" :cur_item="city" :selections="filteredCities" label="City"
+                        :isDistrict="true" />
                     </div>
                     <button @click="showAddCity" class="self-end confirm-button h-9">
                       Add City
@@ -64,40 +51,30 @@
               <div class="mt-2 mb-4 text-xl font-semibold text-gray-800">Add New City</div>
               <div class="grid grid-cols-1 gap-4 sm:grid-cols-1">
                 <div class="w-full sm:w-1/2">
-                  <selectinput2 
-                    v-model="district" 
-                    :cur_item="district" 
-                    :selections="[]" 
-                    label="Select District"
-                    :err="err.district"
-                  />
+                  <selectinput2 v-model="city" :cur_item="city" :selections="filteredCities" label="Select District"
+                    :err="err.city" />
                 </div>
 
                 <div class="w-full sm:w-1/2">
                   <label class="block text-sm font-bold text-gray-600">Enter City</label>
-                  <input
-                    type="text"
-                    v-model="city"
-                    placeholder="Enter City"
-                    required
-                    class="w-full p-2 mt-2 text-sm border rounded-md focus:ring-indigo-500 focus:border-indigo-500"
-                  />
+                  <input type="text" v-model="city" placeholder="Enter City" required
+                    class="w-full p-2 mt-2 text-sm border rounded-md focus:ring-indigo-500 focus:border-indigo-500" />
                   <div v-if="err.city" class="mt-1 text-xs text-red-500">
                     {{ err.city }}
                   </div>
                 </div>
               </div>
 
-              
+
             </div>
           </div>
         </div>
       </div>
 
-        <!-- Main Modal Footer -->
+      <!-- Main Modal Footer -->
       <div class="modal-footer" v-if="!showCityForm">
         <button @click="closeModal" class="cancel-button">Cancel</button>
-        <button @click="GetSave" class="confirm-button">Save</button>
+        <button @click="GetAssignSalesRef" class="confirm-button">Save</button>
       </div>
 
       <!-- CITY SECTION Footer -->
@@ -126,13 +103,15 @@ export default {
       isOpen: true,
       showCityForm: false,
       rsoNo: "",
-      city: "",
-      district:"",
+      city: null,
+      district: null,
+      selectedCity: null,
+      cities: [],
       showLoading: null,
-      err: { 
+      err: {
         rsoNo: "",
         city: "",
-        district:"",
+        district: "",
       },
     };
   },
@@ -142,9 +121,63 @@ export default {
       required: true
     }
   },
+
+  computed: {
+    getDistricts() {
+      const seen = new Set();
+      return this.vendorStore.InitLeads.listDistrictCities.filter(item => {
+        const key = `${item.districtId}-${item.districtName}`;
+        if (!seen.has(key)) {
+          seen.add(key);
+          return true;
+        }
+        return false;
+      }).map(item => ({
+        id: item.districtId,
+        name: item.districtName
+      }));
+    },
+    filteredCities() {
+      console.log("district:", this.district);
+
+      if (!this.district) return [];
+      return this.vendorStore.InitLeads.listDistrictCities.filter(
+        c => c.districtId == this.district
+      ).map(c => ({
+        id: c.cityId,
+        name: c.cityName
+      }));
+    },
+
+    selectedCityObject() {
+      return this.filteredCities.find(city => city.id == this.city);
+    },
+  },
+
+  // watch: {
+  //   district(newVal) {
+  //     console.log("newVal:", JSON.stringify(newVal));
+
+  //     if (newVal && newVal.id) {
+  //       // Filter cities based on selected district
+  //       this.cities = this.vendorStore.InitLeads.listDistrictCities
+  //         .filter(c => c.districtId === newVal.id)
+  //         .map(c => ({
+  //           id: c.cityId,
+  //           name: c.cityName
+  //         }));
+  //     } else {
+  //       this.cities = [];
+  //     }
+  //     this.selectedCity = null; // reset selected city
+  //   }
+  // },
+
   async created() {
     this.showLoading = this.$showLoading;
     this.vendorStore = useVendorStore();
+
+    await this.vendorStore.GetInitLeads(this.showLoading);
   },
   methods: {
     SelectAgent(rsoNo) {
@@ -160,7 +193,11 @@ export default {
     cancelAddCity() {
       this.showCityForm = false;
     },
-    async GetSave() {
+    onDistrictChange(districtObj) {
+      console.log("District selected:", districtObj);
+      this.selectedCity = ""; // Reset selected city
+    },
+    async GetAssignSalesRef() {
       if (this.IsValidate()) {
         this.vendorStore.curVendor.rsoNo = this.rsoNo;
         // const req = { Id: this.vendorStore.curVendor.id, RSONo: this.rsoNo };
