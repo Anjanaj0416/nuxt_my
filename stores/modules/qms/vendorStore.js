@@ -11,8 +11,6 @@ export const useVendorStore = defineStore("vendorStore", {
     listLeads:[],
     InitLeads:{},
     curLead:{},
-   
-
   }),
   persist: true,
 
@@ -235,6 +233,13 @@ export const useVendorStore = defineStore("vendorStore", {
         console.error("error:",error)
         this.showToast('Error in server call', "error");
        }
+    },
+
+    async clearCurLead(){
+      this.curLead = {};
+      // Object.keys(this.curLead).forEach((key) => {
+      //   this.err[key] = "";
+      // });
     },
 
     ResetVendor() {
