@@ -65,25 +65,15 @@
 
 <template>
   <div>
-    <label
-      v-if="label"
-      :for="modal ? 'txtSearch' : 'txtItem'"
-      class="block text-sm font-medium text-gray-700"
-    >
+    <label v-if="label" :for="modal ? 'txtSearch' : 'txtItem'" class="block text-sm font-medium text-gray-700">
       {{ label }}
     </label>
 
     <div v-show="!modal">
-    
-      <input
-        type="text"
+
+      <input type="text"
         class="w-full p-2 mt-2 text-sm text-gray-700 border rounded-md focus:ring-indigo-500 focus:border-indigo-500"
-        id="txtItem"
-        :title="Item.value"
-        v-model="Item.value"
-        @focus="setfocus"
-        placeholder="Search...."
-      />
+        id="txtItem" :title="Item.value" v-model="Item.value" @focus="setfocus" placeholder="Search...." />
       <!-- {{ filtered }}
     zz  {{ Item.value }} -->
       <p class="ml-1 text-xs italic text-red-700">{{ err }}</p>
@@ -91,48 +81,23 @@
 
     <div v-show="modal" class="cssSerach">
       <div>
-        <input
-          type="text"
+        <input type="text"
           class="w-full p-2 mt-2 text-sm text-gray-700 border rounded-md focus:ring-indigo-500 focus:border-indigo-500"
-          id="txtSearch"
-          v-model="item_serach"
-          ref="comp_search"
-          placeholder="Search...."
-          @keydown="control($event)"
-        />
-           <!-- pp  {{ Item.value }} -->
+          id="txtSearch" v-model="item_serach" ref="comp_search" placeholder="Search...." @keydown="control($event)" />
+        <!-- pp  {{ Item.value }} -->
         <!-- Search Icon -->
-        <div
-          class="absolute inset-y-0 right-0 flex items-center pr-3 pointer-events-none"
-        >
-          <svg
-            xmlns="http://www.w3.org/2000/svg"
-            class="w-5 h-5 mt-2 text-gray-400"
-            fill="none"
-            viewBox="0 0 24 24"
-            stroke="currentColor"
-            stroke-width="2"
-          >
-            <path
-              stroke-linecap="round"
-              stroke-linejoin="round"
-              d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"
-            />
+        <div class="absolute inset-y-0 right-0 flex items-center pr-3 pointer-events-none">
+          <svg xmlns="http://www.w3.org/2000/svg" class="w-5 h-5 mt-2 text-gray-400" fill="none" viewBox="0 0 24 24"
+            stroke="currentColor" stroke-width="2">
+            <path stroke-linecap="round" stroke-linejoin="round" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
           </svg>
         </div>
       </div>
 
       <div class="z-40 cssSerachedList">
-       
-        <div
-          v-for="item in filtered"
-          :key="item.id"
-          v-bind:class="{ cssItemHover: selecteditem == item.id }"
-          :title="item.value"
-          @mouseover="mouseover(item)"
-          @click="selectItem(item)"
-          class="h-8 overflow-hidden"
-        >
+
+        <div v-for="item in filtered" :key="item.id" v-bind:class="{ cssItemHover: selecteditem == item.id }"
+          :title="item.value" @mouseover="mouseover(item)" @click="selectItem(item)" class="h-8 overflow-hidden">
           {{ item.value }}
         </div>
       </div>
@@ -158,7 +123,7 @@ export default {
       isInItemList: false,
     };
   },
-  mounted() {},
+  mounted() { },
   computed: {},
   watch: {
     arrItems: {
@@ -195,7 +160,7 @@ export default {
     },
 
     selectItem(selecteditem) {
-      this.$emit("selectItem", selecteditem.id);
+      this.$emit("selectItem", selecteditem);
       this.$emit("input", selecteditem.id);
       this.Item = selecteditem;
       this.modal = false;
@@ -204,7 +169,7 @@ export default {
       this.selecteditem = item.id;
     },
     control(evt) {
-     
+
       if (evt.keyCode == 38) {
         this.isInItemList = true;
         if (this.filtered.length > 0 && this.active_index > 0) {
@@ -304,7 +269,7 @@ export default {
   width: 100%;
 }
 
-.cssSerachedList > div {
+.cssSerachedList>div {
   /* color: red;
     background: #000; */
   list-style: none;
@@ -316,7 +281,7 @@ export default {
   @apply text-black;
 }
 
-.cssSerachedList > div:hover {
+.cssSerachedList>div:hover {
   cursor: pointer;
   @apply text-white;
   @apply bg-btn;

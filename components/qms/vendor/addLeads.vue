@@ -44,10 +44,8 @@
             <div class="">
               <label class="block text-sm font-bold text-gray-600">District</label>
 
-              <!-- <serach_Input :arrItems="getDistinctDistricts" ref="refDistrict" label="" v-model="curLead.District"
-                @selectItem="GetSelectDistrict" /> -->
-              <input type="tel" v-model="curLead.District" placeholder="Enter District" maxlength="10"
-                class="w-full p-2 mt-2 text-sm border rounded-md focus:ring-indigo-500 focus:border-indigo-500" />
+              <serach_Input :arrItems="getDistinctDistricts" ref="refDistrict" label="" v-model="curLead.DistrictName"
+                @selectItem="GetSelectDistrict" />
               <p v-if="err.District" class="mt-2 text-sm text-red-600">
                 {{ err.District }}
               </p>
@@ -56,10 +54,8 @@
             <div class="">
               <label class="block text-sm font-bold text-gray-600">City</label>
 
-              <!-- <serach_Input :arrItems="filteredCities" ref="refCity" label="" v-model="curLead.City"
-                @selectItem="GetSelectCity" /> -->
-              <input type="tel" v-model="curLead.City" placeholder="Enter City" maxlength="10"
-                class="w-full p-2 mt-2 text-sm border rounded-md focus:ring-indigo-500 focus:border-indigo-500" />
+              <serach_Input :arrItems="filteredCities" ref="refCity" label="" v-model="curLead.CityName"
+                @selectItem="GetSelectCity" />
               <p v-if="err.City" class="mt-2 text-sm text-red-600">
                 {{ err.City }}
               </p>
@@ -230,7 +226,9 @@ export default {
         Address1: "",
         Address2: "",
         District: "",
+        DistrictName: "",
         City: "",
+        CityName: "",
         CompanyPhone: "",
         CompanyMobileNo: "",
         CompanyEmail: "",
@@ -270,24 +268,6 @@ export default {
         ContactPhoneNo: "",
         ContactMobile: "",
         ContactEmail: "",
-
-        // companyName: "",
-        // shopAddress1: "",
-        // shopAddress2: "",
-        // district: '',
-        // city: '',
-        // contactNumber: "",
-        // mobileNo: "",
-        // email: "",
-        // web: "",
-        // businessType: "",
-        // moreDetails: '',
-        // businessRegNum: "",
-        // contactPersonName: "",
-        // designation: "",
-        // contacPersonNumber: "",
-        // contacPersonMobileNo: "",
-        // contacPersonEmailAddress: "",
       },
       imageroot: "",
       showLoading: null,
@@ -325,10 +305,10 @@ export default {
     },
 
     filteredCities() {
-      if (!this.curLead.district) return [];
+      if (!this.curLead.District) return [];
 
       return this.vendorStore.InitLeads.listDistrictCities
-        .filter(city => city.districtId === this.curLead.district)
+        .filter(city => city.districtId === this.curLead.District)
         .sort((a, b) => a.cityName.localeCompare(b.cityName))
         .map(city => ({
           id: city.cityId,
@@ -527,14 +507,14 @@ export default {
       });
     },
 
-    GetSelectCity(id) {
-      this.curLead.city = id;
+    GetSelectCity(selectItem) {
+      this.curLead.City = selectItem.id;
+      this.curLead.CityName = selectItem.value;
     },
-    GetSelectDistrict(id) {
-      this.curLead.district = id;
-
+    GetSelectDistrict(selectItem) {
+      this.curLead.District = selectItem.id;
+      this.curLead.DistrictName = selectItem.value;
     },
-
   },
 };
 </script>

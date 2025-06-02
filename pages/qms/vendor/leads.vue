@@ -123,8 +123,8 @@
       </div>
     </div>
     <AddLeads v-if="isAddLeads" @close="isAddLeads = false" />
-
-    <AddRso v-if="isAddRso" :leadId="selectedLeadId" @close="isAddRso = false; currentRsoLead = null" />
+    <AddRso v-if="isAddRso" :comment="newComment" :leadId="selectedLeadId"
+      @close="isAddRso = false; currentRsoLead = null" />
 
   </section>
 
@@ -160,6 +160,7 @@ export default {
       isAddRso: false,
       searchBy: "",
       isMore: false,
+      newComment: "",
       rowIndex: -1,
       err: { status: '', newComment: '' },
       vendorFields: [
@@ -190,7 +191,7 @@ export default {
 
         { label: "Status", key: "isActive" },
         { label: "Comment", key: "comment", class: "max-h-[150px] overflow-auto whitespace-pre-wrap break-words" },
-        { label: "newComment", key: "newComment", class: "max-h-[150px] overflow-auto whitespace-pre-wrap break-words" }
+        // { label: "newComment", key: "newComment", class: "max-h-[150px] overflow-auto whitespace-pre-wrap break-words" }
       ],
     };
   },
@@ -234,6 +235,7 @@ export default {
     },
     SetUpdateVendorLead(lead) {
       var request = { Id: lead.id, Comment: lead.newComment, Status: lead.status };
+      this.newComment = lead.newComment;
 
       if (this.IsValidate(lead.newComment, lead.status)) {
         if (lead.status === 'RSOAssigned') {

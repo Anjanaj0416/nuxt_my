@@ -209,6 +209,28 @@ export const useVendorStore = defineStore("vendorStore", {
        }
     },
 
+    //Add Vendor Lead
+    async SetNewCity(req, showLoading) {
+      console.log(req);
+      try {
+        const response = await axios.post(
+          `${import.meta.env.VITE_API_URL}/qms/Leads/SetNewCity`,req,    
+        );
+        console.log("response:",response);
+        if (response.data.isSuccess) {  
+                 
+          this.showToast(response.data.message);     
+          
+        } else {
+          console.log("response:",response.data.message);
+          this.showToast(response.data.message, "error");
+        }
+      } catch (error) {
+        console.error("error:",error)
+        this.showToast('Error in server call', "error");
+       }
+    },
+
     //curLead
     async SetUpdateVendorLead(req, showLoading) {
       console.log(req);
@@ -235,6 +257,7 @@ export const useVendorStore = defineStore("vendorStore", {
        }
     },
 
+    // clearCurLead
     async clearCurLead(){
       this.curLead = {};
       // Object.keys(this.curLead).forEach((key) => {
@@ -265,6 +288,7 @@ export const useVendorStore = defineStore("vendorStore", {
       this.curVendor.accountNumber = "";
       this.curVendor.isActive = true;
     },
+
     showToast(message, type) {
       Swal.fire({
         icon: type,
