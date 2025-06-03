@@ -16,7 +16,7 @@
             <div v-if="!showCityForm">
               <div class="grid grid-cols-1 gap-4 sm:grid-cols-1">
                 <div class="w-full sm:w-1/2">
-                  <serach_Input :arrItems="vendorStore.initVendor.listRSOs" ref="rsocomp" label="Sales Exec."
+                  <serach_Input :arrItems="leadStore.initVendor.listRSOs" ref="rsocomp" label="Sales Exec."
                     v-model="rsoNo" @selectItem="SelectAgent" />
                   <div v-if="err.rsoNo" class="mt-1 text-xs text-red-500">
                     {{ err.rsoNo }}
@@ -91,7 +91,7 @@
 import closebtn from "~/components/customcontrol/modal_close_button";
 import serach_Input from "~/components/customcontrol/SearchInput";
 import selectinput2 from "~/components/customcontrol/selectinput2.vue";
-import { useVendorStore } from "~/stores/modules/qms/vendorStore";
+import { useLeadStore } from "~/stores/modules/qms/leadStore";
 
 definePageMeta({ layout: 'default' });
 
@@ -132,7 +132,7 @@ export default {
   computed: {
     getDistricts() {
       const seen = new Set();
-      return this.vendorStore.InitLeads.listDistrictCities.filter(item => {
+      return this.leadStore.InitLeads.listDistrictCities.filter(item => {
         const key = `${item.districtId}-${item.districtName}`;
         if (!seen.has(key)) {
           seen.add(key);
@@ -148,17 +148,13 @@ export default {
       console.log("district:", this.district);
 
       if (!this.district) return [];
-      return this.vendorStore.InitLeads.listDistrictCities.filter(
+      return this.leadStore.InitLeads.listDistrictCities.filter(
         c => c.districtId == this.district
       ).map(c => ({
         id: c.cityId,
         name: c.cityName
       }));
     },
-
-    // selectedCityObject() {
-    //   return this.filteredCities.find(city => city.id == this.city);
-    // },
   },
 
   // watch: {
@@ -167,7 +163,7 @@ export default {
 
   //     if (newVal && newVal.id) {
   //       // Filter cities based on selected district
-  //       this.cities = this.vendorStore.InitLeads.listDistrictCities
+  //       this.cities = this.leadStore.InitLeads.listDistrictCities
   //         .filter(c => c.districtId === newVal.id)
   //         .map(c => ({
   //           id: c.cityId,
@@ -183,9 +179,9 @@ export default {
   async created() {
     this.showLoading = this.$showLoading;
     this.showAlert = this.$showAlert;
-    this.vendorStore = useVendorStore();
+    this.leadStore = useLeadStore();
 
-    await this.vendorStore.GetInitLeads(this.showLoading);
+    await this.leadStore.GetInitLeads(this.showLoading);
   },
   methods: {
     SelectAgent(rsoNo) {
@@ -215,7 +211,7 @@ export default {
         "warning"
       ).then(async (result) => {
         if (result.isConfirmed) {
-          await this.vendorStore.SetNewCity(req, this.showAlert);
+          await this.leadStore.SetNewCity(req, this.showAlert);
           this.district = null;
           this.newCity = null;
           this.cancelAddCity();
@@ -232,16 +228,16 @@ export default {
     },
     async GetAssignSalesRef() {
       if (this.IsValidate()) {
-        this.vendorStore.curVendor.rsoNo = this.rsoNo;
-        // const req = { Id: this.vendorStore.curVendor.id, RSONo: this.rsoNo };
+        // this.leadStore.curVendor.rsoNo = this.rsoNo;
+        // const req = { Id: this.leadStore.curVendor.id, RSONo: this.rsoNo };
         const req = {
-          Id: this.vendorStore.curVendor.id || this.leadId,
+          Id: this.leadId,//this.leadStore.curVendor.id ||
           RSONo: this.rsoNo,
           Comment: this.comment,
         };
         console.log("req:", req);
 
-        await this.vendorStore.GetAssignSalesRef(req, this.showLoading);
+        await this.leadStore.GetAssignSalesRef(req, this.showLoading);
         this.closeModal();
       }
     },

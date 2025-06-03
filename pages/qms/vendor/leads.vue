@@ -14,12 +14,12 @@
 
     <FilterTab @selected="SetSelectedFilter" :arrFilter="arrFilter" />
 
-    <div v-if="vendorStore.listLeads.length === 0" class="text-center text-gray-900 mt-5 text-sm font-medium">
+    <div v-if="leadStore.listLeads.length === 0" class="text-center text-gray-900 mt-5 text-sm font-medium">
       <p>No Leads available...</p>
     </div>
 
     <div class="flex flex-col gap-5 p-2 mt-2 bg-white border-2 rounded-md shadow-md sm:p-6"
-      v-for="(lead, index) in vendorStore.listLeads" :key="index">
+      v-for="(lead, index) in leadStore.listLeads" :key="index">
 
       <div class="flex justify-start">
         <span
@@ -99,7 +99,7 @@
           <!-- Editable Fields -->
           <div v-if="userStore.loggedUser.granted?.includes('flo')" class="grid grid-cols-1 gap-4 sm:grid-cols-1">
             <div class="w-full sm:w-1/2">
-              <selectinput2 v-model="lead.status" :cur_item="lead.status" :selections="vendorStore.InitLeads.listStatus"
+              <selectinput2 v-model="lead.status" :cur_item="lead.status" :selections="leadStore.InitLeads.listStatus"
                 :err="err.status" label="Lead Status" />
             </div>
             <div class="w-full sm:w-1/2">
@@ -133,13 +133,13 @@
 
 import FilterTab from "~/components/customcontrol/FilterTab";
 import { useUserStore } from "~/stores/modules/userStore";
-import { useVendorStore } from "~/stores/modules/qms/vendorStore";
 import SearchComp from "~/components/customcontrol/SearchComp";
 import LinkBtn from "~/components/customcontrol/Link";
 import selectinput2 from "~/components/customcontrol/selectinput2";
 import AddLeads from "~/components/qms/vendor/addLeads";
 import Button from "~/components/customcontrol/Button.vue";
 import AddRso from "~/components/qms/vendor/assignSalesEx.vue"
+import { useLeadStore } from "~/stores/modules/qms/leadStore";
 
 
 definePageMeta({
@@ -199,20 +199,20 @@ export default {
   async mounted() { },
   async created() {
     this.userStore = useUserStore();
-    this.vendorStore = useVendorStore();
+    this.leadStore = useLeadStore();
     this.showLoading = this.$showLoading;
     this.showAlert = this.$showAlert;
 
 
-    await this.vendorStore.GetInitLeads(
+    await this.leadStore.GetInitLeads(
       this.showLoading
     );
 
-    await this.vendorStore.loadInitVendor(
+    await this.leadStore.loadInitVendor(
       this.showLoading
     );
 
-    await this.vendorStore.loadListLeads(
+    await this.leadStore.loadListLeads(
       { keyword: "", searchBy: this.searchBy },
       this.showLoading
     );
@@ -231,7 +231,7 @@ export default {
       }
       console.log("keyword, searchBy", searchVal, this.searchBy);
 
-      await this.vendorStore.loadListLeads(
+      await this.leadStore.loadListLeads(
         { keyword: this.keyword, searchBy: this.searchBy },
         this.showLoading
       );
@@ -262,7 +262,7 @@ export default {
           "warning"
         ).then(async (result) => {
           if (result) {
-            await this.vendorStore.SetUpdateVendorLead(request, this.showLoading);
+            await this.leadStore.SetUpdateVendorLead(request, this.showLoading);
           } else {
             // console.log("Action canceled");
           }

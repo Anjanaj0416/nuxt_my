@@ -206,12 +206,12 @@
 <script>
 import { reactive, computed } from "vue";
 import closebtn from "~/components/customcontrol/modal_close_button";
-import { useVendorStore } from "~/stores/modules/qms/vendorStore";
 import imagecomp from "~/components/customcontrol/imagepicker";
 import ImageLable from "~/components/customcontrol/ImageLable";
 import serach_Input from "~/components/customcontrol/SearchInput";
 import { useUserStore } from "~/stores/modules/userStore";
 import toggleoption from "~/components/customcontrol/toggleoption";
+import { useLeadStore } from "~/stores/modules/qms/leadStore";
 
 definePageMeta({
   layout: "default",
@@ -287,7 +287,7 @@ export default {
       try {
         const districtsMap = new Map();
 
-        this.vendorStore.InitLeads.listDistrictCities.forEach((item) => {
+        this.leadStore.InitLeads.listDistrictCities.forEach((item) => {
           if (!districtsMap.has(item.districtId)) {
             districtsMap.set(item.districtId, {
               id: item.districtId,
@@ -308,7 +308,7 @@ export default {
     filteredCities() {
       if (!this.curLead.District) return [];
 
-      return this.vendorStore.InitLeads.listDistrictCities
+      return this.leadStore.InitLeads.listDistrictCities
         .filter(city => city.districtId === this.curLead.DistrictId)
         .sort((a, b) => a.cityName.localeCompare(b.cityName))
         .map(city => ({
@@ -319,9 +319,9 @@ export default {
 
   },
   async created() {
-    this.vendorStore = useVendorStore();
     this.userStore = useUserStore();
-    this.curLead = this.vendorStore.curLead;
+    this.leadStore = useLeadStore();
+    this.curLead = this.leadStore.curLead;
 
     this.imageroot = this.userStore.loggedUser.resourceURLRoot;
     this.showLoading = this.$showLoading;
@@ -355,12 +355,12 @@ export default {
         ).then(async (result) => {
           if (result.isConfirmed) {
 
-            await this.vendorStore.SetVendorLead(this.curLead, this.showLoading, this.showAlert)
+            await this.leadStore.SetVendorLead(this.curLead, this.showLoading, this.showAlert)
             console.log(JSON.stringify(this.curLead));
           } else {
             console.log("Action canceled");
           }
-          this.vendorStore.clearCurLead();
+          this.leadStore.clearCurLead();
           this.closeModal();
           this.clearErr();
         });
