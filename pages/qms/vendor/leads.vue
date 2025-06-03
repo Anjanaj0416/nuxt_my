@@ -181,18 +181,13 @@ export default {
         { label: "Website", key: "web" },
         { label: "Business Registration Number", key: "contactPhoneNo" },
         { label: "More Details", key: "" },
-        // { label: "BusinessRegNo", key: "businessRegNo" },
         { label: "Contact Person Name", key: "contactPersonFirstName", secondKey: "contactPersonLastname" },
         { label: "Contact Designation", key: "contactDesignation" },
         { label: "Contact Number", key: "contactPhoneNo" },
         { label: "Contact Mobile Number", key: "contactMobile" },
         { label: "Contact Email", key: "contactEmail" },
-
-        // { label: "Contact Person Last name", key: "contactPersonLastname" },
-
         { label: "Status", key: "isActive" },
         { label: "Comment", key: "comment", class: "max-h-[150px] overflow-auto whitespace-pre-wrap break-words" },
-        // { label: "newComment", key: "newComment", class: "max-h-[150px] overflow-auto whitespace-pre-wrap break-words" }
       ],
     };
   },
@@ -202,7 +197,6 @@ export default {
     this.leadStore = useLeadStore();
     this.showLoading = this.$showLoading;
     this.showAlert = this.$showAlert;
-
 
     await this.leadStore.GetInitLeads(
       this.showLoading
@@ -223,6 +217,7 @@ export default {
   watch: {},
   computed: {},
   methods: {
+
     async GetSearch(searchVal) {
       if (searchVal) {
         this.keyword = searchVal
@@ -245,6 +240,7 @@ export default {
       this.searchBy = type;
       await this.GetSearch();
     },
+
     SetUpdateVendorLead(lead) {
       var request = { Id: lead.id, Comment: lead.newComment, Status: lead.status };
       this.newComment = lead.newComment;
@@ -270,6 +266,7 @@ export default {
       }
 
     },
+
     GoToAddNew() {
       this.isAddLeads = true;
     },

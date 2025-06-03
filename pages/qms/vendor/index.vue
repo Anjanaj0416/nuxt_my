@@ -51,13 +51,18 @@
       <div class="grid grid-cols-2 gap-2 sm:flex sm:flex-row sm:justify-end sm:gap-4">
         <LinkBtn label="Edit" @click="GoToAddEdit(vd.id)" />
 
+        <LinkBtn label="View Poforma" @click="GoToAddEdit(vd.id)" />
+        <LinkBtn label="View Proposal" @click="GoToAddEdit(vd.id)" />
+
         <LinkBtn v-if="!vd.rsoNo && userStore.loggedUser.granted.includes('vendor_mgt')" label="Assign RSO"
           @click="GoToAssignSalesEx(vd.id)" />
 
-        <LinkBtn label="View Quotations" @click="
+        <LinkBtn label="Delete" @click="GoToAddEdit(vd.id)" />
+
+        <!-- <LinkBtn label="View Quotations" @click="
           vendorStore.curVendor = vd;
         GoToQuotation();
-        " />
+        " /> -->
       </div>
     </div>
 
@@ -81,6 +86,7 @@ import InfoCard from "~/components/qms/vendor/InfoCard.vue";
 
 import { useVendorStore } from "~/stores/modules/qms/vendorStore";
 import { useUserStore } from "~/stores/modules/userStore";
+import { useLeadStore } from "~/stores/modules/qms/leadStore";
 
 definePageMeta({
   layout: "default",
@@ -132,15 +138,18 @@ export default {
   async created() {
     this.vendorStore = useVendorStore();
     this.userStore = useUserStore();
+    this.leadStore = useLeadStore();
     this.showLoading = this.$showLoading;
 
     await this.vendorStore.loadListVendors(
       { keyword: "", searchBy: this.searchBy },
       this.showLoading
     );
+
     await this.vendorStore.loadInitVendor(this.showLoading);
     this.imageroot = this.userStore.loggedUser.resourceURLRoot;
   },
+
   methods: {
     SetSelectedFilter(type) {
       this.searchBy = type;
@@ -162,6 +171,7 @@ export default {
       await this.vendorStore.GetVendorById(id, this.showLoading);
       this.isAddEdit = true;
     },
+
     async GoToAssignSalesEx(id) {
       await this.vendorStore.GetVendorById(id, this.showLoading);
       this.isAssignRso = true;

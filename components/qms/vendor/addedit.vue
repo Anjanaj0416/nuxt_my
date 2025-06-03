@@ -13,7 +13,7 @@
       <div class="modal-content">
         <div class="form-content">
           <div>
-            <div v-if="isEditing" >
+            <div v-if="isEditing">
               <!-- One row with left and right content -->
               <div class="flex items-center justify-between">
                 <div>
@@ -32,40 +32,26 @@
           </div>
 
           <div class="grid grid-cols-2 gap-4 mt-4 sm:grid-cols-2 md:grid-cols-3">
-            <div class=""  v-if="isEditing">
+            <div class="" v-if="isEditing">
               <label class="block text-sm font-bold text-gray-600">Customer Ref</label>
-              <input
-                type="text"
-                v-model="curVendor.customerRef"
-                disabled
-                placeholder="Vendor ID (read-only)"
-                class="w-full p-2 mt-2 text-sm bg-gray-100 border rounded-md"
-              />
+              <input type="text" v-model="curVendor.customerRef" disabled placeholder="Vendor ID (read-only)"
+                class="w-full p-2 mt-2 text-sm bg-gray-100 border rounded-md" />
             </div>
             <div class="">
               <label class="block text-sm font-bold text-gray-600">Company Name</label>
-              <input
-                type="text"
-                v-model="curVendor.companyName"
-                placeholder="Enter Company Name"
-                required
-                class="w-full p-2 mt-2 text-sm border rounded-md focus:ring-indigo-500 focus:border-indigo-500"
-              />
+              <input type="text" v-model="curVendor.shopName" placeholder="Enter Company Name" required
+                class="w-full p-2 mt-2 text-sm border rounded-md focus:ring-indigo-500 focus:border-indigo-500" />
               <p v-if="err.companyName" class="mt-2 text-sm text-red-600">
                 {{ err.companyName }}
               </p>
             </div>
-            
+
             <div class="">
               <label class="block text-sm font-bold text-gray-600">Phone</label>
 
-              <input
-                type="text"
-                v-model="curVendor.phone"
-                placeholder="Enter Phone"
+              <input type="text" v-model="curVendor.shopContactNo" placeholder="Enter Phone"
                 class="w-full p-2 mt-2 text-sm border rounded-md focus:ring-indigo-500 focus:border-indigo-500"
-                required
-              />
+                required />
               <p v-if="err.phone" class="mt-2 text-sm text-red-600">
                 {{ err.phone }}
               </p>
@@ -73,112 +59,74 @@
 
             <div class="">
               <label class="block text-sm font-bold text-gray-600">Email</label>
-              <input
-                type="Email"
-                v-model="curVendor.email"
-                placeholder="Enter Email"
+              <input type="Email" v-model="curVendor.shopEmail" placeholder="Enter Email"
                 class="w-full p-2 mt-2 text-sm border rounded-md focus:ring-indigo-500 focus:border-indigo-500"
-                required
-              />
+                required />
               <p v-if="err.email" class="mt-2 text-sm text-red-600">
                 {{ err.email }}
               </p>
             </div>
             <div class="">
               <label class="block text-sm font-bold text-gray-600">Contact Number</label>
-              <input
-                type="tel"
-                v-model="curVendor.shopContactNo"
-                placeholder="Enter Contact Number"
-                maxlength="10"
-                class="w-full p-2 mt-2 text-sm border rounded-md focus:ring-indigo-500 focus:border-indigo-500"
-              />
+              <input type="tel" v-model="curVendor.shopContactNo" placeholder="Enter Contact Number" maxlength="10"
+                class="w-full p-2 mt-2 text-sm border rounded-md focus:ring-indigo-500 focus:border-indigo-500" />
               <p v-if="err.shopContactNo" class="mt-2 text-sm text-red-600">
                 {{ err.shopContactNo }}
               </p>
             </div>
             <div class="">
               <label class="block text-sm font-bold text-gray-600">Address Line 1</label>
-              <input
-                type="text"
-                v-model="curVendor.shopAddress1"
-                placeholder="Enter Address Line 1"
-                required
-                class="w-full p-2 mt-2 text-sm border rounded-md focus:ring-indigo-500 focus:border-indigo-500"
-              />
+              <input type="text" v-model="curVendor.shopAddress1" placeholder="Enter Address Line 1" required
+                class="w-full p-2 mt-2 text-sm border rounded-md focus:ring-indigo-500 focus:border-indigo-500" />
               <p v-if="err.shopAddress1" class="mt-2 text-sm text-red-600">
                 {{ err.shopAddress1 }}
               </p>
             </div>
             <div class="">
               <label class="block text-sm font-bold text-gray-600">Address Line 2</label>
-              <input
-                type="text"
-                v-model="curVendor.shopAddress2"
-                placeholder="Enter Address Line 2"
-                required
-                class="w-full p-2 mt-2 text-sm border rounded-md focus:ring-indigo-500 focus:border-indigo-500"
-              />
+              <input type="text" v-model="curVendor.shopAddress2" placeholder="Enter Address Line 2" required
+                class="w-full p-2 mt-2 text-sm border rounded-md focus:ring-indigo-500 focus:border-indigo-500" />
               <p v-if="err.shopAddress2" class="mt-2 text-sm text-red-600">
                 {{ err.shopAddress2 }}
               </p>
             </div>
             <div class="">
-              <label class="block text-sm font-bold text-gray-600">District</label>            
-          
-               <serach_Input
-                :arrItems="getDistinctDistricts"
-                ref="refDistrict"
-                label=""
-                v-model="curVendor.district"
-                @selectItem="GetSelectDistrict"
-              
-              />
-             
+              <label class="block text-sm font-bold text-gray-600">District</label>
+
+              <serach_Input :arrItems="getDistinctDistricts" ref="refDistrict" label="" v-model="curVendor.district"
+                @selectItem="GetSelectDistrict" />
+
               <p v-if="err.district" class="mt-2 text-sm text-red-600">
                 {{ err.district }}
               </p>
             </div>
             <div class="">
               <label class="block text-sm font-bold text-gray-600">City</label>
-              <serach_Input
-                :arrItems="filteredCities"
-                ref="refCity"
-                label=""
-                v-model="curVendor.city"
-                @selectItem="GetSelectCity"
-              />
+              <serach_Input :arrItems="filteredCities" ref="refCity" label="" v-model="curVendor.city"
+                @selectItem="GetSelectCity" />
 
-                
+
               <p v-if="err.city" class="mt-2 text-sm text-red-600">
                 {{ err.city }}
               </p>
             </div>
             <div class="">
               <label class="block text-sm font-bold text-gray-600">Description</label>
-              <input
-                type="text"
-                v-model="curVendor.description"
-                placeholder="Enter Description"
-                required
-                class="w-full p-2 mt-2 text-sm border rounded-md focus:ring-indigo-500 focus:border-indigo-500"
-              />
+              <input type="text" v-model="curVendor.description" placeholder="Enter Description" required
+                class="w-full p-2 mt-2 text-sm border rounded-md focus:ring-indigo-500 focus:border-indigo-500" />
               <p v-if="err.description" class="mt-2 text-sm text-red-600">
                 {{ err.description }}
               </p>
-            </div> 
+            </div>
           </div>
           <div class="grid grid-cols-2 gap-4 mt-4 sm:grid-cols-2 md:grid-cols-3">
             <!--Vendor Image -->
             <div>
               <label class="block text-sm font-bold text-gray-600">Vendor Image</label>
               <div class="relative mt-2">
-                <imagecomp
-                  :existing_image_path="imageroot + curVendor.vendorImage"
-                  @deleteExistingImage="curVendor.vendorImage = ''"
-                  @GetSelectedImage="GetSelectedVendorImage"
-                  ref="refVendorImage"
-                />
+                <imagecomp :existing_image_path="imageroot + curVendor.vendorImage"
+                  @deleteExistingImage="curVendor.vendorImage = ''" @GetSelectedImage="GetSelectedVendorImage"
+                  ref="refVendorImage" />
               </div>
               <p v-if="err.vendorImage" class="mt-2 text-sm text-red-600">
                 {{ err.vendorImage }}
@@ -188,12 +136,8 @@
             <div>
               <label class="block text-sm font-bold text-gray-600">BR</label>
               <div class="relative mt-2">
-                <imagecomp
-                  :existing_image_path="imageroot + curVendor.brCopy"
-                  @deleteExistingImage="curVendor.brCopy = ''"
-                  @GetSelectedImage="GetSelectedBRCopy"
-                  ref="refBRCopy"
-                />
+                <imagecomp :existing_image_path="imageroot + curVendor.brCopy"
+                  @deleteExistingImage="curVendor.brCopy = ''" @GetSelectedImage="GetSelectedBRCopy" ref="refBRCopy" />
               </div>
               <p v-if="err.brCopy" class="mt-2 text-sm text-red-600">
                 {{ err.brCopy }}
@@ -206,54 +150,34 @@
           <div class="grid grid-cols-2 gap-4 mt-4 sm:grid-cols-2 md:grid-cols-3">
             <div class="">
               <label class="block text-sm font-bold text-gray-600">Name</label>
-              <input
-                type="text"
-                v-model="curVendor.ownerName"
-                placeholder="Enter Name"
-                required
-                class="w-full p-2 mt-2 text-sm border rounded-md focus:ring-indigo-500 focus:border-indigo-500"
-              />
+              <input type="text" v-model="curVendor.authorisePersonName" placeholder="Enter Name" required
+                class="w-full p-2 mt-2 text-sm border rounded-md focus:ring-indigo-500 focus:border-indigo-500" />
               <p v-if="err.ownerName" class="mt-2 text-sm text-red-600">
                 {{ err.ownerName }}
               </p>
             </div>
             <div class="">
               <label class="block text-sm font-bold text-gray-600">Contact Number</label>
-              <input
-                type="text"
-                v-model="curVendor.ownerContactNumber"
-                :maxlength="10"
-                placeholder="Enter Contact Number"
-                required
-                class="w-full p-2 mt-2 text-sm border rounded-md focus:ring-indigo-500 focus:border-indigo-500"
-              />
+              <input type="text" v-model="curVendor.authorisePersonPhone" :maxlength="10"
+                placeholder="Enter Contact Number" required
+                class="w-full p-2 mt-2 text-sm border rounded-md focus:ring-indigo-500 focus:border-indigo-500" />
               <p v-if="err.ownerContactNumber" class="mt-2 text-sm text-red-600">
                 {{ err.ownerContactNumber }}
               </p>
             </div>
             <div class="">
               <label class="block text-sm font-bold text-gray-600">Mobile Number</label>
-              <input
-                type="text"
-                v-model="curVendor.ownerMobileNo"
-                :maxlength="10"
-                placeholder="Enter Mobile Number"
-                required
-                class="w-full p-2 mt-2 text-sm border rounded-md focus:ring-indigo-500 focus:border-indigo-500"
-              />
+              <input type="text" v-model="curVendor.authorisePersonPhone" :maxlength="10"
+                placeholder="Enter Mobile Number" required
+                class="w-full p-2 mt-2 text-sm border rounded-md focus:ring-indigo-500 focus:border-indigo-500" />
               <p v-if="err.ownerMobileNo" class="mt-2 text-sm text-red-600">
                 {{ err.ownerMobileNo }}
               </p>
             </div>
             <div class="">
               <label class="block text-sm font-bold text-gray-600">Email</label>
-              <input
-                type="text"
-                v-model="curVendor.ownerEmailAddress"
-                placeholder="Enter Email"
-                required
-                class="w-full p-2 mt-2 text-sm border rounded-md focus:ring-indigo-500 focus:border-indigo-500"
-              />
+              <input type="text" v-model="curVendor.authorisePersonEmail" placeholder="Enter Email" required
+                class="w-full p-2 mt-2 text-sm border rounded-md focus:ring-indigo-500 focus:border-indigo-500" />
               <p v-if="err.ownerEmailAddress" class="mt-2 text-sm text-red-600">
                 {{ err.ownerEmailAddress }}
               </p>
@@ -265,69 +189,43 @@
           <div class="grid grid-cols-2 gap-4 mt-4 sm:grid-cols-2 md:grid-cols-3">
             <div class="">
               <label class="block text-sm font-bold text-gray-600">Name</label>
-              <input
-                type="text"
-                v-model="curVendor.contactPersonName"
-                placeholder="Enter Name"
-                required
-                class="w-full p-2 mt-2 text-sm border rounded-md focus:ring-indigo-500 focus:border-indigo-500"
-              />
+              <input type="text" v-model="curVendor.shopContactPersonName" placeholder="Enter Name" required
+                class="w-full p-2 mt-2 text-sm border rounded-md focus:ring-indigo-500 focus:border-indigo-500" />
               <p v-if="err.contactPersonName" class="mt-2 text-sm text-red-600">
                 {{ err.contactPersonName }}
               </p>
             </div>
             <div class="">
-              <label class="block text-sm font-bold text-gray-600">Designation</label
-              >
-              <input
-                type="text"
-                v-model="curVendor.designation"
-                placeholder="Enter Designation"
-                required
-                class="w-full p-2 mt-2 text-sm border rounded-md focus:ring-indigo-500 focus:border-indigo-500"
-              />
+              <label class="block text-sm font-bold text-gray-600">Designation</label>
+              <input type="text" v-model="curVendor.designation" placeholder="Enter Designation" required
+                class="w-full p-2 mt-2 text-sm border rounded-md focus:ring-indigo-500 focus:border-indigo-500" />
               <p v-if="err.designation" class="mt-2 text-sm text-red-600">
-                {{ err.designation  }}
+                {{ err.designation }}
               </p>
             </div>
 
             <div class="">
               <label class="block text-sm font-bold text-gray-600">Contact Number</label>
-              <input
-                type="text"
-                v-model="curVendor.personContactNumber"
-                :maxlength="10"
-                placeholder="Enter Contact Number"
-                required
-                class="w-full p-2 mt-2 text-sm border rounded-md focus:ring-indigo-500 focus:border-indigo-500"
-              />
+              <input type="text" v-model="curVendor.shopContactPersonDesignation" :maxlength="10"
+                placeholder="Enter Contact Number" required
+                class="w-full p-2 mt-2 text-sm border rounded-md focus:ring-indigo-500 focus:border-indigo-500" />
               <p v-if="err.personContactNumber" class="mt-2 text-sm text-red-600">
                 {{ err.personContactNumber }}
               </p>
             </div>
             <div class="">
               <label class="block text-sm font-bold text-gray-600">Mobile Number</label>
-              <input
-                type="text"
-                v-model="curVendor.personMobileNo"
-                :maxlength="10"
-                placeholder="Enter Mobile Number"
-                required
-                class="w-full p-2 mt-2 text-sm border rounded-md focus:ring-indigo-500 focus:border-indigo-500"
-              />
+              <input type="text" v-model="curVendor.shopContactPersonPhone" :maxlength="10"
+                placeholder="Enter Mobile Number" required
+                class="w-full p-2 mt-2 text-sm border rounded-md focus:ring-indigo-500 focus:border-indigo-500" />
               <p v-if="err.personMobileNo" class="mt-2 text-sm text-red-600">
                 {{ err.personMobileNo }}
               </p>
             </div>
             <div class="">
               <label class="block text-sm font-bold text-gray-600">Email</label>
-              <input
-                type="text"
-                v-model="curVendor.personEmailAddress"
-                placeholder="Enter Email"
-                required
-                class="w-full p-2 mt-2 text-sm border rounded-md focus:ring-indigo-500 focus:border-indigo-500"
-              />
+              <input type="text" v-model="curVendor.shopContactPersonEmail" placeholder="Enter Email" required
+                class="w-full p-2 mt-2 text-sm border rounded-md focus:ring-indigo-500 focus:border-indigo-500" />
               <p v-if="err.personEmailAddress" class="mt-2 text-sm text-red-600">
                 {{ err.personEmailAddress }}
               </p>
@@ -339,26 +237,16 @@
           <div class="grid grid-cols-2 gap-4 mt-4 mb-36 sm:grid-cols-2 md:grid-cols-3 sm:mb-0">
             <div class="">
               <label class="block text-sm font-bold text-gray-600">Bank Name</label>
-              <input
-                type="text"
-                v-model="curVendor.bankName"
-                placeholder="Enter Bank Name"
-                required
-                class="w-full p-2 mt-2 text-sm border rounded-md focus:ring-indigo-500 focus:border-indigo-500"
-              />
+              <input type="text" v-model="curVendor.bankName" placeholder="Enter Bank Name" required
+                class="w-full p-2 mt-2 text-sm border rounded-md focus:ring-indigo-500 focus:border-indigo-500" />
               <p v-if="err.bankName" class="mt-2 text-sm text-red-600">
                 {{ err.bankName }}
               </p>
             </div>
             <div class="">
               <label class="block text-sm font-bold text-gray-600">Bank Branch</label>
-              <input
-                type="text"
-                v-model="curVendor.branch"
-                placeholder="Enter Bank Branch"
-                required
-                class="w-full p-2 mt-2 text-sm border rounded-md focus:ring-indigo-500 focus:border-indigo-500"
-              />
+              <input type="text" v-model="curVendor.branch" placeholder="Enter Bank Branch" required
+                class="w-full p-2 mt-2 text-sm border rounded-md focus:ring-indigo-500 focus:border-indigo-500" />
               <p v-if="err.branch" class="mt-2 text-sm text-red-600">
                 {{ err.branch }}
               </p>
@@ -366,26 +254,16 @@
 
             <div class="">
               <label class="block text-sm font-bold text-gray-600">Bank Account No</label>
-              <input
-                type="text"
-                v-model="curVendor.accountNumber"
-                placeholder="Enter ank Account No"
-                required
-                class="w-full p-2 mt-2 text-sm border rounded-md focus:ring-indigo-500 focus:border-indigo-500"
-              />
+              <input type="text" v-model="curVendor.accountNumber" placeholder="Enter ank Account No" required
+                class="w-full p-2 mt-2 text-sm border rounded-md focus:ring-indigo-500 focus:border-indigo-500" />
               <p v-if="err.accountNumber" class="mt-2 text-sm text-red-600">
                 {{ err.accountNumber }}
               </p>
             </div>
             <div class="">
               <label class="block text-sm font-bold text-gray-600">Card Holder Name</label>
-              <input
-                type="text"
-                v-model="curVendor.holderName"
-                placeholder="Enter Card Colder Name"
-                required
-                class="w-full p-2 mt-2 text-sm border rounded-md focus:ring-indigo-500 focus:border-indigo-500"
-              />
+              <input type="text" v-model="curVendor.holderName" placeholder="Enter Card Colder Name" required
+                class="w-full p-2 mt-2 text-sm border rounded-md focus:ring-indigo-500 focus:border-indigo-500" />
               <p v-if="err.holderName" class="mt-2 text-sm text-red-600">
                 {{ err.holderName }}
               </p>
@@ -400,7 +278,7 @@
         <button @click="cancel" class="cancel-button">Cancel</button>
         <button @click="handleSubmit" class="confirm-button">Save</button>
       </div> -->
-     
+
       <div class="modal-footer">
         <button @click="cancel" class="cancel-button">Cancel</button>
         <button @click="GetSaveVendor" class="confirm-button">
@@ -466,7 +344,7 @@ export default {
       err: {},
       imageroot: "",
       showLoading: null,
-      listTemp:[{id:1,value:'abc'},{id:2,value:'def'}],
+      listTemp: [{ id: 1, value: 'abc' }, { id: 2, value: 'def' }],
     };
   },
   computed: {
@@ -478,7 +356,7 @@ export default {
     },
 
     getDistinctDistricts() {
-  
+
       try {
         const districtsMap = new Map();
 
@@ -500,16 +378,16 @@ export default {
       }
     },
 
-    filteredCities() {      
-    if (!this.curVendor.district) return [];  
+    filteredCities() {
+      if (!this.curVendor.district) return [];
 
-    return this.vendorStore.initVendor.listDistrictCities
-      .filter(city => city.districtId === this.curVendor.district)
-      .sort((a, b) => a.cityName.localeCompare(b.cityName))
-      .map(city => ({
-        id: city.cityId,
-        value: city.cityName
-      }));
+      return this.vendorStore.initVendor.listDistrictCities
+        .filter(city => city.districtId === this.curVendor.district)
+        .sort((a, b) => a.cityName.localeCompare(b.cityName))
+        .map(city => ({
+          id: city.cityId,
+          value: city.cityName
+        }));
     },
 
   },
@@ -578,7 +456,7 @@ export default {
 
       let IsValidate = true;
 
-  
+
       ///------------Company Details validation -----------------//
       if (!this.curVendor.companyName) {
         this.err.companyName = "Please Enter Company Name!";
@@ -644,7 +522,7 @@ export default {
         IsValidate = false;
       }
 
-      
+
       ///------------Owner Information validation--------------------//
       if (!this.curVendor.ownerName) {
         this.err.ownerName = "Please Enter Owner Name!";
@@ -662,7 +540,7 @@ export default {
         }
       }
 
-     if (!this.curVendor.ownerContactNumber) {
+      if (!this.curVendor.ownerContactNumber) {
         this.err.ownerContactNumber = "Please Enter Owner Contact Number!";
         IsValidate = false;
       } else {
@@ -728,7 +606,7 @@ export default {
         }
       }
 
-      
+
       ///------------ Bank Details validation--------------------//
       if (!this.curVendor.bankName) {
         this.err.bankName = "Please Enter Bank Name!";
@@ -766,8 +644,8 @@ export default {
     GetSelectCity(id) {
       this.curVendor.city = id;
     },
-    GetSelectDistrict(id){
-      
+    GetSelectDistrict(id) {
+
       this.curVendor.district = id;
       //alert(this.curVendor.district )
     },

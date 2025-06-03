@@ -19,9 +19,9 @@ export const useVendorStore = defineStore("vendorStore", {
 
    //Update vendor
    async GetVendorById(id, showLoading) {   
-  
     const loadingAlert = showLoading("");
-
+    console.log("req:",id);
+    
     try {
       const response = await axios.get(`${import.meta.env.VITE_API_URL}/qms/Vendor/GetVendorById?id=`+id );
 
@@ -92,6 +92,9 @@ export const useVendorStore = defineStore("vendorStore", {
           }&searchBy=${req.searchBy}`
         );
         loadingAlert.close();
+
+        console.log("response:",response);
+        
 
         if (response.data.isSuccess) {
           if (response.data.data.count == 0) {
