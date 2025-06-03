@@ -228,10 +228,8 @@ export default {
     },
     async GetAssignSalesRef() {
       if (this.IsValidate()) {
-        // this.leadStore.curVendor.rsoNo = this.rsoNo;
-        // const req = { Id: this.leadStore.curVendor.id, RSONo: this.rsoNo };
         const req = {
-          Id: this.leadId,//this.leadStore.curVendor.id ||
+          Id: this.leadId,
           RSONo: this.rsoNo,
           Comment: this.comment,
         };
