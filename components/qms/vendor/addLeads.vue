@@ -44,7 +44,7 @@
             <div class="">
               <label class="block text-sm font-bold text-gray-600">District</label>
 
-              <serach_Input :arrItems="getDistinctDistricts" ref="refDistrict" label="" v-model="curLead.DistrictName"
+              <serach_Input :arrItems="getDistinctDistricts" ref="refDistrict" label="" v-model="curLead.District"
                 @selectItem="GetSelectDistrict" />
               <p v-if="err.District" class="mt-2 text-sm text-red-600">
                 {{ err.District }}
@@ -54,7 +54,7 @@
             <div class="">
               <label class="block text-sm font-bold text-gray-600">City</label>
 
-              <serach_Input :arrItems="filteredCities" ref="refCity" label="" v-model="curLead.CityName"
+              <serach_Input :arrItems="filteredCities" ref="refCity" label="" v-model="curLead.City"
                 @selectItem="GetSelectCity" />
               <p v-if="err.City" class="mt-2 text-sm text-red-600">
                 {{ err.City }}
@@ -226,9 +226,9 @@ export default {
         Address1: "",
         Address2: "",
         District: "",
-        DistrictName: "",
+        DistrictId: "",
         City: "",
-        CityName: "",
+        CityId: "",
         CompanyPhone: "",
         CompanyMobileNo: "",
         CompanyEmail: "",
@@ -309,7 +309,7 @@ export default {
       if (!this.curLead.District) return [];
 
       return this.vendorStore.InitLeads.listDistrictCities
-        .filter(city => city.districtId === this.curLead.District)
+        .filter(city => city.districtId === this.curLead.DistrictId)
         .sort((a, b) => a.cityName.localeCompare(b.cityName))
         .map(city => ({
           id: city.cityId,
@@ -510,12 +510,12 @@ export default {
     },
 
     GetSelectCity(selectItem) {
-      this.curLead.City = selectItem.id;
-      this.curLead.CityName = selectItem.value;
+      this.curLead.CityId = selectItem.id;
+      this.curLead.City = selectItem.value;
     },
     GetSelectDistrict(selectItem) {
-      this.curLead.District = selectItem.id;
-      this.curLead.DistrictName = selectItem.value;
+      this.curLead.DistrictId = selectItem.id;
+      this.curLead.District = selectItem.value;
     },
   },
 };
