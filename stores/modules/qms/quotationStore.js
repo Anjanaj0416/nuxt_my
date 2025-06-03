@@ -11,120 +11,8 @@ export const useQuotationStore = defineStore("QuotationStore", {
     curQuotation: {},
     initQuotation: [],
     testParam: { id: 21 },
-    // qEdit: {
-    //   initQuotationEdit: {
-    //     vendorOptions: [
-    //       { id: "1", name: "Nimal" },
-    //       { id: "2", name: "Kamal" },
-    //       { id: "3", name: "John" },
-    //       { id: "4", name: "Samantha" },
-    //       { id: "5", name: "Ammar" },
-    //     ],
-    //     // categoryOptions: [
-    //     //   { value: "Hardware", label: "Hardware" },
-    //     //   { value: "Nut and Bold", label: "Nut and Bold" },
-    //     //   { value: "Cables", label: "Cables" },
-    //     //   { value: "Electronics", label: "Electronics" },
-    //     //   { value: "Furniture", label: "Furniture" }
-    //     // ],
-    //     packageOptions: {
-    //       Hardware: [
-    //         {
-    //           value: "Package 1",
-    //           PackageName: "Standard",
-    //           Description: "Best for small businesses",
-    //           Price: 5000,
-    //           Period: "5",
-    //         },
-    //         {
-    //           value: "Package 2",
-    //           PackageName: "Premium",
-    //           Description: "Ideal for enterprises",
-    //           Price: 12000,
-    //           Period: "12",
-    //         },
-    //       ],
-    //       "Nut and Bold": [
-    //         {
-    //           value: "Package 3",
-    //           PackageName: "Ultimate",
-    //           Description: "Full suite of features",
-    //           Price: 25000,
-    //           Period: "24",
-    //         },
-    //         {
-    //           value: "Package 4",
-    //           PackageName: "Standard",
-    //           Description: "Best for small businesses",
-    //           Price: 5000,
-    //           Period: "5",
-    //         },
-    //         {
-    //           value: "Package 5",
-    //           PackageName: "Premium",
-    //           Description: "Ideal for enterprises",
-    //           Price: 12000,
-    //           Period: "12",
-    //         },
-    //       ],
-    //       Cables: [
-    //         {
-    //           value: "Package 6",
-    //           PackageName: "Premium",
-    //           Description: "Ideal for enterprises",
-    //           Price: 12000,
-    //           Period: "12",
-    //         },
-    //         {
-    //           value: "Package 7",
-    //           PackageName: "Standard",
-    //           Description: "Best for small businesses",
-    //           Price: 5000,
-    //           Period: "5",
-    //         },
-    //         {
-    //           value: "Package 8",
-    //           PackageName: "Ultimate",
-    //           Description: "Full suite of features",
-    //           Price: 25000,
-    //           Period: "24",
-    //         },
-    //         {
-    //           value: "Package 9",
-    //           PackageName: "Premium",
-    //           Description: "Ideal for enterprises",
-    //           Price: 12000,
-    //           Period: "12",
-    //         },
-    //       ],
-    //       Electronics: [
-    //         {
-    //           value: "Package 10",
-    //           PackageName: "Standard",
-    //           Description: "Best for small businesses",
-    //           Price: 5000,
-    //           Period: "5",
-    //         },
-    //         {
-    //           value: "Package 11",
-    //           PackageName: "Premium",
-    //           Description: "Ideal for enterprises",
-    //           Price: 12000,
-    //           Period: "12",
-    //         },
-    //       ],
-    //       Furniture: [
-    //         {
-    //           value: "Package 12",
-    //           PackageName: "Standard",
-    //           Description: "Best for small businesses",
-    //           Price: 5000,
-    //           Period: "5",
-    //         },
-    //       ],
-    //     },
-    //   },
-    // },
+    quotation:{},
+    
   }),
 
   actions: {
@@ -200,7 +88,7 @@ export const useQuotationStore = defineStore("QuotationStore", {
       }
     },
 
-        //GetUploadServiceLinks
+    //GetUploadServiceLinks
     async GetUploadServiceLinks(formData,showLoading) {
 
       const loadingAlert = showLoading("");
@@ -227,7 +115,7 @@ export const useQuotationStore = defineStore("QuotationStore", {
       }
     },
 
-        //GetUploadProductLinks
+    //GetUploadProductLinks
     async GetUploadProductLinks(formData,showLoading) {
 
       const loadingAlert = showLoading("");
@@ -278,7 +166,7 @@ export const useQuotationStore = defineStore("QuotationStore", {
         const response = await axios.get(
           `${
             import.meta.env.VITE_API_URL
-          }/b2b/Quotation/QuotationList?keyword=${req.keyword}&searchBy=${
+          }/qms/Quotation/QuotationList?keyword=${req.keyword}&searchBy=${
             req.searchBy
           }`
         );
@@ -354,6 +242,47 @@ export const useQuotationStore = defineStore("QuotationStore", {
         this.showAlert(response.data.message, "error");
       }
     },
+
+    //GetAddQuotation
+    async GetAddQuotation(quotation, showLoading) {
+      const loadingAlert = showLoading("");
+
+      try {
+        const response = await axios.post(
+          `${import.meta.env.VITE_API_URL}/qms/Quotation/GetAddQuotation`,
+          quotation,
+          {
+            headers: {
+              'Content-Type': 'application/json',
+            },
+          }
+        );
+
+        loadingAlert.close();
+
+        if (response.data.isSuccess) {
+          this.showToast(response.data.message, "success");
+          console.log("Success data:", response.data.data.data);
+          const { quotationUrl_WithLetterHead, quotationUrl_WithOutLetterHead } = response.data.data.data;
+          // Open in a new tab
+          window.open(quotationUrl_WithLetterHead, "_blank");
+        } else {
+          this.showToast(response.data.message, "error");
+          console.log("Error message:", response.data.message);
+        }
+      } catch (error) {
+        loadingAlert.close();
+
+        if (error.response) {
+          this.showToast(error.response.data.message || "Error occurred", "error");
+          console.log("Error response data:", error.response.data);
+        } else {
+          this.showToast(error.message || "Error occurred", "error");
+          console.log("Error:", error);
+        }
+      }
+    },
+
 
     //ResetQuotation
     ResetQuotation() {

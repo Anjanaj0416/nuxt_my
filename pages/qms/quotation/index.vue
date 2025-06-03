@@ -21,7 +21,7 @@
     </div>
 
       <FilterTab @selected="SetSelectedFilter" :arrFilter="arrFilter" />
-
+{{ listQuotation }}
       <div
         class="flex flex-col gap-5 p-2 mt-2 bg-white border-2 rounded-md shadow-md sm:p-6"
         v-for="(qItem, index) in quotationStore.listQuotation"
@@ -184,13 +184,13 @@ export default {
     this.quotationStore = useQuotationStore();
     this.showLoading = this.$showLoading;
 
-    //await this.quotationStore.loadListQuotations({
-    //   keyword: "",
-    //   searchBy: this.searchBy,
-    // },this.showLoading);
+    await this.quotationStore.loadListQuotations({
+      keyword: "",
+      searchBy: this.searchBy,
+    },this.showLoading);
    
-    //await this.quotationStore.loadInitQuotation(this.showLoading);
-   // this.imageroot = this.quotationStore.initQuotation.baseUrl;
+    // await this.quotationStore.loadInitQuotation(this.showLoading);
+    // this.imageroot = this.quotationStore.initQuotation.baseUrl;
    
 
  

@@ -4,7 +4,7 @@
       <!-- Modal Header -->
       <div class="modal-header">
         <h2 class="modal-title">
-          Create Proforma
+          Create Quotation
           <!-- Quotation {{ isEditing ? "Edit" : "Add" }} -->
         </h2>
         <closebtn @close="closeModal" />
@@ -28,8 +28,35 @@
                 {{ err.merchantId }}
               </p>
             </div>
+            <div>
+              <label class="block text-sm font-bold text-gray-600">Select Main District</label>
+
+              <serach_Input
+                :arrItems="listTemp"
+                ref="refDistrict"
+                label=""
+                v-model="quotation.mainDistrictId"
+                @selectItem="GetSelectMainDistrict"
+                @input="err.mainDistrictId = ''"
+              />
+              <p v-if="err.mainDistrictId" class="mt-2 text-xs text-red-500">
+                {{ err.mainDistrictId }}
+              </p>
+            </div>
           </div>
 
+          <div class="grid grid-cols-1 my-4">
+            <label class="block text-sm font-bold text-gray-600">Maximum 4 Districts can be selected including main district</label>
+
+            <inputtags_search
+              class="w-full"
+              :arrItems="quotationStore.initQuotation.listDistricts"
+              @GetSelectedIds="GetSelectedOtherDistrictIds"
+            />
+            <p v-if="err.listDistricts" class="mt-2 text-xs text-red-500">
+              {{ err.listDistricts }}
+            </p>
+          </div>
           <div class="grid grid-cols-2 my-4">
             <div>
               <label class="block text-sm font-bold text-gray-600">Select Product Category</label>
@@ -48,9 +75,6 @@
           </div>
 
         <!-- Package -->
-
-        <!-- <pre>{{ JSON.stringify(curPkgList, null, 2) }}</pre> -->
-
         <div>
           <label class="block text-sm font-bold text-gray-600" v-if="curPkgList.length > 0">Available Packages</label>
           <div class="grid grid-cols-1 my-2">
@@ -62,19 +86,19 @@
                 :key="index"
               >
                 <div
-                  class="flex flex-col w-full max-w-xs p-4 mb-4 transition-all duration-300 ease-in-out transform bg-white border-2 border-gray-200 shadow-sm cursor-pointer rounded-xl hover:border-blue-500"
+                  class="flex flex-col w-full max-w-xs p-4 mb-4 transition-all duration-300 ease-in-out transform bg-white border-2 border-gray-200 shadow-sm cursor-pointer rounded-xl hover:border-blue-500 dark:bg-gray-800 dark:border-gray-700 dark:hover:border-blue-500"
                 >
                   <div class="flex flex-col space-y-2">
                     <div class="flex items-center justify-between">
                       <div
-                        class="text-sm font-semibold text-gray-900 "
+                        class="text-sm font-semibold text-gray-900 dark:text-white"
                       >
                         {{ pkg.packageName }}
                       </div>
                       <div class="flex justify-end mt-2"></div>
                     </div>
                     <div
-                      class="text-xs font-medium text-gray-900 dark:text-gray-900"
+                      class="text-xs font-medium text-gray-900 dark:text-gray-300"
                     >
                       <div
                         class="text-xs font-semibold text-gray-900 dark:text-gray-900"
@@ -83,9 +107,9 @@
                     </div>
                     <div class="flex items-center justify-between">
                       <div
-                        class="mt-2 text-sm font-bold text-blue-900 dark:text-blue-900"
+                        class="mt-2 text-sm font-bold text-blue-900 dark:text-blue-400"
                       >
-                        LKR: {{ pkg.showPrice }}
+                        LKR: {{ pkg.packageShowPrice }}
                       </div>
 
                       <div
@@ -93,7 +117,7 @@
                         @click="GetAddPkg(pkg)"
                       >
                         <span
-                          class="px-2 py-1 text-xs font-medium text-blue-800 bg-blue-100 rounded-full"
+                          class="px-2 py-1 text-xs font-medium text-blue-800 bg-blue-100 rounded-full dark:bg-blue-900 dark:text-gray-600"
                         >
                           Add
                         </span>
@@ -120,7 +144,7 @@
                   <div class="p-2">Index</div>
                   <div class="p-2">Description</div>
                   <div class="p-2">Unit Price</div>
-                  <div class="p-2">Links</div>
+                  <div class="p-2">Qty</div>
                   <div class="p-2">
                     Discount
                     <span class="text-xs font-bold text-red-500">(Rs.)</span>
@@ -156,7 +180,7 @@
                       <input
                         type="number"
                         min="1"
-                        class="block p-1 text-xs text-gray-900 border border-gray-300 rounded-lg w-42 sm:w-16 bg-gray-50 sm:text-sm"
+                        class="block p-1 text-xs text-gray-900 border border-gray-300 rounded-lg w-42 sm:w-16 bg-gray-50 sm:text-sm dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
                         placeholder="In Rupees"
                         v-model="orderItem.qty"
                         @input="updateTotalPrice(index)"
@@ -173,7 +197,7 @@
                       <input
                         type="number"
                          min="0"
-                        class="block w-64 p-1 text-xs text-gray-900 border border-gray-300 rounded-lg sm:w-24 bg-gray-50 sm:text-sm"
+                        class="block w-64 p-1 text-xs text-gray-900 border border-gray-300 rounded-lg sm:w-24 bg-gray-50 sm:text-sm dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
                         placeholder="In Rupeesdds"
                         v-model="orderItem.discount"
                         @input="updateTotalPrice(index)"
@@ -208,6 +232,17 @@
                     </div>
                   </div>
                   </div>
+                  <div class="flex flex-wrap gap-2 mt-2">
+                    <p class="text-sm font-semibold text-gray-600">Description :</p>
+                    <span
+                      v-for="(line, i) in orderItem.packageDescription.split('<br/>')"
+                      :key="i"
+                      class="px-2 py-1 text-xs font-medium text-gray-500 border border-blue-900 rounded-full dark:bg-blue-900 dark:text-blue-100"
+                    >
+                      {{ line }}
+                    </span>
+                  </div>
+
                   <hr class="my-2 border-gray-300 dark:border-gray-600" />
                 </div>
               </div>
@@ -309,7 +344,7 @@
           </div>
 
           <!--End  Quotation Summery Section -->
-          <!-- {{ quotation.quotation }} -->
+          {{ quotation.quotation }}
         </div>
       </div>
       <!-- Modal Footer -->
@@ -342,6 +377,7 @@ export default {
   data() {
     return {
       isOpen: true,
+
       err: {
         merchantId: "",
         mainDistrictId: "",
@@ -353,15 +389,18 @@ export default {
 
       curProductCategory: "",
       quotation: {
-        currentQNo: '',
-        isVerion: false,
+        currentQNo:'',
+        isVerion:false,
         merchantId: "",
+        mainDistrictId: "",
+        listAdditionalDistricts: [],
         listOrderItem: [],
-        vat: 0,
+        vat:0,
         netTotal: 0,
-        listInstallment: [],
+        installment:1,
+        listInstallment:[],
+        totalAmount: 0,
       },
-
 
       listInstallmentDetails:[],
 
@@ -384,8 +423,21 @@ export default {
     GetSelectMerchant(id) {
       this.quotation.merchantId = id;
       this.err.merchantId = '';
-      console.log(this.quotation.merchantId);
-      
+    },
+    GetSelectMainDistrict(id) {
+      this.quotation.mainDistrictId = id;
+      this.err.mainDistrictId = '';
+    },
+    GetSelectedOtherDistrictIds(listIds) {
+      this.selectedListDistricts = listIds;
+      if (listIds.length < this.quotationStore.initQuotation.noOfMaxDistricts) {
+        this.quotation.listAdditionalDistricts = listIds;
+        this.err.listDistricts = '';
+        console.log(listIds);
+        
+      } else {
+        this.$showAlert("Maximum four districts can be selected!", "error");
+      }
     },
 
     changedcurProductCategory(type) {
@@ -408,16 +460,15 @@ export default {
     GetAddPkg(pkg) {
       let orderItem = {
         index: this.quotation.listOrderItem.length + 1,
-        packageId:pkg.packageId,
+        packageId:pkg.id,
         packageName:pkg.packageName,
         packageCategory:pkg.packageCategory,  
-        // packageDescription:pkg.packageDescription   ,  
-        unitPrice: pkg.price,
+        packageDescription:pkg.packageDescription   ,  
+        unitPrice: pkg.packagePrice,
         qty: 1,
         discount: 0.0,
-        total: pkg.price,
+        total: pkg.packagePrice,
       };
-      
       if (!this.selectedPackages.includes(pkg)) {
       this.selectedPackages.push(pkg);
     }
@@ -546,28 +597,13 @@ export default {
       this.quotation.totalAmount = this.quotation.netTotal;
     },
 
-  
-    GetPrint() {
-      this.netTotalPrice();
-      if (!this.IsValidated()) return;
-
-      this.$showConfirm("Are you sure you want to Print this Quotation?", "warning")
-        .then(async (result) => {
-          if (result.isConfirmed) {
-            // Make a shallow copy excluding unwanted fields
-            const { totalAmount, installment, ...payload } = this.quotation;
-            
-            console.log("Sending data:", JSON.stringify(payload, null, 2));
-            
-            await this.quotationStore.GetAddQuotation(payload, this.showLoading);
-            // ...
-          } else {
-            console.log("Action canceled");
-          }
-        });
+    GetPrint() {  
+       this.netTotalPrice();   
+      if(!this.IsValidated()) return;
+      console.log(JSON.stringify(this.quotation, null, 2))
+      //this.clearerr();
+      //this.closeModal();
     },
-
-
 
 
   
@@ -582,6 +618,19 @@ export default {
         this.err.merchantId = "Please select a Merchant!";
         isValidated = false;
       }
+
+      // Check Main District
+      if (!this.quotation.mainDistrictId) {
+        this.err.mainDistrictId = "Please select a Main District!";
+        isValidated = false;
+      }
+
+      // Check Other Districts (max 4 including main)
+      if (!this.selectedListDistricts || this.selectedListDistricts.length === 0) {
+        this.err.listDistricts = "Please select at least one district before submitting.";
+        isValidated = false;
+      }
+
 
       // Check Product Category
       if (!this.curProductCategory) {
