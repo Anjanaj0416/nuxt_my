@@ -110,6 +110,7 @@ export default {
       selectedCity: null,
       cities: [],
       showLoading: null,
+      showAlert: null,
       err: {
         rsoNo: "",
         city: "",
@@ -181,6 +182,7 @@ export default {
 
   async created() {
     this.showLoading = this.$showLoading;
+    this.showAlert = this.$showAlert;
     this.vendorStore = useVendorStore();
 
     await this.vendorStore.GetInitLeads(this.showLoading);
@@ -208,9 +210,19 @@ export default {
 
       console.log("SetNewCity:", req);
 
-
-      // await this.vendorStore.SetNewCity(req, this.showLoading);
-      // this.cancelAddCity();
+      this.$showConfirm(
+        `Are you sure you want to add ${req.CityName}?`,
+        "warning"
+      ).then(async (result) => {
+        if (result.isConfirmed) {
+          await this.vendorStore.SetNewCity(req, this.showAlert);
+          this.district = null;
+          this.newCity = null;
+          this.cancelAddCity();
+        } else {
+          this.cancelAddCity();
+        }
+      });
     },
 
     onDistrictChange(districtObj) {

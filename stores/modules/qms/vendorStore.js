@@ -184,7 +184,7 @@ export const useVendorStore = defineStore("vendorStore", {
     },
 
     //Add Vendor Lead
-    async SetVendorLead(req, showLoading) {
+    async SetVendorLead(req, showLoading,showAlert) {
       console.log(req);
       try {
         const response = await axios.post(
@@ -193,7 +193,7 @@ export const useVendorStore = defineStore("vendorStore", {
         console.log("response:",response);
         if (response.data.isSuccess) {  
                  
-          this.showToast(response.data.message);       
+          showAlert(response.data.message);       
        
           // this.listLeads = response.data.data.data;
           let reqLoadListLeads = { keyword: "", searchBy: req.Status}
@@ -201,16 +201,16 @@ export const useVendorStore = defineStore("vendorStore", {
           
         } else {
           console.log("response:",response.data.message);
-          this.showToast(response.data.message, "error");
+          showAlert(response.data.message, "error");
         }
       } catch (error) {
         console.error("error:",error)
-        this.showToast('Error in server call', "error");
+        showAlert('Error in server call', "error");
        }
     },
 
-    //Add Vendor Lead
-    async SetNewCity(req, showLoading) {
+    //Add new city
+    async SetNewCity(req, showAlert) {
       console.log(req);
       try {
         const response = await axios.post(
@@ -219,15 +219,15 @@ export const useVendorStore = defineStore("vendorStore", {
         console.log("response:",response);
         if (response.data.isSuccess) {  
                  
-          this.showToast(response.data.message);     
+          showAlert(response.data.message);     
           
         } else {
           console.log("response:",response.data.message);
-          this.showToast(response.data.message, "error");
+          showAlert(response.data.message, "error");
         }
       } catch (error) {
         console.error("error:",error)
-        this.showToast('Error in server call', "error");
+        showAlert('Error in server call', "error");
        }
     },
 

@@ -271,6 +271,7 @@ export default {
       },
       imageroot: "",
       showLoading: null,
+      showAlert: null,
     };
   },
   computed: {
@@ -324,6 +325,7 @@ export default {
 
     this.imageroot = this.userStore.loggedUser.resourceURLRoot;
     this.showLoading = this.$showLoading;
+    this.showAlert = this.$showAlert;
 
 
   },
@@ -353,7 +355,7 @@ export default {
         ).then(async (result) => {
           if (result.isConfirmed) {
 
-            await this.vendorStore.SetVendorLead(this.curLead, this.showLoading)
+            await this.vendorStore.SetVendorLead(this.curLead, this.showLoading, this.showAlert)
             console.log(JSON.stringify(this.curLead));
           } else {
             console.log("Action canceled");

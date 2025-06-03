@@ -97,8 +97,7 @@
           </div>
 
           <!-- Editable Fields -->
-
-          <div class="grid grid-cols-1 gap-4 sm:grid-cols-1">
+          <div v-if="userStore.loggedUser.granted?.includes('flo')" class="grid grid-cols-1 gap-4 sm:grid-cols-1">
             <div class="w-full sm:w-1/2">
               <selectinput2 v-model="lead.status" :cur_item="lead.status" :selections="vendorStore.InitLeads.listStatus"
                 :err="err.status" label="Lead Status" />
@@ -114,7 +113,7 @@
           </div>
           <!-- {{ lead }} -->
           <!-- Action Buttons -->
-          <div class="flex justify-end pt-2">
+          <div v-if="userStore.loggedUser.granted?.includes('flo')" class="flex justify-end pt-2">
             <LinkBtn
               class="px-5 py-2 text-sm font-medium transition bg-white border-2 rounded-lg shadow text-blue-950 border-blue-950 hover:bg-blue-900 hover:text-white focus:outline-none focus:ring-2 focus:ring-blue-400 dark:bg-blue-500 dark:hover:bg-blue-600"
               variant="primary" label="Update" @click="SetUpdateVendorLead(lead)" />
@@ -156,9 +155,11 @@ export default {
       arrFilter: ["All", "Pending", "Completed", "Cancelled", "Hold", "RSOAssigned"],
       imageroot: "",
       showLoading: null,
+      showAlert: null,
       isAddLeads: false,
       isAddRso: false,
       searchBy: "",
+      keyword: "",
       isMore: false,
       newComment: "",
       rowIndex: -1,
@@ -200,6 +201,7 @@ export default {
     this.userStore = useUserStore();
     this.vendorStore = useVendorStore();
     this.showLoading = this.$showLoading;
+    this.showAlert = this.$showAlert;
 
 
     await this.vendorStore.GetInitLeads(
@@ -222,16 +224,26 @@ export default {
   computed: {},
   methods: {
     async GetSearch(searchVal) {
-      console.log("keyword: searchVal, searchBy: this.searchBy", searchVal, this.searchBy);
+      if (searchVal) {
+        this.keyword = searchVal
+      } else {
+        this.keyword = ""
+      }
+      console.log("keyword, searchBy", searchVal, this.searchBy);
 
       await this.vendorStore.loadListLeads(
-        { keyword: searchVal, searchBy: this.searchBy },
+        { keyword: this.keyword, searchBy: this.searchBy },
         this.showLoading
       );
 
+      this.searchBy = "";
+      this.keyword = "";
+
     },
-    SetSelectedFilter(type) {
+
+    async SetSelectedFilter(type) {
       this.searchBy = type;
+      await this.GetSearch();
     },
     SetUpdateVendorLead(lead) {
       var request = { Id: lead.id, Comment: lead.newComment, Status: lead.status };
