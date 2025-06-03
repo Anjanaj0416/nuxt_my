@@ -51,7 +51,7 @@
               <div class="mt-2 mb-4 text-xl font-semibold text-gray-800">Add New City</div>
               <div class="grid grid-cols-1 gap-4 sm:grid-cols-1">
                 <div class="w-full sm:w-1/2">
-                  <selectinput2 v-model="city" :cur_item="district" :selections="getDistricts" :isDistrict="true"
+                  <selectinput2 v-model="city" @changed="onDistrictChange" :selections="getDistricts" :isDistrict="true"
                     label="Select District" :err="err.city" />
                 </div>
 
@@ -106,7 +106,7 @@ export default {
       city: null,
       newCity: "",
       district: null,
-      selectedDistrict: null,
+      selectedDistrictId: null,
       selectedCity: null,
       cities: [],
       showLoading: null,
@@ -156,9 +156,9 @@ export default {
       }));
     },
 
-    selectedCityObject() {
-      return this.filteredCities.find(city => city.id == this.city);
-    },
+    // selectedCityObject() {
+    //   return this.filteredCities.find(city => city.id == this.city);
+    // },
   },
 
   // watch: {
@@ -204,7 +204,7 @@ export default {
 
     async SetNewCity() {
       let req = {
-        DistrictId: this.district,
+        DistrictId: this.selectedDistrictId,
         CityName: this.newCity
       }
 
@@ -228,7 +228,7 @@ export default {
     onDistrictChange(districtObj) {
       console.log("District selected:", districtObj);
       this.selectedCity = ""; // Reset selected city
-      this.selectedDistrict = districtObj.value; // Reset selected city
+      this.selectedDistrictId = districtObj.id; // Reset selected city
     },
     async GetAssignSalesRef() {
       if (this.IsValidate()) {

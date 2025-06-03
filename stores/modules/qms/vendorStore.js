@@ -132,6 +132,23 @@ export const useVendorStore = defineStore("vendorStore", {
       }
     },
 
+     //loadInitLeads
+    async GetInitLeads(showLoading) {
+      try {
+        const response = await axios.get(
+          `${import.meta.env.VITE_API_URL}/qms/Leads/GetInitLeads`
+        );
+
+        if (response.data.isSuccess) {
+          this.InitLeads = response.data.data.data;
+        } else {
+          this.showToast(response.data.message, "error");
+        }
+      } catch (error) {
+        this.showToast("Failed to load vendor data", "error");
+      }
+    },
+
     //loadListLeads
     async loadListLeads(req, showLoading) {
       console.log("loadListLeads:",req);
@@ -163,23 +180,6 @@ export const useVendorStore = defineStore("vendorStore", {
       } catch (error) {
         console.error("error",error)
         this.showToast(error.message, "error");
-      }
-    },
-
-    //loadInitLeads
-    async GetInitLeads(showLoading) {
-      try {
-        const response = await axios.get(
-          `${import.meta.env.VITE_API_URL}/qms/Leads/GetInitLeads`
-        );
-
-        if (response.data.isSuccess) {
-          this.InitLeads = response.data.data.data;
-        } else {
-          this.showToast(response.data.message, "error");
-        }
-      } catch (error) {
-        this.showToast("Failed to load vendor data", "error");
       }
     },
 
@@ -218,7 +218,7 @@ export const useVendorStore = defineStore("vendorStore", {
         );
         console.log("response:",response);
         if (response.data.isSuccess) {  
-                 
+              this.GetInitLeads();
           showAlert(response.data.message);     
           
         } else {

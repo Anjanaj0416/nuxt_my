@@ -184,7 +184,6 @@ export default {
 
         this.$emit('update:modelValue', selectedIndex);
         this.$emit('changed', selectedOption);
-        console.log('Selected:', JSON.stringify(selectedOption, null, 2));
 
       } else {
         const newValue = event.target.value;
