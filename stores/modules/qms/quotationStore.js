@@ -9,6 +9,7 @@ export const useQuotationStore = defineStore("QuotationStore", {
     listQuotation: [],
     listQuotationVerions: [],
     curQuotation: {},
+    editQuotation:{},
     initQuotation: [],
     testParam: { id: 21 },
     quotation:{},
@@ -264,8 +265,10 @@ export const useQuotationStore = defineStore("QuotationStore", {
           this.showToast(response.data.message, "success");
           console.log("Success data:", response.data.data.data);
           const { quotationUrl_WithLetterHead, quotationUrl_WithOutLetterHead } = response.data.data.data;
-          // Open in a new tab
+          // Open in a new tabs
           window.open(quotationUrl_WithLetterHead, "_blank");
+          window.open(quotationUrl_WithOutLetterHead, "_blank");
+
         } else {
           this.showToast(response.data.message, "error");
           console.log("Error message:", response.data.message);
@@ -282,6 +285,37 @@ export const useQuotationStore = defineStore("QuotationStore", {
         }
       }
     },
+
+  // Update Quotation
+  async GetEditQuotationById(id, showLoading) {
+    console.log("qID", id);
+
+    const loadingAlert = showLoading("");
+
+    try {
+      const response = await axios.get(
+        `${import.meta.env.VITE_API_URL}/qms/Quotation/QuotationById?id=${id}`
+      );
+      loadingAlert.close();
+
+      if (response.data.isSuccess) {
+        // The actual quotation data is in response.data.data.data
+        const quotationData = response.data.data.data;
+        console.log("Fetched Quotation Data:", quotationData);
+
+        // Assign to editQuotation
+        this.editQuotation = quotationData;
+
+      } else {
+        this.showToast(response.data.message, "error");
+      }
+    } catch (error) {
+      console.error(error);
+      this.showToast("An error occurred while fetching quotation data.", "error");
+    }
+  },
+
+
 
 
     //ResetQuotation

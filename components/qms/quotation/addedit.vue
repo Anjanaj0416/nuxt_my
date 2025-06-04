@@ -4,8 +4,8 @@
       <!-- Modal Header -->
       <div class="modal-header">
         <h2 class="modal-title">
-          Create Proforma
-          <!-- Quotation {{ isEditing ? "Edit" : "Add" }} -->
+           
+          Proforma {{ isEditing ? "Edit" : "Add" }}
         </h2>
         <closebtn @close="closeModal" />
       </div>
@@ -13,6 +13,7 @@
       <!-- Modal Content (scrollable) -->
       <div class="modal-content">
         <div class="form-content">
+          {{ quotationData }}
           <div class="grid grid-cols-1 gap-2 my-2 md:grid-cols-2">
             <div>
               <label class="block text-sm font-bold text-gray-600">Select Merchant</label>
@@ -135,6 +136,8 @@
                 <div
                   v-for="(orderItem, index) in quotation.listOrderItem"
                   :key="index"
+                  @click="selectRow(index)"
+                  class="cursor-pointer"
                 >
                <div>
                   <div
@@ -224,7 +227,7 @@
         </div>
 
         <!-- Input for adding installments -->
-        <div>
+        <div v-if="quotation.listOrderItem.length === 1">
           <div class="grid grid-cols-2 gap-4 my-4">
             <div>
               <label class="block text-sm font-bold text-gray-600">Installments</label>
@@ -315,7 +318,10 @@
       <!-- Modal Footer -->
       <div class="modal-footer">
         <button @click="cancel" class="cancel-button">Discard</button>
-        <button @click="GetPrint" class="confirm-button">Print</button>
+        <!-- <button @click="GetPrint" class="confirm-button">Print</button> -->
+        <button @click="GetPrint" class="confirm-button">
+          {{ isEditing ? "Update Profoma" : "Add Profoma" }}
+        </button>
       </div>
     </div>
   </div>
@@ -350,6 +356,7 @@ export default {
 
       selectedPackages: [],
       showLoading: null, 
+      selectedIndex: null,
 
       curProductCategory: "",
       quotation: {
@@ -370,9 +377,26 @@ export default {
     };
   },
 
-  computed: {
-
+  props: {
+    quotationData: Object
   },
+
+  computed: {
+    quotation() {
+      return this.quotationData;
+    },
+
+    isEditing() {
+      return this.quotationData && 
+        !this.quotationData.isVerion;
+    }
+  },
+
+  // mounted() {
+  //   this.$refs.catcomp.initItem(inventory.itemid)
+  // },
+
+  
 
   async created() {
     this.showLoading = this.$showLoading;
@@ -535,6 +559,10 @@ export default {
       this.quotation.listOrderItem.splice(index, 1);
       this.netTotalPrice();
     },
+
+    selectRow(index) {
+      this.selectedIndex = index;
+    },
     
     netTotalPrice() {
       this.quotation.netTotal = this.quotation.listOrderItem.reduce((acc, item) => {
@@ -569,8 +597,6 @@ export default {
 
 
 
-
-  
 
 
     IsValidated() {
