@@ -23,6 +23,7 @@
               v-for="(qItem, index) in quotationStore.listQuotationVerions"
               :key="index"
             >
+
               <div class="flex flex-col justify-between sm:flex-row">
                 <!-- Section 1 -->
                 <div class="flex flex-col text-center sm:text-left">
@@ -77,10 +78,11 @@
               <div class="flex gap-x-4 -my-4">
                 <!-- Button Group -->
 
-                <div
-                  class="grid grid-cols-2 gap-2 sm:flex sm:flex-row sm:justify-end"
-                  
-                >
+                <div class="grid grid-cols-2 gap-2 sm:flex sm:flex-row sm:justify-end">
+                  <LinkBtn label="Edit" @click="GoToVEditQuotation(qItem.id)" />
+                </div>
+
+                <div class="grid grid-cols-2 gap-2 sm:flex sm:flex-row sm:justify-end">
                   <LinkBtn
                     v-show="qItem.status !== 'Approved'"
                     label="Approve"
@@ -144,6 +146,11 @@
       </div>
     </div>
   </div>
+  <AdddEdit v-if="isVerion" :quotation-data="quotationStore.editQuotation"  @close="isVerion = !isVerion" />
+
+
+
+
 </template>
 
 <script>
@@ -155,23 +162,26 @@ import Lable from "~/components/customcontrol/Lable";
 import Button from "~/components/customcontrol/Button";
 import ImageLable from "~/components/customcontrol/ImageLable";
 import LinkBtn from "~/components/customcontrol/Link";
+import AdddEdit from "~/components/qms/quotation/addedit.vue"
 
 
 
 export default {
-  components: { closebtn, LinkBtn,Lable,Button,ImageLable },
+  components: { closebtn, LinkBtn,Lable,Button,ImageLable,AdddEdit },
   props: [],
   data() {
     return {
       imageroot: "",
       quotationStore: null,
-
+      isVerion: false,
       isOpen: true,
     };
   },
   async created() {
     this.quotationStore = useQuotationStore();  
     this.imageroot = this.quotationStore.initQuotation.baseUrl;
+    this.showLoading = this.$showLoading;
+
   },
   async mounted() {},
   watch: {},
@@ -198,6 +208,17 @@ export default {
 
       //link to Invoice view
     },
+        
+    async GoToVEditQuotation(id) {
+      await this.quotationStore.GetEditQuotationById(id, this.showLoading);
+      this.isVerion = true;
+      this.isOpen = false; 
+    },
+
+
+
+
+
     DeleteQuotationVersion(id) {
       //sweet alret
     },

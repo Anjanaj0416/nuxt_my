@@ -4,7 +4,7 @@
         :target="target"
 
 
-        class="cursor-pointer px-4 py-2 text-sm font-medium text-blue-900 rounded-md hover:font-bold dark:bg-gray-800 dark:border-gray-700 dark:text-white dark:hover:bg-gray-700 underline"
+        class="cursor-pointer px-4 py-2 text-sm font-medium text-blue-900 rounded-md hover:font-bold underline"
     >
         <slot class="truncate"> {{ label }}</slot>
     </div>
