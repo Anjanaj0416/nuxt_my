@@ -17,100 +17,109 @@
           <div class="grid grid-cols-2 gap-4 mt-4 sm:grid-cols-2 md:grid-cols-3">
             <div class="">
               <label class="block text-sm font-bold text-gray-600">Company Name</label>
-              <input type="text" v-model="curLead.companyName" placeholder="Enter company Name" required
+              <input type="text" v-model="curLead.CompanyName" placeholder="Enter company Name" required
                 class="w-full p-2 mt-2 text-sm border rounded-md focus:ring-indigo-500 focus:border-indigo-500" />
-              <p v-if="err.companyName" class="mt-2 text-sm text-red-600">
-                {{ err.companyName }}
+              <p v-if="err.CompanyName" class="mt-2 text-sm text-red-600">
+                {{ err.CompanyName }}
               </p>
             </div>
           </div>
           <div class="grid grid-cols-2 gap-4 mt-4 sm:grid-cols-2 md:grid-cols-3">
             <div class="">
               <label class="block text-sm font-bold text-gray-600">Address Line 1</label>
-              <input type="text" v-model="curLead.shopAddress1" placeholder="Enter Address Line 1" required
+              <input type="text" v-model="curLead.Address1" placeholder="Enter Address Line 1" required
                 class="w-full p-2 mt-2 text-sm border rounded-md focus:ring-indigo-500 focus:border-indigo-500" />
-              <p v-if="err.shopAddress1" class="mt-2 text-sm text-red-600">
-                {{ err.shopAddress1 }}
+              <p v-if="err.Address1" class="mt-2 text-sm text-red-600">
+                {{ err.Address1 }}
               </p>
             </div>
             <div class="">
               <label class="block text-sm font-bold text-gray-600">Address Line 2</label>
-              <input type="text" v-model="curLead.shopAddress2" placeholder="Enter Address Line 2" required
+              <input type="text" v-model="curLead.Address2" placeholder="Enter Address Line 2" required
                 class="w-full p-2 mt-2 text-sm border rounded-md focus:ring-indigo-500 focus:border-indigo-500" />
-              <p v-if="err.shopAddress2" class="mt-2 text-sm text-red-600">
-                {{ err.shopAddress2 }}
+              <p v-if="err.Address2" class="mt-2 text-sm text-red-600">
+                {{ err.Address2 }}
               </p>
             </div>
             <div class="">
               <label class="block text-sm font-bold text-gray-600">District</label>
 
-              <serach_Input :arrItems="getDistinctDistricts" ref="refDistrict" label="" v-model="curLead.district"
+              <serach_Input :arrItems="getDistinctDistricts" ref="refDistrict" label="" v-model="curLead.District"
                 @selectItem="GetSelectDistrict" />
-              <p v-if="err.district" class="mt-2 text-sm text-red-600">
-                {{ err.district }}
+              <p v-if="err.District" class="mt-2 text-sm text-red-600">
+                {{ err.District }}
               </p>
             </div>
 
             <div class="">
               <label class="block text-sm font-bold text-gray-600">City</label>
 
-              <serach_Input :arrItems="filteredCities" ref="refCity" label="" v-model="curLead.city"
+              <serach_Input :arrItems="filteredCities" ref="refCity" label="" v-model="curLead.City"
                 @selectItem="GetSelectCity" />
-              <p v-if="err.city" class="mt-2 text-sm text-red-600">
-                {{ err.city }}
+              <p v-if="err.City" class="mt-2 text-sm text-red-600">
+                {{ err.City }}
               </p>
             </div>
             <div class="">
               <label class="block text-sm font-bold text-gray-600">Contact Number</label>
-              <input type="tel" v-model="curLead.contacttNo" placeholder="Enter Contact Number" maxlength="10"
+              <input type="tel" v-model="curLead.CompanyPhone" placeholder="Enter Contact Number" maxlength="10"
                 class="w-full p-2 mt-2 text-sm border rounded-md focus:ring-indigo-500 focus:border-indigo-500" />
-              <p v-if="err.contacttNo" class="mt-2 text-sm text-red-600">
-                {{ err.contacttNo }}
+              <p v-if="err.CompanyPhone" class="mt-2 text-sm text-red-600">
+                {{ err.CompanyPhone }}
               </p>
             </div>
             <div class="">
               <label class="block text-sm font-bold text-gray-600">Mobile Number</label>
-              <input type="text" v-model="curLead.mobileNo" :maxlength="10" placeholder="Enter MobileNo"
+              <input type="text" v-model="curLead.CompanyMobileNo" :maxlength="10" placeholder="Enter MobileNo"
                 class="w-full p-2 mt-2 text-sm border rounded-md focus:ring-indigo-500 focus:border-indigo-500"
                 required />
-              <p v-if="err.mobileNo" class="mt-2 text-sm text-red-600">
-                {{ err.mobileNo }}
+              <p v-if="err.CompanyMobileNo" class="mt-2 text-sm text-red-600">
+                {{ err.CompanyMobileNo }}
               </p>
             </div>
             <div class="">
               <label class="block text-sm font-bold text-gray-600">Email</label>
-              <input type="Email" v-model="curLead.email" placeholder="Enter Email"
+              <input type="Email" v-model="curLead.CompanyEmail" placeholder="Enter Email"
                 class="w-full p-2 mt-2 text-sm border rounded-md focus:ring-indigo-500 focus:border-indigo-500"
                 required />
-              <p v-if="err.email" class="mt-2 text-sm text-red-600">
-                {{ err.email }}
+              <p v-if="err.CompanyEmail" class="mt-2 text-sm text-red-600">
+                {{ err.CompanyEmail }}
               </p>
             </div>
             <div class="">
               <label class="block text-sm font-bold text-gray-600">Website</label>
-              <input type="text" v-model="curLead.web" placeholder="Enter weblink"
+              <input type="text" v-model="curLead.CompanyWeb" placeholder="Enter weblink"
                 class="w-full p-2 mt-2 text-sm border rounded-md focus:ring-indigo-500 focus:border-indigo-500"
                 required />
-              <p v-if="err.web" class="mt-2 text-sm text-red-600">
-                {{ err.web }}
+              <p v-if="err.CompanyWeb" class="mt-2 text-sm text-red-600">
+                {{ err.CompanyWeb }}
               </p>
             </div>
             <div class="">
               <label class="block text-sm font-bold text-gray-600">Business Registration Number</label>
-              <input type="text" v-model="curLead.businessRegNum" placeholder="Enter Business Registration Number"
+              <input type="text" v-model="curLead.BusinessRegNo" placeholder="Enter Business Registration Number"
                 class="w-full p-2 mt-2 text-sm border rounded-md focus:ring-indigo-500 focus:border-indigo-500"
                 required />
-              <p v-if="err.businessRegNum" class="mt-2 text-sm text-red-600">
-                {{ err.businessRegNum }}
+              <p v-if="err.BusinessRegNo" class="mt-2 text-sm text-red-600">
+                {{ err.BusinessRegNo }}
               </p>
             </div>
             <div>
               <label class="block text-sm font-bold text-gray-600">Business Type</label>
-              <input type="text" v-model="curLead.businessType" placeholder="Ex: Construction / Service etc"
+              <input type="text" v-model="curLead.Industry" placeholder="Ex: Construction / Service etc"
                 class="w-full p-2 mt-2 text-sm border rounded-md focus:ring-indigo-500 focus:border-indigo-500"
                 required />
-              <p v-if="err.businessType" class="mt-2 text-sm text-red-600">
-                {{ err.businessType }}
+              <p v-if="err.Industry" class="mt-2 text-sm text-red-600">
+                {{ err.Industry }}
+              </p>
+            </div>
+            <div class="">
+              <label class="block text-sm font-bold text-gray-600">Designation</label>
+              <input type="text" v-model="curLead.CompanyDesignation" placeholder="Enter Designation"
+                class="w-full p-2 mt-2 text-sm border rounded-md focus:ring-indigo-500 focus:border-indigo-500"
+                required />
+              <p v-if="err.CompanyDesignation" class="mt-2 text-sm text-red-600">
+                {{ err.CompanyDesignation }}
               </p>
             </div>
           </div>
@@ -130,46 +139,54 @@
           <h3 class="mt-4 font-bold">Contact Person </h3>
           <div class="grid grid-cols-2 gap-4 mt-4 mb-36 sm:grid-cols-2 md:grid-cols-3 sm:mb-0">
             <div class="">
-              <label class="block text-sm font-bold text-gray-600">Name</label>
-              <input type="text" v-model="curLead.contacttPersonName" placeholder="Enter Name" required
+              <label class="block text-sm font-bold text-gray-600">First Name</label>
+              <input type="text" v-model="curLead.ContactPersonFirstName" placeholder="Enter First Name" required
                 class="w-full p-2 mt-2 text-sm border rounded-md focus:ring-indigo-500 focus:border-indigo-500" />
-              <p v-if="err.contacttPersonName" class="mt-2 text-sm text-red-600">
-                {{ err.contacttPersonName }}
+              <p v-if="err.ContactPersonFirstName" class="mt-2 text-sm text-red-600">
+                {{ err.ContactPersonFirstName }}
+              </p>
+            </div>
+            <div class="">
+              <label class="block text-sm font-bold text-gray-600">Last Name</label>
+              <input type="text" v-model="curLead.ContactPersonLastname" placeholder="Enter Last Name" required
+                class="w-full p-2 mt-2 text-sm border rounded-md focus:ring-indigo-500 focus:border-indigo-500" />
+              <p v-if="err.ContactPersonLastname" class="mt-2 text-sm text-red-600">
+                {{ err.ContactPersonLastname }}
               </p>
             </div>
             <div class="">
               <label class="block text-sm font-bold text-gray-600">Designation</label>
-              <input type="text" v-model="curLead.designation" placeholder="Enter Designation" required
+              <input type="text" v-model="curLead.ContactDesignation" placeholder="Enter Designation" required
                 class="w-full p-2 mt-2 text-sm border rounded-md focus:ring-indigo-500 focus:border-indigo-500" />
-              <p v-if="err.designation" class="mt-2 text-sm text-red-600">
-                {{ err.designation }}
+              <p v-if="err.ContactDesignation" class="mt-2 text-sm text-red-600">
+                {{ err.ContactDesignation }}
               </p>
             </div>
 
             <div class="">
               <label class="block text-sm font-bold text-gray-600">Contact Number</label>
-              <input type="text" v-model="curLead.contactPersonNumber" :maxlength="10"
-                placeholder="Enter Contact Number" required
+              <input type="text" v-model="curLead.ContactPhoneNo" :maxlength="10" placeholder="Enter Contact Number"
+                required
                 class="w-full p-2 mt-2 text-sm border rounded-md focus:ring-indigo-500 focus:border-indigo-500" />
-              <p v-if="err.contactPersonNumber" class="mt-2 text-sm text-red-600">
-                {{ err.contactPersonNumber }}
+              <p v-if="err.ContactPhoneNo" class="mt-2 text-sm text-red-600">
+                {{ err.ContactPhoneNo }}
               </p>
             </div>
             <div class="">
               <label class="block text-sm font-bold text-gray-600">Mobile Number</label>
-              <input type="text" v-model="curLead.contactPersonMobileNo" :maxlength="10"
-                placeholder="Enter Mobile Number" required
+              <input type="text" v-model="curLead.ContactMobile" :maxlength="10" placeholder="Enter Mobile Number"
+                required
                 class="w-full p-2 mt-2 text-sm border rounded-md focus:ring-indigo-500 focus:border-indigo-500" />
-              <p v-if="err.contactPersonMobileNo" class="mt-2 text-sm text-red-600">
-                {{ err.contactPersonMobileNo }}
+              <p v-if="err.ContactMobile" class="mt-2 text-sm text-red-600">
+                {{ err.ContactMobile }}
               </p>
             </div>
             <div class="">
               <label class="block text-sm font-bold text-gray-600">Email</label>
-              <input type="text" v-model="curLead.contactPersonEmailAddress" placeholder="Enter Email" required
+              <input type="text" v-model="curLead.ContactEmail" placeholder="Enter Email" required
                 class="w-full p-2 mt-2 text-sm border rounded-md focus:ring-indigo-500 focus:border-indigo-500" />
-              <p v-if="err.contactPersonEmailAddress" class="mt-2 text-sm text-red-600">
-                {{ err.contactPersonEmailAddress }}
+              <p v-if="err.ContactEmail" class="mt-2 text-sm text-red-600">
+                {{ err.ContactEmail }}
               </p>
             </div>
           </div>
@@ -189,12 +206,12 @@
 <script>
 import { reactive, computed } from "vue";
 import closebtn from "~/components/customcontrol/modal_close_button";
-import { useVendorStore } from "~/stores/modules/qms/vendorStore";
 import imagecomp from "~/components/customcontrol/imagepicker";
 import ImageLable from "~/components/customcontrol/ImageLable";
 import serach_Input from "~/components/customcontrol/SearchInput";
 import { useUserStore } from "~/stores/modules/userStore";
 import toggleoption from "~/components/customcontrol/toggleoption";
+import { useLeadStore } from "~/stores/modules/qms/leadStore";
 
 definePageMeta({
   layout: "default",
@@ -205,46 +222,56 @@ export default {
     return {
       isOpen: true,
       curLead: {
-        companyName: "",
-        shopAddress1: "",
-        shopAddress2: "",
-        district: -1,
-        city: -1,
-        contactNumber: "",
-        mobileNo: "",
-        email: "",
-        web: "",
+        CompanyName: "",
+        Address1: "",
+        Address2: "",
+        District: "",
+        DistrictId: "",
+        City: "",
+        CityId: "",
+        CompanyPhone: "",
+        CompanyMobileNo: "",
+        CompanyEmail: "",
+        CompanyWeb: "",
+        CompanyDesignation: "",
         businessType: "",
-        moreDetails: 'Ex: No of Links-200 || iS Stored Available',
+        Industry: "",
+        moreDetails: "",//'Ex: No of Links-200 || iS Stored Available'
 
-        businessRegNum: "",
-        contactPersonName: "",
-        designation: "",
-        contacPersonNumber: "",
-        contacPersonMobileNo: "",
-        contacPersonEmailAddress: "",
+        BusinessRegNo: "",
+        ContactPersonFirstName: "",
+        ContactPersonLastname: "",
+        ContactDesignation: "",
+        ContactPhoneNo: "",
+        ContactMobile: "",
+        ContactEmail: "",
       },
       err: {
-        companyName: "",
-        shopAddress1: "",
-        shopAddress2: "",
-        district: '',
-        city: '',
-        contactNumber: "",
-        mobileNo: "",
-        email: "",
-        web: "",
+        CompanyName: "",
+        Address1: "",
+        Address2: "",
+        District: "",
+        City: "",
+        CompanyPhone: "",
+        CompanyMobileNo: "",
+        CompanyEmail: "",
+        CompanyWeb: "",
+        CompanyDesignation: "",
+        ContactPersonLastname: "",
         businessType: "",
-        moreDetails: '',
-        businessRegNum: "",
-        contactPersonName: "",
-        designation: "",
-        contacPersonNumber: "",
-        contacPersonMobileNo: "",
-        contacPersonEmailAddress: "",
+        Industry: "",
+        moreDetails: "",
+
+        BusinessRegNo: "",
+        ContactPersonFirstName: "",
+        ContactDesignation: "",
+        ContactPhoneNo: "",
+        ContactMobile: "",
+        ContactEmail: "",
       },
       imageroot: "",
       showLoading: null,
+      showAlert: null,
     };
   },
   computed: {
@@ -260,7 +287,7 @@ export default {
       try {
         const districtsMap = new Map();
 
-        this.vendorStore.InitLeads.listDistrictCities.forEach((item) => {
+        this.leadStore.InitLeads.listDistrictCities.forEach((item) => {
           if (!districtsMap.has(item.districtId)) {
             districtsMap.set(item.districtId, {
               id: item.districtId,
@@ -279,10 +306,10 @@ export default {
     },
 
     filteredCities() {
-      if (!this.curLead.district) return [];
+      if (!this.curLead.District) return [];
 
-      return this.vendorStore.InitLeads.listDistrictCities
-        .filter(city => city.districtId === this.curLead.district)
+      return this.leadStore.InitLeads.listDistrictCities
+        .filter(city => city.districtId === this.curLead.DistrictId)
         .sort((a, b) => a.cityName.localeCompare(b.cityName))
         .map(city => ({
           id: city.cityId,
@@ -292,18 +319,19 @@ export default {
 
   },
   async created() {
-    this.vendorStore = useVendorStore();
     this.userStore = useUserStore();
-    this.curLead = this.vendorStore.curLead;
+    this.leadStore = useLeadStore();
+    this.curLead = this.leadStore.curLead;
 
     this.imageroot = this.userStore.loggedUser.resourceURLRoot;
     this.showLoading = this.$showLoading;
+    this.showAlert = this.$showAlert;
 
 
   },
   mounted() {
-    this.$refs.refCity.initItem(this.curLead.city);
-    this.$refs.refDistrict.initItem(this.curLead.district);
+    // this.$refs.refCity.initItem(this.curLead.city);
+    // this.$refs.refDistrict.initItem(this.curLead.district);
   },
   methods: {
     closeModal() {
@@ -317,20 +345,24 @@ export default {
     },
 
     SetVendorLead() {
+      console.log("inside SetVendorLead");
 
       if (this.IsValidate()) {
+        console.log("inside IsValidate");
         this.$showConfirm(
           "Are you sure you want to Save this Lead?",
           "warning"
         ).then(async (result) => {
           if (result.isConfirmed) {
 
-            await this.vendorStore.SetVendorLead(this.curLead, this.showLoading)
+            await this.leadStore.SetVendorLead(this.curLead, this.showLoading, this.showAlert)
             console.log(JSON.stringify(this.curLead));
-            // this.closeModal();
           } else {
             console.log("Action canceled");
           }
+          this.leadStore.clearCurLead();
+          this.closeModal();
+          this.clearErr();
         });
       }
     },
@@ -340,109 +372,130 @@ export default {
 
       let IsValidate = true;
 
-      if (!this.curLead.businessType) {
-        this.err.businessType = "Please Enter Business Type!";
+      if (!this.curLead.Industry) {
+        this.err.Industry = "Please Enter Business Type!";
         IsValidate = false;
       }
-      if (!this.curLead.businessRegNum) {
-        this.err.businessRegNum = "Please Enter Business Registration Number!";
+
+      if (!this.curLead.BusinessRegNo) {
+        this.err.BusinessRegNo = "Please Enter Business Registration Number!";
         IsValidate = false;
       }
-      if (!this.curLead.email) {
-        this.err.email = "Please Enter an Email!";
+
+      if (!this.curLead.CompanyEmail) {
+        this.err.CompanyEmail = "Please Enter an Email!";
         IsValidate = false;
       } else {
         const EmailRegex = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
-        if (!EmailRegex.test(this.curLead.email)) {
-          this.err.email = "Please Enter a valid Email address!";
+        if (!EmailRegex.test(this.curLead.CompanyEmail)) {
+          this.err.CompanyEmail = "Please Enter a valid Email address!";
           IsValidate = false;
         }
       }
 
-      if (!this.curLead.companyName) {
-        this.err.companyName = "Please Enter Company Name!";
+      if (!this.curLead.CompanyName) {
+        this.err.CompanyName = "Please Enter Company Name!";
         IsValidate = false;
       }
-      if (!this.curLead.contacttNo) {
-        this.err.contacttNo = "Please Enter Contact Number!";
+
+      if (!this.curLead.CompanyPhone) {
+        this.err.CompanyPhone = "Please Enter Contact Number!";
         IsValidate = false;
       } else {
         const contactNoRegex = /^[0-9]{10}$/;
-        if (!contactNoRegex.test(this.curLead.contacttNo)) {
-          this.err.contacttNo =
+        if (!contactNoRegex.test(this.curLead.CompanyPhone)) {
+          this.err.CompanyPhone =
             "Please Enter a valid 10-digit contact number!";
           IsValidate = false;
         }
       }
 
-      if (!this.curLead.shopAddress1) {
-        this.err.shopAddress1 = "Please Enter Address 1!";
-        IsValidate = false;
-      }
-      if (!this.curLead.shopAddress2) {
-        this.err.shopAddress2 = "Please Enter Address 2!";
+      if (!this.curLead.Address1) {
+        this.err.Address1 = "Please Enter Address 1!";
         IsValidate = false;
       }
 
-      // if (!this.curLead.district) {
-      //   this.err.district = "Please Enter District!";
-      //   IsValidate = false;
-      // }
-      // if (!this.curLead.city) {
-      //   this.err.city = "Please Enter City!";
-      //   IsValidate = false;
-      // }
+      if (!this.curLead.Address2) {
+        this.err.Address2 = "Please Enter Address 2!";
+        IsValidate = false;
+      }
 
-      if (!this.curLead.mobileNo) {
-        this.err.mobileNo = "Please Enter mobile Number!";
+      if (!this.curLead.District) {
+        this.err.District = "Please Enter District!";
+        IsValidate = false;
+      }
+
+      if (!this.curLead.City) {
+        this.err.City = "Please Enter City!";
+        IsValidate = false;
+      }
+
+      if (!this.curLead.CompanyMobileNo) {
+        this.err.CompanyMobileNo = "Please Enter mobile Number!";
         IsValidate = false;
       } else {
         const contactNoRegex1 = /^[0-9]{10}$/;
-        if (!contactNoRegex1.test(this.curLead.mobileNo)) {
-          this.err.mobileNo = "Please Enter a valid 10-digit Mobile Number!";
+        if (!contactNoRegex1.test(this.curLead.CompanyMobileNo)) {
+          this.err.CompanyMobileNo = "Please Enter a valid 10-digit Mobile Number!";
           IsValidate = false;
         }
       }
 
-      if (!this.curLead.web) {
-        this.err.web = "Please Enter Website!";
+      if (!this.curLead.CompanyWeb) {
+        this.err.CompanyWeb = "Please Enter Website!";
         IsValidate = false;
       }
 
-      if (!this.curLead.contactPersonEmailAddress) {
-        this.err.contactPersonEmailAddress = "Please Enter Email Address!";
+      if (!this.curLead.CompanyDesignation) {
+        this.err.CompanyDesignation = "Please Enter Designation!";
         IsValidate = false;
       }
 
-      // Other information validation
-      if (!this.curLead.contacttPersonName) {
-        this.err.contacttPersonName = "Please Enter Name!";
-        IsValidate = false;
-      }
-      if (!this.curLead.designation) {
-        this.err.designation = "Please Enter Designation !";
+      // // Other information validation
+      if (!this.curLead.ContactPersonFirstName) {
+        this.err.ContactPersonFirstName = "Please Enter First Name!";
         IsValidate = false;
       }
 
-      if (!this.curLead.contactPersonNumber) {
-        this.err.contactPersonNumber = "Please Enter Contact Number!";
+      if (!this.curLead.ContactPersonLastname) {
+        this.err.ContactPersonLastname = "Please Enter Last Name!";
+        IsValidate = false;
+      }
+
+      if (!this.curLead.ContactDesignation) {
+        this.err.ContactDesignation = "Please Enter Designation!";
+        IsValidate = false;
+      }
+
+      if (!this.curLead.ContactPhoneNo) {
+        this.err.ContactPhoneNo = "Please Enter Contact Number!";
         IsValidate = false;
       } else {
         const contactNoRegex1 = /^[0-9]{10}$/;
-        if (!contactNoRegex1.test(this.curLead.contactPersonNumber)) {
-          this.err.contactPersonNumber = "Please Enter a valid 10-digit Contact Number!";
+        if (!contactNoRegex1.test(this.curLead.ContactPhoneNo)) {
+          this.err.ContactPhoneNo = "Please Enter a valid 10-digit Contact Number!";
           IsValidate = false;
         }
       }
 
-
-      if (!this.curLead.contactPersonMobileNo) {
-        this.err.contactPersonMobileNo = "Please Enter Mobile Number!";
+      if (!this.curLead.ContactMobile) {
+        this.err.ContactMobile = "Please Enter Mobile Number!";
         IsValidate = false;
       } else {
         const contactNoRegex1 = /^[0-9]{10}$/;
-        if (!contactNoRegex1.test(this.curLead.contactPersonMobileNo)) {
-          this.err.contactPersonMobileNo = "Please Enter a valid 10-digit Mobile Number!";
+        if (!contactNoRegex1.test(this.curLead.ContactMobile)) {
+          this.err.ContactMobile = "Please Enter a valid 10-digit Mobile Number!";
+          IsValidate = false;
+        }
+      }
+
+      if (!this.curLead.ContactEmail) {
+        this.err.ContactEmail = "Please Enter an Email!";
+        IsValidate = false;
+      } else {
+        const EmailRegex = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
+        if (!EmailRegex.test(this.curLead.ContactEmail)) {
+          this.err.ContactEmail = "Please Enter a valid Email address!";
           IsValidate = false;
         }
       }
@@ -456,14 +509,14 @@ export default {
       });
     },
 
-    GetSelectCity(id) {
-      this.curLead.city = id;
+    GetSelectCity(selectItem) {
+      this.curLead.CityId = selectItem.id;
+      this.curLead.City = selectItem.value;
     },
-    GetSelectDistrict(id) {
-      this.curLead.district = id;
-
+    GetSelectDistrict(selectItem) {
+      this.curLead.DistrictId = selectItem.id;
+      this.curLead.District = selectItem.value;
     },
-
   },
 };
 </script>

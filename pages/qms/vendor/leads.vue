@@ -14,12 +14,12 @@
 
     <FilterTab @selected="SetSelectedFilter" :arrFilter="arrFilter" />
 
-    <div v-if="vendorStore.listLeads.length === 0" class="text-center text-gray-900 mt-5 text-sm font-medium">
-      <p>No Leads available...</p>
+    <div v-if="leadStore.listLeads.length === 0" class="text-center text-gray-900 mt-5 text-sm font-medium">
+      <p>No leads available...</p>
     </div>
 
     <div class="flex flex-col gap-5 p-2 mt-2 bg-white border-2 rounded-md shadow-md sm:p-6"
-      v-for="(lead, index) in vendorStore.listLeads" :key="index">
+      v-for="(lead, index) in leadStore.listLeads" :key="index">
 
       <div class="flex justify-start">
         <span
@@ -97,10 +97,9 @@
           </div>
 
           <!-- Editable Fields -->
-
-          <div class="grid grid-cols-1 gap-4 sm:grid-cols-1">
+          <div v-if="userStore.loggedUser.granted?.includes('flo')" class="grid grid-cols-1 gap-4 sm:grid-cols-1">
             <div class="w-full sm:w-1/2">
-              <selectinput2 v-model="lead.status" :cur_item="lead.status" :selections="vendorStore.InitLeads.listStatus"
+              <selectinput2 v-model="lead.status" :cur_item="lead.status" :selections="leadStore.InitLeads.listStatus"
                 :err="err.status" label="Lead Status" />
             </div>
             <div class="w-full sm:w-1/2">
@@ -114,7 +113,7 @@
           </div>
           <!-- {{ lead }} -->
           <!-- Action Buttons -->
-          <div class="flex justify-end pt-2">
+          <div v-if="userStore.loggedUser.granted?.includes('flo')" class="flex justify-end pt-2">
             <LinkBtn
               class="px-5 py-2 text-sm font-medium transition bg-white border-2 rounded-lg shadow text-blue-950 border-blue-950 hover:bg-blue-900 hover:text-white focus:outline-none focus:ring-2 focus:ring-blue-400 dark:bg-blue-500 dark:hover:bg-blue-600"
               variant="primary" label="Update" @click="SetUpdateVendorLead(lead)" />
@@ -123,8 +122,8 @@
       </div>
     </div>
     <AddLeads v-if="isAddLeads" @close="isAddLeads = false" />
-
-    <AddRso v-if="isAddRso" :leadId="selectedLeadId" @close="isAddRso = false; currentRsoLead = null" />
+    <AddRso v-if="isAddRso" :comment="newComment" :leadId="selectedLeadId"
+      @close="isAddRso = false; currentRsoLead = null" />
 
   </section>
 
@@ -134,13 +133,13 @@
 
 import FilterTab from "~/components/customcontrol/FilterTab";
 import { useUserStore } from "~/stores/modules/userStore";
-import { useVendorStore } from "~/stores/modules/qms/vendorStore";
 import SearchComp from "~/components/customcontrol/SearchComp";
 import LinkBtn from "~/components/customcontrol/Link";
 import selectinput2 from "~/components/customcontrol/selectinput2";
 import AddLeads from "~/components/qms/vendor/addLeads";
 import Button from "~/components/customcontrol/Button.vue";
 import AddRso from "~/components/qms/vendor/assignSalesEx.vue"
+import { useLeadStore } from "~/stores/modules/qms/leadStore";
 
 
 definePageMeta({
@@ -156,10 +155,13 @@ export default {
       arrFilter: ["All", "Pending", "Completed", "Cancelled", "Hold", "RSOAssigned"],
       imageroot: "",
       showLoading: null,
+      showAlert: null,
       isAddLeads: false,
       isAddRso: false,
       searchBy: "",
+      keyword: "",
       isMore: false,
+      newComment: "",
       rowIndex: -1,
       err: { status: '', newComment: '' },
       vendorFields: [
@@ -179,37 +181,32 @@ export default {
         { label: "Website", key: "web" },
         { label: "Business Registration Number", key: "contactPhoneNo" },
         { label: "More Details", key: "" },
-        // { label: "BusinessRegNo", key: "businessRegNo" },
         { label: "Contact Person Name", key: "contactPersonFirstName", secondKey: "contactPersonLastname" },
         { label: "Contact Designation", key: "contactDesignation" },
         { label: "Contact Number", key: "contactPhoneNo" },
         { label: "Contact Mobile Number", key: "contactMobile" },
         { label: "Contact Email", key: "contactEmail" },
-
-        // { label: "Contact Person Last name", key: "contactPersonLastname" },
-
         { label: "Status", key: "isActive" },
         { label: "Comment", key: "comment", class: "max-h-[150px] overflow-auto whitespace-pre-wrap break-words" },
-        { label: "newComment", key: "newComment", class: "max-h-[150px] overflow-auto whitespace-pre-wrap break-words" }
       ],
     };
   },
   async mounted() { },
   async created() {
     this.userStore = useUserStore();
-    this.vendorStore = useVendorStore();
+    this.leadStore = useLeadStore();
     this.showLoading = this.$showLoading;
+    this.showAlert = this.$showAlert;
 
-
-    await this.vendorStore.GetInitLeads(
+    await this.leadStore.GetInitLeads(
       this.showLoading
     );
 
-    await this.vendorStore.loadInitVendor(
+    await this.leadStore.loadInitVendor(
       this.showLoading
     );
 
-    await this.vendorStore.loadListLeads(
+    await this.leadStore.loadListLeads(
       { keyword: "", searchBy: this.searchBy },
       this.showLoading
     );
@@ -220,20 +217,33 @@ export default {
   watch: {},
   computed: {},
   methods: {
-    async GetSearch(searchVal) {
-      console.log("keyword: searchVal, searchBy: this.searchBy", searchVal, this.searchBy);
 
-      await this.vendorStore.loadListLeads(
-        { keyword: searchVal, searchBy: this.searchBy },
+    async GetSearch(searchVal) {
+      if (searchVal) {
+        this.keyword = searchVal
+      } else {
+        this.keyword = ""
+      }
+      console.log("keyword, searchBy", searchVal, this.searchBy);
+
+      await this.leadStore.loadListLeads(
+        { keyword: this.keyword, searchBy: this.searchBy },
         this.showLoading
       );
 
+      this.searchBy = "";
+      this.keyword = "";
+
     },
-    SetSelectedFilter(type) {
+
+    async SetSelectedFilter(type) {
       this.searchBy = type;
+      await this.GetSearch();
     },
+
     SetUpdateVendorLead(lead) {
       var request = { Id: lead.id, Comment: lead.newComment, Status: lead.status };
+      this.newComment = lead.newComment;
 
       if (this.IsValidate(lead.newComment, lead.status)) {
         if (lead.status === 'RSOAssigned') {
@@ -248,7 +258,7 @@ export default {
           "warning"
         ).then(async (result) => {
           if (result) {
-            await this.vendorStore.SetUpdateVendorLead(request, this.showLoading);
+            await this.leadStore.SetUpdateVendorLead(request, this.showLoading);
           } else {
             // console.log("Action canceled");
           }
@@ -256,6 +266,7 @@ export default {
       }
 
     },
+
     GoToAddNew() {
       this.isAddLeads = true;
     },

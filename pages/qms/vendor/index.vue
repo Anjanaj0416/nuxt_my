@@ -19,6 +19,10 @@
 
     <FilterTab @selected="SetSelectedFilter" :arrFilter="arrFilter" />
 
+    <div v-if="vendorStore.listVendor.length === 0" class="text-center text-gray-900 mt-5 text-sm font-medium">
+      <p>No vendors available...</p>
+    </div>
+
     <div class="flex flex-col gap-5 p-4 mt-4 bg-white border rounded-lg shadow-sm sm:p-6"
       v-for="(vd, index) in vendorStore.listVendor" :key="index">
       <div class="flex flex-col gap-4 sm:flex-row sm:justify-between sm:items-start">
@@ -51,13 +55,18 @@
       <div class="grid grid-cols-2 gap-2 sm:flex sm:flex-row sm:justify-end sm:gap-4">
         <LinkBtn label="Edit" @click="GoToAddEdit(vd.id)" />
 
+        <LinkBtn label="View Poforma" @click="GoToAddEdit(vd.id)" />
+        <LinkBtn label="View Proposal" @click="GoToAddEdit(vd.id)" />
+
         <LinkBtn v-if="!vd.rsoNo && userStore.loggedUser.granted.includes('vendor_mgt')" label="Assign RSO"
           @click="GoToAssignSalesEx(vd.id)" />
 
-        <LinkBtn label="View Quotations" @click="
+        <LinkBtn label="Delete" @click="GoToAddEdit(vd.id)" />
+
+        <!-- <LinkBtn label="View Quotations" @click="
           vendorStore.curVendor = vd;
         GoToQuotation();
-        " />
+        " /> -->
       </div>
     </div>
 
@@ -81,6 +90,7 @@ import InfoCard from "~/components/qms/vendor/InfoCard.vue";
 
 import { useVendorStore } from "~/stores/modules/qms/vendorStore";
 import { useUserStore } from "~/stores/modules/userStore";
+import { useLeadStore } from "~/stores/modules/qms/leadStore";
 
 definePageMeta({
   layout: "default",
@@ -111,6 +121,7 @@ export default {
       ],
       isAddEdit: false,
       isAssignRso: false,
+      keyword: "",
       listVendor: [],
       curIndex: -1,
       searchBy: "",
@@ -132,25 +143,45 @@ export default {
   async created() {
     this.vendorStore = useVendorStore();
     this.userStore = useUserStore();
+    this.leadStore = useLeadStore();
     this.showLoading = this.$showLoading;
 
     await this.vendorStore.loadListVendors(
       { keyword: "", searchBy: this.searchBy },
       this.showLoading
     );
+
     await this.vendorStore.loadInitVendor(this.showLoading);
     this.imageroot = this.userStore.loggedUser.resourceURLRoot;
   },
+
   methods: {
-    SetSelectedFilter(type) {
+
+    async SetSelectedFilter(type) {
       this.searchBy = type;
+      await this.GetSearch();
     },
 
     async GetSearch(searchVal) {
+      // await this.vendorStore.loadListVendors(
+      //   { keyword: searchVal, searchBy: this.searchBy },
+      //   this.showLoading
+      // );
+
+      if (searchVal) {
+        this.keyword = searchVal
+      } else {
+        this.keyword = ""
+      }
+      console.log("keyword, searchBy", searchVal, this.searchBy);
+
       await this.vendorStore.loadListVendors(
-        { keyword: searchVal, searchBy: this.searchBy },
+        { keyword: this.keyword, searchBy: this.searchBy },
         this.showLoading
       );
+
+      this.searchBy = "";
+      this.keyword = "";
     },
 
     GoToAddNew() {
@@ -162,6 +193,7 @@ export default {
       await this.vendorStore.GetVendorById(id, this.showLoading);
       this.isAddEdit = true;
     },
+
     async GoToAssignSalesEx(id) {
       await this.vendorStore.GetVendorById(id, this.showLoading);
       this.isAssignRso = true;

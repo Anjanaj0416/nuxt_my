@@ -16,7 +16,7 @@
             <div v-if="!showCityForm">
               <div class="grid grid-cols-1 gap-4 sm:grid-cols-1">
                 <div class="w-full sm:w-1/2">
-                  <serach_Input :arrItems="vendorStore.initVendor.listRSOs" ref="rsocomp" label="Sales Exec."
+                  <serach_Input :arrItems="leadStore.initVendor.listRSOs" ref="rsocomp" label="Sales Exec."
                     v-model="rsoNo" @selectItem="SelectAgent" />
                   <div v-if="err.rsoNo" class="mt-1 text-xs text-red-500">
                     {{ err.rsoNo }}
@@ -51,13 +51,13 @@
               <div class="mt-2 mb-4 text-xl font-semibold text-gray-800">Add New City</div>
               <div class="grid grid-cols-1 gap-4 sm:grid-cols-1">
                 <div class="w-full sm:w-1/2">
-                  <selectinput2 v-model="city" :cur_item="city" :selections="filteredCities" label="Select District"
-                    :err="err.city" />
+                  <selectinput2 v-model="city" @changed="onDistrictChange" :selections="getDistricts" :isDistrict="true"
+                    label="Select District" :err="err.city" />
                 </div>
 
                 <div class="w-full sm:w-1/2">
                   <label class="block text-sm font-bold text-gray-600">Enter City</label>
-                  <input type="text" v-model="city" placeholder="Enter City" required
+                  <input type="text" v-model="newCity" placeholder="Enter City" required
                     class="w-full p-2 mt-2 text-sm border rounded-md focus:ring-indigo-500 focus:border-indigo-500" />
                   <div v-if="err.city" class="mt-1 text-xs text-red-500">
                     {{ err.city }}
@@ -80,7 +80,7 @@
       <!-- CITY SECTION Footer -->
       <div class="modal-footer" v-else>
         <button @click="cancelAddCity" class="cancel-button">Cancel</button>
-        <button @click="SaveCity" class="confirm-button">Save City</button>
+        <button @click="SetNewCity" class="confirm-button">Save City</button>
       </div>
 
     </div>
@@ -91,7 +91,7 @@
 import closebtn from "~/components/customcontrol/modal_close_button";
 import serach_Input from "~/components/customcontrol/SearchInput";
 import selectinput2 from "~/components/customcontrol/selectinput2.vue";
-import { useVendorStore } from "~/stores/modules/qms/vendorStore";
+import { useLeadStore } from "~/stores/modules/qms/leadStore";
 
 definePageMeta({ layout: 'default' });
 
@@ -104,10 +104,13 @@ export default {
       showCityForm: false,
       rsoNo: "",
       city: null,
+      newCity: "",
       district: null,
+      selectedDistrictId: null,
       selectedCity: null,
       cities: [],
       showLoading: null,
+      showAlert: null,
       err: {
         rsoNo: "",
         city: "",
@@ -119,13 +122,17 @@ export default {
     leadId: {
       type: [String, Number],
       required: true
+    },
+    comment: {
+      type: [String],
+      required: true
     }
   },
 
   computed: {
     getDistricts() {
       const seen = new Set();
-      return this.vendorStore.InitLeads.listDistrictCities.filter(item => {
+      return this.leadStore.InitLeads.listDistrictCities.filter(item => {
         const key = `${item.districtId}-${item.districtName}`;
         if (!seen.has(key)) {
           seen.add(key);
@@ -141,16 +148,12 @@ export default {
       console.log("district:", this.district);
 
       if (!this.district) return [];
-      return this.vendorStore.InitLeads.listDistrictCities.filter(
+      return this.leadStore.InitLeads.listDistrictCities.filter(
         c => c.districtId == this.district
       ).map(c => ({
         id: c.cityId,
         name: c.cityName
       }));
-    },
-
-    selectedCityObject() {
-      return this.filteredCities.find(city => city.id == this.city);
     },
   },
 
@@ -160,7 +163,7 @@ export default {
 
   //     if (newVal && newVal.id) {
   //       // Filter cities based on selected district
-  //       this.cities = this.vendorStore.InitLeads.listDistrictCities
+  //       this.cities = this.leadStore.InitLeads.listDistrictCities
   //         .filter(c => c.districtId === newVal.id)
   //         .map(c => ({
   //           id: c.cityId,
@@ -175,13 +178,14 @@ export default {
 
   async created() {
     this.showLoading = this.$showLoading;
-    this.vendorStore = useVendorStore();
+    this.showAlert = this.$showAlert;
+    this.leadStore = useLeadStore();
 
-    await this.vendorStore.GetInitLeads(this.showLoading);
+    await this.leadStore.GetInitLeads(this.showLoading);
   },
   methods: {
     SelectAgent(rsoNo) {
-      this.rsoNo = rsoNo;
+      this.rsoNo = rsoNo.id;
     },
     closeModal() {
       this.isOpen = false;
@@ -193,21 +197,46 @@ export default {
     cancelAddCity() {
       this.showCityForm = false;
     },
+
+    async SetNewCity() {
+      let req = {
+        DistrictId: this.selectedDistrictId,
+        CityName: this.newCity
+      }
+
+      console.log("SetNewCity:", req);
+
+      this.$showConfirm(
+        `Are you sure you want to add ${req.CityName}?`,
+        "warning"
+      ).then(async (result) => {
+        if (result.isConfirmed) {
+          await this.leadStore.SetNewCity(req, this.showAlert);
+          this.district = null;
+          this.newCity = null;
+          this.cancelAddCity();
+        } else {
+          this.cancelAddCity();
+        }
+      });
+    },
+
     onDistrictChange(districtObj) {
       console.log("District selected:", districtObj);
       this.selectedCity = ""; // Reset selected city
+      this.selectedDistrictId = districtObj.id; // Reset selected city
     },
     async GetAssignSalesRef() {
       if (this.IsValidate()) {
-        this.vendorStore.curVendor.rsoNo = this.rsoNo;
-        // const req = { Id: this.vendorStore.curVendor.id, RSONo: this.rsoNo };
         const req = {
-          Id: this.vendorStore.curVendor.id || this.leadId,
+          Id: this.leadId,
           RSONo: this.rsoNo,
+          Comment: this.comment,
+          CityId: this.city
         };
-        console.log(JSON.stringify(req, null, 2));
+        console.log("req:", req);
 
-        await this.vendorStore.GetAssignSalesRef(req, this.showLoading);
+        await this.leadStore.GetAssignSalesRef(req, this.showLoading);
         this.closeModal();
       }
     },
