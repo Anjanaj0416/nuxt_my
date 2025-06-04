@@ -19,6 +19,10 @@
 
     <FilterTab @selected="SetSelectedFilter" :arrFilter="arrFilter" />
 
+    <div v-if="vendorStore.listVendor.length === 0" class="text-center text-gray-900 mt-5 text-sm font-medium">
+      <p>No vendors available...</p>
+    </div>
+
     <div class="flex flex-col gap-5 p-4 mt-4 bg-white border rounded-lg shadow-sm sm:p-6"
       v-for="(vd, index) in vendorStore.listVendor" :key="index">
       <div class="flex flex-col gap-4 sm:flex-row sm:justify-between sm:items-start">
@@ -117,6 +121,7 @@ export default {
       ],
       isAddEdit: false,
       isAssignRso: false,
+      keyword: "",
       listVendor: [],
       curIndex: -1,
       searchBy: "",
@@ -151,15 +156,32 @@ export default {
   },
 
   methods: {
-    SetSelectedFilter(type) {
+
+    async SetSelectedFilter(type) {
       this.searchBy = type;
+      await this.GetSearch();
     },
 
     async GetSearch(searchVal) {
+      // await this.vendorStore.loadListVendors(
+      //   { keyword: searchVal, searchBy: this.searchBy },
+      //   this.showLoading
+      // );
+
+      if (searchVal) {
+        this.keyword = searchVal
+      } else {
+        this.keyword = ""
+      }
+      console.log("keyword, searchBy", searchVal, this.searchBy);
+
       await this.vendorStore.loadListVendors(
-        { keyword: searchVal, searchBy: this.searchBy },
+        { keyword: this.keyword, searchBy: this.searchBy },
         this.showLoading
       );
+
+      this.searchBy = "";
+      this.keyword = "";
     },
 
     GoToAddNew() {

@@ -15,7 +15,7 @@
     <FilterTab @selected="SetSelectedFilter" :arrFilter="arrFilter" />
 
     <div v-if="leadStore.listLeads.length === 0" class="text-center text-gray-900 mt-5 text-sm font-medium">
-      <p>No Leads available...</p>
+      <p>No leads available...</p>
     </div>
 
     <div class="flex flex-col gap-5 p-2 mt-2 bg-white border-2 rounded-md shadow-md sm:p-6"

@@ -93,7 +93,7 @@ export const useVendorStore = defineStore("vendorStore", {
         );
         loadingAlert.close();
 
-        console.log("response:",response);
+        console.log("response:",response.data);
         
 
         if (response.data.isSuccess) {
@@ -106,6 +106,9 @@ export const useVendorStore = defineStore("vendorStore", {
           }
           this.showToast(response.data.message, "success");
         } else {
+          if (response.data.data.count == 0) {
+            this.listVendor = [];
+          }
           this.showToast(response.data.message, "error");
         }
       } catch (error) {

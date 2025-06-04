@@ -232,6 +232,7 @@ export default {
           Id: this.leadId,
           RSONo: this.rsoNo,
           Comment: this.comment,
+          CityId: this.city
         };
         console.log("req:", req);
 

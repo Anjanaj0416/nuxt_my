@@ -1,68 +1,3 @@
-<!--
-     <serachInput
-                  :arrItems="alCatItems"
-                  ref="catcomp"
-                  label="Category"
-                  :err="err.categoryid"
-                  v-model="category_id"
-                   @selectItem=""
-                />
-
-          import serachInput from '~/components/customcontrol/serachInput'
-
-           components: { serachInput },
-
-
-          data() {
-            return {
-            alCatItems:[
-            {id:'1',value:'cat1' },
-            {id:'2',value:'cat2' },
-            {id:'3',value:'cat3' },
-            {id:'4',value:'cat4' },
-            ],
-            category_id:4,
-            }    ,
-            err:{
-              categoryid:'',
-            },
-
-          },
-
-       
-         ----###########--------------- 
-         component method call and data assign
-         formValidate -     //this.$refs.catcomp.err = this.err.categoryid
-          setNew.. -  //this.$refs.catcomp.initCategoryItem(-1)
-          setEdit.. -  // this.$refs.catcomp.initItem(inventory.itemid)
-          
-           mounted() {
-            this.$refs.catcomp.initItem(inventory.itemid)
-            },
-           ----###########---------------
-
-         ----########### Index Page value insteed id---------------
-              <td
-                class="p-3 border border-grey-light hover:bg-gray-100"
-              >{{getcategoryName(producttype.categoryid)}}</td>
-
-
-      ----###########--------------
-
-       computed: {  
-    getcategoryName() {
-      return (catid) => {
-        try {
-          return this.alCatItems.filter((item) => {
-            return item.id == catid
-          })[0].value
-        } catch {
-          return ''
-        }
-      }
-    },
- -->
-
 <template>
   <div>
     <label v-if="label" :for="modal ? 'txtSearch' : 'txtItem'" class="block text-sm font-medium text-gray-700">
@@ -151,6 +86,24 @@ export default {
       deep: true,
       immediate: true,
     },
+
+    item_serach(val) {
+      this.active_index = -1;
+      if (val.toLowerCase() == "" || val.toLowerCase() == " ") {
+        this.filtered = this.arrItems;
+      } else {
+        this.filtered = this.arrItems.filter((item) => {
+          for (let text in item) {
+            if (
+              item[text].toString().toLowerCase().indexOf(val.toLowerCase()) >
+              -1
+            ) {
+              return item;
+            }
+          }
+        });
+      }
+    },
   },
   methods: {
     setfocus() {
@@ -199,7 +152,10 @@ export default {
         // this.Item = {id:-1,value:''}
       }
     },
+
     initItem(id) {
+      console.log("initItem:", id);
+
       try {
         this.modal = false;
         if (id == 0) {
@@ -219,25 +175,7 @@ export default {
       }
     },
   },
-  watch: {
-    item_serach(val) {
-      this.active_index = -1;
-      if (val.toLowerCase() == "" || val.toLowerCase() == " ") {
-        this.filtered = this.arrItems;
-      } else {
-        this.filtered = this.arrItems.filter((item) => {
-          for (let text in item) {
-            if (
-              item[text].toString().toLowerCase().indexOf(val.toLowerCase()) >
-              -1
-            ) {
-              return item;
-            }
-          }
-        });
-      }
-    },
-  },
+
   mounted() {
     // Add a global click event listener
     document.addEventListener("click", this.handleClickOutside);
