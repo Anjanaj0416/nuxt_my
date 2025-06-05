@@ -17,6 +17,8 @@ export default defineNuxtPlugin(nuxtApp => {
     });
   });
 
+
+  // Add showAlert globally, available as $showAlert 
   nuxtApp.provide('showAlert', (message, icon = 'success') => {  //success ,error ,warning ,info
     Swal.fire({      
       icon: icon,
