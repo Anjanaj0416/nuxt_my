@@ -61,7 +61,7 @@
         <LinkBtn v-if="!vd.rsoNo && userStore.loggedUser.granted.includes('vendor_mgt')" label="Assign RSO"
           @click="GoToAssignSalesEx(vd.id)" />
 
-        <LinkBtn label="Delete" @click="GoToAddEdit(vd.id)" />
+        <LinkBtn label="Delete" @click="DeleteVendor(vd.id)" />
 
         <!-- <LinkBtn label="View Quotations" @click="
           vendorStore.curVendor = vd;
@@ -132,7 +132,7 @@ export default {
         { label: "Shop Name", key: "shopName" },
         { label: "Shop Contact", key: "shopContactNo" },
         { label: "Email", key: "shopEmail" },
-        { label: "City", key: "cityId" },
+        // { label: "City", key: "cityId" },
         { label: "RSONo", key: "rsoNo" },
         { label: "Status", key: "isActive" },
       ],
@@ -204,7 +204,7 @@ export default {
     },
     DeleteVendor(vendor) {
       if (confirm("Are you sure you want to delete this vendor?")) {
-        this.vendorStore.deleteVendor(vendor);
+        this.vendorStore.DeleteVendor(vendor);
       }
     },
 

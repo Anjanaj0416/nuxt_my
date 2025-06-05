@@ -66,14 +66,14 @@
                 {{ err.shopEmail }}
               </p>
             </div>
-            <div class="">
+            <!-- <div class="">
               <label class="block text-sm font-bold text-gray-600">Contact Number</label>
-              <input type="tel" v-model="curVendor.shopContactNo" placeholder="Enter Contact Number" maxlength="10"
+              <input type="tel" v-model="curVendor.shopMobileNo" placeholder="Enter Contact Number" maxlength="10"
                 class="w-full p-2 mt-2 text-sm border rounded-md focus:ring-indigo-500 focus:border-indigo-500" />
-              <p v-if="err.shopContactNo" class="mt-2 text-sm text-red-600">
-                {{ err.shopContactNo }}
+              <p v-if="err.shopMobileNo" class="mt-2 text-sm text-red-600">
+                {{ err.shopMobileNo }}
               </p>
-            </div>
+            </div> -->
             <div class="">
               <label class="block text-sm font-bold text-gray-600">Address Line 1</label>
               <input type="text" v-model="curVendor.shopAddress1" placeholder="Enter Address Line 1" required
@@ -104,21 +104,39 @@
               <label class="block text-sm font-bold text-gray-600">City</label>
               <serach_Input :arrItems="filteredCities" ref="refCity" label="" v-model="curVendor.cityId"
                 @selectItem="GetSelectCity" />
-
-
-              <p v-if="err.city" class="mt-2 text-sm text-red-600">
-                {{ err.city }}
+              <p v-if="err.cityId" class="mt-2 text-sm text-red-600">
+                {{ err.cityId }}
               </p>
             </div>
             <div class="">
-              <label class="block text-sm font-bold text-gray-600">Description</label>
-              <input type="text" v-model="curVendor.description" placeholder="Enter Description" required
+              <label class="block text-sm font-bold text-gray-600">BR Number</label>
+              <input type="text" v-model="curVendor.BRNumber" placeholder="Enter Business Registration Number" required
                 class="w-full p-2 mt-2 text-sm border rounded-md focus:ring-indigo-500 focus:border-indigo-500" />
-              <p v-if="err.description" class="mt-2 text-sm text-red-600">
-                {{ err.description }}
+              <p v-if="err.BRNumber" class="mt-2 text-sm text-red-600">
+                {{ err.BRNumber }}
               </p>
             </div>
+            <div class="">
+              <label class="block text-sm font-bold text-gray-600">VAT No</label>
+              <input type="text" v-model="curVendor.VATNo" placeholder="Enter VAT Number" required
+                class="w-full p-2 mt-2 text-sm border rounded-md focus:ring-indigo-500 focus:border-indigo-500" />
+              <p v-if="err.VATNo" class="mt-2 text-sm text-red-600">
+                {{ err.VATNo }}
+              </p>
+            </div>
+
           </div>
+
+          <!-- description -->
+          <div class="mt-2">
+            <label class="block text-sm font-bold text-gray-600">Description</label>
+            <input type="text" v-model="curVendor.description" placeholder="Enter Description"
+              class="w-full p-2 mt-2 text-sm border rounded-md focus:ring-indigo-500 focus:border-indigo-500" />
+            <p v-if="err.description" class="mt-2 text-sm text-red-600">
+              {{ err.description }}
+            </p>
+          </div>
+
           <div class="grid grid-cols-2 gap-4 mt-4 sm:grid-cols-2 md:grid-cols-3">
             <!--Vendor Image -->
             <div>
@@ -136,12 +154,12 @@
             <div>
               <label class="block text-sm font-bold text-gray-600">BR</label>
               <div class="relative mt-2">
-                <imagecomp :existing_image_path="imageroot + curVendor.brCopyImage"
+                <imagecomp :existing_image_path="imageroot + curVendor.shopLogo"
                   @deleteExistingImage="curVendor.brCopyImage = ''" @GetSelectedImage="GetSelectedBRCopy"
                   ref="refBRCopy" />
               </div>
-              <p v-if="err.brCopy" class="mt-2 text-sm text-red-600">
-                {{ err.brCopy }}
+              <p v-if="err.brCopyImage" class="mt-2 text-sm text-red-600">
+                {{ err.brCopyImage }}
               </p>
             </div>
           </div>
@@ -167,12 +185,11 @@
               </p>
             </div>
             <div class="">
-              <label class="block text-sm font-bold text-gray-600">Mobile Number</label>
-              <input type="text" v-model="curVendor.ownerMobileNo" :maxlength="10" placeholder="Enter Mobile Number"
-                required
+              <label class="block text-sm font-bold text-gray-600">Date of Birth</label>
+              <input type="date" v-model="curVendor.authorisePersonBDate" required
                 class="w-full p-2 mt-2 text-sm border rounded-md focus:ring-indigo-500 focus:border-indigo-500" />
-              <p v-if="err.ownerMobileNo" class="mt-2 text-sm text-red-600">
-                {{ err.ownerMobileNo }}
+              <p v-if="err.authorisePersonBDate" class="mt-2 text-sm text-red-600">
+                {{ err.authorisePersonBDate }}
               </p>
             </div>
             <div class="">
@@ -216,12 +233,11 @@
               </p>
             </div>
             <div class="">
-              <label class="block text-sm font-bold text-gray-600">Mobile Number</label>
-              <input type="text" v-model="curVendor.personMobileNo" :maxlength="10" placeholder="Enter Mobile Number"
-                required
+              <label class="block text-sm font-bold text-gray-600">Date of Birth</label>
+              <input type="date" v-model="curVendor.shopContactPersonBDate"
                 class="w-full p-2 mt-2 text-sm border rounded-md focus:ring-indigo-500 focus:border-indigo-500" />
-              <p v-if="err.personMobileNo" class="mt-2 text-sm text-red-600">
-                {{ err.personMobileNo }}
+              <p v-if="err.shopContactPersonBDate" class="mt-2 text-sm text-red-600">
+                {{ err.shopContactPersonBDate }}
               </p>
             </div>
             <div class="">
@@ -283,7 +299,7 @@
 
       <div class="modal-footer">
         <button @click="cancel" class="cancel-button">Cancel</button>
-        <button @click="GetSaveVendor" class="confirm-button">
+        <button @click="AddEditVendor" class="confirm-button">
           {{ isEditing ? "Update Vendor" : "Save Vendor" }}
         </button>
       </div>
@@ -314,7 +330,7 @@ export default {
         // Company Details
         shopName: "",
         shopEmail: "",
-        phone: "",
+        shopMobileNo: "",
         shopContactNo: "",
         shopAddress1: "",
         shopAddress2: "",
@@ -323,19 +339,19 @@ export default {
         city: "",
         cityId: "",
         description: "",
-        brCopy: "",
-        brCopyFile: null,
+        brCopyImage: "",
+        // brCopyFile: null,
 
         // Owner Information
         authorisePersonName: "",
-        ownerMobileNo: "",
+        authorisePersonBDate: "",
         authorisePersonPhone: "",
         authorisePersonEmail: "",
 
         // Contact Person
         shopContactPersonName: "",
         shopContactPersonDesignation: "",
-        personMobileNo: "",
+        shopContactPersonBDate: "",
         shopContactPersonPhone: "",
         shopContactPersonEmail: "",
 
@@ -382,17 +398,23 @@ export default {
     },
 
     filteredCities() {
-      if (!this.curVendor.districtId) return [];
-
-      return this.vendorStore.initVendor.listDistrictCities
-        .filter(city => city.districtId === this.curVendor.districtId)
-        .sort((a, b) => a.cityName.localeCompare(b.cityName))
-        .map(city => ({
-          id: city.cityId,
-          value: city.cityName
-        }));
+      if (this.curVendor.districtId) {
+        return this.vendorStore.initVendor.listDistrictCities
+          .filter(city => city.districtId === this.curVendor.districtId)
+          .sort((a, b) => a.cityName.localeCompare(b.cityName))
+          .map(city => ({
+            id: city.cityId,
+            value: city.cityName
+          }));
+      } else {
+        return this.vendorStore.initVendor.listDistrictCities
+          .sort((a, b) => a.cityName.localeCompare(b.cityName))
+          .map(city => ({
+            id: city.cityId,
+            value: city.cityName
+          }));
+      }
     },
-
   },
   async created() {
     this.vendorStore = useVendorStore();
@@ -403,9 +425,15 @@ export default {
     this.showLoading = this.$showLoading;
   },
   mounted() {
-    // console.log("this.curVendor.cityId:", this.curVendor.cityId);
+    if (this.curVendor.shopContactPersonBDate) {
+      this.curVendor.shopContactPersonBDate = this.curVendor.shopContactPersonBDate.substring(0, 10);
+    }
 
-    // this.$refs.refCity.initItem(this.curVendor.cityId);
+    if (this.curVendor.authorisePersonBDate) {
+      this.curVendor.authorisePersonBDate = this.curVendor.authorisePersonBDate.substring(0, 10);
+    }
+
+    this.$refs.refCity.initItem(this.curVendor.cityId);
     // this.$refs.refDistrict.initItem(this.curVendor.district);
   },
   methods: {
@@ -429,16 +457,18 @@ export default {
       this.curVendor.shopCoverImageFile = image;
     },
     GetSelectedBRCopy(image) {
-      this.curVendor.brCopyFile = image;
+      this.curVendor.brCopyImage = image;
     },
 
-    GetSaveVendor() {
+    AddEditVendor() {
+      console.log("AddEditVendor");
+
       if (this.IsValidate()) {
         this.$showConfirm(
-          "Are you sure you want to Save this Vendor?",
+          "Are you sure you want to update this vendor?",
           "warning"
         ).then(async (result) => {
-          if (result) {
+          if (result.isConfirmed) {
             const formData = this.convertToFormData(this.curVendor);
             // Convert to plain object and log it
             const formDataObj = {};
@@ -446,8 +476,8 @@ export default {
               formDataObj[key] = value;
             }
             console.log('Form Data as Object:', formDataObj);
-            return
-            await this.vendorStore.addEditVendor(formData, this.showLoading);
+
+            await this.vendorStore.AddEditVendor(formData, this.showLoading);
             this.closeModal();
           } else {
             console.log("Action canceled");
@@ -468,8 +498,8 @@ export default {
         IsValidate = false;
       }
 
-      if (!this.curVendor.email) {
-        this.err.email = "Please Enter an Email!";
+      if (!this.curVendor.shopEmail) {
+        this.err.shopEmail = "Please Enter an Email!";
         IsValidate = false;
       } else {
         const EmailRegex = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
@@ -479,16 +509,16 @@ export default {
         }
       }
 
-      if (!this.curVendor.phone) {
-        this.err.phone = "Please Enter Phone Number!";
-        IsValidate = false;
-      } else {
-        const contactNoRegex1 = /^[0-9]{10}$/;
-        if (!contactNoRegex1.test(this.curVendor.phone)) {
-          this.err.phonev = "Please Enter a valid 10-digit contact number!";
-          IsValidate = false;
-        }
-      }
+      // if (!this.curVendor.shopMobileNo) {
+      //   this.err.shopMobileNo = "Please Enter Phone Number!";
+      //   IsValidate = false;
+      // } else {
+      //   const contactNoRegex1 = /^[0-9]{10}$/;
+      //   if (!contactNoRegex1.test(this.curVendor.shopMobileNo)) {
+      //     this.err.shopMobileNo = "Please Enter a valid 10-digit contact number!";
+      //     IsValidate = false;
+      //   }
+      // }
 
       if (!this.curVendor.shopContactNo) {
         this.err.shopContactNo = "Please Enter Contact Number!";
@@ -507,22 +537,23 @@ export default {
         IsValidate = false;
       }
 
-      // if (!this.curVendor.district) {
-      //   this.err.district = "Please Enter District!";
-      //   IsValidate = false;
-      // }
-      // if (!this.curVendor.city) {
-      //   this.err.city = "Please Enter City!";
-      //   IsValidate = false;
-      // }
-
-
-      if (!this.curVendor.description?.trim?.()) {
-        this.err.description = "Please Enter Description!";
+      if (!this.curVendor.BRNumber) {
+        this.err.BRNumber = "Please Enter Bussiness Registartion Number!";
         IsValidate = false;
       }
 
-      if (!this.curVendor.brCopy && !this.curVendor.brCopyFile) {
+      if (!this.curVendor.cityId) {
+        this.err.cityId = "Please Enter City!";
+        IsValidate = false;
+      }
+
+
+      // // if (!this.curVendor.description?.trim?.()) {
+      // //   this.err.description = "Please Enter Description!";
+      // //   IsValidate = false;
+      // // }
+
+      if (!this.curVendor.shopLogo) {
         this.err.brCopy = "Please upload a Shop BR!";
         IsValidate = false;
       }
@@ -534,16 +565,16 @@ export default {
         IsValidate = false;
       }
 
-      if (!this.curVendor.ownerMobileNo) {
-        this.err.ownerMobileNo = "Please Enter Owner Mobile Number!";
-        IsValidate = false;
-      } else {
-        const contactNoRegex1 = /^[0-9]{10}$/;
-        if (!contactNoRegex1.test(this.curVendor.ownerMobileNo)) {
-          this.err.ownerMobileNo = "Please Enter a valid 10-digit Mobile Number!";
-          IsValidate = false;
-        }
-      }
+      // if (!this.curVendor.authorisePersonBDate) {
+      //   this.err.authorisePersonBDate = "Please Enter Owner Mobile Number!";
+      //   IsValidate = false;
+      // } else {
+      //   const contactNoRegex1 = /^[0-9]{10}$/;
+      //   if (!contactNoRegex1.test(this.curVendor.authorisePersonBDate)) {
+      //     this.err.authorisePersonBDate = "Please Enter a valid 10-digit Mobile Number!";
+      //     IsValidate = false;
+      //   }
+      // }
 
       if (!this.curVendor.authorisePersonPhone) {
         this.err.authorisePersonPhone = "Please Enter Owner Contact Number!";
@@ -578,15 +609,9 @@ export default {
         IsValidate = false;
       }
 
-      if (!this.curVendor.personMobileNo) {
-        this.err.personMobileNo = "Please Enter Person Mobile Number!";
+      if (!this.curVendor.shopContactPersonBDate) {
+        this.err.shopContactPersonBDate = "Please Enter Person Date Of Birth!";
         IsValidate = false;
-      } else {
-        const contactNoRegex1 = /^[0-9]{10}$/;
-        if (!contactNoRegex1.test(this.curVendor.personMobileNo)) {
-          this.err.personMobileNo = "Please Enter a valid 10-digit Mobile Number!";
-          IsValidate = false;
-        }
       }
 
       if (!this.curVendor.shopContactPersonPhone) {
@@ -633,10 +658,6 @@ export default {
         IsValidate = false;
       }
 
-
-
-
-
       return IsValidate;
     },
 
@@ -667,27 +688,30 @@ export default {
     convertToFormData(formObject) {
       const formData = new FormData();
       formData.append("Id", this.curVendor.id);
-      formData.append("Phone", this.curVendor.phone);
+      // formData.append("shopMobileNo", this.curVendor.shopMobileNo);
       formData.append("shopEmail", this.curVendor.shopEmail);
       formData.append("shopName", this.curVendor.shopName);
       formData.append("ShopContactNo", this.curVendor.shopContactNo);
       formData.append("ShopAddress1", this.curVendor.shopAddress1);
       formData.append("ShopAddress2", this.curVendor.shopAddress2);
-      formData.append("District", this.curVendor.district);
-      formData.append("City", this.curVendor.city);
+      formData.append("CityId", this.curVendor.cityId);
       formData.append("VendorImageFile", this.curVendor.vendorImageFile);
-      formData.append("BRCopyFile", this.curVendor.brCopyFile);
+      formData.append("BRCopyFile", this.curVendor.brCopyImage);
+      formData.append("ShopLogoPath", this.curVendor.shopLogo);
+      formData.append("BRNumber", this.curVendor.BRNumber);
+      formData.append("VATNo", this.curVendor.VATNo);
+      formData.append("Description", this.curVendor.description);
 
       // Contact Person
       formData.append("shopContactPersonName", this.curVendor.shopContactPersonName);
       formData.append("shopContactPersonDesignation", this.curVendor.shopContactPersonDesignation);
-      formData.append("personMobileNo", this.curVendor.personMobileNo);
+      formData.append("shopContactPersonBDate", this.curVendor.shopContactPersonBDate);
       formData.append("shopContactPersonPhone", this.curVendor.shopContactPersonPhone);
       formData.append("shopContactPersonEmail", this.curVendor.shopContactPersonEmail);
 
       // Owner dETAILS
       formData.append("authorisePersonName", this.curVendor.authorisePersonName);
-      formData.append("ownerMobileNo", this.curVendor.ownerMobileNo);
+      formData.append("authorisePersonBDate", this.curVendor.authorisePersonBDate);
       formData.append("authorisePersonPhone", this.curVendor.authorisePersonPhone);
       formData.append("authorisePersonEmail", this.curVendor.authorisePersonEmail);
 
