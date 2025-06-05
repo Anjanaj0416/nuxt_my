@@ -2,7 +2,7 @@
   <section class="fixed top-0 z-10 w-full">
     <div class="flex bg-gray-100">
       <!-- Sidebar -->
-      <Sidebar :isOpen="isSidebarOpen" @close-sidebar="isSidebarOpen = false" />
+      <Sidebar :isOpen="isSidebarOpen" :loggedUser="userStore.loggedUser" @close-sidebar="isSidebarOpen = false" />
 
       <!-- Main Content -->
       <div class="flex flex-col flex-1">

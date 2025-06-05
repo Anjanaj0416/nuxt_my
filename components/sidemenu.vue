@@ -76,7 +76,10 @@
                 <router-link v-else :to="submenu.to"
                   class="block px-3 py-2 text-gray-300 rounded hover:text-white hover:bg-blue-800"
                   @click.native="$emit('close-sidebar')">
-                  {{ submenu.name }}
+           
+                 <span v-if="submenu.name==='Upload Document'"    @click="GetOpenRegistryFtp(submenu.to)">{{ submenu.name }} </span>
+                    <span v-else>{{ submenu.name }}</span>   
+                    
                 </router-link>
               </div>
             </div>
@@ -92,6 +95,7 @@
             <span>{{ link.name }}</span>
           </router-link>
         </div>
+       
       </nav>
     </aside>
   </div>
@@ -102,6 +106,7 @@ import { ref } from "vue";
 
 const props = defineProps({
   isOpen: Boolean,
+  loggedUser:{},
 });
 
 const emit = defineEmits(["close-sidebar"]);
@@ -114,6 +119,14 @@ const toggleSubmenu = (name) => {
   } else {
     openSubmenus.value.push(name);
   }
+};
+
+const GetOpenRegistryFtp=(to)=>{  
+  alert(this.loggedUser.granted.includes('doc_Registry'))
+  // if(this.loggedUser.granted.includes('doc_Registry')){
+  //    window.open(to, '_blank');
+  // }
+  // else {alert('No include')}
 };
 
 const isSubmenuOpen = (name) => openSubmenus.value.includes(name);
@@ -208,6 +221,16 @@ const links = [
         ],
       },
     ],
+  },
+
+  {
+    name: "Document Registry",
+    
+   icon: "M7.732 16.5q.212 0 .356-.144T8.23 16v-5q0-.213-.144-.356q-.144-.144-.357-.144t-.356.144T7.23 11v5q0 .213.144.356t.357.144m3.769 0q.213 0 .356-.144T12 16V8q0-.213-.144-.356t-.357-.144t-.356.144T11 8v8q0 .213.144.356t.357.144m3.769 0q.213 0 .356-.144t.143-.356v-2q0-.213-.144-.356t-.356-.144t-.356.144t-.144.356v2q0 .213.144.356q.144.144.357.144M18 8q-.213 0-.357-.144T17.5 7.5V6H16q-.213 0-.356-.144t-.144-.357t.144-.356T16 5h1.5V3.5q0-.213.144-.356T18.001 3t.356.144t.143.356V5H20q.213 0 .356.144t.144.357t-.144.356T20 6h-1.5v1.5q0 .213-.144.356T17.999 8M5.116 20q-.691 0-1.153-.462T3.5 18.384V5.616q0-.691.463-1.153T5.115 4h8.808q.213 0 .356.144t.144.356v2.962q0 .666.475 1.14t1.14.475H19q.213 0 .356.144t.144.356v8.808q0 .69-.462 1.153T17.884 20z",
+   submenu: [
+          { name: "View Registry", to: "/forms" },
+          { name: "Upload Documents"},
+  ]
   },
 
 ];
