@@ -51,7 +51,6 @@ actions: {
     async loadListLeads(req, showLoading) {
       console.log("loadListLeads:",req);
       
-     
       const loadingAlert = showLoading("");
       try {
         const response = await axios.get(

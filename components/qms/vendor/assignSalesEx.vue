@@ -227,19 +227,29 @@ export default {
       this.selectedDistrictId = districtObj.id; // Reset selected city
     },
     async GetAssignSalesRef() {
-      if (this.IsValidate()) {
-        const req = {
-          Id: this.leadId,
-          RSONo: this.rsoNo,
-          Comment: this.comment,
-          CityId: this.city
-        };
-        console.log("req:", req);
+      const req = {
+        Id: this.leadId,
+        RSONo: this.rsoNo,
+        Comment: this.comment,
+        CityId: this.city
+      };
 
-        await this.leadStore.GetAssignSalesRef(req, this.showLoading);
-        this.closeModal();
+      if (this.IsValidate()) {
+        this.$showConfirm(
+          `Are you sure you want to assign ${req.RSONo}?`,
+          "warning"
+        ).then(async (result) => {
+          if (result.isConfirmed) {
+            console.log("req:", req);
+            await this.leadStore.GetAssignSalesRef(req, this.showLoading);
+            this.closeModal();
+          } else {
+            this.closeModal();
+          }
+        });
       }
     },
+
     IsValidate() {
       let isValid = true;
 

@@ -39,7 +39,8 @@ export const useVendorStore = defineStore("vendorStore", {
   },
 
     //addEditVendor
-    async addEditVendor(formData, showLoading) {
+    async AddEditVendor(formData, showLoading) {
+      const loadingAlert = showLoading("");
       try {
         const response = await axios.post(
           `${import.meta.env.VITE_API_URL}/qms/Vendor/AddEditVendor`,
@@ -51,16 +52,18 @@ export const useVendorStore = defineStore("vendorStore", {
           }
         );
 
+        loadingAlert.close();
+
         if (response.data.isSuccess) {         
-          this.showToast(response.data.message);       
-       
-          this.listVendor = response.data.data.data;
+          this.showToast(response.data.message,"success");       
+          // this.listVendor = response.data.data.data;
         
         } else {
-          this.showToast(response.data.message, "error");
+          console.error("error:",response.data.message)
+          // this.showToast(response.data.message, "error");
         }
       } catch (error) {
-        // console.error(error)
+        console.error("error:",error)
         this.showToast('Error in server call', "error");
        }
     },
@@ -109,6 +112,26 @@ export const useVendorStore = defineStore("vendorStore", {
           if (response.data.data.count == 0) {
             this.listVendor = [];
           }
+          this.showToast(response.data.message, "error");
+        }
+      } catch (error) {
+        this.showToast(error.message, "error");
+      }
+    },
+
+    //DeleteVendor
+    async DeleteVendor(req, showLoading) {
+      const loadingAlert = showLoading("");
+      try {
+        const response = await axios.get(
+          `${import.meta.env.VITE_API_URL}/qms/Vendor/Delete?id=${req.id}`
+        );
+        loadingAlert.close();
+        console.log("response:",response.data);
+        if (response.data.isSuccess) {
+          await this.loadListVendors();
+            // this.showToast(response.data.message, "error");
+        } else {
           this.showToast(response.data.message, "error");
         }
       } catch (error) {
