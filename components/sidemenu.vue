@@ -121,11 +121,11 @@ const toggleSubmenu = (name) => {
   }
 };
 
-const GetOpenRegistryFtp=(to)=>{  
-  alert(this.loggedUser.granted.includes('doc_Registry'))
-  // if(this.loggedUser.granted.includes('doc_Registry')){
-  //    window.open(to, '_blank');
-  // }
+const GetOpenRegistryFtp=()=>{  
+ // alert(this.loggedUser.granted.includes('doc_Registry'))
+  if(this.loggedUser.granted.includes('doc_Registry')){
+     window.open('ftp://149.102.129.195/documentregistry', '_blank');
+  }
   // else {alert('No include')}
 };
 
