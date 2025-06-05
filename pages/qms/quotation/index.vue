@@ -1,7 +1,7 @@
 <template>
 
 <section class="justify-center min-h-screen px-4 mt-24 mb-20 lg:px-80">
-    <div class="text-2xl uppercase">Quotations</div>
+    <div class="text-2xl uppercase">Proforma</div>
     <div
       class="flex flex-col items-center justify-between mt-2 mb-8 md:flex-row"
     >
@@ -21,7 +21,7 @@
     </div>
 
       <FilterTab @selected="SetSelectedFilter" :arrFilter="arrFilter" />
-{{ listQuotation }}
+      {{ listQuotation }}
       <div
         class="flex flex-col gap-5 p-2 mt-2 bg-white border-2 rounded-md shadow-md sm:p-6"
         v-for="(qItem, index) in quotationStore.listQuotation"
@@ -191,12 +191,16 @@ export default {
    
     // await this.quotationStore.loadInitQuotation(this.showLoading);
     // this.imageroot = this.quotationStore.initQuotation.baseUrl;
-   
 
  
   },
   methods: {   
 
+    GoToAddNew() {
+      if (this.quotation.isVerion === '') {
+        this.isAddEdit = true;
+      }
+    },
     GoToAddNew() {
       this.quotationStore.ResetQuotation();
       this.isAddEdit = true;

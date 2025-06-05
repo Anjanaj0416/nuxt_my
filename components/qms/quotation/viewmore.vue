@@ -3,7 +3,7 @@
     <div class="modal" >
       <!-- Modal Header -->
       <div class="modal-header">
-        <h2 class="modal-title">Quotation Details - View More..</h2>
+        <h2 class="modal-title">Proforma Details - View More..</h2>
         <!-- <button @click="closeModal" class="absolute z-50 p-2 text-white rounded-md  close-button">&times;</button> -->
         <closebtn @close="closeModal()" />
       </div>
@@ -13,125 +13,132 @@
         <div class="form-content">
           <div>
             <h3 class="font-bold">
-              Quotaion Details -
+              Proforma Details -
               {{ quotationStore.curQuotation.rootQuotationNo }}
             </h3>
 
             <!-- start qcards -->
             <div
-              class="flex flex-col gap-5 p-2 mt-2 bg-white border-2 rounded-md shadow-md sm:p-6"
-              v-for="(qItem, index) in quotationStore.listQuotationVerions"
-              :key="index"
-            >
+    v-for="(qItem, index) in quotationStore.listQuotationVerions"
+    :key="index"
+    class="relative flex flex-col gap-4 rounded-xl border border-gray-200 bg-gradient-to-br from-white via-gray-50 to-gray-100 shadow-sm hover:shadow-md transition duration-300 p-4 sm:p-6 mb-4"
+  >
+    <!-- Top row: basic info -->
+    <div class="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3">
+      <div class="flex flex-col sm:flex-row sm:items-center gap-2 text-center sm:text-left">
+        <!-- Proforma No -->
+        <div>
+          <h2 class="text-xs font-medium text-gray-500">Proforma No.</h2>
+          <p class="text-sm font-bold text-blue-700">{{ qItem.quotationNo }}</p>
+        </div>
+        <div class="hidden sm:block w-px h-6 bg-gray-300"></div>
 
-              <div class="flex flex-col justify-between sm:flex-row">
-                <!-- Section 1 -->
-                <div class="flex flex-col text-center sm:text-left">
-                  <h1 class="text-base font-semibold text-gray-700">
-                    Quotation No.
-                  </h1>
-                  <p class="text-md text-blue-500">{{ qItem.quotationNo }}</p>
-                </div>
-                <hr class="block w-full border-gray-300 sm:hidden" />
-                <div class="hidden w-px h-12 bg-gray-300 sm:block"></div>
+        <!-- Company -->
+        <div>
+          <h2 class="text-xs font-medium text-gray-500">Company</h2>
+          <p class="text-sm font-semibold text-gray-700">{{ qItem.vendor }}</p>
+        </div>
+        <div class="hidden sm:block w-px h-6 bg-gray-300"></div>
 
-                <!-- Section 2 -->
-                <div class="flex flex-col text-center sm:text-left">
-                  <h1 class="text-base font-semibold text-gray-700">Company</h1>
-                  <p class="text-sm text-gray-500">{{ qItem.vendor }}</p>
-                </div>
-                <hr class="block w-full border-gray-300 sm:hidden" />
-                <div class="hidden w-px h-12 bg-gray-300 sm:block"></div>
+        <!-- Total -->
+        <div>
+          <h2 class="text-xs font-medium text-gray-500">Total</h2>
+          <p class="text-sm font-semibold text-green-600">Rs. {{ qItem.qutationValue }}</p>
+        </div>
+        <div class="hidden sm:block w-px h-6 bg-gray-300"></div>
 
-                <!-- Section 5 -->
-                <div class="flex flex-col text-center sm:text-left">
-                  <h1 class="text-base font-semibold text-gray-700">Total</h1>
-                  <p class="text-sm font-bold text-gray-500">
-                    Rs.{{ qItem.qutationValue }}
-                  </p>
-                </div>
-                <hr class="block w-full border-gray-300 sm:hidden" />
-                <div class="hidden w-px h-12 bg-gray-300 sm:block"></div>
+        <!-- Status -->
+        <div>
+          <h2 class="text-xs font-medium text-gray-500">Status</h2>
+          <span
+            :class="{
+              'bg-green-100 text-green-700': qItem.status === 'Approved',
+              'bg-yellow-100 text-yellow-700': qItem.status !== 'Approved'
+            }"
+            class="px-2 py-0.5 rounded-full text-xs font-medium"
+          >
+            {{ qItem.status }}
+          </span>
+        </div>
+      </div>
+    </div>
 
-                <!-- Section 7 -->
-                <div class="flex flex-col text-center sm:text-left">
-                  <h1 class="text-base font-semibold text-gray-700">Status</h1>
-                  <span
-                    class="bg-green-100 text-green-800 text-xs font-medium me-2 px-2.5 py-0.5 rounded-full dark:bg-green-900 dark:text-green-300"
-                  >
-                    {{ qItem.status }}
-                  </span>
-                </div>
-              </div>
+    <!-- Sales Exec -->
+    <p class="text-xs text-red-500">Sales Exec.: {{ qItem.salesExec }}</p>
 
-              <div class="text-red-400 -my-4">
-                Sales Exec. : {{ qItem.salesExec }}
-              </div>
+    <!-- Items -->
+    <div class="text-xs text-gray-600 flex flex-wrap gap-1">
+      <span class="font-medium text-gray-700">Items:</span>
+      <span
+        v-for="(qProduct, idx) in qItem.items"
+        :key="idx"
+        class="bg-gray-200 rounded-full px-2 py-0.5 text-xs"
+      >
+        {{ qProduct }}
+      </span>
+    </div>
 
-              <div class="text-green-500">
-                <span class="uppercase text-black">Items -> </span>
-                <span v-for="(qProduct, index) in qItem.items" :key="index">
-                  <div>{{ qProduct }}</div>
-                </span>
-              </div>
+    <!-- Buttons -->
+    <div class="flex flex-wrap justify-end gap-2 mt-2 relative">
+      <!-- Approval Image Badge -->
+      <ImageLable
+        v-show="qItem.status === 'Approved'"
+        :imageUrl="imageroot + qItem.approvedMemo"
+        alt="Quotation Approval"
+        title="Quotation Approval"
+        class="absolute -top-3 -left-3 w-8 h-8 rounded-full border border-gray-300"
+      />
 
-              <div class="flex gap-x-4 -my-4">
-                <!-- Button Group -->
+      <!-- Edit -->
+      <LinkBtn
+        label="Edit"
+        @click="GoToVEditQuotation(qItem.id)"
+        class="bg-indigo-500 text-white text-xs px-3 py-1 rounded hover:bg-indigo-600 transition"
+      />
 
-                <div class="grid grid-cols-2 gap-2 sm:flex sm:flex-row sm:justify-end">
-                  <LinkBtn label="Edit" @click="GoToVEditQuotation(qItem.id)" />
-                </div>
+      <!-- Approve -->
+      <LinkBtn
+        v-show="qItem.status !== 'Approved'"
+        label="Approve"
+        @click="
+          quotationStore.curQuotation = qItem;
+          GoToApprove(qItem.id);
+        "
+        class="bg-green-500 text-white text-xs px-3 py-1 rounded hover:bg-green-600 transition"
+      />
 
-                <div class="grid grid-cols-2 gap-2 sm:flex sm:flex-row sm:justify-end">
-                  <LinkBtn
-                    v-show="qItem.status !== 'Approved'"
-                    label="Approve"
-                    @click="
-                      quotationStore.curQuotation = qItem;
-                      GoToApprove(qItem.id);
-                    "
-                  />
+      <!-- View Quotation -->
+      <LinkBtn
+        label="View Quotation"
+        @click="
+          quotationStore.curQuotation = qItem;
+          GoToViewQuotation(qItem.id);
+        "
+        class="bg-gray-500 text-white text-xs px-3 py-1 rounded hover:bg-gray-600 transition"
+      />
 
-                  <ImageLable   v-show="qItem.status === 'Approved'" :imageUrl="imageroot+qItem.approvedMemo"  alt="Quotation Approval" title="Quotation Approval"  /> 
-                </div>
+      <!-- View Invoice -->
+      <LinkBtn
+        v-show="qItem.status === 'Approved'"
+        label="View Invoice"
+        @click="
+          quotationStore.curQuotation = qItem;
+          GoToViewInvoice(qItem.id);
+        "
+        class="bg-purple-500 text-white text-xs px-3 py-1 rounded hover:bg-purple-600 transition"
+      />
 
-                <div
-                  class="grid grid-cols-2 gap-2 sm:flex sm:flex-row sm:justify-end"
-                >
-                  <LinkBtn
-                    label="View Quotation"
-                    @click="
-                      quotationStore.curQuotation = qItem;
-                      GoToViewQuotation(qItem.id);
-                    "
-                  />
-                </div>
-
-                <div
-                  class="grid grid-cols-2 gap-2 sm:flex sm:flex-row sm:justify-end"
-                  v-show="qItem.status === 'Approved'"
-                >
-                  <LinkBtn
-                    label="View Invoice"
-                    @click="
-                      quotationStore.curQuotation = qItem;
-                      GoToViewInvoice(qItem.id);
-                    "
-                  />
-                </div>
-                <div
-                  class="grid grid-cols-2 gap-2 sm:flex sm:flex-row sm:justify-end"
-                >
-                  <LinkBtn
-                    label="Delete Quotation"
-                    @click="
-                      quotationStore.curQuotation = qItem;
-                      DeleteQuotationVersion(qItem.id);
-                    "
-                  />
-                </div>
-              </div>
-            </div>
+      <!-- Delete Quotation -->
+      <LinkBtn
+        label="Delete"
+        @click="
+          quotationStore.curQuotation = qItem;
+          DeleteQuotationVersion(qItem.id);
+        "
+        class="bg-red-500 text-white text-xs px-3 py-1 rounded hover:bg-red-600 transition"
+      />
+    </div>
+  </div>
 
             <!-- end qcards -->
           </div>
