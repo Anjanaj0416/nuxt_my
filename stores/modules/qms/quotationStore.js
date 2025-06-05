@@ -9,10 +9,12 @@ export const useQuotationStore = defineStore("QuotationStore", {
     listQuotation: [],
     listQuotationVerions: [],
     curQuotation: {},
-    editQuotation:{},
     initQuotation: [],
     testParam: { id: 21 },
     quotation:{},
+
+    // curQuotation: {},
+
     
   }),
 
@@ -263,11 +265,11 @@ export const useQuotationStore = defineStore("QuotationStore", {
 
         if (response.data.isSuccess) {
           this.showToast(response.data.message, "success");
-          console.log("Success data:", response.data.data.data);
+          // console.log("Success data:", response.data.data.data);
           const { quotationUrl_WithLetterHead, quotationUrl_WithOutLetterHead } = response.data.data.data;
           // Open in a new tabs
-          window.open(quotationUrl_WithLetterHead, "_blank");
-          window.open(quotationUrl_WithOutLetterHead, "_blank");
+          window.open(quotationUrl_WithLetterHead, "_blank", "noopener,noreferrer");
+          window.open(quotationUrl_WithOutLetterHead, "_blank", "noopener,noreferrer");
 
         } else {
           this.showToast(response.data.message, "error");
@@ -286,7 +288,7 @@ export const useQuotationStore = defineStore("QuotationStore", {
       }
     },
 
-  // Update Quotation
+  // Update Quotation ID
   async GetEditQuotationById(id, showLoading) {
     console.log("qID", id);
 
@@ -304,7 +306,7 @@ export const useQuotationStore = defineStore("QuotationStore", {
         console.log("Fetched Quotation Data:", quotationData);
 
         // Assign to editQuotation
-        this.editQuotation = quotationData;
+        this.quotation = quotationData;
 
       } else {
         this.showToast(response.data.message, "error");
