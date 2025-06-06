@@ -1,5 +1,5 @@
 <template>
-  <section class="justify-center min-h-screen px-4 mt-24 mb-20 lg:px-80">
+  <section class="justify-center min-h-screen px-4 mt-24 mb-20 lg:px-60">
     <div class="text-2xl uppercase">Merchant Leads</div>
     <div class="flex flex-col items-center justify-between mt-2 mb-8 md:flex-row">
       <div class="w-full mb-4 md:mb-0">
@@ -18,38 +18,40 @@
       <p>No leads available...</p>
     </div>
 
-    <div class="flex flex-col gap-5 p-2 mt-2 bg-white border-2 rounded-md shadow-md sm:p-6"
+    <div class="flex flex-col gap-2 p-1 mt-1 bg-white border-2 rounded-md shadow-md sm:p-3"
       v-for="(lead, index) in leadStore.listLeads" :key="index">
+
 
       <div class="flex justify-start">
         <span
-          class="inline-block px-3 py-1 text-sm font-semibold text-blue-800 bg-blue-100 rounded-full dark:bg-blue-900 dark:text-blue-300">
+          class="inline-block px-1 py-0.5 text-[9px] font-medium text-blue-800 bg-blue-100 rounded-full">
           {{ lead.noofDaysPending }} Days Pending
         </span>
+
       </div>
 
 
       <div class="grid grid-cols-2 gap-4 sm:flex sm:flex-row sm:justify-between">
         <div class="flex flex-col text-center sm:text-left" v-for="(field, idx) in vendorFields" :key="idx">
-          <h1 class="text-base font-semibold text-gray-700">
+          <h1 class="text-xs font-medium text-gray-600">
             {{ field.label }}
           </h1>
 
           <!-- Conditional rendering -->
           <template v-if="field.key === 'status'">
             <span :class="{
-              'bg-green-100 text-green-800 dark:bg-green-900 dark:text-green-300': lead.status === 'RSOAssigned',
-              'bg-yellow-100 text-yellow-800 dark:bg-yellow-900 dark:text-yellow-300': lead.status === 'Pending',
-              'bg-red-100 text-red-800 dark:bg-red-900 dark:text-red-300': lead.status === 'Cancelled',
-              'bg-orange-100 text-orange-800 dark:bg-orange-900 dark:text-orange-300': lead.status === 'Hold',
-              'bg-teal-100 text-teal-800 dark:bg-teal-900 dark:text-teal-300': lead.status === 'Completed',
+              'bg-green-100 text-green-800 ': lead.status === 'RSOAssigned',
+              'bg-yellow-100 text-yellow-800 ': lead.status === 'Pending',
+              'bg-red-100 text-red-800 ': lead.status === 'Cancelled',
+              'bg-orange-100 text-orange-800 ': lead.status === 'Hold',
+              'bg-teal-100 text-teal-800 ': lead.status === 'Completed',
               // 'bg-pink-100 text-pink-800 dark:bg-pink-900 dark:text-pink-300': lead.status === 'Rejected'
             }" class="text-xs font-medium me-2 px-2.5 py-0.5 rounded-full">
               {{ lead.status || 'Unknown' }}
             </span>
           </template>
           <template v-else>
-            <p class="text-sm text-gray-500">
+            <p class="text-xs text-gray-700 mt-0.5">
               {{ lead[field.key] }} {{ field.secondKey ? lead[field.secondKey] : "" }}
             </p>
           </template>
@@ -59,9 +61,9 @@
       </div>
 
       <!-- Expandable More Section -->
-      <div class="flex flex-col items-center gap-2 mt-2 mb-4 sm:flex-row sm:justify-end sm:mb-9 sm:mt-1 sm:-my-6">
+      <div class="flex flex-col items-center gap-1 mt-1 mb-2 sm:flex-row sm:justify-end sm:mb-0 sm:mt-0 sm:-my-3">
         <LinkBtn :label="isMore && rowIndex === index ? 'Less' : 'More'"
-          class="text-black dark:bg-transparent dark:text-blue-900 dark:hover:bg-transparent"
+          class="text-black dark:bg-transparent text-xs font-medium dark:text-blue-900 "
           @click="isMore = !isMore; rowIndex = index" />
       </div>
 
@@ -77,11 +79,11 @@
 
               <template v-if="field.key === 'isActive'">
                 <span :class="{
-                  'bg-green-100 text-green-800 dark:bg-green-900 dark:text-green-300':
+                  'bg-green-100 text-green-800 ':
                     lead.isActive === true,
-                  'bg-red-100 text-red-800 dark:bg-red-900 dark:text-red-300':
+                  'bg-red-100 text-red-800 ':
                     lead.isActive === false,
-                  'bg-gray-100 text-gray-800 dark:bg-gray-900 dark:text-gray-300':
+                  'bg-gray-100 text-gray-800':
                     lead.isActive === undefined,
                 }" class="inline-block px-3 py-1 mt-1 text-xs font-medium rounded-full">
                   {{ lead.isActive === true ? 'Active' : 'InActive' || 'Unknown' }}
@@ -115,8 +117,8 @@
           <!-- Action Buttons -->
           <div v-if="userStore.loggedUser.granted?.includes('flo')" class="flex justify-end pt-2">
             <LinkBtn
-              class="px-5 py-2 text-sm font-medium transition bg-white border-2 rounded-lg shadow text-blue-950 border-blue-950 hover:bg-blue-900 hover:text-white focus:outline-none focus:ring-2 focus:ring-blue-400 dark:bg-blue-500 dark:hover:bg-blue-600"
-              variant="primary" label="Update" @click="SetUpdateVendorLead(lead)" />
+              class="px-5 py-2 text-sm font-medium transition bg-white border-2 rounded-lg shadow text-blue-950 border-blue-950 hover:bg-blue-900 hover:text-white focus:outline-none focus:ring-2 focus:ring-blue-400 "
+              variant="primary" label="Next" @click="SetUpdateVendorLead(lead)" />
           </div>
         </section>
       </div>
@@ -152,7 +154,7 @@ export default {
   props: [""],
   data() {
     return {
-      arrFilter: ["All", "Pending", "Completed", "Cancelled", "Hold", "RSOAssigned"],
+      arrFilter: ["All", "Pending", "Completed", "Cancelled", "Hold", "CSO Assigned"],
       imageroot: "",
       showLoading: null,
       showAlert: null,

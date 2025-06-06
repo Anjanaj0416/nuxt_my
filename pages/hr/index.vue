@@ -40,10 +40,24 @@
       </div>
     </div>
 
+    
+
 
     <!-- End  Top Header -->
 
     <div class="px-2 mt-4 lg:px-12">
+      <div class="text-2xl uppercase">Employee</div>
+      <div class="flex flex-col items-center justify-between mt-2 mb-8 md:flex-row">
+        <div class="w-full mb-4 md:mb-0">
+          <div class="mr-2">
+            <Button class="w-24" label="New" variant="primary" @click="GoToAddNew" />
+
+          </div>
+        </div>
+        <div class="w-full md:w-auto">
+          <SearchComp @DoSearch="GetSearch" />
+        </div>
+      </div>
       <div class="csscontent">
         <div
           class="grid grid-cols-1 gap-2 py-1 font-bold text-center text-white border border-gray-300 bg-blue-950 cssheader lg:grid-cols-8 rounded-t-md">
@@ -311,6 +325,10 @@
       </div>
       <!-- End Employee Update   -->
     </div>
+
+    <AddEdit v-if="isAddEdit" @close="isAddEdit = false" />
+
+
   </section>
 </template>
 
@@ -344,6 +362,10 @@ import empupdate from '~/components/hr/empupdate'
 import Ot_apply_list from '~/components/hr/ot_apply_list.vue'
 
 import timecarddetails from '~/components/hr/timecarddetails.vue'
+import Button from "~/components/customcontrol/Button";
+import SearchComp from "~/components/customcontrol/SearchComp";
+import AddEdit from "~/components/hr/addEditEmp.vue"
+
 
 
 definePageMeta({
@@ -368,6 +390,9 @@ export default {
     Ot_apply_list,
     timecarddetails,
     special_work_arrangement,
+    Button,
+    SearchComp,
+    AddEdit,
   },
   data() {
     return {
@@ -395,6 +420,7 @@ export default {
       isLoading: false,
       showLoading: null,
       hrStore: null,
+      isAddEdit: false,
     }
   },
 
@@ -447,6 +473,11 @@ export default {
       await this.hrStore.clearAll();
 
     },
+
+    GoToAddNew() {
+  this.isAddEdit = true;
+},
+
     exitpopup() {
       this.cur_sec = ''
     },

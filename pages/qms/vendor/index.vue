@@ -1,17 +1,19 @@
 <template>
-  <section class="justify-center min-h-screen px-4 mt-24 mb-20 lg:px-80">
+  <!-- <section class="justify-center min-h-screen px-4 mt-24 mb-20 lg:px-80"> -->
+  <section class="justify-center min-h-screen px-4 mt-24 mb-20 lg:px-60">
+
     <div class="text-2xl uppercase">Vendors</div>
     <div class="flex flex-col items-center justify-between mt-2 mb-8 md:flex-row">
-      <!-- <div class="w-full mb-4 md:mb-0">
-        <div class="mr-2">
+      <div class="w-full mb-4 md:mb-0">
+        <!-- <div class="mr-2">
           <Button
             class="w-24"
             label="New"
             variant="primary"
             @click="GoToAddNew"
           />
-        </div>
-      </div> -->
+        </div> -->
+      </div>
       <div class="w-full md:w-auto">
         <SearchComp @DoSearch="GetSearch" />
       </div>
