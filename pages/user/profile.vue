@@ -142,8 +142,8 @@ export default {
 
   },
   methods: {
-    SelectAgent(rsoNo) {
-      this.rsoNo = rsoNo;
+    SelectAgent(csoNo) {
+      this.csoNo = csoNo;
     },
 
     closeModal() {
