@@ -1,6 +1,6 @@
 <template>
 
-<section class="justify-center min-h-screen px-4 mt-24 mb-20 lg:px-80">
+<section class="justify-center min-h-screen px-4 mt-24 mb-20 lg:px-60">
     <div class="text-2xl uppercase">Proforma</div>
     <div
       class="flex flex-col items-center justify-between mt-2 mb-8 md:flex-row"
@@ -23,106 +23,94 @@
       <FilterTab @selected="SetSelectedFilter" :arrFilter="arrFilter" />
       {{ listQuotation }}
       <div
-        class="flex flex-col gap-5 p-2 mt-2 bg-white border-2 rounded-md shadow-md sm:p-6"
+        class="flex flex-col gap-3 p-3 mt-2 bg-white border border-gray-200 rounded-lg shadow-sm hover:shadow-md transition-shadow sm:p-4"
         v-for="(qItem, index) in quotationStore.listQuotation"
         :key="index"
       >
-        <div class="flex flex-col justify-between sm:flex-row">
-          <!-- Section 1 -->
+        <!-- Top section: Details -->
+        <div class="flex flex-col sm:flex-row sm:justify-between sm:items-center gap-2">
           <div class="flex flex-col text-center sm:text-left">
-            <h1 class="text-base font-semibold text-gray-700">Quotation No.</h1>
-            <p class="text-blue-500 text-md">{{ qItem.quotationNo }}</p>
+            <h1 class="text-xs font-medium text-gray-600">Quotation No.</h1>
+            <p class="text-sm font-semibold text-blue-600">{{ qItem.quotationNo }}</p>
           </div>
-          <hr class="block w-full border-gray-300 sm:hidden" />
-          <div class="hidden w-px h-12 bg-gray-300 sm:block"></div>
+          <div class="hidden sm:block w-px bg-gray-300 h-8"></div>
 
-          <!-- Section 2 -->
           <div class="flex flex-col text-center sm:text-left">
-            <h1 class="text-base font-semibold text-gray-700">Company</h1>
-            <p class="text-sm text-gray-500">{{ qItem.vendor }}</p>
+            <h1 class="text-xs font-medium text-gray-600">Company</h1>
+            <p class="text-sm text-gray-700">{{ qItem.vendor }}</p>
           </div>
-          <hr class="block w-full border-gray-300 sm:hidden" />
-          <div class="hidden w-px h-12 bg-gray-300 sm:block"></div>
+          <div class="hidden sm:block w-px bg-gray-300 h-8"></div>
 
-          <!-- Section 5 -->
           <div class="flex flex-col text-center sm:text-left">
-            <h1 class="text-base font-semibold text-gray-700">Total</h1>
-            <p class="text-sm font-bold text-gray-500">
-              Rs.{{ qItem.qutationValue }}
-            </p>
+            <h1 class="text-xs font-medium text-gray-600">Total</h1>
+            <p class="text-sm font-semibold text-gray-800">Rs.{{ qItem.qutationValue }}</p>
           </div>
-          <hr class="block w-full border-gray-300 sm:hidden" />
-          <div class="hidden w-px h-12 bg-gray-300 sm:block"></div>
+          <div class="hidden sm:block w-px bg-gray-300 h-8"></div>
 
-          <!-- Section 7 -->
           <div class="flex flex-col text-center sm:text-left">
-            <h1 class="text-base font-semibold text-gray-700">Status</h1>
+            <h1 class="text-xs font-medium text-gray-600">Status</h1>
             <span
-              class="bg-green-100 text-green-800 text-xs font-medium me-2 px-2.5 py-0.5 rounded-full dark:bg-green-900 dark:text-green-300"
+              :class="{
+                'bg-green-100 text-green-700': qItem.status === 'Approved',
+                'bg-yellow-100 text-yellow-700': qItem.status === 'Pending',
+                'bg-red-100 text-red-700': qItem.status === 'Rejected'
+              }"
+              class="text-xs font-semibold px-2 py-0.5 rounded-full"
             >
               {{ qItem.status }}
             </span>
           </div>
         </div>
 
-        <div class="-my-4 text-red-400">
-          Sales Exec. : {{ qItem.salesExec }}
+        <!-- Sales Exec -->
+        <div class="text-xs text-red-500 font-medium">
+          Sales Exec: <span class="text-gray-700">{{ qItem.salesExec }}</span>
         </div>
 
-        <div class="text-green-500">
-          <span class="text-black uppercase">Items -> </span>
-          <span v-for="(qProduct, index) in qItem.items" :key="index">
-            <div>{{ qProduct }}</div>
-          </span>
+        <!-- Items list -->
+        <div class="text-xs text-gray-700">
+          <span class="font-medium uppercase text-gray-800">Items:</span>
+          <ul class="list-disc list-inside ml-2">
+            <li v-for="(qProduct, index) in qItem.items" :key="index">{{ qProduct }}</li>
+          </ul>
         </div>
 
-        <div class="flex -my-4 gap-x-4">
-          <!-- Button Group -->
-
-          <div
-            class="relative grid grid-cols-2 gap-2 sm:flex sm:flex-row sm:justify-end"
-          >
+        <!-- Button group -->
+        <div class="flex flex-wrap justify-end gap-1 mt-1">
+          <div class="relative">
             <span
-              class="absolute top-0 left-0 px-2 text-white bg-blue-500 rounded-full"
-              >{{ qItem.noOfVersions }}</span
+              class="absolute -top-2 -right-2 bg-blue-500 text-white text-xs font-bold rounded-full px-1"
             >
+              {{ qItem.noOfVersions }}
+            </span>
             <LinkBtn
-              label="View Quo. Versions"
-              class="ml-3"
+              label="View Versions"
+              class="text-xs font-medium"
               @click="
                 quotationStore.curQuotation = qItem;
                 GoToViewAllQuoVer(qItem.id);
               "
             />
           </div>
-
-          <div
-            class="grid grid-cols-2 gap-2 sm:flex sm:flex-row sm:justify-end"
-          >
-            <LinkBtn
-              label="View Quotation"
-              @click="
-                quotationStore.curQuotation = qItem;
-                GoToViewQuotation(qItem.id);
-              "
-            />
-          </div>
-
-          <div
-            class="grid grid-cols-2 gap-2 sm:flex sm:flex-row sm:justify-end"
-          >
-            <LinkBtn
-              v-if="qItem.status == 'Approved'"
-              label="View Invoice"
-              @click="
-                quotationStore.curQuotation = qItem;
-                GoToViewInvoice(qItem.id);
-              "
-            />
-          </div>
+          <LinkBtn
+            label="View Quotation"
+            class="text-xs font-medium"
+            @click="
+              quotationStore.curQuotation = qItem;
+              GoToViewQuotation(qItem.id);
+            "
+          />
+          <LinkBtn
+            v-if="qItem.status === 'Approved'"
+            label="View Invoice"
+            class="text-xs font-medium"
+            @click="
+              quotationStore.curQuotation = qItem;
+              GoToViewInvoice(qItem.id);
+            "
+          />
         </div>
       </div>
-
       <div v-if="!quotationStore.listQuotation.length" class="mt-4 text-center text-blue-950">
         No quotations found.
       </div>

@@ -12,8 +12,6 @@
 
       <!-- Modal Content (scrollable) -->
       <div class="modal-content">
-
-        {{ quotation }}
         <div class="form-content">
           <div class="grid grid-cols-1 gap-2 my-2 md:grid-cols-2">
             <div>
@@ -320,7 +318,7 @@
       <!-- Modal Footer -->
       <div class="modal-footer">
         <button @click="cancel" class="cancel-button">Discard</button>
-        <button @click="GetPrint" class="confirm-button">Print</button>
+        <button @click="GetPrint" class="confirm-button"> {{ isEditing ? "Update" : "Print" }}</button>
       </div>
     </div>
   </div>
@@ -394,12 +392,24 @@ export default {
   },
 
   methods: {
-    GetSelectMerchant(id) {
-      this.quotation.merchantId = id;
-      this.err.merchantId = '';
-      console.log(this.quotation.merchantId);
+    // GetSelectMerchant(id) {
+    //   this.quotation.merchantId = id;
+    //   this.err.merchantId = '';
+    //   console.log(this.quotation.merchantId);
       
-    },
+    // },
+
+    GetSelectMerchant(merchant) {
+  // Only assign the id
+  this.quotation.merchantId = merchant.id;
+  
+  // Clear error
+  this.err.merchantId = '';
+  
+  // Log just the id
+  console.log(this.quotation.merchantId);
+},
+
 
     changedcurProductCategory(type) {
       this.curProductCategory = type;
@@ -570,25 +580,27 @@ export default {
 
 
   
-    GetPrint() {
-      this.netTotalPrice();
-      if (!this.IsValidated()) return;
+  GetPrint() {
+    this.netTotalPrice();
+    if (!this.IsValidated()) return;
 
-      this.$showConfirm("Are you sure you want to Print this Quotation?", "warning")
-        .then(async (result) => {
-          if (result.isConfirmed) {
-            // Make a shallow copy excluding unwanted fields
-            const { totalAmount, installment, ...payload } = this.quotation;
-            
-            console.log("Sending data:", JSON.stringify(payload, null, 2));
-            
-            await this.quotationStore.GetAddQuotation(payload, this.showLoading);
-            // ...
-          } else {
-            console.log("Action canceled");
-          }
-        });
-    },
+    this.$showConfirm("Are you sure you want to Print this Quotation?", "warning")
+      .then(async (result) => {
+        if (result.isConfirmed) {
+          const { totalAmount, installment, ...payload } = this.quotation;
+          // console.log("Sending data:", JSON.stringify(payload, null, 2));
+
+          await this.quotationStore.GetAddQuotation(payload, this.showLoading);
+
+        } else {
+          console.log("Action canceled");
+          this.closeModal();
+          this.clearErr();
+        }
+      });
+  },
+
+
 
 
 

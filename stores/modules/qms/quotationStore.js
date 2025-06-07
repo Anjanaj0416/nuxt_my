@@ -249,27 +249,23 @@ export const useQuotationStore = defineStore("QuotationStore", {
     //GetAddQuotation
     async GetAddQuotation(quotation, showLoading) {
       const loadingAlert = showLoading("");
-
       try {
         const response = await axios.post(
           `${import.meta.env.VITE_API_URL}/qms/Quotation/GetAddQuotation`,
           quotation,
-          {
-            headers: {
-              'Content-Type': 'application/json',
-            },
-          }
+          { headers: { 'Content-Type': 'application/json' } }
         );
-
         loadingAlert.close();
 
         if (response.data.isSuccess) {
           this.showToast(response.data.message, "success");
-          // console.log("Success data:", response.data.data.data);
+
           const { quotationUrl_WithLetterHead, quotationUrl_WithOutLetterHead } = response.data.data.data;
-          // Open in a new tabs
           window.open(quotationUrl_WithLetterHead, "_blank", "noopener,noreferrer");
           window.open(quotationUrl_WithOutLetterHead, "_blank", "noopener,noreferrer");
+
+          // Clear modal data here!
+          this.ResetQuotation();
 
         } else {
           this.showToast(response.data.message, "error");
@@ -277,73 +273,73 @@ export const useQuotationStore = defineStore("QuotationStore", {
         }
       } catch (error) {
         loadingAlert.close();
-
         if (error.response) {
           this.showToast(error.response.data.message || "Error occurred", "error");
-          console.log("Error response data:", error.response.data);
         } else {
           this.showToast(error.message || "Error occurred", "error");
-          console.log("Error:", error);
         }
       }
     },
 
-  // Update Quotation ID
-  async GetEditQuotationById(id, showLoading) {
-    console.log("qID", id);
+    // Update Quotation ID
+    async GetEditQuotationById(id, showLoading) {
+      console.log("qID", id);
 
-    const loadingAlert = showLoading("");
+      const loadingAlert = showLoading("");
 
-    try {
-      const response = await axios.get(
-        `${import.meta.env.VITE_API_URL}/qms/Quotation/QuotationById?id=${id}`
-      );
-      loadingAlert.close();
+      try {
+        const response = await axios.get(
+          `${import.meta.env.VITE_API_URL}/qms/Quotation/QuotationById?id=${id}`
+        );
+        loadingAlert.close();
 
-      if (response.data.isSuccess) {
-        // The actual quotation data is in response.data.data.data
-        const quotationData = response.data.data.data;
-        console.log("Fetched Quotation Data:", quotationData);
+        if (response.data.isSuccess) {
+          // The actual quotation data is in response.data.data.data
+          const quotationData = response.data.data.data;
+          console.log("Fetched Quotation Data:", quotationData);
 
-        // Assign to editQuotation
-        this.quotation = quotationData;
+          // Assign to editQuotation
+          this.quotation = quotationData;
 
-      } else {
-        this.showToast(response.data.message, "error");
+        } else {
+          this.showToast(response.data.message, "error");
+        }
+      } catch (error) {
+        console.error(error);
+        this.showToast("An error occurred while fetching quotation data.", "error");
       }
-    } catch (error) {
-      console.error(error);
-      this.showToast("An error occurred while fetching quotation data.", "error");
-    }
-  },
+    },
 
 
 
 
     //ResetQuotation
     ResetQuotation() {
-      this.curQuotation.id = "00000000-0000-0000-0000-000000000000";
-      this.curQuotation.firstName = "xxx";
-      this.curQuotation.lastName = "";
-      this.curQuotation.customerRef = "";
-      this.curQuotation.phone = "";
-      this.curQuotation.QuotationImage = "";
-      this.curQuotation.email = "";
-      this.curQuotation.shopName = "";
-      this.curQuotation.shopContactNo = "";
-      this.curQuotation.shopAddress1 = "";
-      this.curQuotation.shopAddress2 = "";
-      this.curQuotation.city = "";
-      this.curQuotation.shopLogo = "";
-      this.curQuotation.shopCoverImage = "";
-      this.curQuotation.brCopy = "";
-      this.curQuotation.description = "";
-      this.curQuotation.bankName = "";
-      this.curQuotation.branch = "";
-      this.curQuotation.holderName = "";
-      this.curQuotation.accountNumber = "";
-      this.curQuotation.isActive = true;
+      this.quotation = { 
+        id: "00000000-0000-0000-0000-000000000000",
+        firstName: "xxx",
+        lastName: "",
+        customerRef: "",
+        phone: "",
+        QuotationImage: "",
+        email: "",
+        shopName: "",
+        shopContactNo: "",
+        shopAddress1: "",
+        shopAddress2: "",
+        city: "",
+        shopLogo: "",
+        shopCoverImage: "",
+        brCopy: "",
+        description: "",
+        bankName: "",
+        branch: "",
+        holderName: "",
+        accountNumber: "",
+        isActive: true,
+      };
     },
+
 
     //showToast
     showToast(message, type) {
