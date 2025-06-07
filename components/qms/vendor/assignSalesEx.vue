@@ -17,9 +17,9 @@
               <div class="grid grid-cols-1 gap-4 sm:grid-cols-1">
                 <div class="w-full sm:w-1/2">
                   <serach_Input :arrItems="leadStore.initVendor.listRSOs" ref="rsocomp" label="Sales Exec."
-                    v-model="rsoNo" @selectItem="SelectAgent" />
-                  <div v-if="err.rsoNo" class="mt-1 text-xs text-red-500">
-                    {{ err.rsoNo }}
+                    v-model="csoNo" @selectItem="SelectAgent" />
+                  <div v-if="err.csoNo" class="mt-1 text-xs text-red-500">
+                    {{ err.csoNo }}
                   </div>
                 </div>
                 <div class="w-full sm:w-1/2">
@@ -102,7 +102,7 @@ export default {
       imageroot: process.env.Assets_83,
       isOpen: true,
       showCityForm: false,
-      rsoNo: "",
+      csoNo: "",
       city: null,
       newCity: "",
       district: null,
@@ -112,7 +112,7 @@ export default {
       showLoading: null,
       showAlert: null,
       err: {
-        rsoNo: "",
+        csoNo: "",
         city: "",
         district: "",
       },
@@ -184,8 +184,8 @@ export default {
     await this.leadStore.GetInitLeads(this.showLoading);
   },
   methods: {
-    SelectAgent(rsoNo) {
-      this.rsoNo = rsoNo.id;
+    SelectAgent(csoNo) {
+      this.csoNo = csoNo.id;
     },
     closeModal() {
       this.isOpen = false;
@@ -229,14 +229,14 @@ export default {
     async GetAssignSalesRef() {
       const req = {
         Id: this.leadId,
-        RSONo: this.rsoNo,
+        CSONo: this.csoNo,
         Comment: this.comment,
         CityId: this.city
       };
 
       if (this.IsValidate()) {
         this.$showConfirm(
-          `Are you sure you want to assign ${req.RSONo}?`,
+          `Are you sure you want to assign ${req.CSONo}?`,
           "warning"
         ).then(async (result) => {
           if (result.isConfirmed) {
@@ -253,8 +253,8 @@ export default {
     IsValidate() {
       let isValid = true;
 
-      this.err.rsoNo = this.rsoNo ? "" : "Please select a Sales Executive!";
-      if (!this.rsoNo) isValid = false;
+      this.err.csoNo = this.csoNo ? "" : "Please select a Sales Executive!";
+      if (!this.csoNo) isValid = false;
 
       this.err.district = this.district ? "" : "Please select a District!";
       if (!this.district) isValid = false;

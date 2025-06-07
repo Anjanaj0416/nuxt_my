@@ -60,7 +60,7 @@
         <LinkBtn label="View Poforma" @click="GoToAddEdit(vd.id)" />
         <LinkBtn label="View Proposal" @click="GoToAddEdit(vd.id)" />
 
-        <LinkBtn v-if="!vd.rsoNo && userStore.loggedUser.granted.includes('vendor_mgt')" label="Assign RSO"
+        <LinkBtn v-if="!vd.csoNo && userStore.loggedUser.granted.includes('vendor_mgt')" label="Assign RSO"
           @click="GoToAssignSalesEx(vd.id)" />
 
         <LinkBtn label="Delete" @click="DeleteVendor(vd.id)" />
@@ -135,7 +135,7 @@ export default {
         { label: "Shop Contact", key: "shopContactNo" },
         { label: "Email", key: "shopEmail" },
         // { label: "City", key: "cityId" },
-        { label: "RSONo", key: "rsoNo" },
+        { label: "CSONo", key: "csoNo" },
         { label: "Status", key: "isActive" },
       ],
       imageroot: "",

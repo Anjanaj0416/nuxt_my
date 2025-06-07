@@ -9,7 +9,7 @@
     return {
       msg: {
         heading: 'info',
-        info: 'RSONo: FL026',
+        info: 'CSONo: FL026',
         info_title: 'RSO Number',
       },
     }
