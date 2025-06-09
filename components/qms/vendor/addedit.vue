@@ -66,14 +66,14 @@
                 {{ err.shopEmail }}
               </p>
             </div>
-            <!-- <div class="">
-              <label class="block text-sm font-bold text-gray-600">Contact Number</label>
-              <input type="tel" v-model="curVendor.shopMobileNo" placeholder="Enter Contact Number" maxlength="10"
+            <div class="">
+              <label class="block text-sm font-bold text-gray-600">Web site</label>
+              <input type="tel" v-model="curVendor.shopWeb" placeholder="Enter Web site"
                 class="w-full p-2 mt-2 text-sm border rounded-md focus:ring-indigo-500 focus:border-indigo-500" />
               <p v-if="err.shopMobileNo" class="mt-2 text-sm text-red-600">
                 {{ err.shopMobileNo }}
               </p>
-            </div> -->
+            </div>
             <div class="">
               <label class="block text-sm font-bold text-gray-600">Address Line 1</label>
               <input type="text" v-model="curVendor.shopAddress1" placeholder="Enter Address Line 1" required
@@ -330,6 +330,7 @@ export default {
         // Company Details
         shopName: "",
         shopEmail: "",
+        shopWeb:"",
         shopMobileNo: "",
         shopContactNo: "",
         shopAddress1: "",
@@ -462,7 +463,6 @@ export default {
 
     AddEditVendor() {
       console.log("AddEditVendor");
-
       if (this.IsValidate()) {
         this.$showConfirm(
           "Are you sure you want to update this vendor?",
@@ -507,6 +507,11 @@ export default {
           this.err.shopEmail = "Please Enter a valid Email address!";
           IsValidate = false;
         }
+      }
+
+      if (!this.curVendor.shopWeb) {
+        this.err.shopWeb = "Please Enter Web site Link!";
+        IsValidate = false;
       }
 
       // if (!this.curVendor.shopMobileNo) {
@@ -688,7 +693,7 @@ export default {
     convertToFormData(formObject) {
       const formData = new FormData();
       formData.append("Id", this.curVendor.id);
-      // formData.append("shopMobileNo", this.curVendor.shopMobileNo);
+      formData.append("shopWeb", this.curVendor.shopWeb);
       formData.append("shopEmail", this.curVendor.shopEmail);
       formData.append("shopName", this.curVendor.shopName);
       formData.append("ShopContactNo", this.curVendor.shopContactNo);

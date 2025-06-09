@@ -180,7 +180,7 @@ export default {
         { label: "Address Line 2", key: "address2" },
         { label: "District", key: "district" },
         { label: "Mobile Number", key: "contactMobile" },
-        { label: "Website", key: "web" },
+        { label: "Web site", key: "companyWeb" },
         { label: "Business Registration Number", key: "contactPhoneNo" },
         { label: "More Details", key: "" },
         { label: "Contact Person Name", key: "contactPersonFirstName", secondKey: "contactPersonLastname" },

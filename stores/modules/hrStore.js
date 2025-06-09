@@ -3,6 +3,7 @@ import axios from 'axios';
 
 export const useHrStore = defineStore('hrStore', {
   state: () => ({
+    initEmployee: {},
     initHRDetails:{
       urlEmployeeDetailsXlsx:'',
     },
@@ -117,7 +118,7 @@ export const useHrStore = defineStore('hrStore', {
       arrJobCardDetails: [],
     },
     initData: {
-      initEmployee: {},
+      // initEmployee: {},
       initAbsence: {},
       initMovement: {},
     },
@@ -130,6 +131,24 @@ export const useHrStore = defineStore('hrStore', {
    //this.showToast('Loading successful!', 'success'); //success ,error ,warning,info
 
   actions: {
+
+    //loadInitEmployee
+    async loadInitEmployee(showLoading) {
+      try {
+        const response = await axios.get(
+          `${import.meta.env.VITE_API_URL}/hr/Employee/GetInitEmployee`
+        );
+
+        if (response.data.isSuccess) {
+          // Assign the nested data object here:
+          this.initEmployee = response.data.data.data;
+        } else {
+          this.showToast(response.data.message, "error");
+        }
+      } catch (error) {
+        this.showToast("Failed to load Employee data", "error");
+      }
+    },
 
     //GetUpdateEmployeeDetails
      async GetUpdateEmployeeDetails(formData,showLoading) {
