@@ -93,6 +93,7 @@ import InfoCard from "~/components/qms/vendor/InfoCard.vue";
 import { useVendorStore } from "~/stores/modules/qms/vendorStore";
 import { useUserStore } from "~/stores/modules/userStore";
 import { useLeadStore } from "~/stores/modules/qms/leadStore";
+import { useRoute } from 'vue-router'
 
 definePageMeta({
   layout: "default",
@@ -148,8 +149,14 @@ export default {
     this.leadStore = useLeadStore();
     this.showLoading = this.$showLoading;
 
+
+    const route = useRoute();
+    let val  = route.query.p ;
+    let isGuid = val.includes('-');  
+   
+
     await this.vendorStore.loadListVendors(
-      { keyword: "", searchBy: this.searchBy },
+      { keyword: (isGuid)?val:'', searchBy: (isGuid)?'id':'' },
       this.showLoading
     );
 
