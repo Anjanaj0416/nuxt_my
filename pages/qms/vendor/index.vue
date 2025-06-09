@@ -116,7 +116,7 @@ export default {
     return {
       arrFilter: [
         "All",
-        "Not Assigned",
+        // "Not Assigned",
         "Active",
         "Inactive",
         "Phone",
