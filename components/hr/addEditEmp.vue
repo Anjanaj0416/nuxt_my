@@ -14,6 +14,10 @@
         <div class="form-content">
           <h3 class="font-bold">General Information</h3>
           <div class="grid grid-cols-2 gap-4 mt-4 sm:grid-cols-2 md:grid-cols-3">
+            
+          </div>
+
+          <div class="grid grid-cols-2 gap-4 mt-4 sm:grid-cols-2 md:grid-cols-3">
             <div class="">
               <label class="block text-sm font-bold text-gray-600">
                 Employee Name <span class="text-red-500">*</span>
@@ -24,13 +28,11 @@
                 {{ err.empName }}
               </p>
             </div>
-          </div>
-          <div class="grid grid-cols-2 gap-4 mt-4 sm:grid-cols-2 md:grid-cols-3">
             <div class="">
               <label class="block text-sm font-bold text-gray-600">
                 NIC Number <span class="text-red-500">*</span>
               </label>
-              <input type="text" v-model="curLead.nic" placeholder="Enter Address Line 1" required
+              <input type="text" v-model="curLead.nic" placeholder="Enter NIC Number" required
                 class="w-full p-2 mt-2 text-sm border rounded-md focus:ring-indigo-500 focus:border-indigo-500" />
               <p v-if="err.nic" class="mt-2 text-sm text-red-600">
                 {{ err.nic }}
@@ -46,34 +48,11 @@
                 {{ err.Address2 }}
               </p>
             </div>
-            <!-- <div class="">
-              <label class="block text-sm font-bold text-gray-600">
-                District <span class="text-red-500">*</span>
-              </label>
-
-              <serach_Input :arrItems="getDistinctDistricts" ref="refDistrict" label="" v-model="curLead.District"
-                @selectItem="GetSelectDistrict" />
-              <p v-if="err.District" class="mt-2 text-sm text-red-600">
-                {{ err.District }}
-              </p>
-            </div>
-
-            <div class="">
-              <label class="block text-sm font-bold text-gray-600">
-                City <span class="text-red-500">*</span>
-              </label>
-
-              <serach_Input :arrItems="filteredCities" ref="refCity" label="" v-model="curLead.City"
-                @selectItem="GetSelectCity" />
-              <p v-if="err.City" class="mt-2 text-sm text-red-600">
-                {{ err.City }}
-              </p>
-            </div> -->
             <div class="">
               <label class="block text-sm font-bold text-gray-600">
                 Contact Number 1<span class="text-red-500">*</span>
               </label>
-              <input type="tel" v-model="curLead.Contact1" placeholder="Enter Contact Number" maxlength="10"
+              <input type="tel" v-model="curLead.Contact1" placeholder="Enter Contact Number 1" maxlength="10"
                 class="w-full p-2 mt-2 text-sm border rounded-md focus:ring-indigo-500 focus:border-indigo-500" />
               <p v-if="err.Contact1" class="mt-2 text-sm text-red-600">
                 {{ err.Contact1 }}
@@ -81,7 +60,7 @@
             </div>
             <div class="">
               <label class="block text-sm font-bold text-gray-600">Contact Number 2</label>
-              <input type="text" v-model="curLead.Contact2" :maxlength="10" placeholder="Enter MobileNo"
+              <input type="text" v-model="curLead.Contact2" :maxlength="10" placeholder="Enter Contact Number 2"
                 class="w-full p-2 mt-2 text-sm border rounded-md focus:ring-indigo-500 focus:border-indigo-500"
                 required />
               <p v-if="err.Contact2" class="mt-2 text-sm text-red-600">
@@ -92,7 +71,7 @@
               <label class="block text-sm font-bold text-gray-600">
                 Email 1<span class="text-red-500">*</span>
               </label>
-              <input type="Email" v-model="curLead.Email1" placeholder="Enter Email"
+              <input type="Email" v-model="curLead.Email1" placeholder="Enter Email 1"
                 class="w-full p-2 mt-2 text-sm border rounded-md focus:ring-indigo-500 focus:border-indigo-500"
                 required />
               <p v-if="err.Email1" class="mt-2 text-sm text-red-600">
@@ -123,9 +102,10 @@
               <label class="block text-sm font-bold text-gray-600">
                 Department <span class="text-red-500">*</span>
               </label>
-              <input type="text" v-model="curLead.Department" placeholder="Enter Department"
-                class="w-full p-2 mt-2 text-sm border rounded-md focus:ring-indigo-500 focus:border-indigo-500"
-                required />
+              <select v-model="curLead.IsOTAllow" required class="w-full p-2 mt-2 text-sm border rounded-md focus:ring-indigo-500 focus:border-indigo-500">
+                <option :value="false" selected disabled>Please select the department</option>
+                <option :value="true">depertment 1</option>
+              </select>
               <p v-if="err.Department" class="mt-2 text-sm text-red-600">
                 {{ err.Department }}
               </p>
@@ -134,18 +114,20 @@
               <label class="block text-sm font-bold text-gray-600">
                 Designation <span class="text-red-500">*</span>
               </label>
-              <input type="text" v-model="curLead.Department" placeholder="Enter Business Registration Number"
+              <input type="text" v-model="curLead.Department" placeholder="Enter Designation"
                 class="w-full p-2 mt-2 text-sm border rounded-md focus:ring-indigo-500 focus:border-indigo-500"
                 required />
-              <p v-if="err.Department" class="mt-2 text-sm text-red-600">
-                {{ err.Department }}
+              <p v-if="err.Designation" class="mt-2 text-sm text-red-600">
+                {{ err.Designation }}
               </p>
             </div>
             <div>
               <label class="block text-sm font-bold text-gray-600">Gender</label>
-              <input type="text" v-model="curLead.Gender" placeholder="Ex: Construction / Service etc"
-                class="w-full p-2 mt-2 text-sm border rounded-md focus:ring-indigo-500 focus:border-indigo-500"
-                required />
+              <select v-model="curLead.Gender" required class="w-full p-2 mt-2 text-sm border rounded-md focus:ring-indigo-500 focus:border-indigo-500">
+                <option selected disabled>Please Select Gender</option>
+                <option :value="false" selected>Male</option>
+                <option :value="true">Femail</option>
+              </select>
               <p v-if="err.Gender" class="mt-2 text-sm text-red-600">
                 {{ err.Gender }}
               </p>
@@ -161,16 +143,15 @@
             </div>
             <div class="">
               <label class="block text-sm font-bold text-gray-600">DOB</label>
-              <textarea v-model="curLead.DOB" placeholder="Enter DOB"
-                class="w-full p-2 mt-2 text-sm border rounded-md focus:ring-indigo-500 focus:border-indigo-500" required
-                rows="4"></textarea>
+              <input type="Date" v-model="curLead.DOB" placeholder="Enter DOB" required
+                class="w-full p-2 mt-2 text-sm border rounded-md focus:ring-indigo-500 focus:border-indigo-500" />
               <p v-if="err.DOB" class="mt-2 text-sm text-red-600">
                 {{ err.DOB }}
               </p>
             </div>
             <div class="">
               <label class="block text-sm font-bold text-gray-600">Emp Type</label>
-              <input type="text" v-model="curLead.EmpType" placeholder="Enter First Name" required
+              <input type="text" v-model="curLead.EmpType" placeholder="Enter Emp Type" required
                 class="w-full p-2 mt-2 text-sm border rounded-md focus:ring-indigo-500 focus:border-indigo-500" />
               <p v-if="err.EmpType" class="mt-2 text-sm text-red-600">
                 {{ err.EmpType }}
@@ -185,55 +166,245 @@
               </p>
             </div>
             <div class="">
-              <label class="block text-sm font-bold text-gray-600">Designation</label>
-              <input type="text" v-model="curLead.ContactDesignation" placeholder="Enter Designation" required
+              <label class="block text-sm font-bold text-gray-600">Manager Emp No</label>
+              <input type="text" v-model="curLead.ManagerEmpNo" placeholder="Enter Manager Emp No" required
                 class="w-full p-2 mt-2 text-sm border rounded-md focus:ring-indigo-500 focus:border-indigo-500" />
-              <p v-if="err.ContactDesignation" class="mt-2 text-sm text-red-600">
-                {{ err.ContactDesignation }}
+              <p v-if="err.Designation" class="mt-2 text-sm text-red-600">
+                {{ err.Designation }}
               </p>
             </div>
             <div class="">
-              <label class="block text-sm font-bold text-gray-600">Callingname</label>
-              <input type="text" v-model="curLead.ContactMobile" :maxlength="10" placeholder="Enter Mobile Number"
+              <label class="block text-sm font-bold text-gray-600">Calling Name</label>
+              <input type="text" v-model="curLead.callingname" :maxlength="10" placeholder="Enter Mobile Number"
                 required
                 class="w-full p-2 mt-2 text-sm border rounded-md focus:ring-indigo-500 focus:border-indigo-500" />
-              <p v-if="err.ContactMobile" class="mt-2 text-sm text-red-600">
-                {{ err.ContactMobile }}
+              <p v-if="err.callingname" class="mt-2 text-sm text-red-600">
+                {{ err.callingname }}
+              </p>
+            </div>
+            <div class="">
+              <label class="block text-sm font-bold text-gray-600">On Time</label>
+              <input type="text" v-model="curLead.ontime" :maxlength="10" placeholder="Enter Mobile Number"
+                required
+                class="w-full p-2 mt-2 text-sm border rounded-md focus:ring-indigo-500 focus:border-indigo-500" />
+              <p v-if="err.ontime" class="mt-2 text-sm text-red-600">
+                {{ err.ontime }}
+              </p>
+            </div>
+            <div class="">
+              <label class="block text-sm font-bold text-gray-600">off Time</label>
+              <input type="text" v-model="curLead.offtime" :maxlength="10" placeholder="Enter Mobile Number"
+                required
+                class="w-full p-2 mt-2 text-sm border rounded-md focus:ring-indigo-500 focus:border-indigo-500" />
+              <p v-if="err.offtime" class="mt-2 text-sm text-red-600">
+                {{ err.offtime }}
+              </p>
+            </div>
+            <div class="">
+              <label class="block text-sm font-bold text-gray-600">Granted</label>
+              <input type="text" v-model="curLead.Granted" :maxlength="10" placeholder="Enter Mobile Number"
+                required
+                class="w-full p-2 mt-2 text-sm border rounded-md focus:ring-indigo-500 focus:border-indigo-500" />
+              <p v-if="err.Granted" class="mt-2 text-sm text-red-600">
+                {{ err.Granted }}
+              </p>
+            </div>
+
+            <div class="">
+              <label class="block text-sm font-bold text-gray-600">User Group</label>
+              <input type="text" v-model="curLead.UserGroup" :maxlength="10" placeholder="Enter Mobile Number"
+                required
+                class="w-full p-2 mt-2 text-sm border rounded-md focus:ring-indigo-500 focus:border-indigo-500" />
+              <p v-if="err.UserGroup" class="mt-2 text-sm text-red-600">
+                {{ err.UserGroup }}
+              </p>
+            </div>
+            <div class="">
+              <label class="block text-sm font-bold text-gray-600">Role</label>
+                <select v-model="curLead.Role" required class="w-full p-2 mt-2 text-sm border rounded-md focus:ring-indigo-500 focus:border-indigo-500">
+                  <option selected disabled>Please Select the Role</option>
+                  <option :value="admin">Admin</option>
+                </select>
+              <p v-if="err.Role" class="mt-2 text-sm text-red-600">
+                {{ err.Role }}
+              </p>
+            </div>
+            <div class="">
+              <label class="block text-sm font-bold text-gray-600">User Type</label>
+              <input type="text" v-model="curLead.UserType" placeholder="Enter User Type"
+                required
+                class="w-full p-2 mt-2 text-sm border rounded-md focus:ring-indigo-500 focus:border-indigo-500" />
+              <p v-if="err.UserType" class="mt-2 text-sm text-red-600">
+                {{ err.UserType }}
+              </p>
+            </div>
+            <div class="">
+              <label class="block text-sm font-bold text-gray-600">User Code</label>
+              <input type="text" v-model="curLead.UserCode" placeholder="Enter User Code"
+                required
+                class="w-full p-2 mt-2 text-sm border rounded-md focus:ring-indigo-500 focus:border-indigo-500" />
+              <p v-if="err.UserCode" class="mt-2 text-sm text-red-600">
+                {{ err.UserCode }}
+              </p>
+            </div>
+            <div class="">
+              <label class="block text-sm font-bold text-gray-600">Secret Code</label>
+              <input type="text" v-model="curLead.SecretCode" placeholder="Enter Secret Code"
+                required
+                class="w-full p-2 mt-2 text-sm border rounded-md focus:ring-indigo-500 focus:border-indigo-500" />
+              <p v-if="err.SecretCode" class="mt-2 text-sm text-red-600">
+                {{ err.SecretCode }}
+              </p>
+            </div>
+            <div class="">
+              <label class="block text-sm font-bold text-gray-600">CSO No</label>
+              <input type="text" v-model="curLead.CSONo" placeholder="Enter CSO No"
+                required
+                class="w-full p-2 mt-2 text-sm border rounded-md focus:ring-indigo-500 focus:border-indigo-500" />
+              <p v-if="err.CSONo" class="mt-2 text-sm text-red-600">
+                {{ err.CSONo }}
+              </p>
+            </div>
+            <div class="">
+              <label class="block text-sm font-bold text-gray-600">Emp Category</label>
+              <select v-model="curLead.EmpCategory" required class="w-full p-2 mt-2 text-sm border rounded-md focus:ring-indigo-500 focus:border-indigo-500">
+                <option :value="false" selected>No Transport</option>
+                <option :value="true">Yes Transport</option>
+              </select>
+             
+              <p v-if="err.Category" class="mt-2 text-sm text-red-600">
+                {{ err.Category }}
+              </p>
+            </div>
+            <div class="">
+              <label class="block text-sm font-bold text-gray-600">Privilege Level</label>
+              <input type="text" v-model="curLead.PrivilegeLevel" placeholder="Enter Privilege Level"
+                required
+                class="w-full p-2 mt-2 text-sm border rounded-md focus:ring-indigo-500 focus:border-indigo-500" />
+            </div>
+            <div>
+              <label class="block text-sm font-bold text-gray-600">Transport</label>
+              <select v-model="curLead.IsTransport"
+                required
+                class="w-full p-2 mt-2 text-sm border rounded-md focus:ring-indigo-500 focus:border-indigo-500">
+                <option :value="false" selected>No Transport</option>
+                <option :value="true">Yes Transport</option>
+              </select>
+            </div>
+            
+          </div>
+          <div class="grid grid-cols-2 gap-4 mt-4 sm:grid-cols-1 md:grid-cols-3">
+            <div class="">
+              <label class="block text-sm font-bold mb-2 text-gray-600">Image</label>
+              <imagepicker1 />
+            </div>
+             <div class="">
+              <label class="block text-sm font-bold mb-2 text-gray-600">Signature</label>
+              <imagepicker1 />
+              <p v-if="err.signature" class="mt-2 text-sm text-red-600">
+                {{ err.signature }}
               </p>
             </div>
           </div>
 
-          <!-- More Details -->
-          <div class="grid grid-cols-2 gap-4 mt-4 sm:grid-cols-1 md:grid-cols-1">
-            
-          </div>
-
+          <!-- Resingnation Details -->
           <hr class="my-4" />
-          <h3 class="mt-4 mb-8 font-bold">Contact Person </h3>
-          <div class="grid grid-cols-2 gap-4 mt-4 mb-36 sm:grid-cols-2 md:grid-cols-3 sm:mb-0">
-            <
-            
-            
-
-            
+          <h3 class="mt-4 mb-8 font-bold">Leave Details</h3>
+          <div class="grid grid-cols-2 gap-4 mt-4 sm:grid-cols-1 md:grid-cols-3">
             <div class="">
-              <label class="block text-sm font-bold text-gray-600">Mobile Number</label>
-              <input type="text" v-model="curLead.ContactMobile" :maxlength="10" placeholder="Enter Mobile Number"
-                required
+              <label class="block text-sm font-bold text-gray-600">
+                Annual Leave <span class="text-red-500">*</span>
+              </label>
+              <input type="text" v-model="curLead.AnnualLeave" placeholder="Enter Annual Leave" required
                 class="w-full p-2 mt-2 text-sm border rounded-md focus:ring-indigo-500 focus:border-indigo-500" />
-              <p v-if="err.ContactMobile" class="mt-2 text-sm text-red-600">
-                {{ err.ContactMobile }}
+              <p v-if="err.AnnualLeave" class="mt-2 text-sm text-red-600">
+                {{ err.AnnualLeave }}
               </p>
             </div>
             <div class="">
-              <label class="block text-sm font-bold text-gray-600">Email</label>
-              <input type="text" v-model="curLead.ContactEmail" placeholder="Enter Email" required
+              <label class="block text-sm font-bold text-gray-600">
+                Casual Leave <span class="text-red-500">*</span>
+              </label>
+              <input type="text" v-model="curLead.CasualLeave" placeholder="Enter Casual Leave " required
                 class="w-full p-2 mt-2 text-sm border rounded-md focus:ring-indigo-500 focus:border-indigo-500" />
-              <p v-if="err.ContactEmail" class="mt-2 text-sm text-red-600">
-                {{ err.ContactEmail }}
+              <p v-if="err.CasualLeave" class="mt-2 text-sm text-red-600">
+                {{ err.CasualLeave }}
+              </p>
+            </div>
+            <div class="">
+              <label class="block text-sm font-bold text-gray-600">
+                Sick Leave <span class="text-red-500">*</span>
+              </label>
+              <input type="text" v-model="curLead.SickLeave" placeholder="Enter Sick Leave" required
+                class="w-full p-2 mt-2 text-sm border rounded-md focus:ring-indigo-500 focus:border-indigo-500" />
+              <p v-if="err.SickLeave" class="mt-2 text-sm text-red-600">
+                {{ err.SickLeave }}
+              </p>
+            </div>
+            <div class="">
+              <label class="block text-sm font-bold text-gray-600">
+                Other Leave <span class="text-red-500">*</span>
+              </label>
+              <input type="text" v-model="curLead.OtherLeave" placeholder="Enter Sick Leave" required
+                class="w-full p-2 mt-2 text-sm border rounded-md focus:ring-indigo-500 focus:border-indigo-500" />
+              <p v-if="err.OtherLeave" class="mt-2 text-sm text-red-600">
+                {{ err.OtherLeave }}
               </p>
             </div>
           </div>
+
+          <!-- OT Details -->
+          <hr class="my-4" />
+          <h3 class="mt-4 mb-8 font-bold">OT Details</h3>
+          <div class="grid grid-cols-2 gap-4 mt-4 sm:grid-cols-1 md:grid-cols-3">
+            <div>
+              <label class="block text-sm font-bold text-gray-600">OT</label>
+              <select v-model="curLead.IsOTAllow" required class="w-full p-2 mt-2 text-sm border rounded-md focus:ring-indigo-500 focus:border-indigo-500">
+                <option :value="false" selected>No OT</option>
+                <option :value="true">Yes OT</option>
+              </select>
+            </div>
+            <div>
+              <label class="block text-sm font-bold text-gray-600">Morning OT</label>
+              <select v-model="curLead.isMorningOTAllowed" required class="w-full p-2 mt-2 text-sm border rounded-md focus:ring-indigo-500 focus:border-indigo-500">
+                <option :value="false" selected>No Morning OT</option>
+                <option :value="true">Yes Morning OT</option>
+              </select>
+            </div>
+          </div>
+
+          <!-- Resingnation Details -->
+          <hr class="my-4" />
+          <h3 class="mt-4 mb-8 font-bold">Resingnation Details</h3>
+          <div class="grid grid-cols-2 gap-4 mt-4 sm:grid-cols-1 md:grid-cols-3">
+            <div class="">
+              <label class="block text-sm font-bold text-gray-600">
+                Aye You Resign
+              </label>
+              <select v-model="curLead.IsResign" required class="w-full p-2 mt-2 text-sm border rounded-md focus:ring-indigo-500 focus:border-indigo-500">
+                <option :value="false" selected>No Resign</option>
+                <option :value="true">Yes Resign</option>
+              </select>
+
+            </div>
+            <div class="">
+              <label class="block text-sm font-bold text-gray-600">
+                Date Of Resign 
+              </label>
+              <input type="text" v-model="curLead.DateOfResign" placeholder="Enter Date Of Resign" required
+                class="w-full p-2 mt-2 text-sm border rounded-md focus:ring-indigo-500 focus:border-indigo-500" />
+            </div>
+            <div class="">
+              <label class="block text-sm font-bold text-gray-600">
+                Reason For Resign 
+              </label>
+              <textarea v-model="curLead.ReasonForResign" placeholder="Enter Reason For Resign"
+                class="w-full p-2 mt-2 text-sm border rounded-md focus:ring-indigo-500 focus:border-indigo-500" required
+                rows="4">
+              </textarea>
+            </div>
+          </div>
+
         </div>
       </div>
 
@@ -256,63 +427,111 @@ import serach_Input from "~/components/customcontrol/SearchInput";
 import { useUserStore } from "~/stores/modules/userStore";
 import toggleoption from "~/components/customcontrol/toggleoption";
 import { useLeadStore } from "~/stores/modules/qms/leadStore";
+import imagepicker1 from "../customcontrol/imagepicker1.vue";
 
 definePageMeta({
   layout: "default",
 });
 export default {
-  components: { closebtn, serach_Input, ImageLable, imagecomp, toggleoption },
+  components: { closebtn, serach_Input, ImageLable, imagecomp, toggleoption,imagepicker1 },
   data() {
     return {
       isOpen: true,
       curLead: {
-        empName: "",
-        nic: "",
-        Address2: "",
-        District: "",
-        DistrictId: "",
-        City: "",
-        CityId: "",
-        Contact1: "",
-        Contact2: "",
-        Email1: "",
-        Email2:"",
-        Department: "",
-        StaffType: "",
-        businessType: "",
-        Gender: "",
-        DOB: "",//'Ex: No of Links-200 || iS Stored Available'
-
-        Department: "",
-        EmpType: "",
-        DateOfJoin: "",
-        ContactDesignation: "",
-        EmergencyContact: "",
-        ContactMobile: "",
-        ContactEmail: "",
+     EmpNo: "",
+      EPFNo: "",
+      Name: "",
+      NIC: "",
+      Address: "",
+      Contact1: "",
+      Contact2: "",
+      Email1: "",
+      Email2: "",
+      EmergencyContact: "",
+      Department: "",
+      Designation: "",
+      Gender: "",
+      StaffType: "",
+      DOB: "",
+      EmpType: "",
+      DateOfJoin: "",
+      IsResign: false,
+      IsTransport: false,
+      EmployeeStatus: "",
+      DateOfResign: "",
+      ReasonForResign: "",
+      Image: "",
+      Category: "",
+      PrivilegeLevel: "",
+      ManagerEmpNo: "",
+      AnnualLeave: 0,
+      CasualLeave: 0,
+      SickLeave: 0,
+      OtherLeave: 0,
+      IsOTAllow: false,
+      HomePhone: "",
+      callingname: "",
+      signature: "",
+      ontime: "",
+      offtime: "",
+      isMorningOTAllowed: false,
+      isExecutive: false,
+      IsActive: true,
+      Granted: "",
+      UserGroup: "",
+      Role: "",
+      UserType: "",
+      UserCode: "",
+      SecretCode: "",
+      CSONo: "",
       },
       err: {
-        empName: "",
-        nic: "",
-        Address2: "",
-        District: "",
-        City: "",
+        EmpNo: "",
+        EPFNo: "",
+        Name: "",
+        NIC: "",
+        Address: "",
         Contact1: "",
         Contact2: "",
         Email1: "",
-        Department: "",
-        StaffType: "",
-        DateOfJoin: "",
-        businessType: "",
-        Gender: "",
-        DOB: "",
-
-        Department: "",
-        EmpType: "",
-        ContactDesignation: "",
+        Email2: "",
         EmergencyContact: "",
-        ContactMobile: "",
-        ContactEmail: "",
+        Department: "",
+        Designation: "",
+        Gender: "",
+        StaffType: "",
+        DOB: "",
+        EmpType: "",
+        DateOfJoin: "",
+        IsResign: false,
+        IsTransport: false,
+        EmployeeStatus: "",
+        DateOfResign: "",
+        ReasonForResign: "",
+        Image: "",
+        Category: "",
+        PrivilegeLevel: "",
+        ManagerEmpNo: "",
+        AnnualLeave: 0,
+        CasualLeave: 0,
+        SickLeave: 0,
+        OtherLeave: 0,
+        IsOTAllow: false,
+        HomePhone: "",
+        callingname: "",
+        signature: "",
+        ontime: "",
+        offtime: "",
+        isMorningOTAllowed: false,
+        isExecutive: false,
+        IsActive: true,
+        Granted: "",
+        UserGroup: "",
+        Role: "",
+        UserType: "",
+        UserCode: "",
+        SecretCode: "",
+        CSONo: "",
       },
       imageroot: "",
       showLoading: null,
@@ -418,7 +637,7 @@ export default {
       let IsValidate = true;
 
       if (!this.curLead.Gender) {
-        this.err.Gender = "Please Enter Business Type!";
+        this.err.Gender = "Please Enter Gender!";
         IsValidate = false;
       }
 
@@ -476,13 +695,8 @@ export default {
         IsValidate = false;
       }
 
-      if (!this.curLead.District) {
-        this.err.District = "Please Enter District!";
-        IsValidate = false;
-      }
-
-      if (!this.curLead.City) {
-        this.err.City = "Please Enter City!";
+      if (!this.curLead.DOB) {
+        this.err.DOB = "Please Enter DOB!";
         IsValidate = false;
       }
 
@@ -503,23 +717,23 @@ export default {
       }
 
       if (!this.curLead.StaffType) {
-        this.err.StaffType = "Please Enter Designation!";
+        this.err.StaffType = "Please Enter Staff Type!";
         IsValidate = false;
       }
 
       // // Other information validation
       if (!this.curLead.EmpType) {
-        this.err.EmpType = "Please Enter First Name!";
+        this.err.EmpType = "Please Enter Emp Type!";
         IsValidate = false;
       }
 
       if (!this.curLead.DateOfJoin) {
-        this.err.DateOfJoin = "Please Enter Last Name!";
+        this.err.DateOfJoin = "Please Enter Date Of Join!";
         IsValidate = false;
       }
 
-      if (!this.curLead.ContactDesignation) {
-        this.err.ContactDesignation = "Please Enter Designation!";
+      if (!this.curLead.Designation) {
+        this.err.Designation = "Please Enter Designation!";
         IsValidate = false;
       }
 
@@ -534,13 +748,13 @@ export default {
         }
       }
 
-      if (!this.curLead.ContactMobile) {
-        this.err.ContactMobile = "Please Enter Mobile Number!";
+      if (!this.curLead.callingname) {
+        this.err.callingname = "Please Enter Mobile Number!";
         IsValidate = false;
       } else {
         const contactNoRegex1 = /^[0-9]{10}$/;
-        if (!contactNoRegex1.test(this.curLead.ContactMobile)) {
-          this.err.ContactMobile = "Please Enter a valid 10-digit Mobile Number!";
+        if (!contactNoRegex1.test(this.curLead.callingname)) {
+          this.err.callingname = "Please Enter a valid 10-digit Mobile Number!";
           IsValidate = false;
         }
       }
@@ -555,6 +769,79 @@ export default {
           IsValidate = false;
         }
       }
+
+      if (!this.curLead.signature) {
+        this.err.signature = "Please Enter Signature!";
+        IsValidate = false;
+      }
+
+      if (!this.curLead.ontime) {
+        this.err.ontime = "Please Enter On Time!";
+        IsValidate = false;
+      }
+      if (!this.curLead.offtime) {
+        this.err.offtime = "Please Enter Off Time!";
+        IsValidate = false;
+      }
+
+      if (!this.curLead.Granted) {
+        this.err.Granted = "Please Enter Granted!";
+        IsValidate = false;
+      }
+
+      if (!this.curLead.UserGroup) {
+        this.err.UserGroup = "Please Enter UserGroup!";
+        IsValidate = false;
+      }
+      if (!this.curLead.Role) {
+        this.err.Role = "Please Enter Role!";
+        IsValidate = false;
+      }
+      
+      if (!this.curLead.UserType) {
+        this.err.UserType = "Please Enter User Type!";
+        IsValidate = false;
+      }
+      if (!this.curLead.UserCode) {
+        this.err.UserCode = "Please Enter User Code!";
+        IsValidate = false;
+      }
+
+      if (!this.curLead.SecretCode) {
+        this.err.SecretCode = "Please Enter Secret Code!";
+        IsValidate = false;
+      }
+
+      if (!this.curLead.UserGroup) {
+        this.err.UserGroup = "Please Enter UserGroup!";
+        IsValidate = false;
+      }
+      if (!this.curLead.CSONo) {
+        this.err.CSONo = "Please Enter CSONo!";
+        IsValidate = false;
+      }
+
+      ///////////////
+      if (!this.curLead.AnnualLeave) {
+        this.err.AnnualLeave = "Please Enter Annual Leave!";
+        IsValidate = false;
+      }
+      if (!this.curLead.CasualLeave) {
+        this.err.CasualLeave = "Please Enter Casual Leave !";
+        IsValidate = false;
+      }
+
+      if (!this.curLead.SickLeave) {
+        this.err.SickLeave = "Please Enter Sick Leave!";
+        IsValidate = false;
+      }
+
+      if (!this.curLead.OtherLeave) {
+        this.err.UserGroup = "Please Enter Other Leave!";
+        IsValidate = false;
+      }
+
+
 
       return IsValidate;
     },
