@@ -210,8 +210,7 @@ export default {
     },
 
     initItem(id) {
-      console.log("initItem:", id);
-
+      
       try {
         this.modal = false;
         if (id == 0) {

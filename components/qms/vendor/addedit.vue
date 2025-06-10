@@ -471,11 +471,11 @@ export default {
           if (result.isConfirmed) {
             const formData = this.convertToFormData(this.curVendor);
             // Convert to plain object and log it
-            const formDataObj = {};
-            for (let [key, value] of formData.entries()) {
-              formDataObj[key] = value;
-            }
-            console.log('Form Data as Object:', formDataObj);
+            // const formDataObj = {};
+            // for (let [key, value] of formData.entries()) {
+            //   formDataObj[key] = value;
+            // }
+            // console.log('Form Data as Object:', formDataObj);
 
             await this.vendorStore.AddEditVendor(formData, this.showLoading);
             this.closeModal();

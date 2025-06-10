@@ -1,6 +1,9 @@
 <!-- components/ToggleSwitch.vue -->
 <!-- Usage 
-<toggleoption v-model="curVendor.isActive" />   -->
+ <toggleoption v-model="hrStore.empdetails.isResign" />
+                <div class=" text-sm font-medium text-gray-600">
+                {{ hrStore.empdetails.isResign ? 'Resigned' : 'Working' }}
+              </div>   -->
 
 
 <template>
@@ -23,9 +26,7 @@
         :class="{ 'translate-x-5': modelValue }"
       ></div>
     </div>
-    <div class="ml-2 text-sm font-medium text-gray-600">
-      {{ modelValue ? 'Active' : 'Inactive' }}
-    </div>
+    
   </label>
 
 </template>

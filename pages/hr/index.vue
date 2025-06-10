@@ -19,10 +19,12 @@
             <hr_menu v-show="ismenuopen" class="absolute top-0 left-0 z-50 mt-12 ml-2" @click="clickmenuitem" />
           </div> -->
 
-          <div class="flex items-center justify-center md:ml-8">
+          <div class="flex items-center justify-center md:ml-8" v-show="userStore.loggedUser.granted.includes('hradmin') || userStore.loggedUser.granted.includes('su')">
 
-            <search_dashboard v-show="userStore.loggedUser.granted.includes('hradmin')" placeholder="Search Employee"
+            <search_dashboard  placeholder="Search Employee"
               :arrsections="arrsections_DBSerach" @getsearch="search_begin_DBSerach" />
+              <div class="bg-white p-1 -ml-2 rounded">
+                <Button class="w-24 -py-4 ml-2 border-white border-0 bg-blue-800 text-white font-bold"   label="New" variant="primary" @click="GoToAddNew" /></div>
           </div>
         </div>
       </div>
@@ -30,9 +32,7 @@
       <div
         class="flex-col items-center hidden -my-4 lg:pt-4 lg:flex-row gap-y-4 lg:gap-y-0 gap-x-4 lg:gap-x-8 md:pt-4 md:flex-row lg:flex">
         <!-- Hide on mobile -->
-        <div class="mr-8" v-show="userStore.loggedUser.userGroup === 'Supervisor' ||
-          userStore.loggedUser.userGroup === 'admin'
-          ">
+        <div class="mr-8" v-show="userStore.loggedUser.userGroup === 'Supervisor' ">
           <!-- HRAdmin -->
           <btnwgstatus name="workgroup" :wgjobcount="hrStore.dashboard.workgroupjobcount" @click="getviewwg" />
         </div>
@@ -46,18 +46,7 @@
     <!-- End  Top Header -->
 
     <div class="px-2 mt-4 lg:px-12">
-      <div class="text-2xl uppercase">Employee</div>
-      <div class="flex flex-col items-center justify-between mt-2 mb-8 md:flex-row">
-        <div class="w-full mb-4 md:mb-0">
-          <div class="mr-2">
-            <Button class="w-24" label="New" variant="primary" @click="GoToAddNew" />
 
-          </div>
-        </div>
-        <div class="w-full md:w-auto">
-          <SearchComp @DoSearch="GetSearch" />
-        </div>
-      </div>
       <div class="csscontent">
         <div
           class="grid grid-cols-1 gap-2 py-1 font-bold text-center text-white border border-gray-300 bg-blue-950 cssheader lg:grid-cols-8 rounded-t-md">
@@ -101,7 +90,7 @@
           </div> -->
           <div class="flex flex-col items-center md:pt-4 md:flex-row sm:gap-y-0 lg:hidden sm:justify-start">
             <div
-              v-show="userStore.loggedUser.userGroup === 'Supervisor' || userStore.loggedUser.userGroup === 'HRAdmin'">
+              v-show="userStore.loggedUser.userGroup === 'Supervisor'">
               <btnwgstatus name="workgroup" :wgjobcount="hrStore.dashboard.workgroupjobcount" @click="getviewwg" />
             </div>
           </div>
@@ -121,15 +110,16 @@
 
 
                     <img class="w-16 h-16 transform rounded hover:scale-125"
-                      :src="userStore.assetsBaseUrl + '/HR/' + userStore.loggedUser.branchCode + '/avator/' + emp.image"
+                      :src="userStore.assetsBaseUrl + emp.image"
                       alt="" />
-                    {{ emp.empname }}
+                    {{ emp.empName }}
                   </div>
                 </div>
 
                 <div class="cssdatarowitem lg:border-0">
                   <span class="lg:hidden">Emp No</span>
-                  {{ emp.empno }}
+                 
+                  {{ emp.empNo }}
                 </div>
                 <div class="cssdatarowitem lg:border-0">
                   <span class="lg:hidden">Contact</span>
@@ -154,7 +144,7 @@
                   <span class="lg:hidden">Department</span>
                   {{ emp.department }}
                 </div>
-                <div class="flex gap-2 cursor-pointer cssdatarowitem lg:border-0" @click="gotoUserguide">
+                <!-- <div class="flex gap-2 cursor-pointer cssdatarowitem lg:border-0" @click="gotoUserguide">
                   <div>
                     <svg xmlns="http://www.w3.org/2000/svg" class="w-6 h-6" fill="none" viewBox="0 0 24 24"
                       stroke="currentColor">
@@ -163,7 +153,7 @@
                     </svg>
                   </div>
                   <div>User Guide</div>
-                </div>
+                </div> -->
               </div>
               <!-- {{userStore.loggedUser}} -->
               <div class="flex flex-wrap justify-end gap-4 px-4 pb-2">
@@ -231,7 +221,7 @@
                 selectedrow == emp.id &&
                 !isSecClose
                 ">
-                <empmoredetails :empid="emp.id" @exit="exit" @setDeleteEmployee="setDeleteEmployee"
+                <empmoredetails  :empid="emp.id" @exit="exit" @setDeleteEmployee="setDeleteEmployee"
                   @setEmployee="setEmployee" />
               </div>
 
@@ -240,7 +230,7 @@
                 selectedrow == emp.id &&
                 !isSecClose
                 ">
-                <attendence v-if="!isLoading" ref="atten" :empno="emp.empno" :empname="emp.empname"
+                <attendence v-if="!isLoading" ref="atten" :empno="emp.empno" :empname="emp.empName"
                   :isOTEntitled="isOTEntitled" @exit="exit" />
               </div>
 
@@ -326,7 +316,7 @@
       <!-- End Employee Update   -->
     </div>
 
-    <AddEdit v-if="isAddEdit" @close="isAddEdit = false" />
+    <AddEdit v-if="isAddEdit" ref="compAddEdit" @close="isAddEdit = false" />
 
 
   </section>
@@ -427,7 +417,8 @@ export default {
   async created() {
     this.hrStore = useHrStore();
     this.userStore = useUserStore();
-    //this.mcleStore = useMcleStore();
+     this.showLoading = this.$showLoading;
+    await this.hrStore.loadInitEmployee(this.showLoading);
 
 
     // const config = useRuntimeConfig() ;  
@@ -436,9 +427,8 @@ export default {
     // await this.hrStore.loadListVendors({ keyword: '', searchBy: this.searchBy }, this.showLoading)
     // await this.hrStore.loadInitVendor(this.showLoading)
     // this.imageroot = this.vendorStore.initVendor.baseUrl;
-    this.showLoading = this.$showLoading;
 
-    // console.log('Hr List:', this.hrStore.alempdetails);
+ 
   },
 
   async mounted() {
@@ -457,11 +447,7 @@ export default {
     }
 
     this.search_begin_DBSerach(req);
-    this.assetsBaseUrl = localStorage.getItem("assetsBaseUrl");
-
-    // let reqGetWorkLoadCount = {
-
-    // };
+    this.assetsBaseUrl = localStorage.getItem("assetsBaseUrl");   
     await this.hrStore.getWorkLoadCount(this.showLoading);
   },
 
@@ -475,7 +461,9 @@ export default {
     },
 
     GoToAddNew() {
-  this.isAddEdit = true;
+      
+     this.hrStore.clearEmployee();
+     this.isAddEdit = true;
 },
 
     exitpopup() {
@@ -499,7 +487,7 @@ export default {
 
     async init_employee(id) {
       const hrStore = useHrStore();
-
+         
       this.cur_sec = 'viewemployee'
       this.isSecClose = true
       this.selectedrow = id
@@ -517,8 +505,10 @@ export default {
     },
 
     async setEmployee() {
-      this.cur_sec = 'updateemployee'
-      this.$refs.empupdatecomp.initUpdateEmployee()
+     
+      this.isAddEdit = true;
+     
+    
     },
 
     async empSaveCompletion(empNo) {
@@ -673,6 +663,8 @@ export default {
     },
 
     async search_begin_DBSerach(req) {
+
+      
 
       await this.hrStore.searchEmployees({
         keyword: req.searchval,

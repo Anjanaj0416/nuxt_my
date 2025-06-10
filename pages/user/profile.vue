@@ -122,7 +122,7 @@ export default {
   components: { closebtn, serach_Input,imagepicker,imagecomp },
   data() {
     return {
-      imageroot: process.env.Assets_83,
+      imageroot: '',
       isOpen: true,
       showLoading: null,
       err: { },
@@ -139,7 +139,7 @@ export default {
   async created() {
     this.showLoading = this.$showLoading;
     this.userStore = useUserStore();
-
+    this.imageroot= this.userStore.loggedUser.resourceURLRoot;
   },
   methods: {
     SelectAgent(csoNo) {
