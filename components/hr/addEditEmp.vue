@@ -3,7 +3,7 @@
     <div class="modal">
       <!-- Modal Header -->
       <div class="modal-header">
-        <h2 class="modal-title">Emplayee Details</h2>
+        <h2 class="modal-title">Emplayee Details   {{ isEditing ? "- Edit" : "- Add" }}</h2>
         <closebtn @close="closeModal" />
       </div>
 
@@ -13,16 +13,30 @@
           <h3 class="text-blue-600 font-bold">General Information</h3>
           <hr class="mb-4" />
           <!-- {{ hrStore.initEmployee }}
-          <hr />
-          {{ hrStore.empdetails }}
+          <hr /> -->
+          <!-- {{ hrStore.empdetails }}
           <hr /> -->
           <!-- <div class="grid grid-cols-2 gap-4 mt-4 sm:grid-cols-2 md:grid-cols-3">
             
           </div> -->
 
-          <div
-            class="grid grid-cols-2 gap-4 mt-4 sm:grid-cols-2 md:grid-cols-3"
-          >
+          <div class="grid grid-cols-2 gap-4 mt-4 sm:grid-cols-2 md:grid-cols-3">
+            <div class="">
+              <label class="block text-sm font-bold text-gray-600">
+                Employee No <span class="text-red-500">*</span>
+              </label>
+              <input
+                type="text"
+                v-model="hrStore.empdetails.empNo"
+                placeholder="Enter Employee No"
+                required
+                class="w-full p-2 mt-2 text-sm border rounded-md focus:ring-indigo-500 focus:border-indigo-500"
+              />
+              <p v-if="err.empNo" class="mt-2 text-sm text-red-600">
+                {{ err.empNo }}
+              </p>
+            </div>
+
             <div class="">
               <label class="block text-sm font-bold text-gray-600">
                 Employee Name <span class="text-red-500">*</span>
@@ -36,22 +50,6 @@
               />
               <p v-if="err.empName" class="mt-2 text-sm text-red-600">
                 {{ err.empName }}
-              </p>
-            </div>
-
-            <div class="">
-              <label class="block text-sm font-bold text-gray-600">
-                NIC Number <span class="text-red-500">*</span>
-              </label>
-              <input
-                type="text"
-                v-model="hrStore.empdetails.nic"
-                placeholder="Enter NIC Number"
-                required
-                class="w-full p-2 mt-2 text-sm border rounded-md focus:ring-indigo-500 focus:border-indigo-500"
-              />
-              <p v-if="err.NIC" class="mt-2 text-sm text-red-600">
-                {{ err.NIC }}
               </p>
             </div>
             <div class="">
@@ -107,7 +105,7 @@
               </label>
               <input
                 type="Email"
-                v-model="hrStore.empdetails.Email1"
+                v-model="hrStore.empdetails.email1"
                 placeholder="Enter Email 1"
                 class="w-full p-2 mt-2 text-sm border rounded-md focus:ring-indigo-500 focus:border-indigo-500"
                 required
@@ -118,7 +116,7 @@
             </div>
             <div class="">
               <label class="block text-sm font-bold text-gray-600">
-                Email 2<span class="text-red-500">*</span>
+                Email 2
               </label>
               <input
                 type="Email"
@@ -195,12 +193,10 @@
               </p>
             </div>
             <div>
-              <label class="block text-sm font-bold text-gray-600 mb-2"
-                >Gender</label
-              >
+              <label class="block text-sm font-bold text-gray-600 mb-2">Gender<span class="text-red-500">*</span></label>
               <selectinput
                 :selections="hrStore.initEmployee.arrGender"
-                v-model="hrStore.empdetails.Gender"
+                v-model="hrStore.empdetails.gender"
                 label=""
               />
 
@@ -224,10 +220,10 @@
               </p>
             </div>
             <div class="">
-              <label class="block text-sm font-bold text-gray-600">DOB</label>
+              <label class="block text-sm font-bold text-gray-600">DOB<span class="text-red-500">*</span></label>
               <input
                 type="Date"
-                v-model="hrStore.empdetails.DOB"
+                v-model="hrStore.empdetails.dob"
                 placeholder="Enter DOB"
                 required
                 class="w-full p-2 mt-2 text-sm border rounded-md focus:ring-indigo-500 focus:border-indigo-500"
@@ -238,10 +234,7 @@
             </div>
 
             <div class="">
-              <label class="block text-sm font-bold text-gray-600"
-                >Emp Type</label
-              >
-
+              <label class="block text-sm font-bold text-gray-600">Employee Type<span class="text-red-500">*</span></label>
               <serach_Input
                 :arrItems="hrStore.initEmployee.arrEmployeeStatus"
                 ref="refEmpType"
@@ -253,9 +246,7 @@
               </p>
             </div>
             <div class="">
-              <label class="block text-sm font-bold text-gray-600"
-                >Date Of Join</label
-              >
+              <label class="block text-sm font-bold text-gray-600">Date Of Join<span class="text-red-500">*</span></label>
               <input
                 type="date"
                 v-model="hrStore.empdetails.dateOfJoin"
@@ -268,10 +259,7 @@
               </p>
             </div>
             <div class="">
-              <label class="block text-sm font-bold text-gray-600"
-                >Manager Emp No</label
-              >
-
+              <label class="block text-sm font-bold text-gray-600">Manager Employee<span class="text-red-500">*</span></label>
               <serach_Input
                 :arrItems="hrStore.initEmployee.arrManagers"
                 ref="refManager"
@@ -284,7 +272,7 @@
             </div>
             <div class="">
               <label class="block text-sm font-bold text-gray-600"
-                >Calling Name</label
+                >Calling Name<span class="text-red-500">*</span></label
               >
               <input
                 type="text"
@@ -298,9 +286,7 @@
               </p>
             </div>
             <div class="">
-              <label class="block text-sm font-bold text-gray-600"
-                >On Time</label
-              >
+              <label class="block text-sm font-bold text-gray-600">On Time<span class="text-red-500">*</span></label>
               <input
                 type="time"
                 v-model="hrStore.empdetails.onTime"
@@ -314,9 +300,7 @@
             </div>
 
             <div class="">
-              <label class="block text-sm font-bold text-gray-600"
-                >Off Time</label
-              >
+              <label class="block text-sm font-bold text-gray-600">Off Time<span class="text-red-500">*</span></label>
               <input
                 type="time"
                 v-model="hrStore.empdetails.offTime"
@@ -345,9 +329,7 @@
             </div>
 
             <div class="">
-              <label class="block text-sm font-bold text-gray-600"
-                >User Group</label
-              >
+              <label class="block text-sm font-bold text-gray-600">User Group</label>
               <input
                 type="text"
                 v-model="hrStore.empdetails.UserGroup"
@@ -360,7 +342,7 @@
               </p>
             </div>
             <div class="">
-              <label class="block text-sm font-bold text-gray-600">Role</label>
+              <label class="block text-sm font-bold text-gray-600">Role<span class="text-red-500">*</span></label>
               <serach_Input
                 :arrItems="hrStore.initEmployee.arrRoles"
                 ref="refRoles"
@@ -373,9 +355,7 @@
               </p>
             </div>
             <div class="">
-              <label class="block text-sm font-bold text-gray-600"
-                >User Type</label
-              >
+              <label class="block text-sm font-bold text-gray-600">User Type<span class="text-red-500">*</span></label>
               <input
                 type="text"
                 v-model="hrStore.empdetails.userType"
@@ -388,10 +368,22 @@
               </p>
             </div>
 
+             <div class="">
+              <label class="block text-sm font-bold text-gray-600">Employee ststus<span class="text-red-500">*</span></label>
+              <input
+                type="text"
+                v-model="hrStore.empdetails.employeeStatus"
+                placeholder="Enter User Type"
+                required
+                class="w-full p-2 mt-2 text-sm border rounded-md focus:ring-indigo-500 focus:border-indigo-500"
+              />
+              <p v-if="err.employeeStatus" class="mt-2 text-sm text-red-600">
+                {{ err.employeeStatus }}
+              </p>
+            </div>
+
             <div class="">
-              <label class="block text-sm font-bold text-gray-600"
-                >CSO No</label
-              >
+              <label class="block text-sm font-bold text-gray-600">CSO No</label>
               <input
                 type="text"
                 v-model="hrStore.empdetails.csoNo"
@@ -404,10 +396,7 @@
               </p>
             </div>
             <div class="">
-              <label class="block text-sm font-bold text-gray-600"
-                >Emp Category</label
-              >
-
+              <label class="block text-sm font-bold text-gray-600">Emp Category<span class="text-red-500">*</span></label>
               <serach_Input
                 :arrItems="hrStore.initEmployee.arrEmpCategories"
                 ref="refEmpCategory"
@@ -415,14 +404,12 @@
                 @selectItem="GetSelectEmpCategories"
               />
 
-              <p v-if="err.Category" class="mt-2 text-sm text-red-600">
-                {{ err.Category }}
+              <p v-if="err.empCategory" class="mt-2 text-sm text-red-600">
+                {{ err.empCategory }}
               </p>
             </div>
             <div class="">
-              <label class="block text-sm font-bold text-gray-600"
-                >Privilege Level</label
-              >
+              <label class="block text-sm font-bold text-gray-600">Privilege Level</label>
               <input
                 type="text"
                 v-model="hrStore.empdetails.privilegeLevel"
@@ -432,10 +419,7 @@
               />
             </div>
             <div>
-              <label class="block text-sm font-bold text-gray-600"
-                >Transport</label
-              >
-
+              <label class="block text-sm font-bold text-gray-600">Transport</label>
               <toggleoption v-model="hrStore.empdetails.isTransport" />
               <div class="text-sm font-medium text-gray-600">
                 {{ hrStore.empdetails.isTransport ? "Transport" : "Private" }}
@@ -443,14 +427,9 @@
             </div>
           </div>
 
-          <div
-            class="grid grid-cols-2 gap-4 mt-4 sm:grid-cols-1 md:grid-cols-3"
-          >
+          <div class="grid grid-cols-2 gap-4 mt-4 sm:grid-cols-1 md:grid-cols-3">
             <div class="">
-              <label class="block text-sm font-bold mb-2 text-gray-600"
-                >Photo</label
-              >
-
+              <label class="block text-sm font-bold mb-2 text-gray-600">Photo</label>
               <imagepicker1
                 :existingImagePath="imageroot + hrStore.empdetails.imageUrl"
                 @deleteExistingImage="hrStore.empdetails.image = null"
@@ -472,10 +451,26 @@
                 {{ err.signature }}
               </p>
             </div>
+          </div>
+
+          <div class="grid grid-cols-2 gap-4 mt-4 sm:grid-cols-1 md:grid-cols-3">
             <div class="">
-              <label class="block text-sm font-bold mb-2 text-gray-600"
-                >NIC</label
-              >
+              <label class="block text-sm font-bold text-gray-600">
+                NIC Number <span class="text-red-500">*</span>
+              </label>
+              <input
+                type="text"
+                v-model="hrStore.empdetails.nic"
+                placeholder="Enter Nic Number"
+                required
+                class="w-full p-2 mt-2 text-sm border rounded-md focus:ring-indigo-500 focus:border-indigo-500"
+              />
+              <p v-if="err.nic" class="mt-2 text-sm text-red-600">
+                {{ err.nic }}
+              </p>
+            </div>
+            <div class="">
+              <label class="block text-sm font-bold mb-2 text-gray-600">NIC image Upload</label>
               <imagepicker1
                 :existingImagePath="imageroot + hrStore.empdetails.nicUrl"
                 @deleteExistingImage="hrStore.empdetails.nicImage = null"
@@ -565,9 +560,7 @@
             class="grid grid-cols-2 gap-4 mt-4 sm:grid-cols-1 md:grid-cols-3"
           >
             <div>
-              <label class="block text-sm font-bold text-gray-600"
-                >OT Allowed</label
-              >
+              <label class="block text-sm font-bold text-gray-600">OT Allowed</label>
 
               <toggleoption v-model="hrStore.empdetails.isOTAllow" />
               <div class="text-sm font-medium text-gray-600">
@@ -627,7 +620,7 @@
             </div>
 
             <div>
-              <label class="block text-sm font-bold text-gray-600">
+              <label class="block text-sm font-bold text-gray-600 mb-2">
                 Reason For Resign
               </label>
               <textarea
@@ -641,7 +634,7 @@
             </div>
 
             <div>
-              <label class="block text-sm font-bold text-gray-600">
+              <label class="block text-sm font-bold text-gray-600 mb-2">
                 Status
               </label>
               <toggleoption
@@ -695,8 +688,9 @@ export default {
       err: {
         EmpNo: "",
         EPFNo: "",
-        empName: "",
+        EmpName: "",
         NIC: "",
+        nicImage:"",
         Address: "",
         Contact1: "",
         Contact2: "",
@@ -742,7 +736,14 @@ export default {
       showLoading: null,
     };
   },
-  computed: {},
+  computed: {
+    isEditing() {
+      return (
+        this.empdetails &&
+        this.empdetails.id !== "00000000-0000-0000-0000-000000000000"
+      );
+    },
+  },
   async created() {
     this.hrStore = useHrStore();
     this.userStore = useUserStore();
@@ -769,16 +770,20 @@ export default {
     },
 
     async SaveEmployee() {
-      //if (this.IsValidate()) {
-      if (true) {
-        // console.log(JSON.stringify(this.hrStore.empdetails));
-        const formData = this.convertToFormData(this.hrStore.empdetails);
-        await this.hrStore.AddEdiEmployee(formData, this.showLoading);
-        this.closeModal();
-      } else {
-        console.log("Validation failed.");
+      if (this.IsValidate()) {
+        if (true) {
+          // console.log(JSON.stringify(this.hrStore.empdetails));
+          const formData = this.convertToFormData(this.hrStore.empdetails);
+          await this.hrStore.AddEdiEmployee(formData, this.showLoading);
+          this.closeModal();
+        } else {
+          console.log("Validation failed.");
+        }
       }
     },
+
+    
+
 
     convertToFormData(formObject) {
       const formData = new FormData();
@@ -811,6 +816,8 @@ export default {
       formData.append("Gender", formObject.gender || "");
       formData.append("EpfNo", formObject.epfNo || "");
       formData.append("Granted", formObject.granted || "");
+      formData.append("Nic", formObject.nic || "");
+
 
       // Files
       if (formObject.image) {
@@ -819,10 +826,10 @@ export default {
 
       formData.append("IsActive", formObject.isActive);
       formData.append("IsExecutive", formObject.isExecutive);
-      formData.append("IsMorningOTAllowed", formObject.isMorningOTAllowed);
+      formData.append("IsMorningOTAllowed", formObject.isMorningOTAllowed ?? false);
       formData.append("IsTransport", formObject.isTransport ?? false);
-      formData.append("IsOTAllow", formObject.isOTAllow);
-      formData.append("IsResigned", formObject.isResigned);
+      formData.append("IsOTAllow", formObject.isOTAllow ?? false);
+      formData.append("IsResigned", formObject.isResigned ?? false);
       formData.append(
         "ManagerEmployeeId",
         formObject.managerEmployee.id || "00000000-0000-0000-0000-000000000000"
@@ -856,6 +863,7 @@ export default {
     },
 
     GetSelectStaffType(item) {
+       console.log("Selected StaffType ID:", item.id);
       this.hrStore.empdetails.staffType = item;
     },
 
@@ -869,6 +877,10 @@ export default {
 
     GetSelectEmpCategories(item) {
       this.hrStore.empdetails.category = item;
+    },
+
+    GetSelectEmpType(item) {
+      this.hrStore.empdetails.empType = item;
     },
 
     GetSelectedImageFile(file) {
@@ -888,13 +900,39 @@ export default {
 
       let IsValidate = true;
 
-      if (!this.hrStore.empdetails.gender) {
-        this.err.Gender = "Please Enter Gender!";
+      if (!this.hrStore.empdetails.empType || !this.hrStore.empdetails.empType.id) {
+        this.err.EmpType = "Please Enter Employee Type!";
         IsValidate = false;
       }
 
-      if (!this.hrStore.empdetails.department) {
-        this.err.Department = "Please Enter Business Registration Number!";
+      if (!this.hrStore.empdetails.category || !this.hrStore.empdetails.category.id) {
+        this.err.empCategory = "Please Enter Employee Catagory!";
+        IsValidate = false;
+      }
+
+      if (!this.hrStore.empdetails.role || !this.hrStore.empdetails.role.id) {
+        this.err.Role = "Please Enter Enter Role!!";
+        IsValidate = false;
+      }
+
+      if (!this.hrStore.empdetails.managerEmployee || !this.hrStore.empdetails.managerEmployee.id) {
+        this.err.ManagerEmpNo = "Please Enter Enter Manager!!";
+        IsValidate = false;
+      }
+
+      if (!this.hrStore.empdetails.department || !this.hrStore.empdetails.department.id) {
+        this.err.Department = "Please Enter Enter Department!!";
+        IsValidate = false;
+      }
+
+
+      if (!this.hrStore.empdetails.empNo) {
+        this.err.empNo = "Please Enter Employee No!";
+        IsValidate = false;
+      }
+
+      if (!this.hrStore.empdetails.gender) {
+        this.err.Gender = "Please Enter Gender!";
         IsValidate = false;
       }
 
@@ -903,21 +941,21 @@ export default {
         IsValidate = false;
       } else {
         const EmailRegex = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
-        if (!EmailRegex.test(this.hrStore.empdetails.Email1)) {
+        if (!EmailRegex.test(this.hrStore.empdetails.email1)) {
           this.err.Email1 = "Please Enter a valid Email address!";
           IsValidate = false;
         }
       }
 
-      if (!this.hrStore.empdetails.Email1) {
-        this.err.Email2 = "Please Enter an Email 2!";
+
+
+      if (!this.hrStore.empdetails.onTime) {
+        this.err.ontime = "Please Enter On Time!";
         IsValidate = false;
-      } else {
-        const EmailRegex = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
-        if (!EmailRegex.test(this.hrStore.empdetails.Email1)) {
-          this.err.Email2 = "Please Enter a valid Email address!";
-          IsValidate = false;
-        }
+      }
+      if (!this.hrStore.empdetails.offTime) {
+        this.err.offtime = "Please Enter Off Time!";
+        IsValidate = false;
       }
 
       if (!this.hrStore.empdetails.empName) {
@@ -925,159 +963,176 @@ export default {
         IsValidate = false;
       }
 
-      if (!this.hrStore.empdetails.Contact1) {
+      if (!this.hrStore.empdetails.contact1) {
         this.err.Contact1 = "Please Enter Contact Number 1!";
         IsValidate = false;
       } else {
         const contactNoRegex = /^[0-9]{10}$/;
-        if (!contactNoRegex.test(this.hrStore.empdetails.Contact1)) {
+        if (!contactNoRegex.test(this.hrStore.empdetails.contact1)) {
           this.err.Contact1 = "Please Enter a valid 10-digit contact number!";
           IsValidate = false;
         }
+
       }
 
       if (!this.hrStore.empdetails.nic) {
-        this.err.NIC = "Please Enter NIC Number";
+        this.err.nic = "Please Enter NIC Number";
         IsValidate = false;
       }
 
-      if (!this.hrStore.empdetails.Address) {
+      if (!this.hrStore.empdetails.address) {
         this.err.Address = "Please Enter Address!";
         IsValidate = false;
       }
 
-      if (!this.hrStore.empdetails.DOB) {
+      if (!this.hrStore.empdetails.dob) {
         this.err.DOB = "Please Enter DOB!";
         IsValidate = false;
       }
 
-      if (!this.hrStore.empdetails.Contact2) {
-        this.err.Contact2 = "Please Enter Contact Number 2!";
-        IsValidate = false;
-      } else {
-        const contactNoRegex1 = /^[0-9]{10}$/;
-        if (!contactNoRegex1.test(this.curEmp.Contact2)) {
-          this.err.Contact2 = "Please Enter a valid 10-digit Mobile Number!";
-          IsValidate = false;
-        }
-      }
-
-      if (!this.hrStore.empdetails.Department) {
-        this.err.Department = "Please Enter Website!";
-        IsValidate = false;
-      }
-
-      if (!this.hrStore.empdetails.EPFNo) {
-        this.err.EPFNo = "Please Enter EPF No!";
-        IsValidate = false;
-      }
-
-      if (!this.hrStore.empdetails.StaffType) {
-        this.err.StaffType = "Please Enter Staff Type!";
-        IsValidate = false;
-      }
-
-      // // Other information validation
-      if (!this.hrStore.empdetails.EmpType) {
-        this.err.EmpType = "Please Enter Emp Type!";
-        IsValidate = false;
-      }
-
-      if (!this.hrStore.empdetails.DateOfJoin) {
-        this.err.DateOfJoin = "Please Enter Date Of Join!";
-        IsValidate = false;
-      }
-
-      if (!this.hrStore.empdetails.Designation) {
-        this.err.Designation = "Please Enter Designation!";
-        IsValidate = false;
-      }
-
-      if (!this.hrStore.empdetails.EmergencyContact) {
-        this.err.EmergencyContact = "Please Enter Contact Number!";
-        IsValidate = false;
-      } else {
-        const contactNoRegex1 = /^[0-9]{10}$/;
-        if (!contactNoRegex1.test(this.hrStore.empdetails.EmergencyContact)) {
-          this.err.EmergencyContact =
-            "Please Enter a valid 10-digit Contact Number!";
-          IsValidate = false;
-        }
-      }
-
+      
       if (!this.hrStore.empdetails.callingName) {
         this.err.callingName = "Please Enter Calling Name!";
         IsValidate = false;
       }
 
-      if (!this.hrStore.empdetails.ContactEmail) {
-        this.err.ContactEmail = "Please Enter an Email!";
-        IsValidate = false;
-      } else {
-        const EmailRegex = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
-        if (!EmailRegex.test(this.hrStore.empdetails.ContactEmail)) {
-          this.err.ContactEmail = "Please Enter a valid Email address!";
-          IsValidate = false;
-        }
-      }
-
-      if (!this.hrStore.empdetails.signature) {
-        this.err.signature = "Please Enter Signature!";
+      if (!this.hrStore.empdetails.designation) {
+        this.err.Designation = "Please Enter Designation!";
         IsValidate = false;
       }
 
-      if (!this.hrStore.empdetails.ontime) {
-        this.err.ontime = "Please Enter On Time!";
-        IsValidate = false;
-      }
-      if (!this.hrStore.empdetails.offtime) {
-        this.err.offtime = "Please Enter Off Time!";
-        IsValidate = false;
-      }
-
-      if (!this.hrStore.empdetails.Granted) {
-        this.err.Granted = "Please Enter Granted!";
-        IsValidate = false;
-      }
-
-      if (!this.hrStore.empdetails.Role) {
-        this.err.Role = "Please Enter Role!";
-        IsValidate = false;
-      }
-
-      if (!this.hrStore.empdetails.UserType) {
-        this.err.UserType = "Please Enter User Type!";
-        IsValidate = false;
-      }
-
-      if (!this.hrStore.empdetails.UserGroup) {
-        this.err.UserGroup = "Please Enter UserGroup!";
-        IsValidate = false;
-      }
-      if (!this.hrStore.empdetails.CSONo) {
-        this.err.CSONo = "Please Enter CSONo!";
-        IsValidate = false;
-      }
-
-      ///////////////
-      if (!this.hrStore.empdetails.AnnualLeave) {
+      if (!this.hrStore.empdetails.annualLeave) {
         this.err.AnnualLeave = "Please Enter Annual Leave!";
         IsValidate = false;
       }
-      if (!this.hrStore.empdetails.CasualLeave) {
+
+      if (!this.hrStore.empdetails.casualLeave) {
         this.err.CasualLeave = "Please Enter Casual Leave !";
         IsValidate = false;
       }
 
-      if (!this.hrStore.empdetails.SickLeave) {
+      if (!this.hrStore.empdetails.sickLeave) {
         this.err.SickLeave = "Please Enter Sick Leave!";
         IsValidate = false;
       }
 
-      if (!this.hrStore.empdetails.OtherLeave) {
+      if (!this.hrStore.empdetails.otherLeave) {
         this.err.OtherLeave = "Please Enter Other Leave!";
         IsValidate = false;
       }
+
+
+
+      if (!this.hrStore.empdetails.dateOfJoin) {
+        this.err.DateOfJoin = "Please Enter Date Of Join!";
+        IsValidate = false;
+      }
+
+      if (!this.hrStore.empdetails.employeeStatus) {
+        this.err.employeeStatus = "Please Enter employeeStatus!";
+        IsValidate = false;
+      }
+
+
+ 
+
+
+
+
+
+
+/////////////////////////////////
+
+      // if (!this.hrStore.empdetails.Email2) {
+      //   this.err.Email2 = "Please Enter an Email 2!";
+      //   IsValidate = false;
+      // } else {
+      //   const EmailRegex = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
+      //   if (!EmailRegex.test(this.hrStore.empdetails.Email2)) {
+      //     this.err.Email2 = "Please Enter a valid Email address!";
+      //     IsValidate = false;
+      //   }
+      // }
+
+
+
+      // if (!this.hrStore.empdetails.Contact2) {
+      //   this.err.Contact2 = "Please Enter Contact Number 2!";
+      //   IsValidate = false;
+      // } else {
+      //   const contactNoRegex1 = /^[0-9]{10}$/;
+      //   if (!contactNoRegex1.test(this.curEmp.Contact2)) {
+      //     this.err.Contact2 = "Please Enter a valid 10-digit Mobile Number!";
+      //     IsValidate = false;
+      //   }
+      // }
+
+
+
+      // if (!this.hrStore.empdetails.EPFNo) {
+      //   this.err.EPFNo = "Please Enter EPF No!";
+      //   IsValidate = false;
+      // }
+
+      // if (!this.hrStore.empdetails.StaffType) {
+      //   this.err.StaffType = "Please Enter Staff Type!";
+      //   IsValidate = false;
+      // }
+
+      // // Other information validation
+      // if (!this.hrStore.empdetails.EmergencyContact) {
+      //   this.err.EmergencyContact = "Please Enter Contact Number!";
+      //   IsValidate = false;
+      // } else {
+      //   const contactNoRegex1 = /^[0-9]{10}$/;
+      //   if (!contactNoRegex1.test(this.hrStore.empdetails.EmergencyContact)) {
+      //     this.err.EmergencyContact =
+      //       "Please Enter a valid 10-digit Contact Number!";
+      //     IsValidate = false;
+      //   }
+      // }
+
+
+      // if (!this.hrStore.empdetails.ContactEmail) {
+      //   this.err.ContactEmail = "Please Enter an Email!";
+      //   IsValidate = false;
+      // } else {
+      //   const EmailRegex = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
+      //   if (!EmailRegex.test(this.hrStore.empdetails.ContactEmail)) {
+      //     this.err.ContactEmail = "Please Enter a valid Email address!";
+      //     IsValidate = false;
+      //   }
+      // }
+
+      // if (!this.hrStore.empdetails.signature) {
+      //   this.err.signature = "Please Enter Signature!";
+      //   IsValidate = false;
+      // }
+
+
+      // if (!this.hrStore.empdetails.Granted) {
+      //   this.err.Granted = "Please Enter Granted!";
+      //   IsValidate = false;
+      // }
+
+
+
+      // if (!this.hrStore.empdetails.UserType) {
+      //   this.err.UserType = "Please Enter User Type!";
+      //   IsValidate = false;
+      // }
+
+      // if (!this.hrStore.empdetails.UserGroup) {
+      //   this.err.UserGroup = "Please Enter UserGroup!";
+      //   IsValidate = false;
+      // }
+      // if (!this.hrStore.empdetails.CSONo) {
+      //   this.err.CSONo = "Please Enter CSONo!";
+      //   IsValidate = false;
+      // }
+
+      ///////////////
+
 
       return IsValidate;
     },

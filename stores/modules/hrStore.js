@@ -153,36 +153,44 @@ export const useHrStore = defineStore("hrStore", {
 
   actions: {
 
-     //addEditEmployee
-        async AddEdiEmployee(formData, showLoading) {
-          const loadingAlert = showLoading("");
-          try {
-            const response = await axios.post(
-              `${import.meta.env.VITE_API_URL}/hr/Employee/SetAddEdit`,
-              formData,
-              {
-                headers: {
-                  "Content-Type": "multipart/form-data",
-                },
-              }
-            );
-    
-            loadingAlert.close();
-    
-            if (response.data.isSuccess) {         
-              this.showToast(response.data.message,"success");       
-              // this.listVendor = response.data.data.data;
-              //zzz has to do more here
-            
-            } else {
-              //console.error("error:",response.data.message)
-               this.showToast(response.data.message, "error");
-            }
-          } catch (error) {
-            //console.error("error:",error)
-            this.showToast('Error in server call', "error");
-           }
-        },
+    //addEditEmployee
+    async AddEdiEmployee(formData, showLoading) {
+
+      console.log("FormData content:");
+      for (let [key, value] of formData.entries()) {
+        console.log(`${key}:`, value);
+      }
+
+      const loadingAlert = showLoading("Saving Employee...");
+
+      try {
+        const response = await axios.post(
+          `${import.meta.env.VITE_API_URL}/hr/Employee/SetAddEdit`,
+          formData,
+          {
+            headers: {
+              "Content-Type": "multipart/form-data",
+            },
+          }
+        );
+
+        loadingAlert.close();
+
+        if (response.data.isSuccess) {
+          this.showToast(response.data.message, "success");
+          this.alempdetails = response.data.data.data;
+          // You can also update other state values if needed
+        } else {
+          console.error("Server error:", response.data.message);
+          this.showToast(response.data.message, "error");
+        }
+      } catch (error) {
+        loadingAlert.close();
+        console.error("Error in server call:", error);
+        this.showToast("Error in server call", "error");
+      }
+    },
+
 
 
     //loadInitEmployee
