@@ -170,9 +170,10 @@ export const useHrStore = defineStore("hrStore", {
             loadingAlert.close();
     
             if (response.data.isSuccess) {         
-              this.showToast(response.data.message,"success");       
-              // this.listVendor = response.data.data.data;
-              //zzz has to do more here
+              this.showToast(response.data.message,"success"); 
+             // console.log(response.data.data.data);      
+              this.alempdetails  = response.data.data.data;
+             
             
             } else {
               //console.error("error:",response.data.message)
