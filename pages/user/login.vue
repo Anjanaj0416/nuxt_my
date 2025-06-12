@@ -106,6 +106,7 @@ definePageMeta({
 });
 
 export default {
+  layout: 'b2b',
   components: { changelogin, register, logo },
   props: [""],
   data() {
