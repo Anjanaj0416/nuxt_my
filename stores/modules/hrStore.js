@@ -11,6 +11,7 @@ export const useHrStore = defineStore("hrStore", {
     dashboard: {
       workgroupjobcount: null,
     },
+    curEmployee:{},
     alempdetails: [],
     empdetails: {
       id: "",
@@ -154,15 +155,11 @@ export const useHrStore = defineStore("hrStore", {
   actions: {
 
     //addEditEmployee
-    async AddEdiEmployee(formData, showLoading) {
-
-      console.log("FormData content:");
-      for (let [key, value] of formData.entries()) {
-        console.log(`${key}:`, value);
-      }
-
-      const loadingAlert = showLoading("Saving Employee...");
-
+    async AddEdiEmployee(formData, showLoading) {    
+     
+     
+      const loadingAlert = showLoading("");    
+    
       try {
         const response = await axios.post(
           `${import.meta.env.VITE_API_URL}/hr/Employee/SetAddEdit`,
@@ -420,7 +417,8 @@ export const useHrStore = defineStore("hrStore", {
         );
         // console.log("response:",response.data.data.data);
         if (response.data.isSuccess) {
-          this.empdetails = response.data.data.data || {};
+          this.curEmployee = response.data.data.data || {};    
+           this.empdetails = this.curEmployee;    
           // this.showToast('Loading successful!', 'success');
         } else {
           console.error("Loading error:", response.data.message);

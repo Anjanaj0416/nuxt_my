@@ -3,7 +3,7 @@
     <div class="modal">
       <!-- Modal Header -->
       <div class="modal-header">
-        <h2 class="modal-title">Emplayee Details   {{ isEditing ? "- Edit" : "- Add" }}</h2>
+        <h2 class="modal-title">  Emplayee Details   {{ isEditing ? "- Edit" : "- Add" }}</h2>
         <closebtn @close="closeModal" />
       </div>
 
@@ -397,6 +397,7 @@
             </div>
             <div class="">
               <label class="block text-sm font-bold text-gray-600">Emp Category<span class="text-red-500">*</span></label>
+            
               <serach_Input
                 :arrItems="hrStore.initEmployee.arrEmpCategories"
                 ref="refEmpCategory"
@@ -408,16 +409,7 @@
                 {{ err.empCategory }}
               </p>
             </div>
-            <div class="">
-              <label class="block text-sm font-bold text-gray-600">Privilege Level</label>
-              <input
-                type="text"
-                v-model="hrStore.empdetails.privilegeLevel"
-                placeholder="Enter Privilege Level"
-                required
-                class="w-full p-2 mt-2 text-sm border rounded-md focus:ring-indigo-500 focus:border-indigo-500"
-              />
-            </div>
+          
             <div>
               <label class="block text-sm font-bold text-gray-600">Transport</label>
               <toggleoption v-model="hrStore.empdetails.isTransport" />
@@ -647,8 +639,8 @@
 
       <div class="modal-footer">
         <button @click="cancel" class="cancel-button">Cancel</button>
-        <button @click="SaveEmployee()" class="confirm-button">
-          Save Leads Details
+        <button @click="SaveEmployee" class="confirm-button">
+          Save Details
         </button>
       </div>
     </div>
@@ -738,9 +730,9 @@ export default {
   },
   computed: {
     isEditing() {
-      return (
-        this.empdetails &&
-        this.empdetails.id !== "00000000-0000-0000-0000-000000000000"
+       
+      return (       
+        this.hrStore.empdetails.id !== "00000000-0000-0000-0000-000000000000"
       );
     },
   },
@@ -749,6 +741,7 @@ export default {
     this.userStore = useUserStore();
     this.showLoading = this.$showLoading;
     this.imageroot = this.userStore.loggedUser.resourceURLRoot;
+   
   },
   mounted() {
     this.$refs.refDepartment.initItem(this.hrStore.empdetails.department.id);
@@ -770,15 +763,16 @@ export default {
     },
 
     async SaveEmployee() {
-      if (this.IsValidate()) {
-        if (true) {
-          // console.log(JSON.stringify(this.hrStore.empdetails));
-          const formData = this.convertToFormData(this.hrStore.empdetails);
+       
+      if (this.IsValidate()) {   
+  
+           console.log(JSON.stringify(this.hrStore.empdetails));
+        
+          const formData = this.convertToFormData(this.hrStore.empdetails);           
+           
           await this.hrStore.AddEdiEmployee(formData, this.showLoading);
-          this.closeModal();
-        } else {
-          console.log("Validation failed.");
-        }
+          //this.closeModal();
+      
       }
     },
 
@@ -862,8 +856,7 @@ export default {
       this.hrStore.empdetails.department = item;
     },
 
-    GetSelectStaffType(item) {
-       console.log("Selected StaffType ID:", item.id);
+    GetSelectStaffType(item) {    
       this.hrStore.empdetails.staffType = item;
     },
 
@@ -905,7 +898,7 @@ export default {
         IsValidate = false;
       }
 
-      if (!this.hrStore.empdetails.category || !this.hrStore.empdetails.category.id) {
+      if (!this.hrStore.empdetails.category || !this.hrStore.empdetails.category.id) {     
         this.err.empCategory = "Please Enter Employee Catagory!";
         IsValidate = false;
       }
@@ -977,6 +970,11 @@ export default {
 
       if (!this.hrStore.empdetails.nic) {
         this.err.nic = "Please Enter NIC Number";
+        IsValidate = false;
+      }
+
+      if (!this.hrStore.empdetails.staffType || !this.hrStore.empdetails.staffType.id) {      
+        this.err.StaffType = "Please Enter staff type";
         IsValidate = false;
       }
 
