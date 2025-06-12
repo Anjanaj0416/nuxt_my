@@ -11,6 +11,14 @@ export const useVendorStore = defineStore("vendorStore", {
     listLeads:[],
     InitLeads:{},
     curLead:{},
+    obgRegVendorAdmin:{
+      suAdmin:{
+
+      },
+      otherUswe:{
+
+      }
+    },
   }),
   persist: true,
 
