@@ -162,7 +162,7 @@
             <div class="grid grid-cols-1 mt-2 gap-y-4 sm:grid-cols-5 sm:gap-x-6">  
                
           
-             <!-- <div class="col-span-1">
+            <!-- <div class="col-span-1">
               <hr_item item="Status"   :value="hrStore.empdetails.employeeStatus" />
             </div> -->
               <div class="col-span-1">
