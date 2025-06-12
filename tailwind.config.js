@@ -11,6 +11,8 @@ module.exports = {
       colors: {
         btn: '#072556',
         nav : '#072556',
+        textColor: '#9900c7',
+
       }
     },
   },

@@ -368,7 +368,7 @@
               </p>
             </div>
 
-             <div class="">
+             <!-- <div class="">
               <label class="block text-sm font-bold text-gray-600">Employee ststus<span class="text-red-500">*</span></label>
               <input
                 type="text"
@@ -380,7 +380,7 @@
               <p v-if="err.employeeStatus" class="mt-2 text-sm text-red-600">
                 {{ err.employeeStatus }}
               </p>
-            </div>
+            </div> -->
 
             <div class="">
               <label class="block text-sm font-bold text-gray-600">CSO No</label>
@@ -698,7 +698,7 @@ export default {
         DateOfJoin: "",
         IsResign: false,
         IsTransport: false,
-        EmployeeStatus: "",
+        // EmployeeStatus: "",
         DateOfResign: "",
         ReasonForResign: "",
         Image: "",
@@ -803,7 +803,7 @@ export default {
       formData.append("EmpName", formObject.empName || "");
       formData.append("EmpNo", formObject.empNo || "");
       formData.append("EmpTypeId", formObject.empType.id || 0);
-      formData.append("EmployeeStatus", formObject.employeeStatus || "");
+      // formData.append("EmployeeStatus", formObject.employeeStatus || "");
       formData.append("Email1", formObject.email1 || "");
       formData.append("Email2", formObject.email2 || "");
       formData.append("EmergencyContact", formObject.emergencyContact || "");
@@ -1026,10 +1026,10 @@ export default {
         IsValidate = false;
       }
 
-      if (!this.hrStore.empdetails.employeeStatus) {
-        this.err.employeeStatus = "Please Enter employeeStatus!";
-        IsValidate = false;
-      }
+      // if (!this.hrStore.empdetails.employeeStatus) {
+      //   this.err.employeeStatus = "Please Enter employeeStatus!";
+      //   IsValidate = false;
+      // }
 
 
  
