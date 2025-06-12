@@ -13,3 +13,7 @@ export default {
 <style>
 
 </style>
+
+<!-- <template>
+  <Nuxt />
+</template> -->

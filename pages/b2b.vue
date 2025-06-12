@@ -7,7 +7,7 @@
         <img src="https://prep.btob.lk/assets/Logo-83eaeda6.png" alt="B2B.lk Logo" class="w-36 h-24 mb-4" />
         <h3 class="text-3xl font-bold text-gray-900">Vendor Admin Access Registration</h3>
         <p class="mt-3 text-gray-700 max-w-2xl">
-            As part of your onboarding to the <span class="font-semibold text-textColor">B2B.lk marketplace</span>, please provide details of <span class="font-semibold">two personnel</span> from your team who will be granted backend access. One will be assigned <span class="font-semibold text-textColor">Super Admin</span> privileges.
+            As part of your onboarding to the <a href="" class="text-textColor font-medium ">B2B.lk marketplace</a>, please provide details of <span class="font-semibold">two personnel</span> from your team who will be granted backend access. One will be assigned <span class="font-semibold text-textColor">Super Admin</span> privileges.
         </p>
         </div>
 
@@ -18,7 +18,7 @@
             <li><span class="font-medium text-gray-900">Assign the Super Admin role</span> to the business owner or a senior decision-maker.</li>
             <li>These users will manage your <span class="italic">products, orders, and account information</span> on the platform.</li>
             <li>Submit this form along with your Proforma Invoice confirmation.</li>
-            <li>For any queries, contact us <span class="text-textColor font-medium">011 222 3 222</span>.</li>
+            <li>For any queries, contact us <a href="tel:0112223222" class="text-textColor font-medium hover:underline"> 011 222 3 222</a>.</li>
         </ul>
         </div>
 
@@ -88,19 +88,6 @@
                 </button>
                 </div>
             </div>
-            <div>
-                <label class="block mb-1 text-sm font-medium text-gray-500">Preferred Username (for login)</label>
-                <div class="relative">
-                <input
-                    type="text"
-                    placeholder="Enter Preferred Username"
-                    required
-                    class="w-full px-4 py-2 pr-10 text-sm border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-300"
-                />
-                <button type="button" class="absolute inset-y-0 flex items-center text-black right-3">
-                </button>
-                </div>
-            </div>
         </div>
         <h3 class="mt-12 text-gray-600 font-bold"> Additional Admin User Details</h3>
         <hr class="mb-4" />
@@ -160,19 +147,6 @@
                 <input
                     type="text"
                     placeholder="Enter National ID / Passport Numbe"
-                    required
-                    class="w-full px-4 py-2 pr-10 text-sm border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-300"
-                />
-                <button type="button" class="absolute inset-y-0 flex items-center text-black right-3">
-                </button>
-                </div>
-            </div>
-            <div>
-                <label class="block mb-1 text-sm font-medium text-gray-500">Preferred Username (for login)</label>
-                <div class="relative">
-                <input
-                    type="text"
-                    placeholder="Enter Preferred Username"
                     required
                     class="w-full px-4 py-2 pr-10 text-sm border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-300"
                 />

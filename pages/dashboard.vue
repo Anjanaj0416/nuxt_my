@@ -64,7 +64,6 @@ definePageMeta({
    });
 
 export default {
-  
   components: {login,changelogin,chart},
   props:[''],
   data() {
