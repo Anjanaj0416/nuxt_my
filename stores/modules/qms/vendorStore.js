@@ -11,12 +11,20 @@ export const useVendorStore = defineStore("vendorStore", {
     listLeads:[],
     InitLeads:{},
     curLead:{},
-    obgRegVendorAdmin:{
+    regVendorAdmin:{
       suAdmin:{
-
+        fullName:'',
+        designation:'',
+        email:'',
+        mobile:'',
+        nic:'',
       },
-      otherUswe:{
-
+      additionalUser:{
+         fullName:'',
+        designation:'',
+        email:'',
+        mobile:'',
+        nic:'',
       }
     },
   }),
@@ -25,11 +33,36 @@ export const useVendorStore = defineStore("vendorStore", {
   //this.showToast('Login successful!', 'success'); //success ,error ,warning,info
   actions: {
 
+     //addEditVendor
+    async SetVendorAdminDetails(regVendorAdmin, showLoading) {
+      const loadingAlert = showLoading("");
+      try {
+        const response = await axios.post(
+          `${import.meta.env.VITE_API_URL}/qms/Vendor/SetVendorAdminDetails`,
+          regVendorAdmin,         
+        );
+
+        loadingAlert.close();
+
+        if (response.data.isSuccess) {         
+          this.showToast(response.data.message,"success");       
+          // this.listVendor = response.data.data.data;
+        
+        } else {
+          console.error("error:",response.data.message)
+          // this.showToast(response.data.message, "error");
+        }
+      } catch (error) {
+        console.error("error:",error)
+        this.showToast('Error in server call', "error");
+       }
+    },
+
    //Update vendor
+
    async GetVendorById(id, showLoading) {   
     const loadingAlert = showLoading("");
-    console.log("req:",id);
-    
+       
     try {
       const response = await axios.get(`${import.meta.env.VITE_API_URL}/qms/Vendor/GetVendorById?id=`+id );
 

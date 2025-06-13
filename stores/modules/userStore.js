@@ -36,6 +36,29 @@ export const useUserStore = defineStore('userStore', {
       }
     },
 
+  async AppLogin(secretKey,showLoading) {   
+
+      const loadingAlert = showLoading(''); 
+      try {
+
+        const response = await axios.get(`${import.meta.env.VITE_API_URL}/IAM/GetAppAccessToken?secretCode=`+ secretKey);      
+        loadingAlert.close();                            
+
+        if (response.data.isSuccess) {         
+          this.token = response.data.authToken;  // Assuming the response contains a 'token'                          
+       }
+       else{        
+        this.showToast('AppLogin error:'+response.data.message,'error');
+       }
+       
+        
+      } catch (error) {     
+        console.error("error:",error);
+        
+        this.showToast('Network Error! Login failed. Please try again.','error');     
+      }
+      
+    },
 
     async login(loginDetails,showLoading) {   
 
