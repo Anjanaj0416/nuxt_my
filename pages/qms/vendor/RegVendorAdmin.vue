@@ -87,6 +87,9 @@
               required
               class="w-full px-4 py-2 text-sm border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-300"
             />
+            <p v-if="err.suAdminfullName" class="mt-2 text-sm text-red-600">
+              {{ err.suAdminfullName }}
+            </p>
           </div>
 
           <div>
@@ -101,10 +104,9 @@
                 required
                 class="w-full px-4 py-2 pr-10 text-sm border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-300"
               />
-              <button
-                type="button"
-                class="absolute inset-y-0 flex items-center text-black right-3"
-              ></button>
+              <p v-if="err.suAdminDesignation" class="mt-2 text-sm text-red-600">
+                {{ err.suAdminDesignation }}
+              </p>
             </div>
           </div>
           <div>
@@ -119,10 +121,9 @@
                 required
                 class="w-full px-4 py-2 pr-10 text-sm border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-300"
               />
-              <button
-                type="button"
-                class="absolute inset-y-0 flex items-center text-black right-3"
-              ></button>
+              <p v-if="err.suAdminEmail" class="mt-2 text-sm text-red-600">
+                {{ err.suAdminEmail }}
+              </p>
             </div>
           </div>
           <div>
@@ -137,10 +138,9 @@
                 required
                 class="w-full px-4 py-2 pr-10 text-sm border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-300"
               />
-              <button
-                type="button"
-                class="absolute inset-y-0 flex items-center text-black right-3"
-              ></button>
+              <p v-if="err.suAdminMobile" class="mt-2 text-sm text-red-600">
+                {{ err.suAdminMobile }}
+              </p>
             </div>
           </div>
           <div>
@@ -155,10 +155,9 @@
                 required
                 class="w-full px-4 py-2 pr-10 text-sm border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-300"
               />
-              <button
-                type="button"
-                class="absolute inset-y-0 flex items-center text-black right-3"
-              ></button>
+              <p v-if="err.suAdminNic" class="mt-2 text-sm text-red-600">
+                {{ err.suAdminNic }}
+              </p>
             </div>
           </div>
         </div>
@@ -180,6 +179,9 @@
               required
               class="w-full px-4 py-2 text-sm border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-300"
             />
+            <p v-if="err.additionalFullName" class="mt-2 text-sm text-red-600">
+              {{ err.additionalFullName }}
+            </p>
           </div>
 
           <div>
@@ -194,10 +196,9 @@
                 required
                 class="w-full px-4 py-2 pr-10 text-sm border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-300"
               />
-              <button
-                type="button"
-                class="absolute inset-y-0 flex items-center text-black right-3"
-              ></button>
+              <p v-if="err.additionalDesignation" class="mt-2 text-sm text-red-600">
+                {{ err.additionalDesignation }}
+            </p>
             </div>
           </div>
           <div>
@@ -212,10 +213,9 @@
                 required
                 class="w-full px-4 py-2 pr-10 text-sm border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-300"
               />
-              <button
-                type="button"
-                class="absolute inset-y-0 flex items-center text-black right-3"
-              ></button>
+              <p v-if="err.additionalEmail" class="mt-2 text-sm text-red-600">
+                {{ err.additionalEmail }}
+              </p>
             </div>
           </div>
           <div>
@@ -230,8 +230,8 @@
                 required
                 class="w-full px-4 py-2 pr-10 text-sm border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-300"
               />
-              <p v-if="err.mobileNumber" class="mt-2 text-sm text-red-600">
-                {{ err.mobileNumber }}
+              <p v-if="err.additionalMobileNumber" class="mt-2 text-sm text-red-600">
+                {{ err.additionalMobileNumber }}
               </p>
             </div>
           </div>
@@ -247,10 +247,9 @@
                 required
                 class="w-full px-4 py-2 pr-10 text-sm border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-300"
               />
-              <button
-                type="button"
-                class="absolute inset-y-0 flex items-center text-black right-3"
-              ></button>
+              <p v-if="err.additionalNic" class="mt-2 text-sm text-red-600">
+                {{ err.additionalNic }}
+              </p>
             </div>
           </div>
         </div>
@@ -262,7 +261,7 @@
         >
           Submit
         </button>
-        {{ userStore.token }}
+        <!-- {{ userStore.token }} -->
       </div>
     </div>
   </section>
@@ -317,6 +316,8 @@ export default {
   methods: {
     async handleSubmit() {
       if (this.IsValidate()) {
+
+        
         // await this.vendorStore.SetVendorAdminDetails(
         //  this.vendorStore.regVendorAdmin,
         //   this.showLoading
@@ -334,15 +335,89 @@ export default {
       this.clearErr();
       let IsValidate = true;
 
-      // if (!this.vendorStore.regVendorAdmin.suAdmin.mobile) {
-      //   this.err.mobileNumber = "Please Enter mobile Number!";
-      //   IsValidate = false;
-      // }
+      const suAdmin = this.vendorStore.regVendorAdmin.suAdmin;
+      const additionalUser = this.vendorStore.regVendorAdmin.additionalUser;
 
-      //write balance validation scripts
+      if (!suAdmin.fullName) {
+        this.err.suAdminfullName = "Please Enter Super Admin Full Name!";
+        IsValidate = false;
+      }
+
+      if (!suAdmin.designation) {
+        this.err.suAdminDesignation = "Please Enter Super Admin Designation!";
+        IsValidate = false;
+      }
+
+      if (!suAdmin.email) {
+        this.err.suAdminEmail = "Please Enter Super Admin Email!";
+        IsValidate = false;
+      } else {
+        const emailRegex = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
+        if (!emailRegex.test(suAdmin.email)) {
+          this.err.suAdminEmail = "Please Enter a valid Email address!";
+          IsValidate = false;
+        }
+      }
+
+      if (!suAdmin.mobile) {
+        this.err.suAdminMobile = "Please Enter Super Admin Mobile!";
+        IsValidate = false;
+      } else {
+        const mobileRegex = /^[0-9]{10}$/;
+        if (!mobileRegex.test(suAdmin.mobile)) {
+          this.err.suAdminMobile = "Please Enter a valid 10-digit Contact Number!";
+          IsValidate = false;
+        }
+      }
+
+      if (!suAdmin.nic) {
+        this.err.suAdminNic = "Please Enter Super Admin National ID / Passport Number!";
+        IsValidate = false;
+      }
+
+      if (!additionalUser.fullName) {
+        this.err.additionalFullName = "Please Enter Additional Admin Full Name!";
+        IsValidate = false;
+      }
+
+      if (!additionalUser.designation) {
+        this.err.additionalDesignation = "Please Enter Designation!";
+        IsValidate = false;
+      }
+
+      if (!additionalUser.email) {
+        this.err.additionalEmail = "Please Enter Additional Admin Email!";
+        IsValidate = false;
+      } else {
+        const emailRegex = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
+        if (!emailRegex.test(additionalUser.email)) {
+          this.err.additionalEmail = "Please Enter a valid Email address!";
+          IsValidate = false;
+        }
+      }
+
+      if (!additionalUser.mobile) {
+        this.err.additionalMobileNumber = "Please Enter Additional Admin Mobile!";
+        IsValidate = false;
+      } else {
+        const mobileRegex = /^[0-9]{10}$/;
+        if (!mobileRegex.test(additionalUser.mobile)) {
+          this.err.additionalMobileNumber = "Please Enter a valid 10-digit Contact Number!";
+          IsValidate = false;
+        }
+      }
+
+      // Additional Admin NIC
+      if (!additionalUser.nic) {
+        this.err.additionalNic = "Please Enter Additional Admin National ID / Passport Number!";
+        IsValidate = false;
+      }
+
+      // Add other validations here...
 
       return IsValidate;
     },
+
   },
   head() {
     return {

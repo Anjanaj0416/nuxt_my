@@ -24,7 +24,6 @@
     <div v-if="vendorStore.listVendor.length === 0" class="text-center text-gray-900 mt-5 text-sm font-medium">
       <p>No vendors available...</p>
     </div>
-
     <div class="flex flex-col gap-5 p-4 mt-4 bg-white border rounded-lg shadow-sm sm:p-6"
       v-for="(vd, index) in vendorStore.listVendor" :key="index">
       <div class="flex flex-col gap-4 sm:flex-row sm:justify-between sm:items-start">
