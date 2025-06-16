@@ -24,8 +24,8 @@
     <div v-if="vendorStore.listVendor.length === 0" class="text-center text-gray-900 mt-5 text-sm font-medium">
       <p>No vendors available...</p>
     </div>
-    <div class="flex flex-col gap-5 p-4 mt-4 bg-white border rounded-lg shadow-sm sm:p-6"
-      v-for="(vd, index) in vendorStore.listVendor" :key="index">
+    <div class="flex flex-col gap-0 p-4 mt-4 bg-white border rounded-lg shadow-sm sm:p-6"
+      v-for="(vd, index) in vendorStore.listVendor" :key="vd.id">
       <div class="flex flex-col gap-4 sm:flex-row sm:justify-between sm:items-start">
         <div class="grid w-full grid-cols-2 gap-2 lg:grid-cols-8 sm:grid-cols-3 md:grid-cols-8">
           <div class="flex flex-col text-center sm:text-left" v-for="(field, idx) in vendorFields" :key="idx">
@@ -53,26 +53,105 @@
         </div>
       </div>
 
-      <div class="grid grid-cols-2 gap-2 sm:flex sm:flex-row sm:justify-end sm:gap-4">
-        <LinkBtn label="Edit" @click="GoToAddEdit(vd.id)" />
+      <!-- Expandable More Section -->
+      <!-- <div class="flex flex-col items-center gap-1 mt-1 mb-2 sm:flex-row sm:justify-end sm:mb-0 sm:mt-0 sm:-my-3">
+        
+      </div> -->
 
-        <LinkBtn label="View Poforma" @click="GoToAddEdit(vd.id)" />
-        <LinkBtn label="View Proposal" @click="GoToAddEdit(vd.id)" />
+      <div class="grid grid-cols-2 gap- sm:flex sm:flex-row sm:justify-end sm:gap-4">
+        <div class="text-sm font-medium text-center text-gray-500  dark:text-gray-400 dark:border-gray-700">
+          <ul class="flex flex-wrap -mb-px">
+            <li class="me-2">
+              <button
+                @click="vendorTabs[vd.id] = 'proposal'"
+                :class="[
+                  'inline-block p-4 rounded-t-lg border-b-2',
+                  vendorTabs[vd.id] === 'proposal'
+                    ? 'text-blue-600 border-blue-600 dark:text-blue-500 dark:border-blue-500'
+                    : 'border-transparent hover:text-gray-600 hover:border-gray-300 dark:hover:text-gray-300'
+                ]"
+              >
+                Proposal
+              </button>
+            </li>
+            <li class="me-2">
+              <button
+                @click="vendorTabs[vd.id] = 'invoice'"
+                :class="[
+                  'inline-block p-4 rounded-t-lg border-b-2',
+                  vendorTabs[vd.id] === 'invoice'
+                    ? 'text-blue-600 border-blue-600 dark:text-blue-500 dark:border-blue-500'
+                    : 'border-transparent hover:text-gray-600 hover:border-gray-300 dark:hover:text-gray-300'
+                ]"
+              >
+                Invoice
+              </button>
+            </li>
+            <li class="me-2">
+              <button
+                @click="vendorTabs[vd.id] = 'viewMore'"
+                :class="[
+                  'inline-block p-4 rounded-t-lg border-b-2',
+                  vendorTabs[vd.id] === 'viewMore'
+                    ? 'text-blue-600 border-blue-600 dark:text-blue-500 dark:border-blue-500'
+                    : 'border-transparent hover:text-gray-600 hover:border-gray-300 dark:hover:text-gray-300'
+                ]"
+              >
+                View More
+              </button>
+            </li>
+            <li class="me-2">
+              <button
+                @click="vendorTabs[vd.id] = 'edit'"
+                :class="[
+                  'inline-block p-4 rounded-t-lg border-b-2',
+                  vendorTabs[vd.id] === 'edit'
+                    ? 'text-blue-600 border-blue-600 dark:text-blue-500 dark:border-blue-500'
+                    : 'border-transparent hover:text-gray-600 hover:border-gray-300 dark:hover:text-gray-300'
+                ]"
+              >
+                Edit
+              </button>
+            </li>
+            <li class="me-2">
+              <button
+                @click="vendorTabs[vd.id] = 'workFlow'"
+                :class="[
+                  'inline-block p-4 rounded-t-lg border-b-2',
+                  vendorTabs[vd.id] === 'workFlow'
+                    ? 'text-blue-600 border-blue-600 dark:text-blue-500 dark:border-blue-500'
+                    : 'border-transparent hover:text-gray-600 hover:border-gray-300 dark:hover:text-gray-300'
+                ]"
+              >
+                Work Flow
+              </button>
+            </li>
+          </ul>
+        </div>
+      </div>
 
-        <LinkBtn v-if="!vd.csoNo && userStore.loggedUser.granted.includes('vendor_mgt')" label="Assign RSO"
-          @click="GoToAssignSalesEx(vd.id)" />
-
-        <LinkBtn label="Delete" @click="DeleteVendor(vd.id)" />
-
-        <!-- <LinkBtn label="View Quotations" @click="
-          vendorStore.curVendor = vd;
-        GoToQuotation();
-        " /> -->
+      <!-- Tab Contents -->
+      <div class="p-4 dark:border-gray-700">
+        <div v-if="vendorTabs[vd.id] === 'proposal'">
+          <Proposal/>
+        </div>
+        <div v-if="vendorTabs[vd.id] === 'invoice'">
+          <Invoice/>
+        </div>
+        <div v-if="vendorTabs[vd.id] === 'viewMore'">
+          <p>DviewMore {{ vd.id }}</p>
+        </div>
+        <div v-if="vendorTabs[vd.id] === 'edit'">
+          <p>edit {{ vd.id }}</p>
+        </div>
+        <div v-if="vendorTabs[vd.id] === 'workFlow'">
+          <p>workFlow {{ vd.id }}</p>
+        </div>
       </div>
     </div>
 
 
-    <AddEdit v-if="isAddEdit" @close="isAddEdit = !isAddEdit" />
+
 
     <AssignRso v-if="isAssignRso" @close="isAssignRso = !isAssignRso" />
   </section>
@@ -88,11 +167,14 @@ import AssignRso from "~/components/qms/vendor/assignSalesEx";
 import FilterTab from "~/components/customcontrol/FilterTab";
 import SearchComp from "~/components/customcontrol/SearchComp";
 import InfoCard from "~/components/qms/vendor/InfoCard.vue";
+import Proposal from "~/components/qms/proposal/index.vue"
+import Invoice from "~/components/qms/invoice/index.vue"
 
 import { useVendorStore } from "~/stores/modules/qms/vendorStore";
 import { useUserStore } from "~/stores/modules/userStore";
 import { useLeadStore } from "~/stores/modules/qms/leadStore";
 import { useRoute } from 'vue-router'
+import { ref } from 'vue'
 
 definePageMeta({
   layout: "default",
@@ -110,6 +192,9 @@ export default {
     SearchComp,
     InfoCard,
     ImageLable,
+    Proposal,
+    Invoice,
+
   },
   data() {
     return {
@@ -121,6 +206,9 @@ export default {
         "Phone",
         "Shopname",
       ],
+      isMore: false,
+      activeVendorId: null,
+      rowIndex: -1,
       isAddEdit: false,
       isAssignRso: false,
       keyword: "",
@@ -140,6 +228,7 @@ export default {
       ],
       imageroot: "",
       showLoading: null,
+      vendorTabs: {},
     };
   },
   async created() {
@@ -161,7 +250,15 @@ export default {
 
     await this.vendorStore.loadInitVendor(this.showLoading);
     this.imageroot = this.userStore.loggedUser.resourceURLRoot;
+
+  
+    this.vendorStore.listVendor.forEach(vd => {
+      this.vendorTabs[vd.id] = 'profile';
+    });
+
   },
+
+  
 
   methods: {
 
@@ -191,6 +288,30 @@ export default {
       this.searchBy = "";
       this.keyword = "";
     },
+
+    // async toggleMoreEdit(id) {
+    //   console.log('toggleMoreEdit called', {
+    //     isMore: this.isMore,
+    //     activeVendorId: this.activeVendorId,
+    //     clickedId: id,
+    //   });
+
+    //   if (this.isMore && String(this.activeVendorId) === String(id)) {
+    //     console.log('Calling closeMoreEdit');
+    //     this.closeMoreEdit();
+    //   } else {
+    //     await this.vendorStore.GetVendorById(id, this.showLoading);
+    //     this.activeVendorId = String(id);
+    //     this.isMore = true;
+    //   }
+    // },
+
+    // closeMoreEdit() {
+    //   console.log("closeMoreEdit called");
+    //   this.isMore = false;
+    //   this.activeVendorId = null;
+    // },
+
 
     GoToAddNew() {
       this.vendorStore.ResetVendor();

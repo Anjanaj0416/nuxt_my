@@ -1,16 +1,15 @@
 <template>
-  <div class="modal-overlay" v-if="isOpen">
-    <div class="modal">
+  <div >
+    <div >
       <!-- Modal Header -->
-      <div class="modal-header">
-        <h2 class="modal-title">
+      <div >
+        <h2 class="mb-4">
           Vendor Details - {{ isEditing ? "Edit" : "Add" }}
         </h2>
-        <closebtn @close="closeModal" />
       </div>
 
       <!-- Modal Content (scrollable) -->
-      <div class="modal-content">
+      <div >
         <div class="form-content">
           <div>
             <div v-if="isEditing">
@@ -389,9 +388,15 @@
         <button @click="cancel" class="cancel-button">Cancel</button>
         <button @click="handleSubmit" class="confirm-button">Save</button>
       </div> -->
+    <div>
+      <button v-if="!isEdit" @click="startEditing">Edit</button>
+      <button v-else @click="AddEditVendor">Save</button>
+    </div>
 
-      <div class="modal-footer">
+      <div class="mt-4">
         <button @click="cancel" class="cancel-button">Cancel</button>
+      <button v-if="!isEdit" @click="startEditing">Edit</button>
+
         <button @click="AddEditVendor" class="confirm-button">
           {{ isEditing ? "Update Vendor" : "Save Vendor" }}
         </button>
@@ -402,6 +407,7 @@
 
 <script>
 import { reactive, computed } from "vue";
+import { ref } from 'vue'
 import closebtn from "~/components/customcontrol/modal_close_button";
 import { useVendorStore } from "~/stores/modules/qms/vendorStore";
 import imagecomp from "~/components/customcontrol/imagepicker";
@@ -458,6 +464,7 @@ export default {
       err: {},
       imageroot: "",
       showLoading: null,
+           isEdit: false,
       listTemp: [{ id: 1, value: 'abc' }, { id: 2, value: 'def' }],
     };
   },
@@ -492,23 +499,44 @@ export default {
     },
 
     filteredCities() {
-      if (this.curVendor.districtId) {
-        return this.vendorStore.initVendor.listDistrictCities
-          .filter(city => city.districtId === this.curVendor.districtId)
-          .sort((a, b) => a.cityName.localeCompare(b.cityName))
-          .map(city => ({
-            id: city.cityId,
-            value: city.cityName
-          }));
-      } else {
-        return this.vendorStore.initVendor.listDistrictCities
-          .sort((a, b) => a.cityName.localeCompare(b.cityName))
-          .map(city => ({
-            id: city.cityId,
-            value: city.cityName
-          }));
+      const cities = this.vendorStore?.initVendor?.listDistrictCities;
+
+      if (!Array.isArray(cities)) {
+        return [];
       }
-    },
+
+      const sortedCities = cities
+        .filter(city => {
+          return this.curVendor.districtId ? city.districtId === this.curVendor.districtId : true;
+        })
+        .sort((a, b) => a.cityName.localeCompare(b.cityName))
+        .map(city => ({
+          id: city.cityId,
+          value: city.cityName
+        }));
+
+      return sortedCities;
+    }
+
+
+    // filteredCities() {
+    //   if (this.curVendor.districtId) {
+    //     return this.vendorStore.initVendor.listDistrictCities
+    //       .filter(city => city.districtId === this.curVendor.districtId)
+    //       .sort((a, b) => a.cityName.localeCompare(b.cityName))
+    //       .map(city => ({
+    //         id: city.cityId,
+    //         value: city.cityName
+    //       }));
+    //   } else {
+    //     return this.vendorStore.initVendor.listDistrictCities
+    //       .sort((a, b) => a.cityName.localeCompare(b.cityName))
+    //       .map(city => ({
+    //         id: city.cityId,
+    //         value: city.cityName
+    //       }));
+    //   }
+    // },
     
   },
   async created() {
@@ -536,6 +564,12 @@ export default {
       this.isOpen = false;
       this.$emit("close");
     },
+
+      startEditing() {
+
+    
+    this.isEdit = true;
+  },
 
     cancel() {
       this.clearErr();
@@ -573,11 +607,19 @@ export default {
 
             await this.vendorStore.AddEditVendor(formData, this.showLoading);
             this.closeModal();
+               this.isEdit = false;
           } else {
             console.log("Action canceled");
           }
         });
       }
+    },
+
+     saveChanges() {
+      // Put your validation/save logic here
+      console.log("Saving vendor:",);
+
+      this.isEdit = false;
     },
 
     IsValidate() {
