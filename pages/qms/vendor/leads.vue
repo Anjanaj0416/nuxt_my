@@ -226,7 +226,7 @@ export default {
       } else {
         this.keyword = ""
       }
-      console.log("keyword, searchBy", searchVal, this.searchBy);
+     // console.log("keyword, searchBy", searchVal, this.searchBy);
 
       await this.leadStore.loadListLeads(
         { keyword: this.keyword, searchBy: this.searchBy },

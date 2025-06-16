@@ -184,7 +184,7 @@ const links = [
         name: "Reports",
         to: "#",
         submenu: [
-          { name: "OT Individual Report", to: "#" },
+          { name: "OT Individual Report", to: "/hr/reports?p=R1001" },
           { name: "OT Month End Summery Report", to: "#" },
 
           { name: "Daily Presence Report", to: "#" },

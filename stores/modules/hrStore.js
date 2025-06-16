@@ -11,7 +11,7 @@ export const useHrStore = defineStore("hrStore", {
     dashboard: {
       workgroupjobcount: null,
     },
-    curEmployee:{},
+    curEmployee: {},
     alempdetails: [],
     empdetails: {
       id: "",
@@ -74,9 +74,9 @@ export const useHrStore = defineStore("hrStore", {
     },
 
     attendence: {
-      tot_normal_overtime: null,
-      tot_sunday_overtime: null,
-      isTheTimeCardApproved: null,
+      tot_normal_overtime: 0,
+      tot_sunday_overtime: 0,
+      isTheTimeCardApproved: false,
       alattendences: [],
     },
     timecard: {
@@ -150,16 +150,21 @@ export const useHrStore = defineStore("hrStore", {
 
   persist: true,
 
-  //this.showToast('Loading successful!', 'success'); //success ,error ,warning,info
+  //this.showToast('Loading successful!', 'warning'); //success ,error ,warning,info
 
   actions: {
+    RestAttendance() {
+      this.attendence = {
+        tot_normal_overtime: 0,
+        tot_sunday_overtime: 0,
+        isTheTimeCardApproved: false,
+        alattendences: [],
+      };
+    },
 
     //addEditEmployee
-    async AddEdiEmployee(formData, showLoading) {    
-     
-     
-      const loadingAlert = showLoading("");    
-    
+    async AddEdiEmployee(formData, showLoading) {
+      const loadingAlert = showLoading("");
       try {
         const response = await axios.post(
           `${import.meta.env.VITE_API_URL}/hr/Employee/SetAddEdit`,
@@ -183,12 +188,9 @@ export const useHrStore = defineStore("hrStore", {
         }
       } catch (error) {
         loadingAlert.close();
-        console.error("Error in server call:", error);
         this.showToast("Error in server call", "error");
       }
     },
-
-
 
     //loadInitEmployee
     async loadInitEmployee(showLoading) {
@@ -253,7 +255,6 @@ export const useHrStore = defineStore("hrStore", {
     },
 
     async clearEmployee() {
-     
       this.empdetails = {
         id: "00000000-0000-0000-0000-000000000000",
         empNo: "",
@@ -417,8 +418,8 @@ export const useHrStore = defineStore("hrStore", {
         );
         // console.log("response:",response.data.data.data);
         if (response.data.isSuccess) {
-          this.curEmployee = response.data.data.data || {};    
-           this.empdetails = this.curEmployee;    
+          this.curEmployee = response.data.data.data || {};
+          this.empdetails = this.curEmployee;
           // this.showToast('Loading successful!', 'success');
         } else {
           console.error("Loading error:", response.data.message);
@@ -431,10 +432,30 @@ export const useHrStore = defineStore("hrStore", {
       loadingAlert.close();
     },
 
+    //GetPrintAttendanceSheet
+    async GetPrintAttendanceSheet(req, showLoading) {
+      try {
+        const response = await axios.get(
+          `${
+            import.meta.env.VITE_API_URL
+          }/hr/Attendance/GetPrintAttendanceSheet?empNo=${req.empNo}&dateFrom=${
+            req.dateFrom
+          }&dateTo=${req.dateTo}`,
+          {
+            responseType: "blob", 
+          }
+        );
+        const blob = new Blob([response.data], { type: "application/pdf" });
+        const url = window.URL.createObjectURL(blob);
+        window.open(url, "_blank");
+      } catch (error) {
+        this.showToast("Failed to load Employee data", "error");
+      }
+    },
+
     async getAttendenceByEmp(req, showLoading) {
       const loadingAlert = showLoading("");
       try {
-      
         const response = await axios.post(
           `${import.meta.env.VITE_API_URL}/hr/Attendance/GetAttendenceByEmp`,
           req
