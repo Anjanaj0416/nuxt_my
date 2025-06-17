@@ -496,7 +496,7 @@ export const useHrStore = defineStore("hrStore", {
             },
           }
         );
-        console.log("response:", response);
+      
         if (response.data.isSuccess) {
           this.OTApllyDetails.arrOTApply = response.data.data.data || [];
           this.showToast("Loading successful!", "success");

@@ -162,7 +162,12 @@ export default {
       isApproving: false,
       isAddEdit: false,
       searchBy: "",
-      arrFilter: ["All", "Pending", "Approved", "Cancelled"],
+      arrFilter: [
+       {itemName: "All", itemCount:n },
+          {itemName: "Pending", itemCount:n },
+             {itemName: "Approved", itemCount:n},
+                {itemName: "Cancelled", itemCount:n },                 	   
+      ],
       imageroot: "",
       showLoading:null,
     

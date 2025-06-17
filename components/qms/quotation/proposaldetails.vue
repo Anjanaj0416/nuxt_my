@@ -5,7 +5,7 @@
 
 
   
-        <div class="flex flex-col items-center justify-between mt-0 mb-2 md:flex-row">
+        <div class="flex flex-col items-center justify-between -mt-4 mb-2 md:flex-row">
             <div class="w-full mb-4 md:mb-0">  
               <div class="text-2xl uppercase">Proposal</div>
             </div>

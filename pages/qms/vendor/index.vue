@@ -19,13 +19,15 @@
       </div>
     </div>
 
-    <FilterTab @selected="SetSelectedFilter" :arrFilter="arrFilter" />
+   
+
+    <FilterTab @selected="SetSelectedFilter" :arrFilter="vendorStore.initVendor.agentViewCount" />
 
     <div v-if="vendorStore.listVendor.length === 0" class="text-center text-gray-900 mt-5 text-sm font-medium">
       <p>No vendors available...</p>
     </div>
     <div class="flex flex-col gap-0 p-4 mt-4 bg-white border rounded-lg shadow-sm sm:p-6"
-      v-for="(vd, index) in vendorStore.listVendor" :key="vd.id">
+      v-for="vd in vendorStore.listVendor" :key="vd.id">
       <div class="flex flex-col gap-4 sm:flex-row sm:justify-between sm:items-start">
         <div class="grid w-full grid-cols-2 gap-2 lg:grid-cols-8 sm:grid-cols-3 md:grid-cols-8">
           <div class="flex flex-col text-center sm:text-left" v-for="(field, idx) in vendorFields" :key="idx">
@@ -167,7 +169,7 @@ import AssignRso from "~/components/qms/vendor/assignSalesEx";
 import FilterTab from "~/components/customcontrol/FilterTab";
 import SearchComp from "~/components/customcontrol/SearchComp";
 import InfoCard from "~/components/qms/vendor/InfoCard.vue";
-import Proposal from "~/components/qms/proposal/index.vue"
+import Proposal from "~/components/qms/quotation/proposaldetails.vue"
 import Invoice from "~/components/qms/invoice/index.vue"
 
 import { useVendorStore } from "~/stores/modules/qms/vendorStore";
@@ -198,14 +200,7 @@ export default {
   },
   data() {
     return {
-      arrFilter: [
-        "All",
-        // "Not Assigned",
-        "Active",
-        "Inactive",
-        "Phone",
-        "Shopname",
-      ],
+     
       isMore: false,
       activeVendorId: null,
       rowIndex: -1,
@@ -237,10 +232,10 @@ export default {
     this.leadStore = useLeadStore();
     this.showLoading = this.$showLoading;
 
-
-    const route = useRoute();
+    const route = useRoute();    
     let val  = route.query.p ;
-    let isGuid = val.includes('-');  
+    let isGuid= false;
+     if(val!==undefined)  isGuid = val.includes('-');  
    
 
     await this.vendorStore.loadListVendors(
