@@ -2,14 +2,13 @@
   <div >
     <div >
       <!-- Modal Header -->
-      <div >
-        <h2 class="mb-4">
-          Vendor Details - {{ isEditing ? "Edit" : "Add" }}
-        </h2>
+
+      <div class="w-full mb- md:mb-0">  
+          <div class="text-2xl uppercase mb-4"> Vendor Details - {{ isEditing ? "Edit" : "Add" }}</div>
       </div>
 
       <!-- Modal Content (scrollable) -->
-      <div >
+      <div class="border rounded-lg shadow-md p-6 text-sm">
         <div class="form-content">
           <div>
             <div v-if="isEditing">
@@ -380,6 +379,13 @@
           </div>
 
         </div>
+
+        <div class="flex justify-between items-center mt-6">
+          <button @click="cancel" class="cancel-button">Cancel</button>
+          <button @click="AddEditVendor" class="confirm-button">
+            {{ isEditing ? "Update Vendor" : "Save Vendor" }}
+          </button>
+      </div>
       </div>
 
 
@@ -388,19 +394,11 @@
         <button @click="cancel" class="cancel-button">Cancel</button>
         <button @click="handleSubmit" class="confirm-button">Save</button>
       </div> -->
-    <div>
+    <!-- <div>
       <button v-if="!isEdit" @click="startEditing">Edit</button>
       <button v-else @click="AddEditVendor">Save</button>
-    </div>
-
-      <div class="mt-4">
-        <button @click="cancel" class="cancel-button">Cancel</button>
-      <button v-if="!isEdit" @click="startEditing">Edit</button>
-
-        <button @click="AddEditVendor" class="confirm-button">
-          {{ isEditing ? "Update Vendor" : "Save Vendor" }}
-        </button>
-      </div>
+    </div> -->
+      
     </div>
   </div>
 </template>

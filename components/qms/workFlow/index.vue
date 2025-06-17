@@ -1,69 +1,100 @@
+<!-- https://flowbite.com/docs/components/avatar/ -->
+
 <template>
-    <section class="justify-center min-h-screen px-4 mt-24 mb-20 lg:px-60">
-      <div class="text-2xl uppercase">Overtime individual Report</div>
-      <div class="bg-gradient-to-r from-blue-900 via-indigo-700 to-blue-600 shadow-md rounded-lg p-6 mt-10 mb-10 border text-white">
-        <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
-          <div>
-            <label class="block mb-1 font-medium">Select User</label>
-            <div class="relative">
-              <SearchInput />
+    <section class="justify-center">
+        <div class="flex flex-col items-center justify-between mt-0 mb-2 md:flex-row">
+            <div class="w-full mb-4 md:mb-0">  
+              <div class="text-2xl uppercase">Work Flow</div>
             </div>
-          </div>
-          <div>
-            <label class="block mb-1 font-medium">Select Year</label>
-            <div class="relative">
-              <SearchInput />
-            </div>
-          </div>
-          <div>
-            <label class="block mb-1 font-medium">Select Month</label>
-            <div class="relative">
-              <SearchInput />
-            </div>
-          </div>
+        <div class="w-full md:w-auto">
+
         </div>
-      </div>
+        </div>
+        <div class="bg-white border rounded-lg shadow-md p-6 text-sm text-gray-800">
+        <h2 class="text-base font-semibold text-gray-700 mb-6">
+            Task Name: <span class="text-blue-600 font-bold"> Task - 01</span>
+        </h2>
 
-      <div class="bg-white p-6 rounded shadow border mt-6">
-        <p class="text-sm text-gray-500 italic text-center">Report preview will appear here after selection.</p>
-        <h2 class="text-lg font-semibold mb-4">Generated Reports</h2>
-        <ul class="space-y-4">
-          <li class="flex items-center justify-between border p-4 rounded hover:bg-gray-50 transition">
-            <div class="flex items-center space-x-3">
-              <i class="fas fa-file-alt text-blue-600 text-xl"></i>
-              <span class="text-gray-800 font-medium">January 2025 - Matara Arachchi</span>
-            </div>
-            <a
-              href="http://localhost:3000/hr/reports/overtime_individual_summery_report?user=JohnDoe&month=01&year=2025"
-              target="_blank"
-              class="text-blue-600 hover:underline text-sm"
-            >
-              View
-            </a>
-          </li>
-          <li class="flex items-center justify-between border p-4 rounded hover:bg-gray-50 transition">
-            <div class="flex items-center space-x-3">
-              <i class="fas fa-file-alt text-blue-600 text-xl"></i>
-              <span class="text-gray-800 font-medium">February 2025 - Nimal</span>
-            </div>
-            <a
-              href="http://localhost:3000/hr/reports/overtime_individual_summery_report?user=JaneSmith&month=02&year=2025"
-              target="_blank"
-              class="text-blue-600 hover:underline text-sm"
-            >
-              View
-            </a>
-          </li>
+        <ol class="flex items-center w-full">
+            <!-- Step 1 -->
+            <li class="flex items-center text-blue-600 relative w-full">
+            <div class="flex items-center justify-center w-8 h-8 bg-blue-100 rounded-full z-10 ring-2 ring-blue-600 shrink-0">
+                <div class="flex justify-end">
+                  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"
+                      class="w-5 h-5 text-green-600" fill="currentColor">
+                    <path d="M256 8C119 8 8 119 8 256s111 248 248 248
+                            248-111 248-248S393 8 256 8zM377 187l-136 136c-4.7 4.7-12.3 4.7-17
+                            0l-72-72c-4.7-4.7-4.7-12.3 0-17l17-17c4.7-4.7 12.3-4.7
+                            17 0l47.5 47.5L343 153c4.7-4.7 12.3-4.7
+                            17 0l17 17c4.7 4.7 4.7 12.3 0 17z"/>
+                  </svg>
+                </div>
 
-          <!-- Add more reports below as needed -->
-        </ul>
-      </div>
+            </div>
+            <!-- Connecting Line -->
+            <div class="hidden sm:block w-full h-0.5 bg-gray-300"></div>
+            </li>
+
+            <!-- Step 2 -->
+            <li class="flex items-center text-blue-600 relative w-full">
+            <div class="flex items-center justify-center w-8 h-8 bg-blue-100 rounded-full z-10 ring-2 ring-blue-600 shrink-0">
+                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"
+                      class="w-5 h-5 text-green-600" fill="currentColor">
+                    <path d="M256 8C119 8 8 119 8 256s111 248 248 248
+                            248-111 248-248S393 8 256 8zM377 187l-136 136c-4.7 4.7-12.3 4.7-17
+                            0l-72-72c-4.7-4.7-4.7-12.3 0-17l17-17c4.7-4.7 12.3-4.7
+                            17 0l47.5 47.5L343 153c4.7-4.7 12.3-4.7
+                            17 0l17 17c4.7 4.7 4.7 12.3 0 17z"/>
+                  </svg>
+            </div>
+            <div class="hidden sm:block w-full h-0.5 bg-gray-300"></div>
+            </li>
+
+            <!-- Step 3 -->
+            <li class="flex items-center text-blue-600 relative">
+            <div class="flex items-center justify-center w-8 h-8 bg-blue-100 rounded-full z-10 ring-2 ring-blue-600 shrink-0">
+                <svg xmlns="http://www.w3.org/2000/svg"
+                  viewBox="0 0 512 512"
+                  class="w-5 h-5 text-yellow-500"
+                  fill="currentColor">
+                <path d="M256 8C119 8 8 119 8 256s111 248 248 248
+                        248-111 248-248S393 8 256 8zm12 136h-24c-6.6
+                        0-12 5.4-12 12v116c0 4.2 2.2 8.2 5.8 10.4l96 58c5.7 3.5 13.1
+                        1.7 16.6-4l12-20c3.5-5.7 1.7-13.1-4-16.6L268 276.1V156c0-6.6-5.4-12-12-12z"/>
+              </svg>
+            </div>
+            </li>
+        </ol>
+
+        <!-- Labels -->
+        <div class="mt-6 flex justify-between text-xs text-gray-600">
+            <div class="text-center">
+            <p class="font-semibold">Date</p>
+            <!-- <p>LKR 5,000.00</p> -->
+
+            </div>
+            <div class="text-center">
+            <!-- <p class="font-semibold">Invoice 2</p>
+            <p>LKR 5,000.00</p> -->
+
+
+            </div>
+            <div class="text-center">
+            <p class="font-semibold">Completed Date</p>
+            <!-- <LinkBtn
+                label="View"
+                class="text-xs font-medium"
+            /> -->
+            </div>
+        </div>
+        </div>
+
+
 
 
     </section>
-</template>
-
-
+    <!-- <input type="text" oninput="this.value = this.value.replace(/[^0-9.]/g, '').replace(/(\..*?)\..*/g, '$1');" > -->
+  </template>
   
   <script>
   //import textInput from '~/components/customcontrol/textinput'
@@ -73,12 +104,11 @@
  //import { useSampleStore  } from '~/stores/modules/sampleStore';
  import { useRoute } from 'vue-router'
  import { useUserStore } from "~/stores/modules/userStore";
-import { useHrStore } from "~/stores/modules/hrStore";
+ //import { useQuotationStore } from "~/stores/modules/qms/quotationStore";
  
  import LinkBtn from "~/components/customcontrol/Link";
   import Button from "~/components/customcontrol/Button";
   import selectinput2 from "~/components/customcontrol/selectinput2";
-  import SearchInput from '~/components/customcontrol/SearchInput.vue';
 
  definePageMeta({
     layout: 'default',   
@@ -87,12 +117,7 @@ import { useHrStore } from "~/stores/modules/hrStore";
    
   export default {
     
-    components: {
-      LinkBtn,
-      Button,
-      selectinput2,
-      SearchInput
-    },
+    components: {LinkBtn,Button,selectinput2},
     props:[''],
     data() {
       return {
@@ -105,9 +130,8 @@ import { useHrStore } from "~/stores/modules/hrStore";
      
     },
     async created() {
-      this.hrStore = useHrStore();
-    this.userStore = useUserStore();
-    this.showLoading = this.$showLoading;
+      this.userStore = useUserStore();
+      this.showLoading = this.$showLoading;
       this.imageroot = this.userStore.loggedUser.resourceURLRoot;
     },
     watch: {},

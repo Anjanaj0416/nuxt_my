@@ -27,12 +27,12 @@
     >
       <p>No leads available...</p>
     </div>
-
     <div
       class="flex flex-col gap-2 p-1 mt-1 bg-white border-2 rounded-md shadow-md sm:p-3"
       v-for="(lead, index) in leadStore.listLeads"
       :key="index"
     >
+ 
       <div class="flex justify-start">
         <span
           class="inline-block px-1 py-0.5 text-[9px] font-medium text-blue-800 bg-blue-100 rounded-full"
@@ -217,14 +217,14 @@ export default {
   props: [""],
   data() {
     return {
-      arrFilter: [
-        { itemName: "All", itemCount: n },
-        { itemName: "Pending", itemCount: n },
-        { itemName: "Completed", itemCount: n },
-        { itemName: "Cancelled", itemCount: n },
-        { itemName: "Hold", itemCount: n },
-        { itemName: "CSO Assigned", itemCount: n },
-      ],
+      // arrFilter: [
+      //   { itemName: "All", itemCount: n },
+      //   { itemName: "Pending", itemCount: n },
+      //   { itemName: "Completed", itemCount: n },
+      //   { itemName: "Cancelled", itemCount: n },
+      //   { itemName: "Hold", itemCount: n },
+      //   { itemName: "CSO Assigned", itemCount: n },
+      // ],
       imageroot: "",
       showLoading: null,
       showAlert: null,
@@ -290,7 +290,19 @@ export default {
     this.imageroot = this.userStore.loggedUser.resourceURLRoot;
   },
   watch: {},
-  computed: {},
+  computed: {
+    arrFilter() {
+    const counts = this.leadStore.leadsCount || {};
+    return [
+      { itemName: "All", itemCount: counts || 0 },
+      { itemName: "Pending", itemCount: counts || 0 },
+      { itemName: "Completed", itemCount: counts || 0 },
+      { itemName: "Cancelled", itemCount: counts || 0 },
+      { itemName: "Hold", itemCount: counts || 0 },
+      { itemName: "CSO Assigned", itemCount: counts || 0 },
+    ];
+  },
+  },
   methods: {
     async GetSearch(searchVal) {
       if (searchVal) {

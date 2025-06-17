@@ -104,7 +104,7 @@
             </li>
             <li class="me-2">
               <button
-                @click="vendorTabs[vd.id] = 'edit'"
+                 @click="() => { GoToAddEdit(vd.id); vendorTabs[vd.id] = 'edit'; }"
                 :class="[
                   'inline-block p-4 rounded-t-lg border-b-2',
                   vendorTabs[vd.id] === 'edit'
@@ -144,14 +144,13 @@
           <p>DviewMore {{ vd.id }}</p>
         </div>
         <div v-if="vendorTabs[vd.id] === 'edit'">
-          <p>edit {{ vd.id }}</p>
+          <AddEdit v-if="isAddEdit" @close="isAddEdit = !isAddEdit" />
         </div>
         <div v-if="vendorTabs[vd.id] === 'workFlow'">
-          <p>workFlow {{ vd.id }}</p>
+          <workFlow />
         </div>
       </div>
     </div>
-
 
 
 
@@ -169,14 +168,18 @@ import AssignRso from "~/components/qms/vendor/assignSalesEx";
 import FilterTab from "~/components/customcontrol/FilterTab";
 import SearchComp from "~/components/customcontrol/SearchComp";
 import InfoCard from "~/components/qms/vendor/InfoCard.vue";
-import Proposal from "~/components/qms/quotation/proposaldetails.vue"
-import Invoice from "~/components/qms/invoice/index.vue"
+import Proposal from "~/components/qms/quotation/proposaldetails.vue";
+import Invoice from "~/components/qms/invoice/index.vue";
+
+import workFlow from "~/componentS/qms/workFlow/index.vue"
+ 
 
 import { useVendorStore } from "~/stores/modules/qms/vendorStore";
 import { useUserStore } from "~/stores/modules/userStore";
 import { useLeadStore } from "~/stores/modules/qms/leadStore";
 import { useRoute } from 'vue-router'
 import { ref } from 'vue'
+
 
 definePageMeta({
   layout: "default",
@@ -196,6 +199,7 @@ export default {
     ImageLable,
     Proposal,
     Invoice,
+    workFlow
 
   },
   data() {

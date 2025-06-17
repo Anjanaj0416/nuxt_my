@@ -8,6 +8,7 @@ export const useLeadStore = defineStore("leadStore",{
         listLeads:[],
         InitLeads:{},
         curLead:{},
+        leadsCount:[],
     }),
     persist: true,
 
@@ -68,6 +69,8 @@ actions: {
             this.showToast(response.data.message, "error");
           } else {
             this.listLeads = response.data.data.data;
+            this.leadsCount = response.data.data.count;
+
            // console.log( this.listLeads)
           }
           this.showToast(response.data.message, "success");
