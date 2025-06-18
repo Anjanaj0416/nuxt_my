@@ -146,7 +146,7 @@
           <AddEdit v-if="isAddEdit" @close="isAddEdit = !isAddEdit" />
         </div>
         <div v-if="vendorTabs[vd.id] === 'workFlow'">
-          <workFlow />
+          <WorkFlow />
         </div>
       </div>
     </div>
@@ -170,8 +170,7 @@ import InfoCard from "~/components/qms/vendor/InfoCard.vue";
 import Proposal from "~/components/qms/quotation/proposaldetails.vue";
 import Invoice from "~/components/qms/invoice/index.vue";
 
-import workFlow from "~/componentS/qms/workFlow/index.vue"
- 
+import WorkFlow from "~/components/qms/workFlow/index.vue"
 
 import { useVendorStore } from "~/stores/modules/qms/vendorStore";
 import { useUserStore } from "~/stores/modules/userStore";
@@ -198,7 +197,7 @@ export default {
     ImageLable,
     Proposal,
     Invoice,
-    workFlow
+    WorkFlow
 
   },
   data() {

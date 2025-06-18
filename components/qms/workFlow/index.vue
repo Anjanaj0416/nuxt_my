@@ -1,100 +1,69 @@
 <!-- https://flowbite.com/docs/components/avatar/ -->
 
 <template>
-    <section class="justify-center">
-        <div class="flex flex-col items-center justify-between mt-0 mb-2 md:flex-row">
-            <div class="w-full mb-4 md:mb-0">  
-              <div class="text-2xl uppercase">Work Flow</div>
-            </div>
-        <div class="w-full md:w-auto">
-
-        </div>
-        </div>
-        <div class="bg-white border rounded-lg shadow-md p-6 text-sm text-gray-800">
-        <h2 class="text-base font-semibold text-gray-700 mb-6">
-            Task Name: <span class="text-blue-600 font-bold"> Task - 01</span>
-        </h2>
-
-        <ol class="flex items-center w-full">
-            <!-- Step 1 -->
-            <li class="flex items-center text-blue-600 relative w-full">
-            <div class="flex items-center justify-center w-8 h-8 bg-blue-100 rounded-full z-10 ring-2 ring-blue-600 shrink-0">
-                <div class="flex justify-end">
-                  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"
-                      class="w-5 h-5 text-green-600" fill="currentColor">
-                    <path d="M256 8C119 8 8 119 8 256s111 248 248 248
-                            248-111 248-248S393 8 256 8zM377 187l-136 136c-4.7 4.7-12.3 4.7-17
-                            0l-72-72c-4.7-4.7-4.7-12.3 0-17l17-17c4.7-4.7 12.3-4.7
-                            17 0l47.5 47.5L343 153c4.7-4.7 12.3-4.7
-                            17 0l17 17c4.7 4.7 4.7 12.3 0 17z"/>
-                  </svg>
-                </div>
-
-            </div>
-            <!-- Connecting Line -->
-            <div class="hidden sm:block w-full h-0.5 bg-gray-300"></div>
-            </li>
-
-            <!-- Step 2 -->
-            <li class="flex items-center text-blue-600 relative w-full">
-            <div class="flex items-center justify-center w-8 h-8 bg-blue-100 rounded-full z-10 ring-2 ring-blue-600 shrink-0">
-                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"
-                      class="w-5 h-5 text-green-600" fill="currentColor">
-                    <path d="M256 8C119 8 8 119 8 256s111 248 248 248
-                            248-111 248-248S393 8 256 8zM377 187l-136 136c-4.7 4.7-12.3 4.7-17
-                            0l-72-72c-4.7-4.7-4.7-12.3 0-17l17-17c4.7-4.7 12.3-4.7
-                            17 0l47.5 47.5L343 153c4.7-4.7 12.3-4.7
-                            17 0l17 17c4.7 4.7 4.7 12.3 0 17z"/>
-                  </svg>
-            </div>
-            <div class="hidden sm:block w-full h-0.5 bg-gray-300"></div>
-            </li>
-
-            <!-- Step 3 -->
-            <li class="flex items-center text-blue-600 relative">
-            <div class="flex items-center justify-center w-8 h-8 bg-blue-100 rounded-full z-10 ring-2 ring-blue-600 shrink-0">
-                <svg xmlns="http://www.w3.org/2000/svg"
-                  viewBox="0 0 512 512"
-                  class="w-5 h-5 text-yellow-500"
-                  fill="currentColor">
-                <path d="M256 8C119 8 8 119 8 256s111 248 248 248
-                        248-111 248-248S393 8 256 8zm12 136h-24c-6.6
-                        0-12 5.4-12 12v116c0 4.2 2.2 8.2 5.8 10.4l96 58c5.7 3.5 13.1
-                        1.7 16.6-4l12-20c3.5-5.7 1.7-13.1-4-16.6L268 276.1V156c0-6.6-5.4-12-12-12z"/>
-              </svg>
-            </div>
-            </li>
-        </ol>
-
-        <!-- Labels -->
-        <div class="mt-6 flex justify-between text-xs text-gray-600">
-            <div class="text-center">
-            <p class="font-semibold">Date</p>
-            <!-- <p>LKR 5,000.00</p> -->
-
-            </div>
-            <div class="text-center">
-            <!-- <p class="font-semibold">Invoice 2</p>
-            <p>LKR 5,000.00</p> -->
-
-
-            </div>
-            <div class="text-center">
-            <p class="font-semibold">Completed Date</p>
-            <!-- <LinkBtn
-                label="View"
-                class="text-xs font-medium"
-            /> -->
-            </div>
-        </div>
-        </div>
-
-
-
-
-    </section>
+  <section class="justify-center">
+    <div class="flex flex-col items-center justify-between mt-0 mb-2 md:flex-row">
+      <div class="w-full mb-4 md:mb-0">  
+        <div class="text-2xl uppercase">Work Flow</div>
+      </div>
+      <div class="w-full md:w-auto">
+      </div>
+    </div>
+    <div class="overflow-x-auto rounded-xl border border-gray-200 shadow">
+      <table class="min-w-full divide-y divide-gray-200 text-sm">
+        <thead class="bg-blue-950 text-white">
+          <tr>
+            <th class="px-4 py-2 text-left">Discription</th>
+            
+            <th class="px-4 py-2 text-left">Assigned To</th>
+            <th class="px-4 py-2 text-left">Assigned Date</th>
+            <th class="px-4 py-2 text-left">Completed Date</th>
+            <th class="px-4 py-2 text-left">Status</th>
+            <th class="px-4 py-2 text-left">Days Taken</th>
+            <th class="px-4 py-2 text-left">Comment</th>
+          </tr>
+        </thead>
+        <tbody class="divide-y divide-gray-100 bg-white">
+          <tr class="hover:bg-gray-50">
+            <td class="px-4 py-2 font-medium">Lorem ipsum dolor sit amet consectetur adipisicing elit.</td>
+            <td class="px-4 py-2 font-medium">Nimal <span class="text-xs text-gray-500">[0772784123]</span></td>
+            <td class="px-4 py-2">2025-06-15</td>
+            <td class="px-4 py-2 text-gray-500">—</td>
+            <td class="px-4 py-2">
+              <span class="inline-block rounded-full bg-yellow-100 text-yellow-800 px-2 py-0.5 text-xs">Pending</span>
+            </td>
+            <td class="px-4 py-2 text-center">130</td>
+            <td class="px-4 py-2 text-gray-600 italic">—</td>
+          </tr>
+          <tr class="hover:bg-gray-50">
+            <td class="px-4 py-2 font-medium">Lorem ipsum dolor sit amet consectetur adipisicing elit.</td>
+            <td class="px-4 py-2 font-medium">Kamal <span class="text-xs text-gray-500">[0718738129]</span></td>
+            <td class="px-4 py-2">2025-01-16</td>
+            <td class="px-4 py-2">2025-02-05</td>
+            <td class="px-4 py-2">
+              <span class="inline-block rounded-full bg-green-100 text-green-800 px-2 py-0.5 text-xs">Completed</span>
+            </td>
+            <td class="px-4 py-2 text-center">19</td>
+            <td class="px-4 py-2 text-gray-600 italic">—</td>
+          </tr>
+          <tr class="hover:bg-gray-50">
+            <td class="px-4 py-2 font-medium">Lorem ipsum dolor sit amet consectetur adipisicing elit.</td>
+            <td class="px-4 py-2 font-medium">Dumindu <span class="text-xs text-gray-500">[0778626741]</span></td>
+            <td class="px-4 py-2">2025-06-16</td>
+            <td class="px-4 py-2">2025-01-16</td>
+            <td class="px-4 py-2">
+              <span class="inline-block rounded-full bg-green-100 text-green-800 px-2 py-0.5 text-xs">Completed</span>
+            </td>
+            <td class="px-4 py-2 text-center">0</td>
+            <td class="px-4 py-2 text-gray-600">Recall the WorkOrder By FLO</td>
+          </tr>
+          <!-- Repeat for others -->
+        </tbody>
+      </table>
+    </div>
+  </section>
     <!-- <input type="text" oninput="this.value = this.value.replace(/[^0-9.]/g, '').replace(/(\..*?)\..*/g, '$1');" > -->
-  </template>
+</template>
   
   <script>
   //import textInput from '~/components/customcontrol/textinput'
