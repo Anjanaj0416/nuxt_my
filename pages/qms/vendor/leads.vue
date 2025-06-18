@@ -19,8 +19,8 @@
       </div>
     </div>
 
-    <FilterTab @selected="SetSelectedFilter" :arrFilter="arrFilter" />
-
+    <FilterTab @selected="SetSelectedFilter" :arrFilter="leadStore.InitLeads.leadViewItemCount" />
+     
     <div
       v-if="leadStore.listLeads.length === 0"
       class="text-center text-gray-900 mt-5 text-sm font-medium"
@@ -57,7 +57,7 @@
           <template v-if="field.key === 'status'">
             <span
               :class="{
-                'bg-green-100 text-green-800 ': lead.status === 'RSOAssigned',
+                'bg-green-100 text-green-800 ': lead.status === 'CSOAssigned',
                 'bg-yellow-100 text-yellow-800 ': lead.status === 'Pending',
                 'bg-red-100 text-red-800 ': lead.status === 'Cancelled',
                 'bg-orange-100 text-orange-800 ': lead.status === 'Hold',
@@ -217,14 +217,7 @@ export default {
   props: [""],
   data() {
     return {
-      arrFilter: [
-        { itemName: "All", itemCount: n },
-        { itemName: "Pending", itemCount: n },
-        { itemName: "Completed", itemCount: n },
-        { itemName: "Cancelled", itemCount: n },
-        { itemName: "Hold", itemCount: n },
-        { itemName: "CSO Assigned", itemCount: n },
-      ],
+     
       imageroot: "",
       showLoading: null,
       showAlert: null,
@@ -323,7 +316,7 @@ export default {
       this.newComment = lead.newComment;
 
       if (this.IsValidate(lead.newComment, lead.status)) {
-        if (lead.status === "RSOAssigned") {
+        if (lead.status === "CSOAssigned") {
           this.selectedLeadId = lead.id;
           this.isAddRso = true;
           // console.log(this.selectedLeadId);

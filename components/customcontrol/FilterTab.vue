@@ -3,7 +3,8 @@
 <template>
   <section class="mt-5">
     <div class="flex flex-wrap items-center gap-6">
-      <div
+   
+         <div
         v-for="(filter, index) in arrFilter"
         :key="index"
         class="flex items-center gap-2"
@@ -15,7 +16,7 @@
           type="radio"
           name="default-radio"
           class="w-4 h-4 text-blue-600 bg-gray-100 border border-gray-300 focus:ring-2 focus:ring-blue-500 dark:bg-gray-700 dark:border-gray-600 cursor-pointer"
-          @click="onClick(filter.itemName)"
+          @click="onClick(filter)"
         />
 
         <!-- Label: relative for absolute badge -->
@@ -33,6 +34,7 @@
             </span>
         </label>
       </div>
+
     </div>
   </section>
 </template>
@@ -53,9 +55,11 @@ export default {
     },
     methods: {
         onClick(filter) {
-            this.selectedFilter = filter;
-            this.$emit('selected', filter)
-            this.$emit('click', filter)
+            if(filter.itemCount>0){
+            this.selectedFilter = filter.itemName;
+            this.$emit('selected', filter.itemName)
+            this.$emit('click', filter.itemName)
+            }
         }
     }
 }

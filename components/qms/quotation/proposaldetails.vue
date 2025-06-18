@@ -25,7 +25,7 @@
                 <div class="space-y-1">
                     <div>
                     <span class="font-semibold">Proposal No.</span>
-                    <a href="#" class="text-blue-600 font-bold ml-1">P2025060027</a>
+                    <a href="#" class="text-blue-600 font-bold ml-1">{{ quotationStore.proposalDetails.quotationNo }}</a>
                     </div>
                     <div>
                    
@@ -48,23 +48,24 @@
                 </div>
             </div>
 
-            <div class="bg-white border border-gray-200 rounded-lg shadow-md p-4 space-y-1 text-sm text-gray-800">
+            <div v-for="(qv,index) in quotationStore.proposalDetails.listQuotationVersions" :key="index"
+             class="bg-white border border-gray-200 rounded-lg shadow-md p-4 space-y-1 text-sm text-gray-800">
                 <div class="grid w-full grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-4">
                     <div>
                     <span class="text-gray-500">Proposal Version No:</span>
-                    <div class="text-blue-600 font-semibold">P2025060027V</div>
+                    <div class="text-blue-600 font-semibold">{{qv.quotationNo}}-{{qv.versionNo}}</div>
                     </div>
                     <div>
                     <span class="text-gray-500">Date:</span>
-                    <div class="text-blue-600 font-semibold">16/06/2025</div>
+                    <div class="text-blue-600 font-semibold">{{qv.createdDate}}</div>
                     </div>
                     <div>
                     <span class="text-gray-500">Total Amount:</span>
-                    <div class="text-green-600 font-semibold">Rs. 1,500,000.00</div>
+                    <div class="text-green-600 font-semibold">Rs. {{qv.totalAmount}}</div>
                     </div>
                     <div>
                     <span class="text-gray-500">Status:</span>
-                    <span class="bg-yellow-100 text-yellow-800 font-semibold px-2 py-0.5 rounded-full text-xs inline-block">Pending</span>
+                    <span class="bg-yellow-100 text-yellow-800 font-semibold px-2 py-0.5 rounded-full text-xs inline-block">{{qv.status}}</span>
                     </div>
                 </div>
 
@@ -104,7 +105,7 @@
  //import { useSampleStore  } from '~/stores/modules/sampleStore';
  import { useRoute } from 'vue-router'
  import { useUserStore } from "~/stores/modules/userStore";
- //import { useQuotationStore } from "~/stores/modules/qms/quotationStore";
+ import { useQuotationStore } from "~/stores/modules/qms/quotationStore";
  
  import LinkBtn from "~/components/customcontrol/Link";
   import Button from "~/components/customcontrol/Button";
@@ -127,12 +128,19 @@
       }
     },
     async mounted() {
+
+    
      
     },
     async created() {
       this.userStore = useUserStore();
+       this.quotationStore = useQuotationStore();
+      
       this.showLoading = this.$showLoading;
       this.imageroot = this.userStore.loggedUser.resourceURLRoot;
+
+     
+        await this.quotationStore.QuotationByVendorId(this.quotationStore.curVendorId,this.showLoading );
     },
     watch: {},
     computed: {
