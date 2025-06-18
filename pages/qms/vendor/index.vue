@@ -17,11 +17,10 @@
       <div class="w-full md:w-auto">
         <SearchComp @DoSearch="GetSearch" />
       </div>
-    </div>
+    </div>   
 
-   
 
-    <FilterTab @selected="SetSelectedFilter" :arrFilter="vendorStore.initVendor.agentViewCount" />
+    <FilterTab @selected="SetSelectedFilter" :arrFilter="vendorStore.initVendor.vendorViewItemCount" />
 
     <div v-if="vendorStore.listVendor.length === 0" class="text-center text-gray-900 mt-5 text-sm font-medium">
       <p>No vendors available...</p>
@@ -65,7 +64,7 @@
           <ul class="flex flex-wrap -mb-px">
             <li class="me-2">
               <button
-                @click="vendorTabs[vd.id] = 'proposal'"
+                @click="vendorTabs[vd.id] = 'proposal';  quotationStore.curVendorId = vd.id"
                 :class="[
                   'inline-block p-4 rounded-t-lg border-b-2',
                   vendorTabs[vd.id] === 'proposal'
@@ -73,12 +72,12 @@
                     : 'border-transparent hover:text-gray-600 hover:border-gray-300 dark:hover:text-gray-300'
                 ]"
               >
-                Proposal
+                Proposal  
               </button>
             </li>
             <li class="me-2">
               <button
-                @click="vendorTabs[vd.id] = 'invoice'"
+                @click="vendorTabs[vd.id] = 'invoice';quotationStore.curVendorId = vd.id"
                 :class="[
                   'inline-block p-4 rounded-t-lg border-b-2',
                   vendorTabs[vd.id] === 'invoice'
@@ -91,7 +90,7 @@
             </li>
             <li class="me-2">
               <button
-                @click="vendorTabs[vd.id] = 'viewMore'"
+                @click="vendorTabs[vd.id] = 'viewMore';quotationStore.curVendorId = vd.id"
                 :class="[
                   'inline-block p-4 rounded-t-lg border-b-2',
                   vendorTabs[vd.id] === 'viewMore'
@@ -104,7 +103,7 @@
             </li>
             <li class="me-2">
               <button
-                 @click="() => { GoToAddEdit(vd.id); vendorTabs[vd.id] = 'edit'; }"
+                @click="vendorTabs[vd.id] = 'edit';quotationStore.curVendorId = vd.id"
                 :class="[
                   'inline-block p-4 rounded-t-lg border-b-2',
                   vendorTabs[vd.id] === 'edit'
@@ -117,7 +116,7 @@
             </li>
             <li class="me-2">
               <button
-                @click="vendorTabs[vd.id] = 'workFlow'"
+                @click="vendorTabs[vd.id] = 'workFlow';quotationStore.curVendorId = vd.id"
                 :class="[
                   'inline-block p-4 rounded-t-lg border-b-2',
                   vendorTabs[vd.id] === 'workFlow'
@@ -176,7 +175,7 @@ import workFlow from "~/componentS/qms/workFlow/index.vue"
 
 import { useVendorStore } from "~/stores/modules/qms/vendorStore";
 import { useUserStore } from "~/stores/modules/userStore";
-import { useLeadStore } from "~/stores/modules/qms/leadStore";
+import { useQuotationStore } from "~/stores/modules/qms/quotationStore";
 import { useRoute } from 'vue-router'
 import { ref } from 'vue'
 
@@ -233,7 +232,7 @@ export default {
   async created() {
     this.vendorStore = useVendorStore();
     this.userStore = useUserStore();
-    this.leadStore = useLeadStore();
+    this.quotationStore = useQuotationStore();
     this.showLoading = this.$showLoading;
 
     const route = useRoute();    
