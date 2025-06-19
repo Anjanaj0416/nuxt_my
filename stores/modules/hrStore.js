@@ -13,6 +13,7 @@ export const useHrStore = defineStore("hrStore", {
     },
     curEmployee: {},
     alempdetails: [],
+    hrReport:{},
     empdetails: {
       id: "",
       empNo: "",
@@ -245,12 +246,33 @@ export const useHrStore = defineStore("hrStore", {
         );
         loadingAlert.close();
         if (response.data.isSuccess) {
-          this.initHRDetails = response.data.data.data;
+          this.hrReport = response;
         } else {
           this.showToast(response.data.message, "error");
         }
       } catch (error) {
         this.showToast(response.data.message, "error");
+      }
+    },
+
+    
+
+     async GetPrintHrReports(req, showLoading) {
+      console.log("log:", req); // Make sure this logs
+      const loading = showLoading?.('');
+      try {
+        const response = await axios.get(
+          `${import.meta.env.VITE_API_URL}/hr/Attendance/GetALLEmployeePrintAttendanceSheetByDateRange?dateFrom=${req.dateFrom}&dateTo=${req.dateTo}`,
+          { responseType: 'blob' }
+        );
+        const blob = new Blob([response.data], { type: "application/pdf" });
+        const url = window.URL.createObjectURL(blob);
+        window.open(url, "_blank");
+      } catch (error) {
+        console.error(error);
+        this.showToast("Failed to load Employee data", "error");
+      } finally {
+        loading?.close();
       }
     },
 

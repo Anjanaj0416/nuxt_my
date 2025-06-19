@@ -72,7 +72,7 @@
                     : 'border-transparent hover:text-gray-600 hover:border-gray-300 dark:hover:text-gray-300'
                 ]"
               >
-                Proposal  
+                Proposals  
               </button>
             </li>
             <li class="me-2">
@@ -85,7 +85,7 @@
                     : 'border-transparent hover:text-gray-600 hover:border-gray-300 dark:hover:text-gray-300'
                 ]"
               >
-                Invoice
+                Invoices
               </button>
             </li>
             <li class="me-2">

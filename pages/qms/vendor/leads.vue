@@ -162,7 +162,7 @@
           <!-- {{ lead }} -->
           <!-- Action Buttons -->
           <div
-            v-if="userStore.loggedUser.granted?.includes('flo')"
+            v-if="userStore.loggedUser.granted?.includes('flo','su')"
             class="flex justify-end pt-2"
           >
             <LinkBtn

@@ -103,7 +103,7 @@
 
                   <!-- View Quotation -->
                   <LinkBtn
-                    label="View Quotation"
+                    label="View PDF"
                     @click="
                       quotationStore.curQuotation = qItem;
                       GoToViewQuotation(qItem.id);
@@ -123,14 +123,14 @@
                   />
 
                   <!-- Delete Quotation -->
-                  <LinkBtn
+                  <!-- <LinkBtn
                     label="Delete"
                     @click="
                       quotationStore.curQuotation = qItem;
                       DeleteQuotationVersion(qItem.id);
                     "
                     class="bg-red-500 text-white text-xs px-3 py-1 rounded hover:bg-red-600 transition"
-                  />
+                  /> -->
                 </div>
               </div>
             </div>

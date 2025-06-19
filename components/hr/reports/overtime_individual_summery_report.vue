@@ -2,29 +2,45 @@
     <section class="justify-center min-h-screen px-4 mt-24 mb-20 lg:px-60">
       <div class="text-2xl uppercase">Overtime individual Report</div>
       <div class="bg-gradient-to-r from-blue-900 via-indigo-700 to-blue-600 shadow-md rounded-lg p-6 mt-10 mb-10 border text-white">
-        <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
           <div>
-            <label class="block mb-1 font-medium">Select User</label>
+            <label class="block mb-1 font-medium">From</label>
             <div class="relative">
-              <SearchInput />
+              <input 
+                type="date" 
+                v-model="dateFrom"
+                placeholder="Enter Designation" 
+                @change="logSelectedDates"
+                required
+                class="w-full p-2 mt-2 text-gray-900 text-sm border rounded-md focus:ring-indigo-500 focus:border-indigo-500" 
+              />
             </div>
           </div>
           <div>
-            <label class="block mb-1 font-medium">Select Year</label>
+            <label class="block mb-1 font-medium">To</label>
             <div class="relative">
-              <SearchInput />
-            </div>
-          </div>
-          <div>
-            <label class="block mb-1 font-medium">Select Month</label>
-            <div class="relative">
-              <SearchInput />
+              <input 
+                type="date" 
+                v-model="dateTo"
+                placeholder="Enter Designation" 
+                @change="logSelectedDates"
+                required
+                class="w-full p-2 mt-2 text-sm border text-gray-900 rounded-md focus:ring-indigo-500 focus:border-indigo-500 dark:text-gray-900" 
+              />
             </div>
           </div>
         </div>
       </div>
 
-      <div class="bg-white p-6 rounded shadow border mt-6">
+      <p 
+        v-if="!dateFrom || !dateTo" 
+        class="text-sm text-gray-500 italic text-center"
+      >
+        Please select date range.
+      </p>
+
+
+      <!-- <div class="bg-white p-6 rounded shadow border mt-6">
         <p class="text-sm text-gray-500 italic text-center">Report preview will appear here after selection.</p>
         <h2 class="text-lg font-semibold mb-4">Generated Reports</h2>
         <ul class="space-y-4">
@@ -54,10 +70,8 @@
               View
             </a>
           </li>
-
-          <!-- Add more reports below as needed -->
         </ul>
-      </div>
+      </div> -->
 
 
     </section>
@@ -66,11 +80,7 @@
 
   
   <script>
-  //import textInput from '~/components/customcontrol/textinput'
-  //// import * as Global from '@/assets/js/Global'
-  ////import * as myfilter from '@/plugins/myfilter'
- //import Swal from 'sweetalert2';
- //import { useSampleStore  } from '~/stores/modules/sampleStore';
+
  import { useRoute } from 'vue-router'
  import { useUserStore } from "~/stores/modules/userStore";
 import { useHrStore } from "~/stores/modules/hrStore";
@@ -98,6 +108,8 @@ import { useHrStore } from "~/stores/modules/hrStore";
       return {
         imageroot: "",
         showLoading: null,
+        dateFrom: '',
+        dateTo: '',
        
       }
     },
@@ -106,8 +118,8 @@ import { useHrStore } from "~/stores/modules/hrStore";
     },
     async created() {
       this.hrStore = useHrStore();
-    this.userStore = useUserStore();
-    this.showLoading = this.$showLoading;
+      this.userStore = useUserStore();
+      this.showLoading = this.$showLoading;
       this.imageroot = this.userStore.loggedUser.resourceURLRoot;
     },
     watch: {},
@@ -115,33 +127,25 @@ import { useHrStore } from "~/stores/modules/hrStore";
   
     },
     methods: {
-     
-     
-      // async copyContent(value) {
-      //   try {
-      //      await navigator.clipboard.writeText(value)
-      //      this.show_msg('Content copied to clipboard')
-  
-      //   } catch (err) {
-      //     this.show_msg('Failed to copy :'+err)
-      //   }
-      // },
-      //     async copyContent(value) {
-      //   try {
-      //      await navigator.clipboard.writeText(value)
-      //      this.show_msg('Content copied to clipboard')
-  
-      //   } catch (err) {
-      //     this.show_msg('Failed to copy :'+err)
-      //   }
-      // },
-      //  async downloadReportKotukole(){
-      //   if(confirm('Do you want to Download?')){
-      //      await this.get_DownloadKotukole({book:this.book});
-      //      window.open(this.csv_root+'/reports/'+this.csv_name, '_blank');
-      //   }
-      // },
 
+      async logSelectedDates() {
+        if (!this.dateFrom || !this.dateTo) {
+          this.$showToast('Please select both From and To dates', 'warning');
+          return;
+        }
+
+        const req = {
+          dateFrom: this.dateFrom,
+          dateTo: this.dateTo,
+        };
+        console.log(req);
+        
+        await this.hrStore.GetPrintHrReports({ dateFrom: this.dateFrom, dateTo: this.dateFrom }, this.$showLoading);
+
+        
+      }
+     
+   
       //this.$showToast('Login successful!', 'success'); //success ,error ,warning,info
     },
     async beforeMount() {

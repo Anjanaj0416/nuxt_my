@@ -3,7 +3,7 @@
     <div v-if="!showAddProposal && !showProposalVersions" >
       <div class="flex flex-col items-center justify-between -mt-4 mb-2 md:flex-row">
         <div class="w-full mb-4 md:mb-0">  
-          <div class="text-2xl uppercase">Proposal</div>
+          <div class="text-2xl uppercase">Proposals</div>
         </div>
         <div class="w-full md:w-auto">
           <div class="mr-2">
@@ -27,7 +27,7 @@
           <!-- Top section: Details -->
           <div class="flex flex-col sm:flex-row sm:justify-between sm:items-center gap-2">
             <div class="flex flex-col text-center sm:text-left">
-              <h1 class="text-xs font-medium text-gray-600">Quotation No.</h1>
+              <h1 class="text-xs font-medium text-gray-600">Proposal No.</h1>
               <p class="text-sm font-semibold text-blue-600">{{ qItem.quotationNo }}</p>
             </div>
             <div class="hidden sm:block w-px bg-gray-300 h-8"></div>
@@ -91,7 +91,7 @@
               />
             </div>
             <LinkBtn
-              label="View Quotation"
+              label="View PDF"
               class="text-xs font-medium"
               @click="
                 quotationStore.curQuotation = qItem;
