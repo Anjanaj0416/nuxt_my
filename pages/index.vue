@@ -6,11 +6,11 @@
       <!-- Logo -->
       <div class="flex items-center">
         <NuxtLink to="/" class="flex items-center text-2xl font-bold transition duration-300 hover:opacity-90">
-          <!-- <img
+          <img
             src="/assets/img/digitalTechLabs/DigitalTechLabsLogo.jpg"
             alt="Digital Tech Labs Logo"
             class="px-2 rounded-full w-44"
-          /> -->
+          />
         </NuxtLink>
       </div>
 
