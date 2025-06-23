@@ -176,7 +176,7 @@
         <section class="relative px-6 mx-auto bg-gradient-to-r from-blue-900 to-indigo-900">
             <div class="mx-auto text-center lg:py-16 lg:px-2">
             <h1 class="text-4xl font-semibold text-white sm:text-5xl">We’re Located at</h1>
-            <p class="mt-4 text-lg text-white">425, Bambalapitiya, Colombo 3, Sri lanka</p>
+            <p class="mt-4 text-lg text-white">35/2, Joseph's Ln, Colombo 4, Sri lanka</p>
             <a
                 href="https://www.google.com/maps/place/425+Bambalapitiya,+Colombo"
                 target="_blank"
