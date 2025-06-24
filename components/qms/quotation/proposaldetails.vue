@@ -1,6 +1,6 @@
 <template>
   <section class="justify-center">
-    <div v-if="!showAddProposal && !showProposalVersions" >
+    <div v-if="!showAddProposal && !showProposalVersions && !showInvoice && !showWorkFlow" >
       <div class="flex flex-col items-center justify-between -mt-4 mb-2 md:flex-row">
         <div class="w-full mb-4 md:mb-0">  
           <div class="text-2xl uppercase">Proposals</div>
@@ -91,6 +91,22 @@
               />
             </div>
             <LinkBtn
+              label="Invoice"
+              class="text-xs font-medium"
+              @click="
+                GoToInvoice(qItem.id);
+                showInvoice = true
+              "
+            />
+            <LinkBtn
+              label="Work Flow"
+              class="text-xs font-medium"
+              @click="
+                GoToWorkFlow(qItem.id);
+                showWorkFlow = true
+              "
+            />
+            <LinkBtn
               label="View PDF"
               class="text-xs font-medium"
               @click="
@@ -115,15 +131,26 @@
       </div>
     </div>
     <ViewMore
-        v-if="isViewMore && showProposalVersions"
-        @close="isViewMore = !isViewMore; showProposalVersions = false"
-        @Approve="isApproving = true"
+      v-if="isViewMore && showProposalVersions"
+      @close="isViewMore = !isViewMore; showProposalVersions = false"
+      @Approve="isApproving = true"
     />
     <AddEdit
       v-if="isAddEdit && showAddProposal"
       @close="isAddEdit = false; showAddProposal = false"
     />
-    <ApproveView v-if="isApproving" @close="CloseApprovingView()"  />
+    <ApproveView 
+      v-if="isApproving" 
+      @close="CloseApprovingView()"  
+    />
+    <Invoice
+      v-if="isViewMore && showInvoice"
+      @close="isViewMore = false; showInvoice = false"
+    />
+    <WorkFlow v-if="isViewMore && showWorkFlow"
+      @close="isViewMore = false; showWorkFlow = false"
+    />
+
 </section>
 </template>
 
@@ -137,6 +164,10 @@ import FilterTab from "~/components/customcontrol/FilterTab";
 import ViewMore from "~/components/qms/quotation/viewmore";
 import ApproveView from "~/components/qms/quotation/approve";
 import AddEdit from "~/components/qms/quotation/addedit.vue";
+import Invoice from "~/components/qms/invoice/index.vue";
+import WorkFlow from "~/components/qms/workFlow/index.vue"
+
+
 
 import { useQuotationStore } from "~/stores/modules/qms/quotationStore";
 
@@ -156,6 +187,8 @@ export default {
     ViewMore,
     ApproveView,
     AddEdit,
+    Invoice,
+    WorkFlow,
   },
   data() {
     return {
@@ -212,6 +245,17 @@ export default {
       await this.quotationStore.LoadQuotationVersions(id,this.showLoading);
       this.isViewMore = true;
     },
+
+    async GoToInvoice() {
+      let id = this.quotationStore.curQuotation.id;
+      this.isViewMore = true;
+    },
+
+    async GoToWorkFlow() {
+      let id = this.quotationStore.curQuotation.id;
+      this.isViewMore = true;
+    },
+
 
     async CloseApprovingView() {
       let id = this.quotationStore.curQuotation.id;

@@ -1,74 +1,89 @@
-<!-- https://flowbite.com/docs/components/avatar/ -->
-
 <template>
-  <section class="justify-center">
-    <div class="flex flex-col-reverse items-start justify-between gap-4 mb-4 md:flex-row md:items-center">
-      <div class="text-2xl uppercase">Work Flow</div>
-      <button
-        class="flex items-center gap-2 px-4 py-2 text-sm font-medium text-gray-500 transition-all duration-300 bg-white border-1 rounded-full shadow hover:bg-blue-700 hover:text-white hover:shadow-md"
-        @click="$emit('close')"
-      >
-        <svg xmlns="http://www.w3.org/2000/svg" class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7" />
-        </svg>
-        Back to Proposals
-      </button>
+  <section class="p-6 min-h-screen">
+    <h1 class="text-3xl font-bold text-gray-800 mb-8">Sales Dashboard</h1>
+
+    <div class="grid grid-cols-1 lg:grid-cols-3 gap-6 mb-10">
+      <!-- Today Sales Summary -->
+      <div class="lg:col-span-1">
+        <div class="bg-white border border-gray-200 p-6 rounded-2xl shadow-md hover:shadow-lg transition-all duration-300">
+          <div class="flex items-center justify-between mb-6">
+            <h2 class="text-xl font-bold text-gray-800 flex items-center gap-2">
+              📅 Today Sales Summary
+            </h2>
+          </div>
+
+          <div class="space-y-4">
+            <div class="p-4 bg-blue-50 rounded-xl text-center shadow-sm hover:shadow-md transition">
+              <h3 class="text-sm font-semibold text-gray-600 mb-1">Total Sales</h3>
+              <p class="text-3xl font-extrabold text-blue-800">{{ dashboardStore.todaySalesSummary.totalSales }}</p>
+            </div>
+            <div class="p-4 bg-yellow-50 rounded-xl text-center shadow-sm hover:shadow-md transition">
+              <h3 class="text-sm font-semibold text-gray-600 mb-1">Pending Sales</h3>
+              <p class="text-3xl font-extrabold text-blue-800">{{ dashboardStore.todaySalesSummary.pendingSales }}</p>
+            </div>
+
+            <div class="p-4 bg-green-50 rounded-xl text-center shadow-sm hover:shadow-md transition">
+              <h3 class="text-sm font-semibold text-gray-600 mb-1">Completed Sales</h3>
+              <p class="text-3xl font-extrabold text-blue-800">{{ dashboardStore.todaySalesSummary.completedSales }}</p>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Monthly Sales Summary -->
+      <div class="lg:col-span-2">
+        <div class="bg-white border border-gray-200 p-6 rounded-2xl shadow-md hover:shadow-lg transition-all duration-300">
+          <div class="flex items-center justify-between mb-6">
+            <h2 class="text-xl font-bold text-gray-800 flex items-center gap-2">
+              📊 Monthly Sales Summary
+            </h2>
+          </div>
+
+          <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+            <div class="p-4 bg-blue-50 rounded-xl text-center shadow-sm hover:shadow-md transition">
+              <h3 class="text-sm font-semibold text-gray-600 mb-1">Total Sales</h3>
+              <p class="text-3xl font-extrabold text-blue-800">{{ dashboardStore.monthlySalesSummary.totalSales }}</p>
+            </div>
+
+            <div class="p-4 bg-blue-50 rounded-xl text-center shadow-sm hover:shadow-md transition">
+              <h3 class="text-sm font-semibold text-gray-600 mb-1">Pending Sales</h3>
+              <p class="text-3xl font-extrabold text-blue-800">{{ dashboardStore.monthlySalesSummary.pendingSales }}</p>
+            </div>
+
+            <div class="p-4 bg-blue-50 rounded-xl text-center shadow-sm hover:shadow-md transition">
+              <h3 class="text-sm font-semibold text-gray-600 mb-1">Completed Sales</h3>
+              <p class="text-3xl font-extrabold text-blue-800">{{ dashboardStore.monthlySalesSummary.completedSales }}</p>
+            </div>
+
+            <div class="p-4 bg-blue-50 rounded-xl text-center shadow-sm hover:shadow-md transition">
+              <h3 class="text-sm font-semibold text-gray-600 mb-1">Rejected Sales</h3>
+              <p class="text-3xl font-extrabold text-blue-800">{{ dashboardStore.monthlySalesSummary.rejectedSales }}</p>
+            </div>
+
+            <div class="p-4 bg-blue-50 rounded-xl text-center shadow-sm hover:shadow-md transition">
+              <h3 class="text-sm font-semibold text-gray-600 mb-1">Refunded Sales</h3>
+              <p class="text-3xl font-extrabold text-blue-800">{{ dashboardStore.monthlySalesSummary.refundedSales }}</p>
+            </div>
+
+            <div class="p-4 bg-blue-50 rounded-xl text-center shadow-sm hover:shadow-md transition">
+              <h3 class="text-sm font-semibold text-gray-600 mb-1">In Progress</h3>
+              <p class="text-3xl font-extrabold text-blue-800">{{ dashboardStore.monthlySalesSummary.inProgress }}</p>
+            </div>
+          </div>
+        </div>
+      </div>
     </div>
-    <div class="overflow-x-auto rounded-xl border border-gray-200 shadow">
-      <table class="min-w-full divide-y divide-gray-200 text-sm">
-        <thead class="bg-blue-950 text-white">
-          <tr>
-            <th class="px-4 py-2 text-left">Discription</th>
-            
-            <th class="px-4 py-2 text-left">Assigned To</th>
-            <th class="px-4 py-2 text-left">Assigned Date</th>
-            <th class="px-4 py-2 text-left">Completed Date</th>
-            <th class="px-4 py-2 text-left">Status</th>
-            <th class="px-4 py-2 text-left">Days Taken</th>
-            <th class="px-4 py-2 text-left">Comment</th>
-          </tr>
-        </thead>
-        <tbody class="divide-y divide-gray-100 bg-white">
-          <tr class="hover:bg-gray-50">
-            <td class="px-4 py-2 font-medium">Lorem ipsum dolor sit amet consectetur adipisicing elit.</td>
-            <td class="px-4 py-2 font-medium">Nimal <span class="text-xs text-gray-500">[0772784123]</span></td>
-            <td class="px-4 py-2">2025-06-15</td>
-            <td class="px-4 py-2 text-gray-500">—</td>
-            <td class="px-4 py-2">
-              <span class="inline-block rounded-full bg-yellow-100 text-yellow-800 px-2 py-0.5 text-xs">Pending</span>
-            </td>
-            <td class="px-4 py-2 text-center">130</td>
-            <td class="px-4 py-2 text-gray-600 italic">—</td>
-          </tr>
-          <tr class="hover:bg-gray-50">
-            <td class="px-4 py-2 font-medium">Lorem ipsum dolor sit amet consectetur adipisicing elit.</td>
-            <td class="px-4 py-2 font-medium">Kamal <span class="text-xs text-gray-500">[0718738129]</span></td>
-            <td class="px-4 py-2">2025-01-16</td>
-            <td class="px-4 py-2">2025-02-05</td>
-            <td class="px-4 py-2">
-              <span class="inline-block rounded-full bg-green-100 text-green-800 px-2 py-0.5 text-xs">Completed</span>
-            </td>
-            <td class="px-4 py-2 text-center">19</td>
-            <td class="px-4 py-2 text-gray-600 italic">—</td>
-          </tr>
-          <tr class="hover:bg-gray-50">
-            <td class="px-4 py-2 font-medium">Lorem ipsum dolor sit amet consectetur adipisicing elit.</td>
-            <td class="px-4 py-2 font-medium">Dumindu <span class="text-xs text-gray-500">[0778626741]</span></td>
-            <td class="px-4 py-2">2025-06-16</td>
-            <td class="px-4 py-2">2025-01-16</td>
-            <td class="px-4 py-2">
-              <span class="inline-block rounded-full bg-green-100 text-green-800 px-2 py-0.5 text-xs">Completed</span>
-            </td>
-            <td class="px-4 py-2 text-center">0</td>
-            <td class="px-4 py-2 text-gray-600">Recall the WorkOrder By FLO</td>
-          </tr>
-          <!-- Repeat for others -->
-        </tbody>
-      </table>
+
+    <!-- Future Section: Add Charts, Tables, or Sales by Category -->
+    <div class="mt-10">
+      <!-- Placeholder for Sales Chart, Sales Table, etc. -->
+      <p class="text-center text-gray-500 italic">More sales analytics coming soon...</p>
     </div>
   </section>
-    <!-- <input type="text" oninput="this.value = this.value.replace(/[^0-9.]/g, '').replace(/(\..*?)\..*/g, '$1');" > -->
 </template>
+
+
+
   
   <script>
   //import textInput from '~/components/customcontrol/textinput'
@@ -77,12 +92,15 @@
  //import Swal from 'sweetalert2';
  //import { useSampleStore  } from '~/stores/modules/sampleStore';
  import { useRoute } from 'vue-router'
- import { useUserStore } from "~/stores/modules/userStore";
+
+
  //import { useQuotationStore } from "~/stores/modules/qms/quotationStore";
  
  import LinkBtn from "~/components/customcontrol/Link";
   import Button from "~/components/customcontrol/Button";
   import selectinput2 from "~/components/customcontrol/selectinput2";
+   import { useDashboardStore  } from "~/stores/modules/dashboardStore";
+
 
  definePageMeta({
     layout: 'default',   
@@ -104,7 +122,7 @@
      
     },
     async created() {
-      this.userStore = useUserStore();
+      this.dashboardStore  = useDashboardStore();
       this.showLoading = this.$showLoading;
       this.imageroot = this.userStore.loggedUser.resourceURLRoot;
     },

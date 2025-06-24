@@ -1,14 +1,18 @@
 <template>
     <section class="justify-center">
-        <div class="flex flex-col items-center justify-between mt-0 mb-2 md:flex-row">
-          <div class="w-full mb-4 md:mb-0">  
-            <div class="text-2xl uppercase">Invoice</div>
-          </div>
-          <div class="w-full md:w-auto">
-              <div class="mr-2">
-              </div>
-          </div>
+        <div class="flex flex-col-reverse items-start justify-between gap-4 mb-4 md:flex-row md:items-center">
+          <div class="text-2xl uppercase">Invoice</div>
+          <button
+            class="flex items-center gap-2 px-4 py-2 text-sm font-medium text-gray-500 transition-all duration-300 bg-white border-1 rounded-full shadow hover:bg-blue-700 hover:text-white hover:shadow-md"
+            @click="$emit('close')"
+          >
+            <svg xmlns="http://www.w3.org/2000/svg" class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7" />
+            </svg>
+            Back to Proposals
+          </button>
         </div>
+
         <div class="bg-white border rounded-lg shadow-md p-6 text-sm text-gray-800">
           <h2 class="text-base font-semibold text-gray-700">
               Full Payment: <span class="text-blue-600 font-bold">LKR:{{ invoice.fullPayment }}</span>

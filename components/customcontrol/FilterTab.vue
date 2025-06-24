@@ -3,6 +3,8 @@
 <template>
   <section class="mt-5">
     <div class="flex flex-wrap items-center gap-6">
+          <!-- {{ vendorStore.initVendor.vendorViewItemCount }} -->
+
    
          <div
         v-for="(filter, index) in arrFilter"

@@ -4,7 +4,7 @@
     <div class="flex-1 flex flex-col">
       <Navbar />
 
-      <section class="px-4 py-10 mt-20 lg:px-24">
+      <section class="px-4 py-8 mt-20 lg:px-24">
         <h1 class="text-2xl font-bold mb-4">Dashboard</h1>
 
         <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
@@ -104,10 +104,34 @@
 
           </div>
         </div>
-        <div class="mt-6">
-          <dash/>
+        <div class="mt-6" v-if="userStore.loggedUser.userGroup === 'HRAdmin'">
+          <hrDash />
         </div>
+        <div class="mt-6" v-if="userStore.loggedUser.userGroup === 'Supervisor'">
+          <!-- <financeDash /> -->
+          <!-- <hrDash /> -->
+           <saleDash/>
+
+        </div>
+        <div class="mt-6" v-if="userStore.loggedUser.userGroup === 'Employee'">
+          
+        </div>
+        <div class="mt-6" v-if="userStore.loggedUser.userGroup === 'Freelance'">
+          
+        </div>
+        <div class="mt-6" v-if="userStore.loggedUser.userGroup === 'INTERN'">
+          
+        </div>
+        <div class="mt-6" v-if="userStore.loggedUser.userGroup === 'executive'">
+          
+        </div>
+        <div class="mt-6" v-if="userStore.loggedUser.userGroup === 'Finance'">
+          <financeDash />
+        </div>
+
+
         
+     <!-- {{ userStore.loggedUser.userGroup }} -->
 
       </section>
     </div>
@@ -122,7 +146,11 @@
 import changelogin from '~/components/auth/changelogin'
 import login from '~/components/auth/login'
 import chart from '~/components/chart/chart.vue'
-import dash from '~/components/dashboard/hr.vue'
+import hrDash from '~/components/dashboard/hr.vue'
+import financeDash from '~/components/dashboard/finance.vue'
+import saleDash from '~/components/dashboard/sales.vue'
+import { useUserStore } from '~/stores/modules/userStore';
+
 
 //import { useApiStore } from '@/stores/useApiStore' 
 import { onMounted } from 'vue'
@@ -134,7 +162,7 @@ definePageMeta({
    });
 
 export default {
-  components: {login,changelogin,chart,dash},
+  components: {login,changelogin,chart,hrDash,financeDash,saleDash},
   props:[''],
   data() {
     return {
@@ -142,6 +170,9 @@ export default {
       email: "",
       accountName: "",
     };
+  },
+  async created() {
+    this.userStore = useUserStore();
   },
   async mounted() {
   
