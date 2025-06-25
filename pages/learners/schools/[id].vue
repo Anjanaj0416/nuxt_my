@@ -62,99 +62,12 @@
         </div>
       </div>
 
+      <!-- Rearranged UI: Sidebar first, then main content -->
       <div class="grid grid-cols-1 lg:grid-cols-3 gap-8">
-        <!-- Main Content -->
-        <div class="lg:col-span-2 space-y-8">
-          <!-- About -->
-          <div class="bg-white dark:bg-gray-800 rounded-lg shadow-sm p-6">
-            <h2 class="text-2xl font-semibold text-gray-900 dark:text-white mb-4">About</h2>
-            <p class="text-gray-600 dark:text-gray-300 mb-6">{{ school.description }}</p>
-            
-            <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
-              <div>
-                <h3 class="text-lg font-semibold text-gray-900 dark:text-white mb-3">Services</h3>
-                <div class="space-y-2">
-                  <div
-                    v-for="service in school.services"
-                    :key="service"
-                    class="flex items-center space-x-2"
-                  >
-                    <svg class="w-4 h-4 text-green-500" fill="currentColor" viewBox="0 0 20 20">
-                      <path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd" />
-                    </svg>
-                    <span class="text-gray-700 dark:text-gray-300">{{ service }}</span>
-                  </div>
-                </div>
-              </div>
-              
-              <div>
-                <h3 class="text-lg font-semibold text-gray-900 dark:text-white mb-3">Features</h3>
-                <div class="space-y-2">
-                  <div
-                    v-for="feature in school.features"
-                    :key="feature"
-                    class="flex items-center space-x-2"
-                  >
-                    <svg class="w-4 h-4 text-green-500" fill="currentColor" viewBox="0 0 20 20">
-                      <path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd" />
-                    </svg>
-                    <span class="text-gray-700 dark:text-gray-300">{{ feature }}</span>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div>
-
-          <!-- Reviews -->
-          <div class="bg-white dark:bg-gray-800 rounded-lg shadow-sm p-6">
-            <h2 class="text-2xl font-semibold text-gray-900 dark:text-white mb-6">Student Reviews</h2>
-            
-            <div class="space-y-6">
-              <div
-                v-for="review in school.reviews"
-                :key="review.id"
-                class="border-b border-gray-200 dark:border-gray-700 pb-6 last:border-b-0 last:pb-0"
-              >
-                <div class="flex items-start space-x-4">
-                  <div class="w-10 h-10 bg-primary-500 rounded-full flex items-center justify-center">
-                    <span class="text-white text-sm font-medium">{{ review.name.charAt(0) }}</span>
-                  </div>
-                  <div class="flex-1">
-                    <div class="flex items-center space-x-2 mb-2">
-                      <h4 class="font-medium text-gray-900 dark:text-white">{{ review.name }}</h4>
-                      <div class="flex items-center">
-                        <svg
-                          v-for="i in 5"
-                          :key="i"
-                          :class="i <= review.rating ? 'text-yellow-400' : 'text-gray-300'"
-                          class="w-4 h-4"
-                          fill="currentColor"
-                          viewBox="0 0 20 20"
-                        >
-                          <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z" />
-                        </svg>
-                      </div>
-                      <span class="text-sm text-gray-500 dark:text-gray-400">{{ formatDate(review.date) }}</span>
-                    </div>
-                    <p class="text-gray-600 dark:text-gray-300">{{ review.comment }}</p>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-
         <!-- Sidebar -->
-        <div class="space-y-6">
-          <!-- Booking Card -->
+        <div class="space-y-6 order-1 lg:order-none">
+          <!-- Booking Card (without price) -->
           <div class="bg-white dark:bg-gray-800 rounded-lg shadow-sm p-6 sticky top-8">
-            <div class="text-center mb-6">
-              <div class="text-3xl font-bold text-primary-600 dark:text-primary-400 mb-1">
-                ${{ school.price }}
-              </div>
-              <div class="text-gray-500 dark:text-gray-400">per hour</div>
-            </div>
-            
             <div class="space-y-4 mb-6">
               <div>
                 <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
@@ -258,6 +171,87 @@
                   <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 11a3 3 0 11-6 0 3 3 0 016 0z" />
                 </svg>
                 <p class="text-gray-500 dark:text-gray-400 text-sm">Interactive map would appear here</p>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Main Content -->
+        <div class="lg:col-span-2 space-y-8 order-2 lg:order-none">
+          <!-- About -->
+          <div class="bg-white dark:bg-gray-800 rounded-lg shadow-sm p-6">
+            <h2 class="text-2xl font-semibold text-gray-900 dark:text-white mb-4">About</h2>
+            <p class="text-gray-600 dark:text-gray-300 mb-6">{{ school.description }}</p>
+            
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+              <div>
+                <h3 class="text-lg font-semibold text-gray-900 dark:text-white mb-3">Services</h3>
+                <div class="space-y-2">
+                  <div
+                    v-for="service in school.services"
+                    :key="service"
+                    class="flex items-center space-x-2"
+                  >
+                    <svg class="w-4 h-4 text-green-500" fill="currentColor" viewBox="0 0 20 20">
+                      <path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd" />
+                    </svg>
+                    <span class="text-gray-700 dark:text-gray-300">{{ service }}</span>
+                  </div>
+                </div>
+              </div>
+              
+              <div>
+                <h3 class="text-lg font-semibold text-gray-900 dark:text-white mb-3">Features</h3>
+                <div class="space-y-2">
+                  <div
+                    v-for="feature in school.features"
+                    :key="feature"
+                    class="flex items-center space-x-2"
+                  >
+                    <svg class="w-4 h-4 text-green-500" fill="currentColor" viewBox="0 0 20 20">
+                      <path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd" />
+                    </svg>
+                    <span class="text-gray-700 dark:text-gray-300">{{ feature }}</span>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Reviews -->
+          <div class="bg-white dark:bg-gray-800 rounded-lg shadow-sm p-6">
+            <h2 class="text-2xl font-semibold text-gray-900 dark:text-white mb-6">Student Reviews</h2>
+            
+            <div class="space-y-6">
+              <div
+                v-for="review in school.reviews"
+                :key="review.id"
+                class="border-b border-gray-200 dark:border-gray-700 pb-6 last:border-b-0 last:pb-0"
+              >
+                <div class="flex items-start space-x-4">
+                  <div class="w-10 h-10 bg-primary-500 rounded-full flex items-center justify-center">
+                    <span class="text-white text-sm font-medium">{{ review.name.charAt(0) }}</span>
+                  </div>
+                  <div class="flex-1">
+                    <div class="flex items-center space-x-2 mb-2">
+                      <h4 class="font-medium text-gray-900 dark:text-white">{{ review.name }}</h4>
+                      <div class="flex items-center">
+                        <svg
+                          v-for="i in 5"
+                          :key="i"
+                          :class="i <= review.rating ? 'text-yellow-400' : 'text-gray-300'"
+                          class="w-4 h-4"
+                          fill="currentColor"
+                          viewBox="0 0 20 20"
+                        >
+                          <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z" />
+                        </svg>
+                      </div>
+                      <span class="text-sm text-gray-500 dark:text-gray-400">{{ formatDate(review.date) }}</span>
+                    </div>
+                    <p class="text-gray-600 dark:text-gray-300">{{ review.comment }}</p>
+                  </div>
+                </div>
               </div>
             </div>
           </div>

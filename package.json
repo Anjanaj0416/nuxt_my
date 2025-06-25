@@ -10,6 +10,7 @@
     "postinstall": "nuxt prepare"
   },
   "dependencies": {
+    "@nuxtjs/i18n": "^9.5.5",
     "@pinia/nuxt": "^0.9.0",
     "@vueform/multiselect": "^2.6.11",
     "axios": "^1.7.9",

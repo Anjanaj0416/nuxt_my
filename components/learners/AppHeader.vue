@@ -5,7 +5,7 @@
         <!-- Logo -->
         <div class="flex items-center">
           <NuxtLink to="/learners" class="flex items-center space-x-2">
-            <div class="w-8 h-8 bg-gradient-to-r from-primary-500 to-secondary-500 rounded-lg flex items-center justify-center">
+            <div class="w-8 h-8 bg-primary-500 rounded-lg flex items-center justify-center">
               <svg class="w-5 h-5 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z" />
               </svg>
@@ -40,31 +40,49 @@
           </button>
 
           <!-- Auth Buttons -->
-          <div v-if="!isLoggedIn" class="hidden md:flex items-center space-x-2">
+          <div v-if="!userStore.token" class="hidden md:flex items-center space-x-2">
             <NuxtLink to="/learners/login" class="btn-secondary">Login</NuxtLink>
-            <NuxtLink to="/learners/register" class="btn-primary">Sign Up</NuxtLink>
+            <NuxtLink to="/learners/register" class="btn-primary">Driving School</NuxtLink>
           </div>
 
           <!-- User Menu -->
-          <div v-else class="relative" data-dropdown-toggle="user-dropdown">
-            <button class="flex items-center space-x-2 p-2 rounded-lg hover:bg-gray-100 dark:hover:bg-gray-700">
+          <div v-else class="relative">
+            <button
+              @click="userDropdownOpen = !userDropdownOpen"
+              class="flex items-center space-x-2 p-2 rounded-lg hover:bg-gray-100 dark:hover:bg-gray-700"
+            >
               <div class="w-8 h-8 bg-primary-500 rounded-full flex items-center justify-center">
-                <span class="text-white text-sm font-medium">{{ user?.name?.charAt(0) || 'U' }}</span>
+                <span class="text-white text-sm font-medium">{{ userStore.loggedUser?.name?.charAt(0) || 'U' }}</span>
               </div>
-              <span class="hidden md:block text-sm font-medium text-gray-700 dark:text-gray-300">{{ user?.name || 'User' }}</span>
+              <span class="hidden md:block text-sm font-medium text-gray-700 dark:text-gray-300">
+                {{ userStore.loggedUser?.name || 'User' }}
+              </span>
             </button>
-            
-            <div id="user-dropdown" class="z-10 hidden bg-white divide-y divide-gray-100 rounded-lg shadow w-44 dark:bg-gray-700 dark:divide-gray-600">
+
+            <div
+              v-show="userDropdownOpen"
+              id="user-dropdown"
+              class="z-10 absolute right-0 mt-2 bg-white divide-y divide-gray-100 rounded-lg shadow w-44 dark:bg-gray-700 dark:divide-gray-600"
+            >
               <div class="px-4 py-3 text-sm text-gray-900 dark:text-white">
-                <div class="font-medium">{{ user?.name }}</div>
-                <div class="truncate">{{ user?.email }}</div>
+                <div class="font-medium">{{ userStore.loggedUser?.name }}</div>
+                <div class="truncate">{{ userStore.loggedUser?.email }}</div>
               </div>
               <ul class="py-2 text-sm text-gray-700 dark:text-gray-200">
-                <li><NuxtLink to="/dashboard" class="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600">Dashboard</NuxtLink></li>
-                <li><NuxtLink to="/profile" class="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600">Profile</NuxtLink></li>
+                <li>
+                  <NuxtLink to="/dashboard" class="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600">Dashboard</NuxtLink>
+                </li>
+                <li>
+                  <NuxtLink to="/profile" class="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600">Profile</NuxtLink>
+                </li>
               </ul>
               <div class="py-2">
-                <button @click="logout" class="block w-full text-left px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 dark:hover:bg-gray-600 dark:text-gray-200">Sign out</button>
+                <button
+                  @click="logout"
+                  class="block w-full text-left px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 dark:hover:bg-gray-600 dark:text-gray-200"
+                >
+                  Sign out
+                </button>
               </div>
             </div>
           </div>
@@ -88,9 +106,12 @@
           <NuxtLink to="/school" class="mobile-nav-link">Find Schools</NuxtLink>
           <NuxtLink to="/how-it-works" class="mobile-nav-link">How It Works</NuxtLink>
           <NuxtLink to="/contact" class="mobile-nav-link">Contact</NuxtLink>
-          <div v-if="!isLoggedIn" class="flex flex-col space-y-2 mt-4">
+          <div v-if="!userStore.token" class="flex flex-col space-y-2 mt-4">
             <NuxtLink to="/learners/login" class="btn-secondary">Login</NuxtLink>
             <NuxtLink to="/learners/register" class="btn-primary">Sign Up</NuxtLink>
+          </div>
+          <div v-else class="flex flex-col space-y-2 mt-4">
+            <button @click="logout" class="btn-secondary">Logout</button>
           </div>
         </div>
       </div>
@@ -99,29 +120,36 @@
 </template>
 
 <script setup>
-
+import { ref } from 'vue'
 import { useTheme } from '~/composables/learners/useTheme'
-import { useAuthStore } from '~/stores/modules/learners/auth'  // or your correct path
+import { useUserStore } from '~/stores/modules/userStore'
+
 const { isDark, toggleTheme } = useTheme()
-const { user, isLoggedIn, logout } = useAuthStore()
+const userStore = useUserStore()
 const showMobileMenu = ref(false)
+const userDropdownOpen = ref(false)
 
 const toggleMobileMenu = () => {
   showMobileMenu.value = !showMobileMenu.value
+}
+
+const logout = () => {
+  userStore.logout()
+  // Optionally: navigateTo('/learners/login')
 }
 </script>
 
 <style scoped>
 .nav-link {
-  @apply px-3 py-2 rounded-md text-sm font-medium text-gray-800 dark:text-gray-200 hover:text-primary-600 dark:hover:text-primary-400 hover:bg-gray-100 dark:hover:bg-gray-700 transition-colors;
+  @apply px-3 py-2 rounded-md text-sm font-medium text-gray-800 dark:text-gray-200 hover:text-primary-500 dark:hover:text-primary-500 hover:bg-gray-100 dark:hover:bg-gray-700 transition-colors;
 }
 
 .nav-link.router-link-active {
-  @apply text-primary-600 dark:text-primary-400 bg-primary-50 dark:bg-primary-900/20;
+  @apply text-primary-500 dark:text-primary-500 bg-primary-50 dark:bg-primary-900/20;
 }
 
 .mobile-nav-link {
-  @apply block px-4 py-2 text-sm font-medium text-gray-800 dark:text-gray-200 hover:text-primary-600 dark:hover:text-primary-400 hover:bg-gray-100 dark:hover:bg-gray-700 rounded-md transition-colors;
+  @apply block px-4 py-2 text-sm font-medium text-gray-800 dark:text-gray-200 hover:text-primary-500 dark:hover:text-primary-400 hover:bg-gray-100 dark:hover:bg-gray-700 rounded-md transition-colors;
 }
 
 .mobile-nav-link.router-link-active {
@@ -129,7 +157,7 @@ const toggleMobileMenu = () => {
 }
 
 .btn-primary {
-  @apply bg-primary-600 hover:bg-primary-700 text-white px-4 py-2 rounded-lg text-sm font-medium transition-colors;
+  @apply bg-primary-500 hover:bg-primary-500 text-white px-4 py-2 rounded-lg text-sm font-medium transition-colors;
 }
 
 .btn-secondary {

@@ -10,7 +10,7 @@
           </div>
         </div>
         <h2 class="mt-6 text-center text-3xl font-extrabold text-gray-900 dark:text-white">
-          Create your account
+          {{ registrationType === 'school' ? 'Create your driving school account' : 'Student Registration' }}
         </h2>
         <p class="mt-2 text-center text-sm text-gray-600 dark:text-gray-400">
           Or
@@ -21,95 +21,149 @@
       </div>
       
       <form @submit.prevent="handleRegister" class="mt-8 space-y-6">
-        <!-- Account Type -->
-        <div>
-          <label class="text-base font-medium text-gray-900 dark:text-white">Account Type</label>
-          <p class="text-sm leading-5 text-gray-500 dark:text-gray-400">Choose your account type</p>
-          <fieldset class="mt-4">
-            <div class="space-y-4 sm:flex sm:items-center sm:space-y-0 sm:space-x-10">
-              <div class="flex items-center">
-                <input
-                  id="student"
-                  v-model="accountType"
-                  name="account-type"
-                  type="radio"
-                  value="student"
-                  class="focus:ring-primary-500 h-4 w-4 text-primary-600 border-gray-300 dark:border-gray-600"
-                />
-                <label for="student" class="ml-3 block text-sm font-medium text-gray-700 dark:text-gray-300">
-                  Student
-                </label>
-              </div>
-              <div class="flex items-center">
-                <input
-                  id="school"
-                  v-model="accountType"
-                  name="account-type"
-                  type="radio"
-                  value="school"
-                  class="focus:ring-primary-500 h-4 w-4 text-primary-600 border-gray-300 dark:border-gray-600"
-                />
-                <label for="school" class="ml-3 block text-sm font-medium text-gray-700 dark:text-gray-300">
-                  Driving School
-                </label>
-              </div>
+        <!-- School Registration Form -->
+        <div v-if="registrationType === 'school'" class="space-y-6">
+          <div class="rounded-md shadow-sm space-y-4">
+            <!-- Existing school fields -->
+            <div>
+              <label for="name" class="sr-only">School Name</label>
+              <input
+                id="name"
+                v-model="name"
+                name="name"
+                type="text"
+                required
+                class="input-field"
+                placeholder="School Name"
+              />
             </div>
-          </fieldset>
+            
+            <div>
+              <label for="email" class="sr-only">Email address</label>
+              <input
+                id="email"
+                v-model="email"
+                type="email"
+                required
+                class="input-field"
+                placeholder="Email address"
+              />
+            </div>
+            
+            <div>
+              <label for="phone" class="sr-only">Phone number</label>
+              <input
+                id="phone"
+                v-model="phone"
+                type="tel"
+                required
+                class="input-field"
+                placeholder="Phone number"
+              />
+            </div>
+            
+            <div>
+              <label for="address" class="sr-only">Address</label>
+              <input
+                id="address"
+                v-model="address"
+                type="text"
+                required
+                class="input-field"
+                placeholder="School Address"
+              />
+            </div>
+            
+            <div>
+              <label for="license-number" class="sr-only">License Number</label>
+              <input
+                id="license-number"
+                v-model="licenseNumber"
+                type="text"
+                required
+                class="input-field"
+                placeholder="Driving School License Number"
+              />
+            </div>
+          </div>
         </div>
 
-        <div class="rounded-md shadow-sm space-y-4">
-          <div>
-            <label for="name" class="sr-only">Full name</label>
-            <input
-              id="name"
-              v-model="name"
-              name="name"
-              type="text"
-              autocomplete="name"
-              required
-              class="appearance-none relative block w-full px-3 py-2 border border-gray-300 dark:border-gray-600 placeholder-gray-500 dark:placeholder-gray-400 text-gray-900 dark:text-white rounded-md focus:outline-none focus:ring-primary-500 focus:border-primary-500 focus:z-10 sm:text-sm dark:bg-gray-700"
-              :placeholder="accountType === 'school' ? 'School Name' : 'Full Name'"
-            />
+        <!-- Student Registration Form -->
+        <div v-else class="space-y-6">
+          <div class="rounded-md shadow-sm space-y-4">
+            <div>
+              <label for="studentName" class="sr-only">Full Name</label>
+              <input
+                id="studentName"
+                v-model="studentName"
+                type="text"
+                required
+                class="input-field"
+                placeholder="Full Name"
+              />
+            </div>
+            
+            <div>
+              <label for="studentEmail" class="sr-only">Email address</label>
+              <input
+                id="studentEmail"
+                v-model="studentEmail"
+                type="email"
+                required
+                class="input-field"
+                placeholder="Email address"
+              />
+            </div>
+
+            <div>
+              <label for="studentPhone" class="sr-only">Phone number</label>
+              <input
+                id="studentPhone"
+                v-model="studentPhone"
+                type="tel"
+                required
+                class="input-field"
+                placeholder="Phone number"
+              />
+            </div>
+
+            <div>
+              <label for="dateOfBirth" class="sr-only">Date of Birth</label>
+              <input
+                id="dateOfBirth"
+                v-model="dateOfBirth"
+                type="date"
+                required
+                class="input-field"
+              />
+            </div>
+
+            <div>
+              <label for="licenseType" class="sr-only">License Type</label>
+              <select
+                id="licenseType"
+                v-model="licenseType"
+                required
+                class="input-field"
+              >
+                <option value="learner">Learner's License</option>
+                <option value="provisional">Provisional License</option>
+                <option value="full">Full License</option>
+              </select>
+            </div>
           </div>
-          
-          <div>
-            <label for="email" class="sr-only">Email address</label>
-            <input
-              id="email"
-              v-model="email"
-              name="email"
-              type="email"
-              autocomplete="email"
-              required
-              class="appearance-none relative block w-full px-3 py-2 border border-gray-300 dark:border-gray-600 placeholder-gray-500 dark:placeholder-gray-400 text-gray-900 dark:text-white rounded-md focus:outline-none focus:ring-primary-500 focus:border-primary-500 focus:z-10 sm:text-sm dark:bg-gray-700"
-              placeholder="Email address"
-            />
-          </div>
-          
-          <div>
-            <label for="phone" class="sr-only">Phone number</label>
-            <input
-              id="phone"
-              v-model="phone"
-              name="phone"
-              type="tel"
-              autocomplete="tel"
-              required
-              class="appearance-none relative block w-full px-3 py-2 border border-gray-300 dark:border-gray-600 placeholder-gray-500 dark:placeholder-gray-400 text-gray-900 dark:text-white rounded-md focus:outline-none focus:ring-primary-500 focus:border-primary-500 focus:z-10 sm:text-sm dark:bg-gray-700"
-              placeholder="Phone number"
-            />
-          </div>
-          
+        </div>
+
+        <!-- Common Password Fields -->
+        <div class="space-y-4">
           <div>
             <label for="password" class="sr-only">Password</label>
             <input
               id="password"
-              v-model="password"
-              name="password"
+              v-model="currentPassword"
               type="password"
-              autocomplete="new-password"
               required
-              class="appearance-none relative block w-full px-3 py-2 border border-gray-300 dark:border-gray-600 placeholder-gray-500 dark:placeholder-gray-400 text-gray-900 dark:text-white rounded-md focus:outline-none focus:ring-primary-500 focus:border-primary-500 focus:z-10 sm:text-sm dark:bg-gray-700"
+              class="input-field"
               placeholder="Password"
             />
           </div>
@@ -118,52 +172,20 @@
             <label for="confirm-password" class="sr-only">Confirm Password</label>
             <input
               id="confirm-password"
-              v-model="confirmPassword"
-              name="confirm-password"
+              v-model="currentConfirmPassword"
               type="password"
-              autocomplete="new-password"
               required
-              class="appearance-none relative block w-full px-3 py-2 border border-gray-300 dark:border-gray-600 placeholder-gray-500 dark:placeholder-gray-400 text-gray-900 dark:text-white rounded-md focus:outline-none focus:ring-primary-500 focus:border-primary-500 focus:z-10 sm:text-sm dark:bg-gray-700"
+              class="input-field"
               placeholder="Confirm Password"
             />
           </div>
         </div>
 
-        <!-- Additional fields for schools -->
-        <div v-if="accountType === 'school'" class="space-y-4">
-          <div>
-            <label for="address" class="sr-only">Address</label>
-            <input
-              id="address"
-              v-model="address"
-              name="address"
-              type="text"
-              autocomplete="street-address"
-              required
-              class="appearance-none relative block w-full px-3 py-2 border border-gray-300 dark:border-gray-600 placeholder-gray-500 dark:placeholder-gray-400 text-gray-900 dark:text-white rounded-md focus:outline-none focus:ring-primary-500 focus:border-primary-500 focus:z-10 sm:text-sm dark:bg-gray-700"
-              placeholder="School Address"
-            />
-          </div>
-          
-          <div>
-            <label for="license-number" class="sr-only">License Number</label>
-            <input
-              id="license-number"
-              v-model="licenseNumber"
-              name="license-number"
-              type="text"
-              required
-              class="appearance-none relative block w-full px-3 py-2 border border-gray-300 dark:border-gray-600 placeholder-gray-500 dark:placeholder-gray-400 text-gray-900 dark:text-white rounded-md focus:outline-none focus:ring-primary-500 focus:border-primary-500 focus:z-10 sm:text-sm dark:bg-gray-700"
-              placeholder="Driving School License Number"
-            />
-          </div>
-        </div>
-
+        <!-- Terms and Conditions -->
         <div class="flex items-center">
           <input
             id="agree-terms"
             v-model="agreeTerms"
-            name="agree-terms"
             type="checkbox"
             required
             class="h-4 w-4 text-primary-600 focus:ring-primary-500 border-gray-300 dark:border-gray-600 rounded dark:bg-gray-700"
@@ -176,6 +198,7 @@
           </label>
         </div>
 
+        <!-- Submit Button -->
         <div>
           <button
             type="submit"
@@ -210,16 +233,34 @@
   </div>
 </template>
 
+
+
 <script setup>
+
+const route = useRoute()
+const registrationType = ref(route.query.type || 'school')
+const selectedSchool = ref(route.query.school || null)
+
+
+import { ref } from 'vue'
+import { useUserStore } from '~/stores/modules/userStore'
 
 definePageMeta({
   layout: false
 });
 
-import { useAuthStore } from '~/stores/modules/learners/auth'  // or your correct path
-const { login } = useAuthStore()
 
-const accountType = ref('student')
+const userStore = useUserStore()
+
+const studentName = ref('')
+const studentEmail = ref('')
+const studentPhone = ref('')
+const studentPassword = ref('')
+const studentConfirmPassword = ref('')
+const dateOfBirth = ref('')
+const licenseType = ref('learner')
+
+const accountType = ref('school')
 const name = ref('')
 const email = ref('')
 const phone = ref('')
@@ -230,33 +271,79 @@ const licenseNumber = ref('')
 const agreeTerms = ref(false)
 const isLoading = ref(false)
 
-const handleRegister = async () => {
-  if (password.value !== confirmPassword.value) {
-    alert('Passwords do not match!')
-    return
+// Computed property for password field binding
+const currentPassword = computed({
+  get() {
+    return registrationType.value === 'school' ? password.value : studentPassword.value
+  },
+  set(val) {
+    if (registrationType.value === 'school') {
+      password.value = val
+    } else {
+      studentPassword.value = val
+    }
   }
-  
-  isLoading.value = true
-  
-  // Simulate API call
-  await new Promise(resolve => setTimeout(resolve, 1500))
-  
-  // Mock registration and login
-  login({
-    id: Math.floor(Math.random() * 1000),
-    name: name.value,
-    email: email.value,
-    type: accountType.value,
-    phone: phone.value,
-    ...(accountType.value === 'school' && {
-      address: address.value,
-      licenseNumber: licenseNumber.value
-    })
-  })
-  
-  isLoading.value = false
-  navigateTo('/')
+})
+
+// Computed property for confirm password field binding
+const currentConfirmPassword = computed({
+  get() {
+    return registrationType.value === 'school' ? confirmPassword.value : studentConfirmPassword.value
+  },
+  set(val) {
+    if (registrationType.value === 'school') {
+      confirmPassword.value = val
+    } else {
+      studentConfirmPassword.value = val
+    }
+  }
+})
+
+const handleRegister = async () => {
+  if (registrationType.value === 'school') {
+    // Existing school registration logic
+    // ...
+  } else {
+    // Student registration logic
+    if (studentPassword.value !== studentConfirmPassword.value) {
+      userStore.showToast('Passwords do not match!', 'error')
+      return
+    }
+
+    if (!agreeTerms.value) {
+      userStore.showToast('Please agree to the Terms of Service', 'error')
+      return
+    }
+
+    isLoading.value = true
+
+    const registerDetails = {
+      name: studentName.value,
+      email: studentEmail.value,
+      password: studentPassword.value,
+      phone: studentPhone.value,
+      dateOfBirth: dateOfBirth.value,
+      licenseType: licenseType.value,
+      schoolId: selectedSchool.value,
+      accountType: 'student'
+    }
+
+    try {
+      // Call your student registration API here
+      // await userStore.registerStudent(registerDetails, showLoading)
+      
+      isLoading.value = false
+      
+      if (userStore.token) {
+        navigateTo('/learners')
+      }
+    } catch (error) {
+      isLoading.value = false
+      userStore.showToast('Registration failed. Please try again.', 'error')
+    }
+  }
 }
+
 
 // SEO
 useHead({
@@ -266,3 +353,9 @@ useHead({
   ]
 })
 </script>
+
+<style scoped>
+.input-field {
+  @apply appearance-none relative block w-full px-3 py-2 border border-gray-300 dark:border-gray-600 placeholder-gray-500 dark:placeholder-gray-400 text-gray-900 dark:text-white rounded-md focus:outline-none focus:ring-primary-500 focus:border-primary-500 focus:z-10 sm:text-sm dark:bg-gray-700;
+}
+</style>

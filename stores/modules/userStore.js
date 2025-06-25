@@ -65,7 +65,7 @@ export const useUserStore = defineStore('userStore', {
       const loadingAlert = showLoading(''); 
       try {
 
-        const response = await axios.post(`${import.meta.env.VITE_API_URL}/IAM/Login`, loginDetails);      
+        const response = await axios.post(`https://mcleapi.dtl.lk/api/IAM/Login`, loginDetails);      
         loadingAlert.close();                            
 
         if (response.data.isSuccess) {
