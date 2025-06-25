@@ -18,7 +18,7 @@
 export default {
   props: ['name'],
   methods: {
-    click() {this.$emit('click')},
+    click() {this.$emit('get_Print')},
   },
 }
 </script>

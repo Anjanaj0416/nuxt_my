@@ -20,9 +20,9 @@
 
         <div class="p-6 mt-4 bg-white rounded-lg shadow-md">
           <div>
-            <h2 class="mb-5 text-base font-semibold leading-7 text-gray-900">Employee Details</h2>
+            <h2 class=" text-base font-semibold leading-7 text-gray-900">Employee Details</h2>
             <div class="flex -space-x-1 overflow-hidden">
-              <div class="pt-4">
+              <div v-if="hrStore.empdetails.imageUr">
                 <a :href="userStore.assetsBaseUrl + hrStore.empdetails.imageUrl" target="_blank">
                   <!-- :href="imageroot + '/user/' + hrStore.empdetails.image" -->
                   <img class="w-16 h-16 border-2 border-white rounded"
@@ -154,18 +154,17 @@
             <div class="col-span-1">
               <hr_item item="Reson For Resign" :value="hrStore.empdetails.reasonForResign" />
             </div>
+               <div class="col-span-1">
+              <hr_item item="Activation"   :value="hrStore.empdetails.isActive ? 'Active' : 'In active'" />
+            </div>
           </div>
 
             <div class="grid grid-cols-1 mt-2 gap-y-4 sm:grid-cols-5 sm:gap-x-6">  
-               <div class="col-span-1">
-              <hr_item item="Privilege Level" :value="hrStore.empdetails.privilegeLevel" />
-            </div>
-             <div class="col-span-1">
-              <hr_item item="Activation"   :value="hrStore.empdetails.isActive ? 'Active' : 'In active'" />
-            </div>
-             <div class="col-span-1">
+               
+          
+            <!-- <div class="col-span-1">
               <hr_item item="Status"   :value="hrStore.empdetails.employeeStatus" />
-            </div>
+            </div> -->
               <div class="col-span-1">
               <hr_item item="Feature  Granting"   :value="hrStore.empdetails.granted" />
             </div>
@@ -193,22 +192,16 @@
              <div class="col-span-1">
               <hr_item item="User Name"   :value="hrStore.empdetails.username" />
             </div>
-
-             <div class="col-span-1">
-              <hr_item item="User Type"   :value="hrStore.empdetails.userType" />
+ <div class="col-span-1">
+              <hr_item item="Gender" :value="hrStore.empdetails.gender" />
             </div>
+            
                </div>
 
           <div class="grid grid-cols-1 mt-2 gap-y-4 sm:grid-cols-5 sm:gap-x-6">  
-            <div class="col-span-1">
-              <hr_item item="CSO No" :value="hrStore.empdetails.csoNo" />
-            </div>
-             <div class="col-span-1">
-              <hr_item item="Gender" :value="hrStore.empdetails.gender" />
-            </div>
-               <div class="col-span-1">
-              <hr_item item="CSO No" :value="hrStore.empdetails.csoNo" />
-            </div>
+            
+            
+             
               <div class="col-span-1">
               <hr_item item="NIC" :value="hrStore.empdetails.nic" />
             </div>
@@ -296,6 +289,7 @@ export default {
       this.$emit('setDeleteEmployee')
     },
     setEdit() {
+       this.hrStore.empdetails = this.hrStore.curEmployee;
       this.$emit('setEmployee')
     },
   },

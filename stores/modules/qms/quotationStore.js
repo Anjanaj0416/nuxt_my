@@ -6,6 +6,8 @@ export const useQuotationStore = defineStore("QuotationStore", {
   state: () => ({
     initPackageDetails: {     
     },
+    curVendorId:'',
+    proposalDetails:{},
     listQuotation: [],
     listQuotationVerions: [],
     curQuotation: {},
@@ -189,6 +191,33 @@ export const useQuotationStore = defineStore("QuotationStore", {
         this.showToast(response.data.message, "error");
       }
     },
+
+ //QuotationByVendorId  
+    async QuotationByVendorId(id, showLoading) {
+      const loadingAlert = showLoading("");
+      try {
+        const response = await axios.get(
+          `${
+            import.meta.env.VITE_API_URL
+          }/qms/Quotation/QuotationByVendorId?id=${id}`
+        );
+        // console.log(response);
+        loadingAlert.close();
+        if (response.data.isSuccess) {
+          if (response.data.data.count == 0) {
+            this.proposalDetails = {};
+          } else {
+            this.proposalDetails = response.data.data.data;
+          }
+          this.showToast(response.data.message, "success");
+        } else {
+          this.showToast(response.data.message, "error");
+        }
+      } catch (error) {
+        this.showToast(response.data.message, "error");
+      }
+    },
+
 
     //LoadQuotationVersions
     async LoadQuotationVersions(id, showLoading) {

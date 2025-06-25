@@ -1,327 +1,325 @@
 <template>
-  <div class="modal-overlay" v-if="isOpen">
-    <div class="modal">
-      <!-- Modal Header -->
-      <div class="modal-header">
-        <h2 class="modal-title">
-          Proforma {{ isEditing ? "Edit" : "Add" }}
-        </h2>
-
-        <closebtn @close="closeModal" />
+  <section class="justify-center">
+    <div class="flex flex-col items-center justify-between mt-4 mb-2 md:flex-row">
+      <div class="w-full mb-4 md:mb-0">  
+        <div class="text-2xl uppercase">Proposal {{ isEditing ? "Edit" : "Add" }}</div>
+      </div>
+      <div class="w-full md:w-auto">
+      </div>
+    </div>
+    <div class="form-content bg-white mt-4 border rounded-lg shadow-md p-4 space-y-1 text-sm text-gray-800">
+      <div class="grid grid-cols-1 gap-2 my-2 md:grid-cols-2">
+        <div>
+          <label class="block text-sm font-bold text-gray-600">Select Merchant</label>
+          <serach_Input
+            :arrItems="quotationStore.initQuotation.listVendors"
+            ref="refVendor"
+            label=""
+            v-model="quotation.merchantId"
+            @selectItem="GetSelectMerchant"
+            @input="err.merchantId = ''"
+          />
+          <p v-if="err.merchantId" class="mt-2 text-xs text-red-500">
+            {{ err.merchantId }}
+          </p>
+        </div>
       </div>
 
-      <!-- Modal Content (scrollable) -->
-      <div class="modal-content">
-        <div class="form-content">
-          <div class="grid grid-cols-1 gap-2 my-2 md:grid-cols-2">
-            <div>
-              <label class="block text-sm font-bold text-gray-600">Select Merchant</label>
-              <serach_Input
-                :arrItems="quotationStore.initQuotation.listVendors"
-                ref="refVendor"
-                label=""
-                v-model="quotation.merchantId"
-                @selectItem="GetSelectMerchant"
-                @input="err.merchantId = ''"
-              />
-              <p v-if="err.merchantId" class="mt-2 text-xs text-red-500">
-                {{ err.merchantId }}
-              </p>
+      <div class="grid grid-cols-2 my-4">
+        <div>
+          <label class="block text-sm font-bold text-gray-600">Select Product Category</label>
+
+          <selectinput2
+            class="my-2"
+            v-model="curProductCategory"
+            ref=""
+            :cur_item="curProductCategory"
+            :selections="quotationStore.initQuotation.listProductCategory"
+            :err="err.curProductCategory"
+            label=""
+            @changed="changedcurProductCategory"
+          />
+          
+        </div>
+      </div>
+
+    <!-- Package -->
+
+    <!-- <pre>{{ JSON.stringify(curPkgList, null, 2) }}</pre> -->
+
+    <div>
+      <label class="block text-sm font-bold text-gray-600" v-if="curPkgList.length > 0">Available Packages</label>
+      <div class="grid grid-cols-1 my-2">
+        <!-- Package List -->
+        <ul class="flex w-full gap-2 mt-4 overflow-x-auto no-scrollbar">
+          <li
+            class="flex-shrink-0 w-60"
+            v-for="(pkg, index) in curPkgList"
+            :key="index"
+          >
+            <div
+              class="flex flex-col w-full max-w-xs p-4 mb-4 transition-all duration-300 ease-in-out transform bg-white border-2 border-gray-200 shadow-sm cursor-pointer rounded-xl hover:border-blue-500"
+            >
+              <div class="flex flex-col space-y-2">
+                <div class="flex items-center justify-between">
+                  <div
+                    class="text-sm font-semibold text-gray-900 "
+                  >
+                    {{ pkg.packageName }}
+                  </div>
+                  <div class="flex justify-end mt-2"></div>
+                </div>
+                <div
+                  class="text-xs font-medium text-gray-900 dark:text-gray-900"
+                >
+                  <div
+                    class="text-xs font-semibold text-gray-900 dark:text-gray-900"
+                    v-html="pkg.packageDescription"
+                  ></div>
+                </div>
+                <div class="flex items-center justify-between">
+                  <div
+                    class="mt-2 text-sm font-bold text-blue-900 dark:text-blue-900"
+                  >
+                    LKR: {{ pkg.showPrice }}
+                  </div>
+
+                  <div
+                    class="flex justify-end mt-2"
+                    @click="GetAddPkg(pkg)"
+                  >
+                    <span
+                      class="px-2 py-1 text-xs font-medium text-blue-800 bg-blue-100 rounded-full"
+                    >
+                      Add
+                    </span>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </li>
+        </ul>
+        <!-- End Package List -->
+      </div>
+
+      <!-- Start order item section -->
+      <div>
+        <div
+          class="grid grid-cols-1 gap-4 mt-4"
+          v-if="quotation?.listOrderItem?.length > 0"
+        >
+
+          <!-- Header Row -->
+          <div class="hidden w-full p-2 text-center bg-gray-100 rounded-lg shadow-sm sm:p-2 dark:bg-gray-100 dark:border-gray-700 lg:block">
+            <div
+              class="grid grid-cols-1 gap-1 text-xs text-gray-700 uppercase sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-7"
+            >
+              <div class="p-2">Index</div>
+              <div class="p-2">Description</div>
+              <div class="p-2">Unit Price</div>
+              <div class="p-2">Links</div>
+              <div class="p-2">
+                Discount
+                <span class="text-xs font-bold text-red-500">(Rs.)</span>
+              </div>
+              <div class="p-2">Total</div>
+              <div class="p-2"></div>
             </div>
           </div>
 
-          <div class="grid grid-cols-2 my-4">
-            <div>
-              <label class="block text-sm font-bold text-gray-600">Select Product Category</label>
+          <!-- Package Items -->
+          <div class="w-full p-2 text-center bg-white rounded-lg shadow-sm sm:p-4 dark:bg-gray-100 dark:border-gray-700 overflow-y-auto max-h-[300px]">
+            <div
+              v-for="(orderItem, index) in quotation.listOrderItem"
+              :key="index"
+            >
+          <div>
+              <div
+                class="relative grid grid-cols-1 gap-4 py-2 text-xs text-gray-700 uppercase sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-7"
+              >
+                <div class="flex items-center justify-center">
+                  <p class="mr-2 sm:hidden">Index:</p>
+                  <strong>{{ index + 1 }}</strong>
+                </div>
+                <div class="flex items-center justify-center">
+                  <p class="mr-2 sm:hidden">Package Name:</p>
+                  <strong>{{ orderItem.packageName }} </strong>
+                </div>
+                <div class="flex items-center justify-center">
+                  <p class="mr-2 sm:hidden">Unit Price :</p>
+                  <strong>{{ this.$myUtility.toLKR(orderItem.unitPrice) }}</strong>
+                </div>
+                <div class="flex items-center justify-center">
+                  <input
+                    type="number"
+                    min="1"
+                    class="block p-1 text-xs text-gray-900 border border-gray-300 rounded-lg w-42 sm:w-16 bg-gray-50 sm:text-sm"
+                    placeholder="In Rupees"
+                    v-model="orderItem.qty"
+                    @input="updateTotalPrice(index)"
 
-              <selectinput2
-                class="my-2"
-                v-model="curProductCategory"
-                ref=""
-                :cur_item="curProductCategory"
-                :selections="quotationStore.initQuotation.listProductCategory"
-                :err="err.curProductCategory"
-                label=""
-                @changed="changedcurProductCategory"
+                  />
+                </div>
+                <!-- <span class="mt-1 text-xs text-blue-600">
+                  {{ orderItem.qty}} 
+                    </span> -->
+
+                <!-- Discount Input -->
+                <div class="flex flex-col items-center justify-center">
+                  <p class="mb-2 sm:hidden">Discount:</p>
+                  <input
+                    type="number"
+                    min="0"
+                    class="block w-64 p-1 text-xs text-gray-900 border border-gray-300 rounded-lg sm:w-24 bg-gray-50 sm:text-sm"
+                    placeholder="In Rupeesdds"
+                    v-model="orderItem.discount"
+                    @input="updateTotalPrice(index)"
+
+                  />
+                  <!-- @input="updateTotalPrice(index)" -->
+                </div>
+
+                <!-- Total Price -->
+                <div class="flex items-center justify-center">
+                  <p class="mr-2 sm:hidden">Total:</p>
+                  <strong>{{ this.$myUtility.toLKR(orderItem.total) }}</strong>
+
+                </div>
+
+                <!-- Remove Button -->
+                <div class="flex items-center justify-center">
+                  <div class="text-center">
+                    <button
+                      type="button"
+                      @click="GetRemoveRow(index)"
+                      class="text-red-600 hover:text-red-800"
+                      title="Remove"
+                    >
+                      <!-- Trash icon (Heroicons) -->
+                      <svg xmlns="http://www.w3.org/2000/svg" class="w-4 h-4 mx-auto" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                          d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6M9 7h6m-6 0V5a1 1 0 011-1h4a1 1 0 011 1v2" />
+                      </svg>
+                    </button>
+                  </div>
+                </div>
+              </div>
+              </div>
+              <hr class="my-2 border-gray-300 dark:border-gray-600" />
+            </div>
+          </div>
+        </div>
+        <!-- <div v-else>
+          <p class="mt-6 text-center text-gray-500">
+            Please select a packages
+          </p>
+        </div> -->
+        <p v-if="err.packageError" class="mt-2 text-sm text-center text-red-500">
+          {{ err.packageError }}
+        </p>
+      </div>
+    </div>
+
+    <!-- Input for adding installments -->
+    <div>
+      <div class="grid grid-cols-2 gap-4 my-4">
+        <div>
+          <label class="block text-sm font-bold text-gray-600">Installments</label>
+          <input
+            v-model.number="quotation.installment"
+            type="number"
+            min="1"
+            max="3"
+            placeholder="Enter number of installments"
+            @change="AddInstallments"
+            required
+            class="w-full p-2 my-2 text-sm border rounded-md focus:ring-indigo-500 focus:border-blue-500"
+          />
+        </div>
+      </div>
+
+      <div>
+        <div class="w-full md:w-2/4 bg-white rounded-lg  dark:bg-gray-100  dark:border-gray-300 overflow-y-auto max-h-[300px]">
+          <div
+            v-for="(item, index) in listInstallmentDetails"
+            :key="index"
+            class="grid items-center grid-cols-3 px-2 py-2 text-xs text-gray-700 border border-t border-gray-200 shadow-sm hover:bg-gray-50"
+          >
+            <!-- Installment label -->
+            <div class="truncate">{{ item.installment }}</div>
+
+            <!-- Fee input -->
+            <div>
+              <span>Rs : </span>
+              <input
+                type="number"
+                v-model.number="item.fee"
+                min="1"
+                placeholder="Fee"
+                @input="handleInstallmentChange(index)"
+                class="w-20 px-2 py-1 text-xs border rounded focus:ring-indigo-500 focus:border-indigo-500"
+                required
               />
+            </div>
+
+            <!-- Remove icon -->
+            <div class="text-center">
+              <button
+                type="button"
+                @click="RemoveInstallment(index)"
+                class="text-red-600 hover:text-red-800"
+                title="Remove"
+              >
+                <!-- Trash icon (Heroicons) -->
+                <svg xmlns="http://www.w3.org/2000/svg" class="w-4 h-4 mx-auto" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                    d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6M9 7h6m-6 0V5a1 1 0 011-1h4a1 1 0 011 1v2" />
+                </svg>
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+      
+      <p v-if="err.installmentError" class="mt-6 text-sm text-center text-red-500">
+        {{ err.installmentError }}
+      </p>
+    </div>
+
+      <!-- Quotation Summery Section -->
+      <div class="flex flex-col">
+        <div class="flex-grow"></div>
+        <div class="sticky bottom-0 w-full p-4 bg-white">
+          <div class="flex justify-end">
+            <div class="flex flex-col w-64 gap-2 p-4 bg-white rounded-lg shadow-md">
+            
+              <div class="flex items-center justify-between">
+                <p class="text-sm text-gray-500">Net Total</p>
+                <p class="text-xl font-medium text-gray-900">
+                  {{ (quotation && quotation.netTotal != null ? quotation.netTotal : 0).toFixed(2) }}
+
+                </p>
+              </div>
               
             </div>
           </div>
-
-        <!-- Package -->
-
-        <!-- <pre>{{ JSON.stringify(curPkgList, null, 2) }}</pre> -->
-
-        <div>
-          <label class="block text-sm font-bold text-gray-600" v-if="curPkgList.length > 0">Available Packages</label>
-          <div class="grid grid-cols-1 my-2">
-            <!-- Package List -->
-            <ul class="flex w-full gap-2 mt-4 overflow-x-auto no-scrollbar">
-              <li
-                class="flex-shrink-0 w-60"
-                v-for="(pkg, index) in curPkgList"
-                :key="index"
-              >
-                <div
-                  class="flex flex-col w-full max-w-xs p-4 mb-4 transition-all duration-300 ease-in-out transform bg-white border-2 border-gray-200 shadow-sm cursor-pointer rounded-xl hover:border-blue-500"
-                >
-                  <div class="flex flex-col space-y-2">
-                    <div class="flex items-center justify-between">
-                      <div
-                        class="text-sm font-semibold text-gray-900 "
-                      >
-                        {{ pkg.packageName }}
-                      </div>
-                      <div class="flex justify-end mt-2"></div>
-                    </div>
-                    <div
-                      class="text-xs font-medium text-gray-900 dark:text-gray-900"
-                    >
-                      <div
-                        class="text-xs font-semibold text-gray-900 dark:text-gray-900"
-                        v-html="pkg.packageDescription"
-                      ></div>
-                    </div>
-                    <div class="flex items-center justify-between">
-                      <div
-                        class="mt-2 text-sm font-bold text-blue-900 dark:text-blue-900"
-                      >
-                        LKR: {{ pkg.showPrice }}
-                      </div>
-
-                      <div
-                        class="flex justify-end mt-2"
-                        @click="GetAddPkg(pkg)"
-                      >
-                        <span
-                          class="px-2 py-1 text-xs font-medium text-blue-800 bg-blue-100 rounded-full"
-                        >
-                          Add
-                        </span>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-              </li>
-            </ul>
-            <!-- End Package List -->
-          </div>
-
-          <!-- Start order item section -->
-          <div>
-            <div
-              class="grid grid-cols-1 gap-4 mt-4"
-              v-if="quotation?.listOrderItem?.length > 0"
-            >
-
-              <!-- Header Row -->
-              <div class="hidden w-full p-2 text-center bg-gray-100 rounded-lg shadow-sm sm:p-2 dark:bg-gray-100 dark:border-gray-700 lg:block">
-                <div
-                  class="grid grid-cols-1 gap-1 text-xs text-gray-700 uppercase sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-7"
-                >
-                  <div class="p-2">Index</div>
-                  <div class="p-2">Description</div>
-                  <div class="p-2">Unit Price</div>
-                  <div class="p-2">Links</div>
-                  <div class="p-2">
-                    Discount
-                    <span class="text-xs font-bold text-red-500">(Rs.)</span>
-                  </div>
-                  <div class="p-2">Total</div>
-                  <div class="p-2"></div>
-                </div>
-              </div>
-
-              <!-- Package Items -->
-              <div class="w-full p-2 text-center bg-white rounded-lg shadow-sm sm:p-4 dark:bg-gray-100 dark:border-gray-700 overflow-y-auto max-h-[300px]">
-                <div
-                  v-for="(orderItem, index) in quotation.listOrderItem"
-                  :key="index"
-                >
-               <div>
-                  <div
-                    class="relative grid grid-cols-1 gap-4 py-2 text-xs text-gray-700 uppercase sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-7"
-                  >
-                    <div class="flex items-center justify-center">
-                      <p class="mr-2 sm:hidden">Index:</p>
-                      <strong>{{ index + 1 }}</strong>
-                    </div>
-                    <div class="flex items-center justify-center">
-                      <p class="mr-2 sm:hidden">Package Name:</p>
-                      <strong>{{ orderItem.packageName }} </strong>
-                    </div>
-                    <div class="flex items-center justify-center">
-                      <p class="mr-2 sm:hidden">Unit Price :</p>
-                      <strong>{{ this.$myUtility.toLKR(orderItem.unitPrice) }}</strong>
-                    </div>
-                    <div class="flex items-center justify-center">
-                      <input
-                        type="number"
-                        min="1"
-                        class="block p-1 text-xs text-gray-900 border border-gray-300 rounded-lg w-42 sm:w-16 bg-gray-50 sm:text-sm"
-                        placeholder="In Rupees"
-                        v-model="orderItem.qty"
-                        @input="updateTotalPrice(index)"
-
-                      />
-                    </div>
-                    <!-- <span class="mt-1 text-xs text-blue-600">
-                      {{ orderItem.qty}} 
-                        </span> -->
-
-                    <!-- Discount Input -->
-                    <div class="flex flex-col items-center justify-center">
-                      <p class="mb-2 sm:hidden">Discount:</p>
-                      <input
-                        type="number"
-                         min="0"
-                        class="block w-64 p-1 text-xs text-gray-900 border border-gray-300 rounded-lg sm:w-24 bg-gray-50 sm:text-sm"
-                        placeholder="In Rupeesdds"
-                        v-model="orderItem.discount"
-                        @input="updateTotalPrice(index)"
-
-                      />
-                      <!-- @input="updateTotalPrice(index)" -->
-                    </div>
-
-                    <!-- Total Price -->
-                    <div class="flex items-center justify-center">
-                      <p class="mr-2 sm:hidden">Total:</p>
-                      <strong>{{ this.$myUtility.toLKR(orderItem.total) }}</strong>
-
-                    </div>
-
-                    <!-- Remove Button -->
-                    <div class="flex items-center justify-center">
-                      <div class="text-center">
-                        <button
-                          type="button"
-                          @click="GetRemoveRow(index)"
-                          class="text-red-600 hover:text-red-800"
-                          title="Remove"
-                        >
-                          <!-- Trash icon (Heroicons) -->
-                          <svg xmlns="http://www.w3.org/2000/svg" class="w-4 h-4 mx-auto" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                              d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6M9 7h6m-6 0V5a1 1 0 011-1h4a1 1 0 011 1v2" />
-                          </svg>
-                        </button>
-                      </div>
-                    </div>
-                  </div>
-                  </div>
-                  <hr class="my-2 border-gray-300 dark:border-gray-600" />
-                </div>
-              </div>
-            </div>
-            <!-- <div v-else>
-              <p class="mt-6 text-center text-gray-500">
-                Please select a packages
-              </p>
-            </div> -->
-            <p v-if="err.packageError" class="mt-2 text-sm text-center text-red-500">
-              {{ err.packageError }}
-            </p>
-          </div>
-        </div>
-
-        <!-- Input for adding installments -->
-        <div>
-          <div class="grid grid-cols-2 gap-4 my-4">
-            <div>
-              <label class="block text-sm font-bold text-gray-600">Installments</label>
-              <input
-                v-model.number="quotation.installment"
-                type="number"
-                min="1"
-                max="3"
-                placeholder="Enter number of installments"
-                @change="AddInstallments"
-                required
-                class="w-full p-2 my-2 text-sm border rounded-md focus:ring-indigo-500 focus:border-blue-500"
-              />
-            </div>
-          </div>
-
-          <div>
-            <div class="w-full md:w-2/4 bg-white rounded-lg  dark:bg-gray-100  dark:border-gray-300 overflow-y-auto max-h-[300px]">
-              <div
-                v-for="(item, index) in listInstallmentDetails"
-                :key="index"
-                class="grid items-center grid-cols-3 px-2 py-2 text-xs text-gray-700 border border-t border-gray-200 shadow-sm hover:bg-gray-50"
-              >
-                <!-- Installment label -->
-                <div class="truncate">{{ item.installment }}</div>
-
-                <!-- Fee input -->
-                <div>
-                  <span>Rs : </span>
-                  <input
-                    type="number"
-                    v-model.number="item.fee"
-                    min="1"
-                    placeholder="Fee"
-                    @input="handleInstallmentChange(index)"
-                    class="w-20 px-2 py-1 text-xs border rounded focus:ring-indigo-500 focus:border-indigo-500"
-                    required
-                  />
-                </div>
-
-                <!-- Remove icon -->
-                <div class="text-center">
-                  <button
-                    type="button"
-                    @click="RemoveInstallment(index)"
-                    class="text-red-600 hover:text-red-800"
-                    title="Remove"
-                  >
-                    <!-- Trash icon (Heroicons) -->
-                    <svg xmlns="http://www.w3.org/2000/svg" class="w-4 h-4 mx-auto" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                        d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6M9 7h6m-6 0V5a1 1 0 011-1h4a1 1 0 011 1v2" />
-                    </svg>
-                  </button>
-                </div>
-              </div>
-            </div>
-          </div>
-          
-          <p v-if="err.installmentError" class="mt-6 text-sm text-center text-red-500">
-            {{ err.installmentError }}
-          </p>
-        </div>
-
-          <!-- Quotation Summery Section -->
-          <div class="flex flex-col md:min-h-screen sm:min-h-screen min-h-64">
-            <div class="flex-grow"></div>
-            <div class="sticky bottom-0 w-full p-4 bg-white">
-              <div class="flex justify-end">
-                <div class="flex flex-col w-64 gap-2 p-4 bg-white rounded-lg shadow-md">
-                
-                  <div class="flex items-center justify-between">
-                    <p class="text-sm text-gray-500">Net Total</p>
-                    <p class="text-xl font-medium text-gray-900">
-                       {{ (quotation && quotation.netTotal != null ? quotation.netTotal : 0).toFixed(2) }}
-
-                    </p>
-                  </div>
-                  
-                </div>
-              </div>
-            </div>
-          </div>
-
-          <!--End  Quotation Summery Section -->
-          <!-- {{ quotation.quotation }} -->
         </div>
       </div>
-      <!-- Modal Footer -->
-      <div class="modal-footer">
-        <button @click="cancel" class="cancel-button">Discard</button>
-        <button @click="GetPrint" class="confirm-button"> {{ isEditing ? "Update" : "Print" }}</button>
-      </div>
+
+      <!--End  Quotation Summery Section -->
+      <!-- {{ quotation.quotation }} -->
     </div>
-  </div>
+
+    <div class="flex justify-between items-center mt-6">
+      <button
+        class="mt-4 px-4 py-2 bg-gray-200 hover:bg-gray-300 text-sm rounded"
+        @click="$emit('close')"
+      >
+        Back
+      </button>
+      <button @click="GetPrint" class="confirm-button"> {{ isEditing ? "Update" : "Print" }}</button>
+    </div>
+  </section>
 </template>
 
 <script>

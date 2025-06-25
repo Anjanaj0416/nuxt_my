@@ -96,9 +96,10 @@
           </div>
         </div>
 
-
+     
         <!-- Employees List  -->
         <div class="cssemplist" v-for="(emp, index) in hrStore.alempdetails" :key="emp">
+         
           <div class="mt-1 text-sm rounded-md cursor-pointer hover:text-white text-white-300 hover:bg-gray-500"
             :class="emp.isresigned ? 'bg-red-500' : 'bg-gray-400'">
 
@@ -110,7 +111,7 @@
 
 
                     <img class="w-16 h-16 transform rounded hover:scale-125"
-                      :src="userStore.assetsBaseUrl + emp.image"
+                      :src="userStore.loggedUser.resourceURLRoot + emp.image"
                       alt="" />
                     {{ emp.empName }}
                   </div>
@@ -163,26 +164,26 @@
                 </div>
 
                 <!-- Attendance -->
-                <div @click="init_attendence(emp.empno, emp.id);//, FromDate: $refs.atten.$refs.datediffRef.dtfrom, ToDate: $refs.atten.$refs.datediffRef.dtto
+                <div @click="init_attendence(emp.empNo, emp.id);//, FromDate: $refs.atten.$refs.datediffRef.dtfrom, ToDate: $refs.atten.$refs.datediffRef.dtto
                 " class="p-2 border-2 rounded-lg cursor-pointer hover:text-blue-200">
                   Attendance
                 </div>
 
-                <!-- Apply OT -->
-
-                <div
-                  v-show="!emp.isOTAllow && (userStore.loggedUser.userName === emp.empno || userStore.loggedUser.userGroup === 'Supervisor' || userStore.loggedUser.userGroup?.toLowerCase() === 'admin')"
-                  title="OT Apply"
-                  @click="init_otapply(index, emp.empno); cur_sec = 'otapply'; selectedrow = emp.id; isSecClose = false;"
-                  class="p-2 border-2 rounded-lg cursor-pointer hover:text-blue-200">
+                <!-- Apply OT -->         
+                <div              
+                v-show=" !emp.isOTAllow && (userStore.loggedUser.userName === emp.empNo || userStore.loggedUser.userGroup === 'Supervisor' || userStore.loggedUser.userGroup?.toLowerCase() === 'admin')"  
+                  title="OT Apply"     
+                  @click="init_otapply(index, emp.empNo); cur_sec = 'otapply'; selectedrow = emp.id; isSecClose = false;"
+                  class="p-2 border-2 rounded-lg cursor-pointer hover:text-blue-200">          
+                 
                   Apply OT
                 </div>
 
                 <!-- Leave Details -->
-                <div v-show="userStore.loggedUser.userName === emp.empno || userStore.loggedUser.userGroup === 'hradmin' ||
+                <div v-show="userStore.loggedUser.userName === emp.empNo || userStore.loggedUser.userGroup === 'hradmin' || userStore.loggedUser.userGroup === 'su' ||
                   userStore.loggedUser.userGroup?.toLowerCase() === 'admin'
                   " title="Leave Details" @click="
-                    init_absense(emp.empno, emp.id);
+                    init_absense(emp.empNo, emp.id);
                   cur_sec = 'absense';
                   selectedrow = emp.id;
                   isSecClose = false;
@@ -191,10 +192,10 @@
                 </div>
 
                 <!-- Movement Details -->
-                <div v-show="userStore.loggedUser.userName === emp.empno || userStore.loggedUser.userGroup === 'Supervisor' ||
+                <div v-show="userStore.loggedUser.userName === emp.empNo || userStore.loggedUser.userGroup === 'Supervisor' || userStore.loggedUser.userGroup === 'su' ||
                   userStore.loggedUser?.userGroup?.toLowerCase() === 'admin'
                   " title="Movement Details" @click="
-                    init_movement(emp.empno, emp.id);//index
+                    init_movement(emp.empNo, emp.id);//index
                   cur_sec = 'movement';
                   selectedrow = emp.id;
                   isSecClose = false;
@@ -204,7 +205,7 @@
 
                 <!-- Time Card Details -->
                 <div title="Time Card Details" @click="
-                  init_timecard(emp.empno, index);
+                  init_timecard(emp.empNo, index);
                 cur_sec = 'timecard';
                 selectedrow = emp.id;
                 isSecClose = false;
@@ -230,7 +231,7 @@
                 selectedrow == emp.id &&
                 !isSecClose
                 ">
-                <attendence v-if="!isLoading" ref="atten" :empno="emp.empno" :empname="emp.empName"
+                <attendence v-if="!isLoading" ref="atten" :empno="emp.empNo" :empname="emp.empName"
                   :isOTEntitled="isOTEntitled" @exit="exit" />
               </div>
 
@@ -239,7 +240,7 @@
                 selectedrow == emp.id &&
                 !isSecClose
                 ">
-                <absenselist ref="absense" :empno="emp.empno" @exit="exit" @absenseapply="goto_absenseapply" />
+                <absenselist ref="absense" :empno="emp.empNo" @exit="exit" @absenseapply="goto_absenseapply" />
               </div>
               <!-- End view Absense -->
 
@@ -249,7 +250,7 @@
                 !isSecClose
                 ">
 
-                <absencecreate ref="absenseapply" :empno="emp.empno" :leaveyear="leaveYear" :fromDate="dtfrom"
+                <absencecreate ref="absenseapply" :empno="emp.empNo" :leaveyear="leaveYear" :fromDate="dtfrom"
                   :toDate="dtto" @goto_absenceview="goto_absenceview" />
               </div>
               <!-- End view Absense Create -->
@@ -259,14 +260,14 @@
                 selectedrow == emp.id &&
                 !isSecClose
                 ">
-                <movementlist ref="movement" :empno="emp.empno" @exit="exit" @movementapply="goto_movementapply" />
+                <movementlist ref="movement" :empno="emp.empNo" @exit="exit" @movementapply="goto_movementapply" />
               </div>
 
               <div v-show="cur_sec.toLowerCase() === 'movementapply' &&
                 selectedrow == emp.id &&
                 !isSecClose
                 ">
-                <movementcreate ref="movementapply" :empno="emp.empno" :dtFrom=dtfrom :dtTo=dtto
+                <movementcreate ref="movementapply" :empno="emp.empNo" :dtFrom=dtfrom :dtTo=dtto
                   @goto_movementview="goto_movementview" />
               </div>
 
@@ -276,7 +277,7 @@
                 selectedrow == emp.id &&
                 !isSecClose
                 ">
-                <Ot_apply_list :empno="emp.empno" ref="otapply" @exit="exit" />
+                <Ot_apply_list :empno="emp.empNo" ref="otapply" @exit="exit" />
               </div>
               <!-- End OT Apply -->
 
@@ -286,7 +287,7 @@
                 selectedrow == emp.id &&
                 !isSecClose
                 ">
-                <timecarddetails ref="timecardcomp" :empno="emp.empno" @exit="exit" />
+                <timecarddetails ref="timecardcomp" :empno="emp.empNo" @exit="exit" />
               </div>
               <!-- End Job Card Details   -->
             </div>
@@ -527,16 +528,16 @@ export default {
       this.cur_sec = 'attendence';
       this.selectedrow = rowId;
       this.isSecClose = false;
-      this.isLoading = true;
+      //this.isLoading = true;
 
-      let req = {
-        EmpNo: empId,
-        FromDate: this.dtfrom,
-        ToDate: this.dtto,
-      }
-      await this.hrStore.getAttendenceByEmp(req, this.showLoading);
+      // let req = {
+      //   EmpNo: empId,
+      //   FromDate: this.dtfrom,
+      //   ToDate: this.dtto,
+      // }
+      // await this.hrStore.getAttendenceByEmp(req, this.showLoading);
 
-      this.isLoading = false;
+      // this.isLoading = false;
 
     },
 

@@ -1,16 +1,14 @@
 <template>
-  <div class="modal-overlay" v-if="isOpen">
-    <div class="modal">
+  <div >
+    <div >
       <!-- Modal Header -->
-      <div class="modal-header">
-        <h2 class="modal-title">
-          Vendor Details - {{ isEditing ? "Edit" : "Add" }}
-        </h2>
-        <closebtn @close="closeModal" />
+
+      <div class="w-full mb- md:mb-0">  
+          <div class="text-2xl uppercase mb-4"> Vendor Details - {{ isEditing ? "Edit" : "Add" }}</div>
       </div>
 
       <!-- Modal Content (scrollable) -->
-      <div class="modal-content">
+      <div class="border rounded-lg shadow-md p-6 text-sm">
         <div class="form-content">
           <div>
             <div v-if="isEditing">
@@ -287,7 +285,107 @@
               </p>
             </div>
           </div>
+
+          <hr class="my-4" />
+          <h3 class="mt-4 font-bold">Super Admin Details (Recommended: Business Owner)</h3>
+          <div class="grid grid-cols-2 gap-4 mt-4 mb-36 sm:grid-cols-2 md:grid-cols-3 sm:mb-0">
+            <div class="">
+              <label class="block text-sm font-bold text-gray-600">Full Name</label>
+              <input type="text" v-model="curVendor.suAdminfullName" placeholder="Enter Full Name" required
+                class="w-full p-2 mt-2 text-sm border rounded-md focus:ring-indigo-500 focus:border-indigo-500" />
+              <!-- <p v-if="err.suAdminfullName" class="mt-2 text-sm text-red-600">
+                {{ err.suAdminfullName }}
+              </p> -->
+            </div>
+            <div class="">
+              <label class="block text-sm font-bold text-gray-600">Designation</label>
+              <input type="text" v-model="curVendor.suAdminDesignation" placeholder="Enter Designation" required
+                class="w-full p-2 mt-2 text-sm border rounded-md focus:ring-indigo-500 focus:border-indigo-500" />
+              <!-- <p v-if="err.branch" class="mt-2 text-sm text-red-600">
+                {{ err.branch }}
+              </p> -->
+            </div>
+
+            <div class="">
+              <label class="block text-sm font-bold text-gray-600">Email</label>
+              <input type="text" v-model="curVendor.suAdminEmail" placeholder="Enter Email" required
+                class="w-full p-2 mt-2 text-sm border rounded-md focus:ring-indigo-500 focus:border-indigo-500" />
+              <!-- <p v-if="err.accountNumber" class="mt-2 text-sm text-red-600">
+                {{ err.accountNumber }}
+              </p> -->
+            </div>
+            <div class="">
+              <label class="block text-sm font-bold text-gray-600">Mobile Number</label>
+              <input type="text" v-model="curVendor.suAdminMobile" placeholder="Enter Mobile Number" required
+                class="w-full p-2 mt-2 text-sm border rounded-md focus:ring-indigo-500 focus:border-indigo-500" />
+              <!-- <p v-if="err.holderName" class="mt-2 text-sm text-red-600">
+                {{ err.holderName }}
+              </p> -->
+            </div>
+            <div class="">
+              <label class="block text-sm font-bold text-gray-600">National ID / Passport Number</label>
+              <input type="text" v-model="curVendor.suAdminNic" placeholder="Enter National ID / Passport Number" required
+                class="w-full p-2 mt-2 text-sm border rounded-md focus:ring-indigo-500 focus:border-indigo-500" />
+              <!-- <p v-if="err.holderName" class="mt-2 text-sm text-red-600">
+                {{ err.holderName }}
+              </p> -->
+            </div>
+          </div>
+
+          <hr class="my-4" />
+          <h3 class="mt-4 font-bold">Additional Admin User Details</h3>
+          <div class="grid grid-cols-2 gap-4 mt-4 mb-36 sm:grid-cols-2 md:grid-cols-3 sm:mb-0">
+            <div class="">
+              <label class="block text-sm font-bold text-gray-600">Full Name</label>
+              <input type="text" v-model="curVendor.additionalFullName" placeholder="Enter Full Name" required
+                class="w-full p-2 mt-2 text-sm border rounded-md focus:ring-indigo-500 focus:border-indigo-500" />
+              <!-- <p v-if="err.suAdminfullName" class="mt-2 text-sm text-red-600">
+                {{ err.suAdminfullName }}
+              </p> -->
+            </div>
+            <div class="">
+              <label class="block text-sm font-bold text-gray-600">Designation</label>
+              <input type="text" v-model="curVendor.additionalDesignation" placeholder="Enter Designation" required
+                class="w-full p-2 mt-2 text-sm border rounded-md focus:ring-indigo-500 focus:border-indigo-500" />
+              <!-- <p v-if="err.branch" class="mt-2 text-sm text-red-600">
+                {{ err.branch }}
+              </p> -->
+            </div>
+
+            <div class="">
+              <label class="block text-sm font-bold text-gray-600">Email</label>
+              <input type="text" v-model="curVendor.additionalEmail" placeholder="Enter Email" required
+                class="w-full p-2 mt-2 text-sm border rounded-md focus:ring-indigo-500 focus:border-indigo-500" />
+              <!-- <p v-if="err.accountNumber" class="mt-2 text-sm text-red-600">
+                {{ err.accountNumber }}
+              </p> -->
+            </div>
+            <div class="">
+              <label class="block text-sm font-bold text-gray-600">Mobile Number</label>
+              <input type="text" v-model="curVendor.additionalMobileNumber" placeholder="Enter Mobile Number" required
+                class="w-full p-2 mt-2 text-sm border rounded-md focus:ring-indigo-500 focus:border-indigo-500" />
+              <!-- <p v-if="err.holderName" class="mt-2 text-sm text-red-600">
+                {{ err.holderName }}
+              </p> -->
+            </div>
+            <div class="">
+              <label class="block text-sm font-bold text-gray-600">National ID / Passport Number</label>
+              <input type="text" v-model="curVendor.additionalNic" placeholder="Enter National ID / Passport Number" required
+                class="w-full p-2 mt-2 text-sm border rounded-md focus:ring-indigo-500 focus:border-indigo-500" />
+              <!-- <p v-if="err.holderName" class="mt-2 text-sm text-red-600">
+                {{ err.holderName }}
+              </p> -->
+            </div>
+          </div>
+
         </div>
+
+        <div class="flex justify-between items-center mt-6">
+          <button @click="cancel" class="cancel-button">Cancel</button>
+          <button @click="AddEditVendor" class="confirm-button">
+            {{ isEditing ? "Update Vendor" : "Save Vendor" }}
+          </button>
+      </div>
       </div>
 
 
@@ -296,19 +394,18 @@
         <button @click="cancel" class="cancel-button">Cancel</button>
         <button @click="handleSubmit" class="confirm-button">Save</button>
       </div> -->
-
-      <div class="modal-footer">
-        <button @click="cancel" class="cancel-button">Cancel</button>
-        <button @click="AddEditVendor" class="confirm-button">
-          {{ isEditing ? "Update Vendor" : "Save Vendor" }}
-        </button>
-      </div>
+    <!-- <div>
+      <button v-if="!isEdit" @click="startEditing">Edit</button>
+      <button v-else @click="AddEditVendor">Save</button>
+    </div> -->
+      
     </div>
   </div>
 </template>
 
 <script>
 import { reactive, computed } from "vue";
+import { ref } from 'vue'
 import closebtn from "~/components/customcontrol/modal_close_button";
 import { useVendorStore } from "~/stores/modules/qms/vendorStore";
 import imagecomp from "~/components/customcontrol/imagepicker";
@@ -365,6 +462,7 @@ export default {
       err: {},
       imageroot: "",
       showLoading: null,
+           isEdit: false,
       listTemp: [{ id: 1, value: 'abc' }, { id: 2, value: 'def' }],
     };
   },
@@ -422,23 +520,45 @@ export default {
     // },
 
     filteredCities() {
-      if (this.curVendor.districtId) {
-        return this.vendorStore.initVendor.listDistrictCities
-          .filter(city => city.districtId === this.curVendor.districtId)
-          .sort((a, b) => a.cityName.localeCompare(b.cityName))
-          .map(city => ({
-            id: city.cityId,
-            value: city.cityName
-          }));
-      } else {
-        return this.vendorStore.initVendor.listDistrictCities
-          .sort((a, b) => a.cityName.localeCompare(b.cityName))
-          .map(city => ({
-            id: city.cityId,
-            value: city.cityName
-          }));
+      const cities = this.vendorStore?.initVendor?.listDistrictCities;
+
+      if (!Array.isArray(cities)) {
+        return [];
       }
-    },
+
+      const sortedCities = cities
+        .filter(city => {
+          return this.curVendor.districtId ? city.districtId === this.curVendor.districtId : true;
+        })
+        .sort((a, b) => a.cityName.localeCompare(b.cityName))
+        .map(city => ({
+          id: city.cityId,
+          value: city.cityName
+        }));
+
+      return sortedCities;
+    }
+
+
+    // filteredCities() {
+    //   if (this.curVendor.districtId) {
+    //     return this.vendorStore.initVendor.listDistrictCities
+    //       .filter(city => city.districtId === this.curVendor.districtId)
+    //       .sort((a, b) => a.cityName.localeCompare(b.cityName))
+    //       .map(city => ({
+    //         id: city.cityId,
+    //         value: city.cityName
+    //       }));
+    //   } else {
+    //     return this.vendorStore.initVendor.listDistrictCities
+    //       .sort((a, b) => a.cityName.localeCompare(b.cityName))
+    //       .map(city => ({
+    //         id: city.cityId,
+    //         value: city.cityName
+    //       }));
+    //   }
+    // },
+    
   },
   async created() {
     this.vendorStore = useVendorStore();
@@ -465,6 +585,12 @@ export default {
       this.isOpen = false;
       this.$emit("close");
     },
+
+      startEditing() {
+
+    
+    this.isEdit = true;
+  },
 
     cancel() {
       this.clearErr();
@@ -502,11 +628,19 @@ export default {
 
             await this.vendorStore.AddEditVendor(formData, this.showLoading);
             this.closeModal();
+               this.isEdit = false;
           } else {
             console.log("Action canceled");
           }
         });
       }
+    },
+
+     saveChanges() {
+      // Put your validation/save logic here
+      console.log("Saving vendor:",);
+
+      this.isEdit = false;
     },
 
     IsValidate() {

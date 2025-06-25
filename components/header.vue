@@ -25,7 +25,6 @@
 
           <div class="relative flex items-center ml-3">
 
-
             <span class="ml-2 text-white uppercase">{{ userStore.loggedUser.name }}<br><span class="text-xs">
                 {{ userStore.loggedUser.userName }}</span></span>
 

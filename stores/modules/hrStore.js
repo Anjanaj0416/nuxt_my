@@ -11,7 +11,9 @@ export const useHrStore = defineStore("hrStore", {
     dashboard: {
       workgroupjobcount: null,
     },
+    curEmployee: {},
     alempdetails: [],
+    hrReport:{},
     empdetails: {
       id: "",
       empNo: "",
@@ -73,9 +75,9 @@ export const useHrStore = defineStore("hrStore", {
     },
 
     attendence: {
-      tot_normal_overtime: null,
-      tot_sunday_overtime: null,
-      isTheTimeCardApproved: null,
+      tot_normal_overtime: 0,
+      tot_sunday_overtime: 0,
+      isTheTimeCardApproved: false,
       alattendences: [],
     },
     timecard: {
@@ -149,41 +151,47 @@ export const useHrStore = defineStore("hrStore", {
 
   persist: true,
 
-  //this.showToast('Loading successful!', 'success'); //success ,error ,warning,info
+  //this.showToast('Loading successful!', 'warning'); //success ,error ,warning,info
 
   actions: {
+    RestAttendance() {
+      this.attendence = {
+        tot_normal_overtime: 0,
+        tot_sunday_overtime: 0,
+        isTheTimeCardApproved: false,
+        alattendences: [],
+      };
+    },
 
-     //addEditEmployee
-        async AddEdiEmployee(formData, showLoading) {
-          const loadingAlert = showLoading("");
-          try {
-            const response = await axios.post(
-              `${import.meta.env.VITE_API_URL}/hr/Employee/SetAddEdit`,
-              formData,
-              {
-                headers: {
-                  "Content-Type": "multipart/form-data",
-                },
-              }
-            );
-    
-            loadingAlert.close();
-    
-            if (response.data.isSuccess) {         
-              this.showToast(response.data.message,"success");       
-              // this.listVendor = response.data.data.data;
-              //zzz has to do more here
-            
-            } else {
-              //console.error("error:",response.data.message)
-               this.showToast(response.data.message, "error");
-            }
-          } catch (error) {
-            //console.error("error:",error)
-            this.showToast('Error in server call', "error");
-           }
-        },
+    //addEditEmployee
+    async AddEdiEmployee(formData, showLoading) {
+      const loadingAlert = showLoading("");
+      try {
+        const response = await axios.post(
+          `${import.meta.env.VITE_API_URL}/hr/Employee/SetAddEdit`,
+          formData,
+          {
+            headers: {
+              "Content-Type": "multipart/form-data",
+            },
+          }
+        );
 
+        loadingAlert.close();
+
+        if (response.data.isSuccess) {
+          this.showToast(response.data.message, "success");
+          this.alempdetails = response.data.data.data;
+          // You can also update other state values if needed
+        } else {
+          console.error("Server error:", response.data.message);
+          this.showToast(response.data.message, "error");
+        }
+      } catch (error) {
+        loadingAlert.close();
+        this.showToast("Error in server call", "error");
+      }
+    },
 
     //loadInitEmployee
     async loadInitEmployee(showLoading) {
@@ -238,7 +246,7 @@ export const useHrStore = defineStore("hrStore", {
         );
         loadingAlert.close();
         if (response.data.isSuccess) {
-          this.initHRDetails = response.data.data.data;
+          this.hrReport = response;
         } else {
           this.showToast(response.data.message, "error");
         }
@@ -247,8 +255,28 @@ export const useHrStore = defineStore("hrStore", {
       }
     },
 
+    
+
+     async GetPrintHrReports(req, showLoading) {
+      console.log("log:", req); // Make sure this logs
+      const loading = showLoading?.('');
+      try {
+        const response = await axios.get(
+          `${import.meta.env.VITE_API_URL}/hr/Attendance/GetALLEmployeePrintAttendanceSheetByDateRange?dateFrom=${req.dateFrom}&dateTo=${req.dateTo}`,
+          { responseType: 'blob' }
+        );
+        const blob = new Blob([response.data], { type: "application/pdf" });
+        const url = window.URL.createObjectURL(blob);
+        window.open(url, "_blank");
+      } catch (error) {
+        console.error(error);
+        this.showToast("Failed to load Employee data", "error");
+      } finally {
+        loading?.close();
+      }
+    },
+
     async clearEmployee() {
-     
       this.empdetails = {
         id: "00000000-0000-0000-0000-000000000000",
         empNo: "",
@@ -412,7 +440,8 @@ export const useHrStore = defineStore("hrStore", {
         );
         // console.log("response:",response.data.data.data);
         if (response.data.isSuccess) {
-          this.empdetails = response.data.data.data || {};
+          this.curEmployee = response.data.data.data || {};
+          this.empdetails = this.curEmployee;
           // this.showToast('Loading successful!', 'success');
         } else {
           console.error("Loading error:", response.data.message);
@@ -425,10 +454,30 @@ export const useHrStore = defineStore("hrStore", {
       loadingAlert.close();
     },
 
+    //GetPrintAttendanceSheet
+    async GetPrintAttendanceSheet(req, showLoading) {
+      try {
+        const response = await axios.get(
+          `${
+            import.meta.env.VITE_API_URL
+          }/hr/Attendance/GetPrintAttendanceSheet?empNo=${req.empNo}&dateFrom=${
+            req.dateFrom
+          }&dateTo=${req.dateTo}`,
+          {
+            responseType: "blob", 
+          }
+        );
+        const blob = new Blob([response.data], { type: "application/pdf" });
+        const url = window.URL.createObjectURL(blob);
+        window.open(url, "_blank");
+      } catch (error) {
+        this.showToast("Failed to load Employee data", "error");
+      }
+    },
+
     async getAttendenceByEmp(req, showLoading) {
       const loadingAlert = showLoading("");
       try {
-      
         const response = await axios.post(
           `${import.meta.env.VITE_API_URL}/hr/Attendance/GetAttendenceByEmp`,
           req
@@ -469,7 +518,7 @@ export const useHrStore = defineStore("hrStore", {
             },
           }
         );
-        console.log("response:", response);
+      
         if (response.data.isSuccess) {
           this.OTApllyDetails.arrOTApply = response.data.data.data || [];
           this.showToast("Loading successful!", "success");
