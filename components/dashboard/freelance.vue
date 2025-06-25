@@ -8,7 +8,7 @@
         <div class="bg-white border border-gray-200 p-6 rounded-2xl shadow-md hover:shadow-lg transition-all duration-300">
           <div class="flex items-center justify-between mb-6">
             <h2 class="text-xl font-bold text-gray-800 flex items-center gap-2">
-              📅 Today Sales Summary
+              📅 Today Freelance Sales Summary
             </h2>
           </div>
 
@@ -35,7 +35,7 @@
         <div class="bg-white border border-gray-200 p-6 rounded-2xl shadow-md hover:shadow-lg transition-all duration-300">
           <div class="flex items-center justify-between mb-6">
             <h2 class="text-xl font-bold text-gray-800 flex items-center gap-2">
-              📊 Monthly Sales Summary
+              📊 Monthly Freelance Sales Summary
             </h2>
           </div>
 

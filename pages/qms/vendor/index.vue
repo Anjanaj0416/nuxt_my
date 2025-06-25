@@ -21,7 +21,7 @@
     </div>   
 
 
-    <FilterTab @selected="SetSelectedFilter" :arrFilter="vendorStore.initVendor.vendorViewItemCount" />
+    <FilterTab @selected="SetSelectedFilter" :arrFilter="Object.values(vendorStore.initVendor.vendorViewItemCount)" />
 
     <!-- {{ vendorStore.initVendor.vendorViewItemCount }} -->
 
@@ -133,8 +133,8 @@
             </button>
 
             <button
-            
-              @click="vendorTabs[vd.id] = 'edit'; quotationStore.curVendorId = vd.id"
+              v-if="vendorTabs[vd.id] !== 'edit'"
+              @click="vendorTabs[vd.id] = 'edit'; quotationStore.curVendorId = vd.id; GoToAddEdit(vd.id)"
               :class="[
                 'p-4 border-b-2 rounded-t-lg text-center',
                 vendorTabs[vd.id] === 'edit'
@@ -143,6 +143,14 @@
               ]"
             >
               Edit
+            </button>
+            <!-- Show this only when in 'proposal' mode -->
+            <button
+              v-if="vendorTabs[vd.id] === 'edit'"
+              @click="vendorTabs[vd.id] = ''; quotationStore.curVendorId = null"
+              class="p-4 border-b-2 rounded-t-lg text-center text-red-600 border-transparent "
+            >
+              Close Edit
             </button>
 
             <!-- <button

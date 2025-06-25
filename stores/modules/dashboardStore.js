@@ -59,7 +59,30 @@ export const useDashboardStore  = defineStore('dashboard', {
       rejectedSales : 2,
       refundedSales : 20,
       inProgress : 40,
-    }
+    },
+
+    attendance: {
+      present: 45,
+      absent: 5,
+      onLeave: 3,
+    },
+    projectStatus: {
+      completed: 12,
+      inProgress: 7,
+      pendingApproval: 3,
+      overdue: 1,
+      cancelled: 0,
+      onHold: 2,
+    },
+    teamPerformance: {
+      avgProductivity: 88,
+      tasksCompleted: 320,
+      pendingTasks: 15,
+      overdueTasks: 3,
+    },
+    pendingApprovals: {
+      count: 4,
+    },
 
   }),
 });
