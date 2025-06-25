@@ -5,7 +5,10 @@ export default defineNuxtConfig({
     middleware: ['auth']
   },
 
-  modules: ['@pinia/nuxt'],
+  modules: [
+    '@pinia/nuxt',
+  
+  ],
   pinia: {
     autoImports: ['defineStore']
   },

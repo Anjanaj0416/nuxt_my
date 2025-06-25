@@ -3,7 +3,7 @@
     <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
       <div class="grid grid-cols-1 md:grid-cols-4 gap-8">
         <!-- Logo and Description -->
-        <div class="col-span-1 md:col-span-2">
+        <div class="col-span-2">
           <div class="flex items-center space-x-2 mb-4">
             <div class="w-8 h-8 bg-gradient-to-r from-primary-500 to-secondary-500 rounded-lg flex items-center justify-center">
               <svg class="w-5 h-5 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -40,7 +40,6 @@
           <ul class="space-y-2">
             <li><NuxtLink to="/schools" class="text-gray-300 hover:text-white transition-colors">Find Schools</NuxtLink></li>
             <li><NuxtLink to="/how-it-works" class="text-gray-300 hover:text-white transition-colors">How It Works</NuxtLink></li>
-            <li><NuxtLink to="/pricing" class="text-gray-300 hover:text-white transition-colors">Pricing</NuxtLink></li>
             <li><NuxtLink to="/about" class="text-gray-300 hover:text-white transition-colors">About Us</NuxtLink></li>
           </ul>
         </div>
@@ -50,24 +49,16 @@
           <h3 class="text-lg font-semibold mb-4">Support</h3>
           <ul class="space-y-2">
             <li><NuxtLink to="/contact" class="text-gray-300 hover:text-white transition-colors">Contact Us</NuxtLink></li>
-            <li><NuxtLink to="/help" class="text-gray-300 hover:text-white transition-colors">Help Center</NuxtLink></li>
             <li><NuxtLink to="/privacy" class="text-gray-300 hover:text-white transition-colors">Privacy Policy</NuxtLink></li>
             <li><NuxtLink to="/terms" class="text-gray-300 hover:text-white transition-colors">Terms of Service</NuxtLink></li>
           </ul>
         </div>
       </div>
 
-      <div class="border-t border-gray-800 mt-8 pt-8 flex flex-col md:flex-row justify-between items-center">
+      <div class="border-t border-gray-800 mt-8 pt-8 flex justify-start items-center">
         <p class="text-gray-400 text-sm">
           © 2024 DriveLearn. All rights reserved.
         </p>
-        <div class="flex items-center space-x-4 mt-4 md:mt-0">
-          <span class="text-gray-400 text-sm">Made with</span>
-          <svg class="w-4 h-4 text-red-500" fill="currentColor" viewBox="0 0 20 20">
-            <path fill-rule="evenodd" d="M3.172 5.172a4 4 0 015.656 0L10 6.343l1.172-1.171a4 4 0 115.656 5.656L10 17.657l-6.828-6.829a4 4 0 010-5.656z" clip-rule="evenodd" />
-          </svg>
-          <span class="text-gray-400 text-sm">for better driving education</span>
-        </div>
       </div>
     </div>
   </footer>

@@ -22,19 +22,19 @@
       
       <form @submit.prevent="handleLogin" class="mt-8 space-y-6">
         <div class="rounded-md shadow-sm -space-y-px">
-          <div>
-            <label for="email" class="sr-only">Email address</label>
+            <div>
+            <label for="username" class="sr-only">Username</label>
             <input
-              id="email"
+              id="username"
               v-model="email"
-              name="email"
-              type="email"
-              autocomplete="email"
+              name="username"
+              type="text"
+              autocomplete="username"
               required
               class="appearance-none rounded-none relative block w-full px-3 py-2 border border-gray-300 dark:border-gray-600 placeholder-gray-500 dark:placeholder-gray-400 text-gray-900 dark:text-white rounded-t-md focus:outline-none focus:ring-primary-500 focus:border-primary-500 focus:z-10 sm:text-sm dark:bg-gray-700"
-              placeholder="Email address"
+              placeholder="Username"
             />
-          </div>
+            </div>
           <div>
             <label for="password" class="sr-only">Password</label>
             <input
@@ -103,35 +103,6 @@
             {{ isLoading ? 'Signing in...' : 'Sign in' }}
           </button>
         </div>
-
-        <!-- Demo Accounts -->
-        <div class="mt-6">
-          <div class="relative">
-            <div class="absolute inset-0 flex items-center">
-              <div class="w-full border-t border-gray-300 dark:border-gray-600" />
-            </div>
-            <div class="relative flex justify-center text-sm">
-              <span class="px-2 bg-gray-50 dark:bg-gray-900 text-gray-500 dark:text-gray-400">Demo Accounts</span>
-            </div>
-          </div>
-
-          <div class="mt-6 grid grid-cols-2 gap-3">
-            <button
-              type="button"
-              @click="loginAsStudent"
-              class="w-full inline-flex justify-center py-2 px-4 border border-gray-300 dark:border-gray-600 rounded-md shadow-sm bg-white dark:bg-gray-700 text-sm font-medium text-gray-500 dark:text-gray-300 hover:bg-gray-50 dark:hover:bg-gray-600 transition-colors"
-            >
-              Student Demo
-            </button>
-            <button
-              type="button"
-              @click="loginAsSchool"
-              class="w-full inline-flex justify-center py-2 px-4 border border-gray-300 dark:border-gray-600 rounded-md shadow-sm bg-white dark:bg-gray-700 text-sm font-medium text-gray-500 dark:text-gray-300 hover:bg-gray-50 dark:hover:bg-gray-600 transition-colors"
-            >
-              School Demo
-            </button>
-          </div>
-        </div>
       </form>
     </div>
   </div>
@@ -139,14 +110,18 @@
 
 <script setup>
 
+import { useUserStore } from '~/stores/modules/userStore'
+import { ref } from 'vue'
+
+const userStore = useUserStore()
+
+
 definePageMeta({
   layout: false,
   // middleware: 'auth',
 });
 
 
-import { useAuthStore } from '~/stores/modules/learners/auth'  // or your correct path
-const { login } = useAuthStore()
 
 const email = ref('')
 const password = ref('')
@@ -155,41 +130,28 @@ const isLoading = ref(false)
 
 const handleLogin = async () => {
   isLoading.value = true
-  
-  // Simulate API call
-  await new Promise(resolve => setTimeout(resolve, 1000))
-  
-  // Mock login
-  login({
-    id: 1,
-    name: 'John Doe',
-    email: email.value,
-    type: 'student'
-  })
-  
+
+  const loginDetails = {
+    userName: email.value,
+    password: password.value
+  }
+
+  // Use SweetAlert or your own loading function if needed
+  const showLoading = (msg = '') => {
+    return {
+      close: () => {}
+    }
+  }
+
+  await userStore.login(loginDetails, showLoading)
   isLoading.value = false
-  navigateTo('/')
+
+  if (userStore.token) {
+    navigateTo('/learners')
+  }
 }
 
-const loginAsStudent = () => {
-  login({
-    id: 1,
-    name: 'Demo Student',
-    email: 'student@demo.com',
-    type: 'student'
-  })
-  navigateTo('/')
-}
 
-const loginAsSchool = () => {
-  login({
-    id: 2,
-    name: 'Demo School',
-    email: 'school@demo.com',
-    type: 'school'
-  })
-  navigateTo('/')
-}
 
 // SEO
 useHead({

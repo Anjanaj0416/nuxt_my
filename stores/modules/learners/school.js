@@ -1,13 +1,12 @@
 import { defineStore } from 'pinia'
+import { ref, computed, readonly } from 'vue'
 
 export const useSchoolsStore = defineStore('schools', () => {
   const schools = ref([
     {
       id: 1,
       name: 'Elite Driving Academy',
-      rating: 4.8,
       reviewCount: 156,
-      price: 45,
       location: 'Downtown',
       distance: '2.5 km',
       image: 'https://images.pexels.com/photos/3354648/pexels-photo-3354648.jpeg?auto=compress&cs=tinysrgb&w=400',
@@ -38,9 +37,7 @@ export const useSchoolsStore = defineStore('schools', () => {
     {
       id: 2,
       name: 'Safe Drive School',
-      rating: 4.6,
       reviewCount: 89,
-      price: 38,
       location: 'Westside',
       distance: '4.2 km',
       image: 'https://images.pexels.com/photos/13861/IMG_3496bfree.jpg?auto=compress&cs=tinysrgb&w=400',
@@ -64,9 +61,7 @@ export const useSchoolsStore = defineStore('schools', () => {
     {
       id: 3,
       name: 'Quick Pass Driving',
-      rating: 4.9,
       reviewCount: 203,
-      price: 52,
       location: 'City Center',
       distance: '1.8 km',
       image: 'https://images.pexels.com/photos/1545743/pexels-photo-1545743.jpeg?auto=compress&cs=tinysrgb&w=400',
@@ -96,22 +91,21 @@ export const useSchoolsStore = defineStore('schools', () => {
     }
   ])
 
-  const searchQuery = ref('')
-  const selectedLocation = ref('')
-  const priceRange = ref([0, 100])
+ const searchQuery = ref('')
+ const selectedLocation = ref('')
 
   const filteredSchools = computed(() => {
     return schools.value.filter(school => {
       const matchesSearch = school.name.toLowerCase().includes(searchQuery.value.toLowerCase()) ||
                           school.location.toLowerCase().includes(searchQuery.value.toLowerCase())
       const matchesLocation = !selectedLocation.value || school.location === selectedLocation.value
-      const matchesPrice = school.price >= priceRange.value[0] && school.price <= priceRange.value[1]
-      
-      return matchesSearch && matchesLocation && matchesPrice
+      // Removed price filtering since price is no longer present
+      return matchesSearch && matchesLocation
     })
   })
 
   const getSchoolById = (id) => {
+    if (!id) return null;
     return schools.value.find(school => school.id === parseInt(id))
   }
 
@@ -119,7 +113,6 @@ export const useSchoolsStore = defineStore('schools', () => {
     schools: readonly(schools),
     searchQuery,
     selectedLocation,
-    priceRange,
     filteredSchools,
     getSchoolById
   }
