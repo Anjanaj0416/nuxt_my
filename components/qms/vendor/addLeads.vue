@@ -302,11 +302,10 @@ export default {
     },
 
     getDistinctDistricts() {
-
       try {
         const districtsMap = new Map();
 
-        this.leadStore.InitLeads.listDistrictCities.forEach((item) => {
+        this.vendorStore.initVendor.listDistrictCities.forEach((item) => {
           if (!districtsMap.has(item.districtId)) {
             districtsMap.set(item.districtId, {
               id: item.districtId,
@@ -315,14 +314,39 @@ export default {
           }
         });
 
+        // ✅ Store result as an array (safe for SSR)
         return Array.from(districtsMap.values()).sort((a, b) =>
           a.value.localeCompare(b.value)
         );
+
       } catch (error) {
-        // console.log(error);
         return [];
       }
     },
+
+
+    // getDistinctDistricts() {
+
+    //   try {
+    //     const districtsMap = new Map();
+
+    //     this.leadStore.InitLeads.listDistrictCities.forEach((item) => {
+    //       if (!districtsMap.has(item.districtId)) {
+    //         districtsMap.set(item.districtId, {
+    //           id: item.districtId,
+    //           value: item.districtName,
+    //         });
+    //       }
+    //     });
+
+    //     return Array.from(districtsMap.values()).sort((a, b) =>
+    //       a.value.localeCompare(b.value)
+    //     );
+    //   } catch (error) {
+    //     // console.log(error);
+    //     return [];
+    //   }
+    // },
 
     filteredCities() {
       if (!this.curLead.District) return [];

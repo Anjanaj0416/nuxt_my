@@ -330,7 +330,7 @@ export default {
         // Company Details
         shopName: "",
         shopEmail: "",
-        shopWeb:"",
+        shopWeb: "",
         shopMobileNo: "",
         shopContactNo: "",
         shopAddress1: "",
@@ -389,14 +389,37 @@ export default {
           }
         });
 
+        // ✅ Store result as an array (safe for SSR)
         return Array.from(districtsMap.values()).sort((a, b) =>
           a.value.localeCompare(b.value)
         );
+
       } catch (error) {
-        // console.log(error);
         return [];
       }
     },
+
+    // getDistinctDistricts() {
+    //   try {
+    //     const districtsMap = new Map();
+
+    //     this.vendorStore.initVendor.listDistrictCities.forEach((item) => {
+    //       if (!districtsMap.has(item.districtId)) {
+    //         districtsMap.set(item.districtId, {
+    //           id: item.districtId,
+    //           value: item.districtName,
+    //         });
+    //       }
+    //     });
+
+    //     return Array.from(districtsMap.values()).sort((a, b) =>
+    //       a.value.localeCompare(b.value)
+    //     );
+    //   } catch (error) {
+    //     // console.log(error);
+    //     return [];
+    //   }
+    // },
 
     filteredCities() {
       if (this.curVendor.districtId) {
