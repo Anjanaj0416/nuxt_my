@@ -124,10 +124,11 @@
                 </span>
               </template>
               <template v-else>
-                <p :class="['mt-1 text-sm text-gray-500', field.class]">
-                  {{ lead[field.key] }}
-                  {{ field.secondKey ? lead[field.secondKey] : "" }}
-                </p>
+                <p
+                  v-if="field.key"
+                  v-html="formatComment(lead[field.key])"
+                  :class="['mt-1 text-sm text-gray-500', field.class]"
+                ></p>
               </template>
             </div>
           </div>
@@ -162,7 +163,7 @@
           <!-- {{ lead }} -->
           <!-- Action Buttons -->
           <div
-            v-if="userStore.loggedUser.granted?.includes('flo','su')"
+            v-if="userStore.loggedUser.granted?.includes('flo') || userStore.loggedUser.granted?.includes('su')"
             class="flex justify-end pt-2"
           >
             <LinkBtn
@@ -297,6 +298,8 @@ export default {
   },
   },
   methods: {
+
+    
     async GetSearch(searchVal) {
       if (searchVal) {
         this.keyword = searchVal;
@@ -312,6 +315,10 @@ export default {
 
       this.searchBy = "";
       this.keyword = "";
+    },
+
+    formatComment(comment) {
+      return comment ? comment.replace(/\n/g, "<br><br>") : "";
     },
 
     async SetSelectedFilter(type) {

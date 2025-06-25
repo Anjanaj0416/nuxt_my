@@ -4,10 +4,20 @@
       <div >
         <div class="form-content">
           <div>
-            <h3 class="font-bold mb-4">
-              Proposal Versions Details -
-              {{ quotationStore.curQuotation.rootQuotationNo }}
-            </h3>
+            <div class="flex flex-col-reverse items-start justify-between gap-4 mb-4 md:flex-row md:items-center">
+              <div class="font-bold mb-4">Proposal Versions Details -
+                {{ quotationStore.curQuotation.rootQuotationNo }}
+              </div>
+              <button
+                class="flex items-center  gap-2 px-4 py-2 text-sm font-medium text-gray-500 transition-all duration-300 bg-white border-1 rounded-full shadow hover:bg-blue-700 hover:text-white hover:shadow-md"
+                @click="closeModal" 
+              >
+                <svg xmlns="http://www.w3.org/2000/svg" class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7" />
+                </svg>
+                Back to Proposal
+              </button>
+            </div>
             <div class="max-h-[660px] overflow-y-auto space-y-4">
               <div
                 v-for="(qItem, index) in quotationStore.listQuotationVerions"
@@ -138,10 +148,9 @@
           </div>
         </div>
       </div>
-      <div class="flex justify-between items-center mt-6">
+      <!-- <div class="flex justify-between items-center mt-6">
         <button @click="closeModal" class="cancel-button">Back</button>
-        <!-- <button @click="GetSave" class="confirm-button">Save</button> -->
-      </div>
+      </div> -->
     </div>
     <AdddEdit
       v-if="isVerion && showAddProposalEdit"
@@ -308,13 +317,13 @@ export default {
   width: 100%;
 }
 
-button {
+/* button {
   padding: 10px 20px;
   border: none;
   cursor: pointer;
   font-size: 14px;
   border-radius: 5px;
-}
+} */
 
 .cancel-button {
   background: #e4e4e4;

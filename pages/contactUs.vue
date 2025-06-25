@@ -34,8 +34,9 @@
                     <NuxtLink @click="closeDropdown" to="/portfoliotemplates/enterprise" class="block px-4 py-2 hover:bg-blue-100">Enterprise</NuxtLink>
                 </div>
                 </div>
-                <a href="#" class="px-4 py-2 ml-4 font-semibold text-blue-900 transition-transform transform bg-white rounded-full shadow-md hover:scale-105 hover:bg-blue-100">
-                Talk to Us
+                <a href="tel:+011 222 3 222"
+                        class="px-4 py-2 ml-4 font-semibold text-blue-900 transition-transform transform bg-white rounded-full shadow-md hover:scale-105 hover:bg-blue-100">
+                        Talk to Us
                 </a>
             </div>
 
@@ -100,11 +101,9 @@
                     </div>
 
                     <!-- CTA Button -->
-                    <a
-                    href="#"
-                    class="px-4 py-2 mt-6 font-semibold text-center text-blue-900 bg-white rounded-full shadow-md hover:bg-blue-100"
-                    >
-                    Talk to Us
+                    <a href="tel:+011 222 3 222"
+                        class="px-4 py-2 mt-6 font-semibold text-center text-blue-900 bg-white rounded-full shadow-md hover:bg-blue-100">
+                        Talk to Us
                     </a>
                 </nav>
                 </div>
@@ -127,48 +126,78 @@
                         </button>
                     </div>
                     <div>
-                        <button type="button" class="px-6 py-2 mt-4 text-sm font-medium text-center text-blue-900 bg-white border-2 border-blue-400 rounded-full hover:bg-blue-800 hover:text-white hover:shadow-xl dark:bg-blue-900 dark:hover:bg-blue-700">
+                        <button type="button" class="px-6 py-2 mt-4 text-sm font-medium text-center text-blue-900 bg-white border-2 border-blue-400 rounded-full hover:bg-blue-800 hover:text-white hover:shadow-xl ">
                             011 222 3 222
                         </button>
                     </div>
 
                 </div> 
-                <form @submit.prevent="handleSubmit">
+
                     <div class="grid md:grid-cols-2 md:gap-6">
                         <div class="relative z-0 w-full mb-5 group">
-                            <input v-model="formData.name" type="text" name="name" id="name" class="block py-2.5 px-0 w-full text-base text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-blue-500 focus:outline-none focus:ring-0 focus:border-blue-600 peer" placeholder=" "  />
-                            <label for="name" class="peer-focus:font-medium absolute text-base text-gray-500 dark:text-gray-400 duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-[0] peer-focus:start-0 rtl:peer-focus:translate-x-1/4 peer-focus:text-blue-600 peer-focus:dark:text-blue-500 peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6">Full Name</label>
-                            <p v-if="validationErrors.name" class="text-sm text-red-500">{{ validationErrors.name }}</p>
+                            <input  
+                              type="text"
+                              name="FullName" 
+                              v-model="formData.FullName"
+                              class="block py-2.5 px-0 w-full text-base text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none  focus:outline-none focus:ring-0 focus:border-blue-600 peer" 
+                              placeholder=" "  
+                            />
+                            <label for="FullName" class="peer-focus:font-medium absolute text-base text-gray-500 dark:text-gray-400 duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-[0] peer-focus:start-0 rtl:peer-focus:translate-x-1/4 peer-focus:text-blue-600 peer-focus:dark:text-blue-500 peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6">Full Name</label>
+                            <p v-if="err.FullName" class="text-sm text-red-500">{{ err.FullName }}</p>
                         </div>
                         <div class="relative z-0 w-full mb-5 group">
-                            <input  v-model="formData.web" type="text" name="web" id="web" class="block py-2.5 px-0 w-full text-base text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-blue-500 focus:outline-none focus:ring-0 focus:border-blue-600 peer" placeholder=" "  />
-                            <label for="web" class="peer-focus:font-medium absolute text-base text-gray-500 dark:text-gray-400 duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-[0] peer-focus:start-0 rtl:peer-focus:translate-x-1/4 peer-focus:text-blue-600 peer-focus:dark:text-blue-500 peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6">Your Company website</label>
+                            <input 
+                              type="text" 
+                              name="WebSite" 
+                              v-model="formData.WebSite"
+                              class="block py-2.5 px-0 w-full text-base text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none focus:outline-none focus:ring-0 focus:border-blue-600 peer"
+                              placeholder=" "  
+                            />
+                            <label for="WebSite" class="peer-focus:font-medium absolute text-base text-gray-500 dark:text-gray-400 duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-[0] peer-focus:start-0 rtl:peer-focus:translate-x-1/4 peer-focus:text-blue-600 peer-focus:dark:text-blue-500 peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6">Your Company WebSitesite</label>
                         </div>
                     </div>
                     <div class="grid md:grid-cols-2 md:gap-6">
                         <div class="relative z-0 w-full mb-5 group">
-                            <input v-model="formData.email" type="email" name="email" id="email" class="block py-2.5 px-0 w-full text-base text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-blue-500 focus:outline-none focus:ring-0 focus:border-blue-600 peer" placeholder=" "  />
-                            <label for="email" class="peer-focus:font-medium absolute text-base text-gray-500 dark:text-gray-400 duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-[0] peer-focus:start-0 rtl:peer-focus:translate-x-1/4 peer-focus:text-blue-600 peer-focus:dark:text-blue-500 peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6">E-mail</label>
-                            <p v-if="validationErrors.email" class="text-sm text-red-500">{{ validationErrors.email }}</p>
+                            <input 
+                              type="email" 
+                              name="Email" 
+                              v-model="formData.Email"
+                              class="block py-2.5 px-0 w-full text-base text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none  focus:outline-none focus:ring-0 focus:border-blue-600 peer"
+                              placeholder=" "  
+                            />
+                            <label for="Email" class="peer-focus:font-medium absolute text-base text-gray-500 dark:text-gray-400 duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-[0] peer-focus:start-0 rtl:peer-focus:translate-x-1/4 peer-focus:text-blue-600 peer-focus:dark:text-blue-500 peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6">E-mail</label>
+                            <p v-if="err.Email" class="text-sm text-red-500">{{ err.Email }}</p>
                         </div>
                         <div class="relative z-0 w-full mb-5 group">
-                            <input v-model="formData.phone" type="number" maxlength="10" name="phone" id="phone" class="block py-2.5 px-0 w-full text-base text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-blue-500 focus:outline-none focus:ring-0 focus:border-blue-600 peer" placeholder=" "  />
-                            <label for="phone" class="peer-focus:font-medium absolute text-base text-gray-500 dark:text-gray-400 duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-[0] peer-focus:start-0 rtl:peer-focus:translate-x-1/4 peer-focus:text-blue-600 peer-focus:dark:text-blue-500 peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6">Phone number (Optional)</label>
-                            <!-- <p v-if="validationErrors.phone" class="text-sm text-red-500">{{ validationErrors.phone }}</p> -->
+                            <input 
+                              type="Phone" 
+                              name="Phone" 
+                              v-model="formData.Phone"
+                              class="block py-2.5 px-0 w-full text-base text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none focus:outline-none focus:ring-0 focus:border-blue-600 peer"
+                              placeholder=" "  
+                            />
+                            <label for="Phone" class="peer-focus:font-medium absolute text-base text-gray-500 dark:text-gray-400 duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-[0] peer-focus:start-0 rtl:peer-focus:translate-x-1/4 peer-focus:text-blue-600 peer-focus:dark:text-blue-500 peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6">Phone number (Optional)</label>
+                            <!-- <p v-if="validationErrors.Phone" class="text-sm text-red-500">{{ validationErrors.Phone }}</p> -->
                         </div>
                     </div>
                     <div class="relative z-0 w-full mb-5 group">
-                        <input v-model="formData.message" type="text" name="message" id="floating_repeat_password" class="block py-2.5 px-0 w-full text-lg text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-blue-500 focus:outline-none focus:ring-0 focus:border-blue-600 peer" placeholder=" "  />
+                        <input  
+                          type="text" 
+                          name="message" 
+                          v-model="formData.Comment" 
+                          class="block py-2.5 px-0 w-full text-lg text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none focus:outline-none focus:ring-0 focus:border-blue-600 peer" 
+                          placeholder=" "
+                           />
                         <label for="message" class="peer-focus:font-medium absolute text-base text-gray-500 dark:text-gray-400 duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-[0] peer-focus:start-0 rtl:peer-focus:translate-x-1/4 peer-focus:text-blue-600 peer-focus:dark:text-blue-500 peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6">What are you planning to build?</label>
                     </div>
                     <div class="grid gap-2 mt-4 mb-8 lg:grid-cols-7 lg:mb-8">
                         <div>
-                            <button type="submit" class="px-6 py-2 mt-4 text-sm font-medium text-center text-white bg-blue-900 rounded-full hover:bg-blue-800 hover:shadow-xl dark:bg-blue-900 dark:hover:bg-blue-700">
-                                Submit
-                            </button>
+                          <button  @click="AddContact"  class="px-6 py-2 mt-4 text-sm font-medium text-center text-white bg-blue-900 rounded-full hover:bg-blue-800 hover:shadow-xl dark:bg-blue-900 dark:hover:bg-blue-700">
+                              Submit
+                          </button>
                         </div>
                     </div> 
-                </form>
+                
             </div>
         </section>
 
@@ -190,174 +219,175 @@
         </section>
 
         <!-- footer -->
-        <footer class="p-4 mt-12 bg-white sm:p-6 dark:bg-gray-800">
-        <div class="max-w-screen-xl mx-auto">
-            <div class="md:flex md:justify-between">
-            <div class="mb-6 md:mb-0">
-                <a href="/" class="flex items-center">
-                <img
-                    src="/assets/img/digitalTechLabs/DigitalTechLabsLogo.jpg"
-                    alt="Digital Tech Labs Logo"
-                    class="w-40 px-2 rounded-full"
-                />
-                </a>
-                <p class="mt-4 text-sm text-gray-600 dark:text-gray-400 max-w-sm">
-                Digital TechLabs is a forward-thinking tech company providing innovative digital products and business solutions to help you succeed in a rapidly evolving digital world.
-                </p>
-            </div>
-            <div class="grid grid-cols-2 gap-8 sm:gap-6 sm:grid-cols-3">
-                <div>
-                <h2 class="mb-6 text-sm font-semibold text-gray-900 uppercase dark:text-white">Products</h2>
-                <ul class="text-gray-600 dark:text-gray-400">
-                    <li class="mb-4">
-                    <a href="" class="hover:underline">B2B.lk</a>
-                    </li>
-                    <li>
-                    <a href="" class="hover:underline">Automobile.lk</a>
-                    </li>
-                </ul>
-                </div>
-                <div>
-                <h2 class="mb-6 text-sm font-semibold text-gray-900 uppercase dark:text-white">Company</h2>
-                <ul class="text-gray-600 dark:text-gray-400">
-                    <li class="mb-4">
-                    <a href="/aboutUs" class="hover:underline">About Us</a>
-                    </li>
-                    <li>
-                    <a href="/contact" class="hover:underline">Contact</a>
-                    </li>
-                </ul>
-                </div>
-                <div>
-                <h2 class="mb-6 text-sm font-semibold text-gray-900 uppercase dark:text-white">Legal</h2>
-                <ul class="text-gray-600 dark:text-gray-400">
-                    <li class="mb-4">
-                    <a href="/privacy-policy" class="hover:underline">Privacy Policy</a>
-                    </li>
-                    <li>
-                    <a href="/terms" class="hover:underline">Terms & Conditions</a>
-                    </li>
-                </ul>
-                </div>
-            </div>
-            </div>
-            <hr class="my-6 border-gray-200 sm:mx-auto dark:border-gray-700 lg:my-8" />
-            <div class="sm:flex sm:items-center sm:justify-between">
-            <span class="text-sm text-gray-500 sm:text-center dark:text-gray-400">
-                © 2025 <a href="/" class="hover:underline">Digital TechLabs™</a>. All rights reserved.
-            </span>
-            <div class="flex mt-4 space-x-6 sm:justify-center sm:mt-0">
-                <!-- Existing social icons remain unchanged -->
-                <!-- Add links to your actual social media profiles -->
-                <!-- Facebook / Instagram / LinkedIn / etc. -->
-            </div>
-            </div>
-        </div>
+        <footer class="p-4 mt-12 bg-white sm:p-6 ">
+          <div class="max-w-screen-xl mx-auto">
+              <div class="md:flex md:justify-between">
+              <div class="mb-6 md:mb-0">
+                  <a href="/" class="flex items-center">
+                  <img
+                      src="/assets/img/digitalTechLabs/DigitalTechLabsLogo.jpg"
+                      alt="Digital Tech Labs Logo"
+                      class="w-40 px-2 rounded-full"
+                  />
+                  </a>
+                  <p class="mt-4 text-sm text-gray-600  max-w-sm">
+                  Digital TechLabs is a forward-thinking tech company providing innovative digital products and business solutions to help you succeed in a rapidly evolving digital world.
+                  </p>
+              </div>
+              <div class="grid grid-cols-2 gap-8 sm:gap-6 sm:grid-cols-3">
+                  <div>
+                  <h2 class="mb-6 text-sm font-semibold text-gray-900 uppercase ">Products</h2>
+                  <ul class="text-gray-600">
+                      <li class="mb-4">
+                      <a href="" class="hover:underline">B2B.lk</a>
+                      </li>
+                      <li>
+                      <a href="" class="hover:underline">Automobile.lk</a>
+                      </li>
+                  </ul>
+                  </div>
+                  <div>
+                  <h2 class="mb-6 text-sm font-semibold text-gray-900 uppercase ">Company</h2>
+                  <ul class="text-gray-600 ">
+                      <li class="mb-4">
+                      <a href="/aboutUs" class="hover:underline">About Us</a>
+                      </li>
+                      <li>
+                      <a href="/contact" class="hover:underline">Contact</a>
+                      </li>
+                  </ul>
+                  </div>
+                  <div>
+                  <h2 class="mb-6 text-sm font-semibold text-gray-900 uppercase ">Legal</h2>
+                  <ul class="text-gray-600 ">
+                      <li class="mb-4">
+                      <a href="/privacy-policy" class="hover:underline">Privacy Policy</a>
+                      </li>
+                      <li>
+                      <a href="/terms" class="hover:underline">Terms & Conditions</a>
+                      </li>
+                  </ul>
+                  </div>
+              </div>
+              </div>
+              <hr class="my-6 border-gray-200 sm:mx-auto  lg:my-8" />
+              <div class="sm:flex sm:items-center sm:justify-between">
+              <span class="text-sm text-gray-500 sm:text-center">
+                  © 2025 <a href="/" class="hover:underline">Digital TechLabs™</a>. All rights reserved.
+              </span>
+              <div class="flex mt-4 space-x-6 sm:justify-center sm:mt-0">
+                  <!-- Existing social icons remain unchanged -->
+                  <!-- Add links to your actual social media profiles -->
+                  <!-- Facebook / Instagram / LinkedIn / etc. -->
+              </div>
+              </div>
+          </div>
         </footer>
 
     </section>
   </template>
   
-  <script setup>
-  import { ref } from "vue";
-//   import { useDtlStore } from "~/stores/modules/dtlStore";
+<script>
+  // import { useDtlStore } from "~/stores/modules/dtlStore";
+
+  definePageMeta({
+    layout: 'contactus',
+  });
+
+  export default {
+      data() {
+        return {
+          imageroot: process.env.Assets_83,
+          formData: {
+            FullName: '',
+            Email: '',
+            Phone: '',
+            WebSite: '',
+            Comment: ''
+          },
+          err: {},
+          menuOpen: false,
+          showDropdown: false,
+        };
+      },
+
+      async mounted() {
+
+      },
+
+      async created() {
+        // this.dtlStore = useDtlStore();
+      },
+
+      watch: {},
+      computed: {
+      },
+      methods: {
+        AddContact() {
+          console.log(formData);
+          
+          if (this.validateForm()) {
+            // this.dtlStore.GetContactUs(this.formData, this.showLoading);
+            this.resetForm();
+          }
+        },
+
+        validateForm() {
+          this.err = {};
+          let isValid = true;
+
+          if (!this.formData.FullName) {
+            this.err.FullName = "Please enter your FullName.";
+            isValid = false;
+          }
+
+          if (!this.formData.Email) {
+            this.err.Email = "Please enter an Email address.";
+            isValid = false;
+          } else {
+            const EmailRegex = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
+            if (!EmailRegex.test(this.formData.Email)) {
+              this.err.Email = "Please enter a valid Email address.";
+              isValid = false;
+            }
+          }
+
+          return isValid;
+        },
 
 
+        resetForm() {
+          this.formData = {
+            FullName: '',
+            Email: '',
+            Phone: '',
+            WebSite: '',
+            Comment: ''
+          };
+          this.err = {};
+        },
 
-  // Mobile Menu Toggle
-  const menuOpen = ref(false);
-  const toggleMenu = () => {
-    menuOpen.value = !menuOpen.value;
+        toggleMenu() {
+          this.menuOpen = !this.menuOpen;
+        }
+      },
+      
+    
+
+      
+      head() {
+        return {
+          title: 'Intranet - Digital Tech Labs',
+        };
+      },
   };
 
-
-</script>
-
-<script>
-definePageMeta({
-  layout: 'contactus',
-});
-
-export default {
-  data() {
-    return {
-      imageroot: process.env.Assets_83,
-      validationErrors: {},
-      form: {
-        name: '',
-        email: '',
-        phone: ''
-      },
-    };
-  },
-  async mounted() {
-
-     
-  },
-
-    async created() {
-        // this.dtlStore = useDtlStore();
-
-    },
-    watch: {},
-    computed: {
-    },
-    methods: {
-      
-    },
-
-    
-    head() {
-      return {
-        title: 'Intranet - Digital Tech Labs',
-      };
-    },
-};
-const formData = ref({
-  name: "",
-  web: "",
-  email: "",
-  phone: "",
-  message: "",
-});
-
-const validationErrors = ref({
-  name: "",
-  email: "",
-  phone: "",
-});
-
-// Validate Email Format
-const isValidEmail = (email) => {
-  return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email);
-};
-
-// Validate Phone Number (10-digit numeric only)
-// const isValidPhoneNumber = (phone) => {
-//   return /^[0-9]{10}$/.test(phone);
+// Mobile Menu Toggle
+// const menuOpen = ref(false);
+// const toggleMenu = () => {
+//   menuOpen.value = !menuOpen.value;
 // };
 
-// Compute Validation Errors
-const validateForm = () => {
-  validationErrors.value = {
-    name: !formData.value.name ? "Name is required" : "",
-    email: !formData.value.email
-      ? "Email is required"
-      : !isValidEmail(formData.value.email)
-      ? "Invalid email format"
-      : "",
-  };
-
-  return !validationErrors.value.name && !validationErrors.value.email && !validationErrors.value.phone;
-};
-
-// Handle Form Submission
-const handleSubmit = () => {
-  if (validateForm()) {
-    alert("Form submitted successfully!");
-    // Send form data to backend
-  }
-};
 
 </script>
 

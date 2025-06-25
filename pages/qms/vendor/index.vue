@@ -2,9 +2,10 @@
   <!-- <section class="justify-center min-h-screen px-4 mt-24 mb-20 lg:px-80"> -->
   <section class="justify-center min-h-screen px-4 mt-24 mb-20 lg:px-60">
 
-    <div class="text-2xl uppercase">Vendors</div>
-    <div class="flex flex-col items-center justify-between mt-2 mb-8 md:flex-row">
+    
+    <div class="flex flex-col items-center justify-between mt-2 mb-2 md:flex-row">
       <div class="w-full mb-4 md:mb-0">
+        <div class="text-2xl uppercase">Vendors</div>
         <!-- <div class="mr-2">
           <Button
             class="w-24"
@@ -20,133 +21,170 @@
     </div>   
 
 
-    <FilterTab @selected="SetSelectedFilter" :arrFilter="vendorStore.initVendor.vendorViewItemCount" />
+    <FilterTab @selected="SetSelectedFilter" :arrFilter="Object.values(vendorStore.initVendor.vendorViewItemCount)" />
+
+    <!-- {{ vendorStore.initVendor.vendorViewItemCount }} -->
 
     <div v-if="vendorStore.listVendor.length === 0" class="text-center text-gray-900 mt-5 text-sm font-medium">
       <p>No vendors available...</p>
     </div>
-    <div class="flex flex-col gap-0 p-4 mt-4 bg-white border rounded-lg shadow-sm sm:p-6"
-      v-for="vd in vendorStore.listVendor" :key="vd.id">
-      <div class="flex flex-col gap-4 sm:flex-row sm:justify-between sm:items-start">
-        <div class="grid w-full grid-cols-2 gap-2 lg:grid-cols-8 sm:grid-cols-3 md:grid-cols-8">
-          <div class="flex flex-col text-center sm:text-left" v-for="(field, idx) in vendorFields" :key="idx">
-            <h1 class="text-sm font-semibold text-gray-700">
-              {{ field.label }}
-            </h1>
+    <div  v-for="vd in vendorStore.listVendor" :key="vd.id">
+      <div class="flex flex-col gap-0 p-4 mt-4  border rounded-lg shadow-sm sm:p-6"
+      :class="{
+          'bg-red-50': vd.isActive === false,
+          'bg-gray-50': vd.isActive === true,
+          'bg-white': vd.isActive === undefined
+        }"
+       >
+        <div class="flex flex-col gap-4 sm:flex-row sm:justify-between sm:items-start">
+          <div class="grid w-full grid-cols-2 gap-2 lg:grid-cols-8 sm:grid-cols-7 md:grid-cols-8">
+            <div class="flex flex-col text-center sm:text-left" v-for="(field, idx) in vendorFields" :key="idx">
+              <h1 class="text-sm font-semibold text-gray-700">
+                {{ field.label }}
+              </h1>
 
-            <p v-if="field.key === 'shopLogo'" class="flex items-center justify-center h-16 text-center">
-              <ImageLable :imageUrl="imageroot + `/${vd[field.key]}`" alt="Shop Logo" v-if="vd[field.key]" />
-              <span v-else class="text-xs text-gray-500">No Shop Logo</span>
-            </p>
+              <p v-if="field.key === 'shopLogo'" class="flex items-center justify-center h-16 text-center">
+                <ImageLable :imageUrl="imageroot + `/${vd[field.key]}`" alt="Shop Logo" v-if="vd[field.key]" />
+                <span v-else class="text-xs text-gray-500">No Shop Logo</span>
+              </p>
 
-            <p v-else-if="field.key !== 'isActive'" class="text-xs text-gray-600">
-              {{ vd[field.key] }} {{ field.secondKey ? vd[field.secondKey] : "" }}
-            </p>
+              <p v-else-if="field.key !== 'isActive'" class="text-xs text-gray-600">
+                {{ vd[field.key] }} {{ field.secondKey ? vd[field.secondKey] : "" }}
+              </p>
 
-            <span v-else :class="{
-              'bg-green-100 text-green-700': vd.isActive === true,
-              'bg-red-100 text-red-700': vd.isActive === false,
-              'bg-gray-100 text-gray-700': vd.isActive === undefined,
-            }" class="text-xs font-medium px-2.5 py-0.5 rounded-full inline-block mt-1">
-              {{ vd.isActive ? "Active" : "Inactive" }}
-            </span>
+              <span v-else :class="{
+                'bg-green-100 text-green-700': vd.isActive === true,
+                'bg-red-100 text-red-700': vd.isActive === false,
+                'bg-gray-100 text-gray-700': vd.isActive === undefined,
+              }" class="text-xs font-medium px-2.5 py-0.5 rounded-full inline-block mt-1">
+                {{ vd.isActive ? "Active" : "Inactive" }}
+              </span>
+            </div>
           </div>
         </div>
-      </div>
 
-      <!-- Expandable More Section -->
-      <!-- <div class="flex flex-col items-center gap-1 mt-1 mb-2 sm:flex-row sm:justify-end sm:mb-0 sm:mt-0 sm:-my-3">
-        
-      </div> -->
+        <!-- Expandable More Section -->
+        <!-- <div class="flex flex-col items-center gap-1 mt-1 mb-2 sm:flex-row sm:justify-end sm:mb-0 sm:mt-0 sm:-my-3">
+          
+        </div> -->
 
-      <div class="grid grid-cols-2 gap- sm:flex sm:flex-row sm:justify-end sm:gap-4">
-        <div class="text-sm font-medium text-center text-gray-500  dark:text-gray-400 dark:border-gray-700">
-          <ul class="flex flex-wrap -mb-px">
-            <li class="me-2">
-              <button
-                @click="vendorTabs[vd.id] = 'proposal';  quotationStore.curVendorId = vd.id"
-                :class="[
-                  'inline-block p-4 rounded-t-lg border-b-2',
-                  vendorTabs[vd.id] === 'proposal'
-                    ? 'text-blue-600 border-blue-600 dark:text-blue-500 dark:border-blue-500'
-                    : 'border-transparent hover:text-gray-600 hover:border-gray-300 dark:hover:text-gray-300'
-                ]"
-              >
-                Proposals  
-              </button>
-            </li>
-            <li class="me-2">
-              <button
-                @click="vendorTabs[vd.id] = 'invoice';quotationStore.curVendorId = vd.id"
-                :class="[
-                  'inline-block p-4 rounded-t-lg border-b-2',
-                  vendorTabs[vd.id] === 'invoice'
-                    ? 'text-blue-600 border-blue-600 dark:text-blue-500 dark:border-blue-500'
-                    : 'border-transparent hover:text-gray-600 hover:border-gray-300 dark:hover:text-gray-300'
-                ]"
-              >
-                Invoices
-              </button>
-            </li>
-            <li class="me-2">
-              <button
-                @click="vendorTabs[vd.id] = 'viewMore';quotationStore.curVendorId = vd.id"
-                :class="[
-                  'inline-block p-4 rounded-t-lg border-b-2',
-                  vendorTabs[vd.id] === 'viewMore'
-                    ? 'text-blue-600 border-blue-600 dark:text-blue-500 dark:border-blue-500'
-                    : 'border-transparent hover:text-gray-600 hover:border-gray-300 dark:hover:text-gray-300'
-                ]"
-              >
-                View More
-              </button>
-            </li>
-            <li class="me-2">
-              <button
-                @click="vendorTabs[vd.id] = 'edit';quotationStore.curVendorId = vd.id"
-                :class="[
-                  'inline-block p-4 rounded-t-lg border-b-2',
-                  vendorTabs[vd.id] === 'edit'
-                    ? 'text-blue-600 border-blue-600 dark:text-blue-500 dark:border-blue-500'
-                    : 'border-transparent hover:text-gray-600 hover:border-gray-300 dark:hover:text-gray-300'
-                ]"
-              >
-                Edit
-              </button>
-            </li>
-            <li class="me-2">
-              <button
-                @click="vendorTabs[vd.id] = 'workFlow';quotationStore.curVendorId = vd.id"
-                :class="[
-                  'inline-block p-4 rounded-t-lg border-b-2',
-                  vendorTabs[vd.id] === 'workFlow'
-                    ? 'text-blue-600 border-blue-600 dark:text-blue-500 dark:border-blue-500'
-                    : 'border-transparent hover:text-gray-600 hover:border-gray-300 dark:hover:text-gray-300'
-                ]"
-              >
-                Work Flow
-              </button>
-            </li>
-          </ul>
-        </div>
-      </div>
+        <div class="sm:flex sm:justify-end sm:gap-4">
+          <div class="grid grid-cols-3 gap-2 sm:flex sm:gap-4 text-sm font-medium text-gray-500 ">
+            <button
+              v-if="vendorTabs[vd.id] !== 'proposal'"
+              @click="vendorTabs[vd.id] = 'proposal'; quotationStore.curVendorId = vd.id"
+              :class="[
+                'p-4 border-b-2 rounded-t-lg text-center',
+                'border-transparent hover:text-gray-600 hover:border-gray-300'
+              ]"
+            >
+              Proposals
+            </button>
 
-      <!-- Tab Contents -->
-      <div class="p-4 dark:border-gray-700">
-        <div v-if="vendorTabs[vd.id] === 'proposal'">
-          <Proposal/>
+            <!-- Show this only when in 'proposal' mode -->
+            <button
+              v-if="vendorTabs[vd.id] === 'proposal'"
+              @click="vendorTabs[vd.id] = ''; quotationStore.curVendorId = null"
+              class="p-4 border-b-2 rounded-t-lg text-center text-red-600 border-transparent "
+            >
+              Close Proposal
+            </button>
+
+            <!-- <button
+              v-if="vendorTabs[vd.id] !== 'invoice'"
+              @click="vendorTabs[vd.id] = 'invoice'; quotationStore.curVendorId = vd.id"
+              :class="[
+                'p-4 border-b-2 rounded-t-lg text-center',
+                vendorTabs[vd.id] === 'invoice'
+                  ? 'text-blue-600 border-blue-600 dark:text-blue-500 dark:border-blue-500'
+                  : 'border-transparent hover:text-gray-600 hover:border-gray-300 '
+              ]"
+            >
+              Invoices
+            </button>
+
+            <button
+              v-if="vendorTabs[vd.id] === 'invoice'"
+              @click="vendorTabs[vd.id] = ''; quotationStore.curVendorId = null"
+              class="p-4 border-b-2 rounded-t-lg text-center text-red-600 border-transparent "
+            >
+              Close Invoices
+            </button> -->
+
+            <button
+              v-if="vendorTabs[vd.id] !== 'viewMore'"
+              @click="vendorTabs[vd.id] = 'viewMore'; quotationStore.curVendorId = vd.id"
+              :class="[
+                'p-4 border-b-2 rounded-t-lg text-center',
+                vendorTabs[vd.id] === 'viewMore'
+                  ? 'text-blue-600 border-blue-600 dark:text-blue-500 '
+                  : 'border-transparent hover:text-gray-600 hover:border-gray-300 '
+              ]"
+            >
+              View More
+            </button>
+            <!-- Show this only when in 'proposal' mode -->
+            <button
+              v-if="vendorTabs[vd.id] === 'viewMore'"
+              @click="vendorTabs[vd.id] = ''; quotationStore.curVendorId = null"
+              class="p-4 border-b-2 rounded-t-lg text-center text-red-600 border-transparent "
+            >
+              Close View More
+            </button>
+
+            <button
+              v-if="vendorTabs[vd.id] !== 'edit'"
+              @click="vendorTabs[vd.id] = 'edit'; quotationStore.curVendorId = vd.id; GoToAddEdit(vd.id)"
+              :class="[
+                'p-4 border-b-2 rounded-t-lg text-center',
+                vendorTabs[vd.id] === 'edit'
+                  ? 'text-blue-600 border-blue-600 dark:text-blue-500 '
+                  : 'border-transparent hover:text-gray-600 hover:border-gray-300 '
+              ]"
+            >
+              Edit
+            </button>
+            <!-- Show this only when in 'proposal' mode -->
+            <button
+              v-if="vendorTabs[vd.id] === 'edit'"
+              @click="vendorTabs[vd.id] = ''; quotationStore.curVendorId = null"
+              class="p-4 border-b-2 rounded-t-lg text-center text-red-600 border-transparent "
+            >
+              Close Edit
+            </button>
+
+            <!-- <button
+              @click="vendorTabs[vd.id] = 'workFlow'; quotationStore.curVendorId = vd.id"
+              :class="[
+                'p-4 border-b-2 rounded-t-lg text-center',
+                vendorTabs[vd.id] === 'workFlow'
+                  ? 'text-blue-600 border-blue-600 dark:text-blue-500 dark:border-blue-500'
+                  : 'border-transparent hover:text-gray-600 hover:border-gray-300 dark:hover:text-gray-300'
+              ]"
+            >
+              Work Flow
+            </button> -->
+          </div>
         </div>
-        <div v-if="vendorTabs[vd.id] === 'invoice'">
-          <Invoice/>
-        </div>
-        <div v-if="vendorTabs[vd.id] === 'viewMore'">
-          <p>DviewMore {{ vd.id }}</p>
-        </div>
-        <div v-if="vendorTabs[vd.id] === 'edit'">
-          <AddEdit v-if="isAddEdit" @close="isAddEdit = !isAddEdit" />
-        </div>
-        <div v-if="vendorTabs[vd.id] === 'workFlow'">
-          <WorkFlow />
+
+
+        <!-- Tab Contents -->
+        <div class="p-4 dark:border-gray-700">
+          <div v-if="vendorTabs[vd.id] === 'proposal'">
+            <Proposal/>
+          </div>
+          <div v-if="vendorTabs[vd.id] === 'invoice'">
+            <Invoice/>
+          </div>
+          <div v-if="vendorTabs[vd.id] === 'viewMore'">
+            <p>DviewMore {{ vd.id }}</p>
+          </div>
+          <div v-if="vendorTabs[vd.id] === 'edit'">
+            <AddEdit v-if="isAddEdit" @close="isAddEdit = !isAddEdit" />
+          </div>
+          <div v-if="vendorTabs[vd.id] === 'workFlow'">
+            <WorkFlow />
+          </div>
         </div>
       </div>
     </div>

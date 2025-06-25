@@ -135,7 +135,7 @@
             >
           <div>
               <div
-                class="relative grid grid-cols-1 gap-4 py-2 text-xs text-gray-700 uppercase sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-7"
+                class="relative grid grid-cols-1 gap-4 py-2 text-xs text-gray-700 uppercase sm:grid-cols-6 md:grid-cols-8 lg:grid-cols-7"
               >
                 <div class="flex items-center justify-center">
                   <p class="mr-2 sm:hidden">Index:</p>
@@ -149,11 +149,12 @@
                   <p class="mr-2 sm:hidden">Unit Price :</p>
                   <strong>{{ this.$myUtility.toLKR(orderItem.unitPrice) }}</strong>
                 </div>
-                <div class="flex items-center justify-center">
+                <div class="flex flex-col items-center justify-center">
+                  <p class="mb-2 sm:hidden">Qty:</p>
                   <input
                     type="number"
                     min="1"
-                    class="block p-1 text-xs text-gray-900 border border-gray-300 rounded-lg w-42 sm:w-16 bg-gray-50 sm:text-sm"
+                    class="block p-1 text-xs text-gray-900 border border-gray-300 rounded-lg w-24 sm:w-16 bg-gray-50 sm:text-sm"
                     placeholder="In Rupees"
                     v-model="orderItem.qty"
                     @input="updateTotalPrice(index)"
@@ -170,7 +171,7 @@
                   <input
                     type="number"
                     min="0"
-                    class="block w-64 p-1 text-xs text-gray-900 border border-gray-300 rounded-lg sm:w-24 bg-gray-50 sm:text-sm"
+                    class="block w-24 p-1 text-xs text-gray-900 border border-gray-300 rounded-lg sm:w-24 bg-gray-50 sm:text-sm"
                     placeholder="In Rupeesdds"
                     v-model="orderItem.discount"
                     @input="updateTotalPrice(index)"
