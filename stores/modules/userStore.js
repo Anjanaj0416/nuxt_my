@@ -65,7 +65,7 @@ export const useUserStore = defineStore('userStore', {
       const loadingAlert = showLoading(''); 
       try {
 
-        const response = await axios.post(`https://mcleapi.dtl.lk/api/IAM/Login`, loginDetails);      
+        const response = await axios.post(`${import.meta.env.VITE_API_URL}/IAM/Login`, loginDetails);      
         loadingAlert.close();                            
 
         if (response.data.isSuccess) {
@@ -73,7 +73,7 @@ export const useUserStore = defineStore('userStore', {
           this.token = response.data.authToken;  // Assuming the response contains a 'token'
           this.loggedUser =response.data.loggedUser;
           this.assetsBaseUrl =response.data.loggedUser.resourceURLRoot;
-         // console.log(this.loggedUser )
+          
           
           document.cookie = `token=${this.token}; path=/; max-age=3600; Secure`;
                   

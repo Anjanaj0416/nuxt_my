@@ -146,6 +146,7 @@ export default {
         } else {
           this.$showToast("Login successful!", "success");
           try {
+            console.log(this.userStorev.loggedUser);
             const redirectToCookie = useCookie("redirectTo");
             if (redirectToCookie.value != "") {
               this.$router.push(redirectToCookie.value);
