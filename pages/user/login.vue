@@ -2,22 +2,11 @@
   <section class="flex items-center justify-center min-h-screen px-4 bg-gray-100">
     <div
       class="flex flex-col items-center w-full max-w-5xl overflow-hidden bg-white shadow-2xl rounded-3xl md:flex-row">
-      <div class="w-full p-4 bg-blue md:w-1/2">
-        <!-- <a href="/">
+      <div class="w-full p-4 bg-blue md:w-1/2 ">
+        <a href="/">
           <img src="/assets/img/digitalTechLabs/login.jpg" alt="Logo"   class="w-full mx-auto" />
-        </a> -->
-        <div class="flex justify-start">
-          <a href="/">
-            <img src="/assets/img/LogoDigitalTechLab.png" alt="Logo" class="w-44 mb-2" />
-          </a>
-        </div>
-        <h2 class="mt-4 text-3xl font-bold text-blue-950 transition cursor-pointer ">
-          Digital Tech Labs
-        </h2>
-        <p class="mt-4 text-sm leading-relaxed text-gray-600">
-          Innovative backbone of the organization, where cutting-edge tech is crafted to enhance workflows, elevate user
-          experience, and drive the digital future.
-        </p>
+        </a>
+
       </div>
 
       <!-- Right Panel -->

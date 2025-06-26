@@ -135,7 +135,8 @@
 
           <!-- Editable Fields -->
           <div
-            v-if="userStore.loggedUser.granted?.includes('flo')"
+            v-if="userStore.loggedUser.granted?.includes('flo') || userStore.loggedUser.granted?.includes('su')"
+
             class="grid grid-cols-1 gap-4 sm:grid-cols-1"
           >
             <div class="w-full sm:w-1/2">
@@ -169,7 +170,7 @@
             <LinkBtn
               class="px-5 py-2 text-sm font-medium transition bg-white border-2 rounded-lg shadow text-blue-950 border-blue-950 hover:bg-blue-900 hover:text-white focus:outline-none focus:ring-2 focus:ring-blue-400"
               variant="primary"
-              label="Next"
+              label="Update"
               @click="SetUpdateVendorLead(lead)"
             />
           </div>
@@ -285,17 +286,17 @@ export default {
   },
   watch: {},
   computed: {
-    arrFilter() {
-    const counts = this.leadStore.leadsCount || {};
-    return [
-      { itemName: "All", itemCount: counts || 0 },
-      { itemName: "Pending", itemCount: counts || 0 },
-      { itemName: "Completed", itemCount: counts || 0 },
-      { itemName: "Cancelled", itemCount: counts || 0 },
-      { itemName: "Hold", itemCount: counts || 0 },
-      { itemName: "CSO Assigned", itemCount: counts || 0 },
-    ];
-  },
+  //   arrFilter() {
+  //   const counts = this.leadStore.leadsCount || {};
+  //   return [
+  //     { itemName: "All", itemCount: counts || 0 },
+  //     { itemName: "Pending", itemCount: counts || 0 },
+  //     { itemName: "Completed", itemCount: counts || 0 },
+  //     { itemName: "Cancelled", itemCount: counts || 0 },
+  //     { itemName: "Hold", itemCount: counts || 0 },
+  //     { itemName: "CSO Assigned", itemCount: counts || 0 },
+  //   ];
+  // },
   },
   methods: {
 
@@ -307,7 +308,7 @@ export default {
         this.keyword = "";
       }
       // console.log("keyword, searchBy", searchVal, this.searchBy);
-
+      await this.leadStore.GetInitLeads(this.showLoading);
       await this.leadStore.loadListLeads(
         { keyword: this.keyword, searchBy: this.searchBy },
         this.showLoading
