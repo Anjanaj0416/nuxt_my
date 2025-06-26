@@ -314,7 +314,7 @@ export default {
         this.keyword = ""
       }
       console.log("keyword, searchBy", searchVal, this.searchBy);
-
+       await this.vendorStore.loadInitVendor(this.showLoading);
       await this.vendorStore.loadListVendors(
         { keyword: this.keyword, searchBy: this.searchBy },
         this.showLoading
