@@ -188,7 +188,7 @@
             v-model="agreeTerms"
             type="checkbox"
             required
-            class="h-4 w-4 text-primary-600 focus:ring-primary-500 border-gray-300 dark:border-gray-600 rounded dark:bg-gray-700"
+            class="h-4 w-4 text-primary-500 focus:ring-primary-500 border-gray-300 dark:border-gray-600 rounded dark:bg-gray-700"
           />
           <label for="agree-terms" class="ml-2 block text-sm text-gray-900 dark:text-gray-300">
             I agree to the
