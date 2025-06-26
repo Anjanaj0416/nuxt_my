@@ -220,7 +220,7 @@
             <div class="flex space-x-2">
             <button
               @click="viewSchoolDetails(school)"
-              class="flex-1 bg-primary-500 hover:bg-secondary-1000 text-white py-2 px-4 rounded-lg font-medium transition-colors text-center text-sm"
+              class="flex-1 bg-primary-500 hover:bg-secondary-970 text-white py-2 px-4 rounded-lg font-medium transition-colors text-center text-sm"
             >
               View Details
             </button>
