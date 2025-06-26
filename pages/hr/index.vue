@@ -19,12 +19,15 @@
             <hr_menu v-show="ismenuopen" class="absolute top-0 left-0 z-50 mt-12 ml-2" @click="clickmenuitem" />
           </div> -->
 
-          <div class="flex items-center justify-center md:ml-8" v-show="userStore.loggedUser.granted.includes('hradmin') || userStore.loggedUser.granted.includes('su')">
+          <div class="flex items-center justify-center md:ml-8"
+            v-show="userStore.loggedUser.granted.includes('hradmin') || userStore.loggedUser.granted.includes('su')">
 
-            <search_dashboard  placeholder="Search Employee"
-              :arrsections="arrsections_DBSerach" @getsearch="search_begin_DBSerach" />
-              <div class="bg-white p-1 -ml-2 rounded">
-                <Button class="w-24 -py-4 ml-2 border-white border-0 bg-blue-800 text-white font-bold"   label="New" variant="primary" @click="GoToAddNew" /></div>
+            <search_dashboard placeholder="Search Employee" :arrsections="arrsections_DBSerach"
+              @getsearch="search_begin_DBSerach" />
+            <div class="bg-white p-1 -ml-2 rounded">
+              <Button class="w-24 -py-4 ml-2 border-white border-0 bg-blue-800 text-white font-bold" label="New"
+                variant="primary" @click="GoToAddNew" />
+            </div>
           </div>
         </div>
       </div>
@@ -32,7 +35,7 @@
       <div
         class="flex-col items-center hidden -my-4 lg:pt-4 lg:flex-row gap-y-4 lg:gap-y-0 gap-x-4 lg:gap-x-8 md:pt-4 md:flex-row lg:flex">
         <!-- Hide on mobile -->
-        <div class="mr-8" v-show="userStore.loggedUser.userGroup === 'Supervisor' ">
+        <div class="mr-8" v-show="userStore.loggedUser.userGroup === 'Supervisor'">
           <!-- HRAdmin -->
           <btnwgstatus name="workgroup" :wgjobcount="hrStore.dashboard.workgroupjobcount" @click="getviewwg" />
         </div>
@@ -40,7 +43,7 @@
       </div>
     </div>
 
-    
+
 
 
     <!-- End  Top Header -->
@@ -89,17 +92,16 @@
             </div>
           </div> -->
           <div class="flex flex-col items-center md:pt-4 md:flex-row sm:gap-y-0 lg:hidden sm:justify-start">
-            <div
-              v-show="userStore.loggedUser.userGroup === 'Supervisor'">
+            <div v-show="userStore.loggedUser.userGroup === 'Supervisor'">
               <btnwgstatus name="workgroup" :wgjobcount="hrStore.dashboard.workgroupjobcount" @click="getviewwg" />
             </div>
           </div>
         </div>
 
-     
+
         <!-- Employees List  -->
         <div class="cssemplist" v-for="(emp, index) in hrStore.alempdetails" :key="emp">
-         
+
           <div class="mt-1 text-sm rounded-md cursor-pointer hover:text-white text-white-300 hover:bg-gray-500"
             :class="emp.isresigned ? 'bg-red-500' : 'bg-gray-400'">
 
@@ -111,15 +113,14 @@
 
 
                     <img class="w-16 h-16 transform rounded hover:scale-125"
-                      :src="userStore.loggedUser.resourceURLRoot + emp.image"
-                      alt="" />
+                      :src="userStore.loggedUser.resourceURLRoot + emp.image" alt="" />
                     {{ emp.empName }}
                   </div>
                 </div>
 
                 <div class="cssdatarowitem lg:border-0">
                   <span class="lg:hidden">Emp No</span>
-                 
+
                   {{ emp.empNo }}
                 </div>
                 <div class="cssdatarowitem lg:border-0">
@@ -169,13 +170,13 @@
                   Attendance
                 </div>
 
-                <!-- Apply OT -->         
-                <div              
-                v-show=" !emp.isOTAllow && (userStore.loggedUser.userName === emp.empNo || userStore.loggedUser.userGroup === 'Supervisor' || userStore.loggedUser.userGroup?.toLowerCase() === 'admin')"  
-                  title="OT Apply"     
+                <!-- Apply OT -->
+                <div
+                  v-show="!emp.isOTAllow && (userStore.loggedUser.userName === emp.empNo || userStore.loggedUser.userGroup === 'Supervisor' || userStore.loggedUser.userGroup?.toLowerCase() === 'admin')"
+                  title="OT Apply"
                   @click="init_otapply(index, emp.empNo); cur_sec = 'otapply'; selectedrow = emp.id; isSecClose = false;"
-                  class="p-2 border-2 rounded-lg cursor-pointer hover:text-blue-200">          
-                 
+                  class="p-2 border-2 rounded-lg cursor-pointer hover:text-blue-200">
+
                   Apply OT
                 </div>
 
@@ -222,7 +223,7 @@
                 selectedrow == emp.id &&
                 !isSecClose
                 ">
-                <empmoredetails  :empid="emp.id" @exit="exit" @setDeleteEmployee="setDeleteEmployee"
+                <empmoredetails :empid="emp.id" @exit="exit" @setDeleteEmployee="setDeleteEmployee"
                   @setEmployee="setEmployee" />
               </div>
 
@@ -362,6 +363,7 @@ import AddEdit from "~/components/hr/addEditEmp.vue"
 definePageMeta({
   layout: 'default',
   middleware: 'auth',
+  ssr: false,
 });
 export default {
   layout: 'default',
@@ -416,11 +418,14 @@ export default {
   },
 
   async created() {
-    this.hrStore = useHrStore();
-    this.userStore = useUserStore();
-     this.showLoading = this.$showLoading;
-    await this.hrStore.loadInitEmployee(this.showLoading);
-
+    try {
+      this.hrStore = useHrStore();
+      this.userStore = useUserStore();
+      this.showLoading = this.$showLoading;
+      await this.hrStore.loadInitEmployee(this.showLoading);
+    } catch (error) {
+      console.error("error:", error)
+    }
 
     // const config = useRuntimeConfig() ;  
     //this.imageroot = config.public.imageBaseUrl;
@@ -429,7 +434,7 @@ export default {
     // await this.hrStore.loadInitVendor(this.showLoading)
     // this.imageroot = this.vendorStore.initVendor.baseUrl;
 
- 
+
   },
 
   async mounted() {
@@ -448,7 +453,7 @@ export default {
     }
 
     this.search_begin_DBSerach(req);
-    this.assetsBaseUrl = localStorage.getItem("assetsBaseUrl");   
+    this.assetsBaseUrl = localStorage.getItem("assetsBaseUrl");
     await this.hrStore.getWorkLoadCount(this.showLoading);
   },
 
@@ -462,10 +467,10 @@ export default {
     },
 
     GoToAddNew() {
-      
-     this.hrStore.clearEmployee();
-     this.isAddEdit = true;
-},
+
+      this.hrStore.clearEmployee();
+      this.isAddEdit = true;
+    },
 
     exitpopup() {
       this.cur_sec = ''
@@ -488,7 +493,7 @@ export default {
 
     async init_employee(id) {
       const hrStore = useHrStore();
-         
+
       this.cur_sec = 'viewemployee'
       this.isSecClose = true
       this.selectedrow = id
@@ -506,10 +511,10 @@ export default {
     },
 
     async setEmployee() {
-     
+
       this.isAddEdit = true;
-     
-    
+
+
     },
 
     async empSaveCompletion(empNo) {
@@ -665,7 +670,7 @@ export default {
 
     async search_begin_DBSerach(req) {
 
-      
+
 
       await this.hrStore.searchEmployees({
         keyword: req.searchval,

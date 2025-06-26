@@ -26,23 +26,14 @@
 
     <div
       class="relative flex flex-col items-center justify-center p-6 transition border-2 border-dashed rounded-lg cursor-pointer hover:bg-gray-100"
-      @click="triggerFileInput"
-    >
-      <input
-        ref="fileInput"
-        type="file"
-        accept="image/*"
-        class="hidden"
-        @change="handleFileChange"
-      />
+      @click="triggerFileInput">
+      <input ref="fileInput" type="file" accept="image/*" class="hidden" @change="handleFileChange" />
 
       <!-- New image preview -->
       <div v-if="imagePreview" class="relative w-full">
         <img :src="imagePreview" class="object-cover w-full h-24 rounded-lg" />
-        <button
-          class="absolute px-2 py-1 text-xs text-white bg-red-500 rounded top-2 right-2 hover:bg-red-600"
-          @click.stop="removeImage"
-        >
+        <button class="absolute px-2 py-1 text-xs text-white bg-red-500 rounded top-2 right-2 hover:bg-red-600"
+          @click.stop="removeImage">
           Delete
         </button>
       </div>
@@ -50,32 +41,17 @@
       <!-- Existing image if no preview -->
       <div v-else-if="existingImage" class="relative w-full">
         <img :src="existingImage" class="object-cover w-full h-24 rounded-lg" />
-        <button
-          class="absolute px-2 py-1 text-xs text-white bg-red-500 rounded top-2 right-2 hover:bg-red-600"
-          @click.stop="deleteExistingImage"
-        >
+        <button class="absolute px-2 py-1 text-xs text-white bg-red-500 rounded top-2 right-2 hover:bg-red-600"
+          @click.stop="deleteExistingImage">
           Delete
         </button>
       </div>
 
       <!-- Placeholder UI -->
-      <div
-        v-else
-        class="flex flex-col items-center justify-center text-gray-400"
-      >
-        <svg
-          xmlns="http://www.w3.org/2000/svg"
-          class="w-12 h-12 mb-3"
-          fill="none"
-          viewBox="0 0 24 24"
-          stroke="currentColor"
-        >
-          <path
-            stroke-linecap="round"
-            stroke-linejoin="round"
-            stroke-width="2"
-            d="M3 16l3-3 4 4 8-8 5 5"
-          />
+      <div v-else class="flex flex-col items-center justify-center text-gray-400">
+        <svg xmlns="http://www.w3.org/2000/svg" class="w-12 h-12 mb-3" fill="none" viewBox="0 0 24 24"
+          stroke="currentColor">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 16l3-3 4 4 8-8 5 5" />
         </svg>
         <p class="text-sm">Click to upload an image</p>
       </div>
@@ -93,7 +69,7 @@ import { ref, defineProps, defineEmits, watch } from "vue";
 const emit = defineEmits(["GetSelectedImage", "deleteExistingImage"]);
 
 const props = defineProps({
-  modelValue: File,
+  // modelValue: File,
   existingImagePath: String,
   validationError: String,
   label: {
