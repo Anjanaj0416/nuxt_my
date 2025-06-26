@@ -62,9 +62,122 @@
         </div>
       </div>
 
+      <!-- Rearranged UI: Sidebar first, then main content -->
       <div class="grid grid-cols-1 lg:grid-cols-3 gap-8">
+        <!-- Sidebar -->
+        <div class="space-y-6 order-1 lg:order-none">
+          <!-- Booking Card (without price) -->
+          <div class="bg-white dark:bg-gray-800 rounded-lg shadow-sm p-6 sticky top-8">
+            <div class="space-y-4 mb-6">
+              <div>
+                <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
+                  Lesson Type
+                </label>
+                <select
+                  v-model="selectedLessonType"
+                  class="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-primary-500 focus:border-transparent dark:bg-gray-700 dark:text-white"
+                >
+                  <option value="manual">Manual Transmission</option>
+                  <option value="automatic">Automatic Transmission</option>
+                  <option value="intensive">Intensive Course</option>
+                </select>
+              </div>
+              
+              <div>
+                <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
+                  Preferred Date
+                </label>
+                <input
+                  v-model="selectedDate"
+                  type="date"
+                  class="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-primary-500 focus:border-transparent dark:bg-gray-700 dark:text-white"
+                />
+              </div>
+              
+              <div>
+                <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
+                  Preferred Time
+                </label>
+                <select
+                  v-model="selectedTime"
+                  class="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-primary-500 focus:border-transparent dark:bg-gray-700 dark:text-white"
+                >
+                  <option value="09:00">9:00 AM</option>
+                  <option value="11:00">11:00 AM</option>
+                  <option value="14:00">2:00 PM</option>
+                  <option value="16:00">4:00 PM</option>
+                </select>
+              </div>
+            </div>
+            
+            <button
+              @click="bookLesson"
+              class="w-full bg-primary-500 hover:bg-secondary-970 text-white py-3 px-4 rounded-lg font-medium transition-colors mb-4"
+            >
+              Book Lesson
+            </button>
+            
+            <button class="w-full border border-gray-300 dark:border-gray-600 text-gray-700 dark:text-gray-300 hover:bg-gray-50 dark:hover:bg-gray-700 py-2 px-4 rounded-lg font-medium transition-colors">
+              Contact School
+            </button>
+          </div>
+
+          <!-- Contact Info -->
+          <div class="bg-white dark:bg-gray-800 rounded-lg shadow-sm p-6">
+            <h3 class="text-lg font-semibold text-gray-900 dark:text-white mb-4">Contact Information</h3>
+            
+            <div class="space-y-3">
+              <div class="flex items-center space-x-3">
+                <svg class="w-5 h-5 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z" />
+                </svg>
+                <div>
+                  <div class="font-medium text-gray-900 dark:text-white">{{ school.instructor }}</div>
+                  <div class="text-sm text-gray-500 dark:text-gray-400">Lead Instructor</div>
+                </div>
+              </div>
+              
+              <div class="flex items-center space-x-3">
+                <svg class="w-5 h-5 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 5a2 2 0 012-2h3.28a1 1 0 01.948.684l1.498 4.493a1 1 0 01-.502 1.21l-2.257 1.13a11.042 11.042 0 005.516 5.516l1.13-2.257a1 1 0 011.21-.502l4.493 1.498a1 1 0 01.684.949V19a2 2 0 01-2 2h-1C9.716 21 3 14.284 3 6V5z" />
+                </svg>
+                <div class="text-gray-700 dark:text-gray-300">{{ school.phone }}</div>
+              </div>
+              
+              <div class="flex items-center space-x-3">
+                <svg class="w-5 h-5 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" />
+                </svg>
+                <div class="text-gray-700 dark:text-gray-300">{{ school.email }}</div>
+              </div>
+              
+              <div class="flex items-start space-x-3">
+                <svg class="w-5 h-5 text-gray-400 mt-0.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z" />
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 11a3 3 0 11-6 0 3 3 0 016 0z" />
+                </svg>
+                <div class="text-gray-700 dark:text-gray-300">{{ school.address }}</div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Map Placeholder -->
+          <div class="bg-white dark:bg-gray-800 rounded-lg shadow-sm p-6">
+            <h3 class="text-lg font-semibold text-gray-900 dark:text-white mb-4">Location</h3>
+            <div class="h-48 bg-gray-200 dark:bg-gray-700 rounded-lg flex items-center justify-center">
+              <div class="text-center">
+                <svg class="w-12 h-12 text-gray-400 mx-auto mb-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z" />
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 11a3 3 0 11-6 0 3 3 0 016 0z" />
+                </svg>
+                <p class="text-gray-500 dark:text-gray-400 text-sm">Interactive map would appear here</p>
+              </div>
+            </div>
+          </div>
+        </div>
+
         <!-- Main Content -->
-        <div class="lg:col-span-2 space-y-8">
+        <div class="lg:col-span-2 space-y-8 order-2 lg:order-none">
           <!-- About -->
           <div class="bg-white dark:bg-gray-800 rounded-lg shadow-sm p-6">
             <h2 class="text-2xl font-semibold text-gray-900 dark:text-white mb-4">About</h2>
@@ -143,125 +256,6 @@
             </div>
           </div>
         </div>
-
-        <!-- Sidebar -->
-        <div class="space-y-6">
-          <!-- Booking Card -->
-          <div class="bg-white dark:bg-gray-800 rounded-lg shadow-sm p-6 sticky top-8">
-            <div class="text-center mb-6">
-              <div class="text-3xl font-bold text-primary-600 dark:text-primary-400 mb-1">
-                ${{ school.price }}
-              </div>
-              <div class="text-gray-500 dark:text-gray-400">per hour</div>
-            </div>
-            
-            <div class="space-y-4 mb-6">
-              <div>
-                <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
-                  Lesson Type
-                </label>
-                <select
-                  v-model="selectedLessonType"
-                  class="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-primary-500 focus:border-transparent dark:bg-gray-700 dark:text-white"
-                >
-                  <option value="manual">Manual Transmission</option>
-                  <option value="automatic">Automatic Transmission</option>
-                  <option value="intensive">Intensive Course</option>
-                </select>
-              </div>
-              
-              <div>
-                <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
-                  Preferred Date
-                </label>
-                <input
-                  v-model="selectedDate"
-                  type="date"
-                  class="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-primary-500 focus:border-transparent dark:bg-gray-700 dark:text-white"
-                />
-              </div>
-              
-              <div>
-                <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
-                  Preferred Time
-                </label>
-                <select
-                  v-model="selectedTime"
-                  class="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-primary-500 focus:border-transparent dark:bg-gray-700 dark:text-white"
-                >
-                  <option value="09:00">9:00 AM</option>
-                  <option value="11:00">11:00 AM</option>
-                  <option value="14:00">2:00 PM</option>
-                  <option value="16:00">4:00 PM</option>
-                </select>
-              </div>
-            </div>
-            
-            <button
-              @click="bookLesson"
-              class="w-full bg-primary-600 hover:bg-primary-700 text-white py-3 px-4 rounded-lg font-medium transition-colors mb-4"
-            >
-              Book Lesson
-            </button>
-            
-            <button class="w-full border border-gray-300 dark:border-gray-600 text-gray-700 dark:text-gray-300 hover:bg-gray-50 dark:hover:bg-gray-700 py-2 px-4 rounded-lg font-medium transition-colors">
-              Contact School
-            </button>
-          </div>
-
-          <!-- Contact Info -->
-          <div class="bg-white dark:bg-gray-800 rounded-lg shadow-sm p-6">
-            <h3 class="text-lg font-semibold text-gray-900 dark:text-white mb-4">Contact Information</h3>
-            
-            <div class="space-y-3">
-              <div class="flex items-center space-x-3">
-                <svg class="w-5 h-5 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z" />
-                </svg>
-                <div>
-                  <div class="font-medium text-gray-900 dark:text-white">{{ school.instructor }}</div>
-                  <div class="text-sm text-gray-500 dark:text-gray-400">Lead Instructor</div>
-                </div>
-              </div>
-              
-              <div class="flex items-center space-x-3">
-                <svg class="w-5 h-5 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 5a2 2 0 012-2h3.28a1 1 0 01.948.684l1.498 4.493a1 1 0 01-.502 1.21l-2.257 1.13a11.042 11.042 0 005.516 5.516l1.13-2.257a1 1 0 011.21-.502l4.493 1.498a1 1 0 01.684.949V19a2 2 0 01-2 2h-1C9.716 21 3 14.284 3 6V5z" />
-                </svg>
-                <div class="text-gray-700 dark:text-gray-300">{{ school.phone }}</div>
-              </div>
-              
-              <div class="flex items-center space-x-3">
-                <svg class="w-5 h-5 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" />
-                </svg>
-                <div class="text-gray-700 dark:text-gray-300">{{ school.email }}</div>
-              </div>
-              
-              <div class="flex items-start space-x-3">
-                <svg class="w-5 h-5 text-gray-400 mt-0.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z" />
-                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 11a3 3 0 11-6 0 3 3 0 016 0z" />
-                </svg>
-                <div class="text-gray-700 dark:text-gray-300">{{ school.address }}</div>
-              </div>
-            </div>
-          </div>
-
-          <!-- Map Placeholder -->
-          <div class="bg-white dark:bg-gray-800 rounded-lg shadow-sm p-6">
-            <h3 class="text-lg font-semibold text-gray-900 dark:text-white mb-4">Location</h3>
-            <div class="h-48 bg-gray-200 dark:bg-gray-700 rounded-lg flex items-center justify-center">
-              <div class="text-center">
-                <svg class="w-12 h-12 text-gray-400 mx-auto mb-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z" />
-                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 11a3 3 0 11-6 0 3 3 0 016 0z" />
-                </svg>
-                <p class="text-gray-500 dark:text-gray-400 text-sm">Interactive map would appear here</p>
-              </div>
-            </div>
-          </div>
-        </div>
       </div>
     </div>
   </div>
@@ -270,7 +264,7 @@
     <div class="text-center">
       <h1 class="text-2xl font-bold text-gray-900 dark:text-white mb-4">School Not Found</h1>
       <p class="text-gray-600 dark:text-gray-300 mb-8">The driving school you're looking for doesn't exist.</p>
-      <NuxtLink to="/schools" class="bg-primary-600 hover:bg-primary-700 text-white px-6 py-3 rounded-lg font-medium transition-colors">
+      <NuxtLink to="/schools" class="bg-primary-500 hover:bg-secondary-970 text-white px-6 py-3 rounded-lg font-medium transition-colors">
         Browse All Schools
       </NuxtLink>
     </div>

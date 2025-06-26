@@ -5,11 +5,14 @@ export default defineNuxtConfig({
     middleware: ['auth']
   },
 
-  modules: ['@pinia/nuxt'],
+  modules: [
+    '@pinia/nuxt',
+  
+  ],
   pinia: {
     autoImports: ['defineStore']
   },
-  css: ['@/assets/css/tailwind.css', '@/assets/css/main.css' ,  'flowbite/dist/flowbite.css'],
+  css: ['@/assets/css/tailwind.css', '@/assets/css/main.css'],
   postcss: {
     plugins: {
       tailwindcss: {},
@@ -18,7 +21,6 @@ export default defineNuxtConfig({
   },
   
   plugins: [
-    {src: '~/plugins/flowbite.client.js'},
     { src: '@/plugins/message.js' },
     { src: '@/plugins/myfilter.js' },
     { src: '@/plugins/axios.js' },

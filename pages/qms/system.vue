@@ -70,9 +70,9 @@
           @click="GetUploadServiceLinks"
         />
       </div>
-      <div>
+      <!-- <div> -->
         <!-- Hybrid Links -->
-        <p class="underline">Hybrid Links</p>
+        <!-- <p class="underline">Hybrid Links</p>
         <p>
           Click here to view existing HybridLinks details -
           <a
@@ -98,7 +98,7 @@
           variant="primary"
           @click="GetUploadHybridLinks"
         />
-      </div>
+      </div> -->
       <div>
         <!-- Bundle Links -->
         <p class="underline">Bundle Links</p>

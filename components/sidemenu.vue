@@ -77,7 +77,8 @@
                   class="block px-3 py-2 text-gray-300 rounded hover:text-white hover:bg-blue-800"
                   @click.native="$emit('close-sidebar')">
 
-                  <span v-if="submenu.name === 'Upload Document'" @click="GetOpenRegistryFtp(submenu.to)">{{ submenu.name
+                  <span v-if="submenu.name === 'Upload Document'" @click="GetOpenRegistryFtp(submenu.to)">{{
+                    submenu.name
                     }} </span>
                   <span v-else>{{ submenu.name }}</span>
 
@@ -171,7 +172,10 @@ const links = [
         name: "Employee",
         to: "/hr",
       },
-
+      {
+        name: "Manual Attendance",
+        to: "/hr/manualAttendance",
+      },
       {
         name: "Reports",
         to: "#",

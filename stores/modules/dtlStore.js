@@ -366,6 +366,31 @@ export const useStandpageStore = defineStore("standpage", {
    
   }),
 
-  
+  persist: true,
+
+  actions: {
+    async GetContactUs(formData, showLoading) {
+      console.log(formData);
+      
+      return
+      const loadingAlert = showLoading(''); 
+
+      try {
+        const response = await axios.post(
+          `${import.meta.env.VITE_API_URL}/dtl/SetContactUs`, req);      
+          
+        loadingAlert.close();                            
+
+        if (response.data.isSuccess) {
+          this.showToast(response.data.message);
+        } else {        
+          this.showToast(`Change Password Error: ${response.data.message}`, 'error');
+        }
+      } catch (error) {     
+        console.error("error:", error);
+        this.showToast('Network Error! Password change failed. Please try again.', 'error');     
+      }
+    },
+  }
 
 });

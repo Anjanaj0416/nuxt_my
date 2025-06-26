@@ -1,73 +1,23 @@
 <!-- https://flowbite.com/docs/components/avatar/ -->
 
+
+
+
 <template>
-  <section class="justify-center">
-    <div class="flex flex-col-reverse items-start justify-between gap-4 mb-4 md:flex-row md:items-center">
-      <div class="text-2xl uppercase">Work Flow</div>
-      <button
-        class="flex items-center gap-2 px-4 py-2 text-sm font-medium text-gray-500 transition-all duration-300 bg-white border-1 rounded-full shadow hover:bg-blue-700 hover:text-white hover:shadow-md"
-        @click="$emit('close')"
-      >
-        <svg xmlns="http://www.w3.org/2000/svg" class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7" />
-        </svg>
-        Back to Proposals
-      </button>
-    </div>
-    <div class="overflow-x-auto rounded-xl border border-gray-200 shadow">
-      <table class="min-w-full divide-y divide-gray-200 text-sm">
-        <thead class="bg-blue-950 text-white">
-          <tr>
-            <th class="px-4 py-2 text-left">Discription</th>
-            
-            <th class="px-4 py-2 text-left">Assigned To</th>
-            <th class="px-4 py-2 text-left">Assigned Date</th>
-            <th class="px-4 py-2 text-left">Completed Date</th>
-            <th class="px-4 py-2 text-left">Status</th>
-            <th class="px-4 py-2 text-left">Days Taken</th>
-            <th class="px-4 py-2 text-left">Comment</th>
-          </tr>
-        </thead>
-        <tbody class="divide-y divide-gray-100 bg-white">
-          <tr class="hover:bg-gray-50">
-            <td class="px-4 py-2 font-medium">Lorem ipsum dolor sit amet consectetur adipisicing elit.</td>
-            <td class="px-4 py-2 font-medium">Nimal <span class="text-xs text-gray-500">[0772784123]</span></td>
-            <td class="px-4 py-2">2025-06-15</td>
-            <td class="px-4 py-2 text-gray-500">—</td>
-            <td class="px-4 py-2">
-              <span class="inline-block rounded-full bg-yellow-100 text-yellow-800 px-2 py-0.5 text-xs">Pending</span>
-            </td>
-            <td class="px-4 py-2 text-center">130</td>
-            <td class="px-4 py-2 text-gray-600 italic">—</td>
-          </tr>
-          <tr class="hover:bg-gray-50">
-            <td class="px-4 py-2 font-medium">Lorem ipsum dolor sit amet consectetur adipisicing elit.</td>
-            <td class="px-4 py-2 font-medium">Kamal <span class="text-xs text-gray-500">[0718738129]</span></td>
-            <td class="px-4 py-2">2025-01-16</td>
-            <td class="px-4 py-2">2025-02-05</td>
-            <td class="px-4 py-2">
-              <span class="inline-block rounded-full bg-green-100 text-green-800 px-2 py-0.5 text-xs">Completed</span>
-            </td>
-            <td class="px-4 py-2 text-center">19</td>
-            <td class="px-4 py-2 text-gray-600 italic">—</td>
-          </tr>
-          <tr class="hover:bg-gray-50">
-            <td class="px-4 py-2 font-medium">Lorem ipsum dolor sit amet consectetur adipisicing elit.</td>
-            <td class="px-4 py-2 font-medium">Dumindu <span class="text-xs text-gray-500">[0778626741]</span></td>
-            <td class="px-4 py-2">2025-06-16</td>
-            <td class="px-4 py-2">2025-01-16</td>
-            <td class="px-4 py-2">
-              <span class="inline-block rounded-full bg-green-100 text-green-800 px-2 py-0.5 text-xs">Completed</span>
-            </td>
-            <td class="px-4 py-2 text-center">0</td>
-            <td class="px-4 py-2 text-gray-600">Recall the WorkOrder By FLO</td>
-          </tr>
-          <!-- Repeat for others -->
-        </tbody>
-      </table>
-    </div>
+  <section class="flex flex-col items-center justify-center min-h-screen text-center p-6">
+    <img
+      src="../../assets/img/digitalTechLabs/error/404.png"
+      alt="404 illustration"
+      class="w-24 mb-8"
+    />
+    <h1 class="text-4xl font-bold text-gray-900 dark:text-white mb-4">500 - Internal Server Error</h1>
+    <p class="text-lg text-gray-500 dark:text-gray-400 mb-6">
+      Oops! Something went wrong on our end. Please try again later or contact support if the issue persists.
+    </p>
+    <NuxtLink to="/" class="text-white bg-blue-900 hover:bg-blue-700 font-medium rounded-lg text-sm px-5 py-2.5">
+      Go back home
+    </NuxtLink>
   </section>
-    <!-- <input type="text" oninput="this.value = this.value.replace(/[^0-9.]/g, '').replace(/(\..*?)\..*/g, '$1');" > -->
 </template>
   
   <script>

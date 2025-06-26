@@ -13,7 +13,7 @@
 
       <!-- Filters -->
       <div class="bg-white dark:bg-gray-800 rounded-lg shadow-sm p-6 mb-8">
-        <div class="grid grid-cols-1 md:grid-cols-3 lg:grid-cols-4 gap-4">
+        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
           <!-- Search -->
           <div class="lg:col-span-2">
             <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
@@ -41,21 +41,6 @@
               <option value="Westside">Westside</option>
               <option value="City Center">City Center</option>
             </select>
-          </div>
-
-          <!-- Price Range -->
-          <div>
-            <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
-              Max Price: ${{ priceRange[1] }}/hr
-            </label>
-            <input
-              v-model="priceRange[1]"
-              type="range"
-              min="20"
-              max="100"
-              step="5"
-              class="w-full h-2 bg-gray-200 rounded-lg appearance-none cursor-pointer dark:bg-gray-700"
-            />
           </div>
         </div>
       </div>
@@ -87,10 +72,6 @@
           <div class="p-6">
             <div class="flex items-start justify-between mb-3">
               <h3 class="text-xl font-semibold text-gray-900 dark:text-white">{{ school.name }}</h3>
-              <div class="text-right">
-                <div class="text-2xl font-bold text-primary-600 dark:text-primary-400">${{ school.price }}</div>
-                <div class="text-sm text-gray-500 dark:text-gray-400">per hour</div>
-              </div>
             </div>
             
             <p class="text-gray-600 dark:text-gray-300 mb-4 text-sm">{{ school.description }}</p>
@@ -116,7 +97,7 @@
               <span
                 v-for="service in school.services.slice(0, 3)"
                 :key="service"
-                class="px-2 py-1 bg-primary-100 dark:bg-primary-900 text-primary-800 dark:text-primary-200 text-xs rounded-full"
+                class="px-2 py-1 bg-primary-100 dark:bg-primary-920 text-primary-920 dark:text-primary-200 text-xs rounded-full"
               >
                 {{ service }}
               </span>
@@ -125,7 +106,7 @@
             <div class="flex space-x-2">
               <NuxtLink
                 :to="`/learners/schools/${school.id}`"
-                class="flex-1 bg-primary-600 hover:bg-primary-700 text-white py-2 px-4 rounded-lg font-medium transition-colors text-center text-sm"
+                class="flex-1 bg-primary-500 hover:bg-secondary-970 text-white py-2 px-4 rounded-lg font-medium transition-colors text-center text-sm"
               >
                 View Details
               </NuxtLink>
@@ -159,14 +140,14 @@ definePageMeta({
 
 import { useSchoolsStore } from '~/stores/modules/learners/school'  // or your correct path
 const schoolsStore = useSchoolsStore()
-const { searchQuery, selectedLocation, priceRange, filteredSchools } = storeToRefs(schoolsStore)
+const { searchQuery, selectedLocation, filteredSchools } = storeToRefs(schoolsStore)
 import { storeToRefs } from 'pinia'
 
 // SEO
 useHead({
   title: 'Find Driving Schools - DriveLearn',
   meta: [
-    { name: 'description', content: 'Browse and compare driving schools in your area. Filter by location, price, and services to find the perfect match.' }
+    { name: 'description', content: 'Browse and compare driving schools in your area. Filter by location and services to find the perfect match.' }
   ]
 })
 </script>

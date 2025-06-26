@@ -73,7 +73,7 @@ export const useUserStore = defineStore('userStore', {
           this.token = response.data.authToken;  // Assuming the response contains a 'token'
           this.loggedUser =response.data.loggedUser;
           this.assetsBaseUrl =response.data.loggedUser.resourceURLRoot;
-         // console.log(this.loggedUser )
+          
           
           document.cookie = `token=${this.token}; path=/; max-age=3600; Secure`;
                   
