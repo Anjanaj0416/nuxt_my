@@ -29,7 +29,7 @@
                 </div>
                 <button
                   @click="searchSchools"
-                  class="px-6 py-3 bg-primary-600 hover:bg-primary-700 text-white rounded-lg font-medium transition-colors flex items-center justify-center space-x-2"
+                  class="px-6 py-3 bg-primary-500 hover:bg-secondary-970 text-white rounded-lg font-medium transition-colors flex items-center justify-center space-x-2"
                 >
                   <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
@@ -217,28 +217,34 @@
                 </span>
               </div>
 
-              <div class="flex space-x-2">
-                <button
-                  @click="viewSchoolDetails(school)"
-                  class="flex-1 bg-primary-600 hover:bg-primary-700 text-white py-2 px-4 rounded-lg font-medium transition-colors text-center text-sm"
-                >
-                  View Details
-                </button>
-              </div>
+            <div class="flex space-x-2">
+            <button
+              @click="viewSchoolDetails(school)"
+              class="flex-1 bg-primary-500 hover:bg-secondary-1000 text-white py-2 px-4 rounded-lg font-medium transition-colors text-center text-sm"
+            >
+              View Details
+            </button>
+            <NuxtLink
+              :to="`/learners/register?type=student&school=${school.id}`"
+              class="flex-1 bg-secondary-600 hover:bg-secondary-500 text-white py-2 px-4 rounded-lg font-medium transition-colors text-center text-sm"
+            >
+              Register
+            </NuxtLink>
             </div>
-          </div>
-          </div>
-  
-          <!-- No Results -->
-          <div v-if="filteredSchools.length === 0" class="text-center py-12">
-            <svg class="w-16 h-16 text-gray-400 mx-auto mb-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
-            </svg>
-            <h3 class="text-lg font-medium text-gray-900 dark:text-white mb-2">No schools found</h3>
-            <p class="text-gray-600 dark:text-gray-300">Try adjusting your search criteria to find more schools.</p>
-          </div>
         </div>
-      </section>
+        </div>
+      </div>
+
+      <!-- No Results -->
+    <div v-else class="text-center py-12">
+      <svg class="w-16 h-16 text-gray-400 mx-auto mb-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
+      </svg>
+      <h3 class="text-lg font-medium text-gray-900 dark:text-white mb-2">No schools found</h3>
+      <p class="text-gray-600 dark:text-gray-300">Try adjusting your search criteria to find more schools.</p>
+    </div>
+  </div>
+    </section>
 
     <!-- Features Section -->
     <section class="py-16 bg-white dark:bg-gray-900">

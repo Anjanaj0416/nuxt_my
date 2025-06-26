@@ -97,7 +97,7 @@
               <span
                 v-for="service in school.services.slice(0, 3)"
                 :key="service"
-                class="px-2 py-1 bg-primary-100 dark:bg-primary-900 text-primary-800 dark:text-primary-200 text-xs rounded-full"
+                class="px-2 py-1 bg-primary-100 dark:bg-primary-920 text-primary-920 dark:text-primary-200 text-xs rounded-full"
               >
                 {{ service }}
               </span>
@@ -106,7 +106,7 @@
             <div class="flex space-x-2">
               <NuxtLink
                 :to="`/learners/schools/${school.id}`"
-                class="flex-1 bg-primary-600 hover:bg-primary-700 text-white py-2 px-4 rounded-lg font-medium transition-colors text-center text-sm"
+                class="flex-1 bg-primary-500 hover:bg-secondary-970 text-white py-2 px-4 rounded-lg font-medium transition-colors text-center text-sm"
               >
                 View Details
               </NuxtLink>

@@ -112,7 +112,7 @@
             
             <button
               @click="bookLesson"
-              class="w-full bg-primary-600 hover:bg-primary-700 text-white py-3 px-4 rounded-lg font-medium transition-colors mb-4"
+              class="w-full bg-primary-500 hover:bg-secondary-970 text-white py-3 px-4 rounded-lg font-medium transition-colors mb-4"
             >
               Book Lesson
             </button>
@@ -264,7 +264,7 @@
     <div class="text-center">
       <h1 class="text-2xl font-bold text-gray-900 dark:text-white mb-4">School Not Found</h1>
       <p class="text-gray-600 dark:text-gray-300 mb-8">The driving school you're looking for doesn't exist.</p>
-      <NuxtLink to="/schools" class="bg-primary-600 hover:bg-primary-700 text-white px-6 py-3 rounded-lg font-medium transition-colors">
+      <NuxtLink to="/schools" class="bg-primary-500 hover:bg-secondary-970 text-white px-6 py-3 rounded-lg font-medium transition-colors">
         Browse All Schools
       </NuxtLink>
     </div>
