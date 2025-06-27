@@ -8,7 +8,7 @@
         </a> -->
         <div class="flex justify-start">
           <a href="/">
-            <img src="/assets/img/LogoDigitalTechLab.png" alt="Logo" class="w-44 mb-2" />
+            <!-- <img src="/assets/img/LogoDigitalTechLab.png" alt="Logo" class="w-44 mb-2" /> -->
           </a>
         </div>
         <h2 class="mt-4 text-3xl font-bold text-blue-950 transition cursor-pointer ">
