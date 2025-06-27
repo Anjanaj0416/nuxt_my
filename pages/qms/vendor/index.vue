@@ -111,26 +111,26 @@
               Close Invoices
             </button> -->
 
-            <!-- <button
-              v-if="vendorTabs[vd.id] !== 'viewMore'"
-              @click="vendorTabs[vd.id] = 'viewMore'; quotationStore.curVendorId = vd.id"
+            <button
+              v-if="vendorTabs[vd.id] !== 'order'"
+              @click="vendorTabs[vd.id] = 'order'; quotationStore.curVendorId = vd.id"
               :class="[
                 'p-4 border-b-2 rounded-t-lg text-center',
-                vendorTabs[vd.id] === 'viewMore'
+                vendorTabs[vd.id] === 'order'
                   ? 'text-blue-600 border-blue-600 dark:text-blue-500 '
                   : 'border-transparent hover:text-gray-600 hover:border-gray-300 '
               ]"
             >
-              View More
+              Orders
             </button>
            
             <button
-              v-if="vendorTabs[vd.id] === 'viewMore'"
+              v-if="vendorTabs[vd.id] === 'order'"
               @click="vendorTabs[vd.id] = ''; quotationStore.curVendorId = null"
               class="p-4 border-b-2 rounded-t-lg text-center text-red-600 border-transparent "
             >
-              Close View More
-            </button> -->
+              Close Orders
+            </button>
 
             <button
               v-if="vendorTabs[vd.id] !== 'edit'"
@@ -176,8 +176,8 @@
           <div v-if="vendorTabs[vd.id] === 'invoice'">
             <Invoice/>
           </div>
-          <div v-if="vendorTabs[vd.id] === 'viewMore'">
-            <p>DviewMore {{ vd.id }}</p>
+          <div v-if="vendorTabs[vd.id] === 'order'">
+            <Orders />
           </div>
           <div v-if="vendorTabs[vd.id] === 'edit'">
             <AddEdit v-if="isAddEdit" @close="isAddEdit = !isAddEdit" />
@@ -207,6 +207,7 @@ import SearchComp from "~/components/customcontrol/SearchComp";
 import InfoCard from "~/components/qms/vendor/InfoCard.vue";
 import Proposal from "~/components/qms/quotation/proposaldetails.vue";
 import Invoice from "~/components/qms/invoice/index.vue";
+import Orders from "~/components/qms/orders/index.vue";
 
 import WorkFlow from "~/components/qms/workFlow/index.vue"
 
@@ -235,7 +236,8 @@ export default {
     ImageLable,
     Proposal,
     Invoice,
-    WorkFlow
+    WorkFlow,
+    Orders
 
   },
   data() {

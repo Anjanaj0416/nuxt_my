@@ -3,16 +3,11 @@
     <div v-if="!showAddProposal && !showProposalVersions && !showInvoice && !showWorkFlow" >
       <div class="flex flex-col items-center justify-between -mt-4 mb-2 md:flex-row">
         <div class="w-full mb-4 md:mb-0">  
-          <div class="text-2xl uppercase">Proposals</div>
+          <div class="text-2xl uppercase">Orders</div>
         </div>
         <div class="w-full md:w-auto">
           <div class="mr-2">
-            <Button
-              class="w-24 px-4 py-1.5 rounded-full text-xs transition"
-              label="Create"
-              variant="primary"
-              @click="handleCreateClick"
-            />
+
           </div>
         </div>
       </div>
@@ -74,23 +69,7 @@
 
           <!-- Button group -->
           <div class="flex flex-wrap justify-end gap-1 mt-1">
-            <div class="relative">
-              <span
-                class="absolute -top-2 -right-2 bg-blue-500 text-white text-xs font-bold rounded-full px-1"
-              >
-                {{ qItem.noOfVersions }}
-              </span>
-              <LinkBtn
-                label="View Versions"
-                class="text-xs font-medium"
-                @click="
-                  quotationStore.curQuotation = qItem;
-                  GoToViewAllQuoVer(qItem.id);
-                  showProposalVersions = true
-                "
-              />
-            </div>
-            <!-- <LinkBtn
+            <LinkBtn
               label="Invoice"
               class="text-xs font-medium"
               @click="
@@ -105,7 +84,7 @@
                 GoToWorkFlow(qItem.id);
                 showWorkFlow = true
               "
-            /> -->
+            />
             <LinkBtn
               label="View PDF"
               class="text-xs font-medium"
@@ -225,10 +204,6 @@ export default {
   },
   methods: {   
 
-    handleCreateClick() {
-      this.showAddProposal = true;
-      this.GoToAddNew(); // Assuming GoToAddNew is a method
-    },
 
     GoToAddNew() {
       if (this.quotation.isVerion === '') {
