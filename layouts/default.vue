@@ -17,7 +17,17 @@ import footercomp from '~/components/footer'
 
 export default {
   components: {headercomp,footercomp},
-  
+  data() {
+    return {
+       showLoading: null,
+    }
+  },
+  async created() {
+   // alert('sl')
+     // this.showLoading = this.$showLoading;
+    //  const loadingAlert = showLoading("");
+      // loadingAlert.close();
+  },
 }
 </script>
 

@@ -21,10 +21,10 @@
                 <h2 class="mb-6 text-sm font-semibold text-gray-900 uppercase ">Products</h2>
                 <ul class="text-gray-600">
                     <li class="mb-4">
-                    <a href="" class="hover:underline">B2B.lk</a>
+                   <a href="https://prep.btob.lk" target="_blank" class="hover:underline">B2B.lk</a>
                     </li>
                     <li>
-                    <a href="" class="hover:underline">Automobile.lk</a>
+                    <!-- <a href="" class="hover:underline">Automobile.lk</a> -->
                     </li>
                 </ul>
                 </div>
