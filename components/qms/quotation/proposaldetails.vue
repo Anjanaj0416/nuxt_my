@@ -1,6 +1,6 @@
 <template>
   <section class="justify-center">
-    <div v-if="!showAddProposal && !showProposalVersions && !showInvoice && !showWorkFlow && !showOrder">
+    <div v-if="!showAddProposal && !showProposalVersions && !showWorkFlow && !showOrder">
       <div class="flex flex-col items-center justify-between -mt-4 mb-2 md:flex-row">
         <div class="w-full mb-4 md:mb-0">
           <div class="text-2xl uppercase">Proposals</div>
@@ -79,10 +79,6 @@
               GoToOrder(qItem.id);
             showOrder = true
               " />
-            <LinkBtn label="Invoice" class="text-xs font-medium" @click="
-              GoToInvoice(qItem.id);
-            showInvoice = true
-              " />
             <LinkBtn label="Work Flow" class="text-xs font-medium" @click="
               GoToWorkFlow(qItem.id);
             showWorkFlow = true
@@ -108,7 +104,6 @@
     <AddEdit v-if="isAddEdit && showAddProposal" @close="isAddEdit = false; showAddProposal = false" />
     <ApproveView v-if="isApproving" @close="CloseApprovingView()" />
     <Order v-if="isViewMore && showOrder" @close="isViewMore = false; showOrder = false" />
-    <Invoice v-if="isViewMore && showInvoice" @close="isViewMore = false; showInvoice = false" />
     <WorkFlow v-if="isViewMore && showWorkFlow" @close="isViewMore = false; showWorkFlow = false" />
 
   </section>
@@ -124,7 +119,6 @@ import FilterTab from "~/components/customcontrol/FilterTab";
 import ViewMore from "~/components/qms/quotation/viewmore";
 import ApproveView from "~/components/qms/quotation/approve";
 import AddEdit from "~/components/qms/quotation/addedit.vue";
-import Invoice from "~/components/qms/invoice/index.vue";
 import WorkFlow from "~/components/qms/workFlow/index.vue";
 import Order from "~/components/qms/order/index";
 
@@ -148,7 +142,6 @@ export default {
     ViewMore,
     ApproveView,
     AddEdit,
-    Invoice,
     WorkFlow,
     Order,
   },
@@ -229,7 +222,6 @@ export default {
     resetViews(){
       this.showProposalVersions = false;
       this.showOrder = false;
-      this.showInvoice = false;
       this.showWorkFlow = false;
       this.isViewMore = false;
       this.isApproving = false;

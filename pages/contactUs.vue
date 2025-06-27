@@ -133,71 +133,70 @@
 
                 </div> 
 
-                    <div class="grid md:grid-cols-2 md:gap-6">
-                        <div class="relative z-0 w-full mb-5 group">
-                            <input  
-                              type="text"
-                              name="FullName" 
-                              v-model="formData.FullName"
-                              class="block py-2.5 px-0 w-full text-base text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none  focus:outline-none focus:ring-0 focus:border-blue-600 peer" 
-                              placeholder=" "  
-                            />
-                            <label for="FullName" class="peer-focus:font-medium absolute text-base text-gray-500 dark:text-gray-400 duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-[0] peer-focus:start-0 rtl:peer-focus:translate-x-1/4 peer-focus:text-blue-600 peer-focus:dark:text-blue-500 peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6">Full Name</label>
-                            <p v-if="err.FullName" class="text-sm text-red-500">{{ err.FullName }}</p>
-                        </div>
-                        <div class="relative z-0 w-full mb-5 group">
-                            <input 
-                              type="text" 
-                              name="WebSite" 
-                              v-model="formData.WebSite"
-                              class="block py-2.5 px-0 w-full text-base text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none focus:outline-none focus:ring-0 focus:border-blue-600 peer"
-                              placeholder=" "  
-                            />
-                            <label for="WebSite" class="peer-focus:font-medium absolute text-base text-gray-500 dark:text-gray-400 duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-[0] peer-focus:start-0 rtl:peer-focus:translate-x-1/4 peer-focus:text-blue-600 peer-focus:dark:text-blue-500 peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6">Your Company WebSitesite</label>
-                        </div>
-                    </div>
-                    <div class="grid md:grid-cols-2 md:gap-6">
-                        <div class="relative z-0 w-full mb-5 group">
-                            <input 
-                              type="email" 
-                              name="Email" 
-                              v-model="formData.Email"
-                              class="block py-2.5 px-0 w-full text-base text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none  focus:outline-none focus:ring-0 focus:border-blue-600 peer"
-                              placeholder=" "  
-                            />
-                            <label for="Email" class="peer-focus:font-medium absolute text-base text-gray-500 dark:text-gray-400 duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-[0] peer-focus:start-0 rtl:peer-focus:translate-x-1/4 peer-focus:text-blue-600 peer-focus:dark:text-blue-500 peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6">E-mail</label>
-                            <p v-if="err.Email" class="text-sm text-red-500">{{ err.Email }}</p>
-                        </div>
-                        <div class="relative z-0 w-full mb-5 group">
-                            <input 
-                              type="Phone" 
-                              name="Phone" 
-                              v-model="formData.Phone"
-                              class="block py-2.5 px-0 w-full text-base text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none focus:outline-none focus:ring-0 focus:border-blue-600 peer"
-                              placeholder=" "  
-                            />
-                            <label for="Phone" class="peer-focus:font-medium absolute text-base text-gray-500 dark:text-gray-400 duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-[0] peer-focus:start-0 rtl:peer-focus:translate-x-1/4 peer-focus:text-blue-600 peer-focus:dark:text-blue-500 peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6">Phone number (Optional)</label>
-                            <!-- <p v-if="validationErrors.Phone" class="text-sm text-red-500">{{ validationErrors.Phone }}</p> -->
-                        </div>
-                    </div>
+                <div class="grid md:grid-cols-2 md:gap-6">
                     <div class="relative z-0 w-full mb-5 group">
                         <input  
-                          type="text" 
-                          name="message" 
-                          v-model="formData.Comment" 
-                          class="block py-2.5 px-0 w-full text-lg text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none focus:outline-none focus:ring-0 focus:border-blue-600 peer" 
-                          placeholder=" "
-                           />
-                        <label for="message" class="peer-focus:font-medium absolute text-base text-gray-500 dark:text-gray-400 duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-[0] peer-focus:start-0 rtl:peer-focus:translate-x-1/4 peer-focus:text-blue-600 peer-focus:dark:text-blue-500 peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6">What are you planning to build?</label>
+                          type="text"
+                          name="FullName" 
+                          v-model="formData.FullName"
+                          class="block py-2.5 px-0 w-full text-base text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none  focus:outline-none focus:ring-0 focus:border-blue-600 peer" 
+                          placeholder=" "  
+                        />
+                        <label for="FullName" class="peer-focus:font-medium absolute text-base text-gray-500 dark:text-gray-400 duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-[0] peer-focus:start-0 rtl:peer-focus:translate-x-1/4 peer-focus:text-blue-600 peer-focus:dark:text-blue-500 peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6">Full Name</label>
+                        <p v-if="err.FullName" class="text-sm text-red-500">{{ err.FullName }}</p>
                     </div>
-                    <div class="grid gap-2 mt-4 mb-8 lg:grid-cols-7 lg:mb-8">
-                        <div>
-                          <button  @click="AddContact"  class="px-6 py-2 mt-4 text-sm font-medium text-center text-white bg-blue-900 rounded-full hover:bg-blue-800 hover:shadow-xl dark:bg-blue-900 dark:hover:bg-blue-700">
-                              Submit
-                          </button>
-                        </div>
-                    </div> 
-                
+                    <div class="relative z-0 w-full mb-5 group">
+                        <input 
+                          type="text" 
+                          name="WebSite" 
+                          v-model="formData.WebSite"
+                          class="block py-2.5 px-0 w-full text-base text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none focus:outline-none focus:ring-0 focus:border-blue-600 peer"
+                          placeholder=" "  
+                        />
+                        <label for="WebSite" class="peer-focus:font-medium absolute text-base text-gray-500 dark:text-gray-400 duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-[0] peer-focus:start-0 rtl:peer-focus:translate-x-1/4 peer-focus:text-blue-600 peer-focus:dark:text-blue-500 peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6">Your Company WebSitesite</label>
+                    </div>
+                </div>
+                <div class="grid md:grid-cols-2 md:gap-6">
+                    <div class="relative z-0 w-full mb-5 group">
+                        <input 
+                          type="email" 
+                          name="Email" 
+                          v-model="formData.Email"
+                          class="block py-2.5 px-0 w-full text-base text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none  focus:outline-none focus:ring-0 focus:border-blue-600 peer"
+                          placeholder=" "  
+                        />
+                        <label for="Email" class="peer-focus:font-medium absolute text-base text-gray-500 dark:text-gray-400 duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-[0] peer-focus:start-0 rtl:peer-focus:translate-x-1/4 peer-focus:text-blue-600 peer-focus:dark:text-blue-500 peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6">E-mail</label>
+                        <p v-if="err.Email" class="text-sm text-red-500">{{ err.Email }}</p>
+                    </div>
+                    <div class="relative z-0 w-full mb-5 group">
+                        <input 
+                          type="Phone" 
+                          name="Phone" 
+                          v-model="formData.Phone"
+                          class="block py-2.5 px-0 w-full text-base text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none focus:outline-none focus:ring-0 focus:border-blue-600 peer"
+                          placeholder=" "  
+                        />
+                        <label for="Phone" class="peer-focus:font-medium absolute text-base text-gray-500 dark:text-gray-400 duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-[0] peer-focus:start-0 rtl:peer-focus:translate-x-1/4 peer-focus:text-blue-600 peer-focus:dark:text-blue-500 peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6">Phone number (Optional)</label>
+                        <!-- <p v-if="validationErrors.Phone" class="text-sm text-red-500">{{ validationErrors.Phone }}</p> -->
+                    </div>
+                </div>
+                <div class="relative z-0 w-full mb-5 group">
+                    <input  
+                      type="text" 
+                      name="message" 
+                      v-model="formData.Comment" 
+                      class="block py-2.5 px-0 w-full text-lg text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none focus:outline-none focus:ring-0 focus:border-blue-600 peer" 
+                      placeholder=" "
+                        />
+                    <label for="message" class="peer-focus:font-medium absolute text-base text-gray-500 dark:text-gray-400 duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-[0] peer-focus:start-0 rtl:peer-focus:translate-x-1/4 peer-focus:text-blue-600 peer-focus:dark:text-blue-500 peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6">What are you planning to build?</label>
+                </div>
+                <div class="grid gap-2 mt-4 mb-8 lg:grid-cols-7 lg:mb-8">
+                    <div>
+                      <button  @click="AddContact"  class="px-6 py-2 mt-4 text-sm font-medium text-center text-white bg-blue-900 rounded-full hover:bg-blue-800 hover:shadow-xl dark:bg-blue-900 dark:hover:bg-blue-700">
+                          Submit
+                      </button>
+                    </div>
+                </div> 
             </div>
         </section>
 
@@ -213,8 +212,6 @@
                 >
                 View on Google Maps
             </a>
-
-
             </div>
         </section>
 
@@ -239,10 +236,10 @@
                   <h2 class="mb-6 text-sm font-semibold text-gray-900 uppercase ">Products</h2>
                   <ul class="text-gray-600">
                       <li class="mb-4">
-                      <a href="" class="hover:underline">B2B.lk</a>
+                     <a href="https://prep.btob.lk" target="_blank" class="hover:underline">B2B.lk</a>
                       </li>
                       <li>
-                      <a href="" class="hover:underline">Automobile.lk</a>
+                      <!-- <a href="" class="hover:underline">Automobile.lk</a> -->
                       </li>
                   </ul>
                   </div>
@@ -324,11 +321,11 @@
       },
       methods: {
         AddContact() {
-          console.log(formData);
-          
           if (this.validateForm()) {
+            // console.log("Submitted:", this.formData);
             // this.dtlStore.GetContactUs(this.formData, this.showLoading);
             this.resetForm();
+          } else {
           }
         },
 

@@ -1,5 +1,6 @@
 <template>
     <section class="justify-center">
+      <div  v-if="!showInvoice && !showWorkFlow">
         <div class="flex flex-col-reverse items-start justify-between gap-4 mb-4 md:flex-row md:items-center">
           <div class="text-2xl uppercase">Order</div>
           <button
@@ -66,18 +67,25 @@
           <!-- Button group -->
           <div class="flex flex-wrap justify-end gap-1 mt-1">
             <LinkBtn label="Invoice" class="text-xs font-medium" @click="
-              GoToInvoice(qItem.id);
+              GoToInvoice();
             showInvoice = true
               " />
-            <LinkBtn label="Workflow " class="text-xs font-medium"/>
+            <LinkBtn label="Workflow " class="text-xs font-medium" @click="
+              GoToWorkFlow();
+            showWorkFlow = true
+              "/>
             <LinkBtn label="View Proforma" class="text-xs font-medium"/>
           </div>
         </div>
         <!-- <div v-if="!quotationStore.listQuotation.length" class="mt-4 text-center text-blue-950">
           No quotations found.
         </div> -->
+        </div>
       </div>
+
       <Invoice v-if="isViewMore && showInvoice" @close="isViewMore = false; showInvoice = false" />
+      <WorkFlow v-if="isViewMore && showWorkFlow" @close="isViewMore = false; showWorkFlow = false" />
+      
     </section>
   </template>
   
@@ -89,7 +97,9 @@
  import LinkBtn from "~/components/customcontrol/Link";
   import Button from "~/components/customcontrol/Button";
   import selectinput2 from "~/components/customcontrol/selectinput2";
+
   import Invoice from "~/components/qms/invoice/index.vue";
+  import WorkFlow from "~/components/qms/workFlow/index.vue";
 
  definePageMeta({
     layout: 'default',   
@@ -98,12 +108,13 @@
    
   export default {
     
-    components: {LinkBtn,Button,selectinput2,Invoice},
+    components: {LinkBtn,Button,selectinput2,Invoice,WorkFlow},
     props:[''],
     data() {
       return {
         isViewMore: false,
         showInvoice: false,
+        showWorkFlow:false,
       }
     },
 
@@ -113,10 +124,17 @@
     },
     
     methods: {
-        async GoToInvoice(test){
+        async GoToInvoice(){
             this.resetViews();  
 
-            let id = this.quotationStore.curQuotation.id;
+            // let id = this.quotationStore.curQuotation.id;
+            this.isViewMore = true;
+        },
+
+        async GoToWorkFlow(){
+            this.resetViews();  
+
+            // let id = this.quotationStore.curQuotation.id;
             this.isViewMore = true;
         },
 

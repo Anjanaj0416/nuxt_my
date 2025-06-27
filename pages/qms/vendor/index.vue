@@ -105,8 +105,10 @@
               Close Invoices
             </button> -->
 
-            <button v-if="vendorTabs[vd.id] !== 'viewMore'"
-              @click="vendorTabs[vd.id] = 'viewMore'; quotationStore.curVendorId = vd.id" :class="[
+            <!-- <button
+              v-if="vendorTabs[vd.id] !== 'viewMore'"
+              @click="vendorTabs[vd.id] = 'viewMore'; quotationStore.curVendorId = vd.id"
+              :class="[
                 'p-4 border-b-2 rounded-t-lg text-center',
                 vendorTabs[vd.id] === 'viewMore'
                   ? 'text-blue-600 border-blue-600 dark:text-blue-500 '
@@ -114,12 +116,13 @@
               ]">
               View More
             </button>
-            <!-- Show this only when in 'proposal' mode -->
-            <button v-if="vendorTabs[vd.id] === 'viewMore'"
+           
+            <button
+              v-if="vendorTabs[vd.id] === 'viewMore'"
               @click="vendorTabs[vd.id] = ''; quotationStore.curVendorId = null"
               class="p-4 border-b-2 rounded-t-lg text-center text-red-600 border-transparent ">
               Close View More
-            </button>
+            </button> -->
 
             <button v-if="vendorTabs[vd.id] !== 'edit'"
               @click="vendorTabs[vd.id] = 'edit'; quotationStore.curVendorId = vd.id; GoToAddEdit(vd.id)" :class="[
@@ -298,11 +301,12 @@ export default {
         this.keyword = ""
       }
       console.log("keyword, searchBy", searchVal, this.searchBy);
-
+      await this.vendorStore.loadInitVendor(this.showLoading);
       await this.vendorStore.loadListVendors(
         { keyword: this.keyword, searchBy: this.searchBy },
         this.showLoading
       );
+
 
       this.searchBy = "";
       this.keyword = "";

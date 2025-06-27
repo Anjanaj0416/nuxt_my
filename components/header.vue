@@ -112,7 +112,10 @@ export default {
     // console.log("Received user ID in profile:", this.userId);
   },
   async created() {
+    try{
     this.userStore = useUserStore();
+    }
+    catch{}
   },
 };
 </script>
