@@ -105,10 +105,24 @@
               Close Invoices
             </button> -->
 
-            <!-- <button
-              v-if="vendorTabs[vd.id] !== 'viewMore'"
-              @click="vendorTabs[vd.id] = 'viewMore'; quotationStore.curVendorId = vd.id"
-              :class="[
+            <button v-if="vendorTabs[vd.id] !== 'order'"
+              @click="vendorTabs[vd.id] = 'order'; quotationStore.curVendorId = vd.id" :class="[
+                'p-4 border-b-2 rounded-t-lg text-center',
+                vendorTabs[vd.id] === 'order'
+                  ? 'text-blue-600 border-blue-600 dark:text-blue-500 dark:border-blue-500'
+                  : 'border-transparent hover:text-gray-600 hover:border-gray-300 '
+              ]">
+              Order
+            </button>
+
+            <button v-if="vendorTabs[vd.id] === 'order'"
+              @click="vendorTabs[vd.id] = ''; quotationStore.curVendorId = null"
+              class="p-4 border-b-2 rounded-t-lg text-center text-red-600 border-transparent ">
+              Close Order
+            </button>
+
+            <button v-if="vendorTabs[vd.id] !== 'viewMore'"
+              @click="vendorTabs[vd.id] = 'viewMore'; quotationStore.curVendorId = vd.id" :class="[
                 'p-4 border-b-2 rounded-t-lg text-center',
                 vendorTabs[vd.id] === 'viewMore'
                   ? 'text-blue-600 border-blue-600 dark:text-blue-500 '
@@ -116,13 +130,12 @@
               ]">
               View More
             </button>
-           
-            <button
-              v-if="vendorTabs[vd.id] === 'viewMore'"
+
+            <button v-if="vendorTabs[vd.id] === 'viewMore'"
               @click="vendorTabs[vd.id] = ''; quotationStore.curVendorId = null"
               class="p-4 border-b-2 rounded-t-lg text-center text-red-600 border-transparent ">
               Close View More
-            </button> -->
+            </button>
 
             <button v-if="vendorTabs[vd.id] !== 'edit'"
               @click="vendorTabs[vd.id] = 'edit'; quotationStore.curVendorId = vd.id; GoToAddEdit(vd.id)" :class="[
@@ -160,8 +173,11 @@
           <div v-if="vendorTabs[vd.id] === 'proposal'">
             <Proposal />
           </div>
-          <div v-if="vendorTabs[vd.id] === 'invoice'">
+          <!-- <div v-if="vendorTabs[vd.id] === 'invoice'">
             <Invoice />
+          </div> -->
+          <div v-if="vendorTabs[vd.id] === 'order'">
+            <Order />
           </div>
           <div v-if="vendorTabs[vd.id] === 'viewMore'">
             <p>DviewMore {{ vd.id }}</p>
@@ -194,6 +210,7 @@ import SearchComp from "~/components/customcontrol/SearchComp";
 import InfoCard from "~/components/qms/vendor/InfoCard.vue";
 import Proposal from "~/components/qms/quotation/proposaldetails.vue";
 import Invoice from "~/components/qms/invoice/index.vue";
+import Order from "~/components/qms/order/index";
 
 import WorkFlow from "~/components/qms/workFlow/index.vue"
 
@@ -222,7 +239,8 @@ export default {
     ImageLable,
     Proposal,
     Invoice,
-    WorkFlow
+    WorkFlow,
+    Order
 
   },
   data() {
