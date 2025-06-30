@@ -8,12 +8,12 @@
         </h2>
         <closebtn @close="closeModal" />
       </div>
-{{quotationStore.initQuotation.listVendors}}
+<!-- {{quotationStore.initQuotation.listVendors}} -->
       <!-- Modal Content (scrollable) -->
       <div class="modal-content">
         <div class="form-content">
           <h3 class="font-bold">General Information</h3>
-          <div class="grid grid-cols-2 gap-4 mt-4 sm:grid-cols-2 md:grid-cols-3">
+          <div class="grid grid-cols-2 gap-4 mt-4 sm:grid-cols-2 md:grid-cols-2">
             <div class="">
               <label class="block text-sm font-bold text-gray-600">
                 Company Search <span class="text-red-500">*</span>
@@ -56,7 +56,7 @@
               </p>
             </div>
             <div class="">
-              <label class="block text-sm font-bold text-gray-600">Contact Person Number</label>
+              <label class="block text-sm font-bold text-gray-600">Contact Person Number <span class="text-red-500">*</span></label>
               <input type="text" v-model="curLead.ContactPhoneNo" :maxlength="10" placeholder="Enter Contact Number"
                 required
                 class="w-full p-2 mt-2 text-sm border rounded-md focus:ring-indigo-500 focus:border-indigo-500" />
@@ -182,16 +182,6 @@ export default {
 
       let IsValidate = true;
 
-      if (!this.curLead.Industry) {
-        this.err.Industry = "Please Enter Business Type!";
-        IsValidate = false;
-      }
-
-      if (!this.curLead.BusinessRegNo) {
-        this.err.BusinessRegNo = "Please Enter Business Registration Number!";
-        IsValidate = false;
-      }
-
       if (!this.curLead.CompanyEmail) {
         this.err.CompanyEmail = "Please Enter an Email!";
         IsValidate = false;
@@ -221,91 +211,17 @@ export default {
       }
 
       if (!this.curLead.Address1) {
-        this.err.Address1 = "Please Enter Address 1!";
-        IsValidate = false;
-      }
-
-      if (!this.curLead.Address2) {
-        this.err.Address2 = "Please Enter Address 2!";
-        IsValidate = false;
-      }
-
-      if (!this.curLead.District) {
-        this.err.District = "Please Enter District!";
-        IsValidate = false;
-      }
-
-      if (!this.curLead.City) {
-        this.err.City = "Please Enter City!";
-        IsValidate = false;
-      }
-
-      if (!this.curLead.CompanyMobileNo) {
-        this.err.CompanyMobileNo = "Please Enter mobile Number!";
-        IsValidate = false;
-      } else {
-        const contactNoRegex1 = /^[0-9]{10}$/;
-        if (!contactNoRegex1.test(this.curLead.CompanyMobileNo)) {
-          this.err.CompanyMobileNo = "Please Enter a valid 10-digit Mobile Number!";
-          IsValidate = false;
-        }
-      }
-
-      if (!this.curLead.CompanyWeb) {
-        this.err.CompanyWeb = "Please Enter Website!";
-        IsValidate = false;
-      }
-
-      if (!this.curLead.CompanyDesignation) {
-        this.err.CompanyDesignation = "Please Enter Designation!";
-        IsValidate = false;
-      }
-
-      // // Other information validation
-      if (!this.curLead.ContactPersonFirstName) {
-        this.err.ContactPersonFirstName = "Please Enter First Name!";
-        IsValidate = false;
-      }
-
-      if (!this.curLead.ContactPersonLastname) {
-        this.err.ContactPersonLastname = "Please Enter Last Name!";
-        IsValidate = false;
-      }
-
-      if (!this.curLead.ContactDesignation) {
-        this.err.ContactDesignation = "Please Enter Designation!";
+        this.err.Address1 = "Please Enter Address!";
         IsValidate = false;
       }
 
       if (!this.curLead.ContactPhoneNo) {
-        this.err.ContactPhoneNo = "Please Enter Contact Number!";
+        this.err.ContactPhoneNo = "Please Enter Contact Person Number!";
         IsValidate = false;
       } else {
         const contactNoRegex1 = /^[0-9]{10}$/;
         if (!contactNoRegex1.test(this.curLead.ContactPhoneNo)) {
-          this.err.ContactPhoneNo = "Please Enter a valid 10-digit Contact Number!";
-          IsValidate = false;
-        }
-      }
-
-      if (!this.curLead.ContactMobile) {
-        this.err.ContactMobile = "Please Enter Mobile Number!";
-        IsValidate = false;
-      } else {
-        const contactNoRegex1 = /^[0-9]{10}$/;
-        if (!contactNoRegex1.test(this.curLead.ContactMobile)) {
-          this.err.ContactMobile = "Please Enter a valid 10-digit Mobile Number!";
-          IsValidate = false;
-        }
-      }
-
-      if (!this.curLead.ContactEmail) {
-        this.err.ContactEmail = "Please Enter an Email!";
-        IsValidate = false;
-      } else {
-        const EmailRegex = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
-        if (!EmailRegex.test(this.curLead.ContactEmail)) {
-          this.err.ContactEmail = "Please Enter a valid Email address!";
+          this.err.ContactPhoneNo = "Please Enter a valid 10-digit Contact Person Number!";
           IsValidate = false;
         }
       }
@@ -319,14 +235,6 @@ export default {
       });
     },
 
-    GetSelectCity(selectItem) {
-      this.curLead.CityId = selectItem.id;
-      this.curLead.City = selectItem.value;
-    },
-    GetSelectDistrict(selectItem) {
-      this.curLead.DistrictId = selectItem.id;
-      this.curLead.District = selectItem.value;
-    },
   },
 };
 </script>

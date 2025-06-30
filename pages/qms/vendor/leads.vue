@@ -135,7 +135,7 @@
 
           <!-- Editable Fields -->
           <div
-            v-if="(userStore.loggedUser.granted?.includes('flo') || userStore.loggedUser.granted?.includes('su')) 
+            v-if="(userStore.loggedUser.granted?.includes('flo') || userStore.loggedUser.granted?.includes('su') || userStore.loggedUser.granted?.includes('sso')) 
               && (lead.status === 'Pending' || lead.status === 'Hold' || lead.status === 'Cancelled' || lead.status == 'Completed')"
             class="grid grid-cols-1 gap-4 sm:grid-cols-1"
           >
@@ -164,7 +164,7 @@
           <!-- {{ lead }} -->
           <!-- Action Buttons -->
           <div
-            v-if="(userStore.loggedUser.granted?.includes('flo') || userStore.loggedUser.granted?.includes('su')) 
+            v-if="(userStore.loggedUser.granted?.includes('flo') || userStore.loggedUser.granted?.includes('su') || userStore.loggedUser.granted?.includes('sso')) 
               && (lead.status === 'Pending' || lead.status === 'Hold' || lead.status === 'Cancelled' || lead.status == 'Completed')"
             class="flex justify-end pt-2"
           >
