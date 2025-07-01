@@ -239,7 +239,8 @@ export default {
     ImageLable,
     Proposal,
     Invoice,
-    WorkFlow
+    WorkFlow,
+    Order
 
   },
   data() {
