@@ -143,6 +143,7 @@ export const useUserStore = defineStore('userStore', {
     logout() {
       this.token = null;
       localStorage.clear();
+      document.cookie = 'token=; path=/; max-age=0; Secure'
       //this.showToast('User Logged out!','success');
     },
 
