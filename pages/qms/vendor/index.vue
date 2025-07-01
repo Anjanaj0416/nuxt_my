@@ -161,7 +161,7 @@
             <Proposal />
           </div>
           <div v-if="vendorTabs[vd.id] === 'invoice'">
-            <Invoice />
+            <Invoice/>
           </div>
           <div v-if="vendorTabs[vd.id] === 'viewMore'">
             <p>DviewMore {{ vd.id }}</p>
@@ -222,7 +222,7 @@ export default {
     ImageLable,
     Proposal,
     Invoice,
-    WorkFlow
+    WorkFlow,
 
   },
   data() {

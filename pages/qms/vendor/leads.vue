@@ -135,14 +135,14 @@
 
           <!-- Editable Fields -->
           <div
-            v-if="userStore.loggedUser.granted?.includes('flo') || userStore.loggedUser.granted?.includes('su')"
-
+            v-if="(userStore.loggedUser.granted?.includes('flo') || userStore.loggedUser.granted?.includes('su') || userStore.loggedUser.granted?.includes('sso')) 
+              && (lead.status === 'Pending' || lead.status === 'Hold' || lead.status === 'Cancelled' || lead.status == 'Completed')"
             class="grid grid-cols-1 gap-4 sm:grid-cols-1"
           >
             <div class="w-full sm:w-1/2">
               <selectinput2
-                v-model="lead.status"
-                :cur_item="lead.status"
+                v-model="lead.tempStatus"
+                :cur_item="lead.tempStatus"
                 :selections="leadStore.InitLeads.listStatus"
                 :err="err.status"
                 label="Lead Status"
@@ -164,7 +164,8 @@
           <!-- {{ lead }} -->
           <!-- Action Buttons -->
           <div
-            v-if="userStore.loggedUser.granted?.includes('flo') || userStore.loggedUser.granted?.includes('su')"
+            v-if="(userStore.loggedUser.granted?.includes('flo') || userStore.loggedUser.granted?.includes('su') || userStore.loggedUser.granted?.includes('sso')) 
+              && (lead.status === 'Pending' || lead.status === 'Hold' || lead.status === 'Cancelled' || lead.status == 'Completed')"
             class="flex justify-end pt-2"
           >
             <LinkBtn
@@ -282,6 +283,11 @@ export default {
       this.showLoading
     );
 
+    this.leadStore.listLeads.forEach((lead) => {
+      lead.tempStatus = lead.status; // for select input
+    });
+
+
     this.imageroot = this.userStore.loggedUser.resourceURLRoot;
   },
   watch: {},
@@ -331,12 +337,12 @@ export default {
       var request = {
         Id: lead.id,
         Comment: lead.newComment,
-        Status: lead.status,
+        Status: lead.tempStatus,
       };
       this.newComment = lead.newComment;
 
       if (this.IsValidate(lead.newComment, lead.status)) {
-        if (lead.status === "CSOAssigned") {
+        if (lead.tempStatus === "CSOAssigned") {
           this.selectedLeadId = lead.id;
           this.isAddRso = true;
           // console.log(this.selectedLeadId);

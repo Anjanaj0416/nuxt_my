@@ -88,7 +88,7 @@
       <div class="z-40 cssSerachedList">
 
         <div v-for="item in filtered" :key="item.id" v-bind:class="{ cssItemHover: selecteditem == item.id }"
-          :title="item.value" @mouseover="mouseover(item)" @click="selectItem(item)" class="h-8 overflow-hidden">
+          :title="item.value" @mouseover="mouseover(item)" @click="selectItem(item)" class="h-auto p-2 overflow-hidden">
           {{ item.value }}
         </div>
       </div>

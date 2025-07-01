@@ -80,7 +80,8 @@
                 </div>
 
                 <!-- Buttons -->
-                <div class="flex flex-wrap justify-end gap-2 mt-2 relative">
+                 
+                <div  class="flex flex-wrap justify-end gap-2 mt-2 relative">
                   <!-- Approval Image Badge -->
                   <ImageLable
                     v-show="qItem.status === 'Approved'"
@@ -99,9 +100,11 @@
                     "
                     class="bg-indigo-500 text-white text-xs px-3 py-1 rounded hover:bg-indigo-600 transition"
                   />
-
+<!-- {{userStore.loggedUser.granted}} -->
                   <!-- Approve -->
+                   <div v-if="(userStore.loggedUser.granted?.includes('cso') || userStore.loggedUser.granted?.includes('su'))">
                   <LinkBtn
+                  
                     v-show="qItem.status !== 'Approved'"
                     label="Approve"
                     @click="
@@ -110,6 +113,7 @@
                     "
                     class="bg-green-500 text-white text-xs px-3 py-1 rounded hover:bg-green-600 transition"
                   />
+                  </div>
 
                   <!-- View Quotation -->
                   <LinkBtn
@@ -162,6 +166,7 @@
 
 <script>
 import { useQuotationStore } from "~/stores/modules/qms/quotationStore";
+import { useUserStore } from "~/stores/modules/userStore";
 import closebtn from "~/components/customcontrol/modal_close_button";
 
 
@@ -189,6 +194,7 @@ export default {
     this.quotationStore = useQuotationStore();  
     this.imageroot = this.quotationStore.initQuotation.baseUrl;
     this.showLoading = this.$showLoading;
+    this.userStore = useUserStore();
 
   },
   async mounted() {},
