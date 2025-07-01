@@ -266,7 +266,7 @@ export default {
 
 
     await this.vendorStore.loadListVendors(
-      { keyword: (isGuid) ? val : '', searchBy: (isGuid) ? 'id' : '' },
+      { keyword: (isGuid) ? val : '', searchBy: (isGuid) ? 'id' : '' },     
       this.showLoading
     );
 
@@ -279,6 +279,9 @@ export default {
     });
 
   },
+
+   async bin() {
+   },
 
 
 
