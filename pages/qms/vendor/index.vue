@@ -271,7 +271,7 @@ export default {
     };
   },
   async created() {
-    try {
+   
       this.vendorStore = useVendorStore();
       this.userStore = useUserStore();
       this.quotationStore = useQuotationStore();
