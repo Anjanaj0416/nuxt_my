@@ -272,33 +272,32 @@ export default {
     };
   },
   async created() {
-    this.vendorStore = useVendorStore();
-    this.userStore = useUserStore();
-    this.quotationStore = useQuotationStore();
-    this.showLoading = this.$showLoading;
+    try {
+      this.vendorStore = useVendorStore();
+      this.userStore = useUserStore();
+      this.quotationStore = useQuotationStore();
+      this.showLoading = this.$showLoading;
 
-    const route = useRoute();
-    let val = route.query.p;
-    let isGuid = false;
-    if (val !== undefined) isGuid = val.includes('-');
-
-
-    await this.vendorStore.loadListVendors(
-      { keyword: (isGuid) ? val : '', searchBy: (isGuid) ? 'id' : '' },
-      this.showLoading
-    );
-
-    await this.vendorStore.loadInitVendor(this.showLoading);
-    this.imageroot = this.userStore.loggedUser.resourceURLRoot;
+      const route = useRoute();
+      let val = route.query.p;
+      let isGuid = false;
+      if (val !== undefined) isGuid = val.includes('-');
 
 
-    this.vendorStore.listVendor.forEach(vd => {
-      this.vendorTabs[vd.id] = 'profile';
-    });
+      await this.vendorStore.loadListVendors(
+        { keyword: (isGuid) ? val : '', searchBy: (isGuid) ? 'id' : '' },
+        this.showLoading
+      );
 
+      await this.vendorStore.loadInitVendor(this.showLoading);
+      this.imageroot = this.userStore.loggedUser.resourceURLRoot;
+      this.vendorStore.listVendor.forEach(vd => {
+        this.vendorTabs[vd.id] = 'profile';
+      });
+    } catch (error) {
+      console.error("error:", error);
+    }
   },
-
-
 
   methods: {
 
