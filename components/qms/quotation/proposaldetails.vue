@@ -81,6 +81,7 @@
               GoToOrder(qItem.id);
             showOrder = true
               " />
+              
             <LinkBtn label="Work Flow" class="text-xs font-medium" @click="
               GoToWorkFlow(qItem.id);
             showWorkFlow = true
@@ -197,10 +198,10 @@ export default {
         this.quotationStore.ResetQuotation();
       }
     },
-    // GoToAddNew() {
-    //   this.quotationStore.ResetQuotation();
-    //   this.isAddEdit = true;
-    // },
+    GoToAddNew() {
+      this.quotationStore.ResetQuotation();
+      this.isAddEdit = true;
+    },
 
     async GoToViewAllQuoVer() {
       this.resetViews();
