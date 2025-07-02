@@ -105,7 +105,7 @@
           </div>
         </div>
         <div v-if="!quotationStore.listQuotation.length" class="mt-4 text-center text-blue-950">
-          No quotations found.
+          No Proposals found.
         </div>
       </div>
     </div>

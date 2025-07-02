@@ -19,7 +19,7 @@
                 Company Search <span class="text-red-500">*</span>
               </label>
               <serach_Input
-                :arrItems="quotationStore.initQuotation.listVendors"
+                :arrItems="leadStore.InitLeads.listVendors"
                 label=""
               />
             </div>
@@ -39,10 +39,10 @@
               <label class="block text-sm font-bold text-gray-600">
                 Address <span class="text-red-500">*</span>
               </label>
-              <input type="text" v-model="curLead.Address1" placeholder="Enter Address Line 1" required
+              <input type="text" v-model="curLead.Address" placeholder="Enter Address Line 1" required
                 class="w-full p-2 mt-2 text-sm border rounded-md focus:ring-indigo-500 focus:border-indigo-500" />
-              <p v-if="err.Address1" class="mt-2 text-sm text-red-600">
-                {{ err.Address1 }}
+              <p v-if="err.Address" class="mt-2 text-sm text-red-600">
+                {{ err.Address }}
               </p>
             </div>
             <div class="">
@@ -71,7 +71,7 @@
       <div class=" modal-footer">
         <button @click="cancel" class="cancel-button">Cancel</button>
         <button @click="SetVendorLead()" class="confirm-button">
-          Save Leads Details
+          Save Lead Details
         </button>
       </div>
     </div>
@@ -100,14 +100,14 @@ export default {
       isOpen: true,
       curLead: {
         CompanyName: "",
-        Address1: "",
+        Address: "",
         CompanyPhone: "",
         ContactPhoneNo: "",
 
       },
       err: {
         CompanyName: "",
-        Address1: "",
+        Address: "",
         CompanyPhone: "",
         ContactPhoneNo: "",
       },
@@ -148,28 +148,7 @@ export default {
     },
 
 
-    // getDistinctDistricts() {
 
-    //   try {
-    //     const districtsMap = new Map();
-
-    //     this.leadStore.InitLeads.listDistrictCities.forEach((item) => {
-    //       if (!districtsMap.has(item.districtId)) {
-    //         districtsMap.set(item.districtId, {
-    //           id: item.districtId,
-    //           value: item.districtName,
-    //         });
-    //       }
-    //     });
-
-    //     return Array.from(districtsMap.values()).sort((a, b) =>
-    //       a.value.localeCompare(b.value)
-    //     );
-    //   } catch (error) {
-    //     // console.log(error);
-    //     return [];
-    //   }
-    // },
 
     filteredCities() {
       if (!this.curLead.District) return [];
@@ -213,18 +192,17 @@ export default {
     },
 
     SetVendorLead() {
-      console.log("inside SetVendorLead");
-
+     
       if (this.IsValidate()) {
-        console.log("inside IsValidate");
+       
         this.$showConfirm(
-          "Are you sure you want to Save this Lead?",
+          "Are you sure to Save this Lead?",
           "warning"
         ).then(async (result) => {
           if (result.isConfirmed) {
 
             await this.leadStore.SetVendorLead(this.curLead, this.showLoading, this.showAlert)
-            console.log(JSON.stringify(this.curLead));
+           
           } else {
             console.log("Action canceled");
           }
@@ -232,6 +210,7 @@ export default {
           this.closeModal();
           this.clearErr();
         });
+       
       }
     },
 
@@ -240,16 +219,16 @@ export default {
 
       let IsValidate = true;
 
-      if (!this.curLead.CompanyEmail) {
-        this.err.CompanyEmail = "Please Enter an Email!";
-        IsValidate = false;
-      } else {
-        const EmailRegex = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
-        if (!EmailRegex.test(this.curLead.CompanyEmail)) {
-          this.err.CompanyEmail = "Please Enter a valid Email address!";
-          IsValidate = false;
-        }
-      }
+      // if (!this.curLead.CompanyEmail) {
+      //   this.err.CompanyEmail = "Please Enter an Email!";
+      //   IsValidate = false;
+      // } else {
+      //   const EmailRegex = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
+      //   if (!EmailRegex.test(this.curLead.CompanyEmail)) {
+      //     this.err.CompanyEmail = "Please Enter a valid Email address!";
+      //     IsValidate = false;
+      //   }
+      // }
 
       if (!this.curLead.CompanyName) {
         this.err.CompanyName = "Please Enter Company Name!";
@@ -268,8 +247,8 @@ export default {
         }
       }
 
-      if (!this.curLead.Address1) {
-        this.err.Address1 = "Please Enter Address!";
+      if (!this.curLead.Address) {
+        this.err.Address = "Please Enter Address!";
         IsValidate = false;
       }
 

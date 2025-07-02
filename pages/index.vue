@@ -1,5 +1,5 @@
 <template>
-
+<article>
   <!-- header -->
   <header class="fixed top-0 left-0 z-50 w-full bg-white shadow-md">
     <nav class="flex items-center justify-between px-6 py-4 mx-auto max-w-7xl">
@@ -437,7 +437,7 @@
 
 
   <!-- footer -->
-  <footer class="p-4 mt-12 bg-white sm:p-6 ">
+  <section class="p-4 mt-12 bg-white sm:p-6 ">
       <div class="max-w-screen-xl mx-auto">
           <div class="md:flex md:justify-between">
           <div class="mb-6 md:mb-0">
@@ -500,9 +500,9 @@
           </div>
           </div>
       </div>
-  </footer>
+  </section>
 
-
+</article>
 
 </template>
 

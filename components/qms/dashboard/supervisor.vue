@@ -198,7 +198,7 @@
   import Button from "~/components/customcontrol/Button";
   import selectinput2 from "~/components/customcontrol/selectinput2";
    import { useDashboardStore  } from "~/stores/modules/dashboardStore";
-
+import { useUserStore } from "~/stores/modules/userStore";
 
  definePageMeta({
     layout: 'default',   
@@ -221,6 +221,7 @@
     },
     async created() {
       this.dashboardStore  = useDashboardStore();
+      this.userStore = useUserStore();
       this.showLoading = this.$showLoading;
       this.imageroot = this.userStore.loggedUser.resourceURLRoot;
     },

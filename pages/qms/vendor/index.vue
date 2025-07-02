@@ -21,9 +21,10 @@
     </div>
 
 
-    <FilterTab @selected="SetSelectedFilter" :arrFilter="Object.values(vendorStore.initVendor.vendorViewItemCount)" />
 
-    <!-- {{ vendorStore.initVendor.vendorViewItemCount }} -->
+    <FilterTab @selected="SetSelectedFilter" :arrFilter="vendorStore.initVendor.vendorViewItemCount" />
+
+   
 
     <div v-if="vendorStore.listVendor.length === 0" class="text-center text-gray-900 mt-5 text-sm font-medium">
       <p>No vendors available...</p>
@@ -84,41 +85,24 @@
               Close Proposal
             </button>
 
-            <!-- <button
-              v-if="vendorTabs[vd.id] !== 'invoice'"
-              @click="vendorTabs[vd.id] = 'invoice'; quotationStore.curVendorId = vd.id"
-              :class="[
-                'p-4 border-b-2 rounded-t-lg text-center',
-                vendorTabs[vd.id] === 'invoice'
-                  ? 'text-blue-600 border-blue-600 dark:text-blue-500 dark:border-blue-500'
-                  : 'border-transparent hover:text-gray-600 hover:border-gray-300 '
-              ]"
-            >
-              Invoices
-            </button>
+            
 
-            <button
-              v-if="vendorTabs[vd.id] === 'invoice'"
-              @click="vendorTabs[vd.id] = ''; quotationStore.curVendorId = null"
-              class="p-4 border-b-2 rounded-t-lg text-center text-red-600 border-transparent "
-            >
-              Close Invoices
-            </button> -->
-
-            <button v-if="vendorTabs[vd.id] !== 'order'"
+            <button v-if="vendorTabs[vd.id] !== 'order' &&  vendorStore.initVendor.isOrdersFound"
               @click="vendorTabs[vd.id] = 'order'; quotationStore.curVendorId = vd.id" :class="[
                 'p-4 border-b-2 rounded-t-lg text-center',
                 vendorTabs[vd.id] === 'order'
                   ? 'text-blue-600 border-blue-600 dark:text-blue-500 dark:border-blue-500'
                   : 'border-transparent hover:text-gray-600 hover:border-gray-300 '
               ]">
-              Order
+              Orders
             </button>
 
-            <button v-if="vendorTabs[vd.id] === 'order'"
+          
+
+            <button v-if="vendorTabs[vd.id] === 'order' "
               @click="vendorTabs[vd.id] = ''; quotationStore.curVendorId = null"
               class="p-4 border-b-2 rounded-t-lg text-center text-red-600 border-transparent ">
-              Close Order
+              Close Orders
             </button>
 
             <button v-if="vendorTabs[vd.id] !== 'viewMore'"
@@ -167,11 +151,12 @@
           </div>
         </div>
 
-
+   <!-- {{ vd }} -->
         <!-- Tab Contents -->
         <div class="p-4 dark:border-gray-700">
           <div v-if="vendorTabs[vd.id] === 'proposal'">
-            <Proposal />
+         
+            <Proposal :customerRef="vd.customerRef" />
           </div>
           <!-- <div v-if="vendorTabs[vd.id] === 'invoice'">
             <Invoice />
@@ -272,34 +257,43 @@ export default {
     };
   },
   async created() {
-   
+   try{
+  
       this.vendorStore = useVendorStore();
       this.userStore = useUserStore();
       this.quotationStore = useQuotationStore();
       this.showLoading = this.$showLoading;
-
+      
+       
       const route = useRoute();
       let val = route.query.p;
       let isGuid = false;
-      if (val !== undefined) isGuid = val.includes('-');
-
-
-    await this.vendorStore.loadListVendors(
-      { keyword: (isGuid) ? val : '', searchBy: (isGuid) ? 'id' : '' },
+      let req = { keyword:  '', searchBy:  '' };
+      if (val !== undefined)
+      { 
+        isGuid = val.includes('-');
+         req =  { keyword: (isGuid) ? val : '', searchBy: (isGuid) ? 'id' : '' };
+      }
+     
+      
+      await this.vendorStore.loadListVendors(
+      req,
       this.showLoading
     );
+     
 
-    await this.vendorStore.loadInitVendor(this.showLoading);
-    this.imageroot = this.userStore.loggedUser.resourceURLRoot;
-
-
-    this.vendorStore.listVendor.forEach(vd => {
-      this.vendorTabs[vd.id] = 'profile';
-    });
-
+       await this.vendorStore.loadInitVendor(this.showLoading);
+      this.imageroot = this.userStore.loggedUser.resourceURLRoot;
+      this.vendorStore.listVendor.forEach(vd => {
+        this.vendorTabs[vd.id] = 'profile';
+      });
+      
+  
+     
+    } catch (error) {
+      console.error("error:", error);
+    }
   },
-
-
 
   methods: {
 
@@ -309,17 +303,14 @@ export default {
     },
 
     async GetSearch(searchVal) {
-      // await this.vendorStore.loadListVendors(
-      //   { keyword: searchVal, searchBy: this.searchBy },
-      //   this.showLoading
-      // );
+
 
       if (searchVal) {
         this.keyword = searchVal
       } else {
         this.keyword = ""
       }
-      console.log("keyword, searchBy", searchVal, this.searchBy);
+  
       await this.vendorStore.loadInitVendor(this.showLoading);
       await this.vendorStore.loadListVendors(
         { keyword: this.keyword, searchBy: this.searchBy },
@@ -376,10 +367,7 @@ export default {
       await this.vendorStore.GetVendorById(id, this.showLoading);
       this.isAssignRso = true;
     },
-    GoToQuotation() {
-      //this.isAssignRso = true;
-      this.$router.push("/qms/quotation");
-    },
+  
     DeleteVendor(vendor) {
       if (confirm("Are you sure you want to delete this vendor?")) {
         this.vendorStore.DeleteVendor(vendor);
