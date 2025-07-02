@@ -20,20 +20,19 @@ export default defineNuxtRouteMiddleware(async (to, from) => {
           userStore.token = token
         }
 
-        return navigateTo('/user/login')
+        if (to.path !== '/user/login') {
+          const redirectToCookie = useCookie('redirectTo', {
+            maxAge: 60 * 3,
+            path: '/',
+            sameSite: 'strict',
+            secure: process.env.NODE_ENV === 'production'
+          })
+          redirectToCookie.value = to.fullPath
 
-        // if (to.path !== '/user/login') {
-        //   const redirectToCookie = useCookie('redirectTo', {
-        //     maxAge: 60 * 3,
-        //     path: '/',
-        //     sameSite: 'strict',
-        //     secure: process.env.NODE_ENV === 'production'
-        //   })
-        //   redirectToCookie.value = to.fullPath
+          return navigateTo('/user/login')
+        }
 
-        //   return navigateTo('/user/login')
-        // }
-
+        // return navigateTo('/user/login')
       }
 
       if (token) {

@@ -5,6 +5,10 @@ export default defineNuxtConfig({
     middleware: ['auth']
   },
 
+  routeRules: {
+    '/*': { ssr: false }, // Disable SSR for non-existent routes
+  },
+
   modules: [
     '@pinia/nuxt',
   
@@ -26,6 +30,7 @@ export default defineNuxtConfig({
     { src: '@/plugins/axios.js' },
     { src: '@/plugins/init.js' },
     { src: '@/plugins/piniaPersist.client.js' },
+    { src: '@/plugins/pinia-cleanup.js' },
   ],
 
   runtimeConfig: {

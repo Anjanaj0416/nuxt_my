@@ -21,7 +21,8 @@
     </div>
 
 
-    <FilterTab @selected="SetSelectedFilter" :arrFilter="Object.values(vendorStore.initVendor.vendorViewItemCount)" />
+    <FilterTab @selected="SetSelectedFilter"
+      :arrFilter="vendorStore.initVendor?.vendorViewItemCount ? Object.values(vendorStore.initVendor.vendorViewItemCount) : {}" />
 
     <!-- {{ vendorStore.initVendor.vendorViewItemCount }} -->
 
@@ -247,7 +248,7 @@ export default {
     return {
 
       isMore: false,
-      activeVendorId: null,
+      activeVendorId: "",
       rowIndex: -1,
       isAddEdit: false,
       isAssignRso: false,
@@ -280,6 +281,7 @@ export default {
 
       const route = useRoute();
       let val = route.query.p;
+
       let isGuid = false;
       if (val !== undefined) isGuid = val.includes('-');
 
