@@ -347,7 +347,7 @@ export default {
       curProductCategory: "",
       quotation: {
         currentQNo: '',
-        isVerion: false,
+        isVerion: false,      
         customerRef: "",
         listOrderItem: [],
         vat: 0,
@@ -607,8 +607,8 @@ export default {
           this.quotation.isVerion = this.isVerion;  
           this.quotation.customerRef = this.customerRef;
           this.quotation.currentQNo='';
-          const { totalAmount, installment, ...payload } = this.quotation;
-           console.log(JSON.stringify(payload));
+          //const { totalAmount, installment, ...payload } = this.quotation;
+           console.log(JSON.stringify(this.quotation));
 
          // await this.quotationStore.GetAddQuotation(payload, this.showLoading);
 
