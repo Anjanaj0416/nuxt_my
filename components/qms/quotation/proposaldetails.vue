@@ -7,7 +7,9 @@
         </div>
         <div class="w-full md:w-auto">
           <div class="mr-2">
-            <Button class="w-24 px-4 py-1.5 rounded-full text-xs transition" label="Create" variant="primary"
+         
+            <Button class="w-24 px-4 py-1.5 rounded-full text-xs transition" label="Create" variant="primary" 
+            v-if="userStore.loggedUser.granted.includes('su') || userStore.loggedUser.granted.includes('flo')"
               @click="handleCreateClick" />
           </div>
         </div>
@@ -125,7 +127,7 @@ import Order from "~/components/qms/order/index";
 
 
 import { useQuotationStore } from "~/stores/modules/qms/quotationStore";
-
+import { useUserStore } from "~/stores/modules/userStore";
 
 definePageMeta({
   layout: "default",
@@ -168,6 +170,7 @@ export default {
   },
   async created() {
     this.quotationStore = useQuotationStore();
+    this.userStore = useUserStore();
     this.showLoading = this.$showLoading;
 
     await this.quotationStore.loadListQuotations({
@@ -188,7 +191,7 @@ export default {
     },
 
     GoToAddNew() {
-      alert(this.quotation.isVerion)
+     console.log(this.quotation)
       if (this.quotation.isVerion === '') {
         this.isAddEdit = true;
         this.quotationStore.ResetQuotation();
