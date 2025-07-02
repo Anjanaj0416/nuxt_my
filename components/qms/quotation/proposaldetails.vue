@@ -199,8 +199,8 @@ export default {
     //   }
     // },
     GoToAddNew() {
-      //this.quotationStore.ResetQuotation();
-      //this.quotationStore.quotation.customerRef=this.customerRef;
+      this.quotationStore.ResetQuotation();
+      this.quotationStore.quotation.customerRef=this.customerRef;
       this.isAddEdit = true;
     },
 

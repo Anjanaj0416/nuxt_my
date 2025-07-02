@@ -288,7 +288,6 @@
                 <p class="text-sm text-gray-500">Net Total</p>
                 <p class="text-xl font-medium text-gray-900">
                   {{ (quotation && quotation.netTotal != null ? quotation.netTotal : 0).toFixed(2) }}
-
                 </p>
               </div>
               
@@ -410,6 +409,9 @@ export default {
     await this.quotationStore.loadInitQuotation(this.showLoading);
   },
 
+
+
+
   methods: {
  
 
@@ -478,6 +480,8 @@ export default {
         fee: Number(fee)
       }));
     },
+
+    
 
     AddInstallments() {
       const count = this.quotation.installment;
@@ -591,7 +595,7 @@ export default {
       }
 
       // this.quotation.totalAmount = this.quotation.netTotal + (this.quotation.vat || 0);
-      // this.quotation.totalAmount = this.quotation.netTotal;
+      this.quotation.totalAmount = this.quotation.netTotal;
     },
 
 
