@@ -30,7 +30,7 @@
       <p>No vendors available...</p>
     </div>
     <div v-for="vd in vendorStore.listVendor" :key="vd.id">
-      <div class="flex flex-col gap-0 p-4 mt-4  border rounded-lg shadow-sm sm:p-6" :class="{
+      <div class="flex flex-col gap-0 p-4 mt-2  border rounded-lg shadow-sm sm:p-6" :class="{
         'bg-red-50': vd.isActive === false,
         'bg-gray-50': vd.isActive === true,
         'bg-white': vd.isActive === undefined
@@ -38,7 +38,7 @@
         <div class="flex flex-col gap-4 sm:flex-row sm:justify-between sm:items-start">
           <div class="grid w-full grid-cols-2 gap-2 lg:grid-cols-8 sm:grid-cols-7 md:grid-cols-8">
             <div class="flex flex-col text-center sm:text-left" v-for="(field, idx) in vendorFields" :key="idx">
-              <h1 class="text-sm font-semibold text-gray-700">
+              <h1 class="text-xs font-medium text-gray-600">
                 {{ field.label }}
               </h1>
 
@@ -47,7 +47,7 @@
                 <span v-else class="text-xs text-gray-500">No Shop Logo</span>
               </p>
 
-              <p v-else-if="field.key !== 'isActive'" class="text-xs text-gray-600">
+              <p v-else-if="field.key !== 'isActive'" class="text-xs text-gray-500 mt-0.50">
                 {{ vd[field.key] }} {{ field.secondKey ? vd[field.secondKey] : "" }}
               </p>
 
@@ -153,7 +153,7 @@
 
    <!-- {{ vd }} -->
         <!-- Tab Contents -->
-        <div class="p-4 dark:border-gray-700">
+        <div class="p-0 dark:border-gray-700">
           <div v-if="vendorTabs[vd.id] === 'proposal'">
          
             <Proposal :customerRef="vd.customerRef" />

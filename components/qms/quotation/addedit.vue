@@ -386,6 +386,15 @@ export default {
       ) {
         this.curProductCategory = newVal[0].packageCategory;
       }
+    },
+    'quotation.listInstallment': {
+      handler(newVal) {
+        if (Array.isArray(newVal) && newVal.length > 0) {
+          this.quotation.installment = newVal.length;
+          this.populateInstallmentsFromBackend();
+        }
+      },
+      immediate: true
     }
   },
   
@@ -488,6 +497,17 @@ export default {
       });
     },
 
+    populateInstallmentsFromBackend() {
+      const backendInstallments = this.quotation.listInstallment;
+
+      if (!Array.isArray(backendInstallments)) return;
+
+      this.listInstallmentDetails = backendInstallments.map((fee, index) => ({
+        installment: `Installment ${index + 1}`,
+        fee: Number(fee)
+      }));
+    },
+
     AddInstallments() {
       const count = this.quotation.installment;
 
@@ -514,11 +534,6 @@ export default {
       }));
 
       this.quotation.listInstallment = this.listInstallmentDetails.map(item => item.fee);
-
-      console.log("Final installment breakdown:", this.listInstallmentDetails);
-      console.log("Updated listInstallment:", this.quotation.listInstallment);
-      
-
     },
 
     handleInstallmentChange(changedIndex) {
@@ -559,7 +574,8 @@ export default {
           : base;
       });
 
-      this.quotation.listInstallment = [...this.listInstallmentDetails];
+      // ✅ Updated here: just set the fees array
+      this.quotation.listInstallment = this.listInstallmentDetails.map(item => item.fee);
     },
     
     RemoveInstallment(index) {
@@ -617,7 +633,7 @@ export default {
       .then(async (result) => {
         if (result.isConfirmed) {
           const { totalAmount, installment, ...payload } = this.quotation;
-          // console.log("Sending data:", JSON.stringify(payload, null, 2));
+          //  console.log("Sending data:", JSON.stringify(payload, null, 2));
 
           await this.quotationStore.GetAddQuotation(payload, this.showLoading);
 
