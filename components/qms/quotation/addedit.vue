@@ -350,7 +350,6 @@ export default {
         isVerion: false,      
         customerRef: "",
         listOrderItem: [],
-        vat: 0,
         netTotal: 0,
         listInstallment: [],
       },
@@ -592,33 +591,43 @@ export default {
       }
 
       // this.quotation.totalAmount = this.quotation.netTotal + (this.quotation.vat || 0);
-      this.quotation.totalAmount = this.quotation.netTotal;
+      // this.quotation.totalAmount = this.quotation.netTotal;
     },
 
 
   
-  GetPrint() {
-    this.netTotalPrice();
-    if (!this.IsValidated()) return;
+GetPrint() {
+  this.netTotalPrice();
 
-    this.$showConfirm("Are you sure you want to Print this Quotation?", "warning")
-      .then(async (result) => {
-        if (result.isConfirmed) {     
-          this.quotation.isVerion = this.isVerion;  
-          this.quotation.customerRef = this.customerRef;
-          this.quotation.currentQNo='';
-          //const { totalAmount, installment, ...payload } = this.quotation;
-           console.log(JSON.stringify(this.quotation));
+  if (!this.IsValidated()) return;
 
-         // await this.quotationStore.GetAddQuotation(payload, this.showLoading);
+  this.$showConfirm("Are you sure you want to Print this Quotation?", "warning")
+    .then(async (result) => {
+      if (result.isConfirmed) {
+        this.quotation.isVerion = this.isVerion;
+        this.quotation.customerRef = this.customerRef;
+        this.quotation.currentQNo = "";
 
-        } else {
-          console.log("Action canceled");
-          this.closeModal();
-          this.clearErr();
-        }
-      });
-  },
+        const payload = {
+          listOrderItem: this.quotation.listOrderItem,
+          listInstallment: this.quotation.listInstallment,
+          netTotal: this.quotation.netTotal,
+          isVerion: this.quotation.isVerion,
+          customerRef: this.quotation.customerRef,
+          currentQNo: this.quotation.currentQNo
+        };
+
+        console.log("Payload to Send ===>", JSON.stringify([payload], null, 2));
+
+        // await this.quotationStore.GetAddQuotation(payload, this.showLoading);
+      } else {
+        console.log("Action canceled");
+        this.closeModal();
+        this.clearErr();
+      }
+    });
+}
+,
 
 
 

@@ -352,7 +352,6 @@ export default {
       }
     },
 
-
     GoToAddNew() {
       this.vendorStore.ResetVendor();
       this.isAddEdit = true;
