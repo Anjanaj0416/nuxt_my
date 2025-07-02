@@ -128,31 +128,22 @@ export const useVendorStore = defineStore("vendorStore", {
 
     //loadListVendors
     async loadListVendors(req, showLoading) {
+     
       const loadingAlert = showLoading("");
       try {
+       
         const response = await axios.get(
           `${import.meta.env.VITE_API_URL}/qms/Vendor/VendorList?keyword=${
             req.keyword
           }&searchBy=${req.searchBy}`
         );
-        loadingAlert.close();
-
-        console.log("response:",response.data);
-        
-
-        if (response.data.isSuccess) {
-          if (response.data.data.count == 0) {
-            this.listVendor = [];
-            this.showToast(response.data.message, "error");
-          } else {
-            this.listVendor = response.data.data.data;
-           // console.log( this.listVendor)
-          }
-          this.showToast(response.data.message, "success");
-        } else {
-          if (response.data.data.count == 0) {
-            this.listVendor = [];
-          }
+        loadingAlert.close();       
+         
+        if (response.data.isSuccess) {         
+            this.listVendor = response.data.data.data;   
+            this.showToast(response.data.message, "success");
+        } else {        
+            this.listVendor = [];          
           this.showToast(response.data.message, "error");
         }
       } catch (error) {
@@ -168,7 +159,7 @@ export const useVendorStore = defineStore("vendorStore", {
           `${import.meta.env.VITE_API_URL}/qms/Vendor/Delete?id=${req.id}`
         );
         loadingAlert.close();
-        console.log("response:",response.data);
+       
         if (response.data.isSuccess) {
           await this.loadListVendors();
             // this.showToast(response.data.message, "error");

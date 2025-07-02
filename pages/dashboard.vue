@@ -195,11 +195,11 @@
 import changelogin from '~/components/auth/changelogin'
 import login from '~/components/auth/login'
 import chart from '~/components/chart/chart.vue'
-import hrDash from '~/components/dashboard/hr.vue'
-import financeDash from '~/components/dashboard/finance.vue'
-import saleDash from '~/components/dashboard/sales.vue'
-import supervisor from '~/components/dashboard/supervisor.vue'
-import freelance from '~/components/dashboard/freelance.vue'
+import hrDash from '~/components/hr/dashboard/hr.vue'
+import financeDash from '~/components/qms/dashboard/finance.vue'
+import saleDash from '~/components/qms/dashboard/sales.vue'
+import supervisor from '~/components/qms/dashboard/supervisor.vue'
+import freelance from '~/components/qms/dashboard/freelance.vue'
 import { useUserStore } from '~/stores/modules/userStore';
 import { ref, computed, onMounted } from 'vue'
 

@@ -32,7 +32,7 @@
       v-for="(lead, index) in leadStore.listLeads"
       :key="index"
     >
- 
+ {{ lead }}
       <div class="flex justify-start">
         <span
           class="inline-block px-1 py-0.5 text-[9px] font-medium text-blue-800 bg-blue-100 rounded-full"
@@ -161,7 +161,7 @@
               </p>
             </div>
           </div>
-          <!-- {{ lead }} -->
+       
           <!-- Action Buttons -->
           <div
             v-if="(userStore.loggedUser.granted?.includes('flo') || userStore.loggedUser.granted?.includes('su') || userStore.loggedUser.granted?.includes('sso')) 
@@ -242,7 +242,7 @@ export default {
       ],
       showAllFields: [
         { label: "Company Mobile Number", key: "companyPhone" },
-        { label: "Address Line 1", key: "address1" },
+        { label: "Address Line 1", key: "Address" },
         { label: "Address Line 2", key: "address2" },
         { label: "District", key: "district" },
         { label: "Mobile Number", key: "contactMobile" },
@@ -350,7 +350,7 @@ export default {
         }
 
         this.$showConfirm(
-          "Are you sure you want to update this lead?",
+          "Are you sure to update this lead?",
           "warning"
         ).then(async (result) => {
           if (result) {

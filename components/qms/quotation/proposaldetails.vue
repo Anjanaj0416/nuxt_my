@@ -94,7 +94,7 @@
           </div>
         </div>
         <div v-if="!quotationStore.listQuotation.length" class="mt-4 text-center text-blue-950">
-          No quotations found.
+          No Proposals found.
         </div>
       </div>
     </div>
@@ -145,6 +145,7 @@ export default {
     WorkFlow,
     Order,
   },
+  props:['customerRef'],
   data() {
     return {
       isViewMore: false,
@@ -153,7 +154,7 @@ export default {
       showAddProposal: false,
       showOrder: false,
       showProposalVersions: false,
-      searchBy: "",
+      searchBy: "quotationno",
       // arrFilter: [
       //  {itemName: "All", itemCount:n },
       //     {itemName: "Pending", itemCount:n },
@@ -170,7 +171,7 @@ export default {
     this.showLoading = this.$showLoading;
 
     await this.quotationStore.loadListQuotations({
-      keyword: "",
+      keyword: this.customerRef,
       searchBy: this.searchBy,
     }, this.showLoading);
 
@@ -187,6 +188,7 @@ export default {
     },
 
     GoToAddNew() {
+      alert(this.quotation.isVerion)
       if (this.quotation.isVerion === '') {
         this.isAddEdit = true;
         this.quotationStore.ResetQuotation();

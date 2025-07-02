@@ -236,7 +236,7 @@ export default {
 
       if (this.IsValidate()) {
         this.$showConfirm(
-          `Are you sure you want to assign ${req.CSONo}?`,
+          `Are you sure to assign  CSO - ${req.CSONo}?`,
           "warning"
         ).then(async (result) => {
           if (result.isConfirmed) {

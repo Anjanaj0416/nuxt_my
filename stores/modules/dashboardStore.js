@@ -1,6 +1,6 @@
 
 import { defineStore } from 'pinia';
-import Finance from '~/components/dashboard/finance.vue';
+import Finance from '~/components/qms/dashboard/finance.vue';
 
 export const useDashboardStore  = defineStore('dashboard', {
   state: () => ({
