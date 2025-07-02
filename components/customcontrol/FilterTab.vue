@@ -41,6 +41,7 @@
 <template>
   <section class="mt-4">
     <div class="flex flex-wrap items-center gap-3">
+    
       <div v-for="(filter, index) in arrFilter" :key="index" class="relative flex items-center gap-1">
         <!-- Hidden radio input -->
         <input :id="'radio-' + index" type="radio" name="filter-radio" class="sr-only" @click="onClick(filter)" />

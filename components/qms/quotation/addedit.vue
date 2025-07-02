@@ -7,6 +7,9 @@
       <div class="w-full md:w-auto">
       </div>
     </div>
+    <!-- {{ quotation.listOrderItem }} -->
+    <!-- <pre>{{ JSON.stringify(quotationStore.quotation, null, 2) }}</pre> -->
+
     <div class="form-content bg-white mt-4 border rounded-lg shadow-md p-4 space-y-1 text-sm text-gray-800">
       <div class="grid grid-cols-1 gap-2 my-2 md:grid-cols-2">
         <div>
@@ -24,7 +27,6 @@
           </p>
         </div>
       </div>
-
       <div class="grid grid-cols-2 my-4">
         <div>
           <label class="block text-sm font-bold text-gray-600">Select Product Category</label>
@@ -34,11 +36,12 @@
             v-model="curProductCategory"
             ref=""
             :cur_item="curProductCategory"
-            :selections="quotationStore.initQuotation.listProductCategory"
+            :selections="finalProductCategoryList"
             :err="err.curProductCategory"
             label=""
             @changed="changedcurProductCategory"
           />
+          <!-- {{ quotationStore.initQuotation.listProductCategory }} -->
           
         </div>
       </div>
@@ -221,6 +224,8 @@
       </div>
     </div>
 
+    <!-- {{ quotationStore.quotation }} -->
+
     <!-- Input for adding installments -->
     <div>
       <div class="grid grid-cols-2 gap-4 my-4">
@@ -371,7 +376,18 @@ export default {
         listTemp:[{id:1,value:'abc'},{id:2,value:'def'}],
     };
   },
-
+  
+  watch: {
+    'quotation.listOrderItem'(newVal) {
+      if (
+        Array.isArray(newVal) &&
+        newVal.length > 0 &&
+        !this.curProductCategory
+      ) {
+        this.curProductCategory = newVal[0].packageCategory;
+      }
+    }
+  },
   
  computed: {
     isEditing() {
@@ -381,6 +397,16 @@ export default {
         //  this.quotation.isVersion !== "true"
       );
     },
+    finalProductCategoryList() {
+      // const categories = this.quotation.listOrderItem?.map(item => item.packageCategory) || [];
+      const categories = this.quotationStore.initQuotation.listProductCategory || [];
+      const uniqueCategories = [...new Set(categories)];
+
+      if (uniqueCategories.length > 0) {
+        return uniqueCategories;
+      }
+      return this.quotationStore.initQuotation.listProductCategory || [];
+    }
   },
 
   async created() {
@@ -399,15 +425,15 @@ export default {
     // },
 
     GetSelectMerchant(merchant) {
-  // Only assign the id
-  this.quotation.merchantId = merchant.id;
-  
-  // Clear error
-  this.err.merchantId = '';
-  
-  // Log just the id
-  console.log(this.quotation.merchantId);
-},
+      // Only assign the id
+      this.quotation.merchantId = merchant.id;
+      
+      // Clear error
+      this.err.merchantId = '';
+      
+      // Log just the id
+      console.log(this.quotation.merchantId);
+    },
 
 
     changedcurProductCategory(type) {
@@ -488,6 +514,10 @@ export default {
       }));
 
       this.quotation.listInstallment = this.listInstallmentDetails.map(item => item.fee);
+
+      console.log("Final installment breakdown:", this.listInstallmentDetails);
+      console.log("Updated listInstallment:", this.quotation.listInstallment);
+      
 
     },
 

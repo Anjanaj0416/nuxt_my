@@ -50,7 +50,7 @@ actions: {
 
     //loadListLeads
     async loadListLeads(req, showLoading) {
-      console.log("loadListLeads:",req);
+    
       
       const loadingAlert = showLoading("");
       try {
@@ -59,7 +59,7 @@ actions: {
             req.keyword
           }&searchBy=${req.searchBy}`
         );
-        console.log("response:",response);
+     
         
         loadingAlert.close();
 
@@ -71,52 +71,50 @@ actions: {
             this.listLeads = response.data.data.data;
             this.leadsCount = response.data.data.count;
 
-           // console.log( this.listLeads)
+          
           }
           this.showToast(response.data.message, "success");
         } else {
           this.showToast(response.data.message, "error");
         }
       } catch (error) {
-        console.error("error",error)
+      
         this.showToast(error.message, "error");
       }
     },
 
     //Add Lead
     async SetVendorLead(req, showLoading,showAlert) {
-      console.log(req);
+    
       try {
         const response = await axios.post(
           `${import.meta.env.VITE_API_URL}/qms/Leads/SetVendorLead`,req,    
         );
-        console.log("response:",response);
-        if (response.data.isSuccess) {  
-                 
-          showAlert(response.data.message);       
-       
-          // this.listLeads = response.data.data.data;
-          let reqLoadListLeads = { keyword: "", searchBy: req.Status}
-          await this.loadListLeads(reqLoadListLeads,showLoading)
+      
+        if (response.data.isSuccess) {                   
+          showAlert(response.data.message);
+        
+         this.listLeads = response.data.data.data;
+          await this.GetInitLeads(showLoading);
           
         } else {
-          console.log("response:",response.data.message);
+        
           showAlert(response.data.message, "error");
         }
       } catch (error) {
-        console.error("error:",error)
+     
         showAlert('Error in server call', "error");
        }
     },
 
     //curLead
     async SetUpdateVendorLead(req, showLoading) {
-      console.log(req);
+     
       try {
         const response = await axios.post(
           `${import.meta.env.VITE_API_URL}/qms/Leads/SetUpdateVendorLead`,req,    
         );
-        console.log("response:",response);
+      
         if (response.data.isSuccess) {  
                  
           this.showToast(response.data.message);       
@@ -126,11 +124,11 @@ actions: {
           await this.loadListLeads(reqLoadListLeads,showLoading)
           
         } else {
-          console.log("response:",response.data.message);
+       
           this.showToast(response.data.message, "error");
         }
       } catch (error) {
-        console.error("error:",error)
+      
         this.showToast('Error in server call', "error");
        }
     },
@@ -148,33 +146,33 @@ actions: {
         if (response.data.isSuccess) {
           this.showToast(response.data.message,"success");
         } else {
-          console.error("Error saving vendor:", response);
+         
           this.showToast(response.data?.Message || "Save failed", "error");
         }
       } catch (error) {
-        console.error(error);
+       
         //  this.showToast(response.data.message, "error");
       }
     },
 
     //Add new city
     async SetNewCity(req, showAlert) {
-      console.log(req);
+     
       try {
         const response = await axios.post(
           `${import.meta.env.VITE_API_URL}/qms/Leads/SetNewCity`,req,    
         );
-        console.log("response:",response);
+        
         if (response.data.isSuccess) {  
               this.GetInitLeads();
           showAlert(response.data.message);     
           
         } else {
-          console.log("response:",response.data.message);
+         
           showAlert(response.data.message, "error");
         }
       } catch (error) {
-        console.error("error:",error)
+       
         showAlert('Error in server call', "error");
        }
     },

@@ -21,6 +21,8 @@ export default defineNuxtRouteMiddleware(async (to, from) => {
         }
 
         if (to.path !== '/user/login') {
+          console.log("to.path:",to.path);
+          
           const redirectToCookie = useCookie('redirectTo', {
             maxAge: 60 * 3,
             path: '/',
@@ -28,6 +30,8 @@ export default defineNuxtRouteMiddleware(async (to, from) => {
             secure: process.env.NODE_ENV === 'production'
           })
           redirectToCookie.value = to.fullPath
+          console.log("redirectToCookie:",redirectToCookie.value);
+          
 
           return navigateTo('/user/login')
         }
