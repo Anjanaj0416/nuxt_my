@@ -8,8 +8,8 @@
         <div class="w-full md:w-auto">
           <div class="mr-2">
          
-            <Button class="w-24 px-4 py-1.5 rounded-full text-xs transition" label="Create" variant="primary" 
-            v-if="userStore.loggedUser.granted.includes('su') || userStore.loggedUser.granted.includes('flo')"
+            <Button class="w-24 px-4 py-1.5 mt-2 rounded-full text-xs transition" label="Create" variant="primary" 
+            v-if="userStore.loggedUser.granted.includes('su') || userStore.loggedUser.granted.includes('flo') || userStore.loggedUser.granted.includes('sso')"
               @click="handleCreateClick" />
           </div>
         </div>
@@ -104,7 +104,7 @@
     
     <ViewMore v-if="isViewMore && showProposalVersions" @close="isViewMore = !isViewMore; showProposalVersions = false"
       @Approve="isApproving = true" />
-    <AddEdit v-if="isAddEdit && showAddProposal" @close="isAddEdit = false; showAddProposal = false" />
+    <AddEdit v-if="isAddEdit && showAddProposal" @close="isAddEdit = false; showAddProposal = false" :isVerion="false" :customerRef="customerRef"/>
     <ApproveView v-if="isApproving" @close="CloseApprovingView()" />
     <Order v-if="isViewMore && showOrder" @close="isViewMore = false; showOrder = false" />
     <WorkFlow v-if="isViewMore && showWorkFlow" @close="isViewMore = false; showWorkFlow = false" />
@@ -191,15 +191,16 @@ export default {
       this.GoToAddNew(); // Assuming GoToAddNew is a method
     },
 
+    // GoToAddNew() {
+     
+    //   if (this.quotation.isVerion === '') {
+    //     this.isAddEdit = true;
+    //     this.quotationStore.ResetQuotation();
+    //   }
+    // },
     GoToAddNew() {
-     console.log(this.quotation)
-      if (this.quotation.isVerion === '') {
-        this.isAddEdit = true;
-        this.quotationStore.ResetQuotation();
-      }
-    },
-    GoToAddNew() {
-      this.quotationStore.ResetQuotation();
+      //this.quotationStore.ResetQuotation();
+      //this.quotationStore.quotation.customerRef=this.customerRef;
       this.isAddEdit = true;
     },
 

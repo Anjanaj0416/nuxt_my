@@ -11,26 +11,11 @@
     <!-- <pre>{{ JSON.stringify(quotationStore.quotation, null, 2) }}</pre> -->
 
     <div class="form-content bg-white mt-4 border rounded-lg shadow-md p-4 space-y-1 text-sm text-gray-800">
-      <div class="grid grid-cols-1 gap-2 my-2 md:grid-cols-2">
-        <div>
-          <label class="block text-sm font-bold text-gray-600">Select Merchant</label>
-          <serach_Input
-            :arrItems="quotationStore.initQuotation.listVendors"
-            ref="refVendor"
-            label=""
-            v-model="quotation.merchantId"
-            @selectItem="GetSelectMerchant"
-            @input="err.merchantId = ''"
-          />
-          <p v-if="err.merchantId" class="mt-2 text-xs text-red-500">
-            {{ err.merchantId }}
-          </p>
-        </div>
-      </div>
+     
       <div class="grid grid-cols-2 my-4">
         <div>
           <label class="block text-sm font-bold text-gray-600">Select Product Category</label>
-
+      
           <selectinput2
             class="my-2"
             v-model="curProductCategory"
@@ -228,7 +213,7 @@
 
     <!-- Input for adding installments -->
     <div>
-      <div class="grid grid-cols-2 gap-4 my-4">
+      <div class="grid grid-cols-2  my-1">
         <div>
           <label class="block text-sm font-bold text-gray-600">Installments</label>
           <input
@@ -346,11 +331,12 @@ export default {
     selectinput2,
     Button,
   },
+  props:['isVerion','customerRef'],
   data() {
     return {
       isOpen: true,
       err: {
-        merchantId: "",
+        customerRef: "",
         mainDistrictId: "",
         curProductCategory: "",
       },
@@ -362,7 +348,7 @@ export default {
       quotation: {
         currentQNo: '',
         isVerion: false,
-        merchantId: "",
+        customerRef: "",
         listOrderItem: [],
         vat: 0,
         netTotal: 0,
@@ -426,23 +412,9 @@ export default {
   },
 
   methods: {
-    // GetSelectMerchant(id) {
-    //   this.quotation.merchantId = id;
-    //   this.err.merchantId = '';
-    //   console.log(this.quotation.merchantId);
-      
-    // },
+ 
 
-    GetSelectMerchant(merchant) {
-      // Only assign the id
-      this.quotation.merchantId = merchant.id;
-      
-      // Clear error
-      this.err.merchantId = '';
-      
-      // Log just the id
-      console.log(this.quotation.merchantId);
-    },
+
 
 
     changedcurProductCategory(type) {
@@ -594,7 +566,7 @@ export default {
       if (total < 0) total = 0;
 
       item.total = total;
-      console.log(total);
+      //console.log(total);
 
       this.netTotalPrice();
 
@@ -631,11 +603,14 @@ export default {
 
     this.$showConfirm("Are you sure you want to Print this Quotation?", "warning")
       .then(async (result) => {
-        if (result.isConfirmed) {
+        if (result.isConfirmed) {     
+          this.quotation.isVerion = this.isVerion;  
+          this.quotation.customerRef = this.customerRef;
+          this.quotation.currentQNo='';
           const { totalAmount, installment, ...payload } = this.quotation;
-          //  console.log("Sending data:", JSON.stringify(payload, null, 2));
+           console.log(JSON.stringify(payload));
 
-          await this.quotationStore.GetAddQuotation(payload, this.showLoading);
+         // await this.quotationStore.GetAddQuotation(payload, this.showLoading);
 
         } else {
           console.log("Action canceled");
@@ -658,10 +633,10 @@ export default {
       this.err = {}; // Clear previous errors
 
       // Check Merchant
-      if (!this.quotation.merchantId) {
-        this.err.merchantId = "Please select a Merchant!";
-        isValidated = false;
-      }
+      // if (!this.quotation.customerRef) {
+      //   this.err.customerRef = "Please select a Merchant!";
+      //   isValidated = false;
+      // }
 
       // Check Product Category
       if (!this.curProductCategory) {
