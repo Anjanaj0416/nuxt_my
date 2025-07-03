@@ -122,13 +122,21 @@
                 {{ err.VATNo }}
               </p>
             </div>
+            <div class="">
+              <label class="block text-sm font-bold text-gray-600">QR Link</label>
+              <input type="text" v-model="curVendor.QRlink" placeholder="Enter QR Link" required
+                class="w-full p-2 mt-2 text-sm border rounded-md focus:ring-indigo-500 focus:border-indigo-500" />
+              <!-- <p v-if="err" class="mt-2 text-sm text-red-600">
+                {{ err }}
+              </p> -->
+            </div>
 
           </div>
 
           <!-- description -->
           <div class="mt-2">
             <label class="block text-sm font-bold text-gray-600">Description</label>
-            <input type="text" v-model="curVendor.description" placeholder="Enter Description"
+            <textarea type="text" v-model="curVendor.description" placeholder="Enter Description"
               class="w-full p-2 mt-2 text-sm border rounded-md focus:ring-indigo-500 focus:border-indigo-500" />
             <p v-if="err.description" class="mt-2 text-sm text-red-600">
               {{ err.description }}
@@ -160,6 +168,17 @@
                 {{ err.brCopyImage }}
               </p>
             </div>
+            <!-- QR Image -->
+            <!-- <div>
+              <label class="block text-sm font-bold text-gray-600">QR Image</label>
+              <div class="relative mt-2">
+                <img
+                  class="h-36 max-w-lg rounded-lg"
+                  :src="imageroot + curVendor.shopLogo"
+                  alt="Shop Logo"
+                />
+              </div>
+            </div> -->
           </div>
 
           <hr class="my-4" />
@@ -407,13 +426,16 @@
 import { reactive, computed } from "vue";
 import { ref } from 'vue'
 import closebtn from "~/components/customcontrol/modal_close_button";
-import { useVendorStore } from "~/stores/modules/qms/vendorStore";
 import imagecomp from "~/components/customcontrol/imagepicker";
-import ImageLable from "~/components/customcontrol/ImageLable";
 
+import ImageLable from "~/components/customcontrol/ImageLable";
 import serach_Input from "~/components/customcontrol/SearchInput.vue";
-import { useUserStore } from "~/stores/modules/userStore";
 import toggleoption from "~/components/customcontrol/toggleoption";
+// import imagecomp from "~/components/customcontrol/imagepicker1.vue"
+
+import { useVendorStore } from "~/stores/modules/qms/vendorStore";
+import { useUserStore } from "~/stores/modules/userStore";
+
 
 definePageMeta({
   layout: "default",
