@@ -105,7 +105,7 @@
               <div class="p-2">Index</div>
               <div class="p-2">Description</div>
               <div class="p-2">Unit Price</div>
-              <div class="p-2">Links</div>
+              <div class="p-2">Links/Pkg</div>
               <div class="p-2">
                 Discount
                 <span class="text-xs font-bold text-red-500">(Rs.)</span>
@@ -309,6 +309,7 @@
       </button>
       <button @click="GetPrint" class="confirm-button"> {{ isEditing ? "Update" : "Print" }}</button>
     </div>
+
   </section>
 </template>
 
@@ -330,7 +331,7 @@ export default {
     selectinput2,
     Button,
   },
-  props:['isVerion','customerRef'],
+  props:['isVerion','customerRef','quotationNo'],
   data() {
     return {
       isOpen: true,
@@ -456,6 +457,11 @@ export default {
     if (!this.selectedPackages.includes(pkg)) {
       this.selectedPackages.push(pkg);
       this.quotation.listOrderItem.push(orderItem);
+  
+      this.updateTotalPrice(this.quotation.listOrderItem.length-1);
+    }
+    else{
+       this.$showCustomToast('This Item Already added', 'warning', 3000);
     }
   },
 
@@ -605,12 +611,12 @@ GetPrint() {
 
   if (!this.IsValidated()) return;
 
-  this.$showConfirm("Are you sure you want to Print this Quotation?", "warning")
+  this.$showConfirm("Confirm: Print the proposal?", "warning")
     .then(async (result) => {
       if (result.isConfirmed) {
         this.quotation.isVerion = this.isVerion;
         this.quotation.customerRef = this.customerRef;
-        this.quotation.currentQNo = "";
+        this.quotation.currentQNo = this.quotationNo;
 
         const payload = {
           listOrderItem: this.quotation.listOrderItem,
@@ -620,15 +626,15 @@ GetPrint() {
           customerRef: this.quotation.customerRef,
           currentQNo: this.quotation.currentQNo
         };
-
-        console.log("Payload to Send ===>", JSON.stringify([payload], null, 2));
-
-        // await this.quotationStore.GetAddQuotation(payload, this.showLoading);
+       // console.log(JSON.stringify(payload));
+         await this.quotationStore.GetAddQuotation(payload, this.showLoading);
+         
       } else {
         console.log("Action canceled");
-        this.closeModal();
-        this.clearErr();
+       
       }
+       this.closeModal();
+        this.clearErr();
     });
 }
 ,

@@ -77,7 +77,7 @@
               showProposalVersions = true
                 " />
             </div>
-            <LinkBtn label="Orders" class="text-xs font-medium" @click="
+            <LinkBtn label="View Order" v-if="qItem.status === 'Approved'" class="text-xs font-medium" @click="
               GoToOrder(qItem.id);
             showOrder = true
               " />
@@ -102,9 +102,9 @@
       </div>
     </div>
     
-    <ViewMore v-if="isViewMore && showProposalVersions" @close="isViewMore = !isViewMore; showProposalVersions = false"
+    <ViewMore :customerRef="customerRef" v-if="isViewMore && showProposalVersions" @close="isViewMore = !isViewMore; showProposalVersions = false;"
       @Approve="isApproving = true" />
-    <AddEdit v-if="isAddEdit && showAddProposal" @close="isAddEdit = false; showAddProposal = false" :isVerion="false" :customerRef="customerRef"/>
+    <AddEdit v-if="isAddEdit && showAddProposal" @close="isAddEdit = false; showAddProposal = false" :isVerion="false" :customerRef="customerRef" :quotationNo="quotationStore.curQuotation.quotationNo" />
     <ApproveView v-if="isApproving" @close="CloseApprovingView()" />
     <Order v-if="isViewMore && showOrder" @close="isViewMore = false; showOrder = false" />
     <WorkFlow v-if="isViewMore && showWorkFlow" @close="isViewMore = false; showWorkFlow = false" />
