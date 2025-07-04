@@ -1,5 +1,6 @@
 // plugins/toast.js
 import Swal from 'sweetalert2';
+import lodingGif from '~/assets/img/digitalTechLabs/LodingGif.gif'
 
 export default defineNuxtPlugin(nuxtApp => {
   // Add showToast globally, available as $showToast
@@ -123,21 +124,44 @@ export default defineNuxtPlugin(nuxtApp => {
   //UseCase
   // const loadingAlert = this.$showLoading('Loading data, please wait...');
   // loadingAlert.close();
-  nuxtApp.provide('showLoading', (message = 'Loading..') => {
+  nuxtApp.provide('showLoading', (message = 'Loading...') => {
     return Swal.fire({
-      title: message,
-      customClass: {
-        popup: 'custom-zindex'
-      },
-      didOpen: () => {
-        Swal.showLoading();
-      },
-      allowOutsideClick: false, // Disable closing the modal by clicking outside
+      title: '',
+      html: `
+        <div style="
+          background:rgb(255, 255, 255); /* white-100 or gray-50 */
+          padding: 30px 40px;
+          border-radius: 12px;
+          display: flex;
+          flex-direction: column;
+          align-items: center;
+          justify-content: center;
+          gap: 20px;
+          min-width: 200px;
+        ">
+          <img src="${lodingGif}" alt="Loading..." style="width: 120px; height: 120px;" />
+        </div>
+      `,
+      background: 'transparent', // So Swal's background is transparent; your container sets bg
+      backdrop: `
+      rgba(55, 65, 81, 0.8)
+      url("") /* no pattern image */
+      left top
+      no-repeat
+      fixed
+      `,
+      backdrop: true, // show backdrop overlay
+      allowOutsideClick: false,
       showConfirmButton: false,
-      width:100,
-      height:100,
+      didOpen: () => {
+        // Optional: Focus on Swal or add any animation here
+      },
     });
   });
+
+
+
+
 
   //UseCase
   // this.$showCustomToast('Operation successful!', 'success', 3000); 

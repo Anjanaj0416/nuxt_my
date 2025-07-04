@@ -1,22 +1,21 @@
 <template>
   <section class="flex items-center justify-center min-h-screen px-4 bg-gray-100">
     <div
-      class="flex flex-col items-center w-full max-w-5xl overflow-hidden bg-white shadow-2xl rounded-3xl md:flex-row">
-      <div class="w-full p-4 bg-blue md:w-1/2 ">
-        <a href="/">
+      class="flex flex-col items-center w-full max-w-5xl overflow-hidden bg-blue-800 shadow-2xl rounded-3xl md:flex-row">
+      <div class="w-full md:w-1/2 ">
+        <!-- <a href="/">
           <img src="/assets/img/digitalTechLabs/login.jpg" alt="Logo" class="w-full mx-auto" />
-        </a>
-
+        </a> -->
       </div>
 
       <!-- Right Panel -->
       <div class="w-full p-10 bg-white md:w-1/2">
-        <h3 class="mb-6 text-3xl font-semibold text-center text-indigo-900">Sign In</h3>
+        <h3 class="mb-6 text-3xl font-semibold text-center text-blue-900">Sign In</h3>
 
         <form @submit.prevent="handleLogin" class="space-y-5">
           <!-- Email -->
           <div>
-            <label class="block mb-1 text-sm font-medium text-gray-700">Username</label>
+            <label class="block mb-1 text-sm font-medium text-gray-700">User Name</label>
             <input type="email" v-model="loginDetails.userName" placeholder="Enter your email" required
               class="w-full px-4 py-2 text-sm border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-300" />
             <div v-if="!loginDetails.userName" class="mt-1 text-sm text-red-500">
