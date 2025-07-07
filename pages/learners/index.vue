@@ -56,36 +56,36 @@
     </section>
 
     <!-- Featured Schools Section -->
-    <section id="schools" class="py-16 bg-gray-50 dark:bg-gray-800">
+    <section id="schools" class="py-16 bg-gray-50 ">
       <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div class="text-center mb-12">
-          <h2 class="text-3xl md:text-4xl font-bold text-gray-900 dark:text-white mb-4">
+          <h2 class="text-3xl md:text-4xl font-bold text-gray-900 mb-4">
             Top Rated Schools
           </h2>
-          <p class="text-xl text-gray-600 dark:text-gray-300 max-w-2xl mx-auto">
+          <p class="text-xl text-gray-600 max-w-2xl mx-auto">
             Discover the highest-rated driving schools in your area with proven track records.
           </p>
         </div>
 
         <!-- Filters -->
-        <div class="bg-white dark:bg-gray-900 rounded-lg shadow-sm p-6 mb-8">
+        <div class="bg-white rounded-lg shadow-sm p-6 mb-8">
           <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
             <!-- Search -->
             <div>
-              <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
+              <label class="block text-sm font-medium text-gray-700  mb-2">
                 Search
               </label>
               <input v-model="searchQuery" type="text" placeholder="Search by name or location..."
-                class="w-full px-4 py-2 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-primary-500 focus:border-transparent  dark:bg-gray-700 dark:text-white" />
+                class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary-500 focus:border-transparent " />
             </div>
 
             <!-- Location Filter -->
             <div>
-              <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
+              <label class="block text-sm font-medium text-gray-700 mb-2">
                 Location
               </label>
               <select v-model="selectedLocation"
-                class="w-full px-4 py-2 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-primary-500 focus:border-transparent dark:bg-gray-700 dark:text-white">
+                class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary-500 focus:border-transparent ">
                 <option value="">All Locations</option>
                 <option value="Downtown">Downtown</option>
                 <option value="Westside">Westside</option>
@@ -98,7 +98,7 @@
         <!-- Schools Grid -->
         <div v-if="filteredSchools.length > 0" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
           <div v-for="school in filteredSchools" :key="school.id"
-            class="bg-white dark:bg-gray-900 rounded-lg shadow-lg overflow-hidden hover:shadow-xl transition-shadow duration-300 group">
+            class="bg-white rounded-lg shadow-lg overflow-hidden hover:shadow-xl transition-shadow duration-300 group">
             <div class="relative overflow-hidden">
               <img :src="school.image" :alt="school.name"
                 class="w-full h-48 object-cover group-hover:scale-105 transition-transform duration-300" />
@@ -109,10 +109,10 @@
             </div>
             <div class="p-6">
               <div class="flex items-start justify-between mb-3">
-                <h3 class="text-xl font-semibold text-gray-900 dark:text-white">{{ school.name }}</h3>
+                <h3 class="text-xl font-semibold text-gray-900">{{ school.name }}</h3>
               </div>
 
-              <p class="text-gray-600 dark:text-gray-300 mb-4 text-sm">{{ school.description }}</p>
+              <p class="text-gray-600 mb-4 text-sm">{{ school.description }}</p>
               <div class="flex items-center space-x-4 mb-4 text-sm">
                 <div class="flex items-center space-x-1">
                   <svg class="w-4 h-4 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -121,7 +121,7 @@
                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
                       d="M15 11a3 3 0 11-6 0 3 3 0 016 0z" />
                   </svg>
-                  <span class="text-gray-500 dark:text-gray-400">{{ school.location }}</span>
+                  <span class="text-gray-500">{{ school.location }}</span>
                 </div>
 
                 <div class="flex items-center space-x-1">
@@ -129,13 +129,13 @@
                     <path
                       d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z" />
                   </svg>
-                  <span class="text-gray-500 dark:text-gray-400">{{ school.reviewCount }} reviews</span>
+                  <span class="text-gray-500 ">{{ school.reviewCount }} reviews</span>
                 </div>
               </div>
 
               <div class="flex flex-wrap gap-2 mb-4">
                 <span v-for="service in school.services.slice(0, 3)" :key="service"
-                  class="px-2 py-1 bg-primary-100 dark:bg-primary-920 text-primary-920 dark:text-primary-200 text-xs rounded-full">
+                  class="px-2 py-1 bg-primary-100 text-primary-920 text-xs rounded-full">
                   {{ service }}
                 </span>
               </div>
@@ -166,13 +166,13 @@
     </section>
 
     <!-- Features Section -->
-    <section class="py-16 bg-white dark:bg-gray-900">
+    <section class="py-16 bg-white">
       <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div class="text-center mb-12">
-          <h2 class="text-3xl md:text-4xl font-bold text-gray-900 dark:text-white mb-4">
+          <h2 class="text-3xl md:text-4xl font-bold text-gray-900 mb-4">
             Why Choose DriveLearn?
           </h2>
-          <p class="text-xl text-gray-600 dark:text-gray-300 max-w-2xl mx-auto">
+          <p class="text-xl text-gray-600 max-w-2xl mx-auto">
             We make finding and booking driving lessons simple, secure, and stress-free.
           </p>
         </div>
@@ -186,8 +186,8 @@
                   d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z" />
               </svg>
             </div>
-            <h3 class="text-lg font-semibold text-gray-900 dark:text-white mb-2">Certified Schools</h3>
-            <p class="text-gray-600 dark:text-gray-300 text-sm">All schools are verified and certified for your safety.
+            <h3 class="text-lg font-semibold text-gray-900 mb-2">Certified Schools</h3>
+            <p class="text-gray-600 text-sm">All schools are verified and certified for your safety.
             </p>
           </div>
 
@@ -199,8 +199,8 @@
                   d="M12 8c-1.657 0-3 .895-3 2s1.343 2 3 2 3 .895 3 2-1.343 2-3 2m0-8c1.11 0 2.08.402 2.599 1M12 8V7m0 1v8m0 0v1m0-1c-1.11 0-2.08-.402-2.599-1" />
               </svg>
             </div>
-            <h3 class="text-lg font-semibold text-gray-900 dark:text-white mb-2">Best Prices</h3>
-            <p class="text-gray-600 dark:text-gray-300 text-sm">Compare prices and find the best deals in your area.</p>
+            <h3 class="text-lg font-semibold text-gray-900 mb-2">Best Prices</h3>
+            <p class="text-gray-600 text-sm">Compare prices and find the best deals in your area.</p>
           </div>
 
           <div class="text-center group">
@@ -211,8 +211,8 @@
                   d="M8 7V3a4 4 0 118 0v4m-4 8a4 4 0 11-8 0V7a4 4 0 118 0v4z" />
               </svg>
             </div>
-            <h3 class="text-lg font-semibold text-gray-900 dark:text-white mb-2">Easy Booking</h3>
-            <p class="text-gray-600 dark:text-gray-300 text-sm">Book lessons online with flexible scheduling options.
+            <h3 class="text-lg font-semibold text-gray-900 mb-2">Easy Booking</h3>
+            <p class="text-gray-600 text-sm">Book lessons online with flexible scheduling options.
             </p>
           </div>
 
@@ -224,8 +224,8 @@
                   d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z" />
               </svg>
             </div>
-            <h3 class="text-lg font-semibold text-gray-900 dark:text-white mb-2">24/7 Support</h3>
-            <p class="text-gray-600 dark:text-gray-300 text-sm">Get help whenever you need it with our support team.</p>
+            <h3 class="text-lg font-semibold text-gray-900 mb-2">24/7 Support</h3>
+            <p class="text-gray-600 text-sm">Get help whenever you need it with our support team.</p>
           </div>
         </div>
       </div>

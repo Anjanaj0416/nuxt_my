@@ -129,7 +129,6 @@ export default defineNuxtPlugin(nuxtApp => {
       title: '',
       html: `
         <div style="
-          background:rgb(255, 255, 255); /* white-100 or gray-50 */
           padding: 30px 40px;
           border-radius: 12px;
           display: flex;
@@ -139,7 +138,7 @@ export default defineNuxtPlugin(nuxtApp => {
           gap: 20px;
           min-width: 200px;
         ">
-          <img src="${lodingGif}" alt="Loading..." style="width: 120px; height: 120px;" />
+          <img src="${lodingGif}" alt="Loading..." style="width: 100px; height: 100px;" />
         </div>
       `,
       background: 'transparent', // So Swal's background is transparent; your container sets bg

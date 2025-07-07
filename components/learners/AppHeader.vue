@@ -1,5 +1,5 @@
 <template>
-  <header class="bg-white dark:bg-gray-800 shadow-sm border-b border-gray-200 dark:border-gray-700">
+  <header class="bg-white  shadow-sm border-b border-gray-200">
     <nav class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
       <div class="flex justify-between items-center h-16">
         <!-- Logo -->
@@ -10,7 +10,7 @@
                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z" />
               </svg>
             </div>
-            <span class="text-xl font-bold text-gray-900 dark:text-white">DriveLearn</span>
+            <span class="text-xl font-bold text-gray-900 ">DriveLearn</span>
           </NuxtLink>
         </div>
 
@@ -29,7 +29,7 @@
           <!-- Theme Toggle -->
           <button
             @click="toggleTheme"
-            class="p-2 rounded-lg bg-gray-100 dark:bg-gray-700 text-gray-600 dark:text-gray-300 hover:bg-gray-200 dark:hover:bg-gray-600 transition-colors"
+            class="p-2 rounded-lg bg-gray-100 text-gray-600 hover:bg-gray-200 transition-colors"
           >
             <svg v-if="!isDark" class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
               <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M20.354 15.354A9 9 0 018.646 3.646 9.003 9.003 0 0012 21a9.003 9.003 0 008.354-5.646z" />
@@ -49,7 +49,7 @@
           <div v-else class="relative">
             <button
               @click="userDropdownOpen = !userDropdownOpen"
-              class="flex items-center space-x-2 p-2 rounded-lg hover:bg-gray-100 dark:hover:bg-gray-700"
+              class="flex items-center space-x-2 p-2 rounded-lg hover:bg-gray-100"
             >
               <div class="w-8 h-8 bg-primary-500 rounded-full flex items-center justify-center">
                 <span class="text-white text-sm font-medium">{{ userStore.loggedUser?.name?.charAt(0) || 'U' }}</span>

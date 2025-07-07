@@ -1,15 +1,11 @@
 <template>
   <section class="flex items-center justify-center min-h-screen px-4 bg-gray-100">
     <div
-      class="flex flex-col items-center w-full max-w-5xl overflow-hidden bg-blue-800 shadow-2xl rounded-3xl md:flex-row">
-      <div class="w-full md:w-1/2 ">
-        <!-- <a href="/">
-          <img src="/assets/img/digitalTechLabs/login.jpg" alt="Logo" class="w-full mx-auto" />
-        </a> -->
-      </div>
+      class="flex flex-col items-center w-full max-w-xl overflow-hidden shadow-2xl rounded-3xl md:flex-row">
+  
 
       <!-- Right Panel -->
-      <div class="w-full p-10 bg-white md:w-1/2">
+      <div class="w-full p-10 bg-white ">
         <h3 class="mb-6 text-3xl font-semibold text-center text-blue-900">Sign In</h3>
 
         <form @submit.prevent="handleLogin" class="space-y-5">
@@ -19,7 +15,7 @@
             <input type="email" v-model="loginDetails.userName" placeholder="Enter your email" required
               class="w-full px-4 py-2 text-sm border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-300" />
             <div v-if="!loginDetails.userName" class="mt-1 text-sm text-red-500">
-              Please enter your username.
+              Please Enter Your User Name.
             </div>
           </div>
 
@@ -48,7 +44,7 @@
               </button>
             </div>
             <div v-if="!loginDetails.password" class="mt-1 text-sm text-red-500">
-              Please enter valid password.
+              Please Enter Valid Password.
             </div>
           </div>
 
@@ -58,11 +54,16 @@
             Sign In
           </button>
 
-          <div class="flex justify-end">
-            <a href="/user/changelogin" class="text-sm text-blue-600 hover:underline">
+          <div class="flex justify-between">
+            <a href="/" class="text-sm text-blue-800 hover:underline">
+              Go to home
+            </a>
+
+            <a href="/user/changelogin" class="text-sm text-blue-800 hover:underline">
               Forgot Password?
             </a>
           </div>
+
 
           <!-- Separator -->
           <!-- <div class="flex items-center justify-center gap-2 my-6 text-sm text-gray-400">
