@@ -43,8 +43,12 @@
               </h1>
 
               <p v-if="field.key === 'shopLogo'" class="flex items-center justify-center h-16 text-center">
-                <ImageLable :imageUrl="imageroot + `/${vd[field.key]}`" alt="Shop Logo" v-if="vd[field.key]" />
-                <span v-else class="text-xs text-gray-500">No Shop Logo</span>
+                <ImageLable v-if="vd[field.key]" :imageUrl="imageroot + `/${vd[field.key]}`" alt="Shop Logo" />
+                <ImageLable 
+                  v-else 
+                  :imageUrl="defaultShopImage" 
+                  alt="Default Shop Logo" 
+                />
               </p>
 
               <p v-else-if="field.key !== 'isActive'" class="text-xs text-gray-500 mt-0.50">
@@ -234,6 +238,7 @@ import Proposal from "~/components/qms/quotation/proposaldetails.vue";
 import Invoice from "~/components/qms/invoice/index.vue";
 import Order from "~/components/qms/order/index";
 import IsuePINo from "~/components/qms/isuePINo/index.vue"
+import defaultShop from "~/assets/img/digitalTechLabs/defaultShopImage.png"
 
 import WorkFlow from "~/components/qms/workFlow/index.vue"
 
@@ -269,7 +274,7 @@ export default {
   },
   data() {
     return {
-
+      defaultShopImage: defaultShop,
       isMore: false,
       activeVendorId: null,
       rowIndex: -1,

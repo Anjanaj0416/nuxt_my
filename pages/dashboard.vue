@@ -123,7 +123,7 @@
             <div class="grid grid-cols-1 sm:grid-cols-3 gap-4">
               <!-- Casual Leave -->
               <div class="p-2 bg-white border border-gray-200 rounded-lg shadow-sm text-center">
-                <h3 class="text-sm font-semibold text-gray-700 mb-1">Avalable Casual</h3>
+                <h3 class="text-sm font-semibold text-gray-700 mb-1">Available Casual</h3>
                 <p class="text-2xl font-bold text-indigo-700">14</p>
                 <span class="inline-block mt-2 px-3 py-0.5 text-xs font-medium bg-blue-100 text-blue-700 rounded-full">
                   Full Balance: <span class="font-semibold text-gray-700">24</span>
@@ -132,7 +132,7 @@
 
               <!-- Annual Leave -->
               <div class="p-2 bg-white border border-gray-200 rounded-lg shadow-sm text-center">
-                <h3 class="text-sm font-semibold text-gray-700 mb-1">Avalable Annual</h3>
+                <h3 class="text-sm font-semibold text-gray-700 mb-1">Available Annual</h3>
                 <p class="text-2xl font-bold text-indigo-700">12</p>
                 <span class="inline-block mt-2 px-3 py-0.5 text-xs font-medium bg-blue-100 text-blue-700 rounded-full">
                   Full Balance: <span class="font-semibold text-gray-700">24</span>
@@ -141,7 +141,7 @@
 
               <!-- Medical Leave -->
               <div class="p-2 bg-white border border-gray-200 rounded-lg shadow-sm text-center">
-                <h3 class="text-sm font-semibold text-gray-700 mb-1">Avalable Medical</h3>
+                <h3 class="text-sm font-semibold text-gray-700 mb-1">Available Medical</h3>
                 <p class="text-2xl font-bold text-indigo-700">7</p>
                 <span class="inline-block mt-2 px-3 py-0.5 text-xs font-medium bg-blue-100 text-blue-700 rounded-full">
                   Full Balance: <span class="font-semibold text-gray-700">24</span>
