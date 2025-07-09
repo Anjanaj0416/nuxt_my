@@ -200,19 +200,20 @@
             <Invoice />
           </div> -->
           <div v-if="vendorTabs[vd.id] === 'isuePINo'">
-            <IsuePINo />
+            <IsuePINo :vendorId="vd.id"/>
           </div>
           <div v-if="vendorTabs[vd.id] === 'order'">
             <Order />
           </div>
           <div v-if="vendorTabs[vd.id] === 'viewMore'">
-            <p>DviewMore {{ vd.id }}</p>
+            <!-- <p>DviewMore {{ vd.id }}</p> -->
+            <MoreVendor v-if="isAddEdit" @close="isAddEdit = !isAddEdit" />
           </div>
           <div v-if="vendorTabs[vd.id] === 'edit'">
             <AddEdit v-if="isAddEdit" @close="isAddEdit = !isAddEdit" />
           </div>
           <div v-if="vendorTabs[vd.id] === 'workFlow'">
-            <WorkFlow />
+            <WorkFlow :vendorId="vd.id" />
           </div>
         </div>
       </div>
@@ -239,6 +240,8 @@ import Invoice from "~/components/qms/invoice/index.vue";
 import Order from "~/components/qms/order/index";
 import IsuePINo from "~/components/qms/isuePINo/index.vue"
 import defaultShop from "~/assets/img/digitalTechLabs/defaultShopImage.png"
+import MoreVendor from "~/components/qms/vendor/moreVendor.vue";
+
 
 import WorkFlow from "~/components/qms/workFlow/index.vue"
 
@@ -269,7 +272,8 @@ export default {
     Invoice,
     WorkFlow,
     Order,
-    IsuePINo
+    IsuePINo,
+    MoreVendor
 
   },
   data() {

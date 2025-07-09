@@ -92,7 +92,7 @@
               <label class="block text-sm font-bold text-gray-600">District</label>
 
               <serach_Input :arrItems="getDistinctDistricts" :isDistrict=true ref="refDistrict" label=""
-                v-model="curVendor.district" @selectItem="GetSelectDistrict" />
+                v-model="curVendor.districtId" @selectItem="GetSelectDistrict" />
 
               <p v-if="err.district" class="mt-2 text-sm text-red-600">
                 {{ err.district }}
@@ -878,6 +878,7 @@ export default {
       formData.append("ShopContactNo", this.curVendor.shopContactNo);
       formData.append("ShopAddress1", this.curVendor.shopAddress1);
       formData.append("ShopAddress2", this.curVendor.shopAddress2);
+      formData.append("DistrictId", this.curVendor.districtId);
       formData.append("CityId", this.curVendor.cityId);
       formData.append("VendorImageFile", this.curVendor.vendorImageFile);
       formData.append("BRCopyFile", this.curVendor.brCopyImage);

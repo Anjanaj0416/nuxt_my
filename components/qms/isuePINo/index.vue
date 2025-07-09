@@ -2,13 +2,12 @@
     <section class="justify-center">
         <div class="flex flex-col-reverse items-start justify-between gap-4 mb-4 md:flex-row md:items-center">
           <div class="text-2xl uppercase">Reserve PI No.</div>
-          
         </div>
         <div class=" flex items-center justify-center">
             <div class="bg-white border border-gray-200 rounded-2xl shadow-2xl p-8 w-full text-center ">
-                <div class="mb-6">
+              <div class="mb-6">
                 <h1 class="text-2xl font-bold text-gray-800">
-                    Next Available PI No: <span class="text-blue-900 font-extrabold">{{ reservePi.nextNumber }}</span>
+                    Next Available PI No: <span class="text-blue-900 font-extrabold">{{ orderStore.availablePin.data }}</span>
                 </h1>
                 </div>
                 <div>
@@ -18,16 +17,16 @@
                 >
                     Issue PI
                 </button>
-                </div>
+              </div>
             </div>
         </div>
     </section>
   </template>
   
   <script>
+
  import { useRoute } from 'vue-router'
- import { useUserStore } from "~/stores/modules/userStore";
- //import { useQuotationStore } from "~/stores/modules/qms/quotationStore";
+ import { useOrderStore } from '~/stores/modules/orderStore';
  
  import LinkBtn from "~/components/customcontrol/Link";
   import Button from "~/components/customcontrol/Button";
@@ -41,24 +40,24 @@
   export default {
     
     components: {LinkBtn,Button,selectinput2},
-    props:[''],
+    props:['vendorId'],
     data() {
       return {
         imageroot: "",
         showLoading: null,
         receiptFiles: {},
-        reservePi: {
-          nextNumber:"51",
-        }
+   
       }
     },
     async mounted() {
      
     },
     async created() {
-      this.userStore = useUserStore();
+      this.orderStore = useOrderStore(); 
       this.showLoading = this.$showLoading;
-      this.imageroot = this.userStore.loggedUser.resourceURLRoot;
+   
+
+      await this.orderStore.loadAvailablePin(this.vendorId, this.showLoading);
     },
     watch: {},
     computed: {
@@ -67,19 +66,26 @@
     methods: {
       issueNo() {
 
-        this.$showConfirm(
+        var request = {
+          vendorId: this.vendorId,
+          PINo: this.orderStore.availablePin?.data,
+        };
+
+          this.$showConfirm(
           "Are you sure to Reserve PI No.?",
           "warning"
-        ).then(async (confirmed) => {
-          if (!confirmed) return;
-
-          console.log("Reserve PI:", this.reservePi.nextNumber);
-
-
+        ).then(async (result) => {
+          if (result) {
+            console.log(request);
+            
+            await this.orderStore.GetIssuePINumber(request, this.showLoading);
+          } else {
+            // console.log("Action canceled");
+          }
         });
       }
-
     },
+
     async beforeMount() {
 
     },
