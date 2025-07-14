@@ -109,6 +109,7 @@ export default {
       loginDetails: {
         userName: "",
         password: "",
+        RequestedUrl:"",
       },
       showPassword: false,
       showLoading: null,

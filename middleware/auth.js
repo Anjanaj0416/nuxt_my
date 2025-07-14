@@ -5,7 +5,7 @@ import { useUserStore } from '~/stores/modules/userStore'
 export default defineNuxtRouteMiddleware(async (to, from) => {
   
   try {
-    const userStore = useUserStore()
+    const userStore = useUserStore();
 
     if (process.client) {
       let token = userStore.token
@@ -31,6 +31,8 @@ export default defineNuxtRouteMiddleware(async (to, from) => {
           })
           redirectToCookie.value = to.fullPath
           console.log("redirectToCookie:",redirectToCookie.value);
+
+          await new Promise(resolve => setTimeout(resolve, 1000));
           
 
           return navigateTo('/user/login')

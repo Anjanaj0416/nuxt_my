@@ -114,7 +114,7 @@ export default defineNuxtPlugin(nuxtApp => {
       customClass: {
         popup: 'custom-zindex'
       },
-      html: htmlContent,  // Pass any HTML content here
+      html: htmlContent,  // Pass any HTML content here 
       showConfirmButton: true,
       confirmButtonText: 'Okay'
     });

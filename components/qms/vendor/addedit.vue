@@ -626,7 +626,7 @@ export default {
             // }
             // console.log('Form Data as Object:', formDataObj);
 
-            await this.vendorStore.AddEditVendor(formData, this.showLoading);
+            await this.vendorStore.AddEditVendor(formData, this.showLoading); 
             this.closeModal();
                this.isEdit = false;
           } else {

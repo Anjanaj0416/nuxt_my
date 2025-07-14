@@ -1,16 +1,19 @@
 <template>
 <article>
+  <div>
+    <LoadingSpinner v-if="isLoading" />
+  </div>
   <!-- header -->
   <header class="fixed top-0 left-0 z-50 w-full bg-white shadow-md">
     <nav class="flex items-center justify-between px-6 py-4 mx-auto max-w-7xl">
       <!-- Logo -->
       <div class="flex items-center">
         <NuxtLink to="/" class="flex items-center text-2xl font-bold transition duration-300 hover:opacity-90">
-          <img
+          <!-- <img
             src="/assets/img/digitalTechLabs/DigitalTechLabsLogo.jpg"
             alt="Digital Tech Labs Logo"
             class="px-2 rounded-full w-44"
-          />
+          /> -->
         </NuxtLink>
       </div>
 
@@ -507,6 +510,9 @@
 </template>
 
 <script setup>
+import { useLoading } from "~/composables/useLoading";
+import LoadingSpinner from "~/components/LoadingSpinner.vue"
+
 import { ref } from "vue";
 import { Swiper, SwiperSlide } from "swiper/vue";
 import "swiper/css";
@@ -516,8 +522,13 @@ import { Pagination, Autoplay } from "swiper/modules";
 import gsap from 'gsap';
 
 
+
 // Mobile Menu Toggle
 const menuOpen = ref(false);
+const isLoading = useLoading();
+console.log("isLoading:",isLoading);
+
+
 const toggleMenu = () => {
   menuOpen.value = !menuOpen.value;
 };
@@ -546,11 +557,13 @@ const imageGrid = ref(null)
 </script>
 
 <script>
+
 definePageMeta({
   layout: 'bst',
 });
 
 export default {
+  components: {LoadingSpinner},
   data() {
     return {
       imageroot: process.env.Assets_83,
@@ -558,6 +571,8 @@ export default {
     };
   },
   mounted() {
+    
+
     console.log("Component mounted!");
     document.addEventListener('click', this.handleClickOutside);
 
