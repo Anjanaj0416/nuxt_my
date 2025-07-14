@@ -63,10 +63,15 @@
                 {{ vd.isActive ? "Active" : "Inactive" }}
               </span>
 
-              <p v-if="field.key === 'qrcode'" class="flex items-center justify-center h-16 text-center">
-                <ImageLable :imageUrl="imageroot + `/${vd[field.key]}`" alt="Shop Logo" v-if="vd[field.key]" />
+              <p v-if="field.key === 'qrImageUrl'" class="flex items-center justify-center h-16 text-center">
+                <ImageLable 
+                  v-if="vd[field.key]" 
+                  :imageUrl="imageroot + `/${vd[field.key]}`" 
+                  alt="QR Code" 
+                />
                 <span v-else class="text-xs text-gray-500">No QR Code</span>
               </p>
+
 
             </div>
           </div>
@@ -298,7 +303,7 @@ export default {
         // { label: "City", key: "cityId" },
         { label: "CSONo", key: "csoNo" },
         { label: "Status", key: "isActive" },
-        { label: "", key: "shopLogo" },
+        { label: "", key: "qrImageUrl" },
 
       ],
       imageroot: "",
