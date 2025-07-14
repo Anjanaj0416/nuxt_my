@@ -43,8 +43,12 @@
               </h1>
 
               <p v-if="field.key === 'shopLogo'" class="flex items-center justify-center h-16 text-center">
-                <ImageLable :imageUrl="imageroot + `/${vd[field.key]}`" alt="Shop Logo" v-if="vd[field.key]" />
-                <span v-else class="text-xs text-gray-500">No Shop Logo</span>
+                <ImageLable v-if="vd[field.key]" :imageUrl="imageroot + `/${vd[field.key]}`" alt="Shop Logo" />
+                <ImageLable 
+                  v-else 
+                  :imageUrl="defaultShopImage" 
+                  alt="Default Shop Logo" 
+                />
               </p>
 
               <p v-else-if="field.key !== 'isActive'" class="text-xs text-gray-500 mt-0.50">
@@ -58,6 +62,12 @@
               }" class="text-xs font-medium px-2.5 py-0.5 rounded-full inline-block mt-1">
                 {{ vd.isActive ? "Active" : "Inactive" }}
               </span>
+
+              <p v-if="field.key === 'qrcode'" class="flex items-center justify-center h-16 text-center">
+                <ImageLable :imageUrl="imageroot + `/${vd[field.key]}`" alt="Shop Logo" v-if="vd[field.key]" />
+                <span v-else class="text-xs text-gray-500">No QR Code</span>
+              </p>
+
             </div>
           </div>
         </div>
@@ -68,8 +78,8 @@
         </div> -->
 
         <div class="sm:flex sm:justify-end sm:gap-4">
-          <div class="grid grid-cols-3 gap-2 sm:flex sm:gap-4 text-sm font-medium text-gray-500 "
-            @click="filterSelectedVendor(vd.id)">
+            <div class="grid grid-cols-3 gap-2 sm:flex sm:gap-4 text-sm font-medium text-gray-500 "
+              @click="filterSelectedVendor(vd.id)">
             <button v-if="vendorTabs[vd.id] !== 'proposal'"
               @click="vendorTabs[vd.id] = 'proposal'; quotationStore.curVendorId = vd.id" :class="[
                 'p-4 border-b-2 rounded-t-lg text-center',
@@ -85,18 +95,38 @@
               Close Proposal
             </button>
 
-            <!-- <button
-              v-if="vendorTabs[vd.id] !== 'invoice'"
-              @click="vendorTabs[vd.id] = 'invoice'; quotationStore.curVendorId = vd.id"
-              :class="[
+            <button v-if="vendorTabs[vd.id] !== 'isuePINo'"
+              @click="vendorTabs[vd.id] = 'isuePINo'; quotationStore.curVendorId = vd.id" :class="[
                 'p-4 border-b-2 rounded-t-lg text-center',
-                vendorTabs[vd.id] === 'invoice'
+                vendorTabs[vd.id] === 'isuePINo'
+                  ? 'text-blue-600 border-blue-600 dark:text-blue-500 '
+                  : 'border-transparent hover:text-gray-600 hover:border-gray-300 '
+              ]">
+              Isue PI No.
+            </button>
+
+            <button v-if="vendorTabs[vd.id] === 'isuePINo'"
+              @click="vendorTabs[vd.id] = ''; quotationStore.curVendorId = null"
+              class="p-4 border-b-2 rounded-t-lg text-center text-red-600 border-transparent ">
+              Close Isue PI No.
+            </button>
+
+
+            <button v-if="vendorTabs[vd.id] !== 'order' &&  vendorStore.initVendor.isOrdersFound"
+              @click="vendorTabs[vd.id] = 'order'; quotationStore.curVendorId = vd.id" :class="[
+                'p-4 border-b-2 rounded-t-lg text-center',
+                vendorTabs[vd.id] === 'order'
                   ? 'text-blue-600 border-blue-600 dark:text-blue-500 dark:border-blue-500'
                   : 'border-transparent hover:text-gray-600 hover:border-gray-300 '
-              ]"
-            >
-              Invoices
+              ]">
+              Orders
             </button>
+            <button v-if="vendorTabs[vd.id] === 'order' "
+              @click="vendorTabs[vd.id] = ''; quotationStore.curVendorId = null"
+              class="p-4 border-b-2 rounded-t-lg text-center text-red-600 border-transparent ">
+              Close Orders
+            </button>
+            
 
             <button
               v-if="vendorTabs[vd.id] === 'invoice'"
@@ -115,8 +145,7 @@
               ]">
               Order
             </button>
-
-            <button v-if="vendorTabs[vd.id] === 'order'"
+            <button v-if="vendorTabs[vd.id] === 'order' "
               @click="vendorTabs[vd.id] = ''; quotationStore.curVendorId = null"
               class="p-4 border-b-2 rounded-t-lg text-center text-red-600 border-transparent ">
               Close Order
@@ -177,17 +206,21 @@
           <!-- <div v-if="vendorTabs[vd.id] === 'invoice'">
             <Invoice />
           </div> -->
+          <div v-if="vendorTabs[vd.id] === 'isuePINo'">
+            <IsuePINo :vendorId="vd.id"/>
+          </div>
           <div v-if="vendorTabs[vd.id] === 'order'">
             <Order />
           </div>
           <div v-if="vendorTabs[vd.id] === 'viewMore'">
-            <p>DviewMore {{ vd.id }}</p>
+            <!-- <p>DviewMore {{ vd.id }}</p> -->
+            <MoreVendor v-if="isAddEdit" @close="isAddEdit = !isAddEdit" />
           </div>
           <div v-if="vendorTabs[vd.id] === 'edit'">
             <AddEdit v-if="isAddEdit" @close="isAddEdit = !isAddEdit" />
           </div>
           <div v-if="vendorTabs[vd.id] === 'workFlow'">
-            <WorkFlow />
+            <WorkFlow :vendorId="vd.id" />
           </div>
         </div>
       </div>
@@ -212,6 +245,10 @@ import InfoCard from "~/components/qms/vendor/InfoCard.vue";
 import Proposal from "~/components/qms/quotation/proposaldetails.vue";
 import Invoice from "~/components/qms/invoice/index.vue";
 import Order from "~/components/qms/order/index";
+import IsuePINo from "~/components/qms/isuePINo/index.vue"
+import defaultShop from "~/assets/img/digitalTechLabs/defaultShopImage.png"
+import MoreVendor from "~/components/qms/vendor/moreVendor.vue";
+
 
 import WorkFlow from "~/components/qms/workFlow/index.vue"
 
@@ -241,12 +278,14 @@ export default {
     Proposal,
     Invoice,
     WorkFlow,
-    Order
+    Order,
+    IsuePINo,
+    MoreVendor
 
   },
   data() {
     return {
-
+      defaultShopImage: defaultShop,
       isMore: false,
       activeVendorId: "",
       rowIndex: -1,
@@ -266,6 +305,8 @@ export default {
         // { label: "City", key: "cityId" },
         { label: "CSONo", key: "csoNo" },
         { label: "Status", key: "isActive" },
+        { label: "", key: "shopLogo" },
+
       ],
       imageroot: "",
       showLoading: null,

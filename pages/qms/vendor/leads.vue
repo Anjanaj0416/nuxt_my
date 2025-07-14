@@ -323,12 +323,12 @@ export default {
     SetUpdateVendorLead(lead) {
       var request = {
         Id: lead.id,
-        Comment: lead.newComment,
+        Comment: lead.newComment || '' ,
         Status: lead.tempStatus,
       };
       this.newComment = lead.newComment;
 
-      if (this.IsValidate(lead.newComment, lead.status)) {
+      if (this.IsValidate(lead.status)) {
         if (lead.tempStatus === "CSOAssigned") {
           this.selectedLeadId = lead.id;
           this.isAddRso = true;
@@ -359,28 +359,21 @@ export default {
       });
     },
 
-    IsValidate(comment, status) {
-      console.log("lead:", comment, status);
-
+    IsValidate(status) {
       this.clearErr();
 
       let IsValidate = true;
 
       if (!status) {
-        console.log("status:");
         this.err.status = "Please Select Lead Status!";
         IsValidate = false;
       }
 
-      if (!comment) {
-        console.log("comment:");
-        this.err.newComment = "Please Enter Comment!";
-        IsValidate = false;
-      }
-
       return IsValidate;
-    },
+    }
+
   },
+
   async beforeMount() {},
   head() {
     return {

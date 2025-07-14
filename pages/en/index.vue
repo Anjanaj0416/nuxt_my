@@ -1,10 +1,95 @@
 <!-- https://flowbite.com/docs/components/avatar/ -->
 
 <template>
-    <section>
+   
+<section class="mt-20 mx-4 mb-16">
+  <!-- Title -->
+  <h2 class="text-3xl font-semibold text-gray-800 mb-6">English for Kids</h2>
 
-      
-    </section>
+  {{ userStore.loggedUser }}
+  <!-- Student Info -->
+  <div class="bg-gray-100 p-4 rounded-xl mb-6 text-sm md:text-base">
+    <p><strong>Reg No:</strong> SE229912</p>
+    <p><strong>Inquiries:</strong> 074 022 3126</p>
+    <p><strong>Password:</strong> SREBCS0001860</p>
+  </div>
+
+  <!-- Class Schedule -->
+  <div class="bg-yellow-50 border border-yellow-200 p-4 rounded-xl mb-8 text-sm md:text-base leading-relaxed">
+    <h3 class="text-lg font-medium text-yellow-800 mb-2">📅 Class Days</h3>
+
+    <div class="mb-4">
+      <p class="font-semibold text-yellow-700">👉 රාත්‍රී පංති - 9.00PM - 9.30PM</p>
+      <ul class="list-disc list-inside text-gray-700">
+        <li>සදුදා</li>
+        <li>අගහරුවාදා</li>
+        <li>බදාදා</li>
+        <li>සිකුරාදා</li>
+        <li>සෙනසුරාදා</li>
+        <li>ඉරිදා</li>
+      </ul>
+    </div>
+
+    <div>
+      <p class="font-semibold text-yellow-700">👉 උදෑසන පන්තිය - 10.00AM - 11.00AM</p>
+      <ul class="list-disc list-inside text-gray-700">
+        <li>සදුදා</li>
+        <li>අගහරුවාදා</li>
+        <li>බදාදා</li>
+        <li>බ්‍රහස්පතින්දා</li>
+      </ul>
+    </div>
+  </div>
+
+  <!-- Video Links -->
+  <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+    
+    <!-- Class Videos -->
+    <div class="bg-white rounded-2xl shadow p-6">
+      <h3 class="text-xl font-semibold mb-4 text-blue-700">Class Videos</h3>
+      <hr class="mb-4 border-gray-300" />
+
+      <div class="space-y-3">
+        <div
+          v-for="objC in arrClassSessions"
+          :key="objC"
+        >
+          <a
+            :href="objC.link"
+            target="_blank"
+            class="block w-full text-center p-3 bg-blue-50 hover:bg-blue-100 text-blue-800 font-medium rounded-lg shadow-sm transition"
+          >
+            📘 Day - {{ objC.day }}
+          </a> 
+        </div>
+      </div>
+    </div>
+
+    <!-- Theory Videos -->
+    <div class="bg-white rounded-2xl shadow p-6">
+      <h3 class="text-xl font-semibold mb-4 text-green-700">Theory Videos</h3>
+      <hr class="mb-4 border-gray-300" />
+
+      <div class="space-y-3">
+        <div
+          v-for="objT in arrTheroy"
+          :key="objT"
+        >
+          <a
+            :href="objT.link"
+            target="_blank"
+            class="block w-full text-center p-3 bg-green-50 hover:bg-green-100 text-green-800 font-medium rounded-lg shadow-sm transition"
+          >
+            📗 Day - {{ objT.day }}
+          </a> 
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+
+
     <!-- <input type="text" oninput="this.value = this.value.replace(/[^0-9.]/g, '').replace(/(\..*?)\..*/g, '$1');" > -->
   </template>
   
@@ -35,7 +120,19 @@
       return {
         imageroot: "",
         showLoading: null,
-       
+         arrClassSessions:[
+            {day:1,link:'https://us06web.zoom.us/rec/play/IGBNcc9FOcX9PzpSTn2eatrDFu3FGlHJRMgj6k2nl6NUjUdkNECiBA0qGlKHXw2e7f2P8ZoEsVVQSk4g.n9g_ntAt1BdBvmuj?eagerLoadZvaPages=&accessLevel=meet'}
+         ],
+         arrTheroy:[
+            {day:1,link:'https://online.fliphtml5.com/fpfhc/sgsq/'},
+              {day:2,link:'https://online.fliphtml5.com/fpfhc/qxyu/'},
+                {day:3,link:'https://online.fliphtml5.com/fpfhc/jmcj/'},
+                  {day:4,link:'https://online.fliphtml5.com/fpfhc/rjxw/'},
+                    {day:5,link:'https://online.fliphtml5.com/fpfhc/cnhx/'},
+                      {day:6,link:'https://online.fliphtml5.com/fpfhc/kekp/'},
+                      {day:7,link:'https://online.fliphtml5.com/fpfhc/ggat/'},
+                      {day:8,link:'https://online.fliphtml5.com/fpfhc/cnyf/'},
+         ],
       }
     },
     async mounted() {
@@ -93,11 +190,12 @@
       //this.$showToast('Login successful!', 'success'); //success ,error ,warning,info
     },
     async beforeMount() {
-  //  if (this.userStore.loggeduser && !this.userStore.loggeduser.granted.contains('english') ) {
-  //     } else {        
-  //       this.$router.push('/user/login')
-  //       this.$showToast('Not Allowed to access this page')
-  //     }
+      
+      if (this.userStore.loggeduser && !this.userStore.loggeduser.granted.contains('english') ) {
+      } else {        
+        this.$router.push('/user/login')
+        this.$showToast('Not Allowed to access this page')
+      }
   
     },
     head() {

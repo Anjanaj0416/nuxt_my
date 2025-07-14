@@ -9,9 +9,8 @@
       <div class="flex items-center justify-between px-6 py-4 bg-gray-900 shadow-md">
         <!-- Logo -->
         <router-link to="/" class="flex items-center space-x-2">
-          <!-- <img src="/assets/img/LogoDigitalTechLab.png" alt="Logo" class="h-auto rounded-full w-28" /> -->
+          <img src="/assets/img/LogoDigitalTechLab.png" alt="Logo" class="h-auto rounded-full w-28" />
         </router-link>
-
         <!-- Close Button -->
         <button @click="$emit('close-sidebar')"
           class="p-2 text-white transition duration-200 rounded-full hover:bg-gray-700 focus:outline-none"
@@ -27,7 +26,9 @@
         <h1 class="text-xl font-semibold tracking-wide">INTRANET</h1>
       </div>
       <nav class="p-4">
-        <div v-for="link in links" :key="link.name">
+        <div v-for="link in filteredLinks" :key="link.name">
+
+
           <!-- Top-level link or menu -->
           <div v-if="link.submenu">
             <div @click="toggleSubmenu(link.name)"
@@ -104,12 +105,31 @@
 </template>
 
 <script setup>
-import { ref } from "vue";
+import { ref,onMounted } from "vue";
+import { useUserStore } from '~/stores/modules/userStore';
+
+const userStore = useUserStore();
+
+const granted = computed(() => userStore.loggedUser?.granted || []);
 
 const props = defineProps({
   isOpen: Boolean,
   loggedUser: {},
 });
+
+const filteredLinks = computed(() => {
+  return links.filter(link => {
+    if (!link || !link.name) return false;
+
+    // Only show CRM if user has sso or flo
+    if (link.name === 'CRM') {
+      return granted.value.includes('sso') || granted.value.includes('flo') || granted.value.includes('su') || granted.value.includes('cso');
+    }
+
+    return true; // Show all other links
+  });
+});
+
 
 const emit = defineEmits(["close-sidebar"]);
 

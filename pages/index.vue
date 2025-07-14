@@ -1,8 +1,5 @@
 <template>
 <article>
-  <div>
-    <LoadingSpinner v-if="isLoading" />
-  </div>
   <!-- header -->
   <header class="fixed top-0 left-0 z-50 w-full bg-white shadow-md">
     <nav class="flex items-center justify-between px-6 py-4 mx-auto max-w-7xl">
@@ -231,7 +228,7 @@
   <section class="px-6 bg-gray-100">
     <div class="max-w-screen-xl px-4 py-8 mx-auto lg:py-16 lg:px-6">
       <div class="max-w-screen-lg text-gray-500 sm:text-lg dark:text-gray-400">
-        <h2 class="mb-4 text-4xl font-bold tracking-tight text-gray-900 dark:text-white">Powering innovation at <span
+        <h2 class="mb-4 text-4xl font-bold tracking-tight text-gray-900 ">Powering innovation at <span
             class="font-extrabold">200,000+</span> companies worldwide with Digital TechLab</h2>
         <p class="mb-4 font-light">Digital TechLab is driving technological innovation by enabling companies to enhance
           their operations, optimize workflows, and accelerate digital transformation. By integrating cutting-edge tools
@@ -241,7 +238,7 @@
           a platform to innovate and accelerate their development processes. Here are some key concepts related to this
           kind of digital transformation.</p>
         <a href="#"
-          class="inline-flex items-center font-medium text-primary-600 hover:text-primary-800 dark:text-primary-500 dark:hover:text-primary-700">
+          class="inline-flex items-center font-medium text-primary-600 hover:text-primary-800 ">
           Learn more
           <svg class="w-6 h-6 ml-1" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
             <path fill-rule="evenodd"
@@ -254,10 +251,10 @@
   </section>
 
   <!-- section 5 -->
-  <section class="py-6 antialiased bg-white dark:bg-gray-900 md:py-16">
+  <section class="py-6 antialiased bg-white  md:py-16">
 
     <div
-      class="grid max-w-screen-xl grid-cols-2 gap-8 px-4 mx-auto text-gray-500 dark:text-gray-400 sm:grid-cols-3 sm:gap-12 lg:grid-cols-6">
+      class="grid max-w-screen-xl grid-cols-2 gap-8 px-4 mx-auto text-gray-500 sm:grid-cols-3 sm:gap-12 lg:grid-cols-6">
       <a href="#" class="flex items-center md:justify-center">
         <svg class="h-10 hover:text-gray-900 dark:hover:text-white" viewBox="0 0 106 48" fill="none"
           xmlns="http://www.w3.org/2000/svg">
@@ -563,7 +560,6 @@ definePageMeta({
 });
 
 export default {
-  components: {LoadingSpinner},
   data() {
     return {
       imageroot: process.env.Assets_83,

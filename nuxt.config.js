@@ -2,7 +2,7 @@
 // https://nuxt.com/docs/api/configuration/nuxt-config
 export default defineNuxtConfig({
   router: {
-    middleware: ['auth','auth.global']
+    middleware: ['auth']
   },
 
   routeRules: {

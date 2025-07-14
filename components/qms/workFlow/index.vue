@@ -1,5 +1,3 @@
-<!-- https://flowbite.com/docs/components/avatar/ -->
-
 <template>
   <section class="justify-center">
     <div class="flex flex-col-reverse items-start justify-between gap-4 mb-4 md:flex-row md:items-center">
@@ -14,6 +12,8 @@
         Back to Proposals
       </button>
     </div>
+    {{ orderStore.loadWorkFLow.data }}
+    {{ vendorId }}
     <div class="overflow-x-auto rounded-xl border border-gray-200 shadow">
       <table class="min-w-full divide-y divide-gray-200 text-sm">
         <thead class="bg-blue-950 text-white">
@@ -70,17 +70,12 @@
     <!-- <input type="text" oninput="this.value = this.value.replace(/[^0-9.]/g, '').replace(/(\..*?)\..*/g, '$1');" > -->
 </template>
   
-  <script>
-  //import textInput from '~/components/customcontrol/textinput'
-  //// import * as Global from '@/assets/js/Global'
-  ////import * as myfilter from '@/plugins/myfilter'
- //import Swal from 'sweetalert2';
- //import { useSampleStore  } from '~/stores/modules/sampleStore';
- import { useRoute } from 'vue-router'
- import { useUserStore } from "~/stores/modules/userStore";
- //import { useQuotationStore } from "~/stores/modules/qms/quotationStore";
- 
- import LinkBtn from "~/components/customcontrol/Link";
+<script>
+  import { useRoute } from 'vue-router'
+  import { useOrderStore } from '~/stores/modules/orderStore';
+  
+  
+  import LinkBtn from "~/components/customcontrol/Link";
   import Button from "~/components/customcontrol/Button";
   import selectinput2 from "~/components/customcontrol/selectinput2";
 
@@ -92,7 +87,7 @@
   export default {
     
     components: {LinkBtn,Button,selectinput2},
-    props:[''],
+    props:['vendorId'],
     data() {
       return {
         imageroot: "",
@@ -104,9 +99,11 @@
      
     },
     async created() {
-      this.userStore = useUserStore();
+      this.orderStore = useOrderStore(); 
       this.showLoading = this.$showLoading;
-      this.imageroot = this.userStore.loggedUser.resourceURLRoot;
+
+      await this.orderStore.loadWorkFLow(this.vendorId, this.showLoading);
+
     },
     watch: {},
     computed: {

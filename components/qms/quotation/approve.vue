@@ -11,22 +11,40 @@
       <!-- Modal Content (scrollable) -->
       <div class="modal-content">
         <div class="form-content">
-          <div>
-            <h3 class="font-bold">
-              Quotaion No -
-              {{ quotationStore.curQuotation.rootQuotationNo }}
-            </h3>
+          <div class="grid grid-cols-2 gap-4 mt-1 sm:grid-cols-1 md:grid-cols-1">
+            <div>
+              <h3 class="font-bold">
+                Quotaion No -
+                {{ quotationStore.curQuotation.quotationNo }}
+              </h3>
+            </div>
             <hr />
+            <div>
+              <label class="block text-sm mb-2 font-bold text-gray-600">Attached the approval prrof</label>
+              
+              <imagepicker1
+                @GetSelectedImage="GetAttachedImage"
+                :image_file="imageroot"
+                ref="refApprovedImg"
 
-            <!-- <imagecomp
-              @GetAttachedImage="GetAttachedImage"
-              :image_file="imageroot"
-              ref="refApprovedImg"
-            /> -->
-
-            <p class="mt-2 text-sm text-red-600">
-              {{ err.approvedImage }}
-            </p>
+              />
+  
+              <p v-if="err.approvedImage" class="mt-2 text-sm text-red-600">
+                {{ err.approvedImage }}
+              </p>
+            </div>
+            <div>
+              <label class="block text-sm font-bold text-gray-600">Reserve PI No. Enter</label>
+              <input 
+                type="text" 
+                v-model="reservePiNo"
+                placeholder="Enter Reserve PI No."
+                class="w-full p-2 mt-2 text-sm bg-gray-100 border rounded-md" 
+              />
+            </div>
+          </div>
+          <div>
+            {{ quotationStore.curQuotation }}
           </div>
         </div>
       </div>
@@ -51,15 +69,17 @@ import Button from "~/components/customcontrol/Button";
 import ImageLable from "~/components/customcontrol/ImageLable";
 import LinkBtn from "~/components/customcontrol/Link";
 // import imagecomp from "~/components/customcontrol/imagepicker";
+import imagepicker1 from "~/components/customcontrol/imagepicker1.vue";
 import Swal from "sweetalert2";
 
 export default {
-  components: { closebtn, LinkBtn, Lable, Button, ImageLable },
+  components: { closebtn, LinkBtn, Lable, Button, ImageLable, imagepicker1 },
   props: [],
   data() {
     return {
       imageroot: "",
       approvedImage: "",
+      reservePiNo: "",
       isOpen: true,
       err: { approvedImage: "" },
     };
@@ -77,17 +97,21 @@ export default {
     // }),
   },
   methods: {
-    GetAttachedImage(img) {
-      this.approvedImage = img;
+    GetAttachedImage(file) {
+      this.approvedImage = file;
+      console.log(file);
+      
     },
 
-    async SetApprove() {
-      if (this.IsValidate()) {
-        //send API call
-        this.showConfirmAlert_ApproveQuotation();
 
-        // this.closeModal();
-        //  this.$emit("CloseApprovingView");
+    async SetApprove() {
+
+      if (this.IsValidate()) {
+        //console.log("Image :", this.approvedImage);
+        //console.log("Reserve PI No:", this.reservePiNo);
+        // this.showConfirmAlert_ApproveQuotation();
+      } else {
+        console.warn("Image failed validation.");
       }
     },
 
@@ -181,7 +205,8 @@ export default {
   background: white;
   width: 80%;
   max-width: 400px;
-  border-radius: 8px;
+    border-radius: 1rem;
+    overflow: hidden;
   display: flex;
   flex-direction: column;
   height: 60%;

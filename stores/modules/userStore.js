@@ -9,6 +9,7 @@ export const useUserStore = defineStore('userStore', {
     loggedUser:{},
     assetsBaseUrl: '',
     updateProfile:{},
+    redirectTo:'',
   }),
 
   persist: true,
@@ -73,7 +74,7 @@ export const useUserStore = defineStore('userStore', {
           this.token = response.data.authToken;  // Assuming the response contains a 'token'
           this.loggedUser =response.data.loggedUser;
           this.assetsBaseUrl =response.data.loggedUser.resourceURLRoot;
-          
+          this.redirectTo = response.data.redirectTo;
           
           document.cookie = `token=${this.token}; path=/; max-age=3600; Secure`;
                   

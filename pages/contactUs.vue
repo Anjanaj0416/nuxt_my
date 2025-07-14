@@ -138,7 +138,7 @@
                         <input  
                           type="text"
                           name="FullName" 
-                          v-model="formData.FullName"
+                          v-model="formData.fullName"
                           class="block py-2.5 px-0 w-full text-base text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none  focus:outline-none focus:ring-0 focus:border-blue-600 peer" 
                           placeholder=" "  
                         />
@@ -149,7 +149,7 @@
                         <input 
                           type="text" 
                           name="WebSite" 
-                          v-model="formData.WebSite"
+                          v-model="formData.webSite"
                           class="block py-2.5 px-0 w-full text-base text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none focus:outline-none focus:ring-0 focus:border-blue-600 peer"
                           placeholder=" "  
                         />
@@ -161,7 +161,7 @@
                         <input 
                           type="email" 
                           name="Email" 
-                          v-model="formData.Email"
+                          v-model="formData.email"
                           class="block py-2.5 px-0 w-full text-base text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none  focus:outline-none focus:ring-0 focus:border-blue-600 peer"
                           placeholder=" "  
                         />
@@ -172,7 +172,7 @@
                         <input 
                           type="Phone" 
                           name="Phone" 
-                          v-model="formData.Phone"
+                          v-model="formData.phone"
                           class="block py-2.5 px-0 w-full text-base text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none focus:outline-none focus:ring-0 focus:border-blue-600 peer"
                           placeholder=" "  
                         />
@@ -184,7 +184,7 @@
                     <input  
                       type="text" 
                       name="message" 
-                      v-model="formData.Comment" 
+                      v-model="formData.comment" 
                       class="block py-2.5 px-0 w-full text-lg text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none focus:outline-none focus:ring-0 focus:border-blue-600 peer" 
                       placeholder=" "
                         />
@@ -296,11 +296,11 @@
         return {
           imageroot: process.env.Assets_83,
           formData: {
-            FullName: '',
-            Email: '',
-            Phone: '',
-            WebSite: '',
-            Comment: ''
+            fullName: '',
+            email: '',
+            phone: '',
+            webSite: '',
+            comment: ''
           },
           err: {},
           menuOpen: false,
@@ -333,17 +333,17 @@
           this.err = {};
           let isValid = true;
 
-          if (!this.formData.FullName) {
+          if (!this.formData.fullName) {
             this.err.FullName = "Please enter your FullName.";
             isValid = false;
           }
 
-          if (!this.formData.Email) {
+          if (!this.formData.email) {
             this.err.Email = "Please enter an Email address.";
             isValid = false;
           } else {
             const EmailRegex = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
-            if (!EmailRegex.test(this.formData.Email)) {
+            if (!EmailRegex.test(this.formData.email)) {
               this.err.Email = "Please enter a valid Email address.";
               isValid = false;
             }

@@ -1,11 +1,16 @@
 
 import { jwtDecode } from 'jwt-decode'
 import { useUserStore } from '~/stores/modules/userStore'
+import { useLoading } from "~/composables/useLoading";
 
 export default defineNuxtRouteMiddleware(async (to, from) => {
   
   try {
     const userStore = useUserStore();
+    const loading = useLoading()
+    loading.value = true
+    console.log("Loading state:", loading.value)
+
 
     if (process.client) {
       let token = userStore.token
@@ -32,10 +37,14 @@ export default defineNuxtRouteMiddleware(async (to, from) => {
           redirectToCookie.value = to.fullPath
           console.log("redirectToCookie:",redirectToCookie.value);
 
+          //spinner
           await new Promise(resolve => setTimeout(resolve, 1000));
-          
+          loading.value = false
 
           return navigateTo('/user/login')
+        }else {
+            loading.value = false
+            return
         }
 
         // return navigateTo('/user/login')
@@ -43,6 +52,8 @@ export default defineNuxtRouteMiddleware(async (to, from) => {
 
       if (token) {
         try {
+          loading.value = false
+              
           const decoded = jwtDecode(token)
           const now = Date.now() / 1000
 
@@ -57,13 +68,13 @@ export default defineNuxtRouteMiddleware(async (to, from) => {
                 secure: process.env.NODE_ENV === 'production'
               })
               redirectToCookie.value = to.fullPath
-
               return navigateTo('/user/login')
             }
           }
         } catch (err) {
           console.error('Invalid token:', err)
           userStore.token = null
+          loading.value = false
           return navigateTo('/user/login')
         }
       }
@@ -72,6 +83,7 @@ export default defineNuxtRouteMiddleware(async (to, from) => {
   } catch (error) {
     // Handle any uncaught errors (e.g., 500 errors during SSR)
     console.error('Middleware error:', error)
+    loading.value = false
     return navigateTo('/')
   }
 });

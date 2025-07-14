@@ -97,13 +97,14 @@ function handleFileChange(event) {
   const selectedFile = event.target.files[0];
 
   if (selectedFile) {
+    // console.log("Selected File:", selectedFile);
     const reader = new FileReader();
     reader.onload = () => {
       imagePreview.value = reader.result;
     };
     reader.readAsDataURL(selectedFile);
+    emit("GetSelectedImage", selectedFile);
   }
-  emit("GetSelectedImage", selectedFile);
 }
 
 function removeImage() {
