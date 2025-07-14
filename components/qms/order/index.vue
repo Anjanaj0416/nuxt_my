@@ -2,7 +2,7 @@
     <section class="justify-center">
       <div  v-if="!showInvoice && !showWorkFlow">
         <div class="flex flex-col-reverse items-start justify-between gap-4 mb-4 md:flex-row md:items-center">
-          <div class="text-2xl uppercase">Order</div>
+          <div class="text-2xl uppercase">Order </div>
           <!-- <button
             class="flex items-center gap-2 px-4 py-2 text-sm font-medium text-gray-500 transition-all duration-300 bg-white border-1 rounded-full shadow hover:bg-blue-700 hover:text-white hover:shadow-md"
             @click="$emit('close')"

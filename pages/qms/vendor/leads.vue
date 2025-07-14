@@ -32,7 +32,7 @@
       v-for="(lead, index) in leadStore.listLeads"
       :key="index"
     >
- {{ lead }}
+ 
       <div class="flex justify-start">
         <span
           class="inline-block px-1 py-0.5 text-[9px] font-medium text-blue-800 bg-blue-100 rounded-full"
@@ -70,10 +70,11 @@
             </span>
           </template>
           <template v-else>
-            <p class="text-xs text-gray-700 mt-0.5">
-              {{ lead[field.key] }}
-              {{ field.secondKey ? lead[field.secondKey] : "" }}
+            <p class="text-xs text-gray-500 mt-0.5" v-if="lead[field.key] || field.secondKey && lead[field.secondKey]">
+              {{ lead[field.key] || '—' }}
+              {{ field.secondKey ? lead[field.secondKey] || '' : '' }}
             </p>
+            <p v-else class="text-xs text-gray-500 mt-0.5 italic">No Data</p>
           </template>
         </div>
 
@@ -98,14 +99,14 @@
       <div v-if="isMore && rowIndex === index">
         <!-- <pre>{{ JSON.stringify(lead, null, 2) }}</pre> -->
 
-        <section class="flex flex-col gap-5 p-4 mt-2 bg-white sm:p-6">
+        <section class="flex flex-col gap-5 p-4 mt-0 bg-white sm:p-6">
           <div class="grid grid-cols-1 gap-4 sm:grid-cols-3">
             <div
               class="text-center sm:text-left"
               v-for="(field, idx) in showAllFields"
               :key="idx"
             >
-              <h2 class="text-sm font-semibold text-gray-700">
+              <h2 class="text-xs font-medium text-gray-800">
                 {{ field.label }}
               </h2>
 
@@ -127,7 +128,7 @@
                 <p
                   v-if="field.key"
                   v-html="formatComment(lead[field.key])"
-                  :class="['mt-1 text-sm text-gray-500', field.class]"
+                  :class="['mt-1 text-xs text-gray-700', field.class]"
                 ></p>
               </template>
             </div>
@@ -234,30 +235,16 @@ export default {
       err: { status: "", newComment: "" },
       vendorFields: [
         { label: "Company Name", key: "companyName" },
-        { label: "Business Type ", key: "industry" },
+        { label: "Address ", key: "address" },
         { label: "Company Contact Number", key: "companyPhone" },
-        { label: "Company Email", key: "companyEmail" },
-        { label: "City", key: "city" },
+        { label: "CSO Number", key: "csoNo" },
+        // { label: "City", key: "city" },
         { label: "Status", key: "status" },
       ],
       showAllFields: [
-        { label: "Company Mobile Number", key: "companyPhone" },
-        { label: "Address Line 1", key: "Address" },
-        { label: "Address Line 2", key: "address2" },
-        { label: "District", key: "district" },
-        { label: "Mobile Number", key: "contactMobile" },
-        { label: "Web site", key: "companyWeb" },
-        { label: "Business Registration Number", key: "contactPhoneNo" },
-        { label: "More Details", key: "" },
-        {
-          label: "Contact Person Name",
-          key: "contactPersonFirstName",
-          secondKey: "contactPersonLastname",
-        },
-        { label: "Contact Designation", key: "contactDesignation" },
-        { label: "Contact Number", key: "contactPhoneNo" },
-        { label: "Contact Mobile Number", key: "contactMobile" },
-        { label: "Contact Email", key: "contactEmail" },
+        { label: "Contact Person Number", key: "contactPhoneNo" },
+        { label: "Reported By", key: "reportedBy" },
+        { label: "Created Date", key: "createdDate" },
         { label: "Status", key: "isActive" },
         {
           label: "Comment",
@@ -325,7 +312,7 @@ export default {
     },
 
     formatComment(comment) {
-      return comment ? comment.replace(/\n/g, "<br><br>") : "";
+      return comment ? comment.replace(/\n/g, "<br><br>") : "No Data";
     },
 
     async SetSelectedFilter(type) {

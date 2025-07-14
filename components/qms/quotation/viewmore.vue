@@ -126,7 +126,7 @@
                   />
 
                   <!-- View Invoice -->
-                  <LinkBtn
+                  <!-- <LinkBtn
                     v-show="qItem.status === 'Approved'"
                     label="View Invoice"
                     @click="
@@ -134,7 +134,7 @@
                       GoToViewInvoice(qItem.id);
                     "
                     class="bg-purple-500 text-white text-xs px-3 py-1 rounded hover:bg-purple-600 transition"
-                  />
+                  /> -->
 
                   <!-- Delete Quotation -->
                   <!-- <LinkBtn
@@ -158,6 +158,9 @@
     </div>
     <AdddEdit
       v-if="isVerion && showAddProposalEdit"
+      :quotationNo ="quotationStore.curQuotation.quotationNo"
+      :isVerion="isVerion" 
+      :customerRef="customerRef"
       :quotation-data="quotationStore.editQuotation"
       @close="showAddProposalEdit = false"
     />
@@ -180,7 +183,7 @@ import AdddEdit from "~/components/qms/quotation/addedit.vue"
 
 export default {
   components: { closebtn, LinkBtn,Lable,Button,ImageLable,AdddEdit },
-  props: [],
+  props: ['customerRef'],
   data() {
     return {
       imageroot: "",
@@ -211,17 +214,17 @@ export default {
     GoToViewQuotation(id) {
       //https://learners.lk:5005/web/assets/DTP/Quotation/Q2025030003-V3.pdf
 
-      let url = `${this.imageroot}/DTL/Quotation/${id}.pdf`;
+      let url = `${this.imageroot}/Quotation/${id}.pdf`;
       window.open(url, "_blank");
     },
-    GoToViewInvoice(id) {
-      //https://learners.lk:5005/web/assets/DTP/Quotation/Q2025030003-V3.pdf
+    // GoToViewInvoice(id) {
+    //   //https://learners.lk:5005/web/assets/DTP/Quotation/Q2025030003-V3.pdf
 
-      let url = `${this.imageroot}/DTL/Invoice/${id}.pdf`;
-      window.open(url, "_blank");
+    //   let url = `${this.imageroot}/DTL/Invoice/${id}.pdf`;
+    //   window.open(url, "_blank");
 
-      //link to Invoice view
-    },
+    //   //link to Invoice view
+    // },
         
     async GoToVEditQuotation(id) {
       await this.quotationStore.GetEditQuotationById(id, this.showLoading);

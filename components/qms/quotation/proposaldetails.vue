@@ -7,7 +7,9 @@
         </div>
         <div class="w-full md:w-auto">
           <div class="mr-2">
-            <Button class="w-24 px-4 py-1.5 rounded-full text-xs transition" label="Create" variant="primary"
+         
+            <Button class="w-24 px-4 py-1.5 mt-2 rounded-full text-xs transition" label="Create" variant="primary" 
+            v-if="userStore.loggedUser.granted.includes('su') || userStore.loggedUser.granted.includes('flo') || userStore.loggedUser.granted.includes('sso')"
               @click="handleCreateClick" />
           </div>
         </div>
@@ -75,10 +77,11 @@
               showProposalVersions = true
                 " />
             </div>
-            <LinkBtn label="Orders" class="text-xs font-medium" @click="
+            <LinkBtn label="View Order" v-if="qItem.status === 'Approved'" class="text-xs font-medium" @click="
               GoToOrder(qItem.id);
             showOrder = true
               " />
+              
             <LinkBtn label="Work Flow" class="text-xs font-medium" @click="
               GoToWorkFlow(qItem.id);
             showWorkFlow = true
@@ -99,9 +102,9 @@
       </div>
     </div>
     
-    <ViewMore v-if="isViewMore && showProposalVersions" @close="isViewMore = !isViewMore; showProposalVersions = false"
+    <ViewMore :customerRef="customerRef" v-if="isViewMore && showProposalVersions" @close="isViewMore = !isViewMore; showProposalVersions = false;"
       @Approve="isApproving = true" />
-    <AddEdit v-if="isAddEdit && showAddProposal" @close="isAddEdit = false; showAddProposal = false" />
+    <AddEdit v-if="isAddEdit && showAddProposal" @close="isAddEdit = false; showAddProposal = false" :isVerion="false" :customerRef="customerRef" :quotationNo="quotationStore.curQuotation.quotationNo" />
     <ApproveView v-if="isApproving" @close="CloseApprovingView()" />
     <Order v-if="isViewMore && showOrder" @close="isViewMore = false; showOrder = false" />
     <WorkFlow v-if="isViewMore && showWorkFlow" @close="isViewMore = false; showWorkFlow = false" />
@@ -125,7 +128,7 @@ import Order from "~/components/qms/order/index";
 
 
 import { useQuotationStore } from "~/stores/modules/qms/quotationStore";
-
+import { useUserStore } from "~/stores/modules/userStore";
 
 definePageMeta({
   layout: "default",
@@ -168,6 +171,7 @@ export default {
   },
   async created() {
     this.quotationStore = useQuotationStore();
+    this.userStore = useUserStore();
     this.showLoading = this.$showLoading;
 
     await this.quotationStore.loadListQuotations({
@@ -187,17 +191,18 @@ export default {
       this.GoToAddNew(); // Assuming GoToAddNew is a method
     },
 
-    GoToAddNew() {
-      alert(this.quotation.isVerion)
-      if (this.quotation.isVerion === '') {
-        this.isAddEdit = true;
-        this.quotationStore.ResetQuotation();
-      }
-    },
     // GoToAddNew() {
-    //   this.quotationStore.ResetQuotation();
-    //   this.isAddEdit = true;
+     
+    //   if (this.quotation.isVerion === '') {
+    //     this.isAddEdit = true;
+    //     this.quotationStore.ResetQuotation();
+    //   }
     // },
+    GoToAddNew() {
+      this.quotationStore.ResetQuotation();
+      this.quotationStore.quotation.customerRef=this.customerRef;
+      this.isAddEdit = true;
+    },
 
     async GoToViewAllQuoVer() {
       this.resetViews();

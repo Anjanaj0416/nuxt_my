@@ -11,26 +11,11 @@
     <!-- <pre>{{ JSON.stringify(quotationStore.quotation, null, 2) }}</pre> -->
 
     <div class="form-content bg-white mt-4 border rounded-lg shadow-md p-4 space-y-1 text-sm text-gray-800">
-      <div class="grid grid-cols-1 gap-2 my-2 md:grid-cols-2">
-        <div>
-          <label class="block text-sm font-bold text-gray-600">Select Merchant</label>
-          <serach_Input
-            :arrItems="quotationStore.initQuotation.listVendors"
-            ref="refVendor"
-            label=""
-            v-model="quotation.merchantId"
-            @selectItem="GetSelectMerchant"
-            @input="err.merchantId = ''"
-          />
-          <p v-if="err.merchantId" class="mt-2 text-xs text-red-500">
-            {{ err.merchantId }}
-          </p>
-        </div>
-      </div>
+     
       <div class="grid grid-cols-2 my-4">
         <div>
           <label class="block text-sm font-bold text-gray-600">Select Product Category</label>
-
+      
           <selectinput2
             class="my-2"
             v-model="curProductCategory"
@@ -120,7 +105,7 @@
               <div class="p-2">Index</div>
               <div class="p-2">Description</div>
               <div class="p-2">Unit Price</div>
-              <div class="p-2">Links</div>
+              <div class="p-2">Links/Pkg</div>
               <div class="p-2">
                 Discount
                 <span class="text-xs font-bold text-red-500">(Rs.)</span>
@@ -228,7 +213,7 @@
 
     <!-- Input for adding installments -->
     <div>
-      <div class="grid grid-cols-2 gap-4 my-4">
+      <div class="grid grid-cols-2  my-1">
         <div>
           <label class="block text-sm font-bold text-gray-600">Installments</label>
           <input
@@ -303,7 +288,6 @@
                 <p class="text-sm text-gray-500">Net Total</p>
                 <p class="text-xl font-medium text-gray-900">
                   {{ (quotation && quotation.netTotal != null ? quotation.netTotal : 0).toFixed(2) }}
-
                 </p>
               </div>
               
@@ -325,6 +309,7 @@
       </button>
       <button @click="GetPrint" class="confirm-button"> {{ isEditing ? "Update" : "Print" }}</button>
     </div>
+
   </section>
 </template>
 
@@ -346,11 +331,12 @@ export default {
     selectinput2,
     Button,
   },
+  props:['isVerion','customerRef','quotationNo'],
   data() {
     return {
       isOpen: true,
       err: {
-        merchantId: "",
+        customerRef: "",
         mainDistrictId: "",
         curProductCategory: "",
       },
@@ -361,10 +347,9 @@ export default {
       curProductCategory: "",
       quotation: {
         currentQNo: '',
-        isVerion: false,
-        merchantId: "",
+        isVerion: false,      
+        customerRef: "",
         listOrderItem: [],
-        vat: 0,
         netTotal: 0,
         listInstallment: [],
       },
@@ -386,6 +371,15 @@ export default {
       ) {
         this.curProductCategory = newVal[0].packageCategory;
       }
+    },
+    'quotation.listInstallment': {
+      handler(newVal) {
+        if (Array.isArray(newVal) && newVal.length > 0) {
+          this.quotation.installment = newVal.length;
+          this.populateInstallmentsFromBackend();
+        }
+      },
+      immediate: true
     }
   },
   
@@ -416,24 +410,13 @@ export default {
     await this.quotationStore.loadInitQuotation(this.showLoading);
   },
 
-  methods: {
-    // GetSelectMerchant(id) {
-    //   this.quotation.merchantId = id;
-    //   this.err.merchantId = '';
-    //   console.log(this.quotation.merchantId);
-      
-    // },
 
-    GetSelectMerchant(merchant) {
-      // Only assign the id
-      this.quotation.merchantId = merchant.id;
-      
-      // Clear error
-      this.err.merchantId = '';
-      
-      // Log just the id
-      console.log(this.quotation.merchantId);
-    },
+
+
+  methods: {
+ 
+
+
 
 
     changedcurProductCategory(type) {
@@ -474,6 +457,11 @@ export default {
     if (!this.selectedPackages.includes(pkg)) {
       this.selectedPackages.push(pkg);
       this.quotation.listOrderItem.push(orderItem);
+  
+      this.updateTotalPrice(this.quotation.listOrderItem.length-1);
+    }
+    else{
+       this.$showCustomToast('This Item Already added', 'warning', 3000);
     }
   },
 
@@ -487,6 +475,19 @@ export default {
         this.err[key] = "";
       });
     },
+
+    populateInstallmentsFromBackend() {
+      const backendInstallments = this.quotation.listInstallment;
+
+      if (!Array.isArray(backendInstallments)) return;
+
+      this.listInstallmentDetails = backendInstallments.map((fee, index) => ({
+        installment: `Installment ${index + 1}`,
+        fee: Number(fee)
+      }));
+    },
+
+    
 
     AddInstallments() {
       const count = this.quotation.installment;
@@ -514,11 +515,6 @@ export default {
       }));
 
       this.quotation.listInstallment = this.listInstallmentDetails.map(item => item.fee);
-
-      console.log("Final installment breakdown:", this.listInstallmentDetails);
-      console.log("Updated listInstallment:", this.quotation.listInstallment);
-      
-
     },
 
     handleInstallmentChange(changedIndex) {
@@ -559,7 +555,8 @@ export default {
           : base;
       });
 
-      this.quotation.listInstallment = [...this.listInstallmentDetails];
+      // ✅ Updated here: just set the fees array
+      this.quotation.listInstallment = this.listInstallmentDetails.map(item => item.fee);
     },
     
     RemoveInstallment(index) {
@@ -578,7 +575,7 @@ export default {
       if (total < 0) total = 0;
 
       item.total = total;
-      console.log(total);
+      //console.log(total);
 
       this.netTotalPrice();
 
@@ -609,25 +606,38 @@ export default {
 
 
   
-  GetPrint() {
-    this.netTotalPrice();
-    if (!this.IsValidated()) return;
+GetPrint() {
+  this.netTotalPrice();
 
-    this.$showConfirm("Are you sure you want to Print this Quotation?", "warning")
-      .then(async (result) => {
-        if (result.isConfirmed) {
-          const { totalAmount, installment, ...payload } = this.quotation;
-          // console.log("Sending data:", JSON.stringify(payload, null, 2));
+  if (!this.IsValidated()) return;
 
-          await this.quotationStore.GetAddQuotation(payload, this.showLoading);
+  this.$showConfirm("Confirm: Print the proposal?", "warning")
+    .then(async (result) => {
+      if (result.isConfirmed) {
+        this.quotation.isVerion = this.isVerion;
+        this.quotation.customerRef = this.customerRef;
+        this.quotation.currentQNo = this.quotationNo;
 
-        } else {
-          console.log("Action canceled");
-          this.closeModal();
-          this.clearErr();
-        }
-      });
-  },
+        const payload = {
+          listOrderItem: this.quotation.listOrderItem,
+          listInstallment: this.quotation.listInstallment,
+          netTotal: this.quotation.netTotal,
+          isVerion: this.quotation.isVerion,
+          customerRef: this.quotation.customerRef,
+          currentQNo: this.quotation.currentQNo
+        };
+       // console.log(JSON.stringify(payload));
+         await this.quotationStore.GetAddQuotation(payload, this.showLoading);
+         
+      } else {
+        console.log("Action canceled");
+       
+      }
+       this.closeModal();
+        this.clearErr();
+    });
+}
+,
 
 
 
@@ -642,10 +652,10 @@ export default {
       this.err = {}; // Clear previous errors
 
       // Check Merchant
-      if (!this.quotation.merchantId) {
-        this.err.merchantId = "Please select a Merchant!";
-        isValidated = false;
-      }
+      // if (!this.quotation.customerRef) {
+      //   this.err.customerRef = "Please select a Merchant!";
+      //   isValidated = false;
+      // }
 
       // Check Product Category
       if (!this.curProductCategory) {
