@@ -15,7 +15,7 @@
             <div>
               <h3 class="font-bold">
                 Quotaion No -
-                {{ quotationStore.curQuotation.rootQuotationNo }}
+                {{ quotationStore.curQuotation.quotationNo }}
               </h3>
             </div>
             <hr />
@@ -44,7 +44,7 @@
             </div>
           </div>
           <div>
-            
+            {{ quotationStore.curQuotation }}
           </div>
         </div>
       </div>
@@ -107,8 +107,8 @@ export default {
     async SetApprove() {
 
       if (this.IsValidate()) {
-        console.log("Image :", this.approvedImage);
-        console.log("Reserve PI No:", this.reservePiNo);
+        //console.log("Image :", this.approvedImage);
+        //console.log("Reserve PI No:", this.reservePiNo);
         // this.showConfirmAlert_ApproveQuotation();
       } else {
         console.warn("Image failed validation.");

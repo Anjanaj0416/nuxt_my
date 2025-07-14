@@ -47,7 +47,7 @@
             <div class="relative">
               <input
                 type="text"
-                v-model="curLead.Address"
+                v-model="curLead.address"
                 placeholder="Enter Address"
                 required
                 class="w-full px-4 py-2 pr-10 text-sm border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-300"
@@ -63,7 +63,7 @@
               <input
                 type="text"
                 placeholder="Enter Contact Number"
-                v-model="curLead.CompanyPhone"
+                v-model="curLead.companyPhone"
                 :maxlength="10"
                 required
                 class="w-full px-4 py-2 pr-10 text-sm border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-300"
@@ -74,12 +74,12 @@
             </div>
           </div>
           <div>
-            <label class="block mb-1 text-sm font-medium text-gray-500">Contact Person Numberr</label>
+            <label class="block mb-1 text-sm font-medium text-gray-500">Contact Person Number</label>
             <div class="relative">
               <input
                 type="text"
                 placeholder="Enter Mobile Number"
-                v-model="curLead.ContactPhoneNo" 
+                v-model="curLead.contactPhoneNo" 
                 :maxlength="10"
                 required
                 class="w-full px-4 py-2 pr-10 text-sm border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-300"
@@ -115,10 +115,11 @@
       data() {
         return {
             curLead: {
-                CompanyName: "",
-                Address: "",
-                CompanyPhone: "",
-                ContactPhoneNo: "",
+                companyName: "",
+                address: "",
+                companyPhone: "",
+                contactPhoneNo: "",
+                medium:'',
 
             },
             err: {
@@ -136,6 +137,19 @@
 
       async created() {
         // this.dtlStore = useDtlStore();
+        
+
+        //const encode = btoa('facebook'); //console.log(encode) // "SGVsbG8gV29ybGQ="        
+        //const decode = atob(encode);console.log(decode); // "Hello World"
+         
+        //linkedin - p=bGlua2VkaW4=
+        // facebook  - p=ZmFjZWJvb2s=
+         const route = useRoute();
+        let val = route.query.p;
+        if (val !== undefined)
+        {            
+          this.medium = atob(val);         
+        }
       },
 
       watch: {},
@@ -176,17 +190,17 @@
             let isValid = true;
             const mobileRegex = /^[0-9]{10}$/;
 
-            if (!this.curLead.CompanyName) {
+            if (!this.curLead.companyName) {
                 this.err.CompanyName = "Please enter the company name!";
                 isValid = false;
             }
 
-            if (!this.curLead.Address) {
+            if (!this.curLead.address) {
                 this.err.Address = "Please enter the address!";
                 isValid = false;
             }
 
-            if (!this.curLead.CompanyPhone) {
+            if (!this.curLead.companyPhone) {
                 this.err.CompanyPhone = "Please enter the company contact number!";
                 isValid = false;
             } else if (!mobileRegex.test(this.curLead.CompanyPhone)) {
@@ -194,7 +208,7 @@
                 isValid = false;
             }
 
-            if (!this.curLead.ContactPhoneNo) {
+            if (!this.curLead.contactPhoneNo) {
                 this.err.ContactPhoneNo = "Please enter the contact person number!";
                 isValid = false;
             } else if (!mobileRegex.test(this.curLead.ContactPhoneNo)) {

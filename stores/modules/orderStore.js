@@ -5,7 +5,7 @@ import Swal from "sweetalert2";
 
 export const useOrderStore = defineStore("orderStore", {
   state: () => ({
-    availablePin: {},
+    availablePin: '',
     getWorkFlow: [],
   }),
   persist: true,
@@ -45,6 +45,7 @@ actions: {
 
       if (response.data.isSuccess) {
         this.showToast(response.data.message, "success");
+         this.availablePin='';
       } else {
         this.showToast(response.data.message, "error");
       }
