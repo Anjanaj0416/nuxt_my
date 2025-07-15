@@ -26,7 +26,7 @@ export default defineNuxtRouteMiddleware(async (to, from) => {
         }
 
         if (to.path !== '/user/login') {
-          console.log("to.path:",to.path);
+          // console.log("to.path:",to.path);
           
           const redirectToCookie = useCookie('redirectTo', {
             maxAge: 60 * 3,
@@ -44,7 +44,7 @@ export default defineNuxtRouteMiddleware(async (to, from) => {
           return navigateTo('/user/login')
         }else {
             loading.value = false
-            return
+            return 
         }
 
         // return navigateTo('/user/login')
@@ -68,7 +68,8 @@ export default defineNuxtRouteMiddleware(async (to, from) => {
                 secure: process.env.NODE_ENV === 'production'
               })
               redirectToCookie.value = to.fullPath
-              return navigateTo('/user/login')
+              // return navigateTo('/user/login')
+              return navigateTo('/errors/401page');
             }
           }
         } catch (err) {
@@ -84,6 +85,7 @@ export default defineNuxtRouteMiddleware(async (to, from) => {
     // Handle any uncaught errors (e.g., 500 errors during SSR)
     console.error('Middleware error:', error)
     loading.value = false
-    return navigateTo('/')
+    // return navigateTo('/')
+    return navigateTo('/errors/500page');
   }
 });

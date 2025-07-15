@@ -33,7 +33,6 @@
 
  definePageMeta({
     layout: 'default',   
-    middleware: 'auth',
    });
    
   export default {
