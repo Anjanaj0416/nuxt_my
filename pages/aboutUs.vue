@@ -201,7 +201,7 @@
             </aside>
         </section>
 
-        <!-- footer -->
+    <!-- footer -->
     <footer class="p-4 mt-12 bg-white sm:p-6 ">
       <div class="max-w-screen-xl mx-auto">
           <div class="md:flex md:justify-between">
@@ -265,11 +265,11 @@
           </div>
           </div>
       </div>
-  </footer>
+    </footer>
     </section>
   </template>
   
-  <script setup>
+<script setup>
   import { ref } from "vue";
   import "swiper/css";
   import "swiper/css/pagination";
