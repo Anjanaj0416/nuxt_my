@@ -6,7 +6,7 @@
 <template>
   <section class="flex flex-col items-center justify-center min-h-screen text-center p-6">
     <img
-      src="../../assets/img/digitalTechLabs/error/404.png"
+      src="../../assets/img/digitalTechLabs/error/500.png"
       alt="404 illustration"
       class="w-24 mb-8"
     />
@@ -35,7 +35,7 @@
   import selectinput2 from "~/components/customcontrol/selectinput2";
 
  definePageMeta({
-    layout: 'default',   
+    layout: 'bst',   
    });
    
   export default {

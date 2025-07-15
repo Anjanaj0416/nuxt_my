@@ -32,7 +32,7 @@
   import selectinput2 from "~/components/customcontrol/selectinput2";
 
  definePageMeta({
-    layout: 'default',   
+    layout: 'bst',   
    });
    
   export default {
