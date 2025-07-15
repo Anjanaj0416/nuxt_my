@@ -374,7 +374,32 @@ export default {
 
   },
 
-  async beforeMount() {},
+  
+
+  // async beforeMount() {
+  //   const granted = this.userStore.loggeduser?.granted || [];
+
+  //   if (granted.includes('su')) {
+  //     this.$router.push('/user/login');
+  //     this.$showToast('Not allowed to access this page');
+  //   }
+  // },
+
+
+  
+ 	
+  async beforeMount() {
+    const granted = this.userStore.loggedUser?.granted || [];
+
+    if (granted.includes('dtp') || granted.includes('dtp')) {
+      this.$router.push('/user/login');
+      this.$showToast('Not Allowed to access this page');
+    }
+  },
+
+
+
+
   head() {
     return {
       title: "Intranet - Digital Tech Labs",

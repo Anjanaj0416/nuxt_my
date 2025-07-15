@@ -1,6 +1,6 @@
 import { defineStore } from "pinia";
 import axios from 'axios'
-import { getAccessToken } from "~/plugins/getAccessToken";
+// import { getAccessToken } from "~/plugins/getAccessToken";
 
 import navImg from "../../assets/img/digitalTechLabs/standard/home2.png"
 import navImg1 from "../../assets/img/digitalTechLabs/standard/home.png"
@@ -364,8 +364,6 @@ export const useStandpageStore = defineStore("standpage", {
         ],
       }
     },
-   
-   
   }),
 
   persist: true,
@@ -374,11 +372,6 @@ export const useStandpageStore = defineStore("standpage", {
     async GetContactUs(req, showLoading) {
       console.log('api:', req)
 
-      const token = await getAccessToken()
-      if (!token) {
-        this.showToast('Token not available. Cannot submit.', 'error')
-        return
-      }
 
       const loadingAlert = showLoading('') // showLoading is a function
 

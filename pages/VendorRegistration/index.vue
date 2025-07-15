@@ -151,7 +151,7 @@
   
 <script>
   // import { useDtlStore } from "~/stores/modules/dtlStore";
-import { useAuthStore } from '~/stores/modules/authStore';
+// import { useAuthStore } from '~/stores/modules/authStore';
 
   definePageMeta({
     layout: 'contactus',
@@ -160,7 +160,6 @@ import { useAuthStore } from '~/stores/modules/authStore';
   export default {
       data() {
         return {
-            authStore: useAuthStore(),
             selectedCountryCode: '+94',
             selectedFlagUrl: 'https://flagcdn.com/w40/lk.png',
             selectedCountryCodeContactPerson: '+94' ,
@@ -215,7 +214,7 @@ import { useAuthStore } from '~/stores/modules/authStore';
       },
 
       async created() {
-       const authStore = useAuthStore();
+  
 
       //  await authStore.fetchAppToken(); 
 
@@ -283,13 +282,12 @@ import { useAuthStore } from '~/stores/modules/authStore';
           ).then(async (result) => {
             if (result.isConfirmed) {
               console.log(JSON.stringify(list));
-              await this.authStore.SetVendor(list, this.showLoading, this.showAlert);
+              // await this.authStore.SetVendor(list, this.showLoading, this.showAlert);
             } else {
               console.log("Action canceled");
             }
             // this.leadStore.clearCurLead();
             this.resetForm();
-            this.closeModal();
             this.clearErr();
           });
         }
