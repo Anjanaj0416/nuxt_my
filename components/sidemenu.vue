@@ -9,6 +9,7 @@
       <div class="flex items-center justify-between px-6 py-4 bg-gray-900 shadow-md">
         <!-- Logo -->
         <router-link to="/" class="flex items-center space-x-2">
+            <!-- hide Img -->
           <img src="/assets/img/LogoDigitalTechLab.png" alt="Logo" class="h-auto rounded-full w-28" />
         </router-link>
         <!-- Close Button -->

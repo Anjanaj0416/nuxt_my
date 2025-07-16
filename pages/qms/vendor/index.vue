@@ -139,7 +139,7 @@
               class="p-4 border-b-2 rounded-t-lg text-center text-red-600 border-transparent "
             >
               Close Invoices
-            </button> -->
+            </button>
 
             <button v-if="vendorTabs[vd.id] !== 'order'"
               @click="vendorTabs[vd.id] = 'order'; quotationStore.curVendorId = vd.id" :class="[
