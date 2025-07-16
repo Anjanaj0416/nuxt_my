@@ -217,6 +217,7 @@
   
 
       //  await authStore.fetchAppToken(); 
+      //http://localhost:3000/VendorRegistration?p=ZmFjZWJvb2s=
 
         //const encode = btoa('facebook'); //console.log(encode) // "SGVsbG8gV29ybGQ="        
         //const decode = atob(encode);console.log(decode); // "Hello World"
@@ -233,6 +234,7 @@
         if (val !== undefined) {
           this.curLead.medium = atob(val);
           // console.log("Decoded medium:", this.curLead.medium);
+          //https://localhost:7237/api/qms/Leads/SetVendorLead
         }
 
       },

@@ -146,6 +146,7 @@ export const useUserStore = defineStore('userStore', {
       localStorage.clear();
       document.cookie = 'token=; path=/; max-age=0; Secure'
       //this.showToast('User Logged out!','success');
+  
     },
 
     loadFromStorage() {
