@@ -37,12 +37,15 @@ export const useUserStore = defineStore('userStore', {
       }
     },
 
-  async AppLogin(secretKey,showLoading) {   
+  async AppLogin(formData,showLoading) { 
+    console.log('FormData in AppLogin:', Object.fromEntries(formData));
+    const loadingAlert = showLoading(''); 
 
-      const loadingAlert = showLoading(''); 
       try {
-
-        const response = await axios.get(`${import.meta.env.VITE_API_URL}/IAM/GetAppAccessToken?secretCode=`+ secretKey);      
+        // const secretCode = formData.get('secretCode');
+        const response = await axios.post(`${import.meta.env.VITE_API_URL}/IAM/GetAppAccessToken`,formData);     
+        console.log("response:",response);
+         
         loadingAlert.close();                            
 
         if (response.data.isSuccess) {         
@@ -55,8 +58,7 @@ export const useUserStore = defineStore('userStore', {
         
       } catch (error) {     
         console.error("error:",error);
-        
-        this.showToast('Network Error! Login failed. Please try again.','error');     
+        loadingAlert.close(); 
       }
       
     },
@@ -110,7 +112,6 @@ export const useUserStore = defineStore('userStore', {
       }
     },
 
-
     async fetchProfileData(id, showLoading) {
       console.log(id);
       
@@ -139,7 +140,6 @@ export const useUserStore = defineStore('userStore', {
         return ;
       }
     },
-
 
     logout() {
       this.token = '';

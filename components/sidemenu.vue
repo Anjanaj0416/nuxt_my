@@ -9,8 +9,8 @@
       <div class="flex items-center justify-between px-6 py-4 bg-gray-900 shadow-md">
         <!-- Logo -->
         <router-link to="/" class="flex items-center space-x-2">
-            <!-- hide Img -->
-          <img src="/assets/img/LogoDigitalTechLab.png" alt="Logo" class="h-auto rounded-full w-28" />
+          <!-- hide Img -->
+          <!-- <img src="/assets/img/LogoDigitalTechLab.png" alt="Logo" class="h-auto rounded-full w-28" /> -->
         </router-link>
         <!-- Close Button -->
         <button @click="$emit('close-sidebar')"
@@ -81,7 +81,7 @@
 
                   <span v-if="submenu.name === 'Upload Document'" @click="GetOpenRegistryFtp(submenu.to)">{{
                     submenu.name
-                    }} </span>
+                  }} </span>
                   <span v-else>{{ submenu.name }}</span>
 
                 </router-link>
@@ -106,7 +106,7 @@
 </template>
 
 <script setup>
-import { ref,onMounted } from "vue";
+import { ref, onMounted } from "vue";
 import { useUserStore } from '~/stores/modules/userStore';
 
 const userStore = useUserStore();

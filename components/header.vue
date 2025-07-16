@@ -18,8 +18,8 @@
             <!-- Logo and Name -->
             <div class="flex items-center space-x-2 ml-14">
               <!-- hide Img -->
-              <img src="/assets/img/LogoDigitalTechLab.png" alt="Digital Tech Labs Logo"
-                class="h-auto rounded-full w-28" />
+              <!-- <img src="/assets/img/LogoDigitalTechLab.png" alt="Digital Tech Labs Logo"
+                class="h-auto rounded-full w-28" /> -->
               <!-- <span class="text-xl font-bold text-white">Digital Tech Labs</span> -->
             </div>
           </NuxtLink>
@@ -113,10 +113,10 @@ export default {
     // console.log("Received user ID in profile:", this.userId);
   },
   async created() {
-    try{
-    this.userStore = useUserStore();
+    try {
+      this.userStore = useUserStore();
     }
-    catch{}
+    catch { }
   },
 };
 </script>
