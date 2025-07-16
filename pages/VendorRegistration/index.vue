@@ -8,19 +8,19 @@
       <div class="w-full p-10 bg-white">
         <!-- Image Above the Heading -->
         <div class="flex flex-col items-center mb-6 text-center">
-          <img
+          <!-- <img
             src="/assets/img/b2b/BtoBLogo.png"
             alt="B2B.lk Logo"
             class="w-42 h-24 mb-4"
-          />
-          <h3 class="text-3xl font-bold text-gray-900">
+          /> -->
+          <!-- <h3 class="text-3xl font-bold text-gray-900">
             Vendor Registration
-          </h3>
-          <p class="mt-3 text-gray-700 max-w-2xl">
+          </h3> -->
+          <!-- <p class="mt-3 text-gray-700 max-w-2xl">
             Welcome to the <span class="font-medium text-textColor">B2B.lk marketplace </span>!  
             To get started, please provide your company details below, including all required information to register as a new vendor.  
             
-            </p>
+            </p> -->
         </div>
         <div
           class="grid grid-cols-2 gap-4 mt-12 mb-4 sm:grid-cols-2 md:grid-cols-2">
@@ -150,6 +150,8 @@
 </template>
   
 <script>
+import { useUserStore } from '~/stores/modules/userStore';
+
   // import { useDtlStore } from "~/stores/modules/dtlStore";
 // import { useAuthStore } from '~/stores/modules/authStore';
 
@@ -206,6 +208,7 @@
               { name: 'Cambodia', code: '+855', flagUrl: 'https://flagcdn.com/w40/kh.png' },
               { name: 'Laos', code: '+856', flagUrl: 'https://flagcdn.com/w40/la.png' }
             ],
+            showLoading: null,
         };
       },
 
@@ -214,10 +217,15 @@
       },
 
       async created() {
+        try {
+          const userStore = useUserStore();
+          this.showLoading = this.$showLoading;
   
+        const secretCode = 'w5jzxd02';
+        const formData = new FormData();
+        formData.append('secretCode', secretCode);
 
-      //  await authStore.fetchAppToken(); 
-      //http://localhost:3000/VendorRegistration?p=ZmFjZWJvb2s=
+        await userStore.AppLogin(formData,this.showLoading); 
 
         //const encode = btoa('facebook'); //console.log(encode) // "SGVsbG8gV29ybGQ="        
         //const decode = atob(encode);console.log(decode); // "Hello World"
@@ -236,7 +244,10 @@
           // console.log("Decoded medium:", this.curLead.medium);
           //https://localhost:7237/api/qms/Leads/SetVendorLead
         }
-
+          
+        } catch (error) {
+          console.error("error:", error);
+        }
       },
 
       watch: {},
