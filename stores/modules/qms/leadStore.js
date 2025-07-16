@@ -84,11 +84,11 @@ actions: {
     },
 
     //Add Lead
-    async SetVendorLead(req, showLoading,showAlert) {
+    async SetVendorLead(curLead, showLoading,showAlert) {
     
       try {
         const response = await axios.post(
-          `${import.meta.env.VITE_API_URL}/qms/Leads/SetVendorLead`,req,    
+          `${import.meta.env.VITE_API_URL}/qms/Leads/SetVendorLead`,curLead,    
         );
       
         if (response.data.isSuccess) {                   

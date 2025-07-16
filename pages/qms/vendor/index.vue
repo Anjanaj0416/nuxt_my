@@ -29,6 +29,7 @@
     <div v-if="vendorStore.listVendor.length === 0" class="text-center text-gray-900 mt-5 text-sm font-medium">
       <p>No vendors available...</p>
     </div>
+    <!-- {{ vendorStore.listVendor }} -->
     <div v-for="vd in vendorStore.listVendor" :key="vd.id">
       <div class="flex flex-col gap-0 p-4 mt-2  border rounded-lg shadow-sm sm:p-6" :class="{
         'bg-red-50': vd.isActive === false,
@@ -42,20 +43,25 @@
                 {{ field.label }}
               </h1>
 
+              <!-- Shop Logo -->
               <p v-if="field.key === 'shopLogo'" class="flex items-center justify-center h-16 text-center">
-                <ImageLable v-if="vd[field.key]" :imageUrl="imageroot + `/${vd[field.key]}`" alt="Shop Logo" />
-                <ImageLable 
-                  v-else 
-                  :imageUrl="defaultShopImage" 
-                  alt="Default Shop Logo" 
-                />
+                <ImageLable v-if="vd[field.key]" :imageUrl="imageroot + '/' + vd[field.key]" alt="Shop Logo" />
+                <ImageLable v-else :imageUrl="defaultShopImage" alt="Default Shop Logo" />
               </p>
 
-              <p v-else-if="field.key !== 'isActive'" class="text-xs text-gray-500 mt-0.50">
-                {{ vd[field.key] }} {{ field.secondKey ? vd[field.secondKey] : "" }}
+              <!-- QR Code Image -->
+              <p v-else-if="field.key === 'qrImageUrl'" class="flex items-center justify-center text-center">
+                <span
+                  class="cursor-pointer"
+                  @click="handleQrClick(vd)"
+                  title="Click to open store and PDF"
+                >
+                  <ImageLable :imageUrl="imageroot + '/' + vd.qrImageUrl" alt="QR Code" />
+                </span>
               </p>
 
-              <span v-else :class="{
+              <!-- Active Status -->
+              <span v-else-if="field.key === 'isActive'" :class="{
                 'bg-green-100 text-green-700': vd.isActive === true,
                 'bg-red-100 text-red-700': vd.isActive === false,
                 'bg-gray-100 text-gray-700': vd.isActive === undefined,
@@ -63,16 +69,10 @@
                 {{ vd.isActive ? "Active" : "Inactive" }}
               </span>
 
-              <p v-if="field.key === 'qrImageUrl'" class="flex items-center justify-center h-16 text-center">
-                <ImageLable 
-                  v-if="vd[field.key]" 
-                  :imageUrl="imageroot + `/${vd[field.key]}`" 
-                  alt="QR Code" 
-                />
-                <span v-else class="text-xs text-gray-500">No QR Code</span>
+              <!-- Generic Text Values -->
+              <p v-else class="text-xs text-gray-500 mt-0.5">
+                {{ vd[field.key] }} {{ field.secondKey ? vd[field.secondKey] : "" }}
               </p>
-
-
             </div>
           </div>
         </div>
@@ -303,8 +303,7 @@ export default {
         // { label: "City", key: "cityId" },
         { label: "CSONo", key: "csoNo" },
         { label: "Status", key: "isActive" },
-        { label: "", key: "qrImageUrl" },
-
+        { label: "", key: "qrImageUrl" }, 
       ],
       imageroot: "",
       showLoading: null,
@@ -351,6 +350,25 @@ export default {
   },
 
   methods: {
+
+
+  handleQrClick(vd) {
+    const pdfUrl = this.imageroot + vd.qrPdfUrl;
+    const storeUrl = vd.storeUrl;
+ 
+
+    // Open storeUrl in new tab
+    const winStore = window.open(storeUrl, '_blank');
+
+
+
+    // Open pdfUrl in current tab
+    window.location.href = pdfUrl;
+
+    // If you want qrImageUrl, consider opening it from that page or via a link
+  }
+,
+
 
     async SetSelectedFilter(type) {
       this.searchBy = type;
