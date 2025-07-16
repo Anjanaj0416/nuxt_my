@@ -200,7 +200,10 @@ export default {
           "warning"
         ).then(async (result) => {
           if (result.isConfirmed) {
-            // console.log(JSON.stringify(this.curLead));
+            if (this.curLead.Medium === undefined) {
+              this.curLead.Medium = "Office";
+            }
+            console.log(JSON.stringify(this.curLead));
             await this.leadStore.SetVendorLead(this.curLead, this.showLoading, this.showAlert)
            
           } else {
