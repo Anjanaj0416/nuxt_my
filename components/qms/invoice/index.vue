@@ -2,7 +2,7 @@
     <section class="justify-center">
         <div class="flex flex-col-reverse items-start justify-between gap-4 mb-4 md:flex-row md:items-center">
           <div class="text-2xl uppercase">Invoice</div>
-          <button
+          <!-- <button
             class="flex items-center gap-2 px-4 py-2 text-sm font-medium text-gray-500 transition-all duration-300 bg-white border-1 rounded-full shadow hover:bg-blue-700 hover:text-white hover:shadow-md"
             @click="$emit('close')"
           >
@@ -10,19 +10,35 @@
               <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7" />
             </svg>
             Back to orders
-          </button>
+          </button> -->
         </div>
 
         <div class="bg-white border rounded-lg shadow-md p-6 text-sm text-gray-800">
-          <h2 class="text-base font-semibold text-gray-700">
-              Full Payment: <span class="text-blue-600 font-bold">LKR:{{ invoice.fullPayment }}</span>
-          </h2>
-          <h2 class="text-sm font-semibold text-gray-700">
-              Installment: <span class="text-gray-500 font-bold">{{ invoice.installment }} Installment</span>
-          </h2>
-          <h2 class="text-sm font-semibold text-gray-700 mb-6">
-              Panding Installment: <span class="text-gray-500 font-bold">{{ invoice.PandingInstallment }} Installment</span>
-          </h2>
+          <div class="flex items-center justify-between mb-6">
+            <div>
+              <h2 class="text-base font-semibold text-gray-700">
+                Full Payment: <span class="text-blue-600 font-bold">LKR: {{ invoice.InvoiceDetails.FullPayment }}</span>
+              </h2>
+              <h2 class="text-sm font-semibold text-gray-700">
+                Balance Payment: <span class="text-gray-500 font-bold">LKR : {{ invoice.InvoiceDetails.BalancePayment }}</span>
+              </h2>
+              <h2 class="text-sm font-semibold text-gray-700">
+                Panding Installment: <span class="text-gray-500 font-bold">{{ invoice.InvoiceDetails.PendingInstallments }} Installment</span>
+              </h2>
+            </div>
+
+            <!-- Button Section (Right) -->
+            <div class="w-full md:w-auto">
+              <div class="mr-2">
+                <Button class="w-24 px-4 py-1.5 mt-2 rounded-full text-xs transition" label="Payment" variant="primary"   @click="GoToPayment"/>
+                <!-- v-if="userStore.loggedUser.granted.includes('su') || userStore.loggedUser.granted.includes('flo') || userStore.loggedUser.granted.includes('sso')"
+                  @click="handleCreateClick"  -->
+              </div>
+            </div>
+          </div>
+
+          
+
 
           <ol class="flex items-center w-full">
             <li
@@ -111,32 +127,6 @@
                 Pending
               </span>
 
-           
-              <div class="mt-2 flex justify-between text-xs text-gray-600">
-                <input
-                  v-if="item.stats === 'latepayment' || item.stats === 'Pending'"
-                  class="block w-full mt-2 text-xs text-gray-900 border border-gray-300 rounded-lg cursor-pointer bg-gray-50 focus:outline-none"
-                  id="small_size"
-                  type="file"
-                    @change="handleFileUpload($event, item.id)"
-                />
-              </div>
-
-
-              
-              <!-- <div v-if="item.stats === 'latepayment' || item.stats === 'Pending'" class="flex items-center justify-center w-full mt-2">
-                <label for="dropzone-file" class="flex flex-col items-center justify-center w-full h-10 border border-gray-300 border-dashed rounded-md cursor-pointer bg-gray-50 hover:bg-gray-100 dark:text-gray-800 ">
-                  <div class="flex flex-col items-center justify-center py-1">
-                    <svg class="w-4 h-4 text-gray-500 dark:text-gray-400 mb-1" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 20 16">
-                      <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                        d="M13 13h3a3 3 0 0 0 0-6h-.025A5.56 5.56 0 0 0 16 6.5A5.5 5.5 0 0 0 5.207 5.021C5.137 5.017 5.071 5 5 5a4 4 0 0 0 0 8h2.167M10 15V6m0 0L8 8m2-2 2 2"/>
-                    </svg>
-                    <p class="text-[10px] text-gray-600 dark:text-gray-300 leading-none">Upload Receipt</p>
-                  </div>
-                  <input id="dropzone-file" type="file" class="hidden" />
-                </label>
-              </div> -->
-
 
               <!-- Action -->
               <a
@@ -148,34 +138,15 @@
               >
                 View
               </a>
-              <button
-                v-else-if="item.stats === 'latepayment'"
-                type="button"
-                @click="payInstallment(item.id)"
-                class="mt-2 px-4 py-2 text-xs font-medium text-red-600 bg-white border border-red-500 rounded-lg shadow-md animate-glow"
-              >
-                Pay Now
-              </button>
-              <button
-                v-else-if="item.stats === 'Pending'"
-                type="button"
-                @click="payInstallment(item.id)"
-                class="mt-2 block px-3 py-2 text-xs font-medium text-white bg-blue-900 rounded-lg hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300"
-              >
-                Pay Now
-              </button>
+
             </div>
           </div>
         </div>
+        <addPayment v-if="isAddPayment" @close="isAddPayment = false" />
     </section>
   </template>
   
   <script>
-  //import textInput from '~/components/customcontrol/textinput'
-  //// import * as Global from '@/assets/js/Global'
-  ////import * as myfilter from '@/plugins/myfilter'
- //import Swal from 'sweetalert2';
- //import { useSampleStore  } from '~/stores/modules/sampleStore';
  import { useRoute } from 'vue-router'
  import { useUserStore } from "~/stores/modules/userStore";
  //import { useQuotationStore } from "~/stores/modules/qms/quotationStore";
@@ -183,6 +154,7 @@
  import LinkBtn from "~/components/customcontrol/Link";
   import Button from "~/components/customcontrol/Button";
   import selectinput2 from "~/components/customcontrol/selectinput2";
+  import addPayment from './addPayment.vue';
 
  definePageMeta({
     layout: 'default',   
@@ -191,18 +163,22 @@
    
   export default {
     
-    components: {LinkBtn,Button,selectinput2},
+    components: {LinkBtn,Button,selectinput2,addPayment},
     props:[''],
     data() {
       return {
         imageroot: "",
         showLoading: null,
+        isAddPayment: false,
         receiptFiles: {},
         invoice: {
           id:"I001",
-          fullPayment:"150000.00",
-          installment: "3",
-          PandingInstallment:"2",
+          InvoiceDetails:{
+            FullPayment:125,
+            BalancePayment:25,
+            Installment:4,
+            PendingInstallments:2,
+          },
           installmentList:[
             {id:"1", name:"1st Installment", price:"50000.00", stats:"paid", invoice:"https://www.w3.org/WAI/ER/tests/xhtml/testfiles/resources/pdf/dummy.pdf"},
             {id:"2", name:"2st Installment", price:"50000.00", stats:"latepayment"},
@@ -225,41 +201,10 @@
     },
     methods: {
 
-      handleFileUpload(event, installmentId) {
-        const file = event.target.files[0];
-        if (!file) return;
-        this.receiptFiles[installmentId] = file;
-        console.log(`File selected for installment ${installmentId}:`, file);
+      GoToPayment() {
+        this.isAddPayment = true;
       },
 
-      payInstallment(installmentId) {
-        const file = this.receiptFiles[installmentId];
-
-        // if (!file) {
-        //   this.$showToast("Please upload receipt before proceeding.", "warning");
-        //   return;
-        // }
-
-        this.$showConfirm(
-          "Are you sure you want to proceed with this payment?",
-          "warning"
-        ).then(async (confirmed) => {
-          if (!confirmed) return;
-
-          console.log("Pay Installment ID:", installmentId);
-          console.log("Uploaded file:", file);
-
-          const formData = new FormData();
-          formData.append("installmentId", installmentId);
-          formData.append("receipt", file);
-
-          this.$showToast("Receipt validated. Proceeding to payment...", "success");
-
-        });
-      }
-
-
-        
       // async copyContent(value) {
       //   try {
       //      await navigator.clipboard.writeText(value)
