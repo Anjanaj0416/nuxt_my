@@ -9,7 +9,7 @@ export const useHrStore = defineStore("hrStore", {
     },
     loggeduser: {},
     dashboard: {
-      workgroupjobcount: null,
+      workgroupjobcount: '',
     },
     curEmployee: {},
     alempdetails: [],
@@ -22,7 +22,7 @@ export const useHrStore = defineStore("hrStore", {
       empName: "",
       callingName: "",
       nic: "",
-      nicImage: null,
+      nicImage: '',
       nicUrl: "",
       address: "",
       contact1: "",
@@ -44,7 +44,7 @@ export const useHrStore = defineStore("hrStore", {
       dateOfResign: "",
       reasonForResign: "",
       imageUrl: "",
-      image: null,
+      image: '',
       category: { id: "", value: "" },
       privilegeLevel: "",
       managerEmployee: { id: "", value: "" },
@@ -55,7 +55,7 @@ export const useHrStore = defineStore("hrStore", {
       isOtAllow: false,
       homePhoneNo: "",
       signatureUrl: "",
-      signature: null,
+      signature: '',
       onTimeDisplay: "00:00",
       onTime: "",
       offTimeDisplay: "00:00",
@@ -285,7 +285,7 @@ export const useHrStore = defineStore("hrStore", {
         empName: "",
         callingName: "",
         nic: "",
-        nicImage: null,
+        nicImage: '',
         nicUrl: "",
         address: "",
         contact1: "",
@@ -307,7 +307,7 @@ export const useHrStore = defineStore("hrStore", {
         dateOfResign: "",
         reasonForResign: "",
         imageUrl: "/HR/dev/avator/default.png",
-        image: null,
+        image: '',
         category: { id: "", value: "" },
         privilegeLevel: "",
         managerEmployee: { id: "", value: "" },
@@ -318,7 +318,7 @@ export const useHrStore = defineStore("hrStore", {
         isOtAllow: false,
         homePhoneNo: "",
         signatureUrl: "",
-        signature: null,
+        signature: '',
         onTimeDisplay: "00:00",
         onTime: "",
         offTimeDisplay: "00:00",
@@ -485,11 +485,11 @@ export const useHrStore = defineStore("hrStore", {
         console.log("response:", response);
         if (response.data.isSuccess) {
           this.attendence.tot_normal_overtime =
-            response.data.data.data.totNormalOvertime || null;
+            response.data.data.data.totNormalOvertime || '';
           this.attendence.tot_sunday_overtime =
-            response.data.data.data.totSundayOvertime || null;
+            response.data.data.data.totSundayOvertime || '';
           this.attendence.isTheTimeCardApproved =
-            response.data.data.data.isTheTimeCardApproved || null;
+            response.data.data.data.isTheTimeCardApproved || '';
           this.attendence.alattendences =
             response.data.data.data.alAttendences || [];
           // this.showToast('Loading successful!', 'success');

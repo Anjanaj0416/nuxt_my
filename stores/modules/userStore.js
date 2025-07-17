@@ -4,10 +4,10 @@ import Swal from 'sweetalert2'
 
 export const useUserStore = defineStore('userStore', {
   state: () => ({
-    user: null,
-    token: null,
+    user: '',
+    token: '',
     loggedUser:{},
-    assetsBaseUrl: null,
+    assetsBaseUrl: '',
     updateProfile:{},
     redirectTo:'',
   }),
@@ -129,20 +129,20 @@ export const useUserStore = defineStore('userStore', {
           return response.data;
         } else {
           this.showToast('Failed to fetch profile data.', 'error');
-          return null;
+          return ;
         }
 
       } catch (error) {
         loadingAlert.close();
         console.error("Profile fetch error:", error);
         this.showToast('Network error while loading profile.', 'error');
-        return null;
+        return ;
       }
     },
 
 
     logout() {
-      this.token = null;
+      this.token = '';
       localStorage.clear();
       document.cookie = 'token=; path=/; max-age=0; Secure'
       //this.showToast('User Logged out!','success');

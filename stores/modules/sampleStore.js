@@ -3,7 +3,7 @@ import axios from 'axios';
 
 export const useUserStore = defineStore('sample', {
   state: () => ({
-    dataobj: null,
+    dataobj: '',
    
   }),
 
