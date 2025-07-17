@@ -1,4 +1,4 @@
-<template>
+div<template>
     <section class="justify-center">
       <div  v-if="!showInvoice && !showWorkFlow">
         <div class="flex flex-col-reverse items-start justify-between gap-4 mb-4 md:flex-row md:items-center">
@@ -15,76 +15,103 @@
         </div>
 
         <div class="max-h-[660px] overflow-y-auto space-y-4">
-        <div
-          class="flex flex-col gap-3 p-3 mt-2 bg-white border border-gray-200 rounded-lg shadow-sm hover:shadow-md transition-shadow sm:p-4"
+          <div
+            v-for="(order, index) in orderDetailsList"
+            :key="index"
+            class="flex flex-col gap-3 p-3 mt-2 bg-white border border-gray-200 rounded-lg shadow-sm hover:shadow-md transition-shadow sm:p-4"
           >
-          <!-- v-for="(qItem, index) in quotationStore.listQuotation" :key="index" -->
-          <!-- Top section: Details -->
-          <div class="flex flex-col sm:flex-row sm:justify-between sm:items-center gap-2">
-            <div class="flex flex-col text-center sm:text-left">
-              <h1 class="text-xs font-medium text-gray-600">Proposal No.</h1>
-              <p class="text-sm font-semibold text-blue-600">test</p>
-            </div>
-            <div class="hidden sm:block w-px bg-gray-300 h-8"></div>
+            <!-- Top section: Details -->
+            <div class="flex flex-col sm:flex-row sm:justify-between sm:items-center gap-2">
+              <div class="flex flex-col text-center sm:text-left">
+                <h1 class="text-xs font-medium text-gray-600">Order No</h1>
+                <p class="text-sm font-semibold text-blue-600">{{ order.OrderNo }}</p>
+              </div>
+              <div class="hidden sm:block w-px bg-gray-300 h-8"></div>
 
-            <div class="flex flex-col text-center sm:text-left">
-              <h1 class="text-xs font-medium text-gray-600">Company</h1>
-              <p class="text-sm text-gray-700">test</p>
-            </div>
-            <div class="hidden sm:block w-px bg-gray-300 h-8"></div>
+              <div class="flex flex-col text-center sm:text-left">
+                <h1 class="text-xs font-medium text-gray-600">Date</h1>
+                <p class="text-sm text-gray-700">{{ order.OrderDate }}</p>
+              </div>
+              <div class="hidden sm:block w-px bg-gray-300 h-8"></div>
 
-            <div class="flex flex-col text-center sm:text-left">
-              <h1 class="text-xs font-medium text-gray-600">Total</h1>
-              <p class="text-sm font-semibold text-gray-800">Rs.test</p>
-            </div>
-            <div class="hidden sm:block w-px bg-gray-300 h-8"></div>
+              <div class="flex flex-col text-center sm:text-left">
+                <h1 class="text-xs font-medium text-gray-600">Installments</h1>
+                <p class="text-sm text-gray-700">{{ order.NoOfInstallments }}</p>
+              </div>
+              <div class="hidden sm:block w-px bg-gray-300 h-8"></div>
 
-            <!-- <div class="flex flex-col text-center sm:text-left">
-              <h1 class="text-xs font-medium text-gray-600">Status</h1>
-              <span :class="{
-                'bg-green-100 text-green-700': qItem.status === 'Approved',
-                'bg-yellow-100 text-yellow-700': qItem.status === 'Pending',
-                'bg-red-100 text-red-700': qItem.status === 'Rejected'
-              }" class="text-xs font-semibold px-2 py-0.5 rounded-full">
-                {{ qItem.status }}
-              </span>
-            </div> -->
+              <div class="flex flex-col text-center sm:text-left">
+                <h1 class="text-xs font-medium text-gray-600">Amount</h1>
+                <p class="text-sm font-semibold text-gray-800">Rs. {{ order.OrderAmount }}</p>
+              </div>
+              <div class="hidden sm:block w-px bg-gray-300 h-8"></div>
+
+              <div class="flex flex-col text-center sm:text-left">
+                <h1 class="text-xs font-medium text-gray-600">Status</h1>
+                <span 
+                  :class="{
+                    'bg-green-100 text-green-700': order.OrderStatus === 'Full Paid',
+                    'bg-yellow-100 text-yellow-700': order.OrderStatus === 'Pending',
+                    'bg-red-100 text-red-700': order.OrderStatus === 'Rejected'
+                  }"
+                  class="text-xs font-semibold px-2 py-0.5 rounded-full"
+                >
+                  {{ order.OrderStatus }}
+                </span>
+              </div>
+            </div>
+
+            <!-- Proposal Tab Buttons -->
+            <div class="sm:flex sm:justify-end sm:gap-4">
+              <div class="grid grid-cols-3 gap-2 sm:flex sm:gap-4 text-sm font-medium text-gray-500">
+                <button v-if="activeOrderInvoiceId !== order.id"
+                  @click="activeOrderInvoiceId = order.id"
+                  :class="[
+                    'p-4 border-b-2 rounded-t-lg text-center',
+                    'border-transparent hover:text-gray-600 hover:border-gray-300'
+                  ]">
+                  Invoice
+                </button>
+
+                <button v-else
+                  @click="activeOrderInvoiceId = null"
+                  class="p-4 border-b-2 rounded-t-lg text-center text-red-600 border-transparent">
+                  Close Invoice
+                </button>
+
+                <button v-if="activeOrderWorkFloweId !== order.id"
+                  @click="activeOrderWorkFloweId = order.id"
+                  :class="[
+                    'p-4 border-b-2 rounded-t-lg text-center',
+                    'border-transparent hover:text-gray-600 hover:border-gray-300'
+                  ]">
+                  WorkFlow
+                </button>
+
+                <button v-else
+                  @click="activeOrderWorkFloweId = null"
+                  class="p-4 border-b-2 rounded-t-lg text-center text-red-600 border-transparent">
+                  Close WorkFlow
+                </button>
+              </div>
+            </div>
+
+            <!-- Button group -->
+            <div class="p-0 dark:border-gray-700">
+              <div v-if="activeOrderInvoiceId === order.id">
+                <Invoice  />
+              </div>
+              <div v-if="activeOrderWorkFloweId === order.id">
+                <WorkFlow  />
+              </div>
+            </div>
           </div>
 
-          <!-- Sales Exec -->
-          <div class="text-xs text-red-500 font-medium">
-            Sales Exec: <span class="text-gray-700">test</span>
+          <div v-if="!orderDetailsList.length" class="mt-4 text-center text-blue-950">
+            No quotations found.
           </div>
-
-          <!-- Items list -->
-          <!-- <div class="text-xs text-gray-700">
-            <span class="font-medium uppercase text-gray-800">Items:</span>
-            <ul class="list-disc list-inside ml-2">
-              <li v-for="(qProduct, index) in qItem.items" :key="index">{{ qProduct }}</li>
-            </ul>
-          </div> -->
-
-          <!-- Button group -->
-          <div class="flex flex-wrap justify-end gap-1 mt-1">
-            <LinkBtn label="Invoice" class="text-xs font-medium" @click="
-              GoToInvoice();
-            showInvoice = true
-              " />
-            <LinkBtn label="Workflow " class="text-xs font-medium" @click="
-              GoToWorkFlow();
-            showWorkFlow = true
-              "/>
-            <LinkBtn label="View Proforma" class="text-xs font-medium"/>
-          </div>
-        </div>
-        <!-- <div v-if="!quotationStore.listQuotation.length" class="mt-4 text-center text-blue-950">
-          No quotations found.
-        </div> -->
         </div>
       </div>
-
-      <Invoice v-if="isViewMore && showInvoice" @close="isViewMore = false; showInvoice = false" />
-      <WorkFlow v-if="isViewMore && showWorkFlow" @close="isViewMore = false; showWorkFlow = false" />
       
     </section>
   </template>
@@ -115,6 +142,28 @@
         isViewMore: false,
         showInvoice: false,
         showWorkFlow:false,
+        activeOrderInvoiceId: null, 
+        activeOrderWorkFloweId: null,
+        orderDetailsList: [
+          {
+            id:'01111111',
+            OrderNo: 'or001',
+            OrderDate: '20/08/2025',
+            OrderAmount: 800,
+            NoOfInstallments: 4,
+            OrderStatus: 'Full Paid',
+            profomaUrl: ''
+          },
+          {
+            id:'0222222',
+            OrderNo: 'or002',
+            OrderDate: '20/08/2025',
+            OrderAmount: 1000,
+            NoOfInstallments: 2,
+            OrderStatus: 'Pending',
+            profomaUrl: ''
+          }
+        ]
       }
     },
 

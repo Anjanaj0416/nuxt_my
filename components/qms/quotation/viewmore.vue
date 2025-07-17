@@ -83,13 +83,13 @@
                  
                 <div  class="flex flex-wrap justify-end gap-2 mt-2 relative">
                   <!-- Approval Image Badge -->
-                  <ImageLable
+                  <!-- <ImageLable
                     v-show="qItem.status === 'Approved'"
                     :imageUrl="imageroot + qItem.approvedMemo"
                     alt="Quotation Approval"
                     title="Quotation Approval"
                     class="absolute -top-3 -left-3 w-8 h-8 rounded-full border border-gray-300"
-                  />
+                  /> -->
 
                   <!-- Edit -->
                   <LinkBtn
@@ -100,7 +100,7 @@
                     "
                     class="bg-indigo-500 text-white text-xs px-3 py-1 rounded hover:bg-indigo-600 transition"
                   />
-<!-- {{userStore.loggedUser.granted}} -->
+
                   <!-- Approve -->
                    <div v-if="(userStore.loggedUser.granted?.includes('cso') || userStore.loggedUser.granted?.includes('su'))">
                   <LinkBtn

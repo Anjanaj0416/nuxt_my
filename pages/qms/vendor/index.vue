@@ -150,11 +150,7 @@
               ]">
               Order
             </button>
-            <button v-if="vendorTabs[vd.id] === 'order' "
-              @click="vendorTabs[vd.id] = ''; quotationStore.curVendorId = null"
-              class="p-4 border-b-2 rounded-t-lg text-center text-red-600 border-transparent ">
-              Close Order
-            </button>
+
 
             <button v-if="vendorTabs[vd.id] !== 'viewMore'"
               @click="vendorTabs[vd.id] = 'viewMore'; quotationStore.curVendorId = vd.id" :class="[
@@ -206,7 +202,7 @@
         <!-- Tab Contents -->
         <div class="p-0 dark:border-gray-700">
           <div v-if="vendorTabs[vd.id] === 'proposal'">
-            <Proposal />
+            <Proposal :customerRef="vd.customerRef"/>
           </div>
           <!-- <div v-if="vendorTabs[vd.id] === 'invoice'">
             <Invoice />

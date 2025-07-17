@@ -3,7 +3,7 @@
     <div class="modal">
       <!-- Modal Header -->
       <div class="modal-header">
-        <h2 class="modal-title">Quotation Approval</h2>
+        <h2 class="modal-title">Payement Add</h2>
         <!-- <button @click="closeModal" class="absolute z-50 p-2 text-white rounded-md  close-button">&times;</button> -->
         <closebtn @close="closeModal()" />
       </div>
@@ -13,14 +13,7 @@
         <div class="form-content">
           <div class="grid grid-cols-2 gap-4 mt-1 sm:grid-cols-1 md:grid-cols-1">
             <div>
-              <h3 class="font-bold">
-                Quotaion No -
-                {{ quotationStore.curQuotation.quotationNo }}
-              </h3>
-            </div>
-            <hr />
-            <div>
-              <label class="block text-sm mb-2 font-bold text-gray-600">Attached the approval prrof</label>
+              <label class="block text-sm mb-2 font-bold text-gray-600">Attached the approval prrof Payement</label>
               
               <imagepicker1
                 @GetSelectedImage="GetAttachedImage"
@@ -38,13 +31,16 @@
               </p>
             </div>
             <div>
-              <label class="block text-sm font-bold text-gray-600">Reserve PI No. Enter</label>
+              <label class="block text-sm font-bold text-gray-600">PayAmount</label>
               <input 
                 type="text" 
-                v-model="PreIssuedPINumber"
-                placeholder="Enter Reserve PI No."
+                v-model="PayAmount"
+                placeholder="Enter Payment"
                 class="w-full p-2 mt-2 text-sm bg-gray-100 border rounded-md" 
               />
+               <p v-if="err.packageError" class="mt-2 text-sm text-red-600">
+                {{ err.packageError }}
+                </p>
             </div>
           </div>
           <div>
@@ -57,7 +53,7 @@
       <!-- Modal Footer -->
       <div class="modal-footer">
         <button @click="closeModal" class="cancel-button">Cancel</button>
-        <button @click="SetApprove" class="confirm-button">Approve</button>
+        <button @click="SetApprove" class="confirm-button">Add</button>
       </div>
     </div>
   </div>
@@ -82,7 +78,7 @@ export default {
     return {
       imageroot: "",
       ApprovalMemo: "",
-      PreIssuedPINumber: "",
+      PayAmount: "",
       isOpen: true,
       err: { ApprovalMemo: "" },
     };
@@ -113,10 +109,13 @@ export default {
         const formData = new FormData();
         formData.append("ApprovedQuotationId", this.quotationStore.curQuotation.id);
         formData.append("ApprovalMemoFile", this.ApprovalMemo); 
-        formData.append("PreIssuedPINumber", this.PreIssuedPINumber || "");
+        formData.append("PayAmount", this.PayAmount || "");
+
+        console.log(formData)
+        
 
         try {
-          await this.quotationStore.GetQuotationApprove(formData, this.showLoading);
+        //   await this.quotationStore.GetQuotationApprove(formData, this.showLoading);
           this.closeModal();
         } catch (error) {
           console.error("Approval failed:", error);
@@ -137,6 +136,13 @@ export default {
         this.err.approvedImage = "Attach the approval proof.";
         isSuccess = false;
       }
+
+       if (!this.PayAmount || this.PayAmount.length === 0) {
+            this.err.packageError = "Please enter amount.";
+            isSuccess = false;
+        } else {
+            this.err.packageError = "";
+        }
 
       return isSuccess;
     },

@@ -624,7 +624,7 @@ GetPrint() {
           netTotal: this.quotation.netTotal,
           isVerion: this.quotation.isVerion,
           customerRef: this.quotation.customerRef,
-          currentQNo: this.quotation.currentQNo
+          currentQNo: this.quotation.currentQNo || ''
         };
        // console.log(JSON.stringify(payload));
          await this.quotationStore.GetAddQuotation(payload, this.showLoading);
@@ -634,7 +634,7 @@ GetPrint() {
        
       }
        this.closeModal();
-        this.clearErr();
+        // this.clearErr();
     });
 }
 ,
