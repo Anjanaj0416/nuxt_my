@@ -21,6 +21,7 @@
           class="flex flex-col gap-3 p-3 mt-2 bg-white border border-gray-200 rounded-lg shadow-sm hover:shadow-md transition-shadow sm:p-4"
           v-for="(qItem, index) in quotationStore.listQuotation" :key="index">
           <!-- Top section: Details -->
+           <!-- {{ quotationStore.listQuotation.approvedQuotationId }} -->
           <div class="flex flex-col sm:flex-row sm:justify-between sm:items-center gap-2">
             <div class="flex flex-col text-center sm:text-left">
               <h1 class="text-xs font-medium text-gray-600">Proposal No.</h1>
@@ -78,18 +79,20 @@
                 " />
             </div>
             <LinkBtn label="View Order" v-if="qItem.status === 'Approved'" class="text-xs font-medium" @click="
-              GoToOrder(qItem.id);
-            showOrder = true
-              " />
+              GoToOrder(qItem.approvedQuotationId);
+              showOrder = true"
+            />
               
             <LinkBtn label="Work Flow" class="text-xs font-medium" @click="
               GoToWorkFlow(qItem.id);
-            showWorkFlow = true
-              " />
+              showWorkFlow = true" 
+            />
+
             <LinkBtn label="View PDF" class="text-xs font-medium" @click="
               quotationStore.curQuotation = qItem;
-            GoToViewQuotation(qItem.id);
-            " />
+              GoToViewQuotation(qItem.id);" 
+            />
+            
             <LinkBtn v-if="qItem.status === 'Approved'" label="View Invoice" class="text-xs font-medium" @click="
               quotationStore.curQuotation = qItem;
             GoToViewInvoice(qItem.id);
@@ -106,7 +109,7 @@
       @Approve="isApproving = true" />
     <AddEdit v-if="isAddEdit && showAddProposal" @close="isAddEdit = false; showAddProposal = false" :isVerion="false" :customerRef="customerRef" :quotationNo="quotationStore.curQuotation.quotationNo" />
     <ApproveView v-if="isApproving" @close="CloseApprovingView()" />
-    <Order v-if="isViewMore && showOrder" @close="isViewMore = false; showOrder = false" />
+    <Order v-if="isViewMore && showOrder" @close="isViewMore = false; showOrder = false"  :id="approvedQuotationId" />
     <WorkFlow v-if="isViewMore && showWorkFlow" @close="isViewMore = false; showWorkFlow = false" />
 
   </section>
@@ -151,6 +154,7 @@ export default {
   props:['customerRef'],
   data() {
     return {
+      approvedQuotationId: null,
       isViewMore: false,
       isApproving: false,
       isAddEdit: false,
@@ -212,10 +216,9 @@ export default {
       this.isViewMore = true;
     },
 
-    async GoToOrder() {
+    async GoToOrder(id) {
       this.resetViews();
-
-      let id = this.quotationStore.curQuotation.id;
+      this.approvedQuotationId = id; 
       this.isViewMore = true;
     },
 

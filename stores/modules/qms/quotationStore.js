@@ -14,7 +14,7 @@ export const useQuotationStore = defineStore("QuotationStore", {
     initQuotation: [],
     testParam: { id: 21 },
     quotation:{},
-    approve:{},
+    orderList: [],
 
     // curQuotation: {},
 
@@ -369,6 +369,36 @@ export const useQuotationStore = defineStore("QuotationStore", {
         console.error(error);
       }
     },
+
+    //GetOrders
+    async LoadOrders(id, showLoading) {
+
+      console.log(id);
+      
+      const loadingAlert = showLoading("");
+      try {
+        const response = await axios.get(
+          `${import.meta.env.VITE_API_URL}/qms/Order/GetOrderDetails?approvedQuotationId=${id}`,
+        );
+
+        loadingAlert.close();
+        if (response.data.isSuccess) {
+          this.orderList = response.data.data.data; 
+          console.log("Order List:", this.orderList);
+          this.showToast(response.data.message, "success");
+
+        } else {
+          this.showToast(response.data.message, "error");
+        }
+      } catch (error) {
+        loadingAlert.close();
+        this.showToast("An error occurred during approval", "error");
+        console.error(error);
+      }
+    },
+
+    
+
 
 
 

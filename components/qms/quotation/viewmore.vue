@@ -102,17 +102,16 @@
                   />
 
                   <!-- Approve -->
-                   <div v-if="(userStore.loggedUser.granted?.includes('cso') || userStore.loggedUser.granted?.includes('su'))">
-                  <LinkBtn
-                  
-                    v-show="qItem.status !== 'Approved'"
-                    label="Approve"
-                    @click="
-                      quotationStore.curQuotation = qItem;
-                      GoToApprove(qItem.id);
-                    "
-                    class="bg-green-500 text-white text-xs px-3 py-1 rounded hover:bg-green-600 transition"
-                  />
+                  <div v-if="(userStore.loggedUser.granted?.includes('cso') || userStore.loggedUser.granted?.includes('su'))">
+                    <LinkBtn
+                      v-show="!qItem.isApproved"
+                      label="Approve"
+                      @click="
+                        quotationStore.curQuotation = qItem;
+                        GoToApprove(qItem.id);
+                      "
+                      class="bg-green-500 text-white text-xs px-3 py-1 rounded hover:bg-green-600 transition"
+                    />
                   </div>
 
                   <!-- View Quotation -->

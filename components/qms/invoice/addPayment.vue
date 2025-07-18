@@ -3,7 +3,7 @@
     <div class="modal">
       <!-- Modal Header -->
       <div class="modal-header">
-        <h2 class="modal-title">Payement Add</h2>
+        <h2 class="modal-title">Payment Add</h2>
         <!-- <button @click="closeModal" class="absolute z-50 p-2 text-white rounded-md  close-button">&times;</button> -->
         <closebtn @close="closeModal()" />
       </div>
@@ -11,9 +11,9 @@
       <!-- Modal Content (scrollable) -->
       <div class="modal-content">
         <div class="form-content">
-          <div class="grid grid-cols-2 gap-4 mt-1 sm:grid-cols-1 md:grid-cols-1">
+          <div class="grid grid-cols-1 gap-4 mt-1 sm:grid-cols-1 md:grid-cols-1">
             <div>
-              <label class="block text-sm mb-2 font-bold text-gray-600">Attached the approval prrof Payement</label>
+              <label class="block text-sm mb-2 font-bold text-gray-600"> Attach Approval Proof Payment</label>
               
               <imagepicker1
                 @GetSelectedImage="GetAttachedImage"
@@ -31,20 +31,44 @@
               </p>
             </div>
             <div>
-              <label class="block text-sm font-bold text-gray-600">PayAmount</label>
+              <label class="block text-sm font-bold text-gray-600">Pay Amount</label>
               <input 
-                type="text" 
+                type="number" 
                 v-model="PayAmount"
-                placeholder="Enter Payment"
+                placeholder="Enter Pay Amount"
                 class="w-full p-2 mt-2 text-sm bg-gray-100 border rounded-md" 
               />
                <p v-if="err.packageError" class="mt-2 text-sm text-red-600">
                 {{ err.packageError }}
                 </p>
             </div>
+            <div>
+              <label class="block text-sm font-bold text-gray-600">Payment Date</label>
+              <input 
+                type="date" 
+                v-model="PayDate"
+                placeholder="Enter Pay Date"
+                class="w-full p-2 mt-2 text-sm bg-gray-100 border rounded-md" 
+              />
+               <p v-if="err.payDateError" class="mt-2 text-sm text-red-600">
+                {{ err.payDateError }}
+                </p>
+            </div>
+            <div>
+              <label class="block text-sm font-bold text-gray-600">Payment Terms</label>
+              <input 
+                type="text" 
+                v-model="PayTerms"
+                placeholder="Enter Payment Terms"
+                class="w-full p-2 mt-2 text-sm bg-gray-100 border rounded-md" 
+              />
+               <p v-if="err.PayTermsError" class="mt-2 text-sm text-red-600">
+                {{ err.PayTermsError }}
+                </p>
+            </div>
           </div>
           <div>
-            <!-- {{ quotationStore.curQuotation.id }} -->
+            {{ quotationStore.curQuotation }}
           </div>
         </div>
       </div>
@@ -79,6 +103,8 @@ export default {
       imageroot: "",
       ApprovalMemo: "",
       PayAmount: "",
+      PayTerms:"",
+      PayDate: "",
       isOpen: true,
       err: { ApprovalMemo: "" },
     };
@@ -103,28 +129,35 @@ export default {
       
     },
 
-
-    async SetApprove() {
+    SetApprove() {
       if (this.IsValidate()) {
-        const formData = new FormData();
+       
+        this.$showConfirm(
+          "Are you sure to Save this Payment?",
+          "warning"
+        ).then(async (result) => {
+          if (result.isConfirmed) {
+            const formData = new FormData();
         formData.append("ApprovedQuotationId", this.quotationStore.curQuotation.id);
         formData.append("ApprovalMemoFile", this.ApprovalMemo); 
         formData.append("PayAmount", this.PayAmount || "");
-
-        console.log(formData)
-        
-
-        try {
-        //   await this.quotationStore.GetQuotationApprove(formData, this.showLoading);
-          this.closeModal();
-        } catch (error) {
-          console.error("Approval failed:", error);
+        formData.append("PayTerms", this.PayTerms || "");
+        formData.append("PayDate", this.PayDate || "");
+        for (let pair of formData.entries()) {
+          console.log(pair[0] + ": ", pair[1]);
         }
-      } else {
-        console.log("Validation failed");
+
+           
+          } else {
+            console.log("Action canceled");
+          }
+          this.closeModal();
+  
+        });
       }
     },
 
+ 
 
 
     IsValidate() {
@@ -137,11 +170,25 @@ export default {
         isSuccess = false;
       }
 
-       if (!this.PayAmount || this.PayAmount.length === 0) {
+       if (!this.PayAmount) {
             this.err.packageError = "Please enter amount.";
             isSuccess = false;
         } else {
             this.err.packageError = "";
+        }
+
+        if (!this.PayDate) {
+            this.err.payDateError = "Please enter date.";
+            isSuccess = false;
+        } else {
+            this.err.payDateError = "";
+        }
+
+        if (!this.PayTerms) {
+            this.err.PayTermsError = "Please enter pay terms.";
+            isSuccess = false;
+        } else {
+            this.err.PayTermsError = "";
         }
 
       return isSuccess;
@@ -221,18 +268,18 @@ export default {
 }
 
 /* Modal Container */
+
+
 .modal {
   background: white;
   width: 80%;
   max-width: 400px;
-    border-radius: 1rem;
-    overflow: hidden;
+  border-radius: 1rem;
+  overflow: hidden;
   display: flex;
   flex-direction: column;
-  height: 60%;
-  /* Set the default height for larger screens */
+  height: 70%;
   position: relative;
-  /* Needed for proper footer placement */
 }
 
 /* Modal Header */

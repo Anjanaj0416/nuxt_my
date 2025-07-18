@@ -4,21 +4,21 @@
           <div class="text-2xl uppercase">Reserve PI No.</div>
         </div>
         <div class=" flex items-center justify-center">
-            <div class="bg-white border border-gray-200 rounded-2xl shadow-2xl p-8 w-full text-center ">
-              <div class="mb-6">
-                <h1 class="text-2xl font-bold text-gray-800">
-                    Next Available PI No: <span class="text-blue-900 font-extrabold">{{ orderStore.availablePin.data }}</span>
-                </h1>
-                </div>
-                <div>
-                <button
-                    @click="issueNo"
-                    class="inline-flex items-center justify-center gap-2 px-6 py-3 px-24 text-sm font-semibold text-white bg-gradient-to-r from-blue-900 to-blue-700 rounded-full shadow-lg hover:from-blue-800 hover:to-blue-600 transition-all duration-300"
-                >
-                    Issue PI
-                </button>
+          <div class="bg-white border border-gray-200 rounded-2xl shadow-2xl p-8 w-full text-center ">
+            <div class="mb-6">
+              <h1 class="text-2xl font-bold text-gray-800">
+                  Next Available PI No: <span class="text-blue-900 font-extrabold">{{ orderStore.availablePin.data }}</span>
+              </h1>
               </div>
+              <div>
+              <button
+                  @click="issueNo"
+                  class="inline-flex items-center justify-center gap-2 px-6 py-3 px-24 text-sm font-semibold text-white bg-gradient-to-r from-blue-900 to-blue-700 rounded-full shadow-lg hover:from-blue-800 hover:to-blue-600 transition-all duration-300"
+              >
+                  Issue PI
+              </button>
             </div>
+          </div>
         </div>
     </section>
   </template>

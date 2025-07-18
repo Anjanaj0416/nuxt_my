@@ -298,8 +298,8 @@ export default {
   background: white;
   width: 80%;
   max-width: 800px;
-   border-radius: 1rem;
-    overflow: hidden;
+  border-radius: 1rem;
+  overflow: hidden;
   display: flex;
   flex-direction: column;
   height: 70%;
