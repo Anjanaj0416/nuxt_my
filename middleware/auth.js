@@ -9,7 +9,7 @@ export default defineNuxtRouteMiddleware(async (to, from) => {
     const userStore = useUserStore();
     const loading = useLoading()
     loading.value = true
-    console.log("Loading state:", loading.value)
+   // console.log("Loading state:", loading.value)
 
 
     if (process.client) {
