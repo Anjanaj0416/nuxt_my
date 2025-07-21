@@ -8,9 +8,9 @@
       <!-- Top Navbar -->
       <div class="flex items-center justify-between px-6 py-4 bg-gray-900 shadow-md">
         <!-- Logo -->
-        <router-link to="/" class="flex items-center space-x-2">
-          <!-- hide Img -->
-          <!-- <img src="/assets/img/LogoDigitalTechLab.png" alt="Logo" class="h-auto rounded-full w-28" /> -->
+        <router-link to="/dashboard" class="flex items-center space-x-2">
+            <!-- hide Img -->
+          <img src="/assets/img/LogoDigitalTechLab.png" alt="Logo" class="h-auto rounded-full w-28" />
         </router-link>
         <!-- Close Button -->
         <button @click="$emit('close-sidebar')"
@@ -175,7 +175,8 @@ const links = [
         to: "",
         icon: "M12 12c2.21 0 4-1.79 4-4s-1.79-4-4-4s-4 1.79-4 4s1.79 4 4 4zM12 14c-4.42 0-8 2.79-8 6v2h16v-2c0-3.21-3.58-6-8-6z",
         submenu: [
-          { name: "Invoice Data Summary Report", to: "/qms/reports?ps=901", },
+          { name: "Invoice Data Summary Report", to: "/qms/reports/?ps=901", },
+
           { name: "Receipt Data Summary Report ", to: "/qms/reports?ps=902", },
           { name: "Unsettled Advances", to: "/qms/reports?ps=904" },
           { name: "Debtor OS report", to: "/qms/reports?ps=903" },

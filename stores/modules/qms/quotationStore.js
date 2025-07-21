@@ -14,7 +14,10 @@ export const useQuotationStore = defineStore("QuotationStore", {
     initQuotation: [],
     testParam: { id: 21 },
     quotation:{},
-    approve:{},
+    orderList: [],
+    initPaymentDetails:{},
+    invoiceDetails: null,
+    PaymentDetails: [],
 
     // curQuotation: {},
 
@@ -369,6 +372,166 @@ export const useQuotationStore = defineStore("QuotationStore", {
         console.error(error);
       }
     },
+
+    //GetOrders
+    async LoadOrders(id, showLoading) {
+
+      // console.log(id);
+      
+      const loadingAlert = showLoading("");
+      try {
+        const response = await axios.get(
+          `${import.meta.env.VITE_API_URL}/qms/Order/GetOrderDetails?approvedQuotationId=${id}`,
+        );
+
+        loadingAlert.close();
+        if (response.data.isSuccess) {
+          this.orderList = response.data.data.data; 
+          // console.log("Order List:", this.orderList);
+          this.showToast(response.data.message, "success");
+
+        } else {
+          this.showToast(response.data.message, "error");
+        }
+      } catch (error) {
+        loadingAlert.close();
+        this.showToast("An error occurred during approval", "error");
+        console.error(error);
+      }
+    },
+
+    //GetPaymentInit
+    async loadInitPayment(showLoading) {
+
+      const loadingAlert = showLoading("");
+     
+      try {
+        const response = await axios.get(
+          `${import.meta.env.VITE_API_URL}/qms/Order/PaymentInit`
+        );
+        loadingAlert.close();
+        if (response.data.isSuccess) {
+          this.initPaymentDetails = response.data.data.data;
+        } else {
+          this.showToast(response.data.message, "error");
+        }
+      } catch (error) {
+        this.showToast(response.data.message, "error");
+      }
+    },
+
+    //GettInvoiceDetails
+    async GettInvoiceDetails(id,showLoading) {
+
+      const loadingAlert = showLoading("");
+     
+      try {
+        const response = await axios.get(
+          `${import.meta.env.VITE_API_URL}/qms/Order/GetInvoiceDetails?orderId=${id}`
+        );
+        loadingAlert.close();
+        if (response.data.isSuccess) {
+          this.invoiceDetails = response.data.data.data;
+          // console.log("invoice List:", this.invoiceDetails);
+          this.showToast(response.data.message, "success")
+        } else {
+          this.showToast(response.data.message, "error");
+        }
+      } catch (error) {
+        this.showToast(response.data.message, "error");
+      }
+    },
+
+    //GetPayment
+    async GetDoPayment(formData, showLoading) {
+      // for (let [key, value] of formData.entries()) {
+      //   console.log(`${key}:`, value);
+      // }
+
+      const loadingAlert = showLoading("");
+      try {
+        const response = await axios.post(
+          `${import.meta.env.VITE_API_URL}/qms/Order/DoPayment`,
+          formData
+        );
+
+        loadingAlert.close();
+
+        if (response.data.isSuccess) {
+          this.showToast(response.data.message, "success");
+        } else {
+          this.showToast(response.data.message, "error");
+        }
+      } catch (error) {
+        loadingAlert.close();
+        this.showToast(error.message || "Error during payment", "error");
+      }
+    },
+
+    //CancelOrder
+    async deleteOrder(orderId, showLoading) {
+      // console.log(orderId);
+      const loadingAlert = showLoading("");
+    
+      try {
+        const response = await axios.get(
+          `${import.meta.env.VITE_API_URL}/qms/Order/CancelOrder?orderId=${orderId}`
+        );
+        loadingAlert.close();
+        if (response.data.isSuccess) {
+          this.showToast(response.data.message, "success");
+        } else {
+          this.showToast(response.data.message, "error");
+        }
+      } catch (error) {
+        this.showToast("Error while deleting order", "error");
+      }
+    },
+
+
+    //GetPaymenteDetails
+    async GetPaymentDetails(id, showLoading) {
+      const loadingAlert = showLoading("");
+      try {
+        const response = await axios.get(
+          `${import.meta.env.VITE_API_URL}/qms/Order/GetPaymentDetails?orderId=${id}`
+        );
+        loadingAlert.close();
+        if (response.data.isSuccess) {
+          this.PaymentDetails = response.data.data.data;
+          this.showToast(response.data.message, "success");
+        } else {
+          this.showToast(response.data.message, "error");
+        }
+      } catch (error) {
+        this.showToast("Something went wrong", "error");
+      }
+    },
+
+
+    async GetPrintInvoiceReports(req, showLoading) {
+      console.log("log:", req); // Make sure this logs
+      const loading = showLoading?.('');
+      try {
+        const response = await axios.get(
+          `${import.meta.env.VITE_API_URL}/qms/Report/GetInvoiceDataSummeryReport?dateFrom=${req.from}&dateTo=${req.to}`,
+          { responseType: 'blob' }
+        );
+        const blob = new Blob([response.data], { type: "application/pdf" });
+        const url = window.URL.createObjectURL(blob);
+        window.open(url, "_blank");
+      } catch (error) {
+        console.error(error);
+        this.showToast("Failed to load Employee data", "error");
+      } finally {
+        loading?.close();
+      }
+    },
+
+
+
+    
+
 
 
 
