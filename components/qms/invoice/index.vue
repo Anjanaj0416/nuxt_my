@@ -2,28 +2,26 @@
     <section class="justify-center">
         <div class="flex flex-col-reverse items-start justify-between gap-4 mb-4 md:flex-row md:items-center">
           <div class="text-2xl uppercase">Invoice</div>
-          <!-- <button
-            class="flex items-center gap-2 px-4 py-2 text-sm font-medium text-gray-500 transition-all duration-300 bg-white border-1 rounded-full shadow hover:bg-blue-700 hover:text-white hover:shadow-md"
-            @click="$emit('close')"
-          >
-            <svg xmlns="http://www.w3.org/2000/svg" class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7" />
-            </svg>
-            Back to orders
-          </button> -->
+
         </div>
+
+        <!-- {{ quotationStore.invoiceDetails }}<br><br>
+          {{ id }} -->
+
+          <!-- {{ quotationStore.PaymentDetails}} -->
+
 
         <div class="bg-white border rounded-lg shadow-md p-6 text-sm text-gray-800">
           <div class="flex items-center justify-between mb-6">
             <div>
               <h2 class="text-base font-semibold text-gray-700">
-                Full Payment: <span class="text-blue-600 font-bold">LKR: {{ invoice.InvoiceDetails.FullPayment }}</span>
+                <!-- Full Payment: <span class="text-blue-600 font-bold">LKR: {{ invoice.InvoiceDetails.FullPayment }}</span> -->
               </h2>
               <h2 class="text-sm font-semibold text-gray-700">
-                Balance Payment: <span class="text-gray-500 font-bold">LKR : {{ invoice.InvoiceDetails.BalancePayment }}</span>
+                Balance Payment: <span class="text-gray-500 font-bold">LKR :  {{ quotationStore.invoiceDetails.balancePayment? quotationStore.invoiceDetails.balancePayment: '-' }}</span>
               </h2>
               <h2 class="text-sm font-semibold text-gray-700">
-                Panding Installment: <span class="text-gray-500 font-bold">{{ invoice.InvoiceDetails.PendingInstallments }} Installment</span>
+                Installment: <span class="text-gray-500 font-bold">{{ quotationStore.invoiceDetails.noOfInstallment? quotationStore.invoiceDetails.noOfInstallment: 'No' }} Installment</span>
               </h2>
             </div>
 
@@ -37,26 +35,23 @@
             </div>
           </div>
 
-          
-
-
           <ol class="flex items-center w-full">
             <li
-              v-for="(item, index) in invoice.installmentList"
+              v-for="(item, index) in quotationStore.invoiceDetails.listInvoices"
               :key="item.id"
               class="flex items-center text-blue-600 relative"
-              :class="{ 'w-full': index !== invoice.installmentList.length - 1 }"
+              :class="{ 'w-full': index !== quotationStore.invoiceDetails.listInvoices.length - 1 }"
             >
               <div
                 class="flex items-center justify-center w-8 h-8 rounded-full z-10 ring-2 shrink-0"
                 :class="{
-                  'bg-green-100 ring-green-600': item.stats === 'paid',
-                  'bg-red-100 ring-red-600': item.stats === 'latepayment',
-                  'bg-yellow-100 ring-yellow-600': item.stats === 'Pending'
+                  'bg-green-100 ring-green-600': item.status === 'paid',
+                  'bg-red-100 ring-red-600': item.status === 'Late Payment',
+                  'bg-yellow-100 ring-yellow-600': item.status === 'Pending'
                 }"
               >
                 <svg
-                  v-if="item.stats === 'paid'"
+                  v-if="item.status === 'paid'"
                   xmlns="http://www.w3.org/2000/svg"
                   viewBox="0 0 512 512"
                   class="w-5 h-5 text-green-600"
@@ -76,8 +71,8 @@
                   viewBox="0 0 512 512"
                   class="w-5 h-5"
                   :class="{
-                    'text-red-500': item.stats === 'latepayment',
-                    'text-yellow-500': item.stats === 'Pending'
+                    'text-red-500': item.status === 'Late Payment',
+                    'text-yellow-500': item.status === 'Pending'
                   }"
                   fill="currentColor"
                 >
@@ -92,7 +87,7 @@
                 </svg>
               </div>
               <div
-                v-if="index !== invoice.installmentList.length - 1"
+                v-if="index !== quotationStore.invoiceDetails.listInvoices.length - 1"
                 class="hidden sm:block w-full h-0.5 bg-gray-300"
               ></div>
             </li>
@@ -100,22 +95,23 @@
 
           <div class="mt-6 flex justify-between text-xs text-gray-600">
             <div
-              v-for="item in invoice.installmentList"
+              v-for="item in quotationStore.invoiceDetails.listInvoices"
               :key="'label-' + item.id"
               class="text-center flex flex-col items-center"
             >
-              <p class="font-semibold">{{ item.name }}</p>
-              <p class="mb-2">LKR {{ item.price }}</p>
+              <p class="font-semibold">{{ item.installmentNo }}</p>
+              <p class="font-semibold">Due Date {{ item.dueDateDisplay }}</p>
+              <p class="mb-2">LKR {{ item.invoiceAmountDisplay }}</p>
 
               <!-- Status badge -->
               <span
-                v-if="item.stats === 'paid'"
+                v-if="item.status === 'paid'"
                 class="bg-green-100 text-green-800 text-xs font-medium me-2 px-2.5 py-0.5 rounded-full dark:bg-green-900 dark:text-green-300"
               >
                 Paid
               </span>
               <span
-                v-else-if="item.stats === 'latepayment'"
+                v-else-if="item.status === 'Late Payment'"
                 class="bg-red-100 text-red-800 text-xs font-medium me-2 px-2.5 py-0.5 rounded-full dark:bg-red-900 dark:text-red-300"
               >
                 Late payment
@@ -130,8 +126,8 @@
 
               <!-- Action -->
               <a
-                v-if="item.stats === 'paid'"
-                :href="item.invoice"
+                v-if="item.status === 'paid'"
+                :href="item.invoiceUrl"
                 target="_blank"
                 rel="noopener noreferrer"
                 class="text-xs font-medium text-blue-900 underline mt-2 justify-between"
@@ -141,14 +137,52 @@
 
             </div>
           </div>
+
+          <!-- Payment History Section -->
+
+          <div class="mt-6 overflow-auto max-h-64 max-w-full">
+            <h3 class="text-sm font-semibold text-gray-700 mb-4">Payment History</h3>
+
+            <div v-if="quotationStore.PaymentDetails && quotationStore.PaymentDetails.length > 0" class="space-y-3">
+              <div
+                v-for="(item, index) in quotationStore.PaymentDetails"
+                :key="index"
+                class="bg-white border-l-4 border-blue-500 shadow-sm rounded-lg p-4 text-xs md:grid md:grid-cols-8 gap-2 items-center"
+              >
+                <div class="font-medium text-gray-600">📅 {{ item.paymentDate }}</div>
+                <div class="text-green-600 font-bold">LKR {{ item.amount }}</div>
+                <div class="text-gray-700">🏦 {{ item.payMode.trim() }}</div>
+                <div class="text-gray-700">Reference No : {{ item.referenceNo }}</div>
+                <div class="text-gray-700">📄 {{ item.receiptType.trim() }}</div>
+                <div class="text-gray-700">🏛️ {{ item.bankName.trim() }}</div>
+                <div class="italic text-gray-500">{{ item.remarks }}</div>
+                <div>
+                  <a
+                    v-if="item.paymentSlipUrl"
+                    :href="item.paymentSlipUrl"
+                    target="_blank"
+                    class="text-blue-600 underline"
+                  >
+                    🔗 View Slip
+                  </a>
+                </div>
+              </div>
+            </div>
+
+            <div v-else>
+              No payment history found.
+            </div>
+          </div>
+
         </div>
-        <addPayment v-if="isAddPayment" @close="isAddPayment = false" />
+        <addPayment :id="id" v-if="isAddPayment" @close="isAddPayment = false" />
     </section>
   </template>
   
   <script>
  import { useRoute } from 'vue-router'
  import { useUserStore } from "~/stores/modules/userStore";
+ import { useQuotationStore } from '~/stores/modules/qms/quotationStore';
  //import { useQuotationStore } from "~/stores/modules/qms/quotationStore";
  
  import LinkBtn from "~/components/customcontrol/Link";
@@ -164,27 +198,13 @@
   export default {
     
     components: {LinkBtn,Button,selectinput2,addPayment},
-    props:[''],
+    props:['id'],
     data() {
       return {
         imageroot: "",
         showLoading: null,
         isAddPayment: false,
         receiptFiles: {},
-        invoice: {
-          id:"I001",
-          InvoiceDetails:{
-            FullPayment:125,
-            BalancePayment:25,
-            Installment:4,
-            PendingInstallments:2,
-          },
-          installmentList:[
-            {id:"1", name:"1st Installment", price:"50000.00", stats:"paid", invoice:"https://www.w3.org/WAI/ER/tests/xhtml/testfiles/resources/pdf/dummy.pdf"},
-            {id:"2", name:"2st Installment", price:"50000.00", stats:"latepayment"},
-            {id:"3", name:"3st Installment", price:"50000.00", stats:"Pending"},
-          ]
-        }
       }
     },
     async mounted() {
@@ -192,8 +212,15 @@
     },
     async created() {
       this.userStore = useUserStore();
+      this.quotationStore = useQuotationStore();
       this.showLoading = this.$showLoading;
-      this.imageroot = this.userStore.loggedUser.resourceURLRoot;
+
+      await this.quotationStore.GettInvoiceDetails(this.id, this.showLoading);
+      this.invoiceDetails = this.quotationStore.invoiceDetails;
+
+      await this.quotationStore.GetPaymenteDetails(this.id, this.showLoading);
+      this.PaymentDetails = this.quotationStore.PaymentDetails;
+
     },
     watch: {},
     computed: {
@@ -205,32 +232,7 @@
         this.isAddPayment = true;
       },
 
-      // async copyContent(value) {
-      //   try {
-      //      await navigator.clipboard.writeText(value)
-      //      this.show_msg('Content copied to clipboard')
-  
-      //   } catch (err) {
-      //     this.show_msg('Failed to copy :'+err)
-      //   }
-      // },
-      //     async copyContent(value) {
-      //   try {
-      //      await navigator.clipboard.writeText(value)
-      //      this.show_msg('Content copied to clipboard')
-  
-      //   } catch (err) {
-      //     this.show_msg('Failed to copy :'+err)
-      //   }
-      // },
-      //  async downloadReportKotukole(){
-      //   if(confirm('Do you want to Download?')){
-      //      await this.get_DownloadKotukole({book:this.book});
-      //      window.open(this.csv_root+'/reports/'+this.csv_name, '_blank');
-      //   }
-      // },
 
-      //this.$showToast('Login successful!', 'success'); //success ,error ,warning,info
     },
     async beforeMount() {
       // if (this.loggeduser.granted.indexOf('workgroup') > -1 || this.loggeduser.usergroup == 'Supervisor' ) {
@@ -247,88 +249,7 @@
     },
   }
 
-      //Message Usecases
-    //this.$showAlert("Test Login Failed!", "error");
-
-    //     this.$showConfirm('Are you sure you want to delete this item?', 'warning').then((result) => {
-    //   if (result) {
-    //     console.log('Item deleted');
-    //   } else {
-    //     console.log('Action canceled');
-    //   }
-    // });
-
-  //    this.$showInput('Please enter your name:').then((input) => {
-  //   if (input) {
-  //     console.log('User input:', input);
-  //   } else {
-  //     console.log('No input or canceled');
-  //   }
-  // });
-
-  // const htmlMessage = `
-  //       <h2 style="color: #007bff;">Hello, Welcome to the Custom HTML Alert!</h2>
-  //       <p>This is a <strong>custom HTML</strong> message with <a href="https://www.example.com" target="_blank" style="color: #007bff;">links</a>.</p>
-  //       <img src="https://via.placeholder.com/150" alt="Sample Image" style="display: block; margin-top: 10px;" />
-  //       <p><em>Note: This is a custom alert with rich HTML content.</em></p>
-  //     `;
-      
-  //     this.$showHtmlAlert(htmlMessage);
-
-  
-  //const loadingAlert = this.$showLoading('Loading...');
-  //loadingAlert.close();
-
-  // const imageUrl = 'https://intranet.sltds.lk/SLTDS/Resource/rainbow/news/GroupPhotoMeetingTheSecretarytotheTreasury.jpg'; 
-  // this.$showImageAlert('Here is your custom image!', imageUrl);
-
-  // this.$showCustomButtons('Are you sure you want to proceed?', 'warning').then((result) => {
-  //   if (result === 'Proceed') {
-  //     console.log('User confirmed to proceed');
-  //   } else {
-  //     console.log('User canceled the action');
-  //   }
-  // });
-
- //End Message Usecases
-  
-  //Validation
-  //-------------------------------------------------
-  // async cmdSearchOrg(){
-  //       if(this.isAtleasetOneExisitsForSearch()){
-  //      await this.getOrganizationData(this.organizationSearch);
-  //       }
-  //     },
-  
-  // 	-------------------
-  
-  
-  //  isAtleasetOneExisitsForSearch(){
-  //  let isAtleasetOneExisitsForSearch = false;
-  
-  
-  //  if(this.organizationSearch.person.trim()!='' ){
-  //         if( this.organizationSearch.person.trim().length  <= 3 ){
-  //             this.show_error('Invalid person , More than three Letters Requied for search');
-  //         }
-  //         else{ isAtleasetOneExisitsForSearch = true;}
-  
-  //       }
-  // 	  return isAtleasetOneExisitsForSearch;
-  // 	  }
-
-     // GetCityById() {
-    //   return (id) => {
-    //     try {
-    //       let objCity = this.vendorStore.initVendor.listCities.filter((city) => {
-    //         return city.id == id
-    //       })[0]
-    //       return objCity.value
-    //     } catch {
-    //       return ''
-    //     }
-    //   }
-    // },
+    
   </script>
   
   <style scoped>

@@ -1,95 +1,28 @@
+<!-- https://flowbite.com/docs/components/avatar/ -->
+
 <template>
-    <section class="justify-center min-h-screen px-4 mt-24 mb-20 lg:px-60">
-      <div class="text-2xl uppercase">Invoice DataSummery Report</div>
-      <div class="bg-gradient-to-r from-blue-900 via-indigo-700 to-blue-600 shadow-md rounded-lg p-6 mt-10 mb-10 border text-white">
-        <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
-          <div>
-            <label class="block mb-1 font-medium">From</label>
-            <div class="relative">
-              <input 
-                type="date" 
-                v-model="dateFrom"
-                placeholder="Enter Designation" 
-                @change="logSelectedDates"
-                required
-                class="w-full p-2 mt-2 text-gray-900 text-sm border rounded-md focus:ring-indigo-500 focus:border-indigo-500" 
-              />
-            </div>
-          </div>
-          <div>
-            <label class="block mb-1 font-medium">To</label>
-            <div class="relative">
-              <input 
-                type="date" 
-                v-model="dateTo"
-                placeholder="Enter Designation" 
-                @change="logSelectedDates"
-                required
-                class="w-full p-2 mt-2 text-sm border text-gray-900 rounded-md focus:ring-indigo-500 focus:border-indigo-500 dark:text-gray-900" 
-              />
-            </div>
-          </div>
-        </div>
-      </div>
+    <section class="mt-20">
+        Reports
 
-      <p 
-        v-if="!dateFrom || !dateTo" 
-        class="text-sm text-gray-500 italic text-center"
-      >
-        Please select date range.
-      </p>
-
-
-      <!-- <div class="bg-white p-6 rounded shadow border mt-6">
-        <p class="text-sm text-gray-500 italic text-center">Report preview will appear here after selection.</p>
-        <h2 class="text-lg font-semibold mb-4">Generated Reports</h2>
-        <ul class="space-y-4">
-          <li class="flex items-center justify-between border p-4 rounded hover:bg-gray-50 transition">
-            <div class="flex items-center space-x-3">
-              <i class="fas fa-file-alt text-blue-600 text-xl"></i>
-              <span class="text-gray-800 font-medium">January 2025 - Matara Arachchi</span>
-            </div>
-            <a
-              href="http://localhost:3000/hr/reports/overtime_individual_summery_report?user=JohnDoe&month=01&year=2025"
-              target="_blank"
-              class="text-blue-600 hover:underline text-sm"
-            >
-              View
-            </a>
-          </li>
-          <li class="flex items-center justify-between border p-4 rounded hover:bg-gray-50 transition">
-            <div class="flex items-center space-x-3">
-              <i class="fas fa-file-alt text-blue-600 text-xl"></i>
-              <span class="text-gray-800 font-medium">February 2025 - Nimal</span>
-            </div>
-            <a
-              href="http://localhost:3000/hr/reports/overtime_individual_summery_report?user=JaneSmith&month=02&year=2025"
-              target="_blank"
-              class="text-blue-600 hover:underline text-sm"
-            >
-              View
-            </a>
-          </li>
-        </ul>
-      </div> -->
-
-
+        Lorem ipsum dolor, sit amet consectetur adipisicing elit. Illum cupiditate architecto dolore et minus iure at delectus! Amet sed expedita, animi maxime accusantium dolores quia quas porro dolor pariatur cupiditate.
+        
+      
     </section>
-</template>
-
-
+    <!-- <input type="text" oninput="this.value = this.value.replace(/[^0-9.]/g, '').replace(/(\..*?)\..*/g, '$1');" > -->
+  </template>
   
   <script>
-
- import { useRoute } from 'vue-router'
+  //import textInput from '~/components/customcontrol/textinput'
+  //// import * as Global from '@/assets/js/Global'
+  ////import * as myfilter from '@/plugins/myfilter'
+ //import Swal from 'sweetalert2';
+ //import { useSampleStore  } from '~/stores/modules/sampleStore';
  import { useUserStore } from "~/stores/modules/userStore";
- import { useQuotationStore } from '~/stores/modules/qms/quotationStore';
-
+ //import { useQuotationStore } from "~/stores/modules/qms/quotationStore";
  
  import LinkBtn from "~/components/customcontrol/Link";
   import Button from "~/components/customcontrol/Button";
   import selectinput2 from "~/components/customcontrol/selectinput2";
-  import SearchInput from '~/components/customcontrol/SearchInput.vue';
 
  definePageMeta({
     layout: 'default',   
@@ -98,19 +31,12 @@
    
   export default {
     
-    components: {
-      LinkBtn,
-      Button,
-      selectinput2,
-      SearchInput
-    },
+    components: {LinkBtn,Button,selectinput2},
     props:[''],
     data() {
       return {
         imageroot: "",
         showLoading: null,
-        dateFrom: '',
-        dateTo: '',
        
       }
     },
@@ -118,7 +44,6 @@
      
     },
     async created() {
-      this.quotationStore = useQuotationStore();
       this.userStore = useUserStore();
       this.showLoading = this.$showLoading;
       this.imageroot = this.userStore.loggedUser.resourceURLRoot;
@@ -128,25 +53,33 @@
   
     },
     methods: {
-
-      async logSelectedDates() {
-        if (!this.dateFrom || !this.dateTo) {
-          this.$showToast('Please select both From and To dates', 'warning');
-          return;
-        }
-
-        const req = {
-          from: this.dateFrom,
-          to: this.dateTo,
-        };
-        console.log(req);
-        
-        await this.quotationStore.GetPrintInvoiceReports({ from: this.dateFrom, to: this.dateFrom }, this.$showLoading);
-
-        
-      }
      
-   
+     
+      // async copyContent(value) {
+      //   try {
+      //      await navigator.clipboard.writeText(value)
+      //      this.show_msg('Content copied to clipboard')
+  
+      //   } catch (err) {
+      //     this.show_msg('Failed to copy :'+err)
+      //   }
+      // },
+      //     async copyContent(value) {
+      //   try {
+      //      await navigator.clipboard.writeText(value)
+      //      this.show_msg('Content copied to clipboard')
+  
+      //   } catch (err) {
+      //     this.show_msg('Failed to copy :'+err)
+      //   }
+      // },
+      //  async downloadReportKotukole(){
+      //   if(confirm('Do you want to Download?')){
+      //      await this.get_DownloadKotukole({book:this.book});
+      //      window.open(this.csv_root+'/reports/'+this.csv_name, '_blank');
+      //   }
+      // },
+
       //this.$showToast('Login successful!', 'success'); //success ,error ,warning,info
     },
     async beforeMount() {

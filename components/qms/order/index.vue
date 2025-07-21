@@ -45,7 +45,7 @@
 
               <div class="flex flex-col text-center sm:text-left">
                 <h1 class="text-xs font-medium text-gray-600">Amount</h1>
-                <p class="text-sm font-semibold text-gray-800">Rs. {{ order.invoiceSummeryDetails.balancePayment }}</p>
+                <p class="text-sm font-semibold text-gray-800">Rs. {{ order.orderAmount }}</p>
               </div>
               <div class="hidden sm:block w-px bg-gray-300 h-8"></div>
 
@@ -61,6 +61,14 @@
                 >
                   {{ order.orderStatus }}
                 </span>
+              </div>
+              <div class="sm:flex sm:justify-end mt-2">
+                <button
+                  @click="confirmDelete(order.id)"
+                  class="text-red-600 border border-red-300 hover:bg-red-50 font-medium text-sm px-4 py-2 rounded-md transition duration-200"
+                >
+                  Delete Order
+                </button>
               </div>
             </div>
 
@@ -102,7 +110,7 @@
             <!-- Button group -->
             <div class="p-0 dark:border-gray-700">
               <div v-if="activeOrderInvoiceId === order.id">
-                <Invoice  />
+                <Invoice :id="order.id"/>
               </div>
               <div v-if="activeOrderWorkFloweId === order.id">
                 <WorkFlow  />
@@ -166,6 +174,28 @@
 
     
     methods: {
+
+        confirmDelete(orderId) {
+          this.$showConfirm(
+            "Are you sure you want to delete this order?",
+            "warning"
+          ).then(async (result) => {
+            if (!result.isConfirmed) {
+              console.log("Action canceled");
+              return;
+            }
+
+            try {
+              console.log("Deleting Order ID:", orderId);
+
+              await this.quotationStore.deleteOrder(orderId, this.showLoading);
+
+            } catch (error) {
+              console.error("Failed to delete order:", error);
+            }
+          });
+        },
+
         async GoToInvoice(){
             this.resetViews();  
 
