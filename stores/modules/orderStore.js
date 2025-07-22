@@ -30,7 +30,8 @@ actions: {
   },
 
   async GetIssuePINumber(request, showLoading) {
-    console.log('New:',request);
+    console.log('API-GetIssuePINumber');
+    console.log(JSON.stringify(request));
     
     try {
       const response = await axios.get(
