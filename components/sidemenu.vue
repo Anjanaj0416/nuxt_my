@@ -81,7 +81,7 @@
 
                   <span v-if="submenu.name === 'Upload Document'" @click="GetOpenRegistryFtp(submenu.to)">{{
                     submenu.name
-                    }} </span>
+                  }} </span>
                   <span v-else>{{ submenu.name }}</span>
 
                 </router-link>
@@ -106,7 +106,7 @@
 </template>
 
 <script setup>
-import { ref,onMounted } from "vue";
+import { ref, onMounted } from "vue";
 import { useUserStore } from '~/stores/modules/userStore';
 
 const userStore = useUserStore();

@@ -369,7 +369,7 @@ export const useStandpageStore = defineStore("standpage", {
   persist: true,
 
   actions: {
-    async GetContactUs(req, showLoading) {
+    async SetContactUs(req, showLoading) {
       console.log('api:', req)
 
 
@@ -377,20 +377,12 @@ export const useStandpageStore = defineStore("standpage", {
 
       try {
         const response = await axios.post(
-          `${import.meta.env.VITE_API_URL}/dtl/SetContactUs`,
-          req,
-          {
-            headers: {
-              Authorization: `Bearer ${token}`,
-              'Content-Type': 'application/json'
-            }
-          }
-        )
+          `${import.meta.env.VITE_API_URL}/dtl/SetContactUs`, req)
 
         loadingAlert.close()
 
         if (response.data?.isSuccess) {
-          this.showToast(response.data.message || 'Submitted successfully!')
+          this.showToast(response.data.message || 'Submitted successfully!',"success")
         } else {
           this.showToast(
             `Contact submission failed: ${response.data.message}`,
@@ -402,7 +394,20 @@ export const useStandpageStore = defineStore("standpage", {
         console.error('Network Error:', error)
         this.showToast('Network error. Please try again later.', 'error')
       }
-    }
+    },
+
+    async showToast(message, type) {
+      const Swal = (await import("sweetalert2")).default;
+      Swal.fire({
+        icon: type,
+        title: type,
+        text: message,
+        timer: 5000,
+        showConfirmButton: false,
+        toast: true,
+        position: "top-end",
+      });
+    },
   }
 
 });

@@ -32,8 +32,9 @@ actions: {
   },
 
   async GetIssuePINumber(request, showLoading) {
-    console.log('API-Getiss')
+    console.log('API-GetIssuePINumber');
     console.log(JSON.stringify(request));
+    
     try {
       const response = await axios.get(
         `${import.meta.env.VITE_API_URL}/qms/Order/GetIssuePINumber`,
