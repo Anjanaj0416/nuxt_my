@@ -50,6 +50,7 @@ actions: {
 
     //loadListLeads
     async loadListLeads(req, showLoading) {
+    console.log(JSON.stringify(req));
     
       
       const loadingAlert = showLoading("");
@@ -85,6 +86,7 @@ actions: {
 
     //Add Lead
     async SetVendorLead(curLead, showLoading,showAlert) {
+      console.log(JSON.stringify(curLead));
     
       try {
         const response = await axios.post(
@@ -109,6 +111,7 @@ actions: {
 
     //curLead
     async SetUpdateVendorLead(req, showLoading) {
+      console.log(JSON.stringify(req));
      
       try {
         const response = await axios.post(
@@ -135,6 +138,8 @@ actions: {
 
     //Add vendor to a lead
     async GetAssignSalesRef(req, showLoading) {
+      console.log(JSON.stringify(req));
+      
       const loadingAlert = showLoading("");
       try {
         const response = await axios.post(
@@ -157,6 +162,7 @@ actions: {
 
     //Add new city
     async SetNewCity(req, showAlert) {
+      console.log(JSON.stringify(req));
      
       try {
         const response = await axios.post(

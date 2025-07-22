@@ -12,6 +12,8 @@ export const useOrderStore = defineStore("orderStore", {
 
 actions: {
   async loadAvailablePin(vendorId, showLoading) {
+    console.log(JSON.stringify(vendorId));
+
     try {
       const response = await axios.get(
         `${import.meta.env.VITE_API_URL}/qms/Order/GetNextAvaialblePINumber`,
@@ -56,7 +58,8 @@ actions: {
   },
 
   async loadWorkFLow(vendorId, showLoading) {
-    console.log(vendorId);
+    console.log(JSON.stringify(vendorId));
+
     
     try {
       const response = await axios.get(
