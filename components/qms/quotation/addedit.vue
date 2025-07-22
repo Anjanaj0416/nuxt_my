@@ -234,7 +234,7 @@
           <div
             v-for="(item, index) in listInstallmentDetails"
             :key="index"
-            class="grid items-center grid-cols-3 px-2 py-2 text-xs text-gray-700 border border-t border-gray-200 shadow-sm hover:bg-gray-50"
+            class="grid items-center grid-cols-4 px-2 py-2 text-xs text-gray-700 border border-t border-gray-200 shadow-sm hover:bg-gray-50"
           >
             <!-- Installment label -->
             <div class="truncate">{{ item.installment }}</div>
@@ -251,6 +251,17 @@
                 class="w-20 px-2 py-1 text-xs border rounded focus:ring-indigo-500 focus:border-indigo-500"
                 required
               />
+            </div>
+            <div>
+              <input
+                type="date"
+                v-model="item.date"
+                :min="today"
+                @change="handleInstallmentChange(index)"
+                class="w-20 px-2 py-1 text-xs border rounded focus:ring-indigo-500 focus:border-indigo-500"
+                required
+              />
+
             </div>
 
             <!-- Remove icon -->
@@ -400,6 +411,14 @@ export default {
         return uniqueCategories;
       }
       return this.quotationStore.initQuotation.listProductCategory || [];
+    },
+    today() {
+      const today = new Date();
+      // Format date as yyyy-mm-dd
+      const yyyy = today.getFullYear();
+      const mm = String(today.getMonth() + 1).padStart(2, '0'); // Months start at 0!
+      const dd = String(today.getDate()).padStart(2, '0');
+      return `${yyyy}-${mm}-${dd}`;
     }
   },
 
@@ -414,10 +433,6 @@ export default {
 
 
   methods: {
- 
-
-
-
 
     changedcurProductCategory(type) {
       this.curProductCategory = type;
@@ -476,17 +491,29 @@ export default {
       });
     },
 
+    // populateInstallmentsFromBackend() {
+    //   const backendInstallments = this.quotation.listInstallment;
+
+    //   if (!Array.isArray(backendInstallments)) return;
+
+    //   this.listInstallmentDetails = backendInstallments.map((fee, index) => ({
+    //     installment: `Installment ${index + 1}`,
+    //     fee: Number(fee)
+    //   }));
+    // },
+
     populateInstallmentsFromBackend() {
       const backendInstallments = this.quotation.listInstallment;
 
       if (!Array.isArray(backendInstallments)) return;
 
-      this.listInstallmentDetails = backendInstallments.map((fee, index) => ({
+      this.listInstallmentDetails = backendInstallments.map((entry, index) => ({
         installment: `Installment ${index + 1}`,
-        fee: Number(fee)
+        fee: Number(entry.amount || 0),
+        date: entry.date || this.today,
+        manual: false
       }));
     },
-
     
 
     AddInstallments() {
@@ -511,10 +538,17 @@ export default {
 
       this.listInstallmentDetails = Array.from({ length: count }, (_, i) => ({
         installment: `Installment ${i + 1}`,
-        fee: i + 1 === count ? Math.round((base + remainder) * 100) / 100 : base
+        fee: i + 1 === count ? Math.round((base + remainder) * 100) / 100 : base,
+        date: this.today // Set today as default or use null if you want to enforce user input
       }));
 
-      this.quotation.listInstallment = this.listInstallmentDetails.map(item => item.fee);
+
+      // this.quotation.listInstallment = this.listInstallmentDetails.map(item => item.fee);
+      this.quotation.listInstallment = this.listInstallmentDetails.map(item => ({
+        amount: Number(item.fee) || 0,
+        date: item.date || null
+      }));
+
     },
 
     handleInstallmentChange(changedIndex) {
@@ -556,9 +590,12 @@ export default {
       });
 
       // ✅ Updated here: just set the fees array
-      this.quotation.listInstallment = this.listInstallmentDetails.map(item => item.fee);
+      this.quotation.listInstallment = this.listInstallmentDetails.map(item => ({
+        amount: Number(item.fee) || 0,
+        date: item.date || null
+      }));
     },
-    
+
     RemoveInstallment(index) {
       this.listInstallmentDetails.splice(index, 1);
       this.quotation.installment = this.listInstallmentDetails.length;
@@ -626,7 +663,8 @@ GetPrint() {
           customerRef: this.quotation.customerRef,
           currentQNo: this.quotation.currentQNo || ''
         };
-       // console.log(JSON.stringify(payload));
+      //  console.log(JSON.stringify(payload));
+
          await this.quotationStore.GetAddQuotation(payload, this.showLoading);
          
       } else {

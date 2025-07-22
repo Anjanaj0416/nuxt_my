@@ -12,6 +12,8 @@ export const useOrderStore = defineStore("orderStore", {
 
 actions: {
   async loadAvailablePin(vendorId, showLoading) {
+    console.log(JSON.stringify(vendorId));
+
     try {
       const response = await axios.get(
         `${import.meta.env.VITE_API_URL}/qms/Order/GetNextAvaialblePINumber`,
@@ -30,8 +32,8 @@ actions: {
   },
 
   async GetIssuePINumber(request, showLoading) {
-    console.log('New:',request);
-    
+    console.log('API-Getiss')
+    console.log(JSON.stringify(request));
     try {
       const response = await axios.get(
         `${import.meta.env.VITE_API_URL}/qms/Order/GetIssuePINumber`,
@@ -55,7 +57,8 @@ actions: {
   },
 
   async loadWorkFLow(vendorId, showLoading) {
-    console.log(vendorId);
+    console.log(JSON.stringify(vendorId));
+
     
     try {
       const response = await axios.get(

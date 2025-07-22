@@ -47,6 +47,7 @@ export const useQuotationStore = defineStore("QuotationStore", {
 
      //GetUploadHybridLinks
     async GetUploadHybridLinks(formData,showLoading) {
+      console.log(JSON.stringify(formData));
 
       const loadingAlert = showLoading("");
      
@@ -73,6 +74,7 @@ export const useQuotationStore = defineStore("QuotationStore", {
 
     //GetUploadHybridLinks
     async GetUploadBundleLinks(formData,showLoading) {
+      console.log(JSON.stringify(formData));
 
       const loadingAlert = showLoading("");
      
@@ -99,6 +101,7 @@ export const useQuotationStore = defineStore("QuotationStore", {
 
     //GetUploadServiceLinks
     async GetUploadServiceLinks(formData,showLoading) {
+      console.log(JSON.stringify(formData));
 
       const loadingAlert = showLoading("");
      
@@ -126,6 +129,7 @@ export const useQuotationStore = defineStore("QuotationStore", {
 
     //GetUploadProductLinks
     async GetUploadProductLinks(formData,showLoading) {
+      console.log(JSON.stringify(formData));
 
       const loadingAlert = showLoading("");
     
@@ -170,6 +174,8 @@ export const useQuotationStore = defineStore("QuotationStore", {
 
     //loadListQuotations
     async loadListQuotations(req, showLoading) {
+      console.log(JSON.stringify(req));
+
       const loadingAlert = showLoading("");
       try {
         const response = await axios.get(
@@ -198,6 +204,8 @@ export const useQuotationStore = defineStore("QuotationStore", {
 
  //QuotationByVendorId  
     async QuotationByVendorId(id, showLoading) {
+      console.log(JSON.stringify(id));
+
       const loadingAlert = showLoading("");
       try {
         const response = await axios.get(
@@ -225,6 +233,8 @@ export const useQuotationStore = defineStore("QuotationStore", {
 
     //LoadQuotationVersions
     async LoadQuotationVersions(id, showLoading) {
+      console.log(JSON.stringify(id));
+
       const loadingAlert = showLoading("");
       try {
         const response = await axios.get(
@@ -251,6 +261,9 @@ export const useQuotationStore = defineStore("QuotationStore", {
 
     //GetAprrovingTheQuotation
     async GetAprrovingTheQuotation(id, imgfile, showLoading) {
+      console.log(JSON.stringify(id));
+      console.log(JSON.stringify(imgfile));
+
       const loadingAlert = showLoading("");
       try {
         const formData = new FormData();
@@ -281,6 +294,8 @@ export const useQuotationStore = defineStore("QuotationStore", {
 
     //GetAddQuotation
     async GetAddQuotation(quotation, showLoading) {
+      console.log(JSON.stringify(quotation));
+
       const loadingAlert = showLoading("");
       try {
         const response = await axios.post(
@@ -316,7 +331,7 @@ export const useQuotationStore = defineStore("QuotationStore", {
 
     // Update Quotation ID
     async GetEditQuotationById(id, showLoading) {
-      console.log("qID", id);
+      console.log(JSON.stringify(id));
 
       const loadingAlert = showLoading("");
 
@@ -345,8 +360,9 @@ export const useQuotationStore = defineStore("QuotationStore", {
 
     //GetQuotationApprove
     async GetQuotationApprove(formData, showLoading) {
+      console.log(JSON.stringify(formData));
+
       const loadingAlert = showLoading("");
-      console.log(formData);
 
       try {
         const response = await axios.post(
@@ -375,8 +391,7 @@ export const useQuotationStore = defineStore("QuotationStore", {
 
     //GetOrders
     async LoadOrders(id, showLoading) {
-
-      // console.log(id);
+      console.log(JSON.stringify(id));
       
       const loadingAlert = showLoading("");
       try {
@@ -422,6 +437,7 @@ export const useQuotationStore = defineStore("QuotationStore", {
 
     //GettInvoiceDetails
     async GettInvoiceDetails(id,showLoading) {
+      console.log(JSON.stringify(id));
 
       const loadingAlert = showLoading("");
      
@@ -444,9 +460,9 @@ export const useQuotationStore = defineStore("QuotationStore", {
 
     //GetPayment
     async GetDoPayment(formData, showLoading) {
-      // for (let [key, value] of formData.entries()) {
-      //   console.log(`${key}:`, value);
-      // }
+      for (let [key, value] of formData.entries()) {
+        console.log(`${key}:`, value);
+      }
 
       const loadingAlert = showLoading("");
       try {
@@ -470,7 +486,8 @@ export const useQuotationStore = defineStore("QuotationStore", {
 
     //CancelOrder
     async deleteOrder(orderId, showLoading) {
-      // console.log(orderId);
+      console.log(JSON.stringify(orderId));
+
       const loadingAlert = showLoading("");
     
       try {
@@ -491,6 +508,8 @@ export const useQuotationStore = defineStore("QuotationStore", {
 
     //GetPaymenteDetails
     async GetPaymentDetails(id, showLoading) {
+      console.log(JSON.stringify(id));
+
       const loadingAlert = showLoading("");
       try {
         const response = await axios.get(
@@ -510,7 +529,8 @@ export const useQuotationStore = defineStore("QuotationStore", {
 
 
     async GetPrintInvoiceReports(req, showLoading) {
-      console.log("log:", req); // Make sure this logs
+      console.log(JSON.stringify(req));
+
       const loading = showLoading?.('');
       try {
         const response = await axios.get(
