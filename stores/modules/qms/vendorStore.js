@@ -35,6 +35,7 @@ export const useVendorStore = defineStore("vendorStore", {
 
      //addEditVendor
     async SetVendorAdminDetails(regVendorAdmin, showLoading) {
+       console.log('API-SetVendorAdminDetails');
       console.log(JSON.stringify(regVendorAdmin));
 
       const loadingAlert = showLoading("");
@@ -63,6 +64,7 @@ export const useVendorStore = defineStore("vendorStore", {
    //Update vendor
 
    async GetVendorById(id, showLoading) { 
+     console.log('API-GetVendorById');
     console.log(JSON.stringify(id));
     const loadingAlert = showLoading("");
        
@@ -84,6 +86,7 @@ export const useVendorStore = defineStore("vendorStore", {
 
     //addEditVendor
     async AddEditVendor(formData, showLoading) {
+       console.log('API-AddEditVendor');
       console.log(JSON.stringify(formData));
 
       const loadingAlert = showLoading("");
@@ -116,6 +119,7 @@ export const useVendorStore = defineStore("vendorStore", {
     
     //loadInitVendor
     async loadInitVendor(showLoading) {
+       console.log('API-InitVendor');
       try {
         const response = await axios.get(
           `${import.meta.env.VITE_API_URL}/qms/Vendor/InitVendor`
@@ -133,6 +137,7 @@ export const useVendorStore = defineStore("vendorStore", {
 
     //loadListVendors
     async loadListVendors(req, showLoading) {
+       console.log('API-VendorList');
       console.log(JSON.stringify(req));
 
      
@@ -160,6 +165,7 @@ export const useVendorStore = defineStore("vendorStore", {
 
     //DeleteVendor
     async DeleteVendor(req, showLoading) {
+      console.log('API-Delete');
       console.log(JSON.stringify(req));
 
       const loadingAlert = showLoading("");

@@ -27,6 +27,8 @@ export const useQuotationStore = defineStore("QuotationStore", {
   actions: {
     //loadInitPackages
     async loadInitPackages(showLoading) {
+       console.log('API-InitPackages');
+
 
       const loadingAlert = showLoading("");
      
@@ -47,6 +49,7 @@ export const useQuotationStore = defineStore("QuotationStore", {
 
      //GetUploadHybridLinks
     async GetUploadHybridLinks(formData,showLoading) {
+       console.log('API-GetUploadHybridLinks');
       console.log(JSON.stringify(formData));
 
       const loadingAlert = showLoading("");
@@ -74,6 +77,7 @@ export const useQuotationStore = defineStore("QuotationStore", {
 
     //GetUploadHybridLinks
     async GetUploadBundleLinks(formData,showLoading) {
+       console.log('API-GetUploadBundleLinks');
       console.log(JSON.stringify(formData));
 
       const loadingAlert = showLoading("");
@@ -101,6 +105,7 @@ export const useQuotationStore = defineStore("QuotationStore", {
 
     //GetUploadServiceLinks
     async GetUploadServiceLinks(formData,showLoading) {
+       console.log('API-GetUploadBundleLinksv');
       console.log(JSON.stringify(formData));
 
       const loadingAlert = showLoading("");
@@ -129,6 +134,7 @@ export const useQuotationStore = defineStore("QuotationStore", {
 
     //GetUploadProductLinks
     async GetUploadProductLinks(formData,showLoading) {
+       console.log('API-GetUploadProductLinks');
       console.log(JSON.stringify(formData));
 
       const loadingAlert = showLoading("");
@@ -156,6 +162,7 @@ export const useQuotationStore = defineStore("QuotationStore", {
 
     //loadInitQuotation
     async loadInitQuotation(showLoading) {     
+             console.log('API-InitQuotation');
       const loadingAlert = showLoading("");
       try {
         const response = await axios.get(
@@ -174,6 +181,7 @@ export const useQuotationStore = defineStore("QuotationStore", {
 
     //loadListQuotations
     async loadListQuotations(req, showLoading) {
+           console.log('API-QuotationList');
       console.log(JSON.stringify(req));
 
       const loadingAlert = showLoading("");
@@ -204,6 +212,7 @@ export const useQuotationStore = defineStore("QuotationStore", {
 
  //QuotationByVendorId  
     async QuotationByVendorId(id, showLoading) {
+         console.log('API-QuotationByVendorId');
       console.log(JSON.stringify(id));
 
       const loadingAlert = showLoading("");
@@ -233,6 +242,7 @@ export const useQuotationStore = defineStore("QuotationStore", {
 
     //LoadQuotationVersions
     async LoadQuotationVersions(id, showLoading) {
+      console.log('API-GetLoadQuotationVersions');
       console.log(JSON.stringify(id));
 
       const loadingAlert = showLoading("");
@@ -261,14 +271,16 @@ export const useQuotationStore = defineStore("QuotationStore", {
 
     //GetAprrovingTheQuotation
     async GetAprrovingTheQuotation(id, imgfile, showLoading) {
-      console.log(JSON.stringify(id));
-      console.log(JSON.stringify(imgfile));
+     
 
       const loadingAlert = showLoading("");
       try {
         const formData = new FormData();
         formData.append("id", id);
         formData.append("ApprovalMemoFile", imgfile);
+
+        console.log('API-GetAprrovingTheQuotation')
+        console.log(formData)
 
         const response = await axios.post(
           `${
@@ -294,6 +306,7 @@ export const useQuotationStore = defineStore("QuotationStore", {
 
     //GetAddQuotation
     async GetAddQuotation(quotation, showLoading) {
+        console.log('API-GetAddQuotation')
       console.log(JSON.stringify(quotation));
 
       const loadingAlert = showLoading("");
@@ -331,6 +344,7 @@ export const useQuotationStore = defineStore("QuotationStore", {
 
     // Update Quotation ID
     async GetEditQuotationById(id, showLoading) {
+       console.log('API-QuotationById')
       console.log(JSON.stringify(id));
 
       const loadingAlert = showLoading("");
@@ -360,6 +374,7 @@ export const useQuotationStore = defineStore("QuotationStore", {
 
     //GetQuotationApprove
     async GetQuotationApprove(formData, showLoading) {
+        console.log('API-GetAprrovingTheQuotation')
       console.log(JSON.stringify(formData));
 
       const loadingAlert = showLoading("");
@@ -391,6 +406,7 @@ export const useQuotationStore = defineStore("QuotationStore", {
 
     //GetOrders
     async LoadOrders(id, showLoading) {
+       console.log('API-GetOrderDetails')
       console.log(JSON.stringify(id));
       
       const loadingAlert = showLoading("");
@@ -418,6 +434,7 @@ export const useQuotationStore = defineStore("QuotationStore", {
     //GetPaymentInit
     async loadInitPayment(showLoading) {
 
+       console.log('API-PaymentInit')
       const loadingAlert = showLoading("");
      
       try {
@@ -437,6 +454,7 @@ export const useQuotationStore = defineStore("QuotationStore", {
 
     //GettInvoiceDetails
     async GettInvoiceDetails(id,showLoading) {
+      console.log('API-GetInvoiceDetails')
       console.log(JSON.stringify(id));
 
       const loadingAlert = showLoading("");
@@ -460,6 +478,9 @@ export const useQuotationStore = defineStore("QuotationStore", {
 
     //GetPayment
     async GetDoPayment(formData, showLoading) {
+      console.log('API-DoPayment')
+     console.log(JSON.stringify(formData));
+
       for (let [key, value] of formData.entries()) {
         console.log(`${key}:`, value);
       }
@@ -486,6 +507,7 @@ export const useQuotationStore = defineStore("QuotationStore", {
 
     //CancelOrder
     async deleteOrder(orderId, showLoading) {
+       console.log('API-CancelOrder')
       console.log(JSON.stringify(orderId));
 
       const loadingAlert = showLoading("");
@@ -508,6 +530,7 @@ export const useQuotationStore = defineStore("QuotationStore", {
 
     //GetPaymenteDetails
     async GetPaymentDetails(id, showLoading) {
+       console.log('API-GetPaymentDetails')
       console.log(JSON.stringify(id));
 
       const loadingAlert = showLoading("");
@@ -529,6 +552,7 @@ export const useQuotationStore = defineStore("QuotationStore", {
 
 
     async GetPrintInvoiceReports(req, showLoading) {
+       console.log('API-GetPrintInvoiceReports')
       console.log(JSON.stringify(req));
 
       const loading = showLoading?.('');

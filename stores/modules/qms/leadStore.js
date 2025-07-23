@@ -16,6 +16,8 @@ actions: {
 
     //loadInitVendor
     async loadInitVendor(showLoading) {
+       console.log('API-InitVendor');
+  
       try {
         const response = await axios.get(
           `${import.meta.env.VITE_API_URL}/qms/Vendor/InitVendor`
@@ -33,6 +35,8 @@ actions: {
 
      //loadInitLeads
     async GetInitLeads(showLoading) {
+       console.log('API-GetInitLeads');
+
       try {
         const response = await axios.get(
           `${import.meta.env.VITE_API_URL}/qms/Leads/GetInitLeads`
@@ -50,6 +54,7 @@ actions: {
 
     //loadListLeads
     async loadListLeads(req, showLoading) {
+       console.log('API-GetVendorLeads');
     console.log(JSON.stringify(req));
     
       
@@ -86,6 +91,7 @@ actions: {
 
     //Add Lead
     async SetVendorLead(curLead, showLoading,showAlert) {
+       console.log('API-SetVendorLead');
       console.log(JSON.stringify(curLead));
     
       try {
@@ -111,6 +117,7 @@ actions: {
 
     //curLead
     async SetUpdateVendorLead(req, showLoading) {
+        console.log('API-SetUpdateVendorLead');
       console.log(JSON.stringify(req));
      
       try {
@@ -138,6 +145,7 @@ actions: {
 
     //Add vendor to a lead
     async GetAssignSalesRef(req, showLoading) {
+       console.log('API-GetAssignSalesRef');
       console.log(JSON.stringify(req));
       
       const loadingAlert = showLoading("");
@@ -162,6 +170,7 @@ actions: {
 
     //Add new city
     async SetNewCity(req, showAlert) {
+      console.log('API-SetNewCity');
       console.log(JSON.stringify(req));
      
       try {
