@@ -103,10 +103,9 @@ export default {
   methods: {
     GetAttachedImage(file) {
       this.ApprovalMemo = file;
-      // console.log(file);
+      console.log(file);
       
     },
-
 
     async SetApprove() {
       if (this.IsValidate()) {

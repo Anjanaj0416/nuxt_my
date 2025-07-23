@@ -24,6 +24,7 @@
                 :key="index"
                 class="relative flex flex-col gap-4 rounded-xl border border-gray-200 bg-gradient-to-br from-white via-gray-50 to-gray-100 shadow-sm hover:shadow-md transition duration-300 p-4 sm:p-6 mb-4"
               >
+              <!-- {{ quotationStore.listQuotationVerions }} -->
                 <!-- Top row: basic info -->
                 <div class="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3">
                   <div class="flex flex-col sm:flex-row sm:items-center gap-2 text-center sm:text-left">
