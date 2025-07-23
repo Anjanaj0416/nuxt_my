@@ -102,7 +102,7 @@ export const useVendorStore = defineStore("vendorStore", {
 
         if (response.data.isSuccess) {         
           this.showToast(response.data.message,"success");       
-          // this.listVendor = response.data.data.data;
+          this.listVendor = response.data.data.data;
         
         } else {
           console.error("error:",response.data.message)

@@ -507,13 +507,19 @@ export default {
 
       if (!Array.isArray(backendInstallments)) return;
 
-      this.listInstallmentDetails = backendInstallments.map((entry, index) => ({
-        installment: `Installment ${index + 1}`,
-        fee: Number(entry.amount || 0),
-        date: entry.date || this.today,
-        manual: false
-      }));
+      this.listInstallmentDetails = backendInstallments.map((entry, index) => {
+        const rawDate = entry.date || this.today;
+        const formattedDate = rawDate ? new Date(rawDate).toISOString().split('T')[0] : this.today;
+
+        return {
+          installment: `Installment ${index + 1}`,
+          fee: Number(entry.amount || 0),
+          date: formattedDate,
+          manual: false
+        };
+      });
     },
+
     
 
     AddInstallments() {
@@ -539,7 +545,8 @@ export default {
       this.listInstallmentDetails = Array.from({ length: count }, (_, i) => ({
         installment: `Installment ${i + 1}`,
         fee: i + 1 === count ? Math.round((base + remainder) * 100) / 100 : base,
-        date: this.today // Set today as default or use null if you want to enforce user input
+        date: item.date ? new Date(item.date).toISOString().split('T')[0] + 'T00:00:00' : null
+ // Set today as default or use null if you want to enforce user input
       }));
 
 
@@ -592,7 +599,8 @@ export default {
       // ✅ Updated here: just set the fees array
       this.quotation.listInstallment = this.listInstallmentDetails.map(item => ({
         amount: Number(item.fee) || 0,
-        date: item.date || null
+        // date: item.date || null
+        date: item.date ? new Date(item.date).toISOString().split('T')[0] + 'T00:00:00' : null
       }));
     },
 

@@ -28,45 +28,63 @@
               </div>
             </div>
           </div>
-
+{{ curVendor }}
           <div class="grid grid-cols-2 gap-4 mt-4 sm:grid-cols-2 md:grid-cols-3">
             <div v-if="isEditing" class="mb-2">
                 <label class="block text-sm font-bold text-gray-600 mb-1">Customer Ref</label>
-                <span class="inline-block px-3 py-1 text-sm font-semibold text-blue-800 bg-blue-100 rounded-full">
+                <span class="inline-block px-3 py-1 text-sm font-semibold text-blue-800 bg-blue-100 rounded-full" v-if="curVendor.customerRef">
                     {{ curVendor.customerRef }}
+                </span>
+                <span class="inline-block text-sm italic text-gray-500" v-else>
+                  NO data
                 </span>
             </div>
 
             <div class="">
               <label class="block text-sm font-bold text-gray-600 mb-1">Company Name</label>
-              <span class="inline-block  text-sm font-semibold text-gray-800 ">
+              <span class="inline-block  text-sm font-semibold text-gray-800 " v-if="curVendor.shopName">
                     {{ curVendor.shopName }}
+              </span>
+              <span class="inline-block text-sm italic text-gray-500" v-else>
+                NO data
               </span>
             </div>
 
             <div class="">
               <label class="block text-sm font-bold text-gray-600 mb-1">Phone</label>
-              <span class="inline-block  text-sm font-semibold text-gray-800 ">
+              <span class="inline-block  text-sm font-semibold text-gray-800 " v-if="curVendor.shopContactNo">
                     {{ curVendor.shopContactNo }}
+              </span>
+              <span class="inline-block text-sm italic text-gray-500" v-else>
+                NO data
               </span>
             </div>
 
             <div class="">
               <label class="block text-sm font-bold text-gray-600 mb-1">Email</label>
-              <span class="inline-block  text-sm font-semibold text-gray-800 ">
+              <span class="inline-block  text-sm font-semibold text-gray-800 " v-if="curVendor.shopEmail">
                     {{ curVendor.shopEmail }}
+              </span>
+              <span class="inline-block text-sm italic text-gray-500" v-else>
+                NO data
               </span>
             </div>
             <div class="">
               <label class="block text-sm font-bold text-gray-600 mb-1">Web site</label>
-              <span class="inline-block  text-sm font-semibold text-gray-800 ">
+              <span class="inline-block  text-sm font-semibold text-gray-800 " v-if="curVendor.shopWeb">
                     {{ curVendor.shopWeb }}
+              </span>
+              <span class="inline-block text-sm italic text-gray-500" v-else>
+                NO data
               </span>
             </div>
             <div class="">
               <label class="block text-sm font-bold text-gray-600 mb-1">Address Line 1</label>
-              <span class="inline-block  text-sm font-semibold text-gray-800 ">
+              <span class="inline-block  text-sm font-semibold text-gray-800 " v-if="curVendor.shopAddress1">
                     {{ curVendor.shopAddress1 }}
+              </span>
+              <span class="inline-block text-sm italic text-gray-500" v-else>
+                NO data
               </span>
             </div>
             <div class="">
@@ -96,8 +114,8 @@
             </div>
             <div class="">
               <label class="block text-sm font-bold text-gray-600 mb-1">BR Number</label>
-              <span class="inline-block text-sm font-semibold text-gray-800" v-if="curVendor.BRNumber">
-                {{ curVendor.BRNumber }}
+              <span class="inline-block text-sm font-semibold text-gray-800" v-if="curVendor.brNumber">
+                {{ curVendor.brNumber }}
               </span>
               <span class="inline-block text-sm italic text-gray-500" v-else>
                 NO data
@@ -114,8 +132,8 @@
             </div>
             <div class="">
               <label class="block text-sm font-bold text-gray-600 mb-1">QR Link</label>
-              <span class="inline-block text-sm font-semibold text-gray-800" v-if="curVendor.QRlink">
-                {{ curVendor.QRlink }}
+              <span class="inline-block text-sm font-semibold text-gray-800" v-if="curVendor.storeUrl">
+                {{ curVendor.storeUrl }}
               </span>
               <span class="inline-block text-sm italic text-gray-500" v-else>
                 NO data
@@ -443,6 +461,8 @@ definePageMeta({
 });
 export default {
   components: { closebtn, serach_Input, ImageLable, imagecomp, toggleoption ,selectName},
+  props:['vendorId'],
+
   data() {
     return {
       isOpen: true,
@@ -528,54 +548,14 @@ export default {
       this.curVendor.authorisePersonBDate = this.curVendor.authorisePersonBDate.substring(0, 10);
     }
 
-    this.$refs.refCity.initItem(this.curVendor.cityId);
+    // this.$refs.refCity.initItem(this.curVendor.cityId);
     // this.$refs.refDistrict.initItem(this.curVendor.district);
   },
   methods: {
-    closeModal() {
-      this.isOpen = false;
-      this.$emit("close");
-    },
-
-
 
     cancel() {
       this.clearErr();
       this.closeModal();
-    },
-
-
-    AddEditVendor() {
-      console.log("AddEditVendor");
-      if (this.IsValidate()) {
-        this.$showConfirm(
-          "Are you sure you want to update this vendor?",
-          "warning"
-        ).then(async (result) => {
-          if (result.isConfirmed) {
-            const formData = this.convertToFormData(this.curVendor);
-            // Convert to plain object and log it
-            // const formDataObj = {};
-            // for (let [key, value] of formData.entries()) {
-            //   formDataObj[key] = value;
-            // }
-            // console.log('Form Data as Object:', formDataObj);
-
-            await this.vendorStore.AddEditVendor(formData, this.showLoading);
-            this.closeModal();
-               this.isEdit = false;
-          } else {
-            console.log("Action canceled");
-          }
-        });
-      }
-    },
-
-     saveChanges() {
-      // Put your validation/save logic here
-      console.log("Saving vendor:",);
-
-      this.isEdit = false;
     },
 
   
@@ -606,7 +586,7 @@ export default {
     // zz
     convertToFormData(formObject) {
       const formData = new FormData();
-      formData.append("Id", this.curVendor.id);
+      formData.append("Id", vendorId);
       formData.append("shopWeb", this.curVendor.shopWeb);
       formData.append("shopEmail", this.curVendor.shopEmail);
       formData.append("shopName", this.curVendor.shopName);

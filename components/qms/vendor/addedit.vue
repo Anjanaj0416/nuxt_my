@@ -4,8 +4,8 @@
       <div class="w-full mb- md:mb-0">  
           <div class="text-2xl uppercase mb-4"> Vendor Details - {{ isEditing ? "Edit" : "Add" }}</div>
       </div>
-
-      <!-- <pre>{{ JSON.stringify(curVendor, null, 2) }}</pre> -->
+       <!-- {{ Id }} -->
+      <!-- <pre>{{ JSON.stringify(curVendor, null, 2) }}</pre>   -->
 
 
       <!-- Modal Content (scrollable) -->
@@ -80,7 +80,7 @@
             </div>
             <div class="">
               <label class="block text-sm font-bold text-gray-600">BR Number</label>
-              <input type="text" v-model="curVendor.BRNumber" placeholder="Enter Business Registration Number" required
+              <input type="text" v-model="curVendor.brNumber" placeholder="Enter Business Registration Number" required
                 class="w-full p-2 mt-2 text-sm border rounded-md focus:ring-indigo-500 focus:border-indigo-500" />
 
             </div>
@@ -90,7 +90,7 @@
                 class="w-full p-2 mt-2 text-sm border rounded-md focus:ring-indigo-500 focus:border-indigo-500" />
             </div>
             <div class="">
-              <label class="block text-sm font-bold text-gray-600">Store eUrl</label>
+              <label class="block text-sm font-bold text-gray-600">Store Url</label>
               <input type="text" v-model="curVendor.storeUrl" placeholder="Enter QR Link" required
                 class="w-full p-2 mt-2 text-sm border rounded-md focus:ring-indigo-500 focus:border-indigo-500" />
             </div>
@@ -313,6 +313,7 @@ definePageMeta({
 });
 export default {
   components: { closebtn, serach_Input, ImageLable, imagecomp, toggleoption },
+  props:['Id'],
   data() {
     return {
       isOpen: true,
@@ -474,7 +475,6 @@ export default {
           for (let [key, value] of formData.entries()) {
             console.log(`${key}:`, value);
           }
-
           await this.vendorStore.AddEditVendor(formData, this.showLoading);
           this.closeModal();
           this.isEdit = false;
@@ -512,44 +512,45 @@ export default {
     // zz
     convertToFormData(formObject) {
       const formData = new FormData();
-      formData.append("Id", this.curVendor.id);
-      formData.append("ShopWeb", this.curVendor.shopWeb);
-      formData.append("StoreUrl", this.curVendor.storeUrl);
-      formData.append("ShopEmail", this.curVendor.shopEmail);
-      formData.append("ShopName", this.curVendor.shopName);
-      formData.append("ShopContactNo", this.curVendor.shopContactNo);
-      formData.append("ShopAddress1", this.curVendor.shopAddress1);
-      formData.append("ShopAddress2", this.curVendor.shopAddress2);
+      
+      formData.append("Id", this.Id);
+      formData.append("ShopWeb", this.curVendor.shopWeb || "");
+      formData.append("StoreUrl", this.curVendor.storeUrl || "");
+      formData.append("ShopEmail", this.curVendor.shopEmail || "");
+      formData.append("ShopName", this.curVendor.shopName || "");
+      formData.append("ShopContactNo", this.curVendor.shopContactNo || "");
+      formData.append("ShopAddress1", this.curVendor.shopAddress1 || "");
+      formData.append("ShopAddress2", this.curVendor.shopAddress2 || "");
       // formData.append("DistrictId", this.curVendor.districtId);
-      formData.append("CityId", this.curVendor.cityId);
-      formData.append("VendorImageFile", this.curVendor.vendorImageFile);
-      formData.append("BRCopyFile", this.curVendor.brCopyImage);
-      formData.append("ShopLogoPath", this.curVendor.shopLogo);
-      formData.append("BRNumber", this.curVendor.BRNumber);
-      formData.append("VATNo", this.curVendor.vatNo);
-      formData.append("Description", this.curVendor.description);
+      formData.append("CityId", this.curVendor.cityId );
+      formData.append("VendorImageFile", this.curVendor.vendorImageFile || "");
+      formData.append("BRCopyFile", this.curVendor.brCopyImage || "");
+      formData.append("ShopLogoPath", this.curVendor.shopLogo || "");
+      formData.append("BRNumber", this.curVendor.brNumber || "");
+      formData.append("VATNo", this.curVendor.vatNo || "");
+      formData.append("Description", this.curVendor.description || "");
 
       // Contact Person
-      formData.append("ShopContactPersonName", this.curVendor.shopContactPersonName);
-      formData.append("ShopContactPersonDesignation", this.curVendor.shopContactPersonDesignation);
-      formData.append("ShopContactPersonBDate", this.curVendor.shopContactPersonBDate);
-      formData.append("ShopContactPersonPhone", this.curVendor.shopContactPersonPhone);
-      formData.append("ShopContactPersonEmail", this.curVendor.shopContactPersonEmail);
+      formData.append("ShopContactPersonName", this.curVendor.shopContactPersonName || "");
+      formData.append("ShopContactPersonDesignation", this.curVendor.shopContactPersonDesignation || "");
+      formData.append("ShopContactPersonBDate", this.curVendor.shopContactPersonBDate || "");
+      formData.append("ShopContactPersonPhone", this.curVendor.shopContactPersonPhone || "");
+      formData.append("ShopContactPersonEmail", this.curVendor.shopContactPersonEmail || "");
 
       // Owner dETAILS
-      formData.append("AuthorisePersonName", this.curVendor.authorisePersonName);
-      formData.append("AuthorisePersonBDate", this.curVendor.authorisePersonBDate);
-      formData.append("AuthorisePersonPhone", this.curVendor.authorisePersonPhone);
-      formData.append("AuthorisePersonEmail", this.curVendor.authorisePersonEmail);
+      formData.append("AuthorisePersonName", this.curVendor.authorisePersonName || "");
+      formData.append("AuthorisePersonBDate", this.curVendor.authorisePersonBDate || "");
+      formData.append("AuthorisePersonPhone", this.curVendor.authorisePersonPhone || "");
+      formData.append("AuthorisePersonEmail", this.curVendor.authorisePersonEmail || "");
 
       // Bank Details
-      formData.append("BankName", this.curVendor.bankName);
-      formData.append("Branch", this.curVendor.branch);
-      formData.append("AccountNumber", this.curVendor.accountNumber);
-      formData.append("HolderName", this.curVendor.holderName);
+      formData.append("BankName", this.curVendor.bankName || "");
+      formData.append("Branch", this.curVendor.branch || "");
+      formData.append("AccountNumber", this.curVendor.accountNumber || "");
+      formData.append("HolderName", this.curVendor.holderName || "");
 
       // Boolean fields should be converted to string
-      formData.append("IsActive", String(this.curVendor.isActive ?? true));
+      formData.append("IsActive", String(this.curVendor.isActive ?? true) || "");
       return formData;
     },
   },

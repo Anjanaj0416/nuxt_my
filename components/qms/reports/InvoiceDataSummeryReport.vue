@@ -98,29 +98,24 @@
     computed: {
   
     },
-methods: {
-  async downloadReport() {
-    if (!this.dateFrom || !this.dateTo) {
-      this.$showToast('Please select both From and To dates', 'warning');
-      return;
-    }
 
-    const req = {
-      from: this.dateFrom,
-      to: this.dateTo,
-    };
+    methods: {
+      async downloadReport() {
+        if (!this.dateFrom || !this.dateTo) {
+          this.$showToast('Please select both From and To dates', 'warning');
+          return;
+        }
 
-    await this.qmsReportsStore.GetPrintInvoiceReports(req, this.$showLoading);
-  }
-}
-,
+        const req = {
+          from: this.dateFrom,
+          to: this.dateTo,
+        };
+
+        await this.qmsReportsStore.GetPrintInvoiceReports(req, this.$showLoading);
+      }
+    },
     async beforeMount() {
-      // if (this.loggeduser.granted.indexOf('workgroup') > -1 || this.loggeduser.usergroup == 'Supervisor' ) {
-      // } else {
-      //   this.show_error('Not Allowed to access this page')
-      //   this.$router.push('/')
-      // }
-  
+
     },
     head() {
       return {

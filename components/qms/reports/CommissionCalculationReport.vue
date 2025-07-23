@@ -1,47 +1,64 @@
 <template>
-    <section class="justify-center min-h-screen px-4 mt-24 mb-20 lg:px-60">
-      <div class="text-2xl uppercase">Commission Calculation Report</div>
-      <div class="bg-gradient-to-r from-blue-900 via-indigo-700 to-blue-600 shadow-md rounded-lg p-6 mt-10 mb-10 border text-white">
-        <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
-          <div>
-            <label class="block mb-1 font-medium">From</label>
-            <div class="relative">
-              <input 
-                type="date" 
-                v-model="dateFrom"
-                placeholder="Enter Designation" 
-                @change="logSelectedDates"
-                required
-                class="w-full p-2 mt-2 text-gray-900 text-sm border rounded-md focus:ring-indigo-500 focus:border-indigo-500" 
-              />
-            </div>
-          </div>
-          <div>
-            <label class="block mb-1 font-medium">To</label>
-            <div class="relative">
-              <input 
-                type="date" 
-                v-model="dateTo"
-                placeholder="Enter Designation" 
-                @change="logSelectedDates"
-                required
-                class="w-full p-2 mt-2 text-sm border text-gray-900 rounded-md focus:ring-indigo-500 focus:border-indigo-500 dark:text-gray-900" 
-              />
-            </div>
-          </div>
+  <section class="justify-center min-h-screen px-4 mt-24 mb-20 lg:px-60">
+    <div class="text-2xl uppercase">Commission Calculation Report</div>
+
+    <div class="bg-gradient-to-r from-blue-900 via-indigo-700 to-blue-600 shadow-md rounded-lg p-6 mt-10 mb-10 border text-white">
+      <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+        <div>
+          <label class="block mb-1 font-medium">From</label>
+          <input 
+            type="date" 
+            v-model="dateFrom"
+            required
+            class="w-full p-2 mt-2 text-gray-900 text-sm border rounded-md focus:ring-indigo-500 focus:border-indigo-500" 
+          />
+        </div>
+        <div>
+          <label class="block mb-1 font-medium">To</label>
+          <input 
+            type="date" 
+            v-model="dateTo"
+            required
+            class="w-full p-2 mt-2 text-sm border text-gray-900 rounded-md focus:ring-indigo-500 focus:border-indigo-500" 
+          />
+        </div>
+        <div>
+          <label class="block mb-1 font-medium">CSO No</label>
+          <select 
+            v-model="cso"
+            required
+            class="w-full p-2 mt-2 text-sm border text-gray-900 rounded-md focus:ring-indigo-500 focus:border-indigo-500"
+          >
+            <option disabled value="">Select a receipt type</option>
+            <option value="CSO001">Raveena</option>
+            <option value="CSO002">Indeepa</option>
+            <option value="CSO003">CSO003</option>
+            <option value="CSO004">CSO004</option>
+          </select>
         </div>
       </div>
 
-      <p 
-        v-if="!dateFrom || !dateTo" 
-        class="text-sm text-gray-500 italic text-center"
+      <!-- Submit Button -->
+      <div class="flex justify-center mt-6">
+       <button
+        @click="downloadReport"
+        class="px-6 py-2 text-sm font-semibold text-gray-700 bg-white rounded-lg shadow-md hover:bg-indigo-50 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2"
       >
-        Please select date range.
-      </p>
+        Download Report
+      </button>
 
+      </div>
+    </div>
 
-    </section>
+    <p 
+      v-if="!dateFrom || !dateTo || !cso" 
+      class="text-sm text-gray-500 italic text-center"
+    >
+      Please select date range and Receipt Type.
+    </p>
+  </section>
 </template>
+
 
 
   
@@ -49,8 +66,8 @@
 
  import { useRoute } from 'vue-router'
  import { useUserStore } from "~/stores/modules/userStore";
- import { useQuotationStore } from '~/stores/modules/qms/quotationStore';
-
+//  import { useQuotationStore } from '~/stores/modules/qms/quotationStore';
+ import { useQmsReportsStore } from '~/stores/modules/qms/qmsReportsStore';
  
  import LinkBtn from "~/components/customcontrol/Link";
   import Button from "~/components/customcontrol/Button";
@@ -77,6 +94,7 @@
         showLoading: null,
         dateFrom: '',
         dateTo: '',
+        cso: '',
        
       }
     },
@@ -84,7 +102,9 @@
      
     },
     async created() {
-      this.quotationStore = useQuotationStore();
+      // this.quotationStore = useQuotationStore();
+      this.qmsReportsStore = useQmsReportsStore();
+
       this.userStore = useUserStore();
       this.showLoading = this.$showLoading;
       this.imageroot = this.userStore.loggedUser.resourceURLRoot;
@@ -93,28 +113,23 @@
     computed: {
   
     },
-    methods: {
-
-      async logSelectedDates() {
-        if (!this.dateFrom || !this.dateTo) {
-          this.$showToast('Please select both From and To dates', 'warning');
-          return;
-        }
-
-        const req = {
-          from: this.dateFrom,
-          to: this.dateTo,
-        };
-        console.log(req);
-        
-        await this.quotationStore.GetPrintInvoiceReports({ from: this.dateFrom, to: this.dateFrom }, this.$showLoading);
-
-        
+  methods: {
+    async downloadReport() {
+      if (!this.dateFrom || !this.dateTo || !this.cso) {
+        this.$showToast('Please select both From and To dates and cso', 'warning');
+        return;
       }
-     
-   
-      //this.$showToast('Login successful!', 'success'); //success ,error ,warning,info
-    },
+
+      const req = {
+        from: this.dateFrom,
+        to: this.dateTo,
+        csoNo: this.cso
+      };
+      
+      await this.qmsReportsStore.GetCommissionCalculationReport(req , this.$showLoading); 
+    }
+  }
+,
     async beforeMount() {
       // if (this.loggeduser.granted.indexOf('workgroup') > -1 || this.loggeduser.usergroup == 'Supervisor' ) {
       // } else {
