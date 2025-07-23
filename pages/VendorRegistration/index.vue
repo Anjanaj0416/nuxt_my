@@ -181,8 +181,8 @@ export default {
 
       await userStore.AppLogin(formData, this.showLoading);
 
-      const encode = btoa('facebook'); //console.log(encode) // "SGVsbG8gV29ybGQ="        
-      const decode = atob(encode); console.log(decode); // "Hello World"
+      //const encode = btoa('facebook'); //console.log(encode) // "SGVsbG8gV29ybGQ="        
+      //const decode = atob(encode); console.log(decode); // "Hello World"
 
       // linkedin - p=bGlua2VkaW4=
       // facebook  - p=ZmFjZWJvb2s=
@@ -193,15 +193,15 @@ export default {
       const route = useRoute();
       let val = route.query.p;
 
-      if (val !== undefined) {
-        this.curLead.medium = atob(val);
-        console.log("Decoded medium:", this.curLead.medium);
-      }
-
-    } catch (error) {
-      console.error("error:", error);
-    }
-  },
+        if (val !== undefined) {
+          this.curLead.medium = atob(val);
+          // console.log("Decoded medium:", this.curLead.medium);
+        }
+          
+        } catch (error) {
+          console.error("error:", error);
+        }
+      },
 
   watch: {},
   computed: {
