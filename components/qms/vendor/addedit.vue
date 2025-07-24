@@ -94,6 +94,15 @@
               <input type="text" v-model="curVendor.storeUrl" placeholder="Enter QR Link" required
                 class="w-full p-2 mt-2 text-sm border rounded-md focus:ring-indigo-500 focus:border-indigo-500" />
             </div>
+            <div class="">
+              <label class="block text-sm font-bold text-gray-600">CSO</label>
+              <select v-model="curVendor.csoId" @change="onSelectRSO($event.target.value)" class="w-full p-2 border rounded mt-2">
+                <option disabled value="">Please select one</option>
+                <option v-for="rso in setrso" :key="rso.id" :value="rso.id">
+                  {{ rso.value }}
+                </option>
+              </select>
+            </div>
 
           </div>
 
@@ -330,6 +339,7 @@ export default {
         districtId: "",
         city: "",
         cityId: "",
+        csoId:"",
         description: "",
         brCopyImage: "",
         // brCopyFile: null,
@@ -368,6 +378,7 @@ export default {
       );
     },
 
+
     getDistinctDistricts() {
       try {
         const districtsMap = new Map();
@@ -389,6 +400,10 @@ export default {
       } catch (error) {
         return [];
       }
+    },
+
+    setrso() {
+      return this.vendorStore?.initVendor?.listRSOs || [];
     },
 
     filteredCities() {
@@ -460,6 +475,10 @@ export default {
     GetSelectedBRCopy(image) {
       this.curVendor.brCopyImage = image;
     },
+    onSelectRSO(selectedId) {
+      console.log("Selected RSO from native select:", selectedId);
+      this.curVendor.csoId = selectedId;
+    },
 
     AddEditVendor() {
       this.$showConfirm(
@@ -473,7 +492,7 @@ export default {
           for (let [key, value] of formData.entries()) {
             console.log(`${key}:`, value);
           }
-          await this.vendorStore.AddEditVendor(formData, this.showLoading);
+          // await this.vendorStore.AddEditVendor(formData, this.showLoading);
           this.$emit("close")
           this.isEdit = false;
         } else {
@@ -521,6 +540,7 @@ export default {
       formData.append("ShopAddress2", this.curVendor.shopAddress2 || "");
       // formData.append("DistrictId", this.curVendor.districtId);
       formData.append("CityId", this.curVendor.cityId );
+      formData.append("CsoId", this.curVendor.csoId );;
       formData.append("VendorImageFile", this.curVendor.vendorImageFile || "");
       formData.append("BRCopyFile", this.curVendor.brCopyImage || "");
       formData.append("ShopLogoPath", this.curVendor.shopLogo || "");
