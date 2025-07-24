@@ -157,7 +157,7 @@ actions: {
 
         loadingAlert.close();
         if (response.data.isSuccess) {
-          this.showToast(response.data.message,"success");
+          this.showToast(response.data.message,"success");                  
           this.listLeads = response.data.data.data;
 
         } else {

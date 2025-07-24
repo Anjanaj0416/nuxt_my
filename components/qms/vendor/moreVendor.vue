@@ -22,13 +22,13 @@
                   <toggleoption v-model="curVendor.isActive" />
                 </div> -->
                 <div class="flex items-center justify-between">
-                  <span class="mr-4 text-sm font-bold text-gray-600">Status : {{ curVendor.isActive }}</span>
+                  <span class="mr-4 text-sm font-bold text-gray-600">Status : {{ (curVendor.isActive)?'Active':'Inactive' }}</span>
 
                 </div>
               </div>
             </div>
           </div>
-{{ curVendor }}
+<!-- {{ curVendor }} -->
           <div class="grid grid-cols-2 gap-4 mt-4 sm:grid-cols-2 md:grid-cols-3">
             <div v-if="isEditing" class="mb-2">
                 <label class="block text-sm font-bold text-gray-600 mb-1">Customer Ref</label>

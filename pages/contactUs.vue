@@ -7,11 +7,11 @@
         <div class="flex items-center">
           <NuxtLink to="/" class="flex items-center text-2xl font-bold transition duration-300 hover:opacity-90">
             <!-- hide Img -->
-            <!-- <img
+            <img
                   src="/assets/img/digitalTechLabs/DigitalTechLabsLogo.jpg"
                   alt="Digital Tech Labs Logo"
                   class="px-2 rounded-full w-44"
-              /> -->
+              />
           </NuxtLink>
         </div>
 
@@ -195,8 +195,8 @@
           <div class="mb-6 md:mb-0">
             <a href="/" class="flex items-center">
               <!-- hide Img -->
-              <!-- <img src="/assets/img/digitalTechLabs/DigitalTechLabsLogo.jpg" alt="Digital Tech Labs Logo"
-                class="w-40 px-2 rounded-full" /> -->
+              <img src="/assets/img/digitalTechLabs/DigitalTechLabsLogo.jpg" alt="Digital Tech Labs Logo"
+                class="w-40 px-2 rounded-full" />
             </a>
             <p class="mt-4 text-sm text-gray-600  max-w-sm">
               Digital TechLabs is a forward-thinking tech company providing innovative digital products and business
@@ -209,7 +209,7 @@
               <ul class="text-gray-600">
                 <li class="mb-4">
                   <!-- hide Img -->
-                  <!-- <a href="https://prep.btob.lk" target="_blank" class="hover:underline">B2B.lk</a> -->
+                  <a href="https://prep.btob.lk" target="_blank" class="hover:underline">B2B.lk</a>
                 </li>
                 <li>
                   <!-- <a href="" class="hover:underline">Automobile.lk</a> -->

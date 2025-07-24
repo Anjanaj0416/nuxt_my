@@ -55,8 +55,13 @@
                   class="cursor-pointer"
                   @click="handleQrClick(vd)"
                   title="Click to open store and PDF"
-                >
-                  <ImageLable :imageUrl="imageroot + '/' + vd.qrImageUrl" alt="QR Code" />
+                >              
+                  
+                   <img 
+                        :src="imageroot + '/' + vd.qrImageUrl"   v-if="vd.qrImageUrl"                      
+                        class="object-cover w-16 h-16 rounded-md"
+                        title="Store QR"
+                      />
                 </span>
               </p>
 
@@ -322,7 +327,7 @@ export default {
 
       const route = useRoute();
       let val = route.query.p;
-
+   
       let isGuid = false;
       if (val !== undefined) isGuid = val.includes('-');
 
@@ -347,17 +352,14 @@ export default {
 
   handleQrClick(vd) {
     const pdfUrl = this.imageroot + vd.qrPdfUrl;
-    const storeUrl = vd.storeUrl;
- 
-
+    const storeUrl =  vd.storeUrl;
     // Open storeUrl in new tab
-    const winStore = window.open(storeUrl, '_blank');
-
-
-
+      console.log(storeUrl)
+    window.open(storeUrl, '_blank');
     // Open pdfUrl in current tab
-    window.location.href = pdfUrl;
-
+  
+    window.open(pdfUrl, '_blank');
+    
     // If you want qrImageUrl, consider opening it from that page or via a link
   }
 ,

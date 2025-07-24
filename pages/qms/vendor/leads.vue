@@ -32,7 +32,7 @@
       v-for="(lead, index) in leadStore.listLeads"
       :key="index"
     >
- 
+
       <div class="flex justify-start">
         <span
           class="inline-block px-1 py-0.5 text-[9px] font-medium text-blue-800 bg-blue-100 rounded-full"
@@ -66,7 +66,7 @@
               }"
               class="text-xs font-medium me-2 px-2.5 py-0.5 rounded-full"
             >
-              {{ lead.status || "Unknown" }}
+              {{ lead.status  }}
             </span>
           </template>
           <template v-else>
@@ -85,6 +85,13 @@
       <div
         class="flex flex-col items-center gap-1 mt-1 mb-2 sm:flex-row sm:justify-end sm:mb-0 sm:mt-0 sm:-my-3"
       >
+     
+       <LinkBtn  v-if=" lead.csoNo!=''"
+          label="View Order"
+          class="text-black dark:bg-transparent text-xs font-medium dark:text-blue-900"
+          @click="GoToOrder(lead.vendorId)"
+        />
+       
         <LinkBtn
           :label="isMore && rowIndex === index ? 'Less' : 'More'"
           class="text-black dark:bg-transparent text-xs font-medium dark:text-blue-900"
@@ -292,7 +299,9 @@ export default {
   // },
   },
   methods: {
-
+      GoToOrder(vendorId){         
+          this.$router.push('/qms/vendor?p='+vendorId)
+      },
     
     async GetSearch(searchVal) {
       if (searchVal) {
