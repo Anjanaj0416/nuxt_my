@@ -96,12 +96,12 @@
             </div>
             <div class="">
               <label class="block text-sm font-bold text-gray-600">CSO</label>
-              <select v-model="curVendor.csoId" @change="onSelectRSO($event.target.value)" class="w-full p-2 border rounded mt-2">
-                <option disabled value="">Please select one</option>
-                <option v-for="rso in setrso" :key="rso.id" :value="rso.id">
-                  {{ rso.value }}
-                </option>
-              </select>
+              <serach_Input
+                :arrItems="setrso"
+                v-model="curVendor.csoId"
+                @selectItem="GetSelectCso"
+              />
+
             </div>
 
           </div>
@@ -479,6 +479,12 @@ export default {
       console.log("Selected RSO from native select:", selectedId);
       this.curVendor.csoId = selectedId;
     },
+    GetSelectCso(selectedItem) {
+      // console.log("Selected CSO from search input:", selectedItem);
+      if (selectedItem && selectedItem.id) {
+        this.curVendor.csoId = selectedItem.id;
+      }
+    },
 
     AddEditVendor() {
       this.$showConfirm(
@@ -508,6 +514,8 @@ export default {
         this.err[key] = "";
       });
     },
+
+
 
     GetSelectCity(cityObj) {
       this.curVendor.cityId = cityObj.id;
