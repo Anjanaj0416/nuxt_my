@@ -29,7 +29,7 @@
             </div>
           </div>
 <!-- {{ curVendor }} -->
-          <div class="grid grid-cols-2 gap-4 mt-4 sm:grid-cols-2 md:grid-cols-3">
+          <div class="grid grid-cols-1 gap-4 mt-4 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-3">
             <div v-if="isEditing" class="mb-2">
                 <label class="block text-sm font-bold text-gray-600 mb-1">Customer Ref</label>
                 <span class="inline-block px-3 py-1 text-sm font-semibold text-blue-800 bg-blue-100 rounded-full" v-if="curVendor.customerRef">
@@ -153,7 +153,7 @@
               </span>
           </div>
 
-          <div class="grid grid-cols-2 gap-4 mt-4 sm:grid-cols-2 md:grid-cols-3">
+          <div class="grid grid-cols-1 gap-4 mt-4 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-3">
             <!--Vendor Image -->
             <div>
               <label class="block text-sm font-bold text-gray-600 mb-1">Vendor Image</label>
@@ -196,7 +196,7 @@
 
           <hr class="my-4" />
           <h3 class="mt-4 font-bold">Owner Information</h3>
-          <div class="grid grid-cols-2 gap-4 mt-4 sm:grid-cols-2 md:grid-cols-3">
+          <div class="grid grid-cols-1 gap-4 mt-4 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-3">
             <div class="">
               <label class="block text-sm font-bold text-gray-600 mb-1">Name</label>
               <span class="inline-block text-sm font-semibold text-gray-800" v-if="curVendor.authorisePersonName">
@@ -237,7 +237,7 @@
 
           <hr class="my-4" />
           <h3 class="mt-4 font-bold">Contact Person </h3>
-          <div class="grid grid-cols-2 gap-4 mt-4 sm:grid-cols-2 md:grid-cols-3">
+          <div class="grid grid-cols-1 gap-4 mt-4 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-3">
             <div class="">
               <label class="block text-sm font-bold text-gray-600 mb-1">Name</label>
               <span class="inline-block text-sm font-semibold text-gray-800" v-if="curVendor.shopContactPersonName">
@@ -288,7 +288,7 @@
 
           <hr class="my-4" />
           <h3 class="mt-4 font-bold">Bank Details</h3>
-          <div class="grid grid-cols-2 gap-4 mt-4 mb-36 sm:grid-cols-2 md:grid-cols-3 sm:mb-0">
+          <div class="grid grid-cols-1 gap-4 mt-4 mb-36 sm:grid-cols-2 md:grid-cols-3 sm:mb-0 lg:grid-cols-3">
             <div class="">
               <label class="block text-sm font-bold text-gray-600 mb-1">Bank Name</label>
               <span class="inline-block text-sm font-semibold text-gray-800" v-if="curVendor.bankName">
@@ -330,7 +330,7 @@
 
           <hr class="my-4" />
           <h3 class="mt-4 font-bold">Super Admin Details (Recommended: Business Owner)</h3>
-          <div class="grid grid-cols-2 gap-4 mt-4 mb-36 sm:grid-cols-2 md:grid-cols-3 sm:mb-0">
+          <div class="grid grid-cols-1 gap-4 mt-4 mb-36 sm:grid-cols-2 md:grid-cols-3 sm:mb-0 lg:grid-cols-3">
             <div class="">
               <label class="block text-sm font-bold text-gray-600 mb-1">Full Name</label>
               <span class="inline-block text-sm font-semibold text-gray-800" v-if="curVendor.suAdminfullName">
@@ -381,7 +381,7 @@
 
           <hr class="my-4" />
           <h3 class="mt-4 font-bold">Additional Admin User Details</h3>
-          <div class="grid grid-cols-2 gap-4 mt-4 mb-36 sm:grid-cols-2 md:grid-cols-3 sm:mb-0">
+          <div class="grid grid-cols-1 gap-4 mt-4 mb-36 sm:grid-cols-2 md:grid-cols-3 sm:mb-0 lg:grid-cols-3">
             <div class="">
               <label class="block text-sm font-bold text-gray-600 mb-1">Full Name</label>
               <span class="inline-block text-sm font-semibold text-gray-800" v-if="curVendor.additionalFullName">

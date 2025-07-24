@@ -213,7 +213,7 @@
             <Invoice />
           </div> -->
           <div v-if="vendorTabs[vd.id] === 'isuePINo'">
-            <IsuePINo :vendorId="vd.id"/>
+            <IsuePINo :vendorId="vd.id" @close="vendorTabs[vd.id] = ''; quotationStore.curVendorId = null"/>
           </div>
           <div v-if="vendorTabs[vd.id] === 'order'">
             <Order />
@@ -222,7 +222,7 @@
             <MoreVendor :vendorId="vd.id"/>
           </div>
           <div v-if="vendorTabs[vd.id] === 'edit'">
-            <AddEdit :Id="vd.id"/>
+            <AddEdit :Id="vd.id" @close="vendorTabs[vd.id] = ''; quotationStore.curVendorId = null" />
             <!-- <AddEdit v-if="isAddEdit" @close="isAddEdit = !isAddEdit" /> -->
           </div>
           <div v-if="vendorTabs[vd.id] === 'workFlow'">

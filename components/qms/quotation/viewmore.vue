@@ -18,6 +18,8 @@
                 Back to Proposal
               </button>
             </div>
+
+            <!-- {{ quotationStore.curQuotation }} -->
             <div class="max-h-[660px] overflow-y-auto space-y-4">
               <div
                 v-for="(qItem, index) in quotationStore.listQuotationVerions"

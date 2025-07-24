@@ -25,7 +25,7 @@
             </div>
           </div>
 
-          <div class="grid grid-cols-2 gap-4 mt-4 sm:grid-cols-2 md:grid-cols-3">
+          <div class="grid grid-cols-1 gap-4 mt-4 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-3">
             <div class="" v-if="isEditing">
               <label class="block text-sm font-bold text-gray-600">Customer Ref</label>
               <input type="text" v-model="curVendor.customerRef" disabled placeholder="Vendor ID (read-only)"
@@ -66,12 +66,12 @@
               <input type="text" v-model="curVendor.shopAddress2" placeholder="Enter Address Line 2" required
                 class="w-full p-2 mt-2 text-sm border rounded-md focus:ring-indigo-500 focus:border-indigo-500" />
             </div>
-            <div class="">
+            <!-- <div class="">
               <label class="block text-sm font-bold text-gray-600">District</label>
 
               <serach_Input :arrItems="getDistinctDistricts" :isDistrict=true ref="refDistrict" label=""
                 v-model="curVendor.districtId" @selectItem="GetSelectDistrict" />
-            </div>
+            </div> -->
             <div class="">
               <label class="block text-sm font-bold text-gray-600">City</label>
               <serach_Input :arrItems="filteredCities" ref="refCity" label="" v-model="curVendor.cityId"
@@ -128,7 +128,7 @@
 
           <hr class="my-4" />
           <h3 class="mt-4 font-bold">Owner Information</h3>
-          <div class="grid grid-cols-2 gap-4 mt-4 sm:grid-cols-2 md:grid-cols-3">
+          <div class="grid grid-cols-1 gap-4 mt-4 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-3">
             <div class="">
               <label class="block text-sm font-bold text-gray-600">Name</label>
               <input type="text" v-model="curVendor.authorisePersonName" placeholder="Enter Name" required
@@ -155,7 +155,7 @@
 
           <hr class="my-4" />
           <h3 class="mt-4 font-bold">Contact Person </h3>
-          <div class="grid grid-cols-2 gap-4 mt-4 sm:grid-cols-2 md:grid-cols-3">
+          <div class="grid grid-cols-1 gap-4 mt-4 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-3">
             <div class="">
               <label class="block text-sm font-bold text-gray-600">Name</label>
               <input type="text" v-model="curVendor.shopContactPersonName" placeholder="Enter Name" required
@@ -191,7 +191,7 @@
 
           <hr class="my-4" />
           <h3 class="mt-4 font-bold">Bank Details</h3>
-          <div class="grid grid-cols-2 gap-4 mt-4 mb-36 sm:grid-cols-2 md:grid-cols-3 sm:mb-0">
+          <div class="grid grid-cols-1 gap-4 mt-4 mb-36 sm:grid-cols-2 md:grid-cols-3 sm:mb-0 lg:grid-cols-3">
             <div class="">
               <label class="block text-sm font-bold text-gray-600">Bank Name</label>
               <input type="text" v-model="curVendor.bankName" placeholder="Enter Bank Name" required
@@ -217,7 +217,7 @@
 
           <hr class="my-4" />
           <h3 class="mt-4 font-bold">Super Admin Details (Recommended: Business Owner)</h3>
-          <div class="grid grid-cols-2 gap-4 mt-4 mb-36 sm:grid-cols-2 md:grid-cols-3 sm:mb-0">
+          <div class="grid grid-cols-1 gap-4 mt-4 mb-36 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-3 sm:mb-0">
             <div class="">
               <label class="block text-sm font-bold text-gray-600">Full Name</label>
               <input type="text" v-model="curVendor.suAdminfullName" placeholder="Enter Full Name" required
@@ -249,7 +249,7 @@
 
           <hr class="my-4" />
           <h3 class="mt-4 font-bold">Additional Admin User Details</h3>
-          <div class="grid grid-cols-2 gap-4 mt-4 mb-36 sm:grid-cols-2 md:grid-cols-3 sm:mb-0">
+          <div class="grid grid-cols-1 gap-4 mt-4 mb-36 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-3 sm:mb-0">
             <div class="">
               <label class="block text-sm font-bold text-gray-600">Full Name</label>
               <input type="text" v-model="curVendor.additionalFullName" placeholder="Enter Full Name" required
@@ -439,15 +439,13 @@ export default {
       this.$emit("close");
     },
 
-      startEditing() {
-
-    
-    this.isEdit = true;
-  },
+    startEditing() {
+      this.isEdit = true;
+    },
 
     cancel() {
       this.clearErr();
-      this.closeModal();
+      this.$emit("close");
     },
     GetSelectedShopImage(image) {
       this.curVendor.shopLogoFile = image;
@@ -476,7 +474,7 @@ export default {
             console.log(`${key}:`, value);
           }
           await this.vendorStore.AddEditVendor(formData, this.showLoading);
-          this.closeModal();
+          this.$emit("close")
           this.isEdit = false;
         } else {
           console.log("Action canceled");
