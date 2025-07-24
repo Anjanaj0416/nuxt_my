@@ -5,7 +5,7 @@
           <div class="text-2xl uppercase mb-4"> Vendor Details - {{ isEditing ? "Edit" : "Add" }}</div>
       </div>
        <!-- {{ Id }} -->
-      <!-- <pre>{{ JSON.stringify(curVendor, null, 2) }}</pre>   -->
+      <pre>{{ JSON.stringify(curVendor, null, 2) }}</pre>  
 
 
       <!-- Modal Content (scrollable) -->
@@ -95,9 +95,9 @@
                 class="w-full p-2 mt-2 text-sm border rounded-md focus:ring-indigo-500 focus:border-indigo-500" />
             </div>
             <div class="">
-              <label class="block text-sm font-bold text-gray-600">CSO</label>
+              <label class="block text-sm font-bold text-gray-600">Assiged CSO</label>
               <serach_Input
-                :arrItems="setrso"
+                :arrItems="csoList"
                 v-model="curVendor.csoId"
                 @selectItem="GetSelectCso"
               />
@@ -366,7 +366,7 @@ export default {
       err: {},
       imageroot: "",
       showLoading: null,
-           isEdit: false,
+      isEdit: false,
       listTemp: [{ id: 1, value: 'abc' }, { id: 2, value: 'def' }],
     };
   },
@@ -402,7 +402,7 @@ export default {
       }
     },
 
-    setrso() {
+    csoList() {
       return this.vendorStore?.initVendor?.listRSOs || [];
     },
 
@@ -498,7 +498,7 @@ export default {
           for (let [key, value] of formData.entries()) {
             console.log(`${key}:`, value);
           }
-          // await this.vendorStore.AddEditVendor(formData, this.showLoading);
+          await this.vendorStore.AddEditVendor(formData, this.showLoading);
           this.$emit("close")
           this.isEdit = false;
         } else {
@@ -548,7 +548,7 @@ export default {
       formData.append("ShopAddress2", this.curVendor.shopAddress2 || "");
       // formData.append("DistrictId", this.curVendor.districtId);
       formData.append("CityId", this.curVendor.cityId );
-      formData.append("CsoId", this.curVendor.csoId );;
+      formData.append("CSONo", this.curVendor.csoId );;
       formData.append("VendorImageFile", this.curVendor.vendorImageFile || "");
       formData.append("BRCopyFile", this.curVendor.brCopyImage || "");
       formData.append("ShopLogoPath", this.curVendor.shopLogo || "");
