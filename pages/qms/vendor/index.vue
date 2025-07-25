@@ -31,9 +31,9 @@
     </div>
     <!-- {{ vendorStore.listVendor }} -->
     <div v-for="vd in vendorStore.listVendor" :key="vd.id">
-      <div class="flex flex-col gap-0 p-4 mt-2  border rounded-lg shadow-sm sm:p-6" :class="{
+      <div class="flex flex-col gap-0 p-4 mt-2  border-2 rounded-md shadow-md sm:p-4" :class="{
         'bg-red-50': vd.isActive === false,
-        'bg-gray-50': vd.isActive === true,
+        'bg-white': vd.isActive === true,
         'bg-white': vd.isActive === undefined
       }">
         <div class="flex flex-col gap-4 sm:flex-row sm:justify-between sm:items-start">
@@ -55,8 +55,13 @@
                   class="cursor-pointer"
                   @click="handleQrClick(vd)"
                   title="Click to open store and PDF"
-                >
-                  <ImageLable :imageUrl="imageroot + '/' + vd.qrImageUrl" alt="QR Code" />
+                >              
+                  
+                   <img 
+                        :src="imageroot + '/' + vd.qrImageUrl"   v-if="vd.qrImageUrl"                      
+                        class="object-cover w-16 h-16 rounded-md"
+                        title="Store QR"
+                      />
                 </span>
               </p>
 
@@ -214,11 +219,11 @@
             <Order />
           </div>
           <div v-if="vendorTabs[vd.id] === 'viewMore'">
-            <!-- <p>DviewMore {{ vd.id }}</p> -->
-            <MoreVendor v-if="isAddEdit" @close="isAddEdit = !isAddEdit" />
+            <MoreVendor :vendorId="vd.id"/>
           </div>
           <div v-if="vendorTabs[vd.id] === 'edit'">
-            <AddEdit v-if="isAddEdit" @close="isAddEdit = !isAddEdit" />
+            <AddEdit :Id="vd.id"/>
+            <!-- <AddEdit v-if="isAddEdit" @close="isAddEdit = !isAddEdit" /> -->
           </div>
           <div v-if="vendorTabs[vd.id] === 'workFlow'">
             <WorkFlow :vendorId="vd.id" />
@@ -322,7 +327,7 @@ export default {
 
       const route = useRoute();
       let val = route.query.p;
-
+   
       let isGuid = false;
       if (val !== undefined) isGuid = val.includes('-');
 
@@ -347,17 +352,14 @@ export default {
 
   handleQrClick(vd) {
     const pdfUrl = this.imageroot + vd.qrPdfUrl;
-    const storeUrl = vd.storeUrl;
- 
-
+    const storeUrl =  vd.storeUrl;
     // Open storeUrl in new tab
-    const winStore = window.open(storeUrl, '_blank');
-
-
-
+      console.log(storeUrl)
+    window.open(storeUrl, '_blank');
     // Open pdfUrl in current tab
-    window.location.href = pdfUrl;
-
+  
+    window.open(pdfUrl, '_blank');
+    
     // If you want qrImageUrl, consider opening it from that page or via a link
   }
 ,

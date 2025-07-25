@@ -16,6 +16,8 @@ actions: {
 
     //loadInitVendor
     async loadInitVendor(showLoading) {
+       console.log('API-InitVendor');
+  
       try {
         const response = await axios.get(
           `${import.meta.env.VITE_API_URL}/qms/Vendor/InitVendor`
@@ -33,6 +35,8 @@ actions: {
 
      //loadInitLeads
     async GetInitLeads(showLoading) {
+       console.log('API-GetInitLeads');
+
       try {
         const response = await axios.get(
           `${import.meta.env.VITE_API_URL}/qms/Leads/GetInitLeads`
@@ -50,6 +54,8 @@ actions: {
 
     //loadListLeads
     async loadListLeads(req, showLoading) {
+       console.log('API-GetVendorLeads');
+    console.log(JSON.stringify(req));
     
       
       const loadingAlert = showLoading("");
@@ -85,6 +91,8 @@ actions: {
 
     //Add Lead
     async SetVendorLead(curLead, showLoading,showAlert) {
+       console.log('API-SetVendorLead');
+      console.log(JSON.stringify(curLead));
     
       try {
         const response = await axios.post(
@@ -109,6 +117,8 @@ actions: {
 
     //curLead
     async SetUpdateVendorLead(req, showLoading) {
+        console.log('API-SetUpdateVendorLead');
+      console.log(JSON.stringify(req));
      
       try {
         const response = await axios.post(
@@ -135,6 +145,9 @@ actions: {
 
     //Add vendor to a lead
     async GetAssignSalesRef(req, showLoading) {
+       console.log('API-GetAssignSalesRef');
+      console.log(JSON.stringify(req));
+      
       const loadingAlert = showLoading("");
       try {
         const response = await axios.post(
@@ -144,7 +157,9 @@ actions: {
 
         loadingAlert.close();
         if (response.data.isSuccess) {
-          this.showToast(response.data.message,"success");
+          this.showToast(response.data.message,"success");                  
+          this.listLeads = response.data.data.data;
+
         } else {
          
           this.showToast(response.data?.Message || "Save failed", "error");
@@ -157,6 +172,8 @@ actions: {
 
     //Add new city
     async SetNewCity(req, showAlert) {
+      console.log('API-SetNewCity');
+      console.log(JSON.stringify(req));
      
       try {
         const response = await axios.post(

@@ -6,19 +6,19 @@
         <!-- Image Above the Heading -->
         <div class="flex flex-col items-center mb-6 text-center">
           <!-- hide Img -->
-          <!-- <img
+          <img
             src="/assets/img/b2b/BtoBLogo.png"
             alt="B2B.lk Logo"
             class="w-42 h-24 mb-4"
-          /> -->
-          <!-- <h3 class="text-3xl font-bold text-gray-900">
+          />
+          <h3 class="text-3xl font-bold text-gray-900">
             Vendor Registration
-          </h3> -->
-          <!-- <p class="mt-3 text-gray-700 max-w-2xl">
+          </h3>
+          <p class="mt-3 text-gray-700 max-w-2xl">
             Welcome to the <span class="font-medium text-textColor">B2B.lk marketplace </span>!  
             To get started, please provide your company details below, including all required information to register as a new vendor.  
             
-            </p> -->
+            </p>
         </div>
         <div class="grid grid-cols-2 gap-4 mt-12 mb-4 sm:grid-cols-2 md:grid-cols-2">
           <div>

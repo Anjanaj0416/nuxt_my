@@ -1,266 +1,46 @@
 <template>
-    <section class="justify-center min-h-screen px-4 mt-24 mb-20 lg:px-60">
-      <div class="text-2xl uppercase">Invoice DataSummery Report</div>
-      <div class="bg-gradient-to-r from-blue-900 via-indigo-700 to-blue-600 shadow-md rounded-lg p-6 mt-10 mb-10 border text-white">
-        <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
-          <div>
-            <label class="block mb-1 font-medium">From</label>
-            <div class="relative">
-              <input 
-                type="date" 
-                v-model="dateFrom"
-                placeholder="Enter Designation" 
-                @change="logSelectedDates"
-                required
-                class="w-full p-2 mt-2 text-gray-900 text-sm border rounded-md focus:ring-indigo-500 focus:border-indigo-500" 
-              />
-            </div>
-          </div>
-          <div>
-            <label class="block mb-1 font-medium">To</label>
-            <div class="relative">
-              <input 
-                type="date" 
-                v-model="dateTo"
-                placeholder="Enter Designation" 
-                @change="logSelectedDates"
-                required
-                class="w-full p-2 mt-2 text-sm border text-gray-900 rounded-md focus:ring-indigo-500 focus:border-indigo-500 dark:text-gray-900" 
-              />
-            </div>
-          </div>
-        </div>
-      </div>
-
-      <p 
-        v-if="!dateFrom || !dateTo" 
-        class="text-sm text-gray-500 italic text-center"
-      >
-        Please select date range.
-      </p>
-
-
-      <!-- <div class="bg-white p-6 rounded shadow border mt-6">
-        <p class="text-sm text-gray-500 italic text-center">Report preview will appear here after selection.</p>
-        <h2 class="text-lg font-semibold mb-4">Generated Reports</h2>
-        <ul class="space-y-4">
-          <li class="flex items-center justify-between border p-4 rounded hover:bg-gray-50 transition">
-            <div class="flex items-center space-x-3">
-              <i class="fas fa-file-alt text-blue-600 text-xl"></i>
-              <span class="text-gray-800 font-medium">January 2025 - Matara Arachchi</span>
-            </div>
-            <a
-              href="http://localhost:3000/hr/reports/overtime_individual_summery_report?user=JohnDoe&month=01&year=2025"
-              target="_blank"
-              class="text-blue-600 hover:underline text-sm"
-            >
-              View
-            </a>
-          </li>
-          <li class="flex items-center justify-between border p-4 rounded hover:bg-gray-50 transition">
-            <div class="flex items-center space-x-3">
-              <i class="fas fa-file-alt text-blue-600 text-xl"></i>
-              <span class="text-gray-800 font-medium">February 2025 - Nimal</span>
-            </div>
-            <a
-              href="http://localhost:3000/hr/reports/overtime_individual_summery_report?user=JaneSmith&month=02&year=2025"
-              target="_blank"
-              class="text-blue-600 hover:underline text-sm"
-            >
-              View
-            </a>
-          </li>
-        </ul>
-      </div> -->
-
-
-    </section>
+  <section class="my-20 mx-10">
+    <InvoiceDataSummeryReport v-if="reportNo === 'R901'" />
+    <ReceiptDataSummaryReport v-if="reportNo === 'R902'" />
+    <UnsettledAdvancesReport v-if="reportNo === 'R903'" />
+    <DebtorOSReport v-if="reportNo === 'R904'" />
+    <CommissionCalculationReport v-if="reportNo === 'R905'" />
+  </section>
 </template>
 
+<script setup>
+import { ref, watch } from 'vue';
+import { useRoute } from 'vue-router';
 
-  
-  <script>
+import InvoiceDataSummeryReport from "~/components/qms/reports/InvoiceDataSummeryReport.vue";
+import ReceiptDataSummaryReport from "~/components/qms/reports/ReceiptDataSummaryReport.vue";
+import UnsettledAdvancesReport from "~/components/qms/reports/UnsettledAdvancesReport.vue";
+import DebtorOSReport from "~/components/qms/reports/DebtorOSReport.vue";
+import CommissionCalculationReport from "~/components/qms/reports/CommissionCalculationReport.vue";
 
- import { useRoute } from 'vue-router'
- import { useUserStore } from "~/stores/modules/userStore";
- import { useQuotationStore } from '~/stores/modules/qms/quotationStore';
+// get current route
+const route = useRoute();
+const reportNo = ref(route.query.p || null);
 
- 
- import LinkBtn from "~/components/customcontrol/Link";
-  import Button from "~/components/customcontrol/Button";
-  import selectinput2 from "~/components/customcontrol/selectinput2";
-  import SearchInput from '~/components/customcontrol/SearchInput.vue';
-
- definePageMeta({
-    layout: 'default',   
-    middleware: 'auth',
-   });
-   
-  export default {
-    
-    components: {
-      LinkBtn,
-      Button,
-      selectinput2,
-      SearchInput
-    },
-    props:[''],
-    data() {
-      return {
-        imageroot: "",
-        showLoading: null,
-        dateFrom: '',
-        dateTo: '',
-       
-      }
-    },
-    async mounted() {
-     
-    },
-    async created() {
-      this.quotationStore = useQuotationStore();
-      this.userStore = useUserStore();
-      this.showLoading = this.$showLoading;
-      this.imageroot = this.userStore.loggedUser.resourceURLRoot;
-    },
-    watch: {},
-    computed: {
-  
-    },
-    methods: {
-
-      async logSelectedDates() {
-        if (!this.dateFrom || !this.dateTo) {
-          this.$showToast('Please select both From and To dates', 'warning');
-          return;
-        }
-
-        const req = {
-          from: this.dateFrom,
-          to: this.dateTo,
-        };
-        console.log(req);
-        
-        await this.quotationStore.GetPrintInvoiceReports({ from: this.dateFrom, to: this.dateFrom }, this.$showLoading);
-
-        
-      }
-     
-   
-      //this.$showToast('Login successful!', 'success'); //success ,error ,warning,info
-    },
-    async beforeMount() {
-      // if (this.loggeduser.granted.indexOf('workgroup') > -1 || this.loggeduser.usergroup == 'Supervisor' ) {
-      // } else {
-      //   this.show_error('Not Allowed to access this page')
-      //   this.$router.push('/')
-      // }
-  
-    },
-    head() {
-      return {
-        title: 'Intranet - Digital Tech Labs',
-      }
-    },
+// watch for route query param change (e.g., ?p=R902)
+watch(
+  () => route.query.p,
+  (newVal) => {
+    reportNo.value = newVal;
   }
+);
+</script>
 
-      //Message Usecases
-    //this.$showAlert("Test Login Failed!", "error");
+<style scoped>
+.csscmd {
+  @apply p-2 text-center bg-blue-200 rounded;
+}
+.csscmd:hover {
+  @apply bg-blue-200 cursor-pointer;
+}
 
-    //     this.$showConfirm('Are you sure you want to delete this item?', 'warning').then((result) => {
-    //   if (result) {
-    //     console.log('Item deleted');
-    //   } else {
-    //     console.log('Action canceled');
-    //   }
-    // });
-
-  //    this.$showInput('Please enter your name:').then((input) => {
-  //   if (input) {
-  //     console.log('User input:', input);
-  //   } else {
-  //     console.log('No input or canceled');
-  //   }
-  // });
-
-  // const htmlMessage = `
-  //       <h2 style="color: #007bff;">Hello, Welcome to the Custom HTML Alert!</h2>
-  //       <p>This is a <strong>custom HTML</strong> message with <a href="https://www.example.com" target="_blank" style="color: #007bff;">links</a>.</p>
-  //       <img src="https://via.placeholder.com/150" alt="Sample Image" style="display: block; margin-top: 10px;" />
-  //       <p><em>Note: This is a custom alert with rich HTML content.</em></p>
-  //     `;
-      
-  //     this.$showHtmlAlert(htmlMessage);
-
-  
-  //const loadingAlert = this.$showLoading('Loading...');
-  //loadingAlert.close();
-
-  // const imageUrl = 'https://intranet.sltds.lk/SLTDS/Resource/rainbow/news/GroupPhotoMeetingTheSecretarytotheTreasury.jpg'; 
-  // this.$showImageAlert('Here is your custom image!', imageUrl);
-
-  // this.$showCustomButtons('Are you sure you want to proceed?', 'warning').then((result) => {
-  //   if (result === 'Proceed') {
-  //     console.log('User confirmed to proceed');
-  //   } else {
-  //     console.log('User canceled the action');
-  //   }
-  // });
-
- //End Message Usecases
-  
-  //Validation
-  //-------------------------------------------------
-  // async cmdSearchOrg(){
-  //       if(this.isAtleasetOneExisitsForSearch()){
-  //      await this.getOrganizationData(this.organizationSearch);
-  //       }
-  //     },
-  
-  // 	-------------------
-  
-  
-  //  isAtleasetOneExisitsForSearch(){
-  //  let isAtleasetOneExisitsForSearch = false;
-  
-  
-  //  if(this.organizationSearch.person.trim()!='' ){
-  //         if( this.organizationSearch.person.trim().length  <= 3 ){
-  //             this.show_error('Invalid person , More than three Letters Requied for search');
-  //         }
-  //         else{ isAtleasetOneExisitsForSearch = true;}
-  
-  //       }
-  // 	  return isAtleasetOneExisitsForSearch;
-  // 	  }
-
-     // GetCityById() {
-    //   return (id) => {
-    //     try {
-    //       let objCity = this.vendorStore.initVendor.listCities.filter((city) => {
-    //         return city.id == id
-    //       })[0]
-    //       return objCity.value
-    //     } catch {
-    //       return ''
-    //     }
-    //   }
-    // },
-  </script>
-  
-  <style scoped>
-  .csscmd{
-    @apply p-2 text-center bg-blue-200 rounded;
-  }
-  .csscmd:hover{
-    @apply bg-blue-200 cursor-pointer;
-  }
-  
-  .cssBox {
-    border: 1px solid;
-    @apply border-gray-500 rounded p-2;
-  }
-  </style>
-  
-  
-  
+.cssBox {
+  border: 1px solid;
+  @apply border-gray-500 rounded p-2;
+}
+</style>
