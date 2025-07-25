@@ -222,7 +222,7 @@
             <MoreVendor :vendorId="vd.id"/>
           </div>
           <div v-if="vendorTabs[vd.id] === 'edit'">
-            <AddEdit :Id="vd.id" @close="vendorTabs[vd.id] = ''; quotationStore.curVendorId = null" />
+            <AddEdit :key="vd.id" :Id="vd.id" @close="vendorTabs[vd.id] = ''; quotationStore.curVendorId = null" />
             <!-- <AddEdit v-if="isAddEdit" @close="isAddEdit = !isAddEdit" /> -->
           </div>
           <div v-if="vendorTabs[vd.id] === 'workFlow'">

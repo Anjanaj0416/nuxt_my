@@ -5,7 +5,7 @@
           <div class="text-2xl uppercase mb-4"> Vendor Details - {{ isEditing ? "Edit" : "Add" }}</div>
       </div>
        <!-- {{ Id }} -->
-      <pre>{{ JSON.stringify(curVendor, null, 2) }}</pre>  
+      <!-- <pre>{{ JSON.stringify(curVendor, null, 2) }}</pre>   -->
 
 
       <!-- Modal Content (scrollable) -->
@@ -98,10 +98,10 @@
               <label class="block text-sm font-bold text-gray-600">Assiged CSO</label>
               <serach_Input
                 :arrItems="csoList"
-                v-model="curVendor.csoId"
+                ref="refCso"
+                v-model="curVendor.csoNo"
                 @selectItem="GetSelectCso"
               />
-
             </div>
 
           </div>
@@ -339,7 +339,7 @@ export default {
         districtId: "",
         city: "",
         cityId: "",
-        csoId:"",
+        csoNo:"",
         description: "",
         brCopyImage: "",
         // brCopyFile: null,
@@ -446,8 +446,10 @@ export default {
     }
 
     this.$refs.refCity.initItem(this.curVendor.cityId);
+    this.$refs.refCso?.initItem(this.curVendor.csoNo);
     // this.$refs.refDistrict.initItem(this.curVendor.district);
   },
+  
   methods: {
     closeModal() {
       this.isOpen = false;
@@ -477,12 +479,50 @@ export default {
     },
     onSelectRSO(selectedId) {
       console.log("Selected RSO from native select:", selectedId);
-      this.curVendor.csoId = selectedId;
+      this.curVendor.csoNo = selectedId;
     },
+
+    clearCurVendor() {
+      this.curVendor = {
+        Id: "",
+        customerRef: "",
+        shopWeb: "",
+        storeUrl: "",
+        shopEmail: "",
+        shopName: "",
+        shopContactNo: "",
+        shopAddress1: "",
+        shopAddress2: "",
+        districtId: "",
+        cityId: "",
+        csoId: "",
+        vendorImageFile: "",
+        brCopyImage: "",
+        shopLogo: "",
+        brNumber: "",
+        vatNo: "",
+        description: "",
+        shopContactPersonName: "",
+        shopContactPersonDesignation: "",
+        shopContactPersonBDate: "",
+        shopContactPersonPhone: "",
+        shopContactPersonEmail: "",
+        authorisePersonName: "",
+        authorisePersonBDate: "",
+        authorisePersonPhone: "",
+        authorisePersonEmail: "",
+        bankName: "",
+        branch: "",
+        accountNumber: "",
+        holderName: "",
+        isActive: true,
+      };
+    },
+
     GetSelectCso(selectedItem) {
       // console.log("Selected CSO from search input:", selectedItem);
       if (selectedItem && selectedItem.id) {
-        this.curVendor.csoId = selectedItem.id;
+        this.curVendor.csoNo = selectedItem.id;
       }
     },
 
@@ -499,6 +539,7 @@ export default {
             console.log(`${key}:`, value);
           }
           await this.vendorStore.AddEditVendor(formData, this.showLoading);
+          this.clearCurVendor();
           this.$emit("close")
           this.isEdit = false;
         } else {
@@ -548,7 +589,7 @@ export default {
       formData.append("ShopAddress2", this.curVendor.shopAddress2 || "");
       // formData.append("DistrictId", this.curVendor.districtId);
       formData.append("CityId", this.curVendor.cityId );
-      formData.append("CSONo", this.curVendor.csoId );;
+      formData.append("CSONo", this.curVendor.csoNo );;
       formData.append("VendorImageFile", this.curVendor.vendorImageFile || "");
       formData.append("BRCopyFile", this.curVendor.brCopyImage || "");
       formData.append("ShopLogoPath", this.curVendor.shopLogo || "");

@@ -74,7 +74,7 @@ export const useVendorStore = defineStore("vendorStore", {
       loadingAlert.close();
       if (response.data.isSuccess) {
         this.curVendor = response.data.data.data;
-        //this.showToast(response.data.message);
+        this.showToast(response.data.message);
       } else {
         this.showToast(response.data.message, "error");
       }
@@ -102,6 +102,7 @@ export const useVendorStore = defineStore("vendorStore", {
         );
 
         loadingAlert.close();
+        console.log("Response Data:", response.data);
 
         if (response.data.isSuccess) {         
           this.showToast(response.data.message,"success");       
