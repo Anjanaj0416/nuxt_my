@@ -9,8 +9,8 @@
       <div class="flex items-center justify-between px-6 py-4 bg-gray-900 shadow-md">
         <!-- Logo -->
         <router-link to="/dashboard" class="flex items-center space-x-2">
-            <!-- hide Img -->
-          <img src="/assets/img/LogoDigitalTechLab.png" alt="Logo" class="h-auto rounded-full w-28" />
+          <!-- hide Img -->
+          <!-- <img src="/assets/img/LogoDigitalTechLab.png" alt="Logo" class="h-auto rounded-full w-28" /> -->
         </router-link>
         <!-- Close Button -->
         <button @click="$emit('close-sidebar')"
@@ -197,6 +197,10 @@ const links = [
       {
         name: "Manual Attendance",
         to: "/hr/manualAttendance",
+      },
+      {
+        name: "Attendance Correction",
+        to: "/hr/attendanceCorrection",
       },
       {
         name: "Reports",
