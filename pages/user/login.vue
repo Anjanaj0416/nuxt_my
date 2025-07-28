@@ -196,19 +196,22 @@ export default {
         } else {
           this.$showToast("Login successful!", "success");
           try {
-            console.log(this.userStore.loggedUser);
-            const redirectToCookie = useCookie("redirectTo");
-            console.log("redirectToCookie:", redirectToCookie.value);
+            
+            const redirectToCookie = useCookie("redirectTo");        
+          
 
-            if (redirectToCookie.value != "") {
-              console.log("redirectToCookie:", redirectToCookie.value);
+            if(redirectToCookie.value === undefined && this.userStore.redirectTo!=''){
+              this.$router.push(this.userStore.redirectTo);
+            }
+            else if (redirectToCookie.value != "") {
+            
               this.$router.push(redirectToCookie.value);
             } else {
-              console.log("redirectToCookie:", redirectToCookie.value);
+            
               this.$router.push("/dashboard");
             }
           } catch (error) {
-            console.log("error:", error);
+           
             this.$router.push("/dashboard");
           }
         }

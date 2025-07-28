@@ -190,7 +190,7 @@
       //this.$showToast('Login successful!', 'success'); //success ,error ,warning,info
     },
     async beforeMount() {
-      
+      console.log(this.userStore.loggeduser.granted)
       if (this.userStore.loggeduser && !this.userStore.loggeduser.granted.contains('english') ) {
       } else {        
         this.$router.push('/user/login')
