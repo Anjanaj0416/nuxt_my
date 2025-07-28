@@ -482,6 +482,11 @@ export default {
       );
     },
 
+    curVendor() {
+      return this.vendorStore.curVendor;
+    },
+
+
     getDistinctDistricts() {
       try {
         const districtsMap = new Map();
@@ -534,7 +539,7 @@ export default {
   async created() {
     this.vendorStore = useVendorStore();
     this.userStore = useUserStore();
-    this.curVendor = this.vendorStore.curVendor;
+    // this.curVendor = this.vendorStore.curVendor;
     // console.log(JSON.stringify(this.curVendor, null, 2 ));
     this.imageroot = this.userStore.loggedUser.resourceURLRoot;
     this.showLoading = this.$showLoading;

@@ -158,7 +158,7 @@
 
 
             <button v-if="vendorTabs[vd.id] !== 'viewMore'"
-              @click="vendorTabs[vd.id] = 'viewMore'; quotationStore.curVendorId = vd.id" :class="[
+              @click="vendorTabs[vd.id] = 'viewMore'; quotationStore.curVendorId = vd.id ; GoToView(vd.id)" :class="[
                 'p-4 border-b-2 rounded-t-lg text-center',
                 vendorTabs[vd.id] === 'viewMore'
                   ? 'text-blue-600 border-blue-600 dark:text-blue-500 '
@@ -426,6 +426,10 @@ export default {
     GoToAddNew() {
       this.vendorStore.ResetVendor();
       this.isAddEdit = true;
+    },
+
+    async GoToView(id) {
+      await this.vendorStore.GetVendorById(id, this.showLoading);
     },
 
     async GoToAddEdit(id) {
