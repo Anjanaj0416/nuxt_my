@@ -1,5 +1,5 @@
 <template>
-  <div class="flex flex-wrap justify-center px-4 py-2 space-x-3 text-sm font-medium text-white bg-purple-700" role="alert">
+  <div class="flex flex-wrap justify-center px-4 py-2 space-x-3 text-sm font-medium text-white bg-purple-700 sticky" role="alert">
     <span class="font-medium">Info alert! </span> Change a few things up and try submitting again.
   </div>
 
@@ -16,7 +16,7 @@
       <!-- Center: Logo -->
       <div class="text-center flex-1">
         <img
-          src="/assets/img/b2b/BtoBLogo.png"
+          src="/assets/img/b2b/BtoBNewsLogo.png"
           alt="B2B.lk Logo"
           class="mx-auto h-24 mb-2"
         />
@@ -25,12 +25,21 @@
 
       <!-- Right: Weather + Buttons -->
       <div class="flex items-center space-x-4 text-sm">
-        <div class="text-center">
-          <!-- <div class="text-gray-700">Colombo</div>
-          <div class="flex items-center justify-center">
-            🌤️ <span class="ml-1">27°C</span>
-          </div> -->
-        </div>
+    <!-- Social Media Icons -->
+    <div class="flex space-x-3 text-gray-600">
+      <a href="#" aria-label="Facebook" class="hover:text-blue-600">
+        <i class="fab fa-facebook-f"></i>
+      </a>
+      <a href="#" aria-label="Twitter" class="hover:text-sky-500">
+        <i class="fab fa-twitter"></i>
+      </a>
+      <a href="#" aria-label="Instagram" class="hover:text-pink-600">
+        <i class="fab fa-instagram"></i>
+      </a>
+      <a href="#" aria-label="LinkedIn" class="hover:text-blue-700">
+        <i class="fab fa-linkedin-in"></i>
+      </a>
+    </div>
       </div>
     </div>
 

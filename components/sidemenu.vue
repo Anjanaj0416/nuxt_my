@@ -123,9 +123,9 @@ const filteredLinks = computed(() => {
     if (!link || !link.name) return false;
 
     // Only show CRM if user has sso or flo
-    if (link.name === 'CRM') {
-      return granted.value.includes('sso') || granted.value.includes('flo') || granted.value.includes('su') || granted.value.includes('cso');
-    }
+    // if (link.name === 'CRM') {
+    //   return granted.value.includes('sso') || granted.value.includes('flo') || granted.value.includes('su') || granted.value.includes('cso');
+    // }
 
     return true; // Show all other links
   });

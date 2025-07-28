@@ -370,12 +370,29 @@ export default {
       listTemp: [{ id: 1, value: 'abc' }, { id: 2, value: 'def' }],
     };
   },
+
+  watch: {
+    curVendor: {
+      handler(newVal) {
+        if (newVal && newVal.id) {
+          // console.log('curVendor updated in AddEdit.vue:', JSON.stringify(newVal, null, 2));
+        }
+      },
+      immediate: true,
+      deep: true
+    }
+  },
+
   computed: {
     isEditing() {
       return (
         this.curVendor &&
         this.curVendor.id !== "00000000-0000-0000-0000-000000000000"
       );
+    },
+
+    curVendor() {
+      return this.vendorStore.curVendor;
     },
 
 
@@ -432,7 +449,7 @@ export default {
     this.vendorStore = useVendorStore();
     this.userStore = useUserStore();
     this.curVendor = this.vendorStore.curVendor;
-    // console.log(JSON.stringify(this.curVendor, null, 2 ));
+    console.log(JSON.stringify(this.curVendor, null, 2 ));
     this.imageroot = this.userStore.loggedUser.resourceURLRoot;
     this.showLoading = this.$showLoading;
   },
