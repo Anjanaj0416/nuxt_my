@@ -70,7 +70,8 @@ export const useVendorStore = defineStore("vendorStore", {
        
     try {
       const response = await axios.get(`${import.meta.env.VITE_API_URL}/qms/Vendor/GetVendorById?id=`+id );
-
+      console.log(response);
+      
       loadingAlert.close();
       if (response.data.isSuccess) {
         this.curVendor = response.data.data.data;
