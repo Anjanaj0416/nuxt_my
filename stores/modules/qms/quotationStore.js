@@ -252,10 +252,13 @@ export const useQuotationStore = defineStore("QuotationStore", {
             import.meta.env.VITE_API_URL
           }/qms/Quotation/GetLoadQuotationVersions?id=${id}`
         );
+            console.log(response);
+
         loadingAlert.close();
         if (response.data.isSuccess) {
           if (response.data.data.count == 0) {
             this.listQuotationVerions = [];
+            
           } else {
             this.listQuotationVerions = response.data.data.data;
           }

@@ -75,6 +75,8 @@ export const useVendorStore = defineStore("vendorStore", {
       loadingAlert.close();
       if (response.data.isSuccess) {
         this.curVendor = response.data.data.data;
+        console.log('response:',response);
+
         this.showToast(response.data.message);
       } else {
         this.showToast(response.data.message, "error");

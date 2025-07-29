@@ -1,6 +1,6 @@
 <template>
     <div>
-      <section class="justify-center min-h-screen px-4 lg:px-80">
+      <section class="justify-center min-h-screen px-4 lg:px-64 mt-20">
         <h1 class="mt-8 text-4xl font-semibold tracking-tight text-gray-700 text-balance sm:text-5xl">Member Details</h1>
         <div class="flex flex-col items-center justify-between mt-10 md:flex-row">
           <div class="w-full md:w-auto">
@@ -42,12 +42,32 @@
           </div>
         </div>
   
-        <div class="flex flex-wrap gap-4 p-4 mt-10 mb-2 ">
+        <div class="flex flex-wrap gap-4 px-4 mt-8 mb-0 ">
           <!-- Left Section: Fields -->
-          <div class="grid flex-1 grid-cols-2 gap-y-4">
-            <div v-for="(item, index) in filteredBankData" :key="'bank-' + index">
-              <label class="text-base font-semibold text-gray-600">{{ item.label }} :</label>
-              <p class="text-sm text-gray-500">{{ item.value }}</p>
+          <div class="grid flex-1 grid-cols-2 ">
+            <div>
+              <label class="text-base font-semibold text-gray-600">Bank Name</label>
+              <p class="text-sm text-gray-500">ABC Bank</p>
+            </div>
+            <div>
+              <label class="text-base font-semibold text-gray-600">Bank Branch</label>
+              <p class="text-sm text-gray-500">Kottawa</p>
+            </div>
+            <div>
+              <label class="text-base font-semibold text-gray-600">Bank Branch Code</label>
+              <p class="text-sm text-gray-500">ABC12345</p>
+            </div>
+            <div>
+              <label class="text-base font-semibold text-gray-600">Bank Account No</label>
+              <p class="text-sm text-gray-500">58741269</p>
+            </div>
+            <div>
+              <label class="text-base font-semibold text-gray-600">Bank Swift Code</label>
+              <p class="text-sm text-gray-500">ABC12345</p>
+            </div>
+            <div>
+              <label class="text-base font-semibold text-gray-600">Sales officer No</label>
+              <p class="text-sm text-gray-500">rso21</p>
             </div>
           </div>
   
@@ -73,7 +93,7 @@
           </div>
         </div>
 
-        <div class="grid gap-4 p-4 mt-0 mb-0">
+        <div class="grid gap-4 px-4 mt-0 mb-0">
             <!-- Personal Information Header -->
             <h2 class="mt-10 text-lg font-semibold text-gray-700">Dependent Details</h2>
             <hr>
@@ -86,24 +106,24 @@
                 </button>
             </div>
             <!-- Display Bank Information -->
-            <div class="grid flex-1 grid-cols-3 mt-3 gap-y-2">
+            <div class="grid flex-1 grid-cols-3 mt-2 gap-y-2">
                 <div v-for="(item, index) in filteredDepartmentDataData" :key="'departmentData-' + index">
-                  <div class="relative w-full max-w-sm px-4 pt-1 pb-2 bg-white border border-gray-200 rounded-lg shadow-sm dark:bg-gray-800 dark:border-gray-700">
+                  <div class="relative w-full max-w-sm px-4 pt-1 pb-2 bg-white border border-gray-200 rounded-lg shadow-sm ">
                     <div v-if="item.showDependent" class="absolute px-3 py-1 text-xs font-semibold text-white bg-blue-500 rounded-r-lg shadow-md -left-2 top-4">
                       Dependent
                     </div>
                     <div class="flex justify-end px-4 pt-4">
-                      <button id="dropdownButton" data-dropdown-toggle="dropdown" class="inline-block text-gray-500 dark:text-gray-400 hover:bg-gray-100 dark:hover:bg-gray-700 focus:ring-4 focus:outline-none focus:ring-gray-200 dark:focus:ring-gray-700 rounded-lg text-sm p-1.5" type="button">
+                      <button id="dropdownButton" data-dropdown-toggle="dropdown" class="inline-block text-gray-500  hover:bg-gray-100 focus:ring-4 focus:outline-none focus:ring-gray-200 rounded-lg text-sm p-1.5" type="button">
                         Edit
                       </button>
                     </div>
                     
                     <div class="flex flex-col items-center pb-10">
                       <img class="w-24 h-24 mb-3 rounded-full shadow-lg" src="/./assets/img/Logo.png" alt="image" />
-                      <h5 class="mb-1 text-xl font-medium text-gray-900 dark:text-white">{{ item.label }}</h5>
-                      <p class="text-sm text-gray-700">Phone: <span class="text-sm text-gray-500 dark:text-gray-400">{{ item.phone }}</span></p>
-                      <p class="text-sm text-gray-700">Nic: <span class="text-sm text-gray-500 dark:text-gray-400">{{ item.NIC }}</span></p>
-                      <p class="text-sm text-gray-700">Register Date: <span class="text-sm text-gray-500 dark:text-gray-400">{{ item.Reg }}</span></p>
+                      <h5 class="mb-1 text-xl font-medium text-gray-900 ">{{ item.label }}</h5>
+                      <p class="text-sm text-gray-700">Phone: <span class="text-sm text-gray-500 ">{{ item.phone }}</span></p>
+                      <p class="text-sm text-gray-700">Nic: <span class="text-sm text-gray-500 ">{{ item.NIC }}</span></p>
+                      <p class="text-sm text-gray-700">Register Date: <span class="text-sm text-gray-500 ">{{ item.Reg }}</span></p>
                     </div>
                   </div>
 
@@ -169,7 +189,7 @@
 
         </div>
 
-  <div class="mt-20"> </div>
+        <div class="mt-20"> </div>
         
       </section>
     </div>
@@ -179,6 +199,11 @@
   import headercomp from '~/components/header';
   import footercomp from '~/components/footer';
  // import viewInvoice from '~/pages/Invoicing/viewInvoice.vue'
+
+ definePageMeta({
+  layout: "society",
+  middleware: "",
+});
   
   export default {
     components: { headercomp, footercomp },

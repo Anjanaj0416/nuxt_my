@@ -14,7 +14,7 @@
   ////import * as myfilter from '@/plugins/myfilter'
  // import { mapState, mapGetters, mapActions, mapMutations } from 'pinia'
  definePageMeta({
-    layout: 'default'
+    layout: 'society'
    });
   export default {
     

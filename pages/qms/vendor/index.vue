@@ -434,7 +434,7 @@ export default {
 
     async GoToAddEdit(id) {
       await this.vendorStore.GetVendorById(id, this.showLoading);
-      this.isAddEdit = true;
+    
     },
 
     async GoToAssignSalesEx(id) {

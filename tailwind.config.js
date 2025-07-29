@@ -42,6 +42,10 @@ module.exports = {
           1000:'#FF0000'
         }
       },
+      Society: {
+         cream: '#FEF3C7',
+      },
+
       fontFamily: {
         sans: ['Inter', 'sans-serif']
       }  
