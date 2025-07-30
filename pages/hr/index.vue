@@ -181,7 +181,7 @@
                 </div>
 
                 <!-- Leave Details -->
-                <div v-show="userStore.loggedUser.userName === emp.empNo || userStore.loggedUser.userGroup === 'hradmin' || userStore.loggedUser.userGroup === 'su' ||
+                <div v-show="userStore.loggedUser.userName === emp.empNo || userStore.loggedUser.userGroup === 'hradmin' || userStore.loggedUser.userGroup === 'su' || userStore.loggedUser.userGroup === 'Supervisor' ||
                   userStore.loggedUser.userGroup?.toLowerCase() === 'admin'
                   " title="Leave Details" @click="
                     init_absense(emp.empNo, emp.id);

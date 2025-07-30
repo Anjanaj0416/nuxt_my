@@ -4,15 +4,14 @@
       <div class=" shadow-md rounded-lg p-6 mt-10 mb-10 border text-white">
     {{ hrStore.alempdetails }}
 
-        <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+        <div class="grid grid-cols-1 md:grid-cols-4 gap-4">
           <div>
             <label class="block text-sm font-bold text-gray-600">Employee</label>
             <div class="relative">
               <select 
                 v-model="selectedEmployee"
-                @change="nanualAdd"
                 required
-                class="w-full p-2 mt-2 text-sm border text-gray-900 rounded-md focus:ring-indigo-500 focus:border-indigo-500 dark:text-gray-900"
+                class="w-60 p-2 mt-2 text-sm border text-gray-900 rounded-md focus:ring-indigo-500 focus:border-indigo-500 dark:text-gray-900"
                 >
                 <option value="">Select an Employee</option>
                 <option value="Nimal">Nimal</option>
@@ -21,27 +20,47 @@
             </div>
           </div>
           <div>
-            <label class="block text-sm font-bold text-gray-600">Employee</label>
+            <label class="block text-sm font-bold text-gray-600">Date</label>
             <div class="relative">
-              <select 
-                v-model="selectedTimeType"
-                @change="nanualAdd"
-                required
-                class="w-full p-2 mt-2 text-sm border text-gray-900 rounded-md focus:ring-indigo-500 focus:border-indigo-500 dark:text-gray-900"
-                >
-                <option value="">Select an option</option>
-                <option value="In Time">In Time</option>
-                <option value="Out Time">Out Time</option>
-               </select>
+            <input
+              v-model="selectedDate"
+              type="date"
+              class="w-40 p-1.5 text-base text-gray-900 bg-white border-2 border-gray-500 rounded-md shadow-sm focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
+            />
             </div>
           </div>
+          <div>
+            <label class="block text-sm font-bold text-gray-600">In Time</label>
+            <div class="relative">
+            <input
+              v-model="selectedInTime"
+              type="time"
+              class="w-40 p-1.5 text-base text-gray-900 bg-white border-2 border-gray-500 rounded-md shadow-sm focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
+            />
+            </div>
+          </div>
+          <div>
+            <label class="block text-sm font-bold text-gray-600">Out Time</label>
+            <div class="relative">
+            <input
+              v-model="selectedOutTime"
+              type="time"
+              class="w-40 p-1.5 text-base text-gray-900 bg-white border-2 border-gray-500 rounded-md shadow-sm focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
+            />
+            </div>
+          </div>
+        </div>
+        <div class="">
+          <button type="button" @click="manualAdd" class="text-white mt-5 bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2">
+            Save
+          </button>
         </div>
       </div>
 
 
       <div class="bg-white p-6 rounded shadow border mt-6">
         <h2 class="text-lg font-semibold mb-4">Attendance</h2>
-        <ul class="space-y-4 text-gray-800 text-sm">
+        <!-- <ul class="space-y-4 text-gray-800 text-sm">
             <li v-if="selectedEmployee">Employee: <strong>{{ selectedEmployee }}</strong></li>
             <li v-if="selectedTimeType && selectedTimeValue">
                 Selected Time: <strong>{{ selectedTimeType }} - {{ selectedTimeValue }}</strong>
@@ -49,7 +68,7 @@
             <li v-if="!selectedEmployee || !selectedTimeType" class="text-gray-400 italic">
             Please select employee and time.
             </li>
-        </ul>
+        </ul> -->
       </div>
 
 
@@ -61,7 +80,6 @@
   
   <script>
 
- import { useRoute } from 'vue-router'
  import { useUserStore } from "~/stores/modules/userStore";
 import { useHrStore } from "~/stores/modules/hrStore";
  
@@ -89,8 +107,9 @@ import { useHrStore } from "~/stores/modules/hrStore";
         imageroot: "",
         showLoading: null,
         selectedEmployee: '',  
-        selectedTimeType: '',     
-        selectedTimeValue: ''
+        selectedDate: '',  
+        selectedInTime: '',     
+        selectedOutTime: ''
       }
     },
     async mounted() {
@@ -117,26 +136,16 @@ import { useHrStore } from "~/stores/modules/hrStore";
     },
     methods: {
 
-      async nanualAdd() {
-        if (!this.selectedEmployee || !this.selectedTimeType) {
-          this.$showToast('Please select both Employee and In,Out', 'warning');
-          return;
-        }
-
+      async manualAdd() {
         const req = {
-          selectedEmployee: this.selectedEmployee,
-          selectedTimeType: this.selectedTimeType,
-          selectedTimeValue: this.selectedTimeValue,
+          empNo: "dev",
+          date: this.selectedDate,
+          inTime: this.selectedInTime,
+          outTime: this.selectedOutTime,
+          dayType: 505,
         };
-        console.log(req);
-        
-        // await this.hrStore.GetPrintHrReports({ dateFrom: this.dateFrom, dateTo: this.dateFrom }, this.$showLoading);
-
-        
+        await this.hrStore.setManualAttendenceRecord(req, this.$showLoading);
       }
-     
-   
-      //this.$showToast('Login successful!', 'success'); //success ,error ,warning,info
     },
     async beforeMount() {
       // if (this.loggeduser.granted.indexOf('workgroup') > -1 || this.loggeduser.usergroup == 'Supervisor' ) {

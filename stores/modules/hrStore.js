@@ -163,8 +163,12 @@ export const useHrStore = defineStore("hrStore", {
       };
     },
 
-    //addEditEmployee
+    //Employee//
+
     async AddEdiEmployee(formData, showLoading) {
+      console.log('API-AddEdiEmployee');
+      console.log(JSON.stringify(formData));
+
       const loadingAlert = showLoading("");
       try {
         const response = await axios.post(
@@ -193,7 +197,6 @@ export const useHrStore = defineStore("hrStore", {
       }
     },
 
-    //loadInitEmployee
     async loadInitEmployee(showLoading) {
       try {
         const response = await axios.get(
@@ -211,8 +214,82 @@ export const useHrStore = defineStore("hrStore", {
       }
     },
 
-    //GetUpdateEmployeeDetails
+    async getInitEmployee() {
+      try {
+        const response = await axios.get(
+          `${import.meta.env.VITE_API_URL}/hr/Employee/GetInitEmployee`
+        );
+
+        if (response.data.isSuccess) {
+          this.initData.initEmployee = response.data.data.data || [];
+          this.showToast("Loading successful!", "success");
+        } else {
+          console.error("Loading error:", response.data.message);
+          // this.showToast(response.data.message, 'error');
+        }
+      } catch (error) {
+        console.error("Loading error:", error);
+        // this.showToast(error.response.data.Message, 'error');
+      }
+    },
+
+    async searchEmployees(req, showLoading) {
+      console.log('API-searchEmployees');
+      console.log(JSON.stringify(req));
+
+      const loadingAlert = showLoading("");
+
+      try {
+        const response = await axios.post(
+          `${import.meta.env.VITE_API_URL}/hr/Employee/SearchEmployees`,
+          req
+        );
+
+        if (response.data.isSuccess) {
+          this.alempdetails =
+            response.data.data.data.alpagedetails[0].alempdetails || [];
+          this.showToast("Loading successful!", "success");
+        } else {
+          console.error("Loading error:", response.data.message);
+          this.showToast(response.data.message, "error");
+        }
+      } catch (error) {
+        console.error("Loading error:", error);
+        this.showToast(error.response.data.Message, "error");
+      }
+      loadingAlert.close();
+    },
+
+    async getEmployeeByID(id, showLoading) {
+      console.log('API-getEmployeeByID');
+      console.log(JSON.stringify(id));
+
+      const loadingAlert = showLoading("");
+      try {
+        const response = await axios.get(
+          `${import.meta.env.VITE_API_URL}/hr/Employee/GetEmployeeByID`,
+          { params: { id: id.empid } }
+        );
+        // console.log("response:",response.data.data.data);
+        if (response.data.isSuccess) {
+          this.curEmployee = response.data.data.data || {};
+          this.empdetails = this.curEmployee;
+          // this.showToast('Loading successful!', 'success');
+        } else {
+          console.error("Loading error:", response.data.message);
+          // this.showToast(response.data.message, 'error');
+        }
+      } catch (error) {
+        console.error("Loading error:", error);
+        this.showToast(error.response.data.Message, "error");
+      }
+      loadingAlert.close();
+    },
+
     async GetUpdateEmployeeDetails(formData, showLoading) {
+      console.log('API-GetUpdateEmployeeDetails');
+      console.log(JSON.stringify(formData));
+
       const loadingAlert = showLoading("");
 
       try {
@@ -236,7 +313,6 @@ export const useHrStore = defineStore("hrStore", {
       }
     },
 
-    //loadInitHRDetails
     async loadInitHRDetails(showLoading) {
       const loadingAlert = showLoading("");
 
@@ -255,10 +331,10 @@ export const useHrStore = defineStore("hrStore", {
       }
     },
 
-    
-
      async GetPrintHrReports(req, showLoading) {
-      console.log("log:", req); // Make sure this logs
+      console.log('API-GetPrintHrReports');
+      console.log(JSON.stringify(req));
+
       const loading = showLoading?.('');
       try {
         const response = await axios.get(
@@ -346,10 +422,6 @@ export const useHrStore = defineStore("hrStore", {
       this.OTApllyDetails.arrOTApply = [];
     },
 
-    async otCancel() {
-      this.OTApllyDetails.ot_hours = 0;
-    },
-
     async getWorkLoadCount() {
       try {
         const response = await axios.get(
@@ -388,74 +460,11 @@ export const useHrStore = defineStore("hrStore", {
       loadingAlert.close();
     },
 
-    async getInitEmployee() {
-      try {
-        const response = await axios.get(
-          `${import.meta.env.VITE_API_URL}/hr/Employee/GetInitEmployee`
-        );
-
-        if (response.data.isSuccess) {
-          this.initData.initEmployee = response.data.data.data || [];
-          this.showToast("Loading successful!", "success");
-        } else {
-          console.error("Loading error:", response.data.message);
-          // this.showToast(response.data.message, 'error');
-        }
-      } catch (error) {
-        console.error("Loading error:", error);
-        // this.showToast(error.response.data.Message, 'error');
-      }
-    },
-
-    async searchEmployees(req, showLoading) {
-      const loadingAlert = showLoading("");
-
-      try {
-        const response = await axios.post(
-          `${import.meta.env.VITE_API_URL}/hr/Employee/SearchEmployees`,
-          req
-        );
-
-        if (response.data.isSuccess) {
-          this.alempdetails =
-            response.data.data.data.alpagedetails[0].alempdetails || [];
-          this.showToast("Loading successful!", "success");
-        } else {
-          console.error("Loading error:", response.data.message);
-          this.showToast(response.data.message, "error");
-        }
-      } catch (error) {
-        console.error("Loading error:", error);
-        this.showToast(error.response.data.Message, "error");
-      }
-      loadingAlert.close();
-    },
-
-    async getEmployeeByID(id, showLoading) {
-      const loadingAlert = showLoading("");
-      try {
-        const response = await axios.get(
-          `${import.meta.env.VITE_API_URL}/hr/Employee/GetEmployeeByID`,
-          { params: { id: id.empid } }
-        );
-        // console.log("response:",response.data.data.data);
-        if (response.data.isSuccess) {
-          this.curEmployee = response.data.data.data || {};
-          this.empdetails = this.curEmployee;
-          // this.showToast('Loading successful!', 'success');
-        } else {
-          console.error("Loading error:", response.data.message);
-          // this.showToast(response.data.message, 'error');
-        }
-      } catch (error) {
-        console.error("Loading error:", error);
-        this.showToast(error.response.data.Message, "error");
-      }
-      loadingAlert.close();
-    },
-
-    //GetPrintAttendanceSheet
+    //Attendence//
     async GetPrintAttendanceSheet(req, showLoading) {
+      console.log('API-GetPrintAttendanceSheet');
+      console.log(JSON.stringify(req));
+
       try {
         const response = await axios.get(
           `${
@@ -476,6 +485,9 @@ export const useHrStore = defineStore("hrStore", {
     },
 
     async getAttendenceByEmp(req, showLoading) {
+      console.log('API-getAttendenceByEmp');
+      console.log(JSON.stringify(req));
+
       const loadingAlert = showLoading("");
       try {
         const response = await axios.post(
@@ -505,6 +517,9 @@ export const useHrStore = defineStore("hrStore", {
     },
 
     async getOTApprovals(req, showLoading) {
+      console.log('API-getOTApprovals');
+      console.log(JSON.stringify(req));
+
       const loadingAlert = showLoading("");
       try {
         console.log("req:", req);
@@ -534,6 +549,9 @@ export const useHrStore = defineStore("hrStore", {
     },
 
     async setOTManual(req, showLoading) {
+      console.log('API-setOTManual');
+      console.log(JSON.stringify(req));
+
       const loadingAlert = showLoading("");
       try {
         console.log("req:", req);
@@ -557,6 +575,9 @@ export const useHrStore = defineStore("hrStore", {
     },
 
     async setOTApproval(req, showLoading) {
+      console.log('API-setOTApproval');
+      console.log(JSON.stringify(req));
+
       const loadingAlert = showLoading("");
       try {
         console.log("req:", req);
@@ -596,6 +617,9 @@ export const useHrStore = defineStore("hrStore", {
     },
 
     async setDeleteOTApproval(req, showLoading) {
+      console.log('API-setDeleteOTApproval');
+      console.log(JSON.stringify(req));
+
       const loadingAlert = showLoading("");
       try {
         console.log("req:", req);
@@ -618,6 +642,9 @@ export const useHrStore = defineStore("hrStore", {
     },
 
     async getReCalcOT(req, showLoading) {
+      console.log('API-getReCalcOT');
+      console.log(JSON.stringify(req));
+
       const loadingAlert = showLoading("");
       try {
         console.log("req:", req);
@@ -639,7 +666,14 @@ export const useHrStore = defineStore("hrStore", {
       loadingAlert.close();
     },
 
+    async otCancel() {
+      this.OTApllyDetails.ot_hours = 0;
+    },
+
     async setManualRectification(req, showLoading) {
+      console.log('API-setManualRectification');
+      console.log(JSON.stringify(req));
+
       const loadingAlert = showLoading("");
       try {
         console.log("req:", req);
@@ -677,7 +711,46 @@ export const useHrStore = defineStore("hrStore", {
       loadingAlert.close();
     },
 
+    async setManualAttendenceRecord(req, showLoading) {
+      console.log('API-SetManualAttendenceRecord');
+      console.log(JSON.stringify(req));
+
+      const loadingAlert = showLoading("");
+      try {
+        console.log("req:", req);
+        const response = await axios.get(
+          `${
+            import.meta.env.VITE_API_URL
+          }/hr/Attendance/SetManualAttendenceRecord`,
+          {
+            params: {
+              empNo: req.empNo,
+              date: req.date,
+              inTime: req.inTime,
+              outTime: req.outTime,
+              dayType: req.dayType,
+            },
+          }
+        );
+        console.log("response:", response);
+        if (response.data.isSuccess) {
+          // this.empdetails = response.data.data.data || {};
+          this.showToast(response.data.message, 'success');
+        } else {
+          console.error("Loading error:", response.data.message);
+          // this.showToast(response.data.message, 'error');
+        }
+      } catch (error) {
+        console.error("Loading error:", error);
+        this.showToast(error.response.data.Message, "error");
+      }
+      loadingAlert.close();
+    },
+
     async getOTHours(req) {
+      console.log('API-getOTHours');
+      console.log(JSON.stringify(req));
+
       // const loadingAlert = showLoading('');
       try {
         console.log("req:", req);
@@ -698,6 +771,8 @@ export const useHrStore = defineStore("hrStore", {
       }
       // loadingAlert.close();
     },
+
+    // Leave //
 
     async getAbsenceInitData() {
       // const loadingAlert = showLoading('');
@@ -720,6 +795,9 @@ export const useHrStore = defineStore("hrStore", {
     },
 
     async getViewAbsences(req, showLoading) {
+      console.log('API-getViewAbsences');
+      console.log(JSON.stringify(req));
+
       const loadingAlert = showLoading("");
       try {
         console.log("req:", req);
@@ -751,6 +829,9 @@ export const useHrStore = defineStore("hrStore", {
     },
 
     async getLeaveBalance(req, showLoading) {
+      console.log('API-getLeaveBalance');
+      console.log(JSON.stringify(req));
+
       const loadingAlert = showLoading("");
       try {
         console.log("req:", req, showLoading);
@@ -774,6 +855,9 @@ export const useHrStore = defineStore("hrStore", {
     },
 
     async setLeave(req, showLoading) {
+      console.log('API-setLeave');
+      console.log(JSON.stringify(req));
+
       const loadingAlert = showLoading("");
       try {
         console.log("req:", req, showLoading);
@@ -796,6 +880,9 @@ export const useHrStore = defineStore("hrStore", {
     },
 
     async getDeleteAbsence(req, showLoading) {
+      console.log('API-getDeleteAbsence');
+      console.log(JSON.stringify(req));
+
       const loadingAlert = showLoading("");
       try {
         console.log("req:", req);
@@ -817,7 +904,12 @@ export const useHrStore = defineStore("hrStore", {
       loadingAlert.close();
     },
 
+    // Movement //
+
     async getMovementInitData(showLoading) {
+      console.log('API-getMovementInitData');
+      console.log(JSON.stringify(req));
+
       const loadingAlert = showLoading("");
       try {
         const response = await axios.get(
@@ -838,6 +930,9 @@ export const useHrStore = defineStore("hrStore", {
     },
 
     async getViewMovement(req, showLoading) {
+      console.log('API-getViewMovement');
+      console.log(JSON.stringify(req));
+
       const loadingAlert = showLoading("");
       try {
         console.log("req:", req);
@@ -871,6 +966,9 @@ export const useHrStore = defineStore("hrStore", {
     },
 
     async setMovement(req, showLoading) {
+      console.log('API-setMovement');
+      console.log(JSON.stringify(req));
+
       const loadingAlert = showLoading("");
       try {
         console.log("req:", req);
@@ -896,6 +994,9 @@ export const useHrStore = defineStore("hrStore", {
     },
 
     async getDeleteMovement(req, showLoading) {
+      console.log('API-getDeleteMovement');
+      console.log(JSON.stringify(req));
+
       const loadingAlert = showLoading("");
       try {
         console.log("req:", req);
@@ -919,7 +1020,12 @@ export const useHrStore = defineStore("hrStore", {
       loadingAlert.close();
     },
 
+    // TimeCard //
+
     async getTimeCards(req, showLoading) {
+      console.log('API-getTimeCards');
+      console.log(JSON.stringify(req));
+
       const loadingAlert = showLoading("");
       try {
         console.log("req:", req);
@@ -946,6 +1052,9 @@ export const useHrStore = defineStore("hrStore", {
     },
 
     async getCreateTimeCard(req, showLoading) {
+      console.log('API-getCreateTimeCard');
+      console.log(JSON.stringify(req));
+
       const loadingAlert = showLoading("");
       try {
         console.log("req:", req);

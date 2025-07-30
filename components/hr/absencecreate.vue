@@ -190,6 +190,8 @@ export default {
       };
 
       await this.hrStore.setLeave(reqSetLeave, this.showLoading)
+      console.log("setLeave:", reqSetLeave);
+
 
       let reqGetViewAbsences = {
         empNo: this.absense_apply.empNo,

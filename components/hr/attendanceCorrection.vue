@@ -49,16 +49,16 @@
                 <div class="w-full p-2 mt-1 text-white bg-gray-600 rounded-md lg:w-5/6"
                     v-bind:class="[getAttRowColor(dayatt)]">
                     <div class="grid grid-cols-1 text-center lg:grid-cols-12">
-                        <div>{{ dayatt.empno }}</div>
-                        <!-- <div>{{ $options.filters.toReadableDate(dayatt.date) }}</div> -->
-                        <div class="mx-auto">
+                        <div>{{ dayatt.empNo }}</div>
+                        <div>{{ $options.filters.toReadableDate(dayatt.date) }}</div>
+                        <div class="ml-4">
                             <div class="flex gap-x-2 justify-center items-center">
                                 <div v-if="editingRowId === dayatt.id && editingField === 'intime'">
                                     <input v-model="editedIntime" type="text"
                                         class="w-20 p-1 text-sm text-gray-800 border rounded-md focus:ring-2 focus:ring-blue-300"
                                         placeholder="HH:MM" />
                                 </div>
-                                <div v-else>{{ dayatt.intime }}</div>
+                                <div v-else>{{ dayatt.inTime }}</div>
                                 <button type="button" @click="
                                     editingRowId === dayatt.id && editingField === 'intime'
                                         ? SetManualInOut(dayatt.date, editedIntime, dayatt.outtime)
@@ -71,14 +71,14 @@
                                     :cssbg="getAttRowColor(dayatt)" /> -->
                             </div>
                         </div>
-                        <div class="mx-auto">
+                        <div class="ml-4">
                             <div class="flex gap-x-2 justify-center items-center">
                                 <div v-if="editingRowId === dayatt.id && editingField === 'outtime'">
                                     <input v-model="editedOuttime" type="text"
                                         class="w-20 p-1 text-sm text-gray-800 border rounded-md focus:ring-2 focus:ring-blue-300"
                                         placeholder="HH:MM" />
                                 </div>
-                                <div v-else>{{ dayatt.outtime }}</div>
+                                <div v-else>{{ dayatt.outTime }}</div>
                                 <button type="button" @click="
                                     editingRowId === dayatt.id && editingField === 'outtime'
                                         ? SetManualInOut(dayatt.date, dayatt.intime, editedOuttime)
@@ -91,14 +91,14 @@
                                     :cssbg="getAttRowColor(dayatt)" /> -->
                             </div>
                         </div>
-                        <div class="mx-auto">
+                        <div class="ml-4">
                             <div class="flex gap-x-2 justify-center items-center">
                                 <div v-if="editingRowId === dayatt.id && editingField === 'overtime'">
                                     <input v-model="editedOvertime" type="text"
                                         class="w-20 p-1 text-sm text-gray-800 border rounded-md focus:ring-2 focus:ring-blue-300"
                                         placeholder="Hrs" />
                                 </div>
-                                <div v-else>{{ dayatt.overtime }}</div>
+                                <div v-else>{{ dayatt.overTime }}</div>
                                 <button type="button" @click="
                                     editingRowId === dayatt.id && editingField === 'overtime'
                                         ? SetOTManualSetOT(dayatt.date, editedOvertime)
@@ -109,15 +109,15 @@
                                 </button>
                             </div>
                         </div>
-                        <div>{{ getDayTypeName(dayatt) }}</div>
+                        <div>{{ getDayTypeName(dayatt.dayType) }}</div>
                         <div></div>
-                        <!-- <div>
-                            <div v-show="hrStore.loggeduser.granted.indexOf('hradmin') > -1 || hrStore.loggeduser.granted.indexOf('admin') > -1"
+                        <div>
+                            <div v-show="userStore.loggedUser.userGroup === 'Supervisor' || hrStore.loggeduser.granted === 'hradmin' || hrStore.loggeduser.granted === 'admin'"
                                 class="w-4/5 p-1 p-2 font-bold text-center border-gray-500 rounded rounded-md cursor-pointer gap-x-1 hover:bg-blue-500 hover:text-white"
                                 @click="getReCalcOT(dayatt)">
                                 ReCalc.OT
                             </div>
-                        </div> -->
+                        </div>
                     </div>
                 </div>
             </div>
@@ -137,11 +137,11 @@ import btnhr_load from '~/components/hr/btnhr_load'
 import swipes from "~/components/hr/swipes";
 import datediff from '~/components/hr/datediff'
 import { useHrStore } from '~/stores/modules/hrStore'
+import { useUserStore } from '~/stores/modules/userStore'
 
 // import { mapState, mapActions, mapMutations } from 'vuex'
 
 export default {
-    // layout: 'default',
     props: ['empno', 'empname', 'isOTEntitled', 'cur_item'],
     components: {
         btnhr_print,
@@ -172,26 +172,33 @@ export default {
             isOTAppling: false,
             otApplingRow: -1,
             showLoading: null,
+            editingField: null,
             myUtility: null,
         }
     },
 
     async created() {
         this.hrStore = useHrStore();
-        // this.userStore = useUserStore();
+        this.userStore = useUserStore();
         this.showLoading = this.$showLoading;
 
         const { $myUtility } = useNuxtApp();
         this.myUtility = $myUtility;
+
+        var date = new Date();
+        this.dtfrom = this.$myUtility.toInputTypeDate(new Date(date.getFullYear(), date.getMonth(), 1));
+        this.dtto = this.$myUtility.toInputTypeDate(new Date(date.getFullYear(), date.getMonth(), date.getDate()));
+
+        let req = {
+            FromDate: this.dtfrom,
+            ToDate: this.dtto,
+            EmpNo: this.userStore.loggedUser.userName,
+        }
+
+        this.hrStore.getAttendenceByEmp(req, this.showLoading);
     },
 
     computed: {
-
-        // ...mapState({
-        //     loggeduser: (state) => state.loggeduser,
-        //     attendence: (state) => state.hr.attendencedetails.attendence,
-        //     OTApllyDetails: (state) => state.hr.OTApllyDetails,
-        // }),
 
         getAttRowColor() {
             return (dayatt) => {
@@ -443,6 +450,14 @@ export default {
                 empno: this.empNo,
             }
             await this.GetRefreshAttendance(req)
+        },
+    },
+
+    filters: {
+        toReadableDate(date) {
+            if (!date) return 'N/A';
+            // Extract YYYY-MM-DD from ISO string (e.g., 2025-07-01T00:00:00)
+            return date.split('T')[0];
         },
     },
 }
