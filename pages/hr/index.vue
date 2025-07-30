@@ -426,15 +426,6 @@ export default {
     } catch (error) {
       console.error("error:", error)
     }
-
-    // const config = useRuntimeConfig() ;  
-    //this.imageroot = config.public.imageBaseUrl;
-
-    // await this.hrStore.loadListVendors({ keyword: '', searchBy: this.searchBy }, this.showLoading)
-    // await this.hrStore.loadInitVendor(this.showLoading)
-    // this.imageroot = this.vendorStore.initVendor.baseUrl;
-
-
   },
 
   async mounted() {
@@ -449,7 +440,6 @@ export default {
     const req = {
       searchval: this.userStore.loggedUser.userName,
       searchby: 101,
-
     }
 
     this.search_begin_DBSerach(req);
@@ -467,7 +457,6 @@ export default {
     },
 
     GoToAddNew() {
-
       this.hrStore.clearEmployee();
       this.isAddEdit = true;
     },

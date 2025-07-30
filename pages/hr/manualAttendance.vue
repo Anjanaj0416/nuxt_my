@@ -145,6 +145,15 @@ import { useHrStore } from "~/stores/modules/hrStore";
           dayType: 505,
         };
         await this.hrStore.setManualAttendenceRecord(req, this.$showLoading);
+
+        await this.cleaAll();
+      },
+
+      async cleaAll(){
+        this.selectedEmployee = null;
+        this.selectedDate = null;
+        this.selectedInTime = null;
+        this.selectedOutTime = null;
       }
     },
     async beforeMount() {

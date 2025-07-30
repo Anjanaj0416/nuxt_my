@@ -907,8 +907,8 @@ export const useHrStore = defineStore("hrStore", {
     // Movement //
 
     async getMovementInitData(showLoading) {
-      console.log('API-getMovementInitData');
-      console.log(JSON.stringify(req));
+      // console.log('API-getMovementInitData');
+      // console.log(JSON.stringify(req));
 
       const loadingAlert = showLoading("");
       try {
