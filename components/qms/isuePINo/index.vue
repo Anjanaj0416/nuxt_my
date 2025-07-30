@@ -71,18 +71,18 @@
           PINo: this.orderStore.availablePin?.data,
         };
 
-          this.$showConfirm(
-          "Are you sure to Reserve PI No.?",
-          "warning"
-        ).then(async (result) => {
-          if (result) {
-            console.log(request);
-            
-            await this.orderStore.GetIssuePINumber(request, this.showLoading);
-          } else {
-            // console.log("Action canceled");
-          }
+        this.$showConfirm("Are you sure to Reserve PI No.?", "warning")
+          .then(async (result) => {
+            if (result.isConfirmed) {
+              console.log(request);
+              await this.orderStore.GetIssuePINumber(request, this.showLoading);
+              this.$emit("close");
+            } else {
+              // Cancelled
+              console.log("Action canceled");
+            }
         });
+
       }
     },
 

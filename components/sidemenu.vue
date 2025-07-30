@@ -10,7 +10,7 @@
         <!-- Logo -->
         <router-link to="/dashboard" class="flex items-center space-x-2">
           <!-- hide Img -->
-          <!-- <img src="/assets/img/LogoDigitalTechLab.png" alt="Logo" class="h-auto rounded-full w-28" /> -->
+          <img src="/assets/img/LogoDigitalTechLab.png" alt="Logo" class="h-auto rounded-full w-28" />
         </router-link>
         <!-- Close Button -->
         <button @click="$emit('close-sidebar')"
@@ -123,9 +123,9 @@ const filteredLinks = computed(() => {
     if (!link || !link.name) return false;
 
     // Only show CRM if user has sso or flo
-    if (link.name === 'CRM') {
-      return granted.value.includes('sso') || granted.value.includes('flo') || granted.value.includes('su') || granted.value.includes('cso');
-    }
+    // if (link.name === 'CRM') {
+    //   return granted.value.includes('sso') || granted.value.includes('flo') || granted.value.includes('su') || granted.value.includes('cso');
+    // }
 
     return true; // Show all other links
   });

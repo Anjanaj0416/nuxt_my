@@ -193,7 +193,7 @@ export default {
         ) {
           this.active_index++;
           this.selecteditem = this.filtered[this.active_index].id;
-          //console.log(this.active_index + ':' + this.selecteditem)
+          console.log(this.active_index + ':' + this.selecteditem)
         }
       } else if (evt.keyCode == 13) {
         if (!this.isInItemList) {

@@ -158,7 +158,7 @@
 
 
             <button v-if="vendorTabs[vd.id] !== 'viewMore'"
-              @click="vendorTabs[vd.id] = 'viewMore'; quotationStore.curVendorId = vd.id" :class="[
+              @click="vendorTabs[vd.id] = 'viewMore'; quotationStore.curVendorId = vd.id ; GoToView(vd.id)" :class="[
                 'p-4 border-b-2 rounded-t-lg text-center',
                 vendorTabs[vd.id] === 'viewMore'
                   ? 'text-blue-600 border-blue-600 dark:text-blue-500 '
@@ -213,7 +213,7 @@
             <Invoice />
           </div> -->
           <div v-if="vendorTabs[vd.id] === 'isuePINo'">
-            <IsuePINo :vendorId="vd.id"/>
+            <IsuePINo :vendorId="vd.id" @close="vendorTabs[vd.id] = ''; quotationStore.curVendorId = null"/>
           </div>
           <div v-if="vendorTabs[vd.id] === 'order'">
             <Order />
@@ -222,7 +222,7 @@
             <MoreVendor :vendorId="vd.id"/>
           </div>
           <div v-if="vendorTabs[vd.id] === 'edit'">
-            <AddEdit :Id="vd.id"/>
+            <AddEdit :key="vd.id" :Id="vd.id" @close="vendorTabs[vd.id] = ''; quotationStore.curVendorId = null" />
             <!-- <AddEdit v-if="isAddEdit" @close="isAddEdit = !isAddEdit" /> -->
           </div>
           <div v-if="vendorTabs[vd.id] === 'workFlow'">
@@ -426,6 +426,10 @@ export default {
     GoToAddNew() {
       this.vendorStore.ResetVendor();
       this.isAddEdit = true;
+    },
+
+    async GoToView(id) {
+      await this.vendorStore.GetVendorById(id, this.showLoading);
     },
 
     async GoToAddEdit(id) {

@@ -25,7 +25,7 @@
             </div>
           </div>
 
-          <div class="grid grid-cols-2 gap-4 mt-4 sm:grid-cols-2 md:grid-cols-3">
+          <div class="grid grid-cols-1 gap-4 mt-4 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-3">
             <div class="" v-if="isEditing">
               <label class="block text-sm font-bold text-gray-600">Customer Ref</label>
               <input type="text" v-model="curVendor.customerRef" disabled placeholder="Vendor ID (read-only)"
@@ -66,12 +66,12 @@
               <input type="text" v-model="curVendor.shopAddress2" placeholder="Enter Address Line 2" required
                 class="w-full p-2 mt-2 text-sm border rounded-md focus:ring-indigo-500 focus:border-indigo-500" />
             </div>
-            <div class="">
+            <!-- <div class="">
               <label class="block text-sm font-bold text-gray-600">District</label>
 
               <serach_Input :arrItems="getDistinctDistricts" :isDistrict=true ref="refDistrict" label=""
                 v-model="curVendor.districtId" @selectItem="GetSelectDistrict" />
-            </div>
+            </div> -->
             <div class="">
               <label class="block text-sm font-bold text-gray-600">City</label>
               <serach_Input :arrItems="filteredCities" ref="refCity" label="" v-model="curVendor.cityId"
@@ -93,6 +93,15 @@
               <label class="block text-sm font-bold text-gray-600">Store Url</label>
               <input type="text" v-model="curVendor.storeUrl" placeholder="Enter QR Link" required
                 class="w-full p-2 mt-2 text-sm border rounded-md focus:ring-indigo-500 focus:border-indigo-500" />
+            </div>
+            <div class="">
+              <label class="block text-sm font-bold text-gray-600">Assiged CSO</label>
+              <serach_Input
+                :arrItems="csoList"
+                ref="refCso"
+                v-model="curVendor.csoNo"
+                @selectItem="GetSelectCso"
+              />
             </div>
 
           </div>
@@ -128,7 +137,7 @@
 
           <hr class="my-4" />
           <h3 class="mt-4 font-bold">Owner Information</h3>
-          <div class="grid grid-cols-2 gap-4 mt-4 sm:grid-cols-2 md:grid-cols-3">
+          <div class="grid grid-cols-1 gap-4 mt-4 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-3">
             <div class="">
               <label class="block text-sm font-bold text-gray-600">Name</label>
               <input type="text" v-model="curVendor.authorisePersonName" placeholder="Enter Name" required
@@ -155,7 +164,7 @@
 
           <hr class="my-4" />
           <h3 class="mt-4 font-bold">Contact Person </h3>
-          <div class="grid grid-cols-2 gap-4 mt-4 sm:grid-cols-2 md:grid-cols-3">
+          <div class="grid grid-cols-1 gap-4 mt-4 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-3">
             <div class="">
               <label class="block text-sm font-bold text-gray-600">Name</label>
               <input type="text" v-model="curVendor.shopContactPersonName" placeholder="Enter Name" required
@@ -191,7 +200,7 @@
 
           <hr class="my-4" />
           <h3 class="mt-4 font-bold">Bank Details</h3>
-          <div class="grid grid-cols-2 gap-4 mt-4 mb-36 sm:grid-cols-2 md:grid-cols-3 sm:mb-0">
+          <div class="grid grid-cols-1 gap-4 mt-4 mb-36 sm:grid-cols-2 md:grid-cols-3 sm:mb-0 lg:grid-cols-3">
             <div class="">
               <label class="block text-sm font-bold text-gray-600">Bank Name</label>
               <input type="text" v-model="curVendor.bankName" placeholder="Enter Bank Name" required
@@ -217,7 +226,7 @@
 
           <hr class="my-4" />
           <h3 class="mt-4 font-bold">Super Admin Details (Recommended: Business Owner)</h3>
-          <div class="grid grid-cols-2 gap-4 mt-4 mb-36 sm:grid-cols-2 md:grid-cols-3 sm:mb-0">
+          <div class="grid grid-cols-1 gap-4 mt-4 mb-36 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-3 sm:mb-0">
             <div class="">
               <label class="block text-sm font-bold text-gray-600">Full Name</label>
               <input type="text" v-model="curVendor.suAdminfullName" placeholder="Enter Full Name" required
@@ -249,7 +258,7 @@
 
           <hr class="my-4" />
           <h3 class="mt-4 font-bold">Additional Admin User Details</h3>
-          <div class="grid grid-cols-2 gap-4 mt-4 mb-36 sm:grid-cols-2 md:grid-cols-3 sm:mb-0">
+          <div class="grid grid-cols-1 gap-4 mt-4 mb-36 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-3 sm:mb-0">
             <div class="">
               <label class="block text-sm font-bold text-gray-600">Full Name</label>
               <input type="text" v-model="curVendor.additionalFullName" placeholder="Enter Full Name" required
@@ -330,6 +339,7 @@ export default {
         districtId: "",
         city: "",
         cityId: "",
+        csoNo:"",
         description: "",
         brCopyImage: "",
         // brCopyFile: null,
@@ -356,10 +366,23 @@ export default {
       err: {},
       imageroot: "",
       showLoading: null,
-           isEdit: false,
+      isEdit: false,
       listTemp: [{ id: 1, value: 'abc' }, { id: 2, value: 'def' }],
     };
   },
+
+  watch: {
+    curVendor: {
+      handler(newVal) {
+        if (newVal && newVal.id) {
+          // console.log('curVendor updated in AddEdit.vue:', JSON.stringify(newVal, null, 2));
+        }
+      },
+      immediate: true,
+      deep: true
+    }
+  },
+
   computed: {
     isEditing() {
       return (
@@ -367,6 +390,11 @@ export default {
         this.curVendor.id !== "00000000-0000-0000-0000-000000000000"
       );
     },
+
+    curVendor() {
+      return this.vendorStore.curVendor;
+    },
+
 
     getDistinctDistricts() {
       try {
@@ -389,6 +417,10 @@ export default {
       } catch (error) {
         return [];
       }
+    },
+
+    csoList() {
+      return this.vendorStore?.initVendor?.listRSOs || [];
     },
 
     filteredCities() {
@@ -417,7 +449,7 @@ export default {
     this.vendorStore = useVendorStore();
     this.userStore = useUserStore();
     this.curVendor = this.vendorStore.curVendor;
-    // console.log(JSON.stringify(this.curVendor, null, 2 ));
+    console.log(JSON.stringify(this.curVendor, null, 2 ));
     this.imageroot = this.userStore.loggedUser.resourceURLRoot;
     this.showLoading = this.$showLoading;
   },
@@ -431,23 +463,23 @@ export default {
     }
 
     this.$refs.refCity.initItem(this.curVendor.cityId);
+    this.$refs.refCso?.initItem(this.curVendor.csoNo);
     // this.$refs.refDistrict.initItem(this.curVendor.district);
   },
+  
   methods: {
     closeModal() {
       this.isOpen = false;
       this.$emit("close");
     },
 
-      startEditing() {
-
-    
-    this.isEdit = true;
-  },
+    startEditing() {
+      this.isEdit = true;
+    },
 
     cancel() {
       this.clearErr();
-      this.closeModal();
+      this.$emit("close");
     },
     GetSelectedShopImage(image) {
       this.curVendor.shopLogoFile = image;
@@ -461,6 +493,54 @@ export default {
     },
     GetSelectedBRCopy(image) {
       this.curVendor.brCopyImage = image;
+    },
+    onSelectRSO(selectedId) {
+      console.log("Selected RSO from native select:", selectedId);
+      this.curVendor.csoNo = selectedId;
+    },
+
+    clearCurVendor() {
+      this.curVendor = {
+        Id: "",
+        customerRef: "",
+        shopWeb: "",
+        storeUrl: "",
+        shopEmail: "",
+        shopName: "",
+        shopContactNo: "",
+        shopAddress1: "",
+        shopAddress2: "",
+        districtId: "",
+        cityId: "",
+        csoId: "",
+        vendorImageFile: "",
+        brCopyImage: "",
+        shopLogo: "",
+        brNumber: "",
+        vatNo: "",
+        description: "",
+        shopContactPersonName: "",
+        shopContactPersonDesignation: "",
+        shopContactPersonBDate: "",
+        shopContactPersonPhone: "",
+        shopContactPersonEmail: "",
+        authorisePersonName: "",
+        authorisePersonBDate: "",
+        authorisePersonPhone: "",
+        authorisePersonEmail: "",
+        bankName: "",
+        branch: "",
+        accountNumber: "",
+        holderName: "",
+        isActive: true,
+      };
+    },
+
+    GetSelectCso(selectedItem) {
+      // console.log("Selected CSO from search input:", selectedItem);
+      if (selectedItem && selectedItem.id) {
+        this.curVendor.csoNo = selectedItem.id;
+      }
     },
 
     AddEditVendor() {
@@ -476,7 +556,8 @@ export default {
             console.log(`${key}:`, value);
           }
           await this.vendorStore.AddEditVendor(formData, this.showLoading);
-          this.closeModal();
+          this.clearCurVendor();
+          this.$emit("close")
           this.isEdit = false;
         } else {
           console.log("Action canceled");
@@ -491,6 +572,8 @@ export default {
         this.err[key] = "";
       });
     },
+
+
 
     GetSelectCity(cityObj) {
       this.curVendor.cityId = cityObj.id;
@@ -523,6 +606,7 @@ export default {
       formData.append("ShopAddress2", this.curVendor.shopAddress2 || "");
       // formData.append("DistrictId", this.curVendor.districtId);
       formData.append("CityId", this.curVendor.cityId );
+      formData.append("CSONo", this.curVendor.csoNo );;
       formData.append("VendorImageFile", this.curVendor.vendorImageFile || "");
       formData.append("BRCopyFile", this.curVendor.brCopyImage || "");
       formData.append("ShopLogoPath", this.curVendor.shopLogo || "");

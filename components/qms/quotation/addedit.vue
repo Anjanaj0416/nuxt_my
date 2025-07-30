@@ -12,7 +12,7 @@
 
     <div class="form-content bg-white mt-4 border rounded-lg shadow-md p-4 space-y-1 text-sm text-gray-800">
      
-      <div class="grid grid-cols-2 my-4">
+      <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-3 my-4">
         <div>
           <label class="block text-sm font-bold text-gray-600">Select Product Category</label>
       
@@ -213,7 +213,7 @@
 
     <!-- Input for adding installments -->
     <div>
-      <div class="grid grid-cols-2  my-1">
+      <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-3  my-1">
         <div>
           <label class="block text-sm font-bold text-gray-600">Installments</label>
           <input
@@ -234,50 +234,57 @@
           <div
             v-for="(item, index) in listInstallmentDetails"
             :key="index"
-            class="grid items-center grid-cols-4 px-2 py-2 text-xs text-gray-700 border border-t border-gray-200 shadow-sm hover:bg-gray-50"
+            class="p-2 border border-t border-gray-200 shadow-sm hover:bg-gray-50"
           >
-            <!-- Installment label -->
-            <div class="truncate">{{ item.installment }}</div>
+            <!-- Responsive container -->
+            <div class="flex flex-col sm:grid sm:grid-cols-4 sm:items-center gap-2 text-xs text-gray-700">
+              
+              <!-- Installment label -->
+              <div class="font-semibold truncate">
+                {{ item.installment }}
+              </div>
 
-            <!-- Fee input -->
-            <div>
-              <span>Rs : </span>
-              <input
-                type="number"
-                v-model.number="item.fee"
-                min="1"
-                placeholder="Fee"
-                @input="handleInstallmentChange(index)"
-                class="w-20 px-2 py-1 text-xs border rounded focus:ring-indigo-500 focus:border-indigo-500"
-                required
-              />
-            </div>
-            <div>
-              <input
-                type="date"
-                v-model="item.date"
-                :min="today"
-                @change="handleInstallmentChange(index)"
-                class="w-20 px-2 py-1 text-xs border rounded focus:ring-indigo-500 focus:border-indigo-500"
-                required
-              />
+              <!-- Fee input -->
+              <div class="flex items-center gap-1">
+                <span>Rs:</span>
+                <input
+                  type="number"
+                  v-model.number="item.fee"
+                  min="1"
+                  placeholder="Fee"
+                  @input="handleInstallmentChange(index)"
+                  class="w-full sm:w-20 px-2 py-1 border rounded focus:ring-indigo-500 focus:border-indigo-500"
+                  required
+                />
+              </div>
 
-            </div>
+              <!-- Date input -->
+              <div>
+                <input
+                  type="date"
+                  v-model="item.date"
+                  :min="today"
+                  @change="handleDateChange(index, item.date)"
+                  class="w-full sm:w-28 px-2 py-1 border rounded focus:ring-indigo-500 focus:border-indigo-500"
+                  required
+                />
+              </div>
 
-            <!-- Remove icon -->
-            <div class="text-center">
-              <button
-                type="button"
-                @click="RemoveInstallment(index)"
-                class="text-red-600 hover:text-red-800"
-                title="Remove"
-              >
-                <!-- Trash icon (Heroicons) -->
-                <svg xmlns="http://www.w3.org/2000/svg" class="w-4 h-4 mx-auto" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                    d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6M9 7h6m-6 0V5a1 1 0 011-1h4a1 1 0 011 1v2" />
-                </svg>
-              </button>
+              <!-- Remove button -->
+              <div class="text-right sm:text-center">
+                <button
+                  type="button"
+                  @click="RemoveInstallment(index)"
+                  class="text-red-600 hover:text-red-800"
+                  title="Remove"
+                >
+                  <!-- Trash icon -->
+                  <svg xmlns="http://www.w3.org/2000/svg" class="w-4 h-4 inline-block" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                      d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6M9 7h6m-6 0V5a1 1 0 011-1h4a1 1 0 011 1v2" />
+                  </svg>
+                </button>
+              </div>
             </div>
           </div>
         </div>
@@ -414,9 +421,8 @@ export default {
     },
     today() {
       const today = new Date();
-      // Format date as yyyy-mm-dd
       const yyyy = today.getFullYear();
-      const mm = String(today.getMonth() + 1).padStart(2, '0'); // Months start at 0!
+      const mm = String(today.getMonth() + 1).padStart(2, '0');
       const dd = String(today.getDate()).padStart(2, '0');
       return `${yyyy}-${mm}-${dd}`;
     }
@@ -491,16 +497,6 @@ export default {
       });
     },
 
-    // populateInstallmentsFromBackend() {
-    //   const backendInstallments = this.quotation.listInstallment;
-
-    //   if (!Array.isArray(backendInstallments)) return;
-
-    //   this.listInstallmentDetails = backendInstallments.map((fee, index) => ({
-    //     installment: `Installment ${index + 1}`,
-    //     fee: Number(fee)
-    //   }));
-    // },
 
     populateInstallmentsFromBackend() {
       const backendInstallments = this.quotation.listInstallment;
@@ -508,33 +504,43 @@ export default {
       if (!Array.isArray(backendInstallments)) return;
 
       this.listInstallmentDetails = backendInstallments.map((entry, index) => {
-        const rawDate = entry.date || this.today;
-        const formattedDate = rawDate ? new Date(rawDate).toISOString().split('T')[0] : this.today;
+        // Check if backend provides a date and if it differs from today
+        let rawDate = entry.date ? entry.date.split('T')[0] : this.today;
+
+        // Determine if manual should be true - date different from today means manual
+        const manual = rawDate !== this.today;
 
         return {
           installment: `Installment ${index + 1}`,
           fee: Number(entry.amount || 0),
-          date: formattedDate,
-          manual: false
+          date: rawDate,
+          manual
         };
       });
+
+      this.quotation.installment = this.listInstallmentDetails.length;
     },
 
-    
+    formatDate(dateObj) {
+      const yyyy = dateObj.getFullYear();
+      const mm = String(dateObj.getMonth() + 1).padStart(2, '0');
+      const dd = String(dateObj.getDate()).padStart(2, '0');
+      return `${yyyy}-${mm}-${dd}`;
+    },
 
     AddInstallments() {
       const count = this.quotation.installment;
 
       if (!count || count <= 0) {
-        this.$showCustomToast('Invalid Installment!', 'error', 3000);
+        this.err.installmentError = 'Invalid Installment!';
+        return;
+      } else if (count > 5) {
+        this.err.installmentError = 'Maximum Installments allowed!';
         return;
       }
+      this.err.installmentError = '';
 
-      if (count > 3) {
-        this.$showCustomToast('Maximum three Installments allowed!', 'error', 3000);
-        return;
-      }
-
+      // Calculate total
       const total = Math.round(
         this.quotation.listOrderItem.reduce((sum, item) => sum + (+item.total || 0), 0) * 100
       ) / 100;
@@ -542,33 +548,51 @@ export default {
       const base = Math.floor((total / count) * 100) / 100;
       const remainder = Math.round((total - base * count) * 100) / 100;
 
-      this.listInstallmentDetails = Array.from({ length: count }, (_, i) => ({
-        installment: `Installment ${i + 1}`,
-        fee: i + 1 === count ? Math.round((base + remainder) * 100) / 100 : base,
-        date: item.date ? new Date(item.date).toISOString().split('T')[0] + 'T00:00:00' : null
- // Set today as default or use null if you want to enforce user input
-      }));
+      // Base date = today as Date object
+      const baseDateParts = this.today.split('-');
+      const baseDate = new Date(baseDateParts[0], baseDateParts[1] - 1, baseDateParts[2]);
 
+      const oldList = this.listInstallmentDetails || [];
 
-      // this.quotation.listInstallment = this.listInstallmentDetails.map(item => item.fee);
+      this.listInstallmentDetails = Array.from({ length: count }, (_, i) => {
+        const old = oldList[i];
+        const fee = i + 1 === count ? Math.round((base + remainder) * 100) / 100 : base;
+
+        let date;
+        if (old?.manual) {
+          date = old.date; // preserve manual date
+        } else {
+          // auto-generate date incremented by months from baseDate
+          const newDate = new Date(baseDate.getTime());
+          newDate.setMonth(newDate.getMonth() + i);
+          date = this.formatDate(newDate);
+        }
+
+        return {
+          installment: `Installment ${i + 1}`,
+          fee: old?.manual ? old.fee : fee,
+          date,
+          manual: old?.manual || false
+        };
+      });
+
+      // Update backend installment list
       this.quotation.listInstallment = this.listInstallmentDetails.map(item => ({
         amount: Number(item.fee) || 0,
-        date: item.date || null
+        date: item.date + 'T00:00:00'
       }));
-
     },
 
     handleInstallmentChange(changedIndex) {
-      let netTotal = this.quotation.listOrderItem.reduce(
-        (sum, item) => sum + (Number(item.total) || 0),
-        0
-      );
-      netTotal = Math.round(netTotal * 100) / 100;
+      const target = this.listInstallmentDetails[changedIndex];
+      if (!target) return;
 
-      // Mark current as manual
-      this.listInstallmentDetails[changedIndex].manual = true;
+      target.manual = true;
 
-      // Calculate manual total and find auto indexes
+      const netTotal = Math.round(
+        this.quotation.listOrderItem.reduce((sum, item) => sum + (Number(item.total) || 0), 0) * 100
+      ) / 100;
+
       let manualTotal = 0;
       const autoIndexes = [];
 
@@ -580,35 +604,72 @@ export default {
         }
       });
 
-      const remaining = Math.round((netTotal - manualTotal) * 100) / 100;
+      let remaining = Math.round((netTotal - manualTotal) * 100) / 100;
 
       if (remaining < 0) {
         this.$showCustomToast('Total exceeds allowed amount!', 'error', 3000);
         return;
+      } else if (remaining > 0 && autoIndexes.length === 0) {
+        this.$showCustomToast('Remaining amount not allocated!', 'error', 3000);
+        return;
       }
 
       const base = Math.floor((remaining / autoIndexes.length) * 100) / 100;
-      const lastRemainder = Math.round((remaining - base * autoIndexes.length) * 100) / 100;
+      const remainder = Math.round((remaining - base * autoIndexes.length) * 100) / 100;
 
       autoIndexes.forEach((idx, i) => {
-        this.listInstallmentDetails[idx].fee = i === autoIndexes.length - 1
-          ? Math.round((base + lastRemainder) * 100) / 100
-          : base;
+        this.listInstallmentDetails[idx].fee =
+          i === autoIndexes.length - 1
+            ? Math.round((base + remainder) * 100) / 100
+            : base;
       });
 
-      // ✅ Updated here: just set the fees array
+      // Final check: total sum of all installment amounts == netTotal
+      const finalTotal = this.listInstallmentDetails.reduce(
+        (sum, item) => sum + (Number(item.fee) || 0),
+        0
+      );
+
+      const roundedFinal = Math.round(finalTotal * 100) / 100;
+      if (roundedFinal !== netTotal) {
+        this.$showCustomToast(`Total mismatch! Installments total ${roundedFinal} but expected ${netTotal}`, 'error', 3000);
+        return;
+      }
+
+      // Sync back to quotation
       this.quotation.listInstallment = this.listInstallmentDetails.map(item => ({
         amount: Number(item.fee) || 0,
-        // date: item.date || null
-        date: item.date ? new Date(item.date).toISOString().split('T')[0] + 'T00:00:00' : null
+        date: item.date + 'T00:00:00'
+      }));
+    },
+
+    handleDateChange(index, newDate) {
+      // Mark this installment as manual so date does not get overwritten
+      this.listInstallmentDetails[index].date = newDate;
+      this.listInstallmentDetails[index].manual = true;
+
+      // Update quotation listInstallment accordingly
+      this.quotation.listInstallment = this.listInstallmentDetails.map(item => ({
+        amount: Number(item.fee) || 0,
+        date: item.date + 'T00:00:00'
       }));
     },
 
     RemoveInstallment(index) {
       this.listInstallmentDetails.splice(index, 1);
       this.quotation.installment = this.listInstallmentDetails.length;
-      this.AddInstallments(); 
+
+      // Recalculate fees after removal
+      this.handleInstallmentChange(-1); // pass invalid index to just recalc all
+
+      // Update listInstallment to keep consistent
+      this.quotation.listInstallment = this.listInstallmentDetails.map(item => ({
+        amount: Number(item.fee) || 0,
+        date: item.date + 'T00:00:00'
+      }));
     },
+
+
 
     updateTotalPrice(index) {
       const item = this.quotation.listOrderItem[index];
@@ -648,42 +709,39 @@ export default {
       // this.quotation.totalAmount = this.quotation.netTotal + (this.quotation.vat || 0);
       this.quotation.totalAmount = this.quotation.netTotal;
     },
-
-
   
-GetPrint() {
-  this.netTotalPrice();
+    GetPrint() {
+      this.netTotalPrice();
 
-  if (!this.IsValidated()) return;
+      if (!this.IsValidated()) return;
 
-  this.$showConfirm("Confirm: Print the proposal?", "warning")
-    .then(async (result) => {
-      if (result.isConfirmed) {
-        this.quotation.isVerion = this.isVerion;
-        this.quotation.customerRef = this.customerRef;
-        this.quotation.currentQNo = this.quotationNo;
+      this.$showConfirm("Confirm: Print the proposal?", "warning")
+        .then(async (result) => {
+          if (result.isConfirmed) {
+            this.quotation.isVerion = this.isVerion;
+            this.quotation.customerRef = this.customerRef;
+            this.quotation.currentQNo = this.quotationNo;
 
-        const payload = {
-          listOrderItem: this.quotation.listOrderItem,
-          listInstallment: this.quotation.listInstallment,
-          netTotal: this.quotation.netTotal,
-          isVerion: this.quotation.isVerion,
-          customerRef: this.quotation.customerRef,
-          currentQNo: this.quotation.currentQNo || ''
-        };
-      //  console.log(JSON.stringify(payload));
+            const payload = {
+              listOrderItem: this.quotation.listOrderItem,
+              listInstallment: this.quotation.listInstallment,
+              netTotal: this.quotation.netTotal,
+              isVerion: this.quotation.isVerion,
+              customerRef: this.quotation.customerRef,
+              currentQNo: this.quotation.currentQNo || ''
+            };
+          // console.log(JSON.stringify(payload));
 
-         await this.quotationStore.GetAddQuotation(payload, this.showLoading);
-         
-      } else {
-        console.log("Action canceled");
-       
-      }
-       this.closeModal();
-        // this.clearErr();
-    });
-}
-,
+            await this.quotationStore.GetAddQuotation(payload, this.showLoading);
+            
+          } else {
+            console.log("Action canceled");
+          
+          }
+          this.closeModal();
+            // this.clearErr();
+        });
+    },
 
 
 
