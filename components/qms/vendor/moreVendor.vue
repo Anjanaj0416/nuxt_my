@@ -123,8 +123,8 @@
             </div>
             <div class="">
               <label class="block text-sm font-bold text-gray-600 mb-1">VAT No</label>
-              <span class="inline-block text-sm font-semibold text-gray-800" v-if="curVendor.VATNo">
-                {{ curVendor.VATNo }}
+              <span class="inline-block text-sm font-semibold text-gray-800" v-if="curVendor.vatNo">
+                {{ curVendor.vatNo }}
               </span>
               <span class="inline-block text-sm italic text-gray-500" v-else>
                 NO data

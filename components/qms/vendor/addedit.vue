@@ -322,47 +322,11 @@ definePageMeta({
 });
 export default {
   components: { closebtn, serach_Input, ImageLable, imagecomp, toggleoption },
-  props:['Id'],
+  props:[''],
   data() {
     return {
       isOpen: true,
-      curVendor: {
-        // Company Details
-        shopName: "",
-        shopEmail: "",
-        shopWeb: "",
-        shopMobileNo: "",
-        shopContactNo: "",
-        shopAddress1: "",
-        shopAddress2: "",
-        district: "",
-        districtId: "",
-        city: "",
-        cityId: "",
-        csoNo:"",
-        description: "",
-        brCopyImage: "",
-        // brCopyFile: null,
-
-        // Owner Information
-        authorisePersonName: "",
-        authorisePersonBDate: "",
-        authorisePersonPhone: "",
-        authorisePersonEmail: "",
-
-        // Contact Person
-        shopContactPersonName: "",
-        shopContactPersonDesignation: "",
-        shopContactPersonBDate: "",
-        shopContactPersonPhone: "",
-        shopContactPersonEmail: "",
-
-        // Bank Details
-        bankName: "",
-        branch: "",
-        accountNumber: "",
-        holderName: "",
-      },
+    
       err: {},
       imageroot: "",
       showLoading: null,
@@ -371,28 +335,31 @@ export default {
     };
   },
 
-  watch: {
-    curVendor: {
-      handler(newVal) {
-        if (newVal && newVal.id) {
-          // console.log('curVendor updated in AddEdit.vue:', JSON.stringify(newVal, null, 2));
-        }
-      },
-      immediate: true,
-      deep: true
-    }
-  },
+  // watch: {
+  //   curVendor: {
+  //     handler(newVal) {
+  //       if (newVal && newVal.id) {
+  //         // console.log('curVendor updated in AddEdit.vue:', JSON.stringify(newVal, null, 2));
+  //       }
+  //     },
+  //     immediate: true,
+  //     deep: true
+  //   }
+  // },
+
+  
 
   computed: {
+
+    curVendor() {
+      return this.vendorStore.curVendor;
+    },
+    
     isEditing() {
       return (
         this.curVendor &&
         this.curVendor.id !== "00000000-0000-0000-0000-000000000000"
       );
-    },
-
-    curVendor() {
-      return this.vendorStore.curVendor;
     },
 
 
@@ -448,10 +415,15 @@ export default {
   async created() {
     this.vendorStore = useVendorStore();
     this.userStore = useUserStore();
-    this.curVendor = this.vendorStore.curVendor;
-    console.log(JSON.stringify(this.curVendor, null, 2 ));
+    // this.curVendor = this.vendorStore.curVendor;
+    // console.log(JSON.stringify(this.curVendor, null, 2 ));
     this.imageroot = this.userStore.loggedUser.resourceURLRoot;
     this.showLoading = this.$showLoading;
+
+    if (this.id) {
+      await this.vendorStore.GetVendorById(this.id, this.showLoading);
+    }
+
   },
   mounted() {
     if (this.curVendor.shopContactPersonBDate) {
@@ -501,7 +473,7 @@ export default {
 
     clearCurVendor() {
       this.curVendor = {
-        Id: "",
+        id: "",
         customerRef: "",
         shopWeb: "",
         storeUrl: "",
@@ -557,6 +529,7 @@ export default {
           }
           await this.vendorStore.AddEditVendor(formData, this.showLoading);
           this.clearCurVendor();
+          // this.vendorStore.ResetVendor();
           this.$emit("close")
           this.isEdit = false;
         } else {
@@ -596,7 +569,7 @@ export default {
     convertToFormData(formObject) {
       const formData = new FormData();
       
-      formData.append("Id", this.Id);
+      formData.append("Id", this.curVendor.id || "");
       formData.append("ShopWeb", this.curVendor.shopWeb || "");
       formData.append("StoreUrl", this.curVendor.storeUrl || "");
       formData.append("ShopEmail", this.curVendor.shopEmail || "");

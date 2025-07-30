@@ -2,134 +2,113 @@
 
 <template>
   <section class="mt-20 mx-4">
-    <div class="text-lg unde">Membership Payments</div>
+  
+    <div class="text-2xl font-bold text-teal-800 mb-6">Membership Payments</div>
 
     <div
-      class="flex flex-col sm:flex-row sm:items-center sm:flex-wrap gap-3 sm:gap-4 my-4 w-full"
+      class="flex flex-col sm:flex-row sm:items-center sm:flex-wrap gap-3 sm:gap-4 mb-8"
     >
-      <!-- Search Label and Input -->
-      <div
-        class="flex flex-col sm:flex-row sm:items-center sm:gap-2 w-full sm:w-auto"
-      >
-        <label class="font-medium mb-1 sm:mb-0">Search</label>
+      <div class="flex flex-col sm:flex-row sm:items-center sm:gap-2 w-full sm:w-auto">
+        <label class="font-medium text-gray-700 mb-1 sm:mb-0">Search</label>
         <input
           type="text"
           v-model="searchVal"
-          class="border border-gray-300 rounded-md px-3 py-2 w-full sm:w-52 focus:ring-2 focus:ring-blue-500 focus:outline-none"
+          placeholder="Enter name or ID"
+          class="border border-gray-300 rounded-md px-3 py-2 w-full sm:w-56 focus:ring-2 focus:ring-teal-500 focus:outline-none"
         />
       </div>
 
-      <!-- Pay Date Input -->
       <input
         type="date"
-        placeholder="Pay Date"
-        class="border border-gray-300 rounded-md px-3 py-2 w-full sm:w-48 focus:ring-2 focus:ring-blue-500 focus:outline-none"
+        class="border border-gray-300 rounded-md px-3 py-2 w-full sm:w-52 focus:ring-2 focus:ring-teal-500 focus:outline-none"
       />
 
-      <!-- Amount Input -->
       <input
         type="number"
         placeholder="Amount"
-        class="border border-gray-300 rounded-md px-3 py-2 w-full sm:w-48 focus:ring-2 focus:ring-blue-500 focus:outline-none"
+        class="border border-gray-300 rounded-md px-3 py-2 w-full sm:w-52 focus:ring-2 focus:ring-teal-500 focus:outline-none"
         inputmode="numeric"
         pattern="[0-9]*"
         onwheel="this.blur()"
         onkeydown="return event.keyCode !== 69 && event.keyCode !== 189 && event.keyCode !== 190"
       />
 
-      <!-- Pay Button -->
       <button
         type="button"
-        class="bg-blue-600 text-white px-5 py-2 rounded-md hover:bg-blue-700 transition w-full sm:w-auto"
+        class="bg-teal-800 text-white px-6 py-2 rounded-md hover:bg-teal-900 transition w-full sm:w-auto shadow"
       >
         Pay
       </button>
     </div>
 
-    <div class="grid grid-cols-1 lg:grid-cols-2 gap-4">
-      <!-- Payment Details Card -->
-      <div class="p-4 border rounded shadow-sm bg-white">
-        <!-- Header -->
-        <div class="flex justify-between items-center border-b pb-2 mb-4">
-          <h2 class="font-semibold text-lg text-gray-800 underline">Payment Details</h2>
-          <span
-            class="inline-block rounded-full border border-black px-3 py-1 text-sm text-gray-700"
-          >
-            Due &nbsp; +5
+
+    <div class="grid grid-cols-1 lg:grid-cols-2 gap-6">
+      <div class="p-6 border rounded-lg shadow-md bg-white">
+        <div class="flex justify-between items-center mb-4 border-b pb-3">
+          <h2 class="text-lg font-semibold text-teal-800">Payment Details</h2>
+          <span class="text-sm text-red-600 border border-red-500 px-2 py-1 rounded-full font-medium">
+            Due +5
           </span>
         </div>
 
-        <!-- Payment Rows -->
-        <div class="space-y-2">
-          <div
-            class="grid grid-cols-4 text-center text-sm text-gray-700 font-medium"
-          >
-            <div>Date</div>
-            <div>Amount</div>
-            <div>Status</div>
-            <div>PaidDate</div>
-          </div>
+        <div class="grid grid-cols-4 text-center text-sm font-semibold text-gray-700 mb-2">
+          <div>Date</div>
+          <div>Amount</div>
+          <div>Status</div>
+          <div>Paid Date</div>
+        </div>
 
-          <div class="grid grid-cols-4 text-center text-sm text-gray-600">
-            <div>2025 June 25</div>
-            <div>4000</div>
+        <div class="space-y-1 text-center text-sm text-gray-600">
+          <div class="grid grid-cols-4">
+            <div>2025-06-25</div>
+            <div>4,000</div>
             <div class="text-green-600 font-semibold">Paid</div>
-              <div>2025 July 29</div>
+            <div>2025-07-29</div>
           </div>
-          <div class="grid grid-cols-4 text-center text-sm text-gray-600">
-            <div>2025 June 25</div>
-            <div>4000</div>
+          <div class="grid grid-cols-4">
+            <div>2025-06-25</div>
+            <div>4,000</div>
             <div class="text-green-600 font-semibold">Paid</div>
-              <div>2025 July 29</div>
+            <div>2025-07-29</div>
           </div>
-          <div class="grid grid-cols-4 text-center text-sm text-gray-600">
-            <div>2025 June 25</div>
-            <div>4000</div>
+          <div class="grid grid-cols-4">
+            <div>2025-06-25</div>
+            <div>4,000</div>
             <div class="text-green-600 font-semibold">Paid</div>
-              <div>2025 July 29</div>
+            <div>2025-07-29</div>
           </div>
-          <div class="grid grid-cols-4 text-center text-sm text-gray-600">
-            <div>2025 June 25</div>
-            <div>4000</div>
+          <div class="grid grid-cols-4">
+            <div>2025-06-25</div>
+            <div>4,000</div>
             <div class="text-green-600 font-semibold">Paid</div>
-              <div>2025 July 29</div>
+            <div>2025-07-29</div>
           </div>
         </div>
       </div>
 
-      <!-- My Details Card -->
-      <div class="p-4 border rounded shadow-sm bg-white">
-        <!-- Header -->
-        <h2 class="underline font-semibold text-lg text-gray-800 mb-3">
-          My Details
-        </h2>
+      <!-- My Details -->
+      <div class="p-6 border rounded-lg shadow-md bg-white">
+        <h2 class="text-lg font-semibold text-teal-800 mb-4 underline">My Details</h2>
 
-        <!-- Details -->
-        <div class="space-y-1 text-sm text-gray-700">
-          <div>
-            <span class="font-medium">Employee Name:</span> Ajith Weeramon
-          </div>
+        <div class="space-y-2 text-sm text-gray-700">
+          <div><span class="font-medium">Employee Name:</span> Ajith Weeramon</div>
           <div><span class="font-medium">Book No:</span> 125</div>
-          <div>
-            <span class="font-medium">Address:</span> No 51, W/Palliyapitiya,
-            Dunagaha
-          </div>
+          <div><span class="font-medium">Address:</span> No 51, W/Palliyapitiya, Dunagaha</div>
           <div><span class="font-medium">Contact:</span> 0715321168</div>
         </div>
 
-        <!-- Avatar -->
-        <div class="mt-4">
+        <div class="mt-5 flex justify-center">
           <img
             src="https://randomuser.me/api/portraits/men/1.jpg"
             alt="Avatar"
-            class="w-24 h-24 rounded-full border shadow-sm object-cover"
+            class="w-24 h-24 rounded-full border shadow-md object-cover"
           />
         </div>
       </div>
     </div>
   </section>
-  <!-- <input type="text" oninput="this.value = this.value.replace(/[^0-9.]/g, '').replace(/(\..*?)\..*/g, '$1');" > -->
 </template>
+
 
 <script>
 //import textInput from '~/components/customcontrol/textinput'
@@ -146,7 +125,7 @@ import Button from "~/components/customcontrol/Button";
 import selectinput2 from "~/components/customcontrol/selectinput2";
 
 definePageMeta({
-  layout: "default",
+  layout: "society",
   middleware: "auth",
 });
 
@@ -209,7 +188,7 @@ export default {
   },
   async beforeMount() {
     if (      
-      this.userStore.loggedUser.userCompanyDetails.companyType.contains("welfare")
+      this.userStore.loggedUser.userCompanyDetails.companyType.includes("welfare")
     ) {
     } else {
       this.$router.push("/user/login");
