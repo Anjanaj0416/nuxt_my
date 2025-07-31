@@ -39,9 +39,9 @@
 
           <div class="text-right px-2">Start Time</div>
           <div class="">
-            <input class="text-gray-600 rounded p-1" v-model="movement_apply.in_time" type="time" />
-            <p v-if="err.in_time" class="mt-2 text-sm text-red-600">
-              {{ err.in_time }}
+            <input class="text-gray-600 rounded p-1" v-model="movement_apply.out_time" type="time" />
+            <p v-if="err.out_time" class="mt-2 text-sm text-red-600">
+              {{ err.out_time }}
             </p>
           </div>
 
@@ -50,9 +50,9 @@
 
           <div class="text-right px-2">End Time</div>
           <div class="">
-            <input class="text-gray-600 rounded p-1" v-model="movement_apply.out_time" type="time" />
-            <p v-if="err.out_time" class="mt-2 text-sm text-red-600">
-              {{ err.out_time }}
+            <input class="text-gray-600 rounded p-1" v-model="movement_apply.in_time" type="time" />
+            <p v-if="err.in_time" class="mt-2 text-sm text-red-600">
+              {{ err.in_time }}
             </p>
           </div>
         </div>
@@ -64,17 +64,19 @@
           <div class="grid grid-cols-4 my-2 gap-y-2">
             <div>Movement Type</div>
             <div class="">
-              <selectinput2 v-model="movementType" :cur_item="movement_apply.movementType"
-                :selections="hrStore.initData.initMovement.arrMovementType" @changed=movementTypeChanged />
-                <p v-if="err.movementType" class="mt-2 text-sm text-red-600">
-                  {{ err.movementType }}
-                </p>
+              <selectinput2 v-model="movement_apply.movementType" :cur_item="movement_apply.movementType"
+                :selections="hrStore.initData.initMovement.arrMovementType" />
+              <!-- @changed=movementTypeChanged  -->
+              <p v-if="err.movementType" class="mt-2 text-sm text-red-600">
+                {{ err.movementType }}
+              </p>
             </div>
 
             <div class="text-right px-2">Movement Period</div>
             <div class="">
               <selectinput2 v-model="movement_apply.movementPeriod" :cur_item="movement_apply.movementPeriod"
-                :selections="hrStore.initData.initMovement.arrMovementPeriod" @changed=movementTypeChanged />
+                :selections="hrStore.initData.initMovement.arrMovementPeriod" />
+              <!-- @changed=movementTypeChanged -->
               <p v-if="err.movementPeriod" class="mt-2 text-sm text-red-600">
                 {{ err.movementPeriod }}
               </p>
@@ -148,14 +150,14 @@ export default {
   data() {
     return {
       isWFH: false,
-      err:{
-        out_time:"",
+      err: {
+        out_time: "",
         date: '',
-        movementPeriod:"",
-        in_time:"",
-        to_location:"",
-        from_location:"",
-        start_from:"",
+        movementPeriod: "",
+        in_time: "",
+        to_location: "",
+        from_location: "",
+        start_from: "",
         movementType: '',
       },
       movement_apply: {
@@ -200,31 +202,31 @@ export default {
         .then(async (result) => {
           if (result.isConfirmed) {
             let req = {
-            EmpNo: this.empno,
-            Date: this.movement_apply.date,
-            InTime: this.movement_apply.in_time,
-            OutTime: this.movement_apply.out_time,
-            StartFrom: this.movement_apply.start_from,
-            FromLocation: this.movement_apply.from_location,
-            ToLocation: this.movement_apply.to_location,
-            Distance: this.movement_apply.distance,
-            VehicleNumber: this.movement_apply.vehicle_number,
-            TravelBy: this.movement_apply.travel_by,
-            MovementType: this.movement_apply.movementType,
-            MovementPeriod: this.movement_apply.movementPeriod,
-          }
-          //console.log(JSON.stringify(this.movement_apply));
-          await this.hrStore.setMovement(req, this.showLoading);
+              EmpNo: this.empno,
+              Date: this.movement_apply.date,
+              InTime: this.movement_apply.in_time,
+              OutTime: this.movement_apply.out_time,
+              StartFrom: this.movement_apply.start_from,
+              FromLocation: this.movement_apply.from_location,
+              ToLocation: this.movement_apply.to_location,
+              Distance: this.movement_apply.distance,
+              VehicleNumber: this.movement_apply.vehicle_number,
+              TravelBy: this.movement_apply.travel_by,
+              MovementType: this.movement_apply.movementType,
+              MovementPeriod: this.movement_apply.movementPeriod,
+            }
+            //console.log(JSON.stringify(this.movement_apply));
+            await this.hrStore.setMovement(req, this.showLoading);
 
-          let reqGetViewMovement = {
-            fromDate: this.dtFrom,
-            toDate: this.dtTo,
-            empNo: this.empno,
-          }
+            let reqGetViewMovement = {
+              fromDate: this.dtFrom,
+              toDate: this.dtTo,
+              empNo: this.empno,
+            }
 
-          await this.hrStore.getViewMovement(reqGetViewMovement, this.showLoading)
-          // this.$emit('goto_movementview')
-            
+            await this.hrStore.getViewMovement(reqGetViewMovement, this.showLoading)
+            this.$emit('goto_movementview')
+
           } else {
             console.log("Action canceled");
           }
@@ -247,13 +249,13 @@ export default {
       let validate = true;
 
       if (!this.isWFH && this.movement_apply.date == '') {
-         this.err.date = "Invalid Date";
-         validate = false;
+        this.err.date = "Invalid Date";
+        validate = false;
       }
-      
+
       if (!this.isWFH && this.movement_apply.out_time == '') {
-         this.err.out_time = "Invalid Out Time";
-         validate = false;
+        this.err.out_time = "Invalid Out Time";
+        validate = false;
       }
 
       if (this.movement_apply.movementPeriod == '') {
@@ -265,10 +267,10 @@ export default {
         validate = false;
       }
 
-      if (!this.isWFH && this.movement_apply.out_time > this.movement_apply.in_time) {
-        this.err.movementPeriod = "Invalid  Mov.  Start Time  and    End Time";
-        validate = false;
-      }
+      // if (!this.isWFH && this.movement_apply.out_time > this.movement_apply.in_time) {
+      //   this.err.movementPeriod = "Invalid  Mov.  Start Time  and    End Time";
+      //   validate = false;
+      // }
 
       if (!this.isWFH && this.movement_apply.start_from == '') {
         this.err.start_from = "Please select an option";

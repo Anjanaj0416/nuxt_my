@@ -444,7 +444,6 @@ export default {
 
     this.search_begin_DBSerach(req);
     this.assetsBaseUrl = localStorage.getItem("assetsBaseUrl");
-    await this.hrStore.getWorkLoadCount(this.showLoading);
   },
 
   methods: {
@@ -658,13 +657,13 @@ export default {
     },
 
     async search_begin_DBSerach(req) {
-
-
-
       await this.hrStore.searchEmployees({
         keyword: req.searchval,
         searchby: req.searchby,
       }, this.showLoading)
+
+      //get workgroup count
+      await this.hrStore.getWorkLoadCount(this.showLoading);
     },
 
     getviewwg() {

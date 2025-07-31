@@ -428,8 +428,10 @@ export const useHrStore = defineStore("hrStore", {
           `${import.meta.env.VITE_API_URL}/hr/WorkLoad/GetWorkLoadCount`
         );
 
+        console.log("response:",response);
+
         if (response.data.isSuccess) {
-          this.dashboard.workgroupjobcount = response.data.data.count || 0;
+          this.dashboard.workgroupjobcount = response.data.data.data[0].assignedUser.jobArr.length || 0;
         } else {
           console.error("Loading error:", response.data.message);
         }
@@ -446,9 +448,11 @@ export const useHrStore = defineStore("hrStore", {
           `${import.meta.env.VITE_API_URL}/hr/WorkLoad/GetWorkLoadDetails`
         );
 
+        console.log("response:",response.data.data.data);
+        // console.log("response:",response.data.data.data.assignedUser.jobArr);
+
         if (response.data.isSuccess) {
-          this.workgroup.arrJobCardDetails =
-            response.data.data.data.jobArr || [];
+          this.workgroup.arrJobCardDetails = response.data.data.data || [];
           this.showToast("Loading successful!", "success");
         } else {
           console.error("Loading error:", response.data.message);

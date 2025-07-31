@@ -23,7 +23,8 @@
       <main class="content">
         <NuxtPage />
       </main>
-      <footercomp />
+      <!-- hide -->
+      <!-- <footercomp /> -->
     </div>
   </section>
 </template>
@@ -35,21 +36,21 @@ import footercomp from '~/components/footer'
 import LoadingSpinner from '~/components/LoadingSpinner.vue'
 
 export default {
-  components: {headercomp,footercomp,LoadingSpinner},
+  components: { headercomp, footercomp, LoadingSpinner },
   data() {
     return {
-       showLoading: null,
-       isLoading:null,
+      showLoading: null,
+      isLoading: null,
     }
   },
   async created() {
     this.isLoading = useLoading()
     // console.log("isLoading:",this.isLoading);
-    
-   // alert('sl')
-     // this.showLoading = this.$showLoading;
+
+    // alert('sl')
+    // this.showLoading = this.$showLoading;
     //  const loadingAlert = showLoading("");
-      // loadingAlert.close();
+    // loadingAlert.close();
   },
 }
 </script>
@@ -62,7 +63,7 @@ export default {
 }
 
 .content {
-  flex-grow: 1; /* Allows the content to take the available space */
+  flex-grow: 1;
+  /* Allows the content to take the available space */
 }
-
 </style>

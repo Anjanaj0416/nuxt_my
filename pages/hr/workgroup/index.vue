@@ -3,7 +3,7 @@
     <div class="flex justify-between px-2 lg:justify-start gap-x-4">
       <div class="font-bold">My Workgroup</div>
       <div class="flex items-center justify-center w-8 p-1 px-2 font-bold bg-green-400 rounded-full text-SID-green-600">
-        {{ totalJobs(hrStore.workgroup.arrJobCardDetails) }}
+        <!-- {{ totalJobs(hrStore.workgroup.arrJobCardDetails) }} -->
 
       </div>
 
@@ -31,19 +31,19 @@
           <div class="flex justify-between mb-2">
             <div class="flex gap-x-2">
               <div>
-                <img class="h-10 transform border-2 border-white rounded hover:scale-150" :src="imageroot + '/user/' + aprovalCardDetail.assignedUser.image
+                <img class="h-10 transform border-2 border-white rounded hover:scale-150" :src="imageroot + '/user/' + aprovalCardDetail.image
                   " alt="" />
               </div>
               <div class="text-neutral-50">
                 <div>
-                  {{ aprovalCardDetail.assignedUser.name }} [{{
-                    aprovalCardDetail.assignedUser.empNo
+                  {{ aprovalCardDetail.name }} [{{
+                    aprovalCardDetail.empNo
                   }}]
                 </div>
                 <div class="w-32 p-1 text-sm text-white bg-blue-600 rounded font-italic" @click="
                   getViewMore(
-                    aprovalCardDetail.assignedUser.empNo,
-                    aprovalCardDetail.assignedUser.name
+                    aprovalCardDetail.empNo,
+                    aprovalCardDetail.name
                   )
                   ">
                   View Attendence
@@ -53,14 +53,14 @@
             <div></div>
           </div>
 
-          <div v-for="jobs in aprovalCardDetail.assignedUser.jobArr" :key="jobs" class="">
+          <div v-for="jobs in aprovalCardDetail.jobArr" :key="jobs" class="">
             <div class="flex w-full p-1 text-white rounded cursor-pointer gap-x-2 hover:bg-blue-500 hover:text-white"
               @click="
                 LoadViewdJobs(
                   jobs.jobDetails,
                   jobs.jobType,
-                  aprovalCardDetail.assignedUser.name,
-                  aprovalCardDetail.assignedUser.empNo
+                  aprovalCardDetail.name,
+                  aprovalCardDetail.empNo
                 )
                 ">
               <div>{{ getJobTypeName(jobs.jobType) }}</div>
@@ -87,10 +87,10 @@
 
 <script>
 import Approvalcard from '~/components/hr/Approvalcard'
-import * as myfilter from '@/plugins/myfilter'
+// import * as myfilter from '@/plugins/myfilter'
 import { useUserStore } from '~/stores/modules/userStore'
 import { useHrStore } from '~/stores/modules/hrStore'
-// import * as Global from '@/assets/js/Global'
+import * as Global from '@/assets/js/Global'
 
 export default {
   components: { Approvalcard },
@@ -221,11 +221,11 @@ export default {
     getViewMore(emp_no, empname) {
       var today = new Date()
 
-      var firstDayOfLastMonth = myfilter.toInputTypeDate(
+      var firstDayOfLastMonth = this.$myUtility.toInputTypeDate(
         new Date(today.getFullYear(), today.getMonth() - 1, 1)
       )
 
-      var lastDayOfCurrentMonth = myfilter.toInputTypeDate(
+      var lastDayOfCurrentMonth = this.$myUtility.toInputTypeDate(
         new Date(today.getFullYear(), today.getMonth(), today.getDate())
       )
 
@@ -234,7 +234,7 @@ export default {
         to_date: lastDayOfCurrentMonth,
         empno: emp_no,
         empname: empname,
-        granted: this.loggeduser.granted,
+        granted: this.userStore.loggedUser.granted,
       }
 
       const encodedData = Global.atob(JSON.stringify(req))
