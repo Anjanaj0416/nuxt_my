@@ -138,7 +138,7 @@ import { useHrStore } from "~/stores/modules/hrStore";
 
       async manualAdd() {
         const req = {
-          empNo: "dev",
+          empNo: "D1001",
           date: this.selectedDate,
           inTime: this.selectedInTime,
           outTime: this.selectedOutTime,

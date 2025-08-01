@@ -28,7 +28,7 @@
             </div>
 
             <div
-                class="grid w-full grid-cols-1 p-2 text-center text-white bg-blue-800 lg:grid-cols-12 lg:w-5/6 rounded-t-md">
+                class="grid w-full grid-cols-1 p-2 text-center text-white bg-blue-800 lg:grid-cols-10 lg:w-5/6 rounded-t-md">
                 <div class="hidden lg:block">Emp No</div>
                 <div class="hidden lg:block">Date</div>
                 <div class="hidden lg:block">In Time</div>
@@ -48,7 +48,7 @@
          {{ getDayTypeName(dayatt) }} -->
                 <div class="w-full p-2 mt-1 text-white bg-gray-600 rounded-md lg:w-5/6"
                     v-bind:class="[getAttRowColor(dayatt)]">
-                    <div class="grid grid-cols-1 text-center lg:grid-cols-12">
+                    <div class="grid grid-cols-1 text-center lg:grid-cols-10">
                         <div>{{ dayatt.empNo }}</div>
                         <div>{{ $options.filters.toReadableDate(dayatt.date) }}</div>
                         <div class="ml-4">
@@ -61,10 +61,10 @@
                                 <div v-else>{{ dayatt.inTime }}</div>
                                 <button type="button" @click="
                                     editingRowId === dayatt.id && editingField === 'intime'
-                                        ? SetManualInOut(dayatt.date, editedIntime, dayatt.outtime)
+                                        ? SetManualInOut(dayatt.date, editedIntime, dayatt.outTime)
                                         : isEditChange(dayatt.id, 'intime', editedIntime)
                                     "
-                                    class="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:ring-blue-300 font-medium rounded-lg text-sm px-2 py-1">
+                                    class="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:ring-blue-300 font-medium rounded-lg text-sm px-1 py-1">
                                     {{ editingRowId === dayatt.id && editingField === 'intime' ? 'Save' : 'Edit' }}
                                 </button>
                                 <!-- <swipes v-show="dayatt.swipesin.length > 0" :swipes="dayatt.swipesin"
@@ -84,7 +84,7 @@
                                         ? SetManualInOut(dayatt.date, dayatt.intime, editedOuttime)
                                         : isEditChange(dayatt.id, 'outtime', editedOuttime)
                                     "
-                                    class="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:ring-blue-300 font-medium rounded-lg text-sm px-2 py-1">
+                                    class="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:ring-blue-300 font-medium rounded-lg text-sm px-1 py-1">
                                     {{ editingRowId === dayatt.id && editingField === 'outtime' ? 'Save' : 'Edit' }}
                                 </button>
                                 <!-- <swipes v-show="dayatt.swipesout.length > 0" :swipes="dayatt.swipesout"
@@ -104,12 +104,14 @@
                                         ? SetOTManualSetOT(dayatt.date, editedOvertime)
                                         : isEditChange(dayatt.id, 'overtime', editedOvertime)
                                     "
-                                    class="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:ring-blue-300 font-medium rounded-lg text-sm px-2 py-1">
+                                    class="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:ring-blue-300 font-medium rounded-lg text-sm px-1 py-1">
                                     {{ editingRowId === dayatt.id && editingField === 'overtime' ? 'Save' : 'Edit' }}
                                 </button>
                             </div>
                         </div>
                         <div>{{ getDayTypeName(dayatt.dayType) }}</div>
+                        <div></div>
+                        <div></div>
                         <div></div>
                         <div>
                             <div v-show="userStore.loggedUser.userGroup === 'Supervisor' || hrStore.loggeduser.granted === 'hradmin' || hrStore.loggeduser.granted === 'admin'"
@@ -174,6 +176,7 @@ export default {
             showLoading: null,
             editingField: null,
             myUtility: null,
+            hrStore:null,
         }
     },
 
@@ -188,6 +191,8 @@ export default {
         var date = new Date();
         this.dtfrom = this.$myUtility.toInputTypeDate(new Date(date.getFullYear(), date.getMonth(), 1));
         this.dtto = this.$myUtility.toInputTypeDate(new Date(date.getFullYear(), date.getMonth(), date.getDate()));
+
+        this.empNo = this.userStore.loggedUser.userName
 
         let req = {
             FromDate: this.dtfrom,
@@ -325,21 +330,7 @@ export default {
         },
     },
 
-
-
     methods: {
-        // ...mapActions({
-        //     getAttendence: 'hr/getAttendence',
-        //     setManualInOut: 'hr/setManualInOut',
-        //     setOTManualSetOT: 'hr/setOTManualSetOT',
-        //     getOTHours: 'hr/getOTHours',
-        //     GetRecalcOTByHR: 'hr/getRecalcOTByHR',
-        //     GetRefreshAttendance: 'hr/getRefreshAttendance',
-        // }),
-        // ...mapMutations({
-        //     showMessage: 'PUSH_NOTIFICATION',
-        //     reset: 'hr/RESET_ATTENDENCE',
-        // }),
 
         isEditChange(rowId, field, value) {
             if (this.editingRowId === rowId && this.editingField === field) {
@@ -375,10 +366,10 @@ export default {
             this.dtto = req.dtto
             // this.reset();
 
-            await this.hrStore.getViewAbsences({
-                from_date: this.dtfrom,
-                to_date: this.dtto,
-                empNo: this.empNo,
+            await this.hrStore.getAttendenceByEmp({
+                FromDate: this.dtfrom,
+                ToDate: this.dtto,
+                EmpNo: this.empNo,
             }, this.showLoading)
         },
 
@@ -386,12 +377,11 @@ export default {
             const req = {
                 empNo: this.empNo,
                 dtAtten: date,
-                in: inn,
-                out: out,
-                user: { "name": "testname", "username": "Test" }
+                In: inn,
+                Out: out,
             }
 
-            await this.setManualInOut(req);
+            await this.hrStore.setManualInOut(req,this.showLoading);
 
             const attendanceReq = {
                 from_date: this.dtfrom,
@@ -399,7 +389,7 @@ export default {
                 empno: this.empNo
             }
 
-            await this.getAttendence(attendanceReq);
+            // await this.getAttendence(attendanceReq);
 
             this.editingRowId = null;
             this.editingField = null;

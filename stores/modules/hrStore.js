@@ -552,6 +552,38 @@ export const useHrStore = defineStore("hrStore", {
       loadingAlert.close();
     },
 
+    async setManualInOut(req, showLoading) {
+      console.log('API-setManualInOut');
+      console.log(JSON.stringify(req));
+
+      const loadingAlert = showLoading("");
+      try {
+        const response = await axios.post(
+          `${import.meta.env.VITE_API_URL}/hr/Attendance/SetManualInOut`,req);
+        console.log("response:", response);
+        if (response.data.isSuccess) {
+          // this.empdetails = response.data.data.data || {};
+          this.showToast("In-Out change successful!", "success");
+        } else {
+          console.error("Loading error:", response.data.message);
+          // this.showToast(response.data.message, 'error');
+        }
+      } catch (error) {
+        console.error("Loading error:", error);
+        this.showToast(error.response.data.Message, "error");
+      }
+      loadingAlert.close();
+    },
+    
+
+
+
+
+
+
+
+
+
     async setOTManual(req, showLoading) {
       console.log('API-setOTManual');
       console.log(JSON.stringify(req));
@@ -644,6 +676,10 @@ export const useHrStore = defineStore("hrStore", {
       }
       loadingAlert.close();
     },
+
+
+
+
 
     async getReCalcOT(req, showLoading) {
       console.log('API-getReCalcOT');
