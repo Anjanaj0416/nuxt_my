@@ -1,26 +1,68 @@
-<template>
-  <div class="min-h-screen bg-gray-50 dark:bg-gray-900 transition-colors duration-300">
-    <NuxtRouteAnnouncer />
-    <AppHeader />
-    <main>
+<!-- <template>
+  <section class="page-container">
+    <LoadingSpinner v-if="isLoading" />
+    <headercomp/> 
+    
+    The page content will be injected here
+    <main class="content">
       <NuxtPage />
     </main>
-    <AppFooter />
-  </div>
+
+    <footercomp/>
+  </section>
+</template> -->
+
+<template>
+  <section class="page-container">
+    <!-- Spinner only shows when loading -->
+    <LoadingSpinner v-if="isLoading" />
+
+    <!-- Rest of the app shows only after loading is done -->
+    <div v-else>
+      <!-- <headercomp/> -->
+      <main class="content">
+        <NuxtPage />
+      </main>
+      
+    </div>
+  </section>
 </template>
 
-<script setup>
 
-import AppHeader from '~/components/learners/AppHeader.vue'
-import AppFooter from '~/components/learners/AppFooter.vue'
-import { useAuthStore } from '~/stores/modules/learners/auth'  // or your correct path
-import { useTheme } from '~/composables/learners/useTheme'  // or your correct path
+<script>
+import headercomp from '~/components/society/header.vue'
+import footercomp from '~/components/footer'
+import LoadingSpinner from '~/components/LoadingSpinner.vue'
 
-const { initTheme } = useTheme()
-const { initAuth } = useAuthStore()
-
-onMounted(() => {
-  initTheme()
-  initAuth()
-})
+export default {
+  components: {headercomp,footercomp,LoadingSpinner},
+  data() {
+    return {
+       showLoading: null,
+       isLoading:null,
+    }
+  },
+  async created() {
+    this.isLoading = useLoading()
+    // console.log("isLoading:",this.isLoading);
+    
+   // alert('sl')
+     // this.showLoading = this.$showLoading;
+    //  const loadingAlert = showLoading("");
+      // loadingAlert.close();
+  },
+}
 </script>
+
+<style scoped>
+.page-container {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+}
+
+.content {
+  flex-grow: 1; /* Allows the content to take the available space */
+}
+
+</style>

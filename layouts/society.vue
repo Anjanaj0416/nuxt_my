@@ -19,9 +19,9 @@
 
     <!-- Rest of the app shows only after loading is done -->
     <div v-else>
-      <headercomp/>
+      <!-- <headercomp/> -->
       <main class="content">
-        <NuxtPage />
+        <!-- <NuxtPage /> -->
       </main>
       
     </div>

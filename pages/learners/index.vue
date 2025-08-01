@@ -1,92 +1,78 @@
 <template>
-  <div class="min-h-screen bg-gray-50 dark:bg-gray-900 transition-colors duration-300">
-    <!-- Hero Section -->
-    <section class="relative bg-primary-500 text-primary-50">
-      <div class="absolute inset-0 bg-black/20"></div>
-      <div class="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-20 lg:py-32">
-        <div class="text-center">
-          <h1 class="text-4xl md:text-6xl font-bold mb-6">
-            Find Your Perfect
-            <span class="text-transparent bg-clip-text bg-primary-200">
-              Driving School
-            </span>
+  <div class="">
+    <header class="flex items-center justify-between h-20 px-4 sm:px-10 lg:px-44  bg-red-500 w-full">
+      <!-- Logo or Brand -->
+      <NuxtLink to="/" class="flex items-center space-x-2">
+        <span class="text-xl sm:text-3xl font-bold text-white tracking-wide whitespace-nowrap">learners.lk</span>
+      </NuxtLink>
+
+      <!-- Right Side Content (Registration Button) -->
+      <NuxtLink
+        to="/Registration"
+        class="flex items-center gap-2 px-4 py-2 text-sm font-medium text-red-500 transition-all duration-300 bg-white rounded-full shadow"
+      >
+        Registration
+      </NuxtLink>
+    </header>
+
+    <section class="relative bg-red-500 text-primary-50">
+      <div class="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-4 lg:py-8 md:py-12 text-center">
+          <h1 class="text-xl sm:text-2xl md:text-4xl lg:text-3xl font-bold mb-2">
+            Find Your Perfect  Driving School
           </h1>
-          <p class="text-xl md:text-2xl mb-8 text-primary-100 max-w-3xl mx-auto">
+          <p class="text-sm md:text-sm mb-2 sm:mb-8 md:mb-2 lg:mb-2 text-primary-100 max-w-3xl mx-auto">
             Connect with trusted driving instructors, compare prices, read reviews, and book lessons online with
             confidence.
           </p>
 
           <!-- Search Bar -->
-          <div class="max-w-2xl mx-auto mb-8">
-            <div class="bg-white rounded-lg shadow-lg p-2">
-              <div class="flex flex-col md:flex-row gap-2">
-                <div class="flex-1">
-                  <input v-model="searchQuery" type="text" placeholder="Enter your location..."
-                    class="w-full px-4 py-3 text-primary-920 rounded-lg border-0 focus:ring-2 focus:ring-primary-500 focus:outline-none" />
-                </div>
-                <button @click="searchSchools"
-                  class="px-6 py-3 bg-primary-500 hover:bg-secondary-970 text-white rounded-lg font-medium transition-colors flex items-center justify-center space-x-2">
-                  <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                      d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
-                  </svg>
-                  <span>Search</span>
+          <div className="px-4 mt-5 lg:mt-8 sm:px-8">     
+            <form onSubmit={handleSearch} className="max-w-lg mx-auto">   
+              <label className="mb-2 text-sm font-medium text-gray-900 sr-only dark:text-white">Search</label>
+              <div className="relative">
+                <input 
+                  type="search" 
+                  id="default-search" v-model="searchQuery"
+                  className="block w-full p-4 text-sm text-gray-900 border border-gray-300 rounded-full ps-10 bg-gray-50 dark:bg-white dark:border-gray-300 dark:placeholder-gray-400 dark:text-gray-900 dark:focus:ring-red-500 dark:focus:border-red-500 " 
+                  placeholder="Search Learners ...
+"
+                />
+                <button 
+                  type="submit" 
+                  className="text-white absolute end-2.5 bottom-2.5 bg-red-500 hover:bg-red-400 hover:text-yellow-50 focus:ring-4 focus:outline-none focus:ring-red-300 font-medium rounded-full text-sm px-4 py-2 dark:bg-red-500 dark:hover:bg-red-700 dark:focus:ring-red-800"
+                >
+                  Search
                 </button>
               </div>
-            </div>
+            </form>
           </div>
-
-          <!-- Quick Stats -->
-          <div class="grid grid-cols-1 md:grid-cols-3 gap-8 max-w-4xl mx-auto">
-            <div class="text-center">
-              <div class="text-3xl md:text-4xl font-bold text-primary-200 mb-2">500+</div>
-              <div class="text-primary-100">Certified Schools</div>
-            </div>
-            <div class="text-center">
-              <div class="text-3xl md:text-4xl font-bold text-primary-200 mb-2">10,000+</div>
-              <div class="text-primary-100">Passed Students</div>
-            </div>
-            <div class="text-center">
-              <div class="text-3xl md:text-4xl font-bold text-primary-200 mb-2">95%</div>
-              <div class="text-primary-100">Active students</div>
-            </div>
-          </div>
-        </div>
       </div>
     </section>
 
     <!-- Featured Schools Section -->
-    <section id="schools" class="py-16 bg-gray-50 ">
+    <section id="schools" class="py-8 bg-gray-10 ">
       <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div class="text-center mb-12">
+        <!-- <div class="text-center">
           <h2 class="text-3xl md:text-4xl font-bold text-gray-900 mb-4">
             Top Rated Schools
           </h2>
           <p class="text-xl text-gray-600 max-w-2xl mx-auto">
             Discover the highest-rated driving schools in your area with proven track records.
           </p>
-        </div>
+        </div> -->
 
         <!-- Filters -->
-        <div class="bg-white rounded-lg shadow-sm p-6 mb-8">
-          <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
-            <!-- Search -->
-            <div>
-              <label class="block text-sm font-medium text-gray-700  mb-2">
-                Search
+        <div class="p-6 mb-8">
+          <div class="flex justify-end">
+            <div class="w-60">
+              <label class="block text-xs font-medium text-gray-600 mb-1">
+                Filter Location
               </label>
-              <input v-model="searchQuery" type="text" placeholder="Search by name or location..."
-                class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary-500 focus:border-transparent " />
-            </div>
-
-            <!-- Location Filter -->
-            <div>
-              <label class="block text-sm font-medium text-gray-700 mb-2">
-                Location
-              </label>
-              <select v-model="selectedLocation"
-                class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary-500 focus:border-transparent ">
-                <option value="">All Locations</option>
+              <select
+                v-model="selectedLocation"
+                class="w-full px-3 py-1.5 text-xs text-gray-700 bg-white border border-gray-300 rounded-md shadow-sm focus:ring-1 focus:ring-red-500 focus:outline-none transition"
+              >
+                <option value="">All</option>
                 <option value="Downtown">Downtown</option>
                 <option value="Westside">Westside</option>
                 <option value="City Center">City Center</option>
@@ -94,6 +80,9 @@
             </div>
           </div>
         </div>
+
+
+
 
         <!-- Schools Grid -->
         <div v-if="filteredSchools.length > 0" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
@@ -142,13 +131,13 @@
 
               <div class="flex space-x-2">
                 <button @click="viewSchoolDetails(school)"
-                  class="flex-1 bg-primary-500 hover:bg-secondary-970 text-white py-2 px-4 rounded-lg font-medium transition-colors text-center text-sm">
+                  class="flex-1 bg-red-600  text-white py-2 px-4 rounded-lg font-medium  text-center text-sm">
                   View Details
                 </button>
-                <NuxtLink :to="`/learners/register?type=student&school=${school.id}`"
+                <!-- <NuxtLink :to="`/learners/register?type=student&school=${school.id}`"
                   class="flex-1 bg-secondary-600 hover:bg-secondary-500 text-white py-2 px-4 rounded-lg font-medium transition-colors text-center text-sm">
                   Register
-                </NuxtLink>
+                </NuxtLink> -->
               </div>
             </div>
           </div>
@@ -232,63 +221,117 @@
     </section>
 
     <!-- CTA Section -->
-    <section class="py-16 bg-primary-500 to-secondary-600 text-white">
-      <div class="max-w-4xl mx-auto text-center px-4 sm:px-6 lg:px-8">
-        <h2 class="text-3xl md:text-4xl font-bold mb-4">Ready to Start Learning?</h2>
-        <p class="text-xl mb-8 text-blue-100">
-          Join thousands of successful students who found their perfect driving school through DriveLearn.
-        </p>
-        <div class="flex flex-col sm:flex-row gap-4 justify-center">
-          <NuxtLink to="/register"
-            class="bg-white text-primary-920 hover:bg-gray-100 px-8 py-3 rounded-lg font-medium transition-colors flex items-center justify-center space-x-2">
-            <span>Get Started Today</span>
-            <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7" />
-            </svg>
-          </NuxtLink>
-          <NuxtLink to="/learners/schools"
-            class="border-2 border-white text-white hover:bg-white hover:text-primary-920 px-8 py-3 rounded-lg font-medium transition-colors">
-            Browse Schools
-          </NuxtLink>
-        </div>
-      </div>
-    </section>
+    <footers />
 
   </div>
 </template>
 
-<script setup>
+<script >
 
-definePageMeta({
-  layout: 'learners',
-  // middleware: 'auth',
-});
-
-
-import { useSchoolsStore } from '~/stores/modules/learners/school'  // or your correct path
-const schoolsStore = useSchoolsStore()
-const { searchQuery, selectedLocation, filteredSchools } = storeToRefs(schoolsStore)
+import { useSchoolsStore } from '~/stores/modules/learners/school'
+import { useUserStore } from '~/stores/modules/userStore'
 import { storeToRefs } from 'pinia'
+import footers from '~/components/learners/footer.vue'
 
-const searchSchools = () => {
-  navigateTo('/learners/schools', {
-    query: {
-      search: searchQuery.value,
-      location: selectedLocation.value,
-    }
-  })
-}
+  definePageMeta({
+    layout: 'learners',
+    // middleware: 'auth',
+  });
 
-// Handles the "View Details" button click
-const viewSchoolDetails = (school) => {
-  navigateTo(`/learners/schools/${school.id}`)
-}
+  export default {
+    
+    components: {footers},
+    props:[''],
+    data() {
+      return {
+        imageroot: "",
+        showLoading: null,
+        userStore: null,
+        schoolsStore: null,
+        searchQuery: '',
+        selectedLocation: '',
+        filteredSchools: null
+      }
+    },
+    async mounted() {
+     
+    },
+    async created() {
+      this.userStore = useUserStore();
+       this.schoolsStore = useSchoolsStore();
 
-// SEO
-useHead({
-  title: 'DriveLearn - Find Your Perfect Driving School',
-  meta: [
-    { name: 'description', content: 'Connect with trusted driving schools in your area. Compare prices, read reviews, and book lessons online with confidence.' }
-  ]
-})
+       
+      const { searchQuery, selectedLocation, filteredSchools } = storeToRefs(this.schoolsStore);
+this.searchQuery = searchQuery;
+this.selectedLocation = selectedLocation;
+this.filteredSchools = filteredSchools;
+
+
+      this.showLoading = this.$showLoading;
+      this.imageroot = this.userStore.loggedUser.resourceURLRoot;
+      
+
+    },
+    watch: {},
+    computed: {
+  
+    },
+    methods: {
+     
+      searchSchools() {
+        this.$router.push({
+          path: '/learners/schools',
+          query: {
+            search: this.searchQuery.value,
+            location: this.selectedLocation.value,
+          }
+        });
+      },
+      viewSchoolDetails(school) {
+        this.$router.push(`/learners/schools/${school.id}`);
+      }
+
+    },
+    async beforeMount() {
+
+  
+    },
+    head() {
+      return {
+        title: 'DriveLearn - Find Your Perfect Driving School',
+      }
+    },
+  }
+
 </script>
+
+<!-- 
+// import { useSchoolsStore } from '~/stores/modules/learners/school'
+// import footer from '~/components/learners/footer.vue';
+// import { storeToRefs } from 'pinia'
+
+// const schoolsStore = useSchoolsStore()
+// const { searchQuery, selectedLocation, filteredSchools } = storeToRefs(schoolsStore)
+
+// const searchSchools = () => {
+//   navigateTo('/learners/schools', {
+//     query: {
+//       search: searchQuery.value,
+//       location: selectedLocation.value,
+//     }
+//   })
+// }
+
+// // Handles the "View Details" button click
+// const viewSchoolDetails = (school) => {
+//   navigateTo(`/learners/schools/${school.id}`)
+// }
+
+// // SEO
+// useHead({
+//   title: 'DriveLearn - Find Your Perfect Driving School',
+//   meta: [
+//     { name: 'description', content: 'Connect with trusted driving schools in your area. Compare prices, read reviews, and book lessons online with confidence.' }
+//   ]
+// })
+// </script> -->
