@@ -10,6 +10,7 @@
  
       </div>
     </header>
+    <!-- {{school  }} -->
     <div v-if="school" class="min-h-screen bg-gray-50  py-8">
       <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <!-- Breadcrumb -->
@@ -77,41 +78,39 @@
 
         <!-- Rearranged UI: Sidebar first, then main content -->
         <div class="grid grid-cols-1 lg:grid-cols-3 gap-4">
-          <!-- Sidebar -->
           <div class="space-y-6 order-1 lg:order-none">
-            <!-- Booking Card (without price) -->
-
-            <div class="bg-white rounded-lg shadow-sm p-6 top-8">
+            <div class="bg-white rounded-lg shadow-sm p-6 ">
+              <!-- Button Row: side-by-side on mobile, stacked on md+ -->
               <div class="flex flex-row md:flex-col gap-3">
+                <!-- Login Button -->
                 <button
                   @click="GoToAddNew"
                   class="w-1/2 md:w-full bg-red-600 hover:bg-red-500 text-white py-2 px-3 text-sm rounded-md font-medium transition-colors"
                 >
                   Login
                 </button>
-                <button
 
-                  class="w-1/2 md:w-full border-2 border-red-500 hover:bg-red-500 py-2 px-3 text-sm rounded-md font-medium transition-colors"
-                >
-                  Registration
-                </button>
+                <!-- Registration Button -->
+                <NuxtLink :to="`/learners/studentRegistration`">
+                  <button
+                    class="w-full border-2 border-red-500 hover:bg-red-500 hover:text-white py-2 px-3 text-sm rounded-md font-medium transition-colors"
+                  >
+                    Registration
+                  </button>
+                </NuxtLink>
               </div>
-              <div>
-              <a href="tel:+94771234567">
-                <button
-                  class="w-full border-2 border-red-500 hover:bg-red-500 py-2 px-3 text-sm rounded-md font-medium transition-colors mt-4"
-                >
-                  Contact me
-                </button>
-              </a>
+
+              <!-- Contact Button -->
+              <div class="mt-4">
+                <a href="tel:+94771234567">
+                  <button
+                    class="w-full border-2 border-red-500 hover:bg-red-500 hover:text-white py-2 px-3 text-sm rounded-md font-medium transition-colors"
+                  >
+                    Contact me
+                  </button>
+                </a>
               </div>
             </div>
-            
-
-
-
-
-
             <!-- Contact Info -->
             <div class="bg-white rounded-lg shadow-sm p-6">
               <h3 class="text-lg font-semibold text-gray-900 mb-4">Contact Information</h3>
@@ -313,7 +312,7 @@ import { computed, ref, onMounted } from 'vue'
 import { useRoute } from 'vue-router'
 import { useAuthStore } from '~/stores/modules/learners/auth'
 import { useSchoolsStore } from '~/stores/modules/learners/school'
-import logingPage from '~/components/learners/login.vue'
+import logingPage from '~/components/learners/common/login'
 
 definePageMeta({
   layout: 'learners',
@@ -347,6 +346,7 @@ export default {
       GoToAddNew() {
         this.isLogin = true;
       },
+
 
 
   },

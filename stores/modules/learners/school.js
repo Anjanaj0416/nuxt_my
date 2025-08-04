@@ -88,6 +88,67 @@ export const useSchoolsStore = defineStore('schools', () => {
           date: '2024-01-22'
         }
       ]
+    },{
+      id: 4,
+      name: 'Quick Pass Driving',
+      reviewCount: 203,
+      location: 'City Center',
+      distance: '1.8 km',
+      image: 'https://images.pexels.com/photos/1545743/pexels-photo-1545743.jpeg?auto=compress&cs=tinysrgb&w=400',
+      services: ['Manual', 'Automatic', 'Intensive Courses', 'Pass Plus'],
+      description: 'Premium driving school with the highest pass rates in the city.',
+      instructor: 'David Brown',
+      phone: '+1 (555) 456-7890',
+      email: 'hello@quickpass.com',
+      address: '789 Central Plaza, City Center',
+      features: ['High Pass Rate', 'Premium Vehicles', 'Expert Instructors', 'Online Theory'],
+      reviews: [
+        {
+          id: 1,
+          name: 'Alex Thompson',
+          rating: 5,
+          comment: 'Passed on first attempt! Excellent teaching methods.',
+          date: '2024-01-25'
+        },
+        {
+          id: 2,
+          name: 'Lisa Chen',
+          rating: 5,
+          comment: 'Professional service, modern cars, highly recommend.',
+          date: '2024-01-22'
+        }
+      ]
+    },
+    {
+      id: 5,
+      name: 'Quick Pass Driving',
+      reviewCount: 203,
+      location: 'City Center',
+      distance: '1.8 km',
+      image: 'https://images.pexels.com/photos/1545743/pexels-photo-1545743.jpeg?auto=compress&cs=tinysrgb&w=400',
+      services: ['Manual', 'Automatic', 'Intensive Courses', 'Pass Plus'],
+      description: 'Premium driving school with the highest pass rates in the city.',
+      instructor: 'David Brown',
+      phone: '+1 (555) 456-7890',
+      email: 'hello@quickpass.com',
+      address: '789 Central Plaza, City Center',
+      features: ['High Pass Rate', 'Premium Vehicles', 'Expert Instructors', 'Online Theory'],
+      reviews: [
+        {
+          id: 1,
+          name: 'Alex Thompson',
+          rating: 5,
+          comment: 'Passed on first attempt! Excellent teaching methods.',
+          date: '2024-01-25'
+        },
+        {
+          id: 2,
+          name: 'Lisa Chen',
+          rating: 5,
+          comment: 'Professional service, modern cars, highly recommend.',
+          date: '2024-01-22'
+        }
+      ]
     }
   ])
 

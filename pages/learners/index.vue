@@ -8,7 +8,7 @@
 
       <!-- Right Side Content (Registration Button) -->
       <NuxtLink
-        to="/Registration"
+        to="/learners/registration"
         class="flex items-center gap-2 px-4 py-2 text-sm font-medium text-red-500 transition-all duration-300 bg-white rounded-full shadow"
       >
         Registration
@@ -155,7 +155,7 @@
     </section>
 
     <!-- Features Section -->
-    <section class="py-16 bg-white">
+    <!-- <section class="py-16 bg-white">
       <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div class="text-center mb-12">
           <h2 class="text-3xl md:text-4xl font-bold text-gray-900 mb-4">
@@ -218,7 +218,30 @@
           </div>
         </div>
       </div>
-    </section>
+    </section> -->
+
+<div class="py-10 bg-white text-center">
+    <h2 class="text-xl font-semibold text-gray-800 mb-6">
+      Partnered Learners Providers
+    </h2>
+
+    <Swiper
+    :slides-per-view="getSlidesPerView"
+    :space-between="30"
+    :loop="true"
+    :autoplay="{ delay: 2000, disableOnInteraction: false }"
+    class="w-full max-w-6xl mx-auto"
+  >
+    <SwiperSlide v-for="(logo, index) in logos" :key="index">
+      <img
+        :src="logo"
+        alt="Learner Provider Logo"
+        class="h-20 mx-auto object-contain"
+      />
+    </SwiperSlide>
+  </Swiper>
+
+  </div>
 
     <!-- CTA Section -->
     <footers />
@@ -231,19 +254,36 @@
 import { useSchoolsStore } from '~/stores/modules/learners/school'
 import { useUserStore } from '~/stores/modules/userStore'
 import { storeToRefs } from 'pinia'
-import footers from '~/components/learners/footer.vue'
+import footers from '~/components/learners/common/footer.vue'
+import { Swiper, SwiperSlide } from 'swiper/vue'
+import 'swiper/css'
 
   definePageMeta({
     layout: 'learners',
     // middleware: 'auth',
   });
 
+
+
   export default {
     
-    components: {footers},
+    components: {footers, Swiper,
+    SwiperSlide,},
     props:[''],
     data() {
       return {
+      logos: [
+        'https://rathnalearners.com/wp-content/uploads/2020/08/RATHNA-LEARNERS-LOGO-OFFICIAL-2-01-1.png',
+        'https://www.bimallearners.com/assets/img/logo.png',
+        'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRY589q594_OLfFJn3iEBDsZu9Yqga-EF9iLc8Y9njQz3GvH1VyUkWXMKn_7lJ8E4_0G-M&usqp=CAU',
+        'https://www.bimallearners.com/assets/img/logo.png',
+        'https://www.bimallearners.com/assets/img/logo.png',
+        'https://rathnalearners.com/wp-content/uploads/2020/08/RATHNA-LEARNERS-LOGO-OFFICIAL-2-01-1.png',
+        'https://www.bimallearners.com/assets/img/logo.png',
+        'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRY589q594_OLfFJn3iEBDsZu9Yqga-EF9iLc8Y9njQz3GvH1VyUkWXMKn_7lJ8E4_0G-M&usqp=CAU',
+        'https://www.bimallearners.com/assets/img/logo.png',
+        'https://www.bimallearners.com/assets/img/logo.png',
+      ],
         imageroot: "",
         showLoading: null,
         userStore: null,
@@ -262,9 +302,9 @@ import footers from '~/components/learners/footer.vue'
 
        
       const { searchQuery, selectedLocation, filteredSchools } = storeToRefs(this.schoolsStore);
-this.searchQuery = searchQuery;
-this.selectedLocation = selectedLocation;
-this.filteredSchools = filteredSchools;
+      this.searchQuery = searchQuery;
+      this.selectedLocation = selectedLocation;
+      this.filteredSchools = filteredSchools;
 
 
       this.showLoading = this.$showLoading;
@@ -274,9 +314,16 @@ this.filteredSchools = filteredSchools;
     },
     watch: {},
     computed: {
-  
+      getSlidesPerView() {
+          const width = window.innerWidth
+          if (width < 640) return 2
+          if (width < 1024) return 3
+          return 5
+        },
     },
     methods: {
+
+      
      
       searchSchools() {
         this.$router.push({
