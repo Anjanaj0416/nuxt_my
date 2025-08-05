@@ -1,9 +1,9 @@
 <template>
     <section class="justify-center">
-      <div  v-if="!showInvoice && !showWorkFlow">
+      <div  v-if="!showAddProposal && !showInvoice && !showWorkFlow">
         <div class="flex flex-col-reverse items-start justify-between gap-4 mb-4 md:flex-row md:items-center">
           <div class="text-2xl uppercase">Order </div>
-           <button
+           <!-- <button
               v-if="id"
               class="flex items-center gap-2 px-4 py-2 text-sm font-medium text-gray-500 transition-all duration-300 bg-white border-1 rounded-full shadow hover:bg-blue-700 hover:text-white hover:shadow-md"
               @click="$emit('close')"
@@ -12,8 +12,17 @@
                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7" />
               </svg>
               Back to Proposals
-            </button>
+            </button> -->
+            <div class="w-full md:w-auto">
+              <div class="mr-2">
+            
+                <Button class="w-24 px-4 py-1.5 mt-2 rounded-full text-xs transition" label="Create" variant="primary" 
+                v-if="userStore.loggedUser.granted.includes('su') || userStore.loggedUser.granted.includes('flo') || userStore.loggedUser.granted.includes('sso')"
+                  @click="handleCreateClick" />
+              </div>
+            </div>
           </div>
+
 
           <!-- {{ quotationStore.orderList }} -->
 
@@ -123,6 +132,11 @@
           </div>
         </div>
       </div>
+
+      <AddOrder v-if="isAddEdit && showAddProposal" @close="isAddEdit = false; showAddProposal = false" :customerRef="customerRef"/>
+
+
+
       
     </section>
   </template>
@@ -137,6 +151,7 @@
   import Button from "~/components/customcontrol/Button";
   import selectinput2 from "~/components/customcontrol/selectinput2";
 
+  import AddOrder from './addOrder.vue';
   import Invoice from "~/components/qms/invoice/index.vue";
   import WorkFlow from "~/components/qms/workFlow/index.vue";
 
@@ -148,16 +163,18 @@
    
   export default {
     
-    components: {LinkBtn,Button,selectinput2,Invoice,WorkFlow},
-    props:['id'],
+    components: {LinkBtn,Button,selectinput2,Invoice,WorkFlow,AddOrder},
+    props: ['id', 'customerRef'],
     data() {
       return {
+        isAddEdit: false,
         isViewMore: false,
         showInvoice: false,
         showWorkFlow:false,
         activeOrderInvoiceId: null, 
         activeOrderWorkFloweId: null,
         orderList: [] ,
+        showAddProposal: false,
       }
     },
 
@@ -174,6 +191,17 @@
 
     
     methods: {
+
+        handleCreateClick() {
+          this.showAddProposal = true;
+          this.GoToAddNew(); // Assuming GoToAddNew is a method
+        },
+
+        GoToAddNew() {
+          this.quotationStore.ResetQuotation();
+          this.quotationStore.quotation.customerRef=this.customerRef;
+          this.isAddEdit = true;
+        },
 
         confirmDelete(orderId) {
           this.$showConfirm(

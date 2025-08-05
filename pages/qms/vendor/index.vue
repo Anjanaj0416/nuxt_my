@@ -216,7 +216,7 @@
             <IsuePINo :vendorId="vd.id" @close="vendorTabs[vd.id] = ''; quotationStore.curVendorId = null"/>
           </div>
           <div v-if="vendorTabs[vd.id] === 'order'">
-            <Order />
+            <Order :customerRef="vd.customerRef"/>
           </div>
           <div v-if="vendorTabs[vd.id] === 'viewMore'">
             <MoreVendor :vendorId="vd.id"/>

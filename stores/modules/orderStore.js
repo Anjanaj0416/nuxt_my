@@ -7,6 +7,8 @@ export const useOrderStore = defineStore("orderStore", {
   state: () => ({
     availablePin: '',
     getWorkFlow: [],
+    initOrder: [],
+    listoPackagesDetails: [],
   }),
   persist: true,
 
@@ -77,6 +79,65 @@ actions: {
       this.showToast("Failed to load WorkFLow", "error");
     }
   },
+
+  //loadInitOrder
+  async loadInitOrderPlace(showLoading) {     
+    console.log('API-InitOrderPlace');
+    const loadingAlert = showLoading("");
+    try {
+      const response = await axios.get(
+        `${import.meta.env.VITE_API_URL}/qms/Order/InitOrderPlace`
+      );
+      loadingAlert.close();
+      if (response.data.isSuccess) {
+        this.initOrder = response.data.data.data;
+      } else {
+        this.showToast(response.data.message, "error");
+      }
+    } catch (error) {
+      this.showToast(response.data.message, "error");
+    }
+  },
+
+
+async setSelectedCategoryId(id, showLoading) {
+  console.log('API-GetItemsByCategory');
+  console.log("Category ID:", JSON.stringify(id));
+
+  const loadingAlert = showLoading("");
+
+  try {
+    const response = await axios.get(
+      `${import.meta.env.VITE_API_URL}/qms/Order/GetItemsByCategory?id=${id}`
+    );
+
+    loadingAlert.close();
+
+    if (response.data.isSuccess) {
+      const items = response.data.data.data;
+      
+      // Log the full nested data
+ 
+      console.log("items:", items);
+
+      this.listoPackagesDetails = items;
+
+      this.showToast(response.data.message);
+    } else {
+      this.showToast(response.data.message, "error");
+    }
+  } catch (error) {
+    loadingAlert.close();
+    console.error("API error:", error);
+    this.showToast("Failed to fetch category items", "error");
+  }
+}
+,
+
+
+
+
+
 
   showToast(message, type) {
     Swal.fire({
