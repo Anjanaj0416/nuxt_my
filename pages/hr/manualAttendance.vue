@@ -14,8 +14,8 @@
                 class="w-60 p-2 mt-2 text-sm border text-gray-900 rounded-md focus:ring-indigo-500 focus:border-indigo-500 dark:text-gray-900"
                 >
                 <option value="">Select an Employee</option>
-                <option value="Nimal">Nimal</option>
-                <option value="Sikuru">Sikuru</option>
+                <option value="dev">Dev</option>
+                <option value="D1001">D1001</option>
               </select>
             </div>
           </div>
@@ -138,7 +138,7 @@ import { useHrStore } from "~/stores/modules/hrStore";
 
       async manualAdd() {
         const req = {
-          empNo: "D1001",
+          empNo: this.selectedEmployee,
           date: this.selectedDate,
           inTime: this.selectedInTime,
           outTime: this.selectedOutTime,

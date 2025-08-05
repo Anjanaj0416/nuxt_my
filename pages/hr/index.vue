@@ -192,6 +192,18 @@
                   Leave
                 </div>
 
+                <!-- Rectify Details -->
+                <div v-show="userStore.loggedUser.userName === emp.empNo || userStore.loggedUser.userGroup === 'hradmin' || userStore.loggedUser.granted.includes('hradmin') ||
+                  userStore.loggedUser.userGroup?.toLowerCase() === 'admin'
+                  " title="Leave Details" @click="
+                    init_rectify(emp.empNo, emp.id);
+                  cur_sec = 'rectify';
+                  selectedrow = emp.id;
+                  isSecClose = false;
+                  " class="p-2 border-2 rounded-lg cursor-pointer hover:text-blue-200">
+                  Rectify
+                </div>
+
                 <!-- Movement Details -->
                 <div v-show="userStore.loggedUser.userName === emp.empNo || userStore.loggedUser.userGroup === 'Supervisor' || userStore.loggedUser.userGroup === 'su' ||
                   userStore.loggedUser?.userGroup?.toLowerCase() === 'admin'
@@ -256,6 +268,16 @@
               </div>
               <!-- End view Absense Create -->
 
+              <!-- view Rectify -->
+              <div v-show="cur_sec.toLowerCase() === 'rectify' &&
+                selectedrow == emp.id &&
+                !isSecClose
+                ">
+                <rectifylist v-if="!isLoading" ref="atten" :empno="emp.empNo" :empname="emp.empName"
+                  :isOTEntitled="isOTEntitled" @exit="exit" />
+              </div>
+              <!-- End view Rectify -->
+
               <!-- view movement -->
               <div v-show="cur_sec.toLowerCase() === 'movement' &&
                 selectedrow == emp.id &&
@@ -271,8 +293,8 @@
                 <movementcreate ref="movementapply" :empno="emp.empNo" :dtFrom=dtfrom :dtTo=dtto
                   @goto_movementview="goto_movementview" />
               </div>
-
               <!-- End view movement -->
+
               <!-- Start OT Apply -->
               <div v-show="cur_sec.toLowerCase() == 'otapply' &&
                 selectedrow == emp.id &&
@@ -330,7 +352,6 @@
 
 import { useHrStore } from "~/stores/modules/hrStore";
 import { useUserStore } from "~/stores/modules/userStore";
-import { useMcleStore } from "~/stores/modules/mcleStore";
 
 import selectinput2 from '~/components/customcontrol/selectinput2'
 import search_dashboard from '~/components/customcontrol/search_bysections_ver2'
@@ -341,6 +362,8 @@ import attendence from '~/components/hr/attendence'
 
 import absenselist from '~/components/hr/absenselist'
 import absencecreate from '~/components/hr/absencecreate'
+
+import rectifylist from '~/components/hr/rectifylist'
 
 import movementlist from '~/components/hr/movementlist'
 import movementcreate from '~/components/hr/movementcreate'
@@ -374,6 +397,7 @@ export default {
     empmoredetails,
     attendence,
     absenselist,
+    rectifylist,
     absencecreate,
     movementlist,
     movementcreate,
@@ -571,13 +595,26 @@ export default {
       this.selectedrow = rowId
       this.isSecClose = false
 
-      const currentYear = new Date().getFullYear();
       let req = {
         empNo: empNo,
         fromDate: this.dtfrom,
         toDate: this.dtto,
       }
       await this.hrStore.getViewAbsences(req, this.showLoading);
+    },
+
+    async init_rectify(empNo, rowId) {
+      this.cur_sec = 'rectify'
+      this.isSecClose = true
+      this.selectedrow = rowId
+      this.isSecClose = false
+
+      let req = {
+        empNo: empNo,
+        fromDate: this.dtfrom,
+        toDate: this.dtto,
+      }
+      // await this.hrStore.getViewAbsences(req, this.showLoading);
     },
 
     async goto_absenseapply(req) {

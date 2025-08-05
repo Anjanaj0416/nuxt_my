@@ -81,7 +81,7 @@
                                 <div v-else>{{ dayatt.outTime }}</div>
                                 <button type="button" @click="
                                     editingRowId === dayatt.id && editingField === 'outtime'
-                                        ? SetManualInOut(dayatt.date, dayatt.intime, editedOuttime)
+                                        ? SetManualInOut(dayatt.date, dayatt.inTime, editedOuttime)
                                         : isEditChange(dayatt.id, 'outtime', editedOuttime)
                                     "
                                     class="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:ring-blue-300 font-medium rounded-lg text-sm px-1 py-1">
@@ -101,7 +101,7 @@
                                 <div v-else>{{ dayatt.overTime }}</div>
                                 <button type="button" @click="
                                     editingRowId === dayatt.id && editingField === 'overtime'
-                                        ? SetOTManualSetOT(dayatt.date, editedOvertime)
+                                        ? SetOTManual(dayatt.date, editedOvertime)
                                         : isEditChange(dayatt.id, 'overtime', editedOvertime)
                                     "
                                     class="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:ring-blue-300 font-medium rounded-lg text-sm px-1 py-1">
@@ -116,7 +116,7 @@
                         <div>
                             <div v-show="userStore.loggedUser.userGroup === 'Supervisor' || hrStore.loggeduser.granted === 'hradmin' || hrStore.loggeduser.granted === 'admin'"
                                 class="w-4/5 p-1 p-2 font-bold text-center border-gray-500 rounded rounded-md cursor-pointer gap-x-1 hover:bg-blue-500 hover:text-white"
-                                @click="getReCalcOT(dayatt)">
+                                @click="getReCalcOT(dayatt.id)">
                                 ReCalc.OT
                             </div>
                         </div>
@@ -158,6 +158,7 @@ export default {
     data() {
         return {
             arr_employee: [
+                "dev",
                 "D1001",
                 "D1002",
                 "D1004"
@@ -176,7 +177,7 @@ export default {
             showLoading: null,
             editingField: null,
             myUtility: null,
-            hrStore:null,
+            hrStore: null,
         }
     },
 
@@ -381,40 +382,51 @@ export default {
                 Out: out,
             }
 
-            await this.hrStore.setManualInOut(req,this.showLoading);
+            this.$showConfirm("Sure to edit this in-out time?", "warning")
+                .then(async (result) => {
+                    if (result.isConfirmed) {
+                        await this.hrStore.setManualInOut(req, this.showLoading);
 
-            const attendanceReq = {
-                from_date: this.dtfrom,
-                to_date: this.dtto,
-                empno: this.empNo
-            }
+                        const attendanceReq = {
+                            FromDate: this.dtfrom,
+                            ToDate: this.dtto,
+                            EmpNo: this.empNo
+                        }
 
-            // await this.getAttendence(attendanceReq);
+                        await this.hrStore.getAttendenceByEmp(attendanceReq, this.showLoading);
 
-            this.editingRowId = null;
-            this.editingField = null;
+                        this.editingRowId = null;
+                        this.editingField = null;
+
+                    }
+                });
         },
 
-        async SetOTManualSetOT(date, otHours) {
+        async SetOTManual(date, otHours) {
             const req = {
                 empNo: this.empNo,
                 dtOT: date,
                 OTHours: otHours,
-                user: { "name": "testname", "username": "Test" }
             }
 
-            await this.setOTManualSetOT(req);
+            this.$showConfirm("Sure to edit this OT time?", "warning")
+                .then(async (result) => {
+                    if (result.isConfirmed) {
+                        await this.hrStore.setOTManual(req, this.showLoading);
 
-            const attendanceReq = {
-                from_date: this.dtfrom,
-                to_date: this.dtto,
-                empno: this.empNo
-            }
+                        const attendanceReq = {
+                            FromDate: this.dtfrom,
+                            ToDate: this.dtto,
+                            EmpNo: this.empNo
+                        }
 
-            // await this.getAttendence(attendanceReq);
+                        await this.hrStore.getAttendenceByEmp(attendanceReq, this.showLoading);
 
-            // this.editingRowId = null;
-            // this.editingField = null;
+                        this.editingRowId = null;
+                        this.editingField = null;
+
+                    }
+                });
         },
 
         async getReCalcOT(attn) {
@@ -424,12 +436,12 @@ export default {
                 this.show_error('Invalid In or Out Time')
             }
             else {
-                await this.GetRecalcOTByHR(attn)
-                await this.getAttendence({
-                    from_date: this.dtfrom,
-                    to_date: this.dtto,
-                    empNo: this.empNo,
-                });
+                await this.hrStore.getRecalcOTByHR(attn, this.showLoading)
+                await this.hrStore.getAttendenceByEmp({
+                    FromDate: this.dtfrom,
+                    ToDate: this.dtto,
+                    EmpNo: this.empNo,
+                }, this.showLoading);
             }
         },
 
@@ -437,9 +449,9 @@ export default {
             const req = {
                 dtFrom: this.dtfrom,
                 dtTo: this.dtto,
-                empno: this.empNo,
+                empNo: this.empNo,
             }
-            await this.GetRefreshAttendance(req)
+            await this.hrStore.getRefreshAttendance(req, this.showLoading)
         },
     },
 
