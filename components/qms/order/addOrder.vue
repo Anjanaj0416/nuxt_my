@@ -13,13 +13,13 @@
 
     <div class="form-content bg-white mt-4 border rounded-lg shadow-md p-4 space-y-1 text-sm text-gray-800">
      
-      <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-3 my-4">
+      <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-3 my-4 gap-8">
         <div>
           <label class="block text-sm font-bold text-gray-600">Select Product Category</label>
             <select
                 v-model="curProductCategory"
                 @change="handleCategoryChange"
-                class="w-full border border-gray-300 rounded px-3 py-2"
+                class="w-full border border-gray-300 rounded px-3 py-2 mt-2"
                 >
                 <option disabled value="">-- Select Category --</option>
                 <option
@@ -34,6 +34,42 @@
             <p v-if="err.curProductCategory" class="text-red-500 text-sm mt-1">
             {{ err.curProductCategory }}
             </p>
+        </div>
+        <div>
+          <label class="block text-sm font-semibold text-gray-700 mb-2">
+            PI Number Issued?
+          </label>
+          <div class="flex items-center space-x-4">
+            <label class="inline-flex items-center cursor-pointer">
+              <input type="checkbox" v-model="piIssued" class="sr-only peer" />
+              <div
+                class="w-11 h-6 bg-gray-300 peer-focus:outline-none peer-focus:ring-4 peer-focus:ring-blue-300
+                rounded-full peer dark:bg-gray-700 peer-checked:bg-blue-600 relative transition-all duration-300"
+              >
+                <div
+                  class="absolute left-1 top-1 bg-white w-4 h-4 rounded-full transition-transform
+                  peer-checked:translate-x-5"
+                ></div>
+              </div>
+            </label>
+            <span class="text-sm font-medium text-gray-900 transition">
+              {{ piIssued ? 'Yes' : 'No' }}
+            </span>
+          </div>
+        </div>
+
+        <!-- PI Number Input (Conditional) -->
+        <div v-if="piIssued" class="transition-all duration-300">
+          <label class="block text-sm font-semibold text-gray-700 mb-2">
+            Enter PI Number
+          </label>
+          <input
+            type="text"
+            v-model="piNumber"
+            placeholder="Enter PI Number"
+            class="w-full border border-gray-300 focus:ring-2 focus:ring-blue-500 focus:border-blue-500
+            rounded-lg px-4 py-2 text-sm bg-gray-50 transition duration-300"
+          />
         </div>
       </div>
 
@@ -196,35 +232,15 @@
                 </div>
                 <div class="flex flex-col items-center justify-center">
                   <p class="mb-2 sm:hidden">SSL:</p>
-                  <div v-if="orderItem.tax">
-                    <input
-                      type="number"
-                      min="1"
-                      class="block p-1 text-xs text-gray-900 border border-gray-300 rounded-lg w-24 sm:w-16 bg-gray-50 sm:text-sm"
-                      placeholder="In Rupees"
-                      v-model="orderItem.ssclRate"
-                      @input="updateTotalPrice(index)"
-                    />
-                  </div>
-                  <div v-else>
+
+                  <div>
                     <strong>{{ this.$myUtility.toLKR(orderItem.ssclRate) }}</strong>
                   </div>
 
                 </div>
                 <div class="flex flex-col items-center justify-center">
-                  <p class="mb-2 sm:hidden">VAT:</p>
-                  <div v-if="orderItem.tax">
-                    <input
-                      type="number"
-                      min="1"
-                      class="block p-1 text-xs text-gray-900 border border-gray-300 rounded-lg w-24 sm:w-16 bg-gray-50 sm:text-sm"
-                      placeholder="In Rupees"
-                      v-model="orderItem.vatRate"
-                      @input="updateTotalPrice(index)"
-                    />
-                  </div>
 
-                  <div v-else>
+                  <div>
                     <strong>{{ this.$myUtility.toLKR(orderItem.vatRate) }}</strong>
                   </div>
                 </div>
@@ -327,7 +343,7 @@ export default {
     selectinput2,
     Button,
   },
-  props:['isVerion','customerRef','orderNo'],
+  props:['customerRef', 'id'],
   data() {
     return {
       isOpen: true,
@@ -335,7 +351,8 @@ export default {
         customerRef: "",
         mainDistrictId: "",
       },
-
+      piIssued: '',
+      piNumber: '',
       selectedPackages: [],
       showLoading: null, 
       listoPackagesDetails: [],
@@ -352,7 +369,11 @@ export default {
   },
   
   watch: {
-
+    piIssued(newVal) {
+      if (!newVal) {
+        this.piNumber = '';  // Clear PI Number input when toggled off
+      }
+    }
   },
   
  computed: {
@@ -422,6 +443,9 @@ export default {
         this.orderStore.listoPackagesDetails = [];
       }
 
+      const vatRate = this.orderStore.initOrder.vatRate ;
+      const ssclRate = this.orderStore.initOrder.ssclRate ;
+
       const orderItem = {
         index: this.orderStore.listoPackagesDetails.length + 1,
         packageId: pkg.itemId,
@@ -431,8 +455,8 @@ export default {
         tax:pkg.isTaxable,
         qty: 1,
         discount: 0.0,
-        vatRate: 0,
-        ssclRate: 0,
+        vatRate: vatRate,
+        ssclRate: ssclRate ,
         total: pkg.showPrice,
       };
 
@@ -505,19 +529,22 @@ export default {
       this.$showConfirm("Confirm: Print the proposal?", "warning")
         .then(async (result) => {
           if (result.isConfirmed) {
-            this.order.isVerion = this.isVerion;
-            this.order.customerRef = this.customerRef;
-            // this.order.currentQNo = this.orderNo;
-
             const payload = {
-              listOrderItem: this.order.listOrderItem,
-              netTotal: this.order.netTotal,
-              isVerion: this.order.isVerion,
-              customerRef: this.order.customerRef,
+              QuotationId: '',
+              OrderNo: this.piNumber || "",
+              ClientId: this.id, 
+              OrderItems: this.order.listOrderItem.map((item, index) => ({
+                Index: index + 1,
+                ItemId: item.packageId,
+                UnitPrice: Number(item.unitPrice),
+                Quantity: Number(item.qty),
+                Discount: Number(item.discount)
+              }))
             };
-          console.log(JSON.stringify(payload));
 
-            // await this.orderStore.GetAddorder(payload, this.showLoading);
+            // console.log("Payload to send:", JSON.stringify(payload, null, 2));
+
+            await this.orderStore.GetAddorder(payload, this.showLoading);
             
           } else {
             console.log("Action canceled");

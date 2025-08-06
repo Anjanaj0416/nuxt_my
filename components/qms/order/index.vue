@@ -24,11 +24,14 @@
           </div>
 
 
-          <!-- {{ quotationStore.orderList }} -->
+          <!-- {{ orderStore.listOrderJSON.stringify(payload, null, 2) }} -->
+
+
+          
 
         <div class="max-h-[660px] overflow-y-auto space-y-4">
           <div
-            v-for="(order, index) in quotationStore.orderList"
+            v-for="(order, index) in orderStore.listOrder"
             :key="index"
             class="flex flex-col gap-3 p-3 mt-2 bg-white border border-gray-200 rounded-lg shadow-sm hover:shadow-md transition-shadow sm:p-4"
           >
@@ -47,8 +50,8 @@
               <div class="hidden sm:block w-px bg-gray-300 h-8"></div>
 
               <div class="flex flex-col text-center sm:text-left">
-                <h1 class="text-xs font-medium text-gray-600">Installments</h1>
-                <p class="text-sm text-gray-700">{{ order.invoiceSummeryDetails.noOfInstallment }}</p>
+                <h1 class="text-xs font-medium text-gray-600">Order Type</h1>
+                <p class="text-sm text-gray-700">{{ order.orderType }}</p>
               </div>
               <div class="hidden sm:block w-px bg-gray-300 h-8"></div>
 
@@ -59,11 +62,36 @@
               <div class="hidden sm:block w-px bg-gray-300 h-8"></div>
 
               <div class="flex flex-col text-center sm:text-left">
+                <h1 class="text-xs font-medium text-gray-600">Proforma</h1>
+                <a
+                  :href="imageroot + order.piUrl"
+                  target="_blank"
+                  class="text-sm font-semibold text-blue-600 hover:underline"
+                >
+                  view
+                </a>
+              </div>
+              <div class="hidden sm:block w-px bg-gray-300 h-8"></div>
+
+
+              <div class="flex flex-col text-center sm:text-left">
+                <h1 class="text-xs font-medium text-gray-600">Pi Signed Scan</h1>
+                <a
+                  :href="imageroot + order.piSignedScanUrl"
+                  target="_blank"
+                  class="text-sm font-semibold text-blue-600 hover:underline"
+                >
+                  view
+                </a>
+              </div>
+              <div class="hidden sm:block w-px bg-gray-300 h-8"></div>
+
+              <div class="flex flex-col text-center sm:text-left">
                 <h1 class="text-xs font-medium text-gray-600">Status</h1>
                 <span 
                   :class="{
                     'bg-green-100 text-green-700': order.orderStatus === 'Check All Paid',
-                    'bg-yellow-100 text-yellow-700': order.orderStatus === 'Pending',
+                    'bg-yellow-100 text-yellow-700': order.orderStatus === 'pending',
                     'bg-red-100 text-red-700': order.orderStatus === 'Rejected'
                   }"
                   class="text-xs font-semibold px-2 py-0.5 rounded-full"
@@ -71,12 +99,25 @@
                   {{ order.orderStatus }}
                 </span>
               </div>
+
+              <!-- v-if="order.isSignedPIUploaded" -->
+
+              <div  class="sm:flex sm:justify-end mt-2">
+                <button
+                  v-if="order.isSignedPIUploaded"
+                  @click="handlePIUploderClick(order.orderNo)"
+                  class="text-red-600 border border-red-300 hover:bg-red-50 font-medium text-sm px-4 py-2 rounded-md transition duration-200"
+                >
+                  SignedPIUploaded
+                </button>
+              </div>
+
               <div class="sm:flex sm:justify-end mt-2">
                 <button
                   @click="confirmDelete(order.id)"
                   class="text-red-600 border border-red-300 hover:bg-red-50 font-medium text-sm px-4 py-2 rounded-md transition duration-200"
                 >
-                  Delete Order
+                  Delete
                 </button>
               </div>
             </div>
@@ -127,14 +168,14 @@
             </div>
           </div>
 
-          <div v-if="!quotationStore.orderList.length" class="mt-4 text-center text-blue-950">
+          <div v-if="!orderStore.listOrder.length" class="mt-4 text-center text-blue-950">
             No quotations found.
           </div>
         </div>
       </div>
 
-      <AddOrder v-if="isAddEdit && showAddProposal" @close="isAddEdit = false; showAddProposal = false" :customerRef="customerRef"/>
-
+      <AddOrder v-if="isAddEdit && showAddProposal" @close="isAddEdit = false; showAddProposal = false" :customerRef="customerRef" :id="id"/>
+      <SignedPIUpload v-if="isSignUpload"  @close="isSignUpload = false"  :id="selectedOrderId"/>
 
 
       
@@ -145,7 +186,8 @@
 
  import { useRoute } from 'vue-router'
  import { useUserStore } from "~/stores/modules/userStore";
- import { useQuotationStore } from '~/stores/modules/qms/quotationStore';
+//  import { useQuotationStore } from '~/stores/modules/qms/quotationStore';
+ import { useOrderStore } from '~/stores/modules/orderStore';
  
  import LinkBtn from "~/components/customcontrol/Link";
   import Button from "~/components/customcontrol/Button";
@@ -154,6 +196,7 @@
   import AddOrder from './addOrder.vue';
   import Invoice from "~/components/qms/invoice/index.vue";
   import WorkFlow from "~/components/qms/workFlow/index.vue";
+  import SignedPIUpload from './signUpload.vue';
 
 
  definePageMeta({
@@ -163,29 +206,42 @@
    
   export default {
     
-    components: {LinkBtn,Button,selectinput2,Invoice,WorkFlow,AddOrder},
+    components: {LinkBtn,Button,selectinput2,Invoice,WorkFlow,AddOrder,SignedPIUpload},
     props: ['id', 'customerRef'],
     data() {
       return {
         isAddEdit: false,
         isViewMore: false,
+        isSignUpload: false,
         showInvoice: false,
         showWorkFlow:false,
         activeOrderInvoiceId: null, 
         activeOrderWorkFloweId: null,
-        orderList: [] ,
-        showAddProposal: false,
+        selectedOrderId: null,
+        listOrder: [] ,
       }
     },
 
     async created() {
       this.userStore = useUserStore();
-      this.quotationStore = useQuotationStore();
+      // this.quotationStore = useQuotationStore();
+      this.orderStore = useOrderStore();
+      this.imageroot = this.userStore.loggedUser.resourceURLRoot;
+
       this.showLoading = this.$showLoading;
 
-      await this.quotationStore.LoadOrders(this.id, this.showLoading);
+      // await this.quotationStore.LoadOrders(this.id, this.showLoading);
+
+
+      await this.orderStore.loadListOrder(
+        { keyword: "", searchBy: this.searchBy },
+        this.showLoading
+      );
+
       
-      this.orderList = this.quotationStore.orderList;
+      // this.orderList = this.quotationStore.orderList;
+      this.listOrder = this.orderStore.orderList;
+
 
     },
 
@@ -194,12 +250,15 @@
 
         handleCreateClick() {
           this.showAddProposal = true;
-          this.GoToAddNew(); // Assuming GoToAddNew is a method
+          this.GoToAddNew(); 
+        },
+
+        handlePIUploderClick(orderNo) {
+          this.selectedOrderId = orderNo;      
+          this.isSignUpload = true;           
         },
 
         GoToAddNew() {
-          this.quotationStore.ResetQuotation();
-          this.quotationStore.quotation.customerRef=this.customerRef;
           this.isAddEdit = true;
         },
 
@@ -214,9 +273,9 @@
             }
 
             try {
-              console.log("Deleting Order ID:", orderId);
+              // console.log("Deleting Order ID:", orderId);
 
-              await this.quotationStore.deleteOrder(orderId, this.showLoading);
+              await this.orderStore.deleteOrder(orderId, this.showLoading);
 
             } catch (error) {
               console.error("Failed to delete order:", error);
