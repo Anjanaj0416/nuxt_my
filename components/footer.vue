@@ -1,18 +1,14 @@
 <!-- https://flowbite.com/docs/components/avatar/ -->
 
 <template>
-    <section>
-      <div class="fixed bottom-0 w-full bg-gray-500 cssfotter">
-            <div class="flex items-center whitespace-nowrap animate-marquee">
-                <p class="p-4 text-lg font-medium">
-                    &copy; 2025 Digital Tech Labs — Innovation at its Finest 🚀
-                </p>
-            </div>
-        </div>
-      
-    </section>
-    <!-- <input type="text" oninput="this.value = this.value.replace(/[^0-9.]/g, '').replace(/(\..*?)\..*/g, '$1');" > -->
-  </template>
+  <footer class="fixed bottom-0 w-full bg-gray-800">
+    <div class="flex justify-center items-center h-10 px-4 sm:h-8 text-center">
+      <p class="text-sm font-medium text-white truncate">
+        &copy; {{ currentYear }} Digital Tech Labs – Driving Digital Excellence 🚀 All rights reserved
+      </p>
+    </div>
+  </footer>
+</template>
   
   <script>
   //import textInput from '~/components/customcontrol/textinput'
@@ -27,6 +23,7 @@
     data() {
       return {
         imageroot: process.env.Assets_83,
+        currentYear: new Date().getFullYear()
       }
     },
     async mounted() {},
@@ -134,6 +131,7 @@
   text-align: center;
   padding: 10px;
   line-height: 30px;
+
   }
   .csscmd{
     @apply p-2 text-center bg-blue-200 rounded;

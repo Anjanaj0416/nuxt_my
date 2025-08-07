@@ -4,13 +4,11 @@ imaportant - Camera Works after hosted with https connection only
 Usage :
 import imagecomp from "~/components/customcontrol/imagepicker";
 
-    <imagecomp
-                  @GetAttachedImage="GetAttachedImage"
-                  :image_file="imageroot"
-                  @ImageChanged="ImageChanged"
-                  @deleteNewImage="DeleteNewImage"
-                  @deleteExistingImage="DeleteExistingImage"
-                  ref="refApprovedImg"
+ <imagecomp              
+                  :existing_image_path="imageroot+ curVendor.shopLogo"     
+                  @deleteExistingImage="curVendor.shopLogo=''"     
+                  @GetSelectedImage="GetSelectedShopImage"    
+                  ref="refVendorImage"
                 />
 
  components: {
@@ -19,154 +17,59 @@ import imagecomp from "~/components/customcontrol/imagepicker";
 
   Data- 
   ------------------
-     imagechanged: false,
+    
       imageroot: process.env.Assets,
-      Uploading_image_details: {
-        image_file: '',
-      },
+   
   }
-
-  mutation 
-  -----------------
-    getSaveImage: 'category/getSaveImage',
-
+ async created() {   
+    this.userStore = useUserStore();    
+    this.imageroot =  this.userStore.loggedUser.resourceURLRoot;    
+  },
+   
     method -
     ------------------ 
-     ImageChanged(ischanged) {
-      this.imagechanged = ischanged
-    },
-
-      ChequeImageDeleted() {
-      this.cheque.chequeimage = ''
-        this.imagechanged = false
-    },
-
+    GetSelectedShopImage(image){
+      this.curVendor.shopLogo = image;
+    }, 
     
-     async Save() {
-      if (this.formValidate() && confirm('Sure to save this record?')) {
-        if (this.imagechanged) {
-          await this.getSaveImage(this.Uploading_image_details)
-        }
-        await this.getSave(this.category)
-      }
-    },
-
-    setNewUser /setEdit - 
-	this.$refs.refImg.initImage();
+   
   -->
 
 <template>
   <article>
     <div class="container">
       <p class="block text-sm text-gray-00">{{ caption }}</p>
-
-      <div class="flex w-40">
-        <div
-          class="bg-blue-400 p-2 rounded-l cursor-pointer text-sm"
-          @click="InitCamera"
-        >
-          <svg
-            xmlns="http://www.w3.org/2000/svg"
-            class="h-6 w-6"
-            fill="none"
-            viewBox="0 0 24 24"
-            stroke="currentColor"
-          >
-            <path
-              stroke-linecap="round"
-              stroke-linejoin="round"
-              stroke-width="2"
-              d="M3 9a2 2 0 012-2h.93a2 2 0 001.664-.89l.812-1.22A2 2 0 0110.07 4h3.86a2 2 0 011.664.89l.812 1.22A2 2 0 0018.07 7H19a2 2 0 012 2v9a2 2 0 01-2 2H5a2 2 0 01-2-2V9z"
-            />
-            <path
-              stroke-linecap="round"
-              stroke-linejoin="round"
-              stroke-width="2"
-              d="M15 13a3 3 0 11-6 0 3 3 0 016 0z"
-            />
-          </svg>
-        </div>
-        <div
-          class="bg-green-400 p-2 rounded-r cursor-pointer text-sm"
-          @click="cmdFromFile"
-        >
-          <svg
-            xmlns="http://www.w3.org/2000/svg"
-            class="h-6 w-6"
-            fill="none"
-            viewBox="0 0 24 24"
-            stroke="currentColor"
-          >
-            <path
-              stroke-linecap="round"
-              stroke-linejoin="round"
-              stroke-width="2"
-              d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"
-            />
-          </svg>
-        </div>
-      </div>
-      <!-- From File Section -->
+     
+      <!-- Selecting Image Section -->
       <div
-        class="mt-2 rounded border-2 p-2 w-full border-blue-800"
-        v-if="isFromFile"
+        class="w-full p-2 mt-2 border-2 border-blue-800 rounded"       
       >
-        <p class="overflow-hidden mb-2">
+        <p class="mb-2 overflow-hidden">
           <input
             type="file"
             ref="fileInput"
             accept="image/*"
-            class="text-sm"
-            @change="InituploadImage"
+            class="text-sm"            
+            @change="GetSelectImage"
           />
-          <input type="text" id="img64" class="text-white" @blur="bindImage" />
+          
         </p>
       </div>
-      <!-- End File Section -->
+      <!-- End  Selecting Image Section-->
 
-      <!-- Camera Section -->
-      <div
-        class="w-full text-center border-2 border-blue-800 rounded mt-2"
-        v-if="isCameraOn"
-      >
-        <div class="h-48 rounded p-2 mb-2">
-          <video ref="video" id="video" autoplay></video>
-          <canvas
-            ref="canvas"
-            id="canvas"
-            hidden
-            width="640"
-            height="480"
-          ></canvas>
-        </div>
-
-        <button
-          class="bg-blue-800 border-blue-800 border-2 p-1 mt-2 text-sm text-white rounded"
-          @click="capture"
-        >
-          Capture
-        </button>
-        <button
-          class="bg-white border-blue-800 border-2 p-1 mt-2 text-sm text-blue-800 rounded"
-          @click="isCameraOn = false"
-        >
-          Cancel
-        </button>
-      </div>
-      <!--End Camera Section -->
-
+  
       <div class="mt-4">
         <!-- Selected Image -->
-        <div class="relative">
+        <div class="relative" v-if="previewImage" >
+      
           <div
-            class="absolute top-0 left-0 text-white hover:text-red-600"
+            class="absolute top-0 right-0 text-red-600 cursor-pointer"
             @click="removeNewImg"
-            title="remove image"
-            v-show="image_file.indexOf('.') > 0 || image_url != ''"
+            title="remove image"           
           >
             <svg
               xmlns="http://www.w3.org/2000/svg"
-              class="h-8 w-8"
+              class="w-8 h-8"
               fill="none"
               viewBox="0 0 24 24"
               stroke="currentColor"
@@ -180,25 +83,26 @@ import imagecomp from "~/components/customcontrol/imagepicker";
             </svg>
           </div>
 
-          <img
-            v-if="image_url.indexOf('blob') == 0 || image_url != ''"
-            class="w-full"
-            :src="image_url"
+          <img          
+            class="w-full h-20"
+            :src="previewImage"
           />
         </div>
         <!-- End Selected Image -->
 
+      
         <!-- Exisitng Image -->
-        <div class="relative mt-2">
-          <div
-            class="absolute top-0 left-0 text-white hover:text-red-600"
+       
+        <div class="relative mt-2" v-if="existing_path">
+          
+          <div 
+            class="absolute top-0 right-0 text-red-600 cursor-pointer"
             @click="removeExistingImg"
-            title="remove image"
-            v-show="image_file.indexOf('.') > 0 || image_url != ''"
+            title="Remove Existing image"           
           >
             <svg
               xmlns="http://www.w3.org/2000/svg"
-              class="h-8 w-8"
+              class="w-8 h-8"
               fill="none"
               viewBox="0 0 24 24"
               stroke="currentColor"
@@ -212,9 +116,9 @@ import imagecomp from "~/components/customcontrol/imagepicker";
             </svg>
           </div>
 
-          <div v-show="image_file.indexOf('.') > 0">
-            <a :href="image_file" target="blank">
-              <img class="h-20 w-full" :src="image_file" />
+          <div>
+            <a :href="existing_path" target="blank">
+              <img class="w-full h-20" :src="existing_path" />
             </a>
           </div>
         </div>
@@ -225,181 +129,39 @@ import imagecomp from "~/components/customcontrol/imagepicker";
 </template>
 <script>
 export default {
-  props: ["caption", "image_file"],
+  props: ["caption", "existing_image_path"],
   data() {
     return {
-      image_url: "",
-      img: "",
-      isFromFile: false,
-      imageByCamera: false,
-      isCameraOn: false,
-
-      video: {},
-      canvas: {},
+    
+      existing_path :this.existing_image_path,
+      newSelectedImage:null,
+      previewImage:null,
+      tempExistingPath:'',
+      
     };
   },
   methods: {
-    removeNewImg() {
-      this.image_url = "";
-      this.image_file = "";
-      this.this.img = "";
-      this.$emit("input", this.image_file);
-
-      this.$emit("deleteNewImage");
-    },
-
-    removeExistingImg() {
-      this.image_url = "";
+    removeExistingImg(){   
+      this.tempExistingPath  = this.existing_path ;
+      this.existing_path = null;
       this.$emit("deleteExistingImage");
     },
-
-    bindImage() {
-      // this.img = document.getElementById("img64").value;
-      // this.$emit("ImageChanged", true);
-      // this.$emit("GetAttachedImage", this.img);
-      // this.isFromFile = false;
+    removeNewImg(){
+      this.newSelectedImage=null;
+      this.previewImage=null;
+      this.existing_path=this.tempExistingPath ;
     },
-    cmdFromFile() {
-      this.imageByCamera = false;
-      this.isCameraOn = false;
-      this.isFromFile = true;
-    },
-    CaptureImage() {
-      //this.isCameraOn = false;
-    },
-    mounted() {},
-
-    initImage() {
-      this.image_url = "";
-      this.this.img = "";
-      this.$emit("ImageChanged", false);
-    },
-
-    InitCamera() {
-      this.imageByCamera = true;
-      this.isCameraOn = true;
-      this.video = this.$refs.video;
-
-      if (navigator.mediaDevices && navigator.mediaDevices.getUserMedia) {
-        navigator.mediaDevices
-          .getUserMedia({
-            video: { facingMode: { ideal: "environment" } },
-            audio: false,
-          })
-          .then((stream) => {
-            video.srcObject = stream;
-          });
+    GetSelectImage(event){
+      const file  = event.target.files[0];
+      if (file) {
+        this.tempExistingPath  = this.existing_path ;
+        this.existing_path = null;
+        this.newSelectedImage = file;
+        this.previewImage = URL.createObjectURL(file);         
+        this.$emit("GetSelectedImage",file);
       }
     },
 
-    camera(face) {
-      this.stop();
-      this.gum(face);
-    },
-    stop() {
-      return (
-        video.srcObject && video.srcObject.getTracks().map((t) => t.stop())
-      );
-    },
-    gum(face) {
-      this.video = this.$refs.video;
-
-      if (face === "user") {
-        return navigator.mediaDevices
-          .getUserMedia({ video: { facingMode: face } })
-          .then((stream) => {
-            video.srcObject = stream;
-            this.localstream = stream;
-          });
-      }
-      if (face === "environment") {
-        return navigator.mediaDevices
-          .getUserMedia({ video: { facingMode: { exact: face } } })
-          .then((stream) => {
-            video.srcObject = stream;
-            this.localstream = stream;
-          });
-      }
-    },
-    changeCam(face) {
-      this.face = face;
-      this.camera(this.face);
-    },
-    capture() {
-      this.InitCamera();
-      this.canvas = this.$refs.canvas;
-      var context = this.canvas
-        .getContext("2d")
-        .drawImage(this.video, 0, 0, 640, 480);
-      //this.image_file = canvas.toDataURL("image/png");
-
-      const dataURL  = canvas.toDataURL("image/png");
-      this.img = dataURLToFile(dataURL, 'image.png');
-
-      // .replace('data:image/png;base64,', '')
-      //.replace('data:image/jpeg;base64,', '')
-      //this.image_url = this.image_file;
-     
-      this.$emit("ImageChanged", true);
-      this.$emit("GetAttachedImage", this.img);
-
-      this.isCameraOn = false;
-    },
-
-    InituploadImage(e) {
-      // this.file = e.target.files[0];
-      // this.image_url = URL.createObjectURL(this.file);
-      // //this.$emit("ImageChanged", true);
-      // var FR = new FileReader();
-
-      // FR.addEventListener("load", function (e) {
-      //   var srcData = e.target.result;
-      //   // .replace('data:image/png;base64,', '')
-      //   // .replace('data:image/jpeg;base64,', '')
-      //   document.getElementById("img64").value = srcData;
-      //   document.getElementById("img64").focus();
-      //   document.getElementById("img64").blur();
-
-      // });
-      // FR.readAsDataURL(this.file);
-
-      // Access the file from the input element
-      const fileInput = this.$refs.fileInput;
-
-      // Ensure a file is selected
-      if (fileInput && fileInput.files && fileInput.files[0]) {
-        this.img = fileInput.files[0];
-        this.$emit("ImageChanged", true);
-        this.$emit("GetAttachedImage", this.img);
-      }
-      this.isFromFile = false;
-    },
-
-    // Function to convert a data URL to a File object
-    dataURLToFile(dataURL, filename) {
-      // Split the dataURL into its MIME type and base64 string
-      const [metadata, base64String] = dataURL.split(",");
-
-      // Decode the base64 string to binary data
-      const binaryString = atob(base64String);
-
-      // Create an ArrayBuffer to hold the binary data
-      const arrayBuffer = new ArrayBuffer(binaryString.length);
-      const uint8Array = new Uint8Array(arrayBuffer);
-
-      // Populate the array buffer with the binary string
-      for (let i = 0; i < binaryString.length; i++) {
-        uint8Array[i] = binaryString.charCodeAt(i);
-      }
-
-      // Create a Blob object with the binary data and the MIME type
-      const blob = new Blob([arrayBuffer], { type: "image/png" });
-
-      // Create a File object from the Blob
-      const file = new File([blob], filename, { type: "image/png" });
-
-      return file;
-    },
   },
 };
 </script>

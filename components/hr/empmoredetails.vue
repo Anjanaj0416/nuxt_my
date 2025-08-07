@@ -3,8 +3,9 @@
 
     <div class="relative min-h-screen px-4 pt-2 text-sm" v-show="hrStore.empdetails.id">
       <div class="absolute top-0 right-0 flex mt-8 mr-8 gap-x-4">
-        <!-- <div v-show="this.loggeduser.granted.indexOf('hradmin') > -1" class="btn" @click="setEdit">Edit</div>-->
-        <div v-show="userStore.loggedUser.granted.indexOf('hradmin') > -1" class="btn" @click="setdelete">Delete</div>
+        <div v-show="userStore.loggedUser.granted.includes('hradmin') || userStore.loggedUser.granted.includes('su')" class="btn" @click="setEdit">Edit</div>
+        <div v-show="userStore.loggedUser.granted.includes('hradmin') || userStore.loggedUser.granted.includes('su')" class="btn" @click="setdelete">Delete</div>
+
 
         <div class="cursor-pointer text-gray-500 hover:text-gray-800" title="Exit Employee Details" @click="getclose">
           <svg xmlns="http://www.w3.org/2000/svg" class="w-8 h-8" fill="none" viewBox="0 0 24 24" stroke="currentColor">
@@ -19,13 +20,14 @@
 
         <div class="p-6 mt-4 bg-white rounded-lg shadow-md">
           <div>
-            <h2 class="mb-5 text-base font-semibold leading-7 text-gray-900">Employee Details</h2>
+            <h2 class=" text-base font-semibold leading-7 text-gray-900">Employee Details</h2>
             <div class="flex -space-x-1 overflow-hidden">
-              <div class="pt-4">
-                <!-- <a :href="imageroot + '/user/' + hrStore.empdetails.image" target="_blank">
+              <div v-if="hrStore.empdetails.imageUr">
+                <a :href="userStore.assetsBaseUrl + hrStore.empdetails.imageUrl" target="_blank">
+                  <!-- :href="imageroot + '/user/' + hrStore.empdetails.image" -->
                   <img class="w-16 h-16 border-2 border-white rounded"
-                    :src="imageroot + '/user/' + hrStore.empdetails.image" alt="" />
-                </a> -->
+                    :src="userStore.assetsBaseUrl + hrStore.empdetails.imageUrl" alt="" />
+                </a>
               </div>
             </div>
           </div>
@@ -35,7 +37,7 @@
             </div>
 
             <div class="col-span-1">
-              <hr_item item="Emp. Name" :value="hrStore.empdetails.name" />
+              <hr_item item="Emp. Name" :value="hrStore.empdetails.empName" />
             </div>
 
             <div class="col-span-1">
@@ -43,11 +45,11 @@
             </div>
 
             <div class="col-span-1">
-              <hr_item item="Calling Name" :value="hrStore.empdetails.callingname" />
+              <hr_item item="Calling Name" :value="hrStore.empdetails.callingName" />
             </div>
 
             <div class="col-span-1">
-              <hr_item item="NIC" :value="hrStore.empdetails.nic" />
+              <hr_item item="CSO No" :value="hrStore.empdetails.csoNo" />
             </div>
 
             <div class="col-span-1">
@@ -55,7 +57,7 @@
             </div>
 
             <div class="col-span-1">
-              <hr_item item="Contact" :value="hrStore.empdetails.contact1" />
+              <hr_item item="Contact" :value="hrStore.empdetails.contact1 +','+hrStore.empdetails.contact2" />
             </div>
 
             <div class="col-span-1">
@@ -64,11 +66,7 @@
 
             <div class="col-span-1">
               <hr_item item="Email 2" :value="hrStore.empdetails.email2" />
-            </div>
-
-            <div class="col-span-1">
-              <hr_item item="Home Phone" :value="hrStore.empdetails.homePhoneNo" />
-            </div>
+            </div>            
 
             <div class="col-span-1">
               <hr_item item="Emergency Contact" :value="hrStore.empdetails.emergencyContact" />
@@ -88,29 +86,29 @@
 
           <div class="grid grid-cols-1 mt-2 sm:grid-cols-5 sm:gap-x-6">
             <div class="col-span-1">
-              <hr_item item="Department" :value="hrStore.empdetails.deptNo" />
+              <hr_item item="Department" :value="hrStore.empdetails.department.value" />
             </div>
             <div class="col-span-1">
-              <hr_item item="Staff Type" :value="hrStore.empdetails.staffType" />
+              <hr_item item="Staff Type" :value="hrStore.empdetails.staffType.value" />
             </div>
             <div class="col-span-1">
               <hr_item item="Designation" :value="hrStore.empdetails.designation" />
             </div>
             <div class="col-span-1">
-              <hr_item item="Employee Type" :value="hrStore.empdetails.empType" />
+              <hr_item item="Employee Type" :value="hrStore.empdetails.empType.value" />
             </div>
             <div class="col-span-1">
-              <hr_item item="Date Of Join" :value="hrStore.empdetails.dateOfJoin" />
+              <hr_item item="Date Of Join" :value="hrStore.empdetails.dateOfJoinDisplay" />
               <!-- <hr_item item="Date Of Join" :value="$options.filters.toShortDate(hrStore.empdetails.dateOfJoin)" /> -->
             </div>
             <div class="col-span-1">
-              <hr_item item="Category" :value="hrStore.empdetails.category" />
+              <hr_item item="Category" :value="hrStore.empdetails.category.value" />
             </div>
             <div class="col-span-1">
               <hr_item item="Is Executive" :value="(hrStore.empdetails.isExecutive) ? 'Yes' : 'No'" />
             </div>
             <div class="col-span-1">
-              <hr_item item="His/Her Supervisor" :value="hrStore.empdetails.supervisor" />
+              <hr_item item="His/Her Supervisor" :value="hrStore.empdetails.managerEmployee.value" />
             </div>
           </div>
 
@@ -130,13 +128,13 @@
               <hr_item item="Other Leave" :value="hrStore.empdetails.otherLeave" />
             </div>
             <div class="col-span-1">
-              <hr_item item="Over Time" :value="hrStore.empdetails.isOTAllow ? 'Yes' : 'No'" />
+              <hr_item item="Over Time" :value="hrStore.empdetails.isOtAllow ? 'Yes' : 'No'" />
             </div>
             <div class="col-span-1">
-              <hr_item item="Regular OnTime" :value="hrStore.empdetails.onTime" />
+              <hr_item item="Regular OnTime" :value="hrStore.empdetails.onTimeDisplay" />
             </div>
             <div class="col-span-1">
-              <hr_item item="Regular OFF Time" :value="hrStore.empdetails.offTime" />
+              <hr_item item="Regular OFF Time" :value="hrStore.empdetails.offTimeDisplay" />
             </div>
           </div>
 
@@ -144,29 +142,90 @@
 
           <div class="grid grid-cols-1 mt-2 sm:grid-cols-5 sm:gap-x-6">
             <div class="col-span-1">
-              <hr_item item="User Name" :value="hrStore.empdetails.username" />
+              <hr_item item="User Name" :value="hrStore.empdetails.callingName" />
             </div>
             <div class="col-span-1">
               <hr_item item="Has Resigned" :value="hrStore.empdetails.isResign ? 'Yes' : 'No'" />
             </div>
             <div class="col-span-1">
-              <hr_item item="Date Of Resigned" :value="hrStore.empdetails.dateOfResign" />
+              <hr_item item="Date Of Resigned" :value="hrStore.empdetails.dateOfResignDisplay" />
               <!-- <hr_item item="Date Of Resigned" :value="$options.filters.toShortDate(hrStore.empdetails.dateOfResign)" /> -->
             </div>
             <div class="col-span-1">
               <hr_item item="Reson For Resign" :value="hrStore.empdetails.reasonForResign" />
             </div>
+               <div class="col-span-1">
+              <hr_item item="Activation"   :value="hrStore.empdetails.isActive ? 'Active' : 'In active'" />
+            </div>
           </div>
 
-          <div class="grid grid-cols-1 mt-2 gap-y-4 sm:grid-cols-5 sm:gap-x-6">
+            <div class="grid grid-cols-1 mt-2 gap-y-4 sm:grid-cols-5 sm:gap-x-6">  
+               
+          
+            <!-- <div class="col-span-1">
+              <hr_item item="Status"   :value="hrStore.empdetails.employeeStatus" />
+            </div> -->
+              <div class="col-span-1">
+              <hr_item item="Feature  Granting"   :value="hrStore.empdetails.granted" />
+            </div>
+            <div class="col-span-1">
+              <hr_item item="Morning OT Allowed"   :value="hrStore.empdetails.isMorningOtAllowed" />
+            </div>
+             <div class="col-span-1">
+              <hr_item item="Role"   :value="hrStore.empdetails.role.value" />
+            </div>
+              </div>
+
+               <div class="grid grid-cols-1 mt-2 gap-y-4 sm:grid-cols-5 sm:gap-x-6">  
+                <div class="col-span-1">
+              <hr_item item="Secret Code"   :value="hrStore.empdetails.secretCode" />
+            </div>
+
+              <div class="col-span-1">
+              <hr_item item="UserCode"   :value="hrStore.empdetails.userCode" />
+            </div>
+
+             <div class="col-span-1">
+              <hr_item item="User Group"   :value="hrStore.empdetails.userGroup" />
+            </div>
+
+             <div class="col-span-1">
+              <hr_item item="User Name"   :value="hrStore.empdetails.username" />
+            </div>
+ <div class="col-span-1">
+              <hr_item item="Gender" :value="hrStore.empdetails.gender" />
+            </div>
+            
+               </div>
+
+          <div class="grid grid-cols-1 mt-2 gap-y-4 sm:grid-cols-5 sm:gap-x-6">  
+            
+            
+             
+              <div class="col-span-1">
+              <hr_item item="NIC" :value="hrStore.empdetails.nic" />
+            </div>
+             <div class="pt-4">
+              <label for="price" class="block text-sm font-medium leading-6 text-gray-900">NIC Image</label>
+              <div class="mt-2">                
+                <a :href="userStore.assetsBaseUrl + hrStore.empdetails.nicUrl" target="_blank">
+                  <img class="w-16 h-16 border-2 border-white rounded"
+                    :src="userStore.assetsBaseUrl + hrStore.empdetails.nicUrl" alt="" />
+                </a>
+              </div>
+            </div>
             <div class="pt-4">
-              <!-- <label for="price" class="block text-sm font-medium leading-6 text-gray-900">Signature</label> -->
+              <label for="price" class="block text-sm font-medium leading-6 text-gray-900">Signature</label>
               <div class="mt-2">
                 <!-- <a :href="imageroot + '/Resource/HR/signature/' + hrStore.empdetails.signature + '.png'"
                   target="_blank">
                   <img class="w-16 h-16 border-2 border-white rounded"
                     :src="imageroot + '/Resource/HR/signature/' + hrStore.empdetails.signature + '.png'" alt="" />
                 </a> -->
+                <a :href="userStore.assetsBaseUrl + hrStore.empdetails.signatureUrl" target="_blank">
+                  <img class="w-16 h-16 border-2 border-white rounded"
+                    :src="userStore.assetsBaseUrl + hrStore.empdetails.signatureUrl" alt="" />
+                </a>
               </div>
             </div>
           </div>
@@ -181,7 +240,6 @@
 import { useHrStore } from "~/stores/modules/hrStore";
 import { useUserStore } from "~/stores/modules/userStore";
 import hr_item from '~/components/hr/hr_item'
-//import { mapState } from "vuex";
 
 
 export default {
@@ -228,10 +286,11 @@ export default {
       this.$emit('exit')
     },
     setdelete() {
-      this.$emit('setDeleteEmployee', this.employee.empNo)
+      this.$emit('setDeleteEmployee')
     },
     setEdit() {
-      this.$emit('setEmployee', this.employee.empNo)
+       this.hrStore.empdetails = this.hrStore.curEmployee;
+      this.$emit('setEmployee')
     },
   },
 }

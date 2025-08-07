@@ -13,7 +13,7 @@
               p-1
               rounded-md
             ">
-            Appling Leave {{ leaveyear }}
+            Appling Leave - {{ leaveyear }}
           </div>
         </div>
         <div class="cursor-pointer hover:text-gray-600" title="Exit Leave Apply" @click="goto_absenceview">
@@ -30,26 +30,24 @@
             <div class="">Absence Type</div>
             <div class="">
               <selectinput2 v-model="absense_apply.absence_type" :cur_item="absense_apply.absence_type"
-                :selections="arr_absence_type" />
+                :selections="hrStore.initData.initAbsence.arrAbsenceType" />
             </div>
 
             <div class="">Absence Reason</div>
             <div class="">
-              <!-- <selectinput2
-                v-model="absense_apply.absence_reason"
-                :cur_item="absense_apply.absence_reason"
-                :selections="arr_absence_reason"
-              /> -->
+              <!-- <selectinput2 v-model="absense_apply.absence_reason" :cur_item="absense_apply.absence_reason"
+                :selections="hrStore.initData.initAbsence.arrAbsenceTeason" />
+              <br /> -->
               <input type="text" v-model="absense_apply.absence_reason"
                 class="text-black w-full rounded p-1 border-gray-500 rounded p-2" />
             </div>
 
-            <div class="" v-show="absense_apply.absence_type != 'Short Leave'">
+            <div class="" v-show="absense_apply.absence_type !== 'Short Leave'">
               Leave Type
             </div>
-            <div class="" v-show="absense_apply.absence_type != 'Short Leave'">
+            <div class="" v-show="absense_apply.absence_type !== 'Short Leave'">
               <selectinput2 v-model="absense_apply.leave_type" :cur_item="absense_apply.leave_type"
-                :selections="arr_leave_type" />
+                :selections="hrStore.initData.initAbsence.arrLeaveType" />
             </div>
 
 
@@ -64,43 +62,37 @@
 
           <div class="mt-2">
             <div class="font-bold"></div>
-
             <div class="grid grid-cols-6 my-4">
               <div>Date</div>
               <div>
-                <input class="text-gray-600 rounded p-1" type="date" v-model="absense_apply.start_date"
-                  @change="LoadLeaveBalance" />
+                <input class="text-gray-600 rounded p-1" type="date" v-model="absense_apply.start_date" />
+                <!-- @change="LoadLeaveBalance" -->
               </div>
-              <div class="text-right pr-2" v-show="absense_apply.absence_type == 'Short Leave'">
+              <div class="text-right pr-2" v-show="absense_apply.absence_type === 'Short Leave'">
                 Short Leave Start
               </div>
-              <div v-show="absense_apply.absence_type == 'Short Leave'">
+              <div v-show="absense_apply.absence_type === 'Short Leave'">
                 <input class="text-gray-600 rounded p-1" v-model="absense_apply.start_time" type="time" />
               </div>
 
-              <div v-show="absense_apply.absence_type == 'Short Leave'" class="text-right pr-2">
+              <div v-show="absense_apply.absence_type === 'Short Leave'" class="text-right pr-2">
                 Short Leave End
               </div>
-              <div v-show="absense_apply.absence_type == 'Short Leave'">
+              <div v-show="absense_apply.absence_type === 'Short Leave'">
                 <input class="text-gray-600 rounded p-1" type="time" v-model="absense_apply.end_time" />
               </div>
             </div>
 
             <div class="grid grid-cols-4 mt-2 w-1/2">
-              <!-- <div>
+              <div>
                 <div v-show="absense_apply.absence_type != 'Short Leave'">
                   To Date
                 </div>
               </div>
               <div>
-                <input
-                  v-show="absense_apply.absence_type != 'Short Leave'"
-                  class="text-gray-600 rounded p-1"
-                  type="date"
-                  v-model="absense_apply.end_date"
-                />
-              </div> -->
-
+                <input v-show="absense_apply.absence_type != 'Short Leave'" class="text-gray-600 rounded p-1"
+                  type="date" v-model="absense_apply.end_date" />
+              </div>
             </div>
 
             <div class="mt-8 w-full flex justify-end gap-x-4">
@@ -111,7 +103,7 @@
         </div>
 
         <div class="my-4">
-          <!-- <leave_entitlement :leaveBalances="leaveBalance.arrLeaveBalances" :year="leaveyear" /> -->
+          <leave_entitlement :leaveBalances="hrStore.absense.arrLeaveBalances" :year="leaveyear" />
         </div>
       </div>
     </div>
@@ -122,6 +114,7 @@
 import selectinput2 from '~/components/customcontrol/selectinput2'
 import btnhr_Save from '~/components/hr/btnhr_button'
 import leave_entitlement from '~/components/hr/leave_entitlement'
+import { useHrStore } from '~/stores/modules/hrStore'
 // import imagecomp from '~/components/customcontrol/fupload'
 
 // import * as Global from '@/assets/js/Global'
@@ -129,7 +122,7 @@ import leave_entitlement from '~/components/hr/leave_entitlement'
 //import { mapState, mapGetters, mapActions, mapMutations } from 'vuex'
 
 export default {
-  props: ['empno', 'leaveyear'],
+  props: ['empno', 'leaveyear', 'fromDate', 'toDate'],
   components: { selectinput2, btnhr_Save, leave_entitlement },
   data() {
     return {
@@ -152,33 +145,20 @@ export default {
         },
       },
       leave_entitle_year: -1,
+      showLoading: null,
+      hrStore: null,
     }
   },
 
-  computed: {
-    // ...mapState({
-    //   loggeduser: (state) => state.loggeduser,
-    //   arr_absence_type: (state) => state.hr.absense.arr_absence_type,
-    //   arr_leave_type: (state) => state.hr.absense.arr_leave_type,
-    //   leave_medical_document: (state) => state.hr.leave_medical_document,
-    //   arr_absence_reason: (state) => state.hr.absense.arr_absence_reason,
-    //   leaveBalance: (state) => state.hr.absense.leaveBalance,
-    // }),
+  async created() {
+    this.hrStore = useHrStore();
+    this.showLoading = this.$showLoading;
   },
+
   beforeMount() {
     this.leave_entitle_year = new Date().getFullYear();
   },
   methods: {
-    // ...mapActions({
-    //   // getEmployeeByID: 'hr/getEmployeeByID',
-    //   setLeave: 'hr/setLeave',
-    //   setMedicalDocument: 'hr/setMedicalDocument',
-    //   Load_LeaveBalance: 'hr/leaveBalance',
-    // }),
-    // ...mapMutations({
-    //   showMessage: 'PUSH_NOTIFICATION',
-    //   // reset: 'hr/RESET_ABSENCE',
-    // }),
     async init() { },
     goto_absenceview() {
       this.$emit('goto_absenceview')
@@ -186,6 +166,7 @@ export default {
     ImageChanged() {
       this.leavedocDetails.imagechanged = true
     },
+
     async getSave() {
       if (!this.validate()) {
         return
@@ -196,30 +177,37 @@ export default {
       }
 
       this.absense_apply.empNo = this.empno
-      let req = {
-        empNo: this.absense_apply.empNo,
-        absence_type: this.absense_apply.absence_type,
-        absence_reason: this.absense_apply.absence_reason,
-        leave_type: this.absense_apply.leave_type,
-        start_date: this.absense_apply.start_date,
-        start_time: this.absense_apply.start_time,
-        medical_report: this.leave_medical_document,
-        //end_date: this.absense_apply.end_date,
-        end_date: this.absense_apply.start_date,
-        end_time: this.absense_apply.end_time,
+      let reqSetLeave = {
+        EmpNo: this.absense_apply.empNo,
+        AbsenceType: this.absense_apply.absence_type,
+        AbsenceReason: this.absense_apply.absence_reason,
+        LeaveType: this.absense_apply.leave_type,
+        StartDate: this.absense_apply.start_date,
+        StartTime: this.absense_apply.start_time,
+        // MedicalReport: this.leave_medical_document,
+        EndDate: this.absense_apply.end_date,
+        EndTime: this.absense_apply.end_time,
+      };
 
-        user: this.loggeduser,
+      await this.hrStore.setLeave(reqSetLeave, this.showLoading)
+      console.log("setLeave:", reqSetLeave);
+
+
+      let reqGetViewAbsences = {
+        empNo: this.absense_apply.empNo,
+        fromDate: this.fromDate,
+        toDate: this.toDate,
       }
-      // console.log( JSON.stringify(req))
-      await this.setLeave(req)
-      this.getClear()
+
+      await this.hrStore.getViewAbsences(reqGetViewAbsences, this.showLoading)
+      this.getClear();
       this.$emit('goto_absenceview')
     },
 
-    async LoadLeaveBalance() {
-      this.leave_entitle_year = new Date(this.absense_apply.start_date).getFullYear();
-      await this.Load_LeaveBalance({ empNo: this.empno, year: this.leave_entitle_year, user: this.loggeduser })
-    },
+    // async LoadLeaveBalance() {
+    //   this.leave_entitle_year = new Date(this.absense_apply.start_date).getFullYear();
+    //   await this.hrStore.getLeaveBalance({ empNo: this.empno, year: this.leave_entitle_year }, this.showLoading)
+    // },
 
     validate() {
       if (this.absense_apply.absence_type == '') {
@@ -266,11 +254,11 @@ export default {
         return false
       }
 
-      // if (this.absense_apply.absence_type == 'Short Leave') {
-      //   this.absense_apply.end_date = this.absense_apply.start_date
-      // }
+      if (this.absense_apply.absence_type == 'Short Leave') {
+        this.absense_apply.end_date = this.absense_apply.start_date
+      }
 
-      // if (this.absense_apply.leave_type == 'full day') {
+      // if (this.absense_apply.leave_type === 'full day') {
       //   const diffTime =
       //     new Date(this.absense_apply.end_date) -
       //     new Date(this.absense_apply.start_date)

@@ -1,13 +1,15 @@
 <template>
   <section>
     <!-- Start Top Header -->
+
     <div
       class="flex flex-col items-center justify-between h-24 px-4 pt-6 my-10 bg-gray-300 cssTop lg:flex-row md:flex-row">
       <div class="my-2 text-lg font-bold capitalize lg:text-xl lg:my-0">
         <div class="flex gap-x-4 lg:gap-x-8">
-          <!-- <div class="relative cssmenu_sec" v-show="this.userStore.loggedUser.granted.indexOf('hradmin') > -1 ||
-            this.userStore.loggedUser.granted.indexOf('hr_mgr') > -1
+          <!-- <div class="relative cssmenu_sec" v-show="userStore.loggedUser.granted.indexOf('hradmin')>-1 ||
+            userStore.loggedUser.granted.indexOf('hr_mgr')>-1 
             ">
+           
             <div class="cursor-pointer" @click="ismenuopen = !ismenuopen">
               <svg xmlns="http://www.w3.org/2000/svg" class="w-6 h-6" fill="none" viewBox="0 0 24 24"
                 stroke="currentColor">
@@ -17,10 +19,15 @@
             <hr_menu v-show="ismenuopen" class="absolute top-0 left-0 z-50 mt-12 ml-2" @click="clickmenuitem" />
           </div> -->
 
-          <div class="flex items-center justify-center">
-            <!-- v-show="this.userStore.loggedUser.granted.indexOf('hradmin') > -1" -->
+          <div class="flex items-center justify-center md:ml-8"
+            v-show="userStore.loggedUser.granted.includes('hradmin') || userStore.loggedUser.granted.includes('su')">
+
             <search_dashboard placeholder="Search Employee" :arrsections="arrsections_DBSerach"
               @getsearch="search_begin_DBSerach" />
+            <div class="bg-white p-1 -ml-2 rounded">
+              <Button class="w-24 -py-4 ml-2 border-white border-0 bg-blue-800 text-white font-bold" label="New"
+                variant="primary" @click="GoToAddNew" />
+            </div>
           </div>
         </div>
       </div>
@@ -28,19 +35,21 @@
       <div
         class="flex-col items-center hidden -my-4 lg:pt-4 lg:flex-row gap-y-4 lg:gap-y-0 gap-x-4 lg:gap-x-8 md:pt-4 md:flex-row lg:flex">
         <!-- Hide on mobile -->
-        <!-- <div v-show="userStore.loggedUser.usergroup.indexOf('Supervisor') > -1 ||
-          userStore.loggedUser.usergroup.indexOf('HRAdmin') > -1
-          ">
-          <btnwgstatus name="workgroup" :wgjobcount="dashboard.workgroupjobcount" @click="getviewwg" />
-        </div> -->
-        <!-- <img class="w-32 lg:w-40" src="~/assets/images/HR.png" alt="HR Image" /> -->
+        <div class="mr-8" v-show="userStore.loggedUser.userGroup === 'Supervisor'">
+          <!-- HRAdmin -->
+          <btnwgstatus name="workgroup" :wgjobcount="hrStore.dashboard.workgroupjobcount" @click="getviewwg" />
+        </div>
+
       </div>
     </div>
+
+
 
 
     <!-- End  Top Header -->
 
     <div class="px-2 mt-4 lg:px-12">
+
       <div class="csscontent">
         <div
           class="grid grid-cols-1 gap-2 py-1 font-bold text-center text-white border border-gray-300 bg-blue-950 cssheader lg:grid-cols-8 rounded-t-md">
@@ -83,34 +92,36 @@
             </div>
           </div> -->
           <div class="flex flex-col items-center md:pt-4 md:flex-row sm:gap-y-0 lg:hidden sm:justify-start">
-            <!-- <div
-              v-show="userStore.loggedUser.usergroup.indexOf('Supervisor') > -1 || userStore.loggedUser.usergroup.indexOf('HRAdmin') > -1">
-              <btnwgstatus name="workgroup" :wgjobcount="dashboard.workgroupjobcount" @click="getviewwg" />
-            </div> -->
+            <div v-show="userStore.loggedUser.userGroup === 'Supervisor'">
+              <btnwgstatus name="workgroup" :wgjobcount="hrStore.dashboard.workgroupjobcount" @click="getviewwg" />
+            </div>
           </div>
         </div>
 
+
         <!-- Employees List  -->
         <div class="cssemplist" v-for="(emp, index) in hrStore.alempdetails" :key="emp">
+
           <div class="mt-1 text-sm rounded-md cursor-pointer hover:text-white text-white-300 hover:bg-gray-500"
             :class="emp.isresigned ? 'bg-red-500' : 'bg-gray-400'">
 
             <div class="rounded-md">
               <div class="grid grid-cols-1 text-center cssdatarow lg:grid-cols-8">
                 <div class="cssdatarowitem lg:border-0">
-                  <!-- <span class="lg:hidden ">Employee Name</span> -->
+                  <span class="lg:hidden ">Employee Name</span>
                   <div class="flex gap-x-2">
-                    <!-- https://assets.dtl.lk/web/assets/HR/dtl/avator/jzwoq1xc637788970715290762.png -->
 
-                    <img class="w-8 h-8 transform rounded hover:scale-150"
-                      :src="userStore.assetsBaseUrl + '/HR/dtl/avator/' + emp.image" alt="" />
-                    {{ emp.empname }}
+
+                    <img class="w-16 h-16 transform rounded hover:scale-125"
+                      :src="userStore.loggedUser.resourceURLRoot + emp.image" alt="" />
+                    {{ emp.empName }}
                   </div>
                 </div>
 
                 <div class="cssdatarowitem lg:border-0">
                   <span class="lg:hidden">Emp No</span>
-                  {{ emp.empno }}
+
+                  {{ emp.empNo }}
                 </div>
                 <div class="cssdatarowitem lg:border-0">
                   <span class="lg:hidden">Contact</span>
@@ -130,14 +141,12 @@
                 <div class="cssdatarowitem lg:border-0">
                   <span class="lg:hidden">Supervisor</span>
                   {{ emp.supervisor }}
-                  <!-- getSupervisorName(emp.supervisor) -->
                 </div>
                 <div class="cssdatarowitem lg:border-0">
                   <span class="lg:hidden">Department</span>
                   {{ emp.department }}
-                  <!-- getDepartment(emp.department) -->
                 </div>
-                <div class="flex gap-2 cursor-pointer cssdatarowitem lg:border-0" @click="gotoUserguide">
+                <!-- <div class="flex gap-2 cursor-pointer cssdatarowitem lg:border-0" @click="gotoUserguide">
                   <div>
                     <svg xmlns="http://www.w3.org/2000/svg" class="w-6 h-6" fill="none" viewBox="0 0 24 24"
                       stroke="currentColor">
@@ -146,66 +155,62 @@
                     </svg>
                   </div>
                   <div>User Guide</div>
-                </div>
+                </div> -->
               </div>
-
+              <!-- {{userStore.loggedUser}} -->
               <div class="flex flex-wrap justify-end gap-4 px-4 pb-2">
                 <!-- Employee Details -->
-                <div @click="init_employee(emp.id)" class="p-2 border-2 rounded-lg cursor-pointer hover:text-blue-800">
+                <div @click="init_employee(emp.id)" class="p-2 border-2 rounded-lg cursor-pointer hover:text-blue-200">
                   Emp. Details
                 </div>
 
                 <!-- Attendance -->
-                <div @click="
-                  init_attendence(emp.empno);//, FromDate: $refs.atten.$refs.datediffRef.dtfrom, ToDate: $refs.atten.$refs.datediffRef.dtto
-                cur_sec = 'attendence';
-                selectedrow = emp.id;
-                isSecClose = false;
-                isLoading = true;
-                " class="p-2 border-2 rounded-lg cursor-pointer hover:text-blue-800">
+                <div @click="init_attendence(emp.empNo, emp.id);//, FromDate: $refs.atten.$refs.datediffRef.dtfrom, ToDate: $refs.atten.$refs.datediffRef.dtto
+                " class="p-2 border-2 rounded-lg cursor-pointer hover:text-blue-200">
                   Attendance
                 </div>
 
                 <!-- Apply OT -->
+                <div
+                  v-show="!emp.isOTAllow && (userStore.loggedUser.userName === emp.empNo || userStore.loggedUser.userGroup === 'Supervisor' || userStore.loggedUser.userGroup?.toLowerCase() === 'admin')"
+                  title="OT Apply"
+                  @click="init_otapply(index, emp.empNo); cur_sec = 'otapply'; selectedrow = emp.id; isSecClose = false;"
+                  class="p-2 border-2 rounded-lg cursor-pointer hover:text-blue-200">
 
-                <!-- <div v-show="!emp.isOTAllow &&  (userStore.loggedUser.username == emp.empno || userStore.loggedUser.usergroup == 'Supervisor' ||  userStore.loggedUser.usergroup.toLowerCase().indexOf('admin') > -1)"
-                   title="OT Apply"
-                  @click="init_otapply(index);  cur_sec = 'otapply'; selectedrow = emp.id; isSecClose = false; " 
-                  class="p-2 border-2 rounded-lg cursor-pointer hover:text-blue-800">
                   Apply OT
-                </div> -->
+                </div>
 
                 <!-- Leave Details -->
-                <!-- <div v-show="userStore.loggedUser.username == emp.empno || userStore.loggedUser.usergroup == 'Supervisor' ||
-                  userStore.loggedUser.usergroup.toLowerCase().indexOf('admin') > -1
+                <div v-show="userStore.loggedUser.userName === emp.empNo || userStore.loggedUser.userGroup === 'hradmin' || userStore.loggedUser.userGroup === 'su' || userStore.loggedUser.userGroup === 'Supervisor' ||
+                  userStore.loggedUser.userGroup?.toLowerCase() === 'admin'
                   " title="Leave Details" @click="
-                    init_absense(index);
+                    init_absense(emp.empNo, emp.id);
                   cur_sec = 'absense';
                   selectedrow = emp.id;
                   isSecClose = false;
-                  " class="p-2 border-2 rounded-lg cursor-pointer hover:text-blue-800">
+                  " class="p-2 border-2 rounded-lg cursor-pointer hover:text-blue-200">
                   Leave
-                </div> -->
+                </div>
 
                 <!-- Movement Details -->
-                <!-- <div v-show="userStore.loggedUser.username == emp.empno || userStore.loggedUser.usergroup == 'Supervisor' ||
-                  userStore.loggedUser.usergroup.toLowerCase().indexOf('admin') > -1
+                <div v-show="userStore.loggedUser.userName === emp.empNo || userStore.loggedUser.userGroup === 'Supervisor' || userStore.loggedUser.userGroup === 'su' ||
+                  userStore.loggedUser?.userGroup?.toLowerCase() === 'admin'
                   " title="Movement Details" @click="
-                    init_movement(index);
+                    init_movement(emp.empNo, emp.id);//index
                   cur_sec = 'movement';
                   selectedrow = emp.id;
                   isSecClose = false;
-                  " class="p-2 border-2 rounded-lg cursor-pointer hover:text-blue-800">
+                  " class="p-2 border-2 rounded-lg cursor-pointer hover:text-blue-200">
                   Movement
-                </div> -->
+                </div>
 
                 <!-- Time Card Details -->
                 <div title="Time Card Details" @click="
-                  init_timecard(index);
+                  init_timecard(emp.empNo, index);
                 cur_sec = 'timecard';
                 selectedrow = emp.id;
                 isSecClose = false;
-                " class="p-2 border-2 rounded-lg cursor-pointer hover:text-blue-800">
+                " class="p-2 border-2 rounded-lg cursor-pointer hover:text-blue-200">
                   Time Card
                 </div>
               </div>
@@ -214,7 +219,7 @@
               <!-- Card Sections -->
               <!-- View Emplyee  Details -->
 
-              <div v-show="cur_sec.toLowerCase() == 'viewemployee' &&
+              <div v-show="cur_sec.toLowerCase() === 'viewemployee' &&
                 selectedrow == emp.id &&
                 !isSecClose
                 ">
@@ -223,47 +228,48 @@
               </div>
 
               <!-- view Attendence -->
-              <div v-show="cur_sec.toLowerCase() == 'attendence' &&
+              <div v-show="cur_sec.toLowerCase() === 'attendence' &&
                 selectedrow == emp.id &&
                 !isSecClose
                 ">
-                <attendence v-if="!isLoading" ref="atten" :empno="emp.empno" :empname="emp.empname"
+                <attendence v-if="!isLoading" ref="atten" :empno="emp.empNo" :empname="emp.empName"
                   :isOTEntitled="isOTEntitled" @exit="exit" />
               </div>
 
               <!-- view Absense -->
-              <div v-show="cur_sec.toLowerCase() == 'absense' &&
+              <div v-show="cur_sec.toLowerCase() === 'absense' &&
                 selectedrow == emp.id &&
                 !isSecClose
                 ">
-                <absenselist ref="absense" :empno="emp.empno" @exit="exit" @absenseapply="goto_absenseapply" />
+                <absenselist ref="absense" :empno="emp.empNo" @exit="exit" @absenseapply="goto_absenseapply" />
               </div>
               <!-- End view Absense -->
 
               <!-- view Absense Create -->
-              <div v-show="cur_sec.toLowerCase() == 'absenseapply' &&
+              <div v-show="cur_sec.toLowerCase() === 'absenseapply' &&
                 selectedrow == emp.id &&
                 !isSecClose
                 ">
 
-                <!-- <absencecreate ref="absenseapply" :empno="emp.empno" :leaveyear="leaveyear"
-                  @goto_absenceview="goto_absenceview" /> -->
+                <absencecreate ref="absenseapply" :empno="emp.empNo" :leaveyear="leaveYear" :fromDate="dtfrom"
+                  :toDate="dtto" @goto_absenceview="goto_absenceview" />
               </div>
               <!-- End view Absense Create -->
 
               <!-- view movement -->
-              <div v-show="cur_sec.toLowerCase() == 'movement' &&
+              <div v-show="cur_sec.toLowerCase() === 'movement' &&
                 selectedrow == emp.id &&
                 !isSecClose
                 ">
-                <movementlist ref="movement" :empno="emp.empno" @exit="exit" @movementapply="goto_movementapply" />
+                <movementlist ref="movement" :empno="emp.empNo" @exit="exit" @movementapply="goto_movementapply" />
               </div>
 
-              <div v-show="cur_sec.toLowerCase() == 'movementapply' &&
+              <div v-show="cur_sec.toLowerCase() === 'movementapply' &&
                 selectedrow == emp.id &&
                 !isSecClose
                 ">
-                <!-- <movementcreate ref="movementapply" :empno="emp.empno" @goto_movementview="goto_movementview" /> -->
+                <movementcreate ref="movementapply" :empno="emp.empNo" :dtFrom=dtfrom :dtTo=dtto
+                  @goto_movementview="goto_movementview" />
               </div>
 
               <!-- End view movement -->
@@ -272,7 +278,7 @@
                 selectedrow == emp.id &&
                 !isSecClose
                 ">
-                <Ot_apply_list :empno="emp.empno" ref="otapply" @exit="exit" />
+                <Ot_apply_list :empno="emp.empNo" ref="otapply" @exit="exit" />
               </div>
               <!-- End OT Apply -->
 
@@ -282,7 +288,7 @@
                 selectedrow == emp.id &&
                 !isSecClose
                 ">
-                <!-- <timecarddetails ref="timecardcomp" :empno="emp.empno" @exit="exit" /> -->
+                <timecarddetails ref="timecardcomp" :empno="emp.empNo" @exit="exit" />
               </div>
               <!-- End Job Card Details   -->
             </div>
@@ -292,32 +298,29 @@
         </div>
       </div>
       <!--  Holiday  -->
-
       <div>
         <holidaylist v-show="cur_sec.toLowerCase() == 'holiday'" ref="compholiday" @exitpopup="exitpopup" />
       </div>
-
       <!-- End  Holiday  -->
 
       <!--  Special Work Arrangemnt  -->
-
       <div>
-        <!-- <special_work_arrangement v-show="cur_sec.toLowerCase() == 'special_work_arrangement'"
-          ref="comp_special_work_arrangement" @exitpopup="exitpopup" /> -->
+        <special_work_arrangement v-show="cur_sec.toLowerCase() == 'special_work_arrangement'"
+          ref="comp_special_work_arrangement" @exitpopup="exitpopup" />
       </div>
-
       <!-- End  Special Work Arrangemnt  -->
 
       <!--  Employee Update  -->
-
       <div>
         <empupdate ref="empupdatecomp" v-show="cur_sec.toLowerCase() == 'updateemployee'" @exitpopup="exitpopup"
           @empSaveCompletion="empSaveCompletion" />
       </div>
-
-
       <!-- End Employee Update   -->
     </div>
+
+    <AddEdit v-if="isAddEdit" ref="compAddEdit" @close="isAddEdit = false" />
+
+
   </section>
 </template>
 
@@ -342,7 +345,7 @@ import absencecreate from '~/components/hr/absencecreate'
 import movementlist from '~/components/hr/movementlist'
 import movementcreate from '~/components/hr/movementcreate'
 
-import hr_menu from '~/components/hr/hr_menu'
+//import hr_menu from '~/components/hr/hr_menu'
 import holidaylist from '~/components/hr/holidaylist'
 
 import special_work_arrangement from '~/components/hr/special_work_arrangement'
@@ -351,11 +354,16 @@ import empupdate from '~/components/hr/empupdate'
 import Ot_apply_list from '~/components/hr/ot_apply_list.vue'
 
 import timecarddetails from '~/components/hr/timecarddetails.vue'
+import Button from "~/components/customcontrol/Button";
+import SearchComp from "~/components/customcontrol/SearchComp";
+import AddEdit from "~/components/hr/addEditEmp.vue"
+
 
 
 definePageMeta({
   layout: 'default',
   middleware: 'auth',
+  ssr: false,
 });
 export default {
   layout: 'default',
@@ -369,12 +377,15 @@ export default {
     absencecreate,
     movementlist,
     movementcreate,
-    hr_menu,
+    ///hr_menu,
     holidaylist,
     empupdate,
     Ot_apply_list,
     timecarddetails,
     special_work_arrangement,
+    Button,
+    SearchComp,
+    AddEdit,
   },
   data() {
     return {
@@ -400,25 +411,21 @@ export default {
       dtfrom: null,
       dtto: null,
       isLoading: false,
-      showLoading: null
+      showLoading: null,
+      hrStore: null,
+      isAddEdit: false,
     }
   },
 
   async created() {
-    this.hrStore = useHrStore();
-    this.userStore = useUserStore();
-    //this.mcleStore = useMcleStore();
-
-
-    // const config = useRuntimeConfig() ;  
-    //this.imageroot = config.public.imageBaseUrl;
-
-    // await this.hrStore.loadListVendors({ keyword: '', searchBy: this.searchBy }, this.showLoading)
-    // await this.hrStore.loadInitVendor(this.showLoading)
-    // this.imageroot = this.vendorStore.initVendor.baseUrl;
-    this.showLoading = this.$showLoading;
-
-    // console.log('Hr List:', this.hrStore.alempdetails);
+    try {
+      this.hrStore = useHrStore();
+      this.userStore = useUserStore();
+      this.showLoading = this.$showLoading;
+      await this.hrStore.loadInitEmployee(this.showLoading);
+    } catch (error) {
+      console.error("error:", error)
+    }
   },
 
   async mounted() {
@@ -428,99 +435,31 @@ export default {
   },
 
   computed: {
-    // ...mapState({
-    //   dashboard: (state) => state.hr.dashboard,
-
-    //   alempdetails: (state) => state.hr.dashboard.alempdetails,
-    //   initData: (state) => state.hr.dashboard.initData,
-    // }),
-
-    getSupervisorName() {
-      return (supno) => {
-        try {
-          let detSup = this.initData.arrManagers.filter((sup) => {
-            return sup.id.indexOf(supno) > -1
-          })[0]
-
-          return detSup.value
-        } catch {
-          return ''
-        }
-      }
-    },
-
-    getDepartment() {
-      return (deptid) => {
-        try {
-          let detstatus = this.initData.arrDepartments.filter((type) => {
-            return type.id == deptid
-          })[0]
-
-          return detstatus.value
-        } catch {
-          return ''
-        }
-      }
-    },
   },
   async beforeMount() {
     const req = {
-      searchval: "",
-      searchby: 106
+      searchval: this.userStore.loggedUser.userName,
+      searchby: 101,
     }
 
     this.search_begin_DBSerach(req);
     this.assetsBaseUrl = localStorage.getItem("assetsBaseUrl");
-    // await this.getReportInitData()
-    // await this.getMovementInitData()
-
-    // if (this.userStore.loggedUser.granted.indexOf('user') > -1) {
-    //   await this.initEmployee()
-    //   if (this.userStore.loggedUser.granted.indexOf('hradmin') > -1) {
-    //     //ishradmin
-    //     await this.searchEmployees({
-    //       keyword: '',
-    //       searchby: 101,
-    //       user: this.loggeduser,
-    //     })
-    //   }
-    //   else if (this.userStore.loggedUser.usergroup == 'Supervisor') {
-    //     //isSupervisor
-
-    //     await this.searchEmployees({
-    //       keyword: this.userStore.loggedUser.username,
-    //       searchby: 108,
-    //       user: this.loggeduser,
-    //     })
-    //     // isSupervisor
-
-    //     if (this.userStore.loggedUser.usergroup == 'Supervisor') {
-    //       await this.getWorkLoadCount({ user: this.loggeduser })
-    //     }
-
-    //   }
-    //   else {
-    //     //isEmployee
-    //     await this.searchEmployees({
-    //       keyword: this.userStore.loggedUser.username,
-    //       searchby: 101,
-    //       user: this.loggeduser,
-    //     })
-    //   }
-    // } else {
-    //   this.showMessage({
-    //     type: 'Failed',
-    //     message: 'Not Allowed to access this page',
-    //   })
-    //   this.$router.push('/')
-    // }
   },
 
   methods: {
-    exit() {
+    async exit() {
       this.isSecClose = true
       this.cur_sec = ''
+
+      await this.hrStore.clearAll();
+
     },
+
+    GoToAddNew() {
+      this.hrStore.clearEmployee();
+      this.isAddEdit = true;
+    },
+
     exitpopup() {
       this.cur_sec = ''
     },
@@ -560,8 +499,10 @@ export default {
     },
 
     async setEmployee() {
-      this.cur_sec = 'updateemployee'
-      this.$refs.empupdatecomp.initUpdateEmployee()
+
+      this.isAddEdit = true;
+
+
     },
 
     async empSaveCompletion(empNo) {
@@ -574,46 +515,92 @@ export default {
       })
     },
 
-    async init_attendence(empId) {
+    async init_attendence(empId, rowId) {
       // await this.$refs.atten[row_no].init()
+
+      this.cur_sec = 'attendence';
+      this.selectedrow = rowId;
+      this.isSecClose = false;
+      //this.isLoading = true;
+
+      // let req = {
+      //   EmpNo: empId,
+      //   FromDate: this.dtfrom,
+      //   ToDate: this.dtto,
+      // }
+      // await this.hrStore.getAttendenceByEmp(req, this.showLoading);
+
+      // this.isLoading = false;
+
+    },
+
+    async init_movement(empId, rowId) {
+      // await this.$refs.movement[row_no].init()
+
+      this.cur_sec = 'movement'
+      this.isSecClose = true
+      this.selectedrow = rowId
+      this.isSecClose = false
+
       let req = {
-        EmpNo: empId,
-        FromDate: this.dtfrom,
-        ToDate: this.dtto,
+        empNo: empId,
+        fromDate: this.dtfrom,
+        toDate: this.dtto,
       }
-
-      const hrStore = useHrStore();
-      await hrStore.getProcessAttendenceLogsByEmp(req, this.showLoading);
-
-      this.isLoading = false;
-
+      await this.hrStore.getViewMovement(req, this.showLoading);
     },
 
-    async init_movement(row_no) {
-      await this.$refs.movement[row_no].init()
+    async init_timecard(empId, row_no) {
+      // await this.$refs.timecardcomp[row_no].init()
+
+      this.cur_sec = 'timecard'
+      this.isSecClose = true
+      this.selectedrow = row_no
+      this.isSecClose = false
+
+      let req = {
+        empNo: empId,
+      }
+      await this.hrStore.getTimeCards(req, this.showLoading);
     },
 
-    async init_timecard(row_no) {
-      await this.$refs.timecardcomp[row_no].init()
+    async init_absense(empNo, rowId) {
+      // await this.$refs.absense[row_no].init()
+      this.cur_sec = 'absense'
+      this.isSecClose = true
+      this.selectedrow = rowId
+      this.isSecClose = false
+
+      const currentYear = new Date().getFullYear();
+      let req = {
+        empNo: empNo,
+        fromDate: this.dtfrom,
+        toDate: this.dtto,
+      }
+      await this.hrStore.getViewAbsences(req, this.showLoading);
     },
 
-    async init_absense(row_no) {
-      await this.$refs.absense[row_no].init()
-    },
     async goto_absenseapply(req) {
-
-      this.leaveyear = req.leaveYear;
-      await this.leaveBalance({ empNo: req.empNo, year: req.leaveYear, user: this.loggeduser })
-      await this.initiateLeaves()
+      this.leaveYear = req.leaveYear;
+      await this.hrStore.getLeaveBalance(req, this.showLoading)
+      await this.hrStore.getAbsenceInitData()
       this.cur_sec = 'absenseapply'
     },
 
-    async init_otapply(row_no) {
-      // await this.$refs.otapply[row_no].init()
+    async init_otapply(row_no, empno) {
+      let req = {
+        empNo: empno,
+        fromDate: this.dtfrom,
+        toDate: this.dtto,
+      }
+
+      await this.hrStore.getOTApprovals(req, this.showLoading);
     },
 
-    goto_movementapply(empno) {
+    async goto_movementapply() {
       this.cur_sec = 'movementapply'
+
+      await this.hrStore.getMovementInitData(this.showLoading);
     },
 
     goto_absenceview() {
@@ -670,11 +657,13 @@ export default {
     },
 
     async search_begin_DBSerach(req) {
-
       await this.hrStore.searchEmployees({
         keyword: req.searchval,
         searchby: req.searchby,
       }, this.showLoading)
+
+      //get workgroup count
+      await this.hrStore.getWorkLoadCount(this.showLoading);
     },
 
     getviewwg() {

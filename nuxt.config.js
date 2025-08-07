@@ -1,15 +1,22 @@
 
 // https://nuxt.com/docs/api/configuration/nuxt-config
 export default defineNuxtConfig({
-  // router: {
-  //   middleware: ['auth']
-  // },
+  router: {
+    middleware: ['auth']
+  },
 
-  modules: ['@pinia/nuxt'],
+  routeRules: {
+    '/*': { ssr: false }, // Disable SSR for non-existent routes
+  },
+
+  modules: [
+    '@pinia/nuxt',
+  
+  ],
   pinia: {
     autoImports: ['defineStore']
   },
-  css: ['@/assets/css/tailwind.css'],
+  css: ['@/assets/css/tailwind.css', '@/assets/css/main.css'],
   postcss: {
     plugins: {
       tailwindcss: {},
@@ -21,6 +28,9 @@ export default defineNuxtConfig({
     { src: '@/plugins/message.js' },
     { src: '@/plugins/myfilter.js' },
     { src: '@/plugins/axios.js' },
+    { src: '@/plugins/init.js' },
+    { src: '@/plugins/piniaPersist.client.js' },
+    { src: '@/plugins/pinia-cleanup.js' },
   ],
 
   runtimeConfig: {

@@ -1,14 +1,121 @@
 <template>
   <section>
-    Lorem ipsum dolor sit amet consectetur adipisicing elit. Exercitationem minima consectetur earum omnis magni ducimus
-    at quia distinctio ipsam? Cupiditate veritatis porro saepe sapiente, quam ipsa! Alias non temporibus consectetur.
+    <div class="relative min-h-screen px-4 pt-4 text-sm">
+      <!-- Header Section -->
+      <div class="flex flex-col items-start justify-between md:flex-row md:items-center">
+        <div class="flex gap-x-4">
+          <div class="px-4 py-1 text-sm font-semibold uppercase bg-blue-600 rounded-md text-SID-blue">
+            Over Time Pre-Approvals
+          </div>
+        </div>
+
+        <div class="flex mt-4 gap-x-4 md:mt-0">
+          <div>
+            <datediff ref="datediffRef" @date-change="LoadOTApplied" title="Load OT Applied" />
+          </div>
+          <div class="cursor-pointer hover:text-SID-blue" title="Exit OT Apply" @click="getclose">
+            <svg xmlns="http://www.w3.org/2000/svg" class="w-8 h-8" fill="none" viewBox="0 0 24 24"
+              stroke="currentColor">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                d="M10 14l2-2m0 0l2-2m-2 2l-2-2m2 2l2 2m7-2a9 9 0 11-18 0 9 9 0 0118 0z" />
+            </svg>
+          </div>
+        </div>
+      </div>
+
+      <!-- OT Apply Form Section -->
+      <OTApplyForm class="flex flex-col my-4 text-gray-800 cssOTApplyForm gap-y-4 md:flex-row md:gap-x-2"
+        v-show="userStore.loggedUser.userName == empno || userStore.loggedUser.granted.indexOf('hradmin') > -1">
+        <div>
+          <span class="pr-4">Date</span>
+          <input v-model="oTPreApprovalRequest.date" type="date" />
+        </div>
+        <div>
+          <span class="pr-4">From</span>
+          <input v-model="oTPreApprovalRequest.OTFrom" @blur="calcOTHours" type="time" />
+        </div>
+        <div>
+          <span class="pr-4">To</span>
+          <input v-model="oTPreApprovalRequest.OTTo" @blur="calcOTHours" type="time" />
+        </div>
+        <div class="pt-1">OT Hrs: {{ hrStore.OTApllyDetails.ot_hours }}</div>
+        <div>
+          <span class="pr-4">Nature Of Works</span>
+          <input v-model="oTPreApprovalRequest.Reason" type="text" />
+        </div>
+        <div>
+          <btnhr name="Apply" @click="setApplyOT" />
+        </div>
+      </OTApplyForm>
+
+      <!-- OT Apply List Section -->
+      <div class="mt-4">
+        <OTApplyList>
+          <div
+            class="hidden w-full grid-cols-1 p-2 text-center text-white bg-blue-800 sm:grid-cols-4 lg:grid-cols-8 lg:w-5/6 rounded-t-md md:grid">
+            <div>Date</div>
+            <div>OverTime From | To</div>
+            <div>OT Hours</div>
+            <div>Nature Of Work</div>
+            <div>Status</div>
+            <div>Pending At</div>
+            <div></div>
+            <div class="font-bold">Total Approved: {{ Tot_OT_Hours }} Hrs</div>
+          </div>
+
+          {{ hrStore.OTApllyDetails.otRecords }}
+
+          <div v-if="hrStore.OTApllyDetails.arrOTApply.length === 0" class="mt-5 text-center text-white">
+            <p>No Apply OT available.</p>
+          </div>
+
+          <div v-for="(ot, index) in hrStore.OTApllyDetails.arrOTApply" :key="ot.id"
+            class="grid w-full grid-cols-1 p-2 my-1 text-center text-white break-words rounded-md sm:grid-cols-4 lg:grid-cols-8 lg:w-5/6"
+            v-bind:class="[getOTApplyRowColor(ot)]">
+            <div class="grid w-full grid-cols-2 ">
+              <div class="block font-semibold md:hidden">Date :</div>
+              <div>{{ ot.date }}</div>
+            </div>
+            <div class="grid w-full grid-cols-2 ">
+              <div class="block font-semibold md:hidden">OverTime From | To :</div>
+              <div>{{ ot.otFrom }} | {{ ot.otTo }}</div>
+            </div>
+            <div class="grid w-full grid-cols-2 ">
+              <div class="block font-semibold md:hidden">OT Hours :</div>
+              <div>{{ ot.otHours }}</div>
+            </div>
+            <div class="grid w-full grid-cols-2 ">
+              <div class="block font-semibold md:hidden">Nature Of Work :</div>
+              <div>{{ ot.reason }}</div>
+            </div>
+            <div class="grid w-full grid-cols-2 ">
+              <div class="block font-semibold md:hidden">Status :</div>
+              <div>{{ ot.approvalStatus }}</div>
+            </div>
+            <div class="grid w-full grid-cols-2 ">
+              <div class="block font-semibold md:hidden">Pending At:</div>
+              <div>{{ ot.supervisor }}</div>
+            </div>
+            <div title="Delete record" class="mx-auto cursor-pointer" @click="deleteRecord(ot.id)">
+              <svg xmlns="http://www.w3.org/2000/svg" class="w-6 h-6" fill="none" viewBox="0 0 24 24"
+                stroke="currentColor">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                  d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16" />
+              </svg>
+            </div>
+            <div></div>
+          </div>
+        </OTApplyList>
+      </div>
+    </div>
   </section>
 </template>
 
-
 <script>
-import datediff from '~/components/customcontrol/datediff'
+import datediff from '~/components/hr/datediff'
 import btnhr from '~/components/hr/btnhr'
+import { useHrStore } from '~/stores/modules/hrStore'
+import { useUserStore } from '~/stores/modules/userStore'
 
 // import * as Global from '@/assets/js/Global'
 //import * as myfilter from '@/plugins/myfilter'
@@ -35,14 +142,15 @@ export default {
         Reason: '',
       },
       Tot_OT_Hours: '0.00',
+
+      userStore: null,
+      hrStore: null,
+      myUtility: null,
+      showLoading: null,
     }
   },
 
   computed: {
-    // ...mapState({
-    //   loggeduser: (state) => state.loggeduser,
-    //   OTApllyDetails: (state) => state.hr.OTApllyDetails,
-    // }),
     getOTApplyRowColor() {
       return (ot) => {
         try {
@@ -60,61 +168,132 @@ export default {
       }
     },
   },
-  methods: {
-    // ...mapActions({
-    //   getOTApprovals: 'hr/getOTApprovals',
-    //   setDeleteOTApproval: 'hr/setDeleteOTApproval',
-    //   setOTApproval: 'hr/setOTApproval',
-    //   getOTHours: 'hr/getOTHours',
-    // }),
 
-    // ...mapMutations({
-    //   showMessage: 'PUSH_NOTIFICATION',
-    //   //reset: 'hr/RESET_MOVEMENT',
-    // }),
+  async created() {
+    this.userStore = useUserStore();
+    this.hrStore = useHrStore();
+    this.showLoading = this.$showLoading;
+
+    const { $myUtility } = useNuxtApp();
+    this.myUtility = $myUtility;
+  },
+
+  methods: {
 
     async calcOTHours() {
       if (
         this.oTPreApprovalRequest.OTFrom != '' &&
         this.oTPreApprovalRequest.OTTo != ''
       ) {
-        await this.getOTHours({
+
+        let req = {
           empno: this.empno,
           OTFrom: this.oTPreApprovalRequest.OTFrom,
           OTTo: this.oTPreApprovalRequest.OTTo,
-          user: this.loggeduser,
-        })
-        this.oTPreApprovalRequest.otHour = this.OTApllyDetails.ot_hours
+        };
+
+        await this.hrStore.getOTHours(req);
+        this.oTPreApprovalRequest.otHour = this.hrStore.OTApllyDetails.ot_hours
       }
     },
 
     async LoadOTApplied(datediff) {
-      await this.getOTApprovals({
-        empno: this.empno,
-        dt_from: datediff.dtfrom,
-        dt_to: datediff.dtto,
-        user: this.loggeduser,
-      })
-      this.getTot_OT_Hours()
+      this.dtfrom = this.$refs.datediffRef.dtfrom;
+      this.dtto = this.$refs.datediffRef.dtto;
+
+      let req = {
+        empNo: this.empno,
+        fromDate: this.dtfrom,
+        toDate: this.dtto,
+      }
+      await this.hrStore.getOTApprovals(req, this.showLoading)
+      // this.getTot_OT_Hours()
     },
 
     async init() {
       //this.reset()
       var date = new Date()
-      this.dtfrom = myfilter.toInputTypeDate(
+      this.dtfrom = useNuxtApp().$myUtility.toInputTypeDate(
         new Date(date.getFullYear(), date.getMonth(), 1)
       )
-      this.dtto = myfilter.toInputTypeDate(
+      this.dtto = useNuxtApp().$myUtility.toInputTypeDate(
         new Date(date.getFullYear(), date.getMonth() + 1, 0)
       )
 
-      await this.getOTApprovals({
-        empno: this.empno,
-        dt_from: this.dtfrom,
-        dt_to: this.dtto,
-        user: this.loggeduser,
-      })
-      this.getTot_OT_Hours()
+      let req = {
+        empNo: this.empno,
+        fromDate: this.dtfrom,
+        toDate: this.dtto,
+      }
+      await this.hrStore.getOTApprovals(req, this.showLoading)
+      // this.getTot_OT_Hours()
+    },
+
+    async setApplyOT() {
+      this.oTPreApprovalRequest.empno = this.empno
+      this.dtfrom = this.$refs.datediffRef.dtfrom;
+      this.dtto = this.$refs.datediffRef.dtto;
+
+      if (this.validate()) {
+        if (confirm('Sure to apply this OT Pre-Approval?')) {
+          let req = {
+            EmpNo: this.oTPreApprovalRequest.empno,
+            Date: this.oTPreApprovalRequest.date,
+            OTFrom: this.oTPreApprovalRequest.OTFrom,
+            OTTo: this.oTPreApprovalRequest.OTTo,
+            OTHour: this.oTPreApprovalRequest.otHour,
+            Reason: this.oTPreApprovalRequest.Reason,
+            FromDate: this.dtfrom,
+            ToDate: this.dtto,
+            Note: "OTBtn"
+          }
+          await this.hrStore.setOTApproval(req, this.showLoading)
+        }
+        this.oTPreApprovalRequest = {}
+      }
+    },
+
+    async deleteRecord(ot_id) {
+      if (confirm('Sure to delete this OT Pre-Approval?')) {
+        let req = {
+          id: ot_id
+        }
+        await this.hrStore.setDeleteOTApproval(req, this.showLoading);
+
+        this.dtfrom = this.$refs.datediffRef.dtfrom;
+        this.dtto = this.$refs.datediffRef.dtto;
+
+        let reqSetDeleteOTApproval = {
+          empNo: this.empno,
+          fromDate: this.dtfrom,
+          toDate: this.dtto,
+        };
+        await this.hrStore.getOTApprovals(reqSetDeleteOTApproval, this.showLoading);
+      }
+    },
+
+    async getclose() {
+      this.oTPreApprovalRequest = {};
+      this.dtfrom = '';
+      this.dtto = '';
+      this.$emit('exit')
+    },
+
+    getTot_OT_Hours() {
+      try {
+        let Ots = this.OTApllyDetails.arrOTApply.filter(
+          (ot) => ot.approvalStatus == 'Approved'
+        )
+
+        let tot = 0.0;
+        Ots.forEach(function (detot) {
+
+          tot += detot.otHours;
+        });
+        this.Tot_OT_Hours = tot
+      } catch {
+        this.Tot_OT_Hours = 0.00
+      }
     },
 
     validate() {
@@ -145,48 +324,6 @@ export default {
         type: 'Failed',
         message: msg,
       })
-    },
-
-    async setApplyOT() {
-      this.oTPreApprovalRequest.empno = this.empno
-      if (this.validate()) {
-        if (confirm('Sure to apply this OT Pre-Approval?')) {
-          let req = {
-            oTPreApprovalRequest: this.oTPreApprovalRequest,
-            user: this.loggeduser,
-          }
-          await this.setOTApproval(req)
-        }
-        this.oTPreApprovalRequest.OTFrom = ''
-        this.oTPreApprovalRequest.OTTo = ''
-      }
-    },
-
-    async deleteRecord(ot_id) {
-      if (confirm('Sure to delete this OT Pre-Approval?')) {
-        await this.setDeleteOTApproval({ id: ot_id, user: this.loggeduser })
-      }
-    },
-
-    getclose() {
-      this.$emit('exit')
-    },
-
-    getTot_OT_Hours() {
-      try {
-        let Ots = this.OTApllyDetails.arrOTApply.filter(
-          (ot) => ot.approvalStatus == 'Approved'
-        )
-
-        let tot = 0.0;
-        Ots.forEach(function (detot) {
-
-          tot += detot.otHours;
-        });
-        this.Tot_OT_Hours = tot
-      } catch {
-        this.Tot_OT_Hours = 0.00
-      }
     },
   },
 }

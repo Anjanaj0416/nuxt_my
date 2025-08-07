@@ -2,11 +2,10 @@
 
 <template>
     <section>
-
-      
+       
     </section>
     <!-- <input type="text" oninput="this.value = this.value.replace(/[^0-9.]/g, '').replace(/(\..*?)\..*/g, '$1');" > -->
-  </template>
+</template>
   
   <script>
   //import textInput from '~/components/customcontrol/textinput'
@@ -14,19 +13,27 @@
   ////import * as myfilter from '@/plugins/myfilter'
  //import Swal from 'sweetalert2';
  //import { useSampleStore  } from '~/stores/modules/sampleStore';
+ import { useRoute } from 'vue-router'
+ import { useUserStore } from "~/stores/modules/userStore";
+ //import { useQuotationStore } from "~/stores/modules/qms/quotationStore";
+ 
+ import LinkBtn from "~/components/customcontrol/Link";
+  import Button from "~/components/customcontrol/Button";
+  import selectinput2 from "~/components/customcontrol/selectinput2";
 
  definePageMeta({
     layout: 'default',   
-    middleware: 'auth',
+    //middleware: 'auth',
    });
    
   export default {
     
-    components: {},
+    components: {LinkBtn,Button,selectinput2},
     props:[''],
     data() {
       return {
-        imageroot: process.env.Assets_83,
+        imageroot: "",
+        showLoading: null,
        
       }
     },
@@ -34,13 +41,25 @@
      
     },
     async created() {
-      //this.sampleStore = useSampleStore();
+      this.userStore = useUserStore();
+      this.showLoading = this.$showLoading;
+      this.imageroot = this.userStore.loggedUser.resourceURLRoot;
+      
+       //const encode = btoa('facebook'); //console.log(encode) // "SGVsbG8gV29ybGQ="        
+        //const decode = atob(encode);console.log(decode); // "Hello World"
+         
+        //linkedin - p=bGlua2VkaW4=
+        // facebook  - p=ZmFjZWJvb2s=
+       //  const route = useRoute();
+        //let val = route.query.p;
+        //if (val !== undefined)
+        //{            
+         // this.medium = atob(val);         
+       // }
     },
     watch: {},
     computed: {
-      // ...mapState({
-      //   //loggeduser: (state) => state.loggeduser,
-      // }),
+  
     },
     methods: {
      
@@ -73,11 +92,11 @@
       //this.$showToast('Login successful!', 'success'); //success ,error ,warning,info
     },
     async beforeMount() {
-      // if (this.loggeduser.granted.indexOf('workgroup') > -1 || this.loggeduser.usergroup == 'Supervisor' ) {
-      // } else {
-      //   this.show_error('Not Allowed to access this page')
-      //   this.$router.push('/')
-      // }
+  //  if (this.userStore.loggeduser && !this.userStore.loggeduser.granted.contains('english') ) {
+  //     } else {        
+  //       this.$router.push('/user/login')
+  //       this.$showToast('Not Allowed to access this page')
+  //     }
   
     },
     head() {
@@ -156,6 +175,19 @@
   //       }
   // 	  return isAtleasetOneExisitsForSearch;
   // 	  }
+
+     // GetCityById() {
+    //   return (id) => {
+    //     try {
+    //       let objCity = this.vendorStore.initVendor.listCities.filter((city) => {
+    //         return city.id == id
+    //       })[0]
+    //       return objCity.value
+    //     } catch {
+    //       return ''
+    //     }
+    //   }
+    // },
   </script>
   
   <style scoped>

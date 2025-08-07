@@ -1,5 +1,5 @@
 <template>
-  <section class="flex items-center justify-center min-h-screen px-4 bg-gray-100">
+  <section class="flex items-center justify-center min-h-screen px-4 bg-gray-100" v-if="isOpen">
     <!-- Sign Up Card -->
     <div class="flex flex-col items-center w-full max-w-2xl overflow-hidden bg-white shadow-2xl rounded-3xl md:flex-row">
      
@@ -10,38 +10,41 @@
           Forgot Password
         </h3>
         <p class="mb-4 text-sm text-gray-600">Enter your account username and password. Enter a new password and then confirm the password.</p>
-        <form @submit.prevent="handleSignup" class="space-y-4">
+
           <!-- Email Input -->
           <div>
             <label class="block text-sm font-medium text-gray-600">User Name</label>
             <input
               type="text"
-              v-model="email"
+              v-model="user.userName"
               placeholder="Enter User Name"
               required
               class="w-full p-2 mt-2 text-sm border rounded-md focus:ring-indigo-500 focus:border-indigo-500"
             />
+            <p v-if="err.userName" class="mt-2 text-sm text-red-600">{{ err.userName }}</p>
           </div>
           <div>
-            <label class="block text-sm font-medium text-gray-600">Identify Code</label>
+            <label class="block mt-2 text-sm font-medium text-gray-600">Identify Code</label>
             <input
               type="text"
-              v-model="code"
+              v-model="user.identificationCode"
               placeholder="Enter Code"
               required
               class="w-full p-2 mt-2 text-sm border rounded-md focus:ring-indigo-500 focus:border-indigo-500"
             />
+            <p v-if="err.identificationCode" class="mt-2 text-sm text-red-600">{{ err.identificationCode }}</p>
           </div>
           <div>
-            <label class="block text-sm font-medium text-gray-600">New Password</label>
+            <label class="block mt-2 text-sm font-medium text-gray-600">New Password</label>
             <div class="relative">
               <input
                 :type="showPassword ? 'text' : 'password'"
-                v-model="newPassword"
+                v-model="user.password"
                 placeholder="Enter New Password"
                 required
                 class="w-full p-2 mt-2 text-sm border rounded-md focus:ring-indigo-500 focus:border-indigo-500"
               />
+            <p v-if="err.password" class="mt-2 text-sm text-red-600">{{ err.password }}</p>
               <!-- Toggle Button -->
               <button
                 type="button"
@@ -80,15 +83,17 @@
             </div>
           </div>
           <div>
-            <label class="block text-sm font-medium text-gray-600">Confirm Password</label>
+            <label class="block mt-2 text-sm font-medium text-gray-600">Confirm Password</label>
             <div class="relative">
               <input
                 :type="showConfirmPassword ? 'text' : 'password'"
-                v-model="confirmPassword"
+                v-model="user.confirmPassword"
                 placeholder="Enter Confirm Password"
                 required
                 class="w-full p-2 mt-2 text-sm border rounded-md focus:ring-indigo-500 focus:border-indigo-500"
               />
+               <p v-if="err.confirmPassword" class="mt-2 text-sm text-red-600">{{ err.confirmPassword }}</p>
+
               <!-- Toggle Button -->
               <button
                 type="button"
@@ -127,13 +132,15 @@
             </div>
           </div>
           <!-- Sign In Button -->
+           <!-- {{ user }} -->
           <button
             type="submit"
-            class="w-full px-4 py-2 font-semibold text-white rounded-lg hover:bg-indigo-800 btn"
+            class="w-full px-4 py-2 mt-8 font-semibold text-white rounded-lg hover:bg-indigo-800 btn"
+            @click="GetResetPassword"
           >
-            Send Code
+            Reset Password
           </button>
-        </form>
+        
 
         <!-- Separator -->
         <div class="flex items-center my-6">
@@ -143,11 +150,6 @@
         </div>
 
         <!-- Sign Up Button -->
-        <!-- <div class="flex justify-center">
-            <a href="/user/changelogin" class="text-sm text-indigo-800 hover:underline">
-              Forgot Password?
-            </a>
-          </div> -->
           <div class="flex justify-center mb-5">
             <label for="terms" class="text-sm font-medium text-gray-900 ms-2 dark:text-gray-300">
               Go Back to 
@@ -159,37 +161,68 @@
   </section>
 </template>
   
-  <script>
-  //import textInput from '~/components/customcontrol/textinput'
-  //// import * as Global from '@/assets/js/Global'
-  ////import * as myfilter from '@/plugins/myfilter'
- // import { mapState, mapGetters, mapActions, mapMutations } from 'pinia'
- definePageMeta({
-    layout: 'loginlayout'
-   });
+<script>
+  import { reactive, computed } from "vue";
+  import closebtn from "~/components/customcontrol/modal_close_button";
+  import { useVendorStore } from "~/stores/modules/qms/vendorStore";
+  import imagecomp from "~/components/customcontrol/imagepicker";
+  import ImageLable from "~/components/customcontrol/ImageLable";
+  import serach_Input from "~/components/customcontrol/SearchInput";
+  import { useUserStore } from "~/stores/modules/userStore";
+  import toggleoption from "~/components/customcontrol/toggleoption";
 
+  definePageMeta({
+    layout: "",
+  });
   export default {
-    // components: {login},
-    props:[''],
-    data() {
-      return {
-        imageroot: process.env.Assets_83,
-        password: '', 
-        showPassword: false, 
-        confirmPassword: '', 
-        showConfirmPassword: false, 
-      }
-    },
-    async mounted() {},
-    watch: {},
+    components: { closebtn, serach_Input, ImageLable, imagecomp, toggleoption },
+  data() {
+    return {
+      imageroot: process.env.Assets_83, 
+      showPassword: false, 
+      confirmPassword: '', 
+      showConfirmPassword: false, 
+      newPassword: '',
+      isOpen:true,
+      code: '',
+      user: {
+        userName: '',
+        identificationCode: '',
+        confirmPassword: '',
+      },
+      err: {
+        userName: '',
+        identificationCode: '',
+        confirmPassword: '',
+      },
+       showLoading: null,
+    };
+  },
+
     computed: {
-      // ...mapState({
-      //   //loggeduser: (state) => state.loggeduser,
-      // }),
+  },
+  async created() {
+    this.showLoading = this.$showLoading;
+    this.userStore = useUserStore();
+    
+  
+  },
+  mounted() {
+
+  },
+  methods: {
+    closeModal() {
+      this.isOpen = false;
+      this.$emit("close");
+      this.goToLogin();
     },
-    methods: {
-      goToLogin() {
-      this.$router.push('/user/login'); // Navigate to /user/login
+
+    cancel() {
+      this.clearErr();
+      this.closeModal();
+    },
+       goToLogin() {
+      this.$router.push('/user/login'); 
     },
     togglePassword() {
       this.showPassword = !this.showPassword;
@@ -197,95 +230,73 @@
     toggleShowConfirmPassword() {
       this.showConfirmPassword  = !this.showConfirmPassword ;
     },
-      //
-      // ...mapActions({
-      //   //  getWGInitData: 'reservedaddetail/getWGInitData',
-      // }),
-      //   ...mapMutations({
-      //   //resetEmail: 'office/RESET_EMAIL',
-      //    //showMessage: 'PUSH_NOTIFICATION',
-      // }),
-      //  this.processing_year = new Date().getFullYear()
-       //this.$emit('Load_MonthlyBrakeDown',req)
-       //this.$refs.catcomp.initCategoryItem(-1)
-       //this.$emit('input', this.selected_item.trim());
-    // show_error(msg) {
-    //     this.showMessage({
-    //       type: 'Failed',
-    //       message: msg,
-    //     })
-    //   },
-    //    show_msg(msg) {
-    //     this.showMessage({
-    //       type: 'success',
-    //       message: msg,
-    //     })
-    //   },
-      // async copyContent(value) {
-      //   try {
-      //      await navigator.clipboard.writeText(value)
-      //      this.show_msg('Content copied to clipboard')
-  
-      //   } catch (err) {
-      //     this.show_msg('Failed to copy :'+err)
-      //   }
-      // },
-      //     async copyContent(value) {
-      //   try {
-      //      await navigator.clipboard.writeText(value)
-      //      this.show_msg('Content copied to clipboard')
-  
-      //   } catch (err) {
-      //     this.show_msg('Failed to copy :'+err)
-      //   }
-      // },
-      //  async downloadReportKotukole(){
-      //   if(confirm('Do you want to Download?')){
-      //      await this.get_DownloadKotukole({book:this.book});
-      //      window.open(this.csv_root+'/reports/'+this.csv_name, '_blank');
-      //   }
-      // },
-    },
-    async beforeMount() {
-      // if (this.loggeduser.granted.indexOf('workgroup') > -1 || this.loggeduser.usergroup == 'Supervisor' ) {
-      // } else {
-      //   this.show_error('Not Allowed to access this page')
-      //   this.$router.push('/')
-      // }
-  
-    },
-    head() {
-      return {
-        title: 'Intranet - Digital Tech Labs',
+
+
+
+    GetResetPassword() {
+      if (this.IsValidate()) {
+        this.$showConfirm(
+          "Are you sure to change the password?",
+          "warning"
+        ).then(async (result) => {
+          if (result.isConfirmed) {
+            const req= {
+              userName: this.user.userName,
+              identificationCode: this.user.identificationCode,
+              confirmPassword: this.user.confirmPassword,
+            };      
+         
+             await this.userStore.GetChangePassword( req, this.showLoading );         
+            this.closeModal();
+          } else {
+            console.log("Action canceled");
+          }
+        });
       }
     },
-  }
-  
-  //Validation
-  //-------------------------------------------------
-  // async cmdSearchOrg(){
-  //       if(this.isAtleasetOneExisitsForSearch()){
-  //      await this.getOrganizationData(this.organizationSearch);
-  //       }
-  //     },
-  
-  // 	-------------------
-  
-  
-  //  isAtleasetOneExisitsForSearch(){
-  //  let isAtleasetOneExisitsForSearch = false;
-  
-  
-  //  if(this.organizationSearch.person.trim()!='' ){
-  //         if( this.organizationSearch.person.trim().length  <= 3 ){
-  //             this.show_error('Invalid person , More than three Letters Requied for search');
-  //         }
-  //         else{ isAtleasetOneExisitsForSearch = true;}
-  
-  //       }
-  // 	  return isAtleasetOneExisitsForSearch;
-  // 	  }
-  </script>
+
+  IsValidate() {
+    this.clearErr();
+    let IsValidate = true;
+
+    if (!this.user.userName) {
+      this.err.userName = "Please Enter User Name!";
+      IsValidate = false;
+    }
+
+    if (!this.user.identificationCode) {
+      this.err.identificationCode = "Please Enter Identification Code!";
+      IsValidate = false;
+    }
+
+    if (!this.user.password) {
+      this.err.password = "Please Enter New Password!";
+      IsValidate = false;
+    }
+
+    if (!this.user.confirmPassword) {
+      this.err.confirmPassword = "Please Confirm Your Password!";
+      IsValidate = false;
+    }
+
+    if (this.user.password !== this.user.confirmPassword) {
+      this.err.confirmPassword = "Passwords do not match!";
+      IsValidate = false;
+    }
+
+    return IsValidate;
+  },
+
+  clearErr() {
+    Object.keys(this.err).forEach((key) => {
+      this.err[key] = "";
+    });
+  },
+
+   
+  },
+};
+</script>
   
   <style scoped>
   .csscmd{

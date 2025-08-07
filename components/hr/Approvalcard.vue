@@ -60,9 +60,6 @@ export default {
     }
   },
   computed: {
-    // ...mapState({
-    //   loggeduser: (state) => state.loggeduser,
-    // }),
     getJobTypeName() {
       return (jobtypeid) => {
         try {
@@ -109,14 +106,6 @@ export default {
     },
   },
   methods: {
-    // ...mapActions({
-    //   getApprove: 'hr/workLoadApprove',
-    //   getReject: 'hr/workLoadReject',
-    // }),
-    // ...mapMutations({
-    //   showMessage: 'PUSH_NOTIFICATION',
-    // }),
-
     refreshComp(jobId) {
       //this.jcDetails = []
       //this.jobType =-1
