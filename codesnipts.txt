@@ -11,6 +11,7 @@ git pull origin develop
 git pull origin IntegrationNew
 git pull origin Thilini
 git pull origin Indipa
+git pull origin nuskan
 
  git merge --abort
 
