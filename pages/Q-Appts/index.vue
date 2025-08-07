@@ -1,49 +1,90 @@
 <!-- https://flowbite.com/docs/components/avatar/ -->
 
 <template>
-    <section>
-       
+  <section>
+    <section class="flex flex-col md:flex-row items-center justify-between p-6 bg-blue-50">
+  <div class="text-center md:text-left md:w-1/2">
+    <h2 class="text-3xl md:text-7xl font-bold text-blue-900 leading-tight">
+      Skip the Line,<br />
+      Save Time
+    </h2>
+    <p class="text-gray-600 md:text-2xl max-w-md mt-4">
+      EasyQueue lets you join queues and book appointments from anywhere — no more waiting around
+    </p>
+    <button class="mt-6 px-6 py-3 bg-blue-900 text-white rounded-full font-semibold shadow hover:bg-blue-800 transition">
+      Get Start
+    </button>
+  </div>
+
+  <div class="mt-8 md:mt-0 md:w-1/2 flex justify-center">
+    <img
+      src="https://i.imgur.com/XydtNbh.png"
+      alt="Illustration"
+      class="w-81 h-auto"
+    />
+  </div>
+</section>
+
+
+      <FilterBar />
+
+      <section class="p-4 grid gap-4 grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4">
+      <div v-for="salon in salonStore.salons" :key="salon.id" class="bg-white rounded shadow p-2">
+        <img :src="salon.image" alt="salon" class="rounded w-full h-36 object-cover" />
+        <div class="p-2">
+          <h3 class="font-semibold">{{ salon.name }}</h3>
+          <p class="text-sm text-gray-500">📍 {{ salon.distance }} away</p>
+          <p class="text-sm text-yellow-500">⭐ {{ salon.rating }}</p>
+          <p class="text-sm text-blue-500">🕒 {{ salon.wait }} wait</p>
+          <div class="mt-2 flex gap-2">
+            <button class="bg-gray-800 text-white px-3 py-1 text-sm rounded">View</button>
+            <button class="bg-blue-500 text-white px-3 py-1 text-sm rounded">Join</button>
+          </div>
+        </div>
+      </div>
     </section>
+    <!-- <section class="p-4 grid gap-4 grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4">
+      <SalonCard v-for="salon in salonStore.salons" :key="salon.id" :salon="salon" />
+    </section> -->
+
+  </section>
     <!-- <input type="text" oninput="this.value = this.value.replace(/[^0-9.]/g, '').replace(/(\..*?)\..*/g, '$1');" > -->
 </template>
   
-  <script>
-  //import textInput from '~/components/customcontrol/textinput'
-  //// import * as Global from '@/assets/js/Global'
-  ////import * as myfilter from '@/plugins/myfilter'
- //import Swal from 'sweetalert2';
- //import { useSampleStore  } from '~/stores/modules/sampleStore';
- import { useRoute } from 'vue-router'
- import { useUserStore } from "~/stores/modules/userStore";
- //import { useQuotationStore } from "~/stores/modules/qms/quotationStore";
- 
- import LinkBtn from "~/components/customcontrol/Link";
-  import Button from "~/components/customcontrol/Button";
-  import selectinput2 from "~/components/customcontrol/selectinput2";
+<script>
+//import { useRoute } from 'vue-router'
+//import { useUserStore } from "~/stores/modules/userStore";
+import { useSalonStore } from "~/stores/modules/appts/salon";
 
- definePageMeta({
-    layout: 'default',   
+//import SalonCard from '@/components/Q-Appts/SalonCard.vue';
+import header from '@/components/Q-Appts/header.vue';
+import footer from '@/components/Q-Appts/footer.vue';
+import FilterBar from '@/components/Q-Appts/FilterBar.vue';
+
+
+ definePageMeta({ 
+    layout: 'appts',   
     //middleware: 'auth',
    });
    
   export default {
     
-    components: {LinkBtn,Button,selectinput2},
+    components: {header, footer, FilterBar},
     props:[''],
     data() {
       return {
         imageroot: "",
         showLoading: null,
-       
+        userStore: null,
       }
     },
     async mounted() {
      
     },
     async created() {
-      this.userStore = useUserStore();
-      this.showLoading = this.$showLoading;
-      this.imageroot = this.userStore.loggedUser.resourceURLRoot;
+      //this.userStore = useUserStore();
+      //this.showLoading = this.$showLoading;
+      //this.imageroot = this.userStore.loggedUser.resourceURLRoot;
       
        //const encode = btoa('facebook'); //console.log(encode) // "SGVsbG8gV29ybGQ="        
         //const decode = atob(encode);console.log(decode); // "Hello World"
@@ -59,7 +100,9 @@
     },
     watch: {},
     computed: {
-  
+      salonStore() {
+      return useSalonStore();
+    }
     },
     methods: {
      
@@ -202,6 +245,10 @@
     border: 1px solid;
     @apply border-gray-500 rounded p-2;
   }
+  section {
+  max-width: 1200px;
+  margin: auto;
+}
   </style>
   
   

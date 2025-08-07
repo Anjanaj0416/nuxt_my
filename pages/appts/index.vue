@@ -118,7 +118,7 @@ const filteredAppointments = computed(() => {
 
 definePageMeta({
   layout: 'false',
-    middleware: 'auth',
+    //middleware: 'auth'
 });
 </script>
 
