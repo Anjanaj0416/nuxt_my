@@ -87,7 +87,7 @@
 
 <script setup>
 import { ref, computed } from 'vue'
-import { useAppointmentsStore } from '~/stores/modules/appts/appointmentsStore'
+import { useAppointmentsStore } from '~/stores/modules/Q-Appts/appointmentsStore'
 
 const searchQuery = ref('')
 const selectedDistrict = ref('')

@@ -4,7 +4,7 @@
       <NuxtLink to="/" class="text-3xl font-bold text-blue-600">Q - Appts</NuxtLink>
 
       <nav class="hidden md:flex space-x-6 text-sm2 font-semibold text-gray-700">
-        <NuxtLink to="/" class="hover:text-blue-600">Home</NuxtLink>
+        <NuxtLink to="/Q-Appts" class="hover:text-blue-600">Home</NuxtLink>
         <NuxtLink to="/about" class="hover:text-blue-600">About us</NuxtLink>
         <NuxtLink to="/customer" class="hover:text-blue-600">Customer</NuxtLink>
       </nav>
@@ -22,7 +22,7 @@
 
     <!-- Mobile Dropdown -->
     <div v-if="mobileMenuOpen" class="md:hidden px-4 pb-4">
-      <NuxtLink to="/" class="block py-2 text-gray-700 hover:text-blue-600">Home</NuxtLink>
+      <NuxtLink to="/Q-Appts" class="block py-2 text-gray-700 hover:text-blue-600">Home</NuxtLink>
       <NuxtLink to="/about" class="block py-2 text-gray-700 hover:text-blue-600">About us</NuxtLink>
       <NuxtLink to="/customer" class="block py-2 text-gray-700 hover:text-blue-600">Customer</NuxtLink>
     </div>
