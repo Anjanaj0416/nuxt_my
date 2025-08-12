@@ -11,8 +11,8 @@
     <p class="text-gray-600 md:text-2xl max-w-md mt-4">
       EasyQueue lets you join queues and book appointments from anywhere — no more waiting around
     </p>
-    <button class="mt-6 px-6 py-3 bg-blue-900 text-white rounded-full font-semibold shadow hover:bg-blue-800 transition">
-      Get Start
+    <button @click="scrollToFilterBar" class="mt-6 px-6 py-3 bg-blue-900 text-white rounded-full font-semibold shadow hover:bg-blue-800 transition">
+      Make Appointment
     </button>
   </div>
 
@@ -25,11 +25,17 @@
   </div>
 </section>
 
-
-      <FilterBar />
+      <div v-if="!showSearchInNavbar" class="sticky top-1 z-50">
+        <searchBar />
+      
+      </div>
+      <FilterBar 
+      @filter-selected="onFilterSelected"
+      :current-filter="salonStore.selectedFilter"
+      ref="filterBar"class="w-full z-50 md:sticky md:top-20"/>
 
     <section class="p-4 grid gap-4 grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4">
-      <SalonCard v-for="salon in salonStore.salons" :key="salon.id" :salon="salon" />
+       <SalonCard v-for="salon in salonStore.filteredSalons" :key="salon.id" :salon="salon" />
     </section>
 
   </section>
@@ -43,10 +49,11 @@ import { useSalonStore } from "~/stores/modules/Q-Appts/shops";
 //import { login } from '~/pages/Q-Appts/login.vue';
 //import { register } from '~/pages/Q-Appts/register.vue';
 
-import SalonCard from '@/components/Q-Appts/SalonCard.vue';
+import SalonCard from '~/components/Q-Appts/ShopCard.vue';
 import header from '@/components/Q-Appts/header.vue';
 import footer from '@/components/Q-Appts/footer.vue';
 import FilterBar from '@/components/Q-Appts/FilterBar.vue';
+import searchBar from "~/components/Q-Appts/searchBar.vue";
 
 
  definePageMeta({ 
@@ -56,17 +63,30 @@ import FilterBar from '@/components/Q-Appts/FilterBar.vue';
    
   export default {
     
-    components: {header, footer, FilterBar, SalonCard},
+    components: {header, footer, FilterBar, SalonCard , searchBar},
+    setup() {
+    const salonStore = useSalonStore();
+
+    function onFilterSelected(filter) {
+      salonStore.setSelectedFilter(filter);
+    }
+
+    return {
+      salonStore,
+      onFilterSelected,
+    };
+    },
     props:[''],
     data() {
       return {
         imageroot: "",
         showLoading: null,
         userStore: null,
+        showSearchInNavbar: false
       }
     },
-    async mounted() {
-     
+    mounted() {
+      window.addEventListener('scroll', this.handleScroll)
     },
     async created() {
       //this.userStore = useUserStore();
@@ -85,14 +105,22 @@ import FilterBar from '@/components/Q-Appts/FilterBar.vue';
          // this.medium = atob(val);         
        // }
     },
-    watch: {},
-    computed: {
+  watch: {},
+  computed: {
       salonStore() {
       return useSalonStore();
-    }
     },
-    methods: {
-     
+  },
+  methods: {
+      handleScroll() {
+      this.showSearchInNavbar = window.scrollY > 430
+      },
+      scrollToFilterBar() {
+        const el = this.$refs.filterBar?.$el || this.$refs.filterBar;
+          if (el) {
+          el.scrollIntoView({ behavior: 'smooth', block: 'start' }); 
+        }
+      },
      
       // async copyContent(value) {
       //   try {
@@ -127,6 +155,7 @@ import FilterBar from '@/components/Q-Appts/FilterBar.vue';
   //       this.$router.push('/user/login')
   //       this.$showToast('Not Allowed to access this page')
   //     }
+      window.removeEventListener('scroll', this.handleScroll)
   
     },
     head() {

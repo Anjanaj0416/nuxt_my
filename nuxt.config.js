@@ -42,7 +42,7 @@ export default defineNuxtConfig({
 
   app: {
     head: {
-      title: 'Digital TechLabs',
+      // title: 'Digital TechLabs',
       viewport: 'width=device-width, initial-scale=1',
       meta: [
       { charset: 'utf-8' },
