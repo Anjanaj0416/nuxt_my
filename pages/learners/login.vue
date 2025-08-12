@@ -109,46 +109,8 @@
 
 <script setup>
 
-import { useUserStore } from '~/stores/modules/userStore'
-import { ref } from 'vue'
-
-const userStore = useUserStore()
 
 
-definePageMeta({
-  layout: false,
-  // middleware: 'auth',
-});
-
-
-
-const email = ref('')
-const password = ref('')
-const rememberMe = ref(false)
-const isLoading = ref(false)
-
-const handleLogin = async () => {
-  isLoading.value = true
-
-  const loginDetails = {
-    userName: email.value,
-    password: password.value
-  }
-
-  // Use SweetAlert or your own loading function if needed
-  const showLoading = (msg = '') => {
-    return {
-      close: () => {}
-    }
-  }
-
-  await userStore.login(loginDetails, showLoading)
-  isLoading.value = false
-
-  if (userStore.token) {
-    navigateTo('/learners')
-  }
-}
 
 
 

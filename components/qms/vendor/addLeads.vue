@@ -19,7 +19,7 @@
                 Company Search <span class="text-red-500">*</span>
               </label>
               <serach_Input
-                :arrItems="leadStore.InitLeads.listVendors"
+                :arrItems="leadStore.InitLeads.listClients"
                 label=""
               />
             </div>

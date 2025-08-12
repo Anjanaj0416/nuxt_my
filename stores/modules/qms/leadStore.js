@@ -61,7 +61,7 @@ actions: {
       const loadingAlert = showLoading("");
       try {
         const response = await axios.get(
-          `${import.meta.env.VITE_API_URL}/qms/Leads/GetVendorLeads?keyword=${
+          `${import.meta.env.VITE_API_URL}/qms/Leads/GetClientLeads?keyword=${
             req.keyword
           }&searchBy=${req.searchBy}`
         );
@@ -96,7 +96,7 @@ actions: {
     
       try {
         const response = await axios.post(
-          `${import.meta.env.VITE_API_URL}/qms/Leads/SetVendorLead`,curLead,    
+          `${import.meta.env.VITE_API_URL}/qms/Leads/SetClientLead`,curLead,    
         );
       
         if (response.data.isSuccess) {                   
