@@ -24,11 +24,6 @@ node .output/server/index.mjs
 cmd->run as administrator
 pm2 list
 pm2 restart dtlapp
-<<<<<<< HEAD
-pm2 list
-
-npm install --legacy-peer-deps
-=======
 pm2 logs dtlapp
 D:\WWWRoot\dtlApp\.output\.output\server -> npm install
->>>>>>> 6db7d2cc72f046c16d3002312e812d4387a7af9e
+npm install --legacy-peer-deps
