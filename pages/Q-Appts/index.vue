@@ -28,24 +28,9 @@
 
       <FilterBar />
 
-      <section class="p-4 grid gap-4 grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4">
-      <div v-for="salon in salonStore.salons" :key="salon.id" class="bg-white rounded shadow p-2">
-        <img :src="salon.image" alt="salon" class="rounded w-full h-36 object-cover" />
-        <div class="p-2">
-          <h3 class="font-semibold">{{ salon.name }}</h3>
-          <p class="text-sm text-gray-500">📍 {{ salon.distance }} away</p>
-          <p class="text-sm text-yellow-500">⭐ {{ salon.rating }}</p>
-          <p class="text-sm text-blue-500">🕒 {{ salon.wait }} wait</p>
-          <div class="mt-2 flex gap-2">
-            <button class="bg-gray-800 text-white px-3 py-1 text-sm rounded">View</button>
-            <button class="bg-blue-500 text-white px-3 py-1 text-sm rounded">Join</button>
-          </div>
-        </div>
-      </div>
-    </section>
-    <!-- <section class="p-4 grid gap-4 grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4">
+    <section class="p-4 grid gap-4 grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4">
       <SalonCard v-for="salon in salonStore.salons" :key="salon.id" :salon="salon" />
-    </section> -->
+    </section>
 
   </section>
     <!-- <input type="text" oninput="this.value = this.value.replace(/[^0-9.]/g, '').replace(/(\..*?)\..*/g, '$1');" > -->
@@ -54,9 +39,11 @@
 <script>
 //import { useRoute } from 'vue-router'
 //import { useUserStore } from "~/stores/modules/userStore";
-import { useSalonStore } from "~/stores/modules/appts/salon";
+import { useSalonStore } from "~/stores/modules/Q-Appts/shops";
+//import { login } from '~/pages/Q-Appts/login.vue';
+//import { register } from '~/pages/Q-Appts/register.vue';
 
-//import SalonCard from '@/components/Q-Appts/SalonCard.vue';
+import SalonCard from '@/components/Q-Appts/SalonCard.vue';
 import header from '@/components/Q-Appts/header.vue';
 import footer from '@/components/Q-Appts/footer.vue';
 import FilterBar from '@/components/Q-Appts/FilterBar.vue';
@@ -69,7 +56,7 @@ import FilterBar from '@/components/Q-Appts/FilterBar.vue';
    
   export default {
     
-    components: {header, footer, FilterBar},
+    components: {header, footer, FilterBar, SalonCard},
     props:[''],
     data() {
       return {
