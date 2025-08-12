@@ -24,7 +24,7 @@
           </div>
 
 
-          <!-- {{ orderStore.listOrderJSON.stringify(payload, null, 2) }} -->
+          <!-- {{ orderStore.listOrder }} -->
 
 
           

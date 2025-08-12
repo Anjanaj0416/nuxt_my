@@ -120,7 +120,7 @@
           :title="item.value"
           @mouseover="mouseover(item)"
           @click="selectItem(item)"
-          class="h-auto p-2 overflow-hidden"
+          class="h-auto p-2 text-sm overflow-hidden hover:bg-blue-900 hover:text-white cursor-pointer transition-colors duration-200 ease-in-out"
         >
           {{ item.value }}
         </div>

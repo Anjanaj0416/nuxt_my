@@ -90,7 +90,7 @@
         <div class="sm:flex sm:justify-end sm:gap-4">
             <div class="grid grid-cols-3 gap-2 sm:flex sm:gap-4 text-sm font-medium text-gray-500 "
               @click="filterSelectedVendor(vd.id)">
-            <button v-if="vendorTabs[vd.id] !== 'proposal'"
+            <!-- <button v-if="vendorTabs[vd.id] !== 'proposal'"
               @click="vendorTabs[vd.id] = 'proposal'; quotationStore.curVendorId = vd.id" :class="[
                 'p-4 border-b-2 rounded-t-lg text-center',
                 'border-transparent hover:text-gray-600 hover:border-gray-300'
@@ -98,12 +98,11 @@
               Proposals
             </button>
 
-            <!-- Show this only when in 'proposal' mode -->
             <button v-if="vendorTabs[vd.id] === 'proposal'"
               @click="vendorTabs[vd.id] = ''; quotationStore.curVendorId = null"
               class="p-4 border-b-2 rounded-t-lg text-center text-red-600 border-transparent ">
               Close Proposal
-            </button>
+            </button> -->
 
             <button v-if="vendorTabs[vd.id] !== 'isuePINo'"
               @click="vendorTabs[vd.id] = 'isuePINo'; quotationStore.curVendorId = vd.id" :class="[

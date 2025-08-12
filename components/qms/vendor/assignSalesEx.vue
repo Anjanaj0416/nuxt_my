@@ -6,7 +6,6 @@
         <h2 class="modal-title">Assign Sales Ex.</h2>
         <closebtn @close="closeModal" />
       </div>
-
       <!-- Modal Content -->
       <div class="modal-content">
         <div class="form-content">
@@ -16,7 +15,7 @@
             <div v-if="!showCityForm">
               <div class="grid grid-cols-1 gap-4 sm:grid-cols-1">
                 <div class="w-full sm:w-1/2">
-                  <serach_Input :arrItems="leadStore.initVendor.listRSOs" ref="rsocomp" label="Sales Exec."
+                  <serach_Input :arrItems="leadStore.InitLeads.listRSOs" ref="rsocomp" label="Sales Exec."
                     v-model="csoNo" @selectItem="SelectAgent" />
                   <div v-if="err.csoNo" class="mt-1 text-xs text-red-500">
                     {{ err.csoNo }}
