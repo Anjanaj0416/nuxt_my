@@ -5,7 +5,7 @@
           <div class="text-2xl uppercase mb-4"> Vendor Details - {{ isEditing ? "Edit" : "Add" }}</div>
       </div>
        <!-- {{ Id }} -->
-      <!-- <pre>{{ JSON.stringify(curVendor, null, 2) }}</pre>   -->
+      <pre>{{ JSON.stringify(curVendor, null, 2) }}</pre>  
 
 
       <!-- Modal Content (scrollable) -->
@@ -87,6 +87,11 @@
             <div class="">
               <label class="block text-sm font-bold text-gray-600">VAT No</label>
               <input type="text" v-model="curVendor.vatNo" placeholder="Enter VAT Number" required
+                class="w-full p-2 mt-2 text-sm border rounded-md focus:ring-indigo-500 focus:border-indigo-500" />
+            </div>
+            <div class="">
+              <label class="block text-sm font-bold text-gray-600">TIN No</label>
+              <input type="text" v-model="curVendor.tinNo" placeholder="Enter VAT Number" required
                 class="w-full p-2 mt-2 text-sm border rounded-md focus:ring-indigo-500 focus:border-indigo-500" />
             </div>
             <div class="">
@@ -585,6 +590,7 @@ export default {
       formData.append("ShopLogoPath", this.curVendor.shopLogo || "");
       formData.append("BRNumber", this.curVendor.brNumber || "");
       formData.append("VATNo", this.curVendor.vatNo || "");
+      formData.append("TINNo", this.curVendor.tinNo || "");
       formData.append("Description", this.curVendor.description || "");
 
       // Contact Person

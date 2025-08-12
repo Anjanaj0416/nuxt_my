@@ -9,7 +9,8 @@ export const useOrderStore = defineStore("orderStore", {
     getWorkFlow: [],
     initOrder: [],
     listoPackagesDetails: [],
-    listOrder : []
+    listOrder : [],
+    PaymentDetails: []
   }),
   persist: true,
 
@@ -244,6 +245,30 @@ actions: {
       } catch (error) {
         loadingAlert.close();
         this.showAlert(error.message || "Unknown error", "error");
+      }
+    },
+
+    async GettPaymentDetails(orderId, showLoading) {
+       console.log('API-CancelOrder')
+      console.log('fuck,',JSON.stringify(orderId));
+
+      const loadingAlert = showLoading("");
+    
+      try {
+        const response = await axios.get(
+          `${import.meta.env.VITE_API_URL}/qms/Order/GetPaymentDetails?orderId=${orderId}`
+        );
+        console.log(response);
+        
+        loadingAlert.close();
+        if (response.data.isSuccess) {
+           this.PaymentDetails = response.data.data.data;
+          // this.showToast(response.data.message, "success");
+        } else {
+          this.showToast(response.data.message, "error");
+        }
+      } catch (error) {
+        this.showToast("Error while deleting order", "error");
       }
     },
 
