@@ -272,6 +272,36 @@ actions: {
       }
     },
 
+    //GetPayment
+
+    async getDoPay(formData, showLoading) {
+      console.log('API-DoPayment');
+      for (let [key, value] of formData.entries()) {
+        console.log(`${key}:`, value);
+      }
+
+      const loadingAlert = showLoading("");
+      try {
+        const response = await axios.post(
+          `${import.meta.env.VITE_API_URL}/qms/Order/DoPayment`,
+          formData
+        );
+
+        loadingAlert.close();
+
+        if (response.data.isSuccess) {
+          this.showToast(response.data.message, "success");
+        } else {
+          this.showToast(response.data.message, "error");
+        }
+      } catch (error) {
+        loadingAlert.close();
+        this.showToast(error.message || "Error during payment", "error");
+      }
+    },
+
+
+
 
 
 

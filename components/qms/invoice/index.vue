@@ -1,10 +1,9 @@
 <template>
     <section class="justify-center">
         <div class="flex flex-col-reverse items-start justify-between gap-4 mb-4 md:flex-row md:items-center">
-          <div class="text-2xl uppercase">Invoice</div>
+          <!-- <div class="text-2xl uppercase">Invoice</div> -->
 
         </div>
-
         <!-- {{ quotationStore.invoiceDetails }}<br><br>
           {{ id }} -->
 
@@ -24,78 +23,109 @@
               <h2 class="text-sm font-semibold text-gray-700">
                 Installment: <span class="text-gray-500 font-bold">Installment</span>
               </h2> -->
+          <div class="text-2xl uppercase">Invoice</div>
+
             </div>
 
             <!-- Button Section (Right) -->
             <div class="w-full md:w-auto">
               <div class="mr-2">
-                <Button class="w-24 px-4 py-1.5 mt-2 rounded-full text-xs transition" label="Payment" variant="primary"   @click="GoToPayment"/>
-                <!-- v-if="userStore.loggedUser.granted.includes('su') || userStore.loggedUser.granted.includes('flo') || userStore.loggedUser.granted.includes('sso')"
-                  @click="handleCreateClick"  -->
+
+                  <Button
+                    class="w-24 px-4 py-1.5 mt-2 rounded-full text-xs transition"
+                    label="Payment"
+                    variant="primary"
+                    v-if="
+                      userStore.loggedUser.granted.includes('su') ||
+                      userStore.loggedUser.granted.includes('flo') ||
+                      userStore.loggedUser.granted.includes('sso')
+                    "
+                    @click="GoToPayment"
+                  />
               </div>
             </div>
           </div>
 
           <!-- Payment History Section -->
 
-          <div class="mt-6 overflow-auto max-h-64 max-w-full">
-
-
-            <div v-if="orderStore.PaymentDetails &&orderStore.PaymentDetails.length > 0" class="space-y-3">
-              <div
-                v-for="(item, index) in orderStore.PaymentDetails"
-                :key="index"
-                class="bg-white border-l-4 border-blue-500 shadow-sm rounded-lg p-4 text-xs md:grid md:grid-cols-10 gap-2 items-center"
-              >
-                <div class="font-medium text-gray-600">📅 {{ item.paymentDate }}</div>
-                <div class="text-green-600 font-bold">LKR {{ item.amount }}</div>
-                <div class="text-gray-700">🏦 {{ item.payMode.trim() }}</div>
-                <div class="text-gray-700">Reference No : {{ item.referenceNo }}</div>
-                <div class="text-gray-700">📄 {{ item.receiptType.trim() }}</div>
-                <div class="text-gray-700">🏛️ {{ item.bankName.trim() }}</div>
-                <div class="italic text-gray-500">{{ item.remarks }}</div>
-                <div>
-                  <a
-                    v-if="item.paymentSlipUrl"
-                    :href="imageroot + item.paymentSlipUrl"
-                    target="_blank"
-                    class="text-blue-600 underline"
-                  >
-                    🔗 View Slip
-                  </a>
+        <div class="mt-4 overflow-auto max-h-80 max-w-full">
+          <div v-if="orderStore.PaymentDetails && orderStore.PaymentDetails.length > 0" class="space-y-2">
+            <div
+              v-for="(item, index) in orderStore.PaymentDetails"
+              :key="index"
+              class="bg-white shadow-sm border border-gray-200 rounded-lg p-3 hover:shadow-md transition-all duration-200 text-xs"
+            >
+              <!-- Top row -->
+              <div class="flex justify-between items-center flex-wrap gap-1 border-b pb-1">
+                <div class="flex items-center gap-1 text-gray-600">
+                  📅 <span class="font-medium">{{ item.paymentDate }}</span>
                 </div>
-                <div>
-                  <a
-                    v-if="item.taxInvoiceURL"
-                    :href="imageroot + item.taxInvoiceURL"
-                    target="_blank"
-                    class="text-blue-600 underline"
-                  >
-                    🔗 View tax Invoice
-                  </a>
-                </div>
-                <div>
-                  <a
-                    v-if="item.invoiceURL"
-                    :href="imageroot + item.invoiceURL"
-                    target="_blank"
-                    class="text-blue-600 underline"
-                  >
-                    🔗 View Invoice
-                  </a>
+                <div class="text-green-600 font-bold">
+                  LKR {{ item.amount }}
                 </div>
               </div>
-            </div>
 
-            <div v-else>
-              No payment history found.
+              <!-- Details -->
+              <div class="grid grid-cols-2 gap-x-2 gap-y- mt-2">
+                <div>
+                  <span class="font-semibold text-gray-500">Mode:</span>
+                  <span class="ml-1 text-gray-700">{{ item.payMode.trim() }}</span>
+                </div>
+                <div>
+                  <span class="font-semibold text-gray-500">Ref:</span>
+                  <span class="ml-1 text-gray-700">{{ item.referenceNo }}</span>
+                </div>
+                <div>
+                  <span class="font-semibold text-gray-500">Receipt:</span>
+                  <span class="ml-1 text-gray-700">{{ item.receiptType.trim() }}</span>
+                </div>
+                <div>
+                  <span class="font-semibold text-gray-500">Bank:</span>
+                  <span class="ml-1 text-gray-700">{{ item.bankName.trim() }}</span>
+                </div>
+                <div class="col-span-2">
+                  <span class="font-semibold text-gray-500">Remarks:</span>
+                  <span class="ml-1 italic text-gray-500">{{ item.remarks || "—" }}</span>
+                </div>
+              </div>
+
+              <!-- Links -->
+              <div class="flex flex-wrap gap-3 mt-2">
+                <a
+                  v-if="item.paymentSlipUrl"
+                  :href="imageroot + item.paymentSlipUrl"
+                  target="_blank"
+                  class="text-blue-600 hover:underline flex items-center gap-1"
+                >
+                  📄 Slip
+                </a>
+                <a
+                  v-if="item.taxInvoiceURL"
+                  :href="imageroot + item.taxInvoiceURL"
+                  target="_blank"
+                  class="text-blue-600 hover:underline flex items-center gap-1"
+                >
+                  🧾 Tax Invoice
+                </a>
+                <a
+                  v-if="item.invoiceURL"
+                  :href="imageroot + item.invoiceURL"
+                  target="_blank"
+                  class="text-blue-600 hover:underline flex items-center gap-1"
+                >
+                  🧾 Invoice
+                </a>
+              </div>
             </div>
           </div>
 
- 
+          <div v-else class="text-center text-gray-500 py-6 text-sm">
+            No payment history found.
+          </div>
+        </div>
 
         </div>
-        <addPayment :id="id" v-if="isAddPayment" @close="isAddPayment = false" />
+        <addPayment :orderId="selectedOrderId" v-if="isAddPayment" @close="isAddPayment = false" />
     </section>
   </template>
   
@@ -148,6 +178,7 @@
     methods: {
 
       GoToPayment() {
+        this.selectedOrderId = this.orderId;
         this.isAddPayment = true;
       },
 
