@@ -140,6 +140,9 @@ export const useHrStore = defineStore("hrStore", {
     workgroup: {
       arrJobCardDetails: [],
     },
+    holiday: {
+      arrholidays: [],
+    },
     initData: {
       // initEmployee: {},
       initAbsence: {},
@@ -908,7 +911,7 @@ export const useHrStore = defineStore("hrStore", {
           this.showToast(response.data.message, 'success');
         } else {
           console.error("Loading error:", response.data.message);
-          // this.showToast(response.data.message, 'error');
+          this.showToast(response.data.message, 'error');
         }
       } catch (error) {
         console.error("Loading error:", error);
@@ -1158,7 +1161,7 @@ export const useHrStore = defineStore("hrStore", {
         }
       } catch (error) {
         console.error("Loading error:", error);
-        // this.showToast(error.response.data.Message, 'error');
+        this.showToast(error.response.data.Message, 'error');
       }
       loadingAlert.close();
     },
@@ -1245,6 +1248,91 @@ export const useHrStore = defineStore("hrStore", {
       }
       loadingAlert.close();
     },
+
+    // Holidays
+
+    async setAssignedHolidays(req, showLoading) {
+      console.log('API-setAssignedHolidays');
+      console.log(JSON.stringify(req));
+
+      const loadingAlert = showLoading("");
+      try {
+        console.log("req:", req);
+        const response = await axios.post(
+          `${import.meta.env.VITE_API_URL}/hr/Attendance/SetAssignedHolidays`,
+          req
+        );
+        console.log("response:", response);
+        if (response.data.isSuccess) {
+          this.showToast(response.data.message, "success");
+        } else {
+          console.error("Loading error:", response.data.message);
+          // if (response.data.statusCode === 400) {
+          //   this.movement.arrmovements = [];
+          // }
+          // this.showToast(response.data.message, 'error');
+        }
+      } catch (error) {
+        console.error("Loading error:", error);
+        this.showToast(error.response.data.Message, 'error');
+      }
+      loadingAlert.close();
+    },
+
+    async getAssignedHolidays(req, showLoading) {
+      console.log('API-getAssignedHolidays',req);
+      console.log(JSON.stringify(req));
+
+      const loadingAlert = showLoading("");
+      try {
+        const response = await axios.get(
+          `${import.meta.env.VITE_API_URL}/hr/Attendance/GetAssignedHolidays`,{params:{Month: req.month, Year: req.year}});
+
+        console.log("getAssignedHolidays response:", response.data.data.data);
+        if (response.data.isSuccess) {
+          this.holiday.arrholidays = response.data.data.data
+;
+          this.showToast(response.data.message, "success");
+        } else {
+          console.error("Loading error:", response.data.message);
+          // if (response.data.statusCode === 400) {
+            this.holiday.arrholidays = [];
+          // }
+          // this.showToast(response.data.message, 'error');
+        }
+      } catch (error) {
+        console.error("Loading error:", error);
+        this.showToast(error.response.data.Message, 'error');
+      }
+      loadingAlert.close();
+    },
+
+    async getDeleteHoliday(req, showLoading) {
+      console.log('API-getDeleteHoliday',req);
+      console.log(JSON.stringify(req));
+
+      const loadingAlert = showLoading("");
+      try {
+        const response = await axios.get(
+          `${import.meta.env.VITE_API_URL}/hr/Attendance/GetDeleteHoliday`,{params:{Id: req.id}});
+
+        console.log("getAssignedHolidays response:", response.data.data.data);
+        if (response.data.isSuccess) {
+          this.showToast(response.data.message, "success");
+        } else {
+          console.error("Loading error:", response.data.message);
+          // if (response.data.statusCode === 400) {
+          // }
+          // this.showToast(response.data.message, 'error');
+        }
+      } catch (error) {
+        console.error("Loading error:", error);
+        this.showToast(error.response.data.Message, 'error');
+      }
+      loadingAlert.close();
+    },
+
+
 
     async showToast(message, type) {
       const Swal = (await import("sweetalert2")).default;

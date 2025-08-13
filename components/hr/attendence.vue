@@ -3,9 +3,7 @@
     <div class="relative min-h-screen px-4 pt-2 text-sm">
       <div class="flex flex-col gap-4 mb-4 sm:flex-row sm:justify-between">
         <div class="flex flex-wrap justify-between gap-2">
-          <div
-            class="p-2 text-xs font-semibold uppercase bg-blue-600 rounded-md sm:text-sm text-SID-blue"
-          >
+          <div class="p-2 text-xs font-semibold uppercase bg-blue-600 rounded-md sm:text-sm text-SID-blue">
             Attendence
           </div>
 
@@ -16,23 +14,15 @@
           </div> -->
         </div>
 
-        <datediff
-          ref="datediffRef"
-          @date-change="handleDateChange"
-          class="mb-2 sm:mb-0"
-        />
+        <datediff ref="datediffRef" @date-change="handleDateChange" class="mb-2 sm:mb-0" />
 
-        <div
-          class="flex flex-wrap items-center justify-between gap-4 rounded-md sm:justify-start"
-        >
+        <div class="flex flex-wrap items-center justify-between gap-4 rounded-md sm:justify-start">
           <div
-            class="w-full p-2 font-bold text-center text-gray-700 border border-white rounded-md sm:w-auto hover:text-white"
-          >
+            class="w-full p-2 font-bold text-center text-gray-700 border border-white rounded-md sm:w-auto hover:text-white">
             Normal OT Hrs - {{ hrStore.attendence.tot_normal_overtime }}
           </div>
           <div
-            class="w-full p-2 font-bold text-center text-gray-700 border border-white rounded-md sm:w-auto hover:text-white"
-          >
+            class="w-full p-2 font-bold text-center text-gray-700 border border-white rounded-md sm:w-auto hover:text-white">
             Sunday OT Hrs - {{ hrStore.attendence.tot_sunday_overtime }}
           </div>
 
@@ -40,30 +30,13 @@
             <btnhr_print class="w-full sm:w-20" name="Download" @click="getDownload" />
           </div> -->
           <div class="w-full sm:w-auto">
-            <btnhr_print
-              class="w-full sm:w-20"
-              name="Print"
-              @get_Print="getPrint"
-            />
+            <btnhr_print class="w-full sm:w-20" name="Print" @get_Print="getPrint" />
           </div>
-          <div
-            class="w-full cursor-pointer sm:w-auto hover:text-SID-blue"
-            title="Exit Absence"
-            @click="getclose"
-          >
-            <svg
-              xmlns="http://www.w3.org/2000/svg"
-              class="w-8 h-8 mx-auto sm:mx-0"
-              fill="none"
-              viewBox="0 0 24 24"
-              stroke="currentColor"
-            >
-              <path
-                stroke-linecap="round"
-                stroke-linejoin="round"
-                stroke-width="2"
-                d="M10 14l2-2m0 0l2-2m-2 2l-2-2m2 2l2 2m7-2a9 9 0 11-18 0 9 9 0 0118 0z"
-              />
+          <div class="w-full cursor-pointer sm:w-auto hover:text-SID-blue" title="Exit Absence" @click="getclose">
+            <svg xmlns="http://www.w3.org/2000/svg" class="w-8 h-8 mx-auto sm:mx-0" fill="none" viewBox="0 0 24 24"
+              stroke="currentColor">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                d="M10 14l2-2m0 0l2-2m-2 2l-2-2m2 2l2 2m7-2a9 9 0 11-18 0 9 9 0 0118 0z" />
             </svg>
           </div>
         </div>
@@ -77,9 +50,7 @@
         <atten_colorbox />
       </div>
 
-      <div
-        class="grid w-full grid-cols-1 p-2 text-center text-white bg-blue-800 lg:grid-cols-12 lg:w-5/6 rounded-t-md"
-      >
+      <div class="grid w-full grid-cols-1 p-2 text-center text-white bg-blue-800 lg:grid-cols-12 lg:w-5/6 rounded-t-md">
         <div class="hidden lg:block">Emp No</div>
         <div class="hidden lg:block">Date</div>
         <div class="hidden lg:block">In Time</div>
@@ -94,10 +65,7 @@
         <div class="hidden lg:block"></div>
       </div>
       <div v-for="dayatt in hrStore.attendence.alattendences" :key="dayatt">
-        <div
-          class="w-full p-2 mt-1 text-white bg-gray-600 rounded-md lg:w-5/6"
-          v-bind:class="[getAttRowColor(dayatt)]"
-        >
+        <div class="w-full p-2 mt-1 text-white bg-gray-600 rounded-md lg:w-5/6" v-bind:class="[getAttRowColor(dayatt)]">
           <div class="grid grid-cols-1 text-center lg:grid-cols-12">
             <div>{{ dayatt.empNo }}</div>
             <!-- <div>{{ $options.filters.toReadableDate(dayatt.date) }}</div> -->
@@ -108,12 +76,8 @@
                   {{ dayatt.date.split("T")[0] }}
                 </div>
                 <div>
-                  <swipes
-                    v-show="dayatt.swipesIn.length > 0"
-                    :swipes="dayatt.swipesIn"
-                    class=""
-                    :cssbg="getAttRowColor(dayatt)"
-                  />
+                  <swipes v-show="dayatt.swipesIn.length > 0" :swipes="dayatt.swipesIn" class=""
+                    :cssbg="getAttRowColor(dayatt)" />
                 </div>
               </div>
             </div>
@@ -124,12 +88,8 @@
                   {{ dayatt.inTime }}
                 </div>
                 <div>
-                  <swipes
-                    v-show="dayatt.swipesOut.length > 0"
-                    :swipes="dayatt.swipesOut"
-                    class=""
-                    :cssbg="getAttRowColor(dayatt)"
-                  />
+                  <swipes v-show="dayatt.swipesOut.length > 0" :swipes="dayatt.swipesOut" class=""
+                    :cssbg="getAttRowColor(dayatt)" />
                 </div>
               </div>
             </div>
@@ -142,8 +102,7 @@
             <!-- <div>{{ getDayTypeName(dayatt.dayType) }}</div> -->
             <div>
               <span v-show="dayatt.lateMin > 0">
-                Late {{ dayatt.weekType }} min</span
-              >
+                Late {{ dayatt.weekType }} min</span>
             </div>
 
             <div class="">
@@ -152,94 +111,71 @@
                 " :rowid="dayatt.id" :rectifingrow="rectifingrow" ref="ref_btnrectify"
                 @save_rectification="save_rectification" @click="setRectifing(dayatt.id)" @canceledit="cancelRectify" /> -->
 
-              <div
-                v-show="
-                  !isrectifing &&
-                  dayatt.dayType == 505 &&
-                  !isOTAppling &&
-                  (!isrectifing || rectifingrow == dayatt.id)
+              <div v-show="!isrectifing &&
+                dayatt.dayType == 505 &&
+                !isOTAppling &&
+                (!isrectifing || rectifingrow == dayatt.id)
                 "
                 class="w-1/2 p-2 font-bold text-center border-gray-500 rounded-md cursor-pointer gap-x-1 hover:bg-blue-500 hover:text-white"
-                @click="showRectifing(dayatt.id)"
-              >
+                @click="showRectifing(dayatt.id)">
                 Rectify
               </div>
               <!-- && loggeduser.granted.indexOf('hradmin')>-1 -->
             </div>
             <div class="flex">
-              <span
-                v-show="
-                  isOTEntitled &&
-                  !isOTAppling &&
-                  dayatt.dayType != 100.1 &&
-                  otApplingRow == -1 &&
-                  dayatt.inTime != '00:00' &&
-                  dayatt.overTime != '' &&
-                  dayatt.overTime != '0' &&
-                  dayatt.overTime != '00.00' &&
-                  !dayatt.isOTApplied
+              <span v-show="isOTEntitled &&
+                !isOTAppling &&
+                dayatt.dayType != 100.1 &&
+                otApplingRow == -1 &&
+                dayatt.inTime != '00:00' &&
+                dayatt.overTime != '' &&
+                dayatt.overTime != '0' &&
+                dayatt.overTime != '00.00' &&
+                !dayatt.isOTApplied
                 "
                 class="w-4/5 p-2 font-bold text-center border-gray-500 rounded rounded-md cursor-pointer gap-x-1 hover:bg-blue-500 hover:text-white"
-                @click="showOTApplyForm(dayatt.id)"
-              >
+                @click="showOTApplyForm(dayatt.id)">
                 Apply OT
               </span>
 
-              <span
-                v-show="
-                  isOTEntitled &&
-                  !isOtManual &&
-                  dayatt.dayType != 100.1 &&
-                  otManualRow == -1 &&
-                  dayatt.inTime != '00:00' &&
-                  dayatt.overTime != '' &&
-                  dayatt.overTime != '0' &&
-                  dayatt.overTime != '00.00' &&
-                  !dayatt.isOTApplied
+              <span v-show="isOTEntitled &&
+                !isOtManual &&
+                dayatt.dayType != 100.1 &&
+                otManualRow == -1 &&
+                dayatt.inTime != '00:00' &&
+                dayatt.overTime != '' &&
+                dayatt.overTime != '0' &&
+                dayatt.overTime != '00.00' &&
+                !dayatt.isOTApplied
                 "
                 class="w-4/5 p-2 font-bold text-center border-gray-500 rounded rounded-md cursor-pointer gap-x-1 hover:bg-blue-500 hover:text-white"
-                @click="showOTManualApplyForm(dayatt.id)"
-              >
+                @click="showOTManualApplyForm(dayatt.id)">
                 Manual OT
               </span>
             </div>
             <div>
-              <div
-                v-show="
-                  userStore.loggedUser.granted.includes('hradmin') ||
-                  userStore.loggedUser.granted.includes('hradmin')
+              <div v-show="userStore.loggedUser.granted.includes('hradmin') ||
+                userStore.loggedUser.granted.includes('hradmin')
                 "
                 class="w-4/5 p-1 p-2 font-bold text-center border-gray-500 rounded rounded-md cursor-pointer gap-x-1 hover:bg-blue-500 hover:text-white"
-                @click="getReCalcOT(dayatt)"
-              >
+                @click="getReCalcOT(dayatt)">
                 ReCalc.OT
               </div>
             </div>
           </div>
 
           <!-- Rectify form -->
-          <div
-            class="w-full p-2 mt-1 bg-gray-400 rounded-md"
-            v-show="isrectifing && rectifingrow == dayatt.id"
-          >
+          <div class="w-full p-2 mt-1 bg-gray-400 rounded-md" v-show="isrectifing && rectifingrow == dayatt.id">
             <RectifyForm class="flex text-gray-800 gap-x-4">
               <div>
                 <span class="pr-4">In Time</span>
-                <input
-                  type="time"
-                  :value="rectificationRequest.inTime"
-                  :disabled="dayatt.inTime !== '00:00'"
-                  @input="(e) => handleInTimeChange(e, dayatt)"
-                />
+                <input type="time" :value="rectificationRequest.inTime" :disabled="dayatt.inTime !== '00:00'"
+                  @input="(e) => handleInTimeChange(e, dayatt)" />
               </div>
               <div>
                 <span class="pr-4">Out Time </span>
-                <input
-                  type="time"
-                  :value="rectificationRequest.outTime"
-                  :disabled="dayatt.outTime !== '00:00'"
-                  @input="(e) => handleOutTimeChange(e, dayatt)"
-                />
+                <input type="time" :value="rectificationRequest.outTime" :disabled="dayatt.outTime !== '00:00'"
+                  @input="(e) => handleOutTimeChange(e, dayatt)" />
                 <!-- :value="dayatt.outTime !== '00:00' ? dayatt.outTime : rectificationRequest.outTime" -->
               </div>
 
@@ -250,8 +186,7 @@
 
               <div
                 class="p-2 px-1 font-bold text-center border-gray-500 rounded rounded-md cursor-pointer hover:bg-blue-500 hover:text-white"
-                @click="save_rectification(dayatt.id, dayatt.empNo)"
-              >
+                @click="save_rectification(dayatt.id, dayatt.empNo)">
                 Apply
               </div>
 
@@ -259,38 +194,26 @@
                 class="p-2 px-1 font-bold text-center border-gray-500 rounded rounded-md cursor-pointer hover:bg-blue-500 hover:text-white"
                 @click="
                   (isrectifing = false),
-                    (rectifingrow = -1),
-                    (rectificationRequest.outTime = '00.00'),
-                    (rectificationRequest.inTime = '00.00'),
-                    (rectificationRequest.reason = '')
-                "
-              >
+                  (rectifingrow = -1),
+                  (rectificationRequest.outTime = '00.00'),
+                  (rectificationRequest.inTime = '00.00'),
+                  (rectificationRequest.reason = '')
+                  ">
                 Cancel
               </div>
             </RectifyForm>
           </div>
 
           <!-- OT Apply -->
-          <div
-            class="w-full p-2 mt-1 bg-gray-400 rounded-md"
-            v-show="isOTAppling && otApplingRow == dayatt.id"
-          >
+          <div class="w-full p-2 mt-1 bg-gray-400 rounded-md" v-show="isOTAppling && otApplingRow == dayatt.id">
             <OTApplyForm class="flex text-gray-800 gap-x-4">
               <div>
                 <span class="pr-4">From</span>
-                <input
-                  v-model="oTPreApprovalRequest.OTFrom"
-                  @blur="calcOTHours"
-                  type="time"
-                />
+                <input v-model="oTPreApprovalRequest.OTFrom" @blur="calcOTHours" type="time" />
               </div>
               <div>
                 <span class="pr-4">To </span>
-                <input
-                  v-model="oTPreApprovalRequest.OTTo"
-                  @blur="calcOTHours"
-                  type="time"
-                />
+                <input v-model="oTPreApprovalRequest.OTTo" @blur="calcOTHours" type="time" />
               </div>
               |
               <div class="">OT Hrs : {{ hrStore.OTApllyDetails.ot_hours }}</div>
@@ -302,25 +225,20 @@
 
               <div
                 class="p-2 px-1 font-bold text-center border-gray-500 rounded rounded-md cursor-pointer hover:bg-blue-500 hover:text-white"
-                @click="setApplyOT(dayatt.date)"
-              >
+                @click="setApplyOT(dayatt.date)">
                 Apply
               </div>
 
               <div
                 class="p-2 px-1 font-bold text-center border-gray-500 rounded rounded-md cursor-pointer hover:bg-blue-500 hover:text-white"
-                @click="oTApplingCancel()"
-              >
+                @click="oTApplingCancel()">
                 Cancel
               </div>
             </OTApplyForm>
           </div>
 
           <!-- OT Manual Apply -->
-          <div
-            class="w-full p-2 mt-1 bg-gray-400 rounded-md"
-            v-show="isOTManualAppling && otManualRow == dayatt.id"
-          >
+          <div class="w-full p-2 mt-1 bg-gray-400 rounded-md" v-show="isOTManualAppling && otManualRow == dayatt.id">
             <OTManualForm class="flex text-gray-800 gap-x-4">
               <div>
                 <span class="pr-4">Hours</span>
@@ -339,15 +257,13 @@
 
               <div
                 class="p-2 px-1 font-bold text-center border-gray-500 rounded rounded-md cursor-pointer hover:bg-blue-500 hover:text-white"
-                @click="applyOTManual(dayatt.id)"
-              >
+                @click="applyOTManual(dayatt.id)">
                 Apply
               </div>
 
               <div
                 class="p-2 px-1 font-bold text-center border-gray-500 rounded rounded-md cursor-pointer hover:bg-blue-500 hover:text-white"
-                @click="manualOTApplingCancel()"
-              >
+                @click="manualOTApplingCancel()">
                 Cancel
               </div>
             </OTManualForm>
@@ -431,42 +347,42 @@ export default {
         try {
           let rowclass =
             dayatt.dayType == 503 ||
-            dayatt.dayType == 503.1 ||
-            dayatt.dayType == 503.5 ||
-            dayatt.dayType == 503.3
+              dayatt.dayType == 503.1 ||
+              dayatt.dayType == 503.5 ||
+              dayatt.dayType == 503.3
               ? "cssShortLeave"
               : dayatt.dayType == 504 ||
                 dayatt.dayType == 504.1 ||
                 dayatt.dayType == 504.5 ||
                 dayatt.dayType == 504.3
-              ? "cssHalfday"
-              : dayatt.dayType == 505 ||
-                dayatt.dayType == 505.1 ||
-                dayatt.dayType == 505.5 ||
-                dayatt.dayType == 505.3
-              ? "cssInComplete"
-              : dayatt.dayType == 506
-              ? "cssHoliday"
-              : dayatt.dayType == 507 ||
-                dayatt.dayType == 507.1 ||
-                dayatt.dayType == 507.5 ||
-                dayatt.dayType == 507.3
-              ? "cssMovement"
-              : dayatt.dayType ==
-                (dayatt.dayType == 508 ||
-                  dayatt.dayType == 508.1 ||
-                  dayatt.dayType == 508.5 ||
-                  dayatt.dayType == 508.3)
-              ? "cssLeave"
-              : dayatt.weektype == 501
-              ? "cssSaturday"
-              : dayatt.weektype == 502
-              ? "cssSunday"
-              : dayatt.dayType == 510
-              ? "cssSWA"
-              : dayatt.dayType == 511
-              ? "cssTransport"
-              : "cssDefault";
+                ? "cssHalfday"
+                : dayatt.dayType == 505 ||
+                  dayatt.dayType == 505.1 ||
+                  dayatt.dayType == 505.5 ||
+                  dayatt.dayType == 505.3
+                  ? "cssInComplete"
+                  : dayatt.dayType == 506
+                    ? "cssHoliday"
+                    : dayatt.dayType == 507 ||
+                      dayatt.dayType == 507.1 ||
+                      dayatt.dayType == 507.5 ||
+                      dayatt.dayType == 507.3
+                      ? "cssMovement"
+                      : dayatt.dayType ==
+                        (dayatt.dayType == 508 ||
+                          dayatt.dayType == 508.1 ||
+                          dayatt.dayType == 508.5 ||
+                          dayatt.dayType == 508.3)
+                        ? "cssLeave"
+                        : dayatt.weekType == 501
+                          ? "cssSaturday"
+                          : dayatt.weekType == 502
+                            ? "cssSunday"
+                            : dayatt.dayType == 510
+                              ? "cssSWA"
+                              : dayatt.dayType == 511
+                                ? "cssTransport"
+                                : "cssDefault";
 
           // : dayatt.dayType == 509
           //       ? 'cssNoPay'
@@ -489,56 +405,56 @@ export default {
             dayatt.dayType == 503
               ? "ShortLeave"
               : dayatt.dayType == 504
-              ? "Halfday"
-              : dayatt.dayType == 504.1
-              ? "Halfday-Apprv. Pending"
-              : dayatt.dayType == 504.5
-              ? "HFA"
-              : dayatt.dayType == 504.3
-              ? "Halfday-Apprv. Rejected"
-              : dayatt.dayType == 509
-              ? "No-Pay"
-              : dayatt.dayType == 505.1
-              ? "Rect. Apprv. Pending"
-              : dayatt.dayType == 505.5
-              ? "Rect. Approved"
-              : dayatt.dayType == 505.3
-              ? "Rectt. Apprv. Rejected"
-              : dayatt.dayType == 507
-              ? "Movement"
-              : dayatt.dayType == 507.1
-              ? "Movement-Apprv.Pending"
-              : dayatt.dayType == 507.5
-              ? "MA"
-              : dayatt.dayType == 507.3
-              ? "Movement Apprv. Rejected"
-              : dayatt.dayType == 508
-              ? "Leave"
-              : dayatt.dayType == 508.1
-              ? "Leave Apprv. Pending"
-              : dayatt.dayType == 508.5
-              ? "LA"
-              : dayatt.dayType == 508.3
-              ? "Leave Apprv. Rejected"
-              : dayatt.weektype == 501
-              ? "Saturday"
-              : dayatt.weektype == 502
-              ? "Sunday"
-              : dayatt.dayType == 510
-              ? dayatt.comment
-              : dayatt.dayType == 511
-              ? "Transport"
-              : dayatt.dayType == 100.1
-              ? "OT Apprv. Pending"
-              : dayatt.dayType == 100.5
-              ? "OTA"
-              : dayatt.dayType == 100.3
-              ? "OT Apprv. Rejected"
-              : dayatt.dayType == 506
-              ? "Holiday"
-              : dayatt.dayType == 505
-              ? "InComplete"
-              : dayatt.comment;
+                ? "Halfday"
+                : dayatt.dayType == 504.1
+                  ? "Halfday-Apprv. Pending"
+                  : dayatt.dayType == 504.5
+                    ? "HFA"
+                    : dayatt.dayType == 504.3
+                      ? "Halfday-Apprv. Rejected"
+                      : dayatt.dayType == 509
+                        ? "No-Pay"
+                        : dayatt.dayType == 505.1
+                          ? "Rect. Apprv. Pending"
+                          : dayatt.dayType == 505.5
+                            ? "Rect. Approved"
+                            : dayatt.dayType == 505.3
+                              ? "Rectt. Apprv. Rejected"
+                              : dayatt.dayType == 507
+                                ? "Movement"
+                                : dayatt.dayType == 507.1
+                                  ? "Movement-Apprv.Pending"
+                                  : dayatt.dayType == 507.5
+                                    ? "MA"
+                                    : dayatt.dayType == 507.3
+                                      ? "Movement Apprv. Rejected"
+                                      : dayatt.dayType == 508
+                                        ? "Leave"
+                                        : dayatt.dayType == 508.1
+                                          ? "Leave Apprv. Pending"
+                                          : dayatt.dayType == 508.5
+                                            ? "LA"
+                                            : dayatt.dayType == 508.3
+                                              ? "Leave Apprv. Rejected"
+                                              : dayatt.weekType == 501
+                                                ? "Saturday"
+                                                : dayatt.weekType == 502
+                                                  ? "Sunday"
+                                                  : dayatt.dayType == 510
+                                                    ? dayatt.comment
+                                                    : dayatt.dayType == 511
+                                                      ? "Transport"
+                                                      : dayatt.dayType == 100.1
+                                                        ? "OT Apprv. Pending"
+                                                        : dayatt.dayType == 100.5
+                                                          ? "OTA"
+                                                          : dayatt.dayType == 100.3
+                                                            ? "OT Apprv. Rejected"
+                                                            : dayatt.dayType == 506
+                                                              ? "Holiday"
+                                                              : dayatt.dayType == 505
+                                                                ? "InComplete"
+                                                                : dayatt.comment;
 
           return dayname;
         } catch {
@@ -555,13 +471,13 @@ export default {
     this.init();
   },
 
-  async mounted(){    
-    this.dtfrom='';
-     this.dtto='';
-     this.hrStore.RestAttendance();
+  async mounted() {
+    this.dtfrom = '';
+    this.dtto = '';
+    this.hrStore.RestAttendance();
   },
 
-  
+
 
   methods: {
     init() {
@@ -601,18 +517,18 @@ export default {
 
     async handleDateChange(reqFromDateDiff) {
       this.dtfrom = reqFromDateDiff.dtfrom;
-       this.dtto = reqFromDateDiff.dtto;
+      this.dtto = reqFromDateDiff.dtto;
       let req = {
         EmpNo: this.empno,
         FromDate: this.dtfrom,
-        ToDate: this.dtto ,
+        ToDate: this.dtto,
       };
 
       await this.getLoadAttendnece(req);
     },
 
     async getLoadAttendnece(req) {
-          await this.hrStore.getAttendenceByEmp(req, this.showLoading)
+      await this.hrStore.getAttendenceByEmp(req, this.showLoading)
     },
 
     async oTApplingCancel() {
@@ -652,7 +568,7 @@ export default {
           FromDate: fromDate,
           ToDate: toDate,
         };
-      
+
         await this.hrStore.setManualRectification(req, this.showLoading);
 
         this.rectifingrow = -1;
@@ -687,7 +603,7 @@ export default {
             FromDate: fromDate,
             ToDate: toDate,
           };
-        
+
           await this.hrStore.setOTApproval(req, this.showLoading);
         }
         this.oTPreApprovalRequest.OTFrom = "";
@@ -728,7 +644,7 @@ export default {
       if (!dayatt.id || dayatt.id === "00000000-0000-0000-0000-000000000000")
         return;
 
-    
+
 
       if (dayatt.inTime !== "00:00") {
         this.rectificationRequest.inTime = dayatt.inTime;
@@ -738,7 +654,7 @@ export default {
     },
 
     handleOutTimeChange(e, dayatt) {
-   
+
       if (dayatt.outTime !== "00:00") {
         this.rectificationRequest.outTime = dayatt.outTime;
       } else {
@@ -860,11 +776,11 @@ export default {
     //   else { alert('select the date range') }
     // },
 
-   async getPrint() {
-    
-      if(this.dtfrom=='' || this.dtto=='' ){      
-      
-         this.$showCustomToast(
+    async getPrint() {
+
+      if (this.dtfrom == '' || this.dtto == '') {
+
+        this.$showCustomToast(
           "Select the Dates!",
           "error",
           3000
@@ -874,10 +790,10 @@ export default {
       let req = {
         dateFrom: this.dtfrom,
         dateTo: this.dtto,
-        empNo: this.empno           
+        empNo: this.empno
       };
 
-      await this.hrStore.GetPrintAttendanceSheet(req,this.showLoading); 
+      await this.hrStore.GetPrintAttendanceSheet(req, this.showLoading);
       // const encodedData = Global.atob(JSON.stringify(req))
 
       // window.open(

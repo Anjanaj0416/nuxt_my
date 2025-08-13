@@ -202,6 +202,10 @@ const links = [
         to: "/hr/attendanceCorrection",
       },
       {
+        name: "Holidays",
+        to: "/hr/holiday",
+      },
+      {
         name: "Reports",
         to: "#",
         submenu: [
