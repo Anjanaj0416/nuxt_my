@@ -14,9 +14,9 @@ const districtsCities = {
   // add others if needed
 }
 
-export const useSalonStore = defineStore('salon', {
+export const useShopStore = defineStore('shop', {
 state: () => ({
-salons : [
+shops : [
   {
     id: 1,
     address: '123 Main St, Springfield',
@@ -195,13 +195,13 @@ salons : [
 }),
 
 getters: {
-    filteredSalons: (state) => {
-      let result = state.salons;
+    filteredShops: (state) => {
+      let result = state.shops;
 
       // Filter by search term
       if (state.searchTerm) {
         const term = state.searchTerm.toLowerCase();
-        result = result.filter(salon => salon.name.toLowerCase().includes(term));
+        result = result.filter(shop => shop.name.toLowerCase().includes(term));
       }
 
       // Filter by distance
@@ -235,18 +235,18 @@ getters: {
     }
 
      if (state.selectedDistrict) {
-        result = result.filter(salon => {
+        result = result.filter(shop => {
           // Assuming your salon address or another field includes district info
           // For this example, let's assume salon.address or salon.district property
           // You can add district info in salons data for testing
-          return salon.district === state.selectedDistrict;
+          return shop.district === state.selectedDistrict;
         });
       }
 
       if (state.selectedCity) {
-        result = result.filter(salon => {
+        result = result.filter(shop => {
           // Assume salon.city property added to salons for this filter
-          return salon.city === state.selectedCity;
+          return shop.city === state.selectedCity;
         });
       }
 
@@ -301,18 +301,18 @@ actions: {
           this.selectedGenders.splice(index, 1);
         }
     },
-    addSalon(newSalon) {
+    addShop(newShop) {
       // Assign an ID automatically
-      newSalon.id = this.salons.length ? this.salons[this.salons.length - 1].id + 1 : 1;
-      this.salons.push(newSalon);
+      newShop.id = this.shops.length ? this.shops[this.shops.length - 1].id + 1 : 1;
+      this.shops.push(newShop);
     },
-    removeSalon(id) {
-      this.salons = this.salons.filter((salon) => salon.id !== id);
+    removeShop(id) {
+      this.shaops = this.shops.filter((shop) => shop.id !== id);
     },
-    updateSalon(updatedSalon) {
-      const index = this.salons.findIndex(salon => salon.id === updatedSalon.id);
+    updateShop(updatedShop) {
+      const index = this.shops.findIndex(shop => shop.id === updatedShop.id);
       if (index !== -1) {
-        this.salons[index] = { ...this.salons[index], ...updatedSalon };
+        this.shops[index] = { ...this.shops[index], ...updatedShop };
       }
     },
 
@@ -322,7 +322,7 @@ actions: {
         this.loading = true
         if (reset) {
           this.page = 0
-          this.salons = []
+          this.shops = []
         }
 
         const { data } = await axios.get('/api/shops/nearby', {
@@ -335,7 +335,7 @@ actions: {
         })
 
         this.total = data.total
-        this.salons = reset ? data.shops : [...this.salons, ...data.shops]
+        this.shops = reset ? data.shops : [...this.shops, ...data.shops]
         this.page++
       } catch (error) {
         console.error('Error fetching shops', error)

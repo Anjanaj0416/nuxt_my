@@ -4,7 +4,7 @@
       <input
         v-model="localSearchTerm"
         type="text"
-        placeholder="Search by salon name.........."
+        placeholder="Search by shop name.........."
         class="w-full p-3 pr-10 border border-gray-300 rounded-lg shadow-sm focus:outline-none focus:ring-1 focus:ring-blue-500"
       />
       <button
@@ -25,8 +25,8 @@
         default: ''
         }
     }); */
-    import { useSalonStore } from '@/stores/modules/Q-Appts/shops'
-    const store = useSalonStore()
+    import { useShopStore } from '@/stores/modules/Q-Appts/shops'
+    const store = useShopStore()
 
   const localSearchTerm = ref('')
 

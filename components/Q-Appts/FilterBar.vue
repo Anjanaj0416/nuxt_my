@@ -123,9 +123,9 @@
 
 <script setup>
 import { computed } from 'vue'
-import { useSalonStore } from '~/stores/modules/Q-Appts/shops'
+import { useShopStore } from '~/stores/modules/Q-Appts/shops'
 
-const salonStore = useSalonStore()
+const shopStore = useShopStore()
 
 const districtsCities = {
   Colombo: ['Colombo', 'Dehiwala', 'Nugegoda', 'Mount Lavinia'],
@@ -141,13 +141,13 @@ const districtsCities = {
 const districts = Object.keys(districtsCities)
 
 const selectedDistrict = computed({
-  get: () => salonStore.selectedDistrict,
-  set: (val) => salonStore.setSelectedDistrict(val),
+  get: () => shopStore.selectedDistrict,
+  set: (val) => shopStore.setSelectedDistrict(val),
 })
 
 const selectedCity = computed({
-  get: () => salonStore.selectedCity,
-  set: (val) => salonStore.setSelectedCity(val),
+  get: () => shopStore.selectedCity,
+  set: (val) => shopStore.setSelectedCity(val),
 })
 
 const citiesForSelectedDistrict = computed(() => {
@@ -155,12 +155,12 @@ const citiesForSelectedDistrict = computed(() => {
 })
 
 function onDistrictChange(event) {
-  salonStore.setSelectedDistrict(event.target.value)
-  salonStore.setSelectedCity('') // reset city
+  shopStore.setSelectedDistrict(event.target.value)
+  shopStore.setSelectedCity('') // reset city
 }
 
 function onCityChange(event) {
-  salonStore.setSelectedCity(event.target.value)
+  shopStore.setSelectedCity(event.target.value)
 }
 
 const distanceFilters = [
@@ -177,44 +177,44 @@ const availabilityFilters = [
 
 const genderFilters = ['Male', 'Female']
 
-const selectedDistance = computed(() => salonStore.selectedDistance)
-const selectedAvailability = computed(() => salonStore.selectedAvailability)
-const selectedGenders = computed(() => salonStore.selectedGenders)
-const searchTerm = computed(() => salonStore.searchTerm)
+const selectedDistance = computed(() => shopStore.selectedDistance)
+const selectedAvailability = computed(() => shopStore.selectedAvailability)
+const selectedGenders = computed(() => shopStore.selectedGenders)
+const searchTerm = computed(() => shopStore.searchTerm)
 
 // Computed to check if ALL filters are cleared (means All is selected)
 const allSelected = computed(() => {
-  return !salonStore.selectedDistance && !salonStore.selectedAvailability && salonStore.selectedGenders.length === 0 && !salonStore.selectedDistrict && !salonStore.selectedCity && !searchTerm.value
+  return !shopStore.selectedDistance && !shopStore.selectedAvailability && shopStore.selectedGenders.length === 0 && !shopStore.selectedDistrict && !shopStore.selectedCity && !searchTerm.value
 })
 
 function selectAll() {
-  salonStore.setSelectedDistance('')
-  salonStore.setSelectedAvailability('')
-  salonStore.setSelectedGenders([])
-  salonStore.searchTerm = '' // reset search bar
-  salonStore.setSelectedDistrict('')
-  salonStore.setSelectedCity('')
-  salonStore.loadData() // fetch all shops
-  salonStore.resetFilters()
+  shopStore.setSelectedDistance('')
+  shopStore.setSelectedAvailability('')
+  shopStore.setSelectedGenders([])
+  shopStore.searchTerm = '' // reset search bar
+  shopStore.setSelectedDistrict('')
+  shopStore.setSelectedCity('')
+  shopStore.loadData() // fetch all shops
+  shopStore.resetFilters()
 }
 
 function selectDistance(filter) {
-  if (salonStore.selectedDistance === filter) {
-    salonStore.setSelectedDistance('')
+  if (shopStore.selectedDistance === filter) {
+    shopStore.setSelectedDistance('')
   } else {
-    salonStore.setSelectedDistance(filter)
+    shopStore.setSelectedDistance(filter)
   }
 }
 
 function selectAvailability(filter) {
-  if (salonStore.selectedAvailability === filter) {
-    salonStore.setSelectedAvailability('')
+  if (shopStore.selectedAvailability === filter) {
+    shopStore.setSelectedAvailability('')
   } else {
-    salonStore.setSelectedAvailability(filter)
+    shopStore.setSelectedAvailability(filter)
   }
 }
 
 function toggleGender(filter) {
-  salonStore.toggleGender(filter)
+  shopStore.toggleGender(filter)
 }
 </script>

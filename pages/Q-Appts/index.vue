@@ -32,25 +32,25 @@
     
       <FilterBar 
       @filter-selected="onFilterSelected"
-      :current-filter="salonStore.selectedFilter"
+      :current-filter="shopStore.selectedFilter"
       ref="filterBar"class="w-full z-50 md:sticky md:top-20"/>
 
     <section class="p-4 grid gap-4 grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4">
-       <SalonCard v-for="salon in salonStore.filteredSalons" :key="salon.id" :salon="salon" />
+       <ShopCard v-for="shop in shopStore.filteredShops" :key="shop.id" :shop="shop" />
     </section>
 
-    <div class="text-center my-4" v-if="salonStore.salons.length < salonStore.total">
+    <div class="text-center my-4" v-if="shopStore.shops.length < shopStore.total">
       <button
         @click="loadMore"
         class="px-4 py-2 bg-blue-600 text-white rounded shadow hover:bg-blue-500"
-        :disabled="salonStore.loading"
+        :disabled="shopStore.loading"
       >
-        {{ salonStore.loading ? 'Loading...' : 'Load More' }}
+        {{ shopStore.loading ? 'Loading...' : 'Load More' }}
       </button>
     </div>
 
-    <!-- <div class="p-2 bg-yellow-100 text-sm rounded mb-4" v-if="salonStore.lat && salonStore.lng">
-      Geolocation: {{ salonStore.lat }}, {{ salonStore.lng }}
+    <!-- <div class="p-2 bg-yellow-100 text-sm rounded mb-4" v-if="shopStore.lat && shopStore.lng">
+      Geolocation: {{ shopStore.lat }}, {{ shopStore.lng }}
     </div> -->
   </section>
     <!-- <input type="text" oninput="this.value = this.value.replace(/[^0-9.]/g, '').replace(/(\..*?)\..*/g, '$1');" > -->
@@ -60,17 +60,17 @@
 import { onMounted } from 'vue'
 //import { useRoute } from 'vue-router'
 //import { useUserStore } from "~/stores/modules/userStore";
-import { useSalonStore } from "~/stores/modules/Q-Appts/shops";
+import { useShopStore } from "~/stores/modules/Q-Appts/shops";
 //import { login } from '~/pages/Q-Appts/login.vue';
 //import { register } from '~/pages/Q-Appts/register.vue';
 
-import SalonCard from '~/components/Q-Appts/ShopCard.vue';
+import ShopCard from '~/components/Q-Appts/ShopCard.vue';
 import header from '@/components/Q-Appts/header.vue';
 import footer from '@/components/Q-Appts/footer.vue';
 import FilterBar from '@/components/Q-Appts/FilterBar.vue';
 import searchBar from "~/components/Q-Appts/searchBar.vue";
 
-//const salonStore = useSalonStore();
+//const shopStore = useShopStore();
 
  definePageMeta({ 
     layout: 'appts',   
@@ -79,12 +79,12 @@ import searchBar from "~/components/Q-Appts/searchBar.vue";
    
   export default {
     
-    components: {header, footer, FilterBar, SalonCard , searchBar},
+    components: {header, footer, FilterBar, ShopCard , searchBar},
     setup() {
-    const salonStore = useSalonStore();
+    const shopStore = useShopStore();
 
     function onFilterSelected(filter) {
-      salonStore.setSelectedFilter(filter);
+      shopStore.setSelectedFilter(filter);
     }
     onMounted(() => {
       console.log('Mounted Q-Appts page');
@@ -92,9 +92,9 @@ import searchBar from "~/components/Q-Appts/searchBar.vue";
       navigator.geolocation.getCurrentPosition(
       (pos) => {
         const { latitude, longitude } = pos.coords
-        salonStore.lat = latitude
-        salonStore.lng = longitude
-        //salonStore.fetchNearbyShops(latitude, longitude, true)
+        shopStore.lat = latitude
+        shopStore.lng = longitude
+        //shopStore.fetchNearbyShops(latitude, longitude, true)
         console.log(`Current location: ${latitude}, ${longitude}`);
         console.log('Nearby shops fetched successfully');
         
@@ -102,18 +102,18 @@ import searchBar from "~/components/Q-Appts/searchBar.vue";
       (err) => {
         console.error('Location error:', err)
         // Fallback location (Colombo)
-        //salonStore.fetchNearbyShops(6.9271, 79.8612, true)
+        //shopStore.fetchNearbyShops(6.9271, 79.8612, true)
       }
       )
       }
     })
 
     /* function loadMore() {
-        salonStore.fetchNearbyShops(salonStore.lat, salonStore.lng)
+        shopStore.fetchNearbyShops(shopStore.lat, shopStore.lng)
     } */
 
     return {
-      salonStore,
+      shopStore,
       onFilterSelected,
     };
     },
@@ -148,8 +148,8 @@ import searchBar from "~/components/Q-Appts/searchBar.vue";
     },
   watch: {},
   computed: {
-      salonStore() {
-      return useSalonStore();
+      shopStore() {
+      return useShopStore();
     },
   },
   methods: {
