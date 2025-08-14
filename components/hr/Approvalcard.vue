@@ -46,6 +46,7 @@
 
 import btn_jobcard_approve from '~/components/hr/btn_jobcard_approve'
 import btn_jobcard_reject from '~/components/hr/btn_jobcard_reject'
+import { useHrStore } from '~/stores/modules/hrStore'
 
 export default {
   components: { btn_jobcard_approve, btn_jobcard_reject },
@@ -57,8 +58,15 @@ export default {
       ismore: false,
       cur_jobid: -1,
       comment: '',
+      showLoading: null,
+      hrStore: null,
     }
   },
+  async created() {
+    this.hrStore = useHrStore();
+    this.showLoading = this.$showLoading;
+  },
+
   computed: {
     getJobTypeName() {
       return (jobtypeid) => {
@@ -105,6 +113,7 @@ export default {
       }
     },
   },
+
   methods: {
     refreshComp(jobId) {
       //this.jcDetails = []
@@ -114,41 +123,47 @@ export default {
     },
 
     async setapprove(jobId) {
-      if (confirm('Sure to Approve this workorder?')) {
-        await this.getApprove({
-          jobid: jobId,
-          jobType: this.jobType,
-          user: this.loggeduser,
-          comment: this.comment,
-        })
-        this.refreshComp(jobId)
+      this.$showConfirm("Sure to approve this work-order?", "warning")
+        .then(async (result) => {
+          if (result.isConfirmed) {
 
-        // let index = this.jcDetails.find((ind) => ind.jobId == jobId)
-        // this.jcDetails.splice(index, 1)
-      }
+            await this.hrStore.getWorkLoadApprove({
+              jobId: jobId,
+              jobType: this.jobType,
+              comment: this.comment,
+            }, this.showLoading)
+            this.refreshComp(jobId)
+          }
+        });
     },
+
     async setreject(jobId) {
-      if (confirm('Sure to Reject this workorder?')) {
-        //console.log(JSON.stringify({jobid:jobId,jobType:jobType,user:this.loggeduser,comment:this.comment}))
-        if (this.comment == '') {
-          this.showMessage({
-            type: 'Failed',
-            message: 'Type Reject Reason as comment',
-          })
+      this.$showConfirm("Sure to reject this work-order?", "warning")
+        .then(async (result) => {
+          if (result.isConfirmed) {
 
-          return
-        }
+            if (this.comment == '') {
+              this.showMessage({
+                type: 'Failed',
+                message: 'Type Reject Reason as comment',
+              })
 
-        await this.getReject({
-          jobid: jobId,
-          jobType: this.jobType,
-          user: this.loggeduser,
-          comment: this.comment,
-        })
-        //let index = this.jcDetails.find((ind) => ind.jobId == jobId)
-        //this.jcDetails.splice(index, 1)
-        this.refreshComp(jobId)
-      }
+              return
+            }
+
+            await this.hrStore.getWorkLoadReject({
+              jobId: jobId,
+              jobType: this.jobType,
+              comment: this.comment,
+            }, this.showLoading)
+
+            this.refreshComp(jobId)
+          }
+        });
+    },
+
+    showMessage({ type, message }) {
+      alert(`${type}: ${message}`); // or use a toast/snackbar
     },
   },
 }

@@ -422,16 +422,27 @@ export const useHrStore = defineStore("hrStore", {
       this.OTApllyDetails.arrOTApply = [];
     },
 
+    // WorkLoad
+
     async getWorkLoadCount() {
       try {
         const response = await axios.get(
           `${import.meta.env.VITE_API_URL}/hr/WorkLoad/GetWorkLoadCount`
         );
-
-        console.log("response:",response);
+        console.log("getWorkLoadCount response:",response);
 
         if (response.data.isSuccess) {
-          this.dashboard.workgroupjobcount = response.data.data.data[0].assignedUser.jobArr.length || 0;
+          if (response.data.data.data.length > 0) {
+            const jobArr = response.data.data.data[0].assignedUser.jobArr;
+
+            const totalJobCount = jobArr.reduce((sum, jobType) => {
+              return sum + jobType.jobDetails.length;
+            }, 0);
+
+            this.dashboard.workgroupjobcount = totalJobCount;
+          }else{
+             this.dashboard.workgroupjobcount = 0;
+          }
         } else {
           console.error("Loading error:", response.data.message);
         }
@@ -464,7 +475,85 @@ export const useHrStore = defineStore("hrStore", {
       loadingAlert.close();
     },
 
+    async getWorkLoadApprove(req,showLoading) {
+      console.log('API-getWorkLoadApprove');
+      console.log(JSON.stringify(req));
+
+
+      const loadingAlert = showLoading("");
+      try {
+        const response = await axios.post(
+          `${import.meta.env.VITE_API_URL}/hr/WorkLoad/GetWorkLoadApprove`,req);
+
+        console.log("response:",response.data.data.data);
+        // console.log("response:",response.data.data.data.assignedUser.jobArr);
+
+        if (response.data.isSuccess) {
+          // this.workgroup.arrJobCardDetails = response.data.data.data || [];
+          this.showToast("Loading successful!", "success");
+        } else {
+          console.error("Loading error:", response.data.message);
+        }
+      } catch (error) {
+        console.error("Loading error:", error);
+        // this.showToast(error.response.data.Message, 'error');
+      }
+      loadingAlert.close();
+    },
+
+    async getWorkLoadReject(req,showLoading) {
+      console.log('API-getWorkLoadReject');
+      console.log(JSON.stringify(req));
+
+
+      const loadingAlert = showLoading("");
+      try {
+        const response = await axios.post(
+          `${import.meta.env.VITE_API_URL}/hr/WorkLoad/GetWorkLoadReject`,req);
+
+        console.log("response:",response.data.data.data);
+        // console.log("response:",response.data.data.data.assignedUser.jobArr);
+
+        if (response.data.isSuccess) {
+          // this.workgroup.arrJobCardDetails = response.data.data.data || [];
+          this.showToast("Loading successful!", "success");
+        } else {
+          console.error("Loading error:", response.data.message);
+        }
+      } catch (error) {
+        console.error("Loading error:", error);
+        // this.showToast(error.response.data.Message, 'error');
+      }
+      loadingAlert.close();
+    },
+
+
     //Attendence//
+
+    async getRefreshAttendance(req, showLoading) {
+      console.log('API-getRefreshAttendance');
+      console.log(JSON.stringify(req));
+
+      const loadingAlert = showLoading("");
+      try {
+        const response = await axios.post(
+          `${import.meta.env.VITE_API_URL}/hr/Attendance/GetRefreshAttendance`,
+          req
+        );
+        console.log("response:", response);
+        if (response.data.isSuccess) {
+          this.showToast('Loading successful!', 'success');
+        } else {
+          console.error("Loading error:", response.data.message);
+          // this.showToast(response.data.message, 'error');
+        }
+      } catch (error) {
+        console.error("Loading error:", error);
+        this.showToast(error.response.data.Message, "error");
+      }
+      loadingAlert.close();
+    },
+
     async GetPrintAttendanceSheet(req, showLoading) {
       console.log('API-GetPrintAttendanceSheet');
       console.log(JSON.stringify(req));
@@ -552,21 +641,18 @@ export const useHrStore = defineStore("hrStore", {
       loadingAlert.close();
     },
 
-    async setOTManual(req, showLoading) {
-      console.log('API-setOTManual');
+    async setManualInOut(req, showLoading) {
+      console.log('API-setManualInOut');
       console.log(JSON.stringify(req));
 
       const loadingAlert = showLoading("");
       try {
-        console.log("req:", req);
-        const response = await axios.get(
-          `${import.meta.env.VITE_API_URL}/hr/Attendance/SetOTManual`,
-          { params: { Id: req.id, otHours: req.otHours } }
-        );
+        const response = await axios.post(
+          `${import.meta.env.VITE_API_URL}/hr/Attendance/SetManualInOut`,req);
         console.log("response:", response);
         if (response.data.isSuccess) {
           // this.empdetails = response.data.data.data || {};
-          this.showToast("OT apply successful!", "success");
+          this.showToast("In-Out change successful!", "success");
         } else {
           console.error("Loading error:", response.data.message);
           // this.showToast(response.data.message, 'error');
@@ -577,6 +663,61 @@ export const useHrStore = defineStore("hrStore", {
       }
       loadingAlert.close();
     },
+
+    async setOTManual(req, showLoading) {
+      console.log('API-SetOTManual');
+      console.log(JSON.stringify(req));
+
+      const loadingAlert = showLoading("");
+      try {
+        const response = await axios.post(
+          `${import.meta.env.VITE_API_URL}/hr/Attendance/SetOTManual`,req);
+        console.log("response:", response);
+        if (response.data.isSuccess) {
+          // this.empdetails = response.data.data.data || {};
+          this.showToast("In-Out change successful!", "success");
+        } else {
+          console.error("Loading error:", response.data.message);
+          this.showToast(response.data.message, 'warning');
+        }
+      } catch (error) {
+        console.error("Loading error:", error);
+        this.showToast(error.response.data.Message, "error");
+      }
+      loadingAlert.close();
+    },
+
+
+
+
+
+
+
+    // async setOTManual(req, showLoading) {
+    //   console.log('API-setOTManual');
+    //   console.log(JSON.stringify(req));
+
+    //   const loadingAlert = showLoading("");
+    //   try {
+    //     console.log("req:", req);
+    //     const response = await axios.get(
+    //       `${import.meta.env.VITE_API_URL}/hr/Attendance/SetOTManual`,
+    //       { params: { Id: req.id, otHours: req.otHours } }
+    //     );
+    //     console.log("response:", response);
+    //     if (response.data.isSuccess) {
+    //       // this.empdetails = response.data.data.data || {};
+    //       this.showToast("OT apply successful!", "success");
+    //     } else {
+    //       console.error("Loading error:", response.data.message);
+    //       // this.showToast(response.data.message, 'error');
+    //     }
+    //   } catch (error) {
+    //     console.error("Loading error:", error);
+    //     this.showToast(error.response.data.Message, "error");
+    //   }
+    //   loadingAlert.close();
+    // },
 
     async setOTApproval(req, showLoading) {
       console.log('API-setOTApproval');
@@ -645,6 +786,7 @@ export const useHrStore = defineStore("hrStore", {
       loadingAlert.close();
     },
 
+
     async getReCalcOT(req, showLoading) {
       console.log('API-getReCalcOT');
       console.log(JSON.stringify(req));
@@ -655,6 +797,30 @@ export const useHrStore = defineStore("hrStore", {
         const response = await axios.get(
           `${import.meta.env.VITE_API_URL}/hr/Attendance/GetRecalcOT`,
           { params: { Id: req.Id } }
+        );
+        console.log("response:", response);
+        if (response.data.isSuccess) {
+          // this.OTApllyDetails.ot_hours = response.data.data.data;
+        } else {
+          console.error("Loading error:", response.data.message);
+          // this.showToast(response.data.message, 'error');
+        }
+      } catch (error) {
+        console.error("Loading error:", error);
+        // this.showToast(error.response.data.Message, 'error');
+      }
+      loadingAlert.close();
+    },
+
+    async getRecalcOTByHR(req, showLoading) {
+      console.log('API-getRecalcOTByHR');
+      console.log(JSON.stringify(req));
+
+      const loadingAlert = showLoading("");
+      try {
+        const response = await axios.get(
+          `${import.meta.env.VITE_API_URL}/hr/Attendance/GetRecalcOTByHR`,
+          { params: { id: req } }
         );
         console.log("response:", response);
         if (response.data.isSuccess) {
