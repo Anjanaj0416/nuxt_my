@@ -1,12 +1,27 @@
 
 import { defineStore } from 'pinia';
 
+const districtsCities = {
+  Colombo: ['Colombo', 'Dehiwala', 'Nugegoda', 'Mount Lavinia'],
+  Gampaha: ['Negombo', 'Wattala', 'Katunayake'],
+  Kalutara: ['Kalutara', 'Panadura', 'Beruwala'],
+  Kandy: ['Kandy', 'Nawalapitiya', 'Gampola'],
+  Matale: ['Matale', 'Dambulla', 'Ukuwela'],
+  NuwaraEliya: ['Nuwara Eliya', 'Hatton', 'Talawakelle'],
+  Galle: ['Galle', 'Hikkaduwa', 'Unawatuna'],
+  Matara: ['Matara', 'Weligama', 'Dickwella'],
+  Hambantota: ['Hambantota', 'Tangalle', 'Tissamaharama'],
+  // add others if needed
+}
+
 export const useSalonStore = defineStore('salon', {
 state: () => ({
 salons : [
   {
     id: 1,
     address: '123 Main St, Springfield',
+    district: 'Colombo',
+    city: 'Colombo',
     contact: '555-1234',
     openingHours: '9 AM - 9 PM',
     ongoingNumber: 5,
@@ -21,6 +36,8 @@ salons : [
   {
     id: 2,
     address: '123 Main St, Springfield',
+    district: 'Colombo',
+    city: 'Colombo',
     contact: '555-1234',
     openingHours: '9 AM - 9 PM',
     ongoingNumber: 5,
@@ -35,6 +52,8 @@ salons : [
   {
     id: 3,
     address: '123 Main St, Springfield',
+    district: 'Colombo',
+    city: 'Colombo',
     contact: '555-1234',
     openingHours: '9 AM - 9 PM',
     ongoingNumber: 5,
@@ -49,6 +68,8 @@ salons : [
   {
     id: 4,
     address: '123 Main St, Springfield',
+    district: 'Colombo',
+    city: 'Colombo',
     contact: '555-1234',
     openingHours: '9 AM - 9 PM',
     ongoingNumber: 5,
@@ -63,6 +84,8 @@ salons : [
   {
     id: 5,
     address: '123 Main St, Springfield',
+    district: 'Colombo',
+    city: 'Colombo',
     contact: '555-1234',
     openingHours: '9 AM - 9 PM',
     ongoingNumber: 5,
@@ -77,6 +100,8 @@ salons : [
   {
     id: 6,
     address: '123 Main St, Springfield',
+    district: 'Colombo',
+    city: 'Colombo',
     contact: '555-1234',
     openingHours: '9 AM - 9 PM',
     ongoingNumber: 5,
@@ -91,6 +116,8 @@ salons : [
   {
     id: 7,
     address: '123 Main St, Springfield',
+    district: 'Colombo',
+    city: 'Colombo',
     contact: '555-1234',
     openingHours: '9 AM - 9 PM',
     ongoingNumber: 5,
@@ -105,6 +132,8 @@ salons : [
   {
     id: 8,
     address: '123 Main St, Springfield',
+    district: 'Colombo',
+    city: 'Colombo',
     contact: '555-1234',
     openingHours: '9 AM - 9 PM',
     ongoingNumber: 5,
@@ -119,6 +148,8 @@ salons : [
   {
     id: 9,
     address: '123 Main St, Springfield',
+    district: 'Colombo',
+    city: 'Colombo',
     contact: '555-1234',
     openingHours: '9 AM - 9 PM',
     ongoingNumber: 5,
@@ -133,6 +164,8 @@ salons : [
   {
     id: 10,
     address: '123 Main St, Springfield',
+    district: 'Gampaha',
+    city: 'Negombo',
     contact: '555-1234',
     openingHours: '9 AM - 9 PM',
     ongoingNumber: 5,
@@ -145,11 +178,20 @@ salons : [
     image: 'https://media.gettyimages.com/id/1187559464/photo/beautiful-woman-with-voluminous-curly-hairstyle.jpg?s=612x612&w=gi&k=20&c=VEvRW70aISqMhEDE3F-SCtBZdTGXUnRxyXGyi-z9QBk=',
   },
 ],
+
+
+
+  total: 0,
   searchTerm: '',
   selectedFilter: 'All',
   selectedDistance: '',  // e.g. 'Nearby (< 1KM)'
   selectedAvailability: '', // e.g. 'Available in 30 min'
   selectedGenders: [],
+  selectedDistrict: "", // <-- make sure this starts empty
+  selectedCity: "",
+  loading: false,
+  lat: null,
+  lng: null
 }),
 
 getters: {
@@ -192,6 +234,23 @@ getters: {
       }
     }
 
+     if (state.selectedDistrict) {
+        result = result.filter(salon => {
+          // Assuming your salon address or another field includes district info
+          // For this example, let's assume salon.address or salon.district property
+          // You can add district info in salons data for testing
+          return salon.district === state.selectedDistrict;
+        });
+      }
+
+      if (state.selectedCity) {
+        result = result.filter(salon => {
+          // Assume salon.city property added to salons for this filter
+          return salon.city === state.selectedCity;
+        });
+      }
+
+
     // Filter by gender (multiple can be selected)
     if(state.selectedGenders.length > 0) {
       result = result.filter(s => state.selectedGenders.includes(s.gender.toLowerCase()));
@@ -199,10 +258,26 @@ getters: {
 
       return result;
     }
+    
   },
 
 
 actions: {
+    /* resetFilters() {
+      this.selectedDistrict = ''
+      this.selectedCity = ''
+      this.searchTerm = ''
+      this.localSearchTerm = ''
+    }, */
+
+    setSelectedDistrict(district) {
+      this.selectedDistrict = district;
+      this.selectedCity = ''; // reset city when district changes
+    },
+
+    setSelectedCity(city) {
+      this.selectedCity = city;
+    },
     setSearchTerm(term) {
       this.searchTerm = term;
     },
@@ -240,5 +315,34 @@ actions: {
         this.salons[index] = { ...this.salons[index], ...updatedSalon };
       }
     },
+
+    // fetch nearby shops when page loading
+    async fetchNearbyShops(lat, lng, reset = false) {
+      try {
+        this.loading = true
+        if (reset) {
+          this.page = 0
+          this.salons = []
+        }
+
+        const { data } = await axios.get('/api/shops/nearby', {
+          params: {
+            lat,
+            lng,
+            //limit: this.limit,
+            //offset: this.page * this.limit
+          }
+        })
+
+        this.total = data.total
+        this.salons = reset ? data.shops : [...this.salons, ...data.shops]
+        this.page++
+      } catch (error) {
+        console.error('Error fetching shops', error)
+      } finally {
+        this.loading = false
+      }
+    } 
+
   },
 });
