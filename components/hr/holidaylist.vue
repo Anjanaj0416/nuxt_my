@@ -148,6 +148,8 @@ export default {
   async created() {
     this.hrStore = useHrStore();
     this.showLoading = this.$showLoading;
+
+    this.init();
   },
 
   computed: {

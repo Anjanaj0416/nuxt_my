@@ -206,6 +206,10 @@ const links = [
         to: "/hr/holiday",
       },
       {
+        name: "Special Work Arrangement",
+        to: "/hr/specialWorkArrangement",
+      },
+      {
         name: "Reports",
         to: "#",
         submenu: [
