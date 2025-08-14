@@ -35,6 +35,8 @@
             :key="index"
             class="flex flex-col gap-3 p-3 mt-2 bg-white border border-gray-200 rounded-lg shadow-sm hover:shadow-md transition-shadow sm:p-4"
           >
+          <!-- {{ order}} -->
+
             <!-- Top section: Details -->
             <div class="flex flex-col sm:flex-row sm:justify-between sm:items-center gap-2">
               <div class="flex flex-col text-center sm:text-left">
@@ -104,12 +106,12 @@
 
               <div  class="sm:flex sm:justify-end mt-2">
                 <button
-                  v-if="order.isSignedPIUploaded"
                   @click="handlePIUploderClick(order.orderNo)"
                   class="text-red-600 border border-red-300 hover:bg-red-50 font-medium text-sm px-4 py-2 rounded-md transition duration-200"
                 >
                   SignedPIUploaded
                 </button>
+
               </div>
 
               <div class="sm:flex sm:justify-end mt-2">
@@ -175,7 +177,7 @@
       </div>
 
       <AddOrder v-if="isAddEdit && showAddProposal" @close="isAddEdit = false; showAddProposal = false" :customerRef="customerRef" :id="id"/>
-      <SignedPIUpload v-if="isSignUpload"  @close="isSignUpload = false"  :id="selectedOrderId"/>
+      <SignedPIUpload v-if="isSignedPIUploaded"  @close="isSignedPIUploaded = false"  :id="selectedOrderId"/>
 
 
       
@@ -212,7 +214,7 @@
       return {
         isAddEdit: false,
         isViewMore: false,
-        isSignUpload: false,
+        isSignedPIUploaded: false,
         showInvoice: false,
         showWorkFlow:false,
         activeOrderInvoiceId: null, 
@@ -254,8 +256,8 @@
         },
 
         handlePIUploderClick(orderNo) {
-          this.selectedOrderId = orderNo;      
-          this.isSignUpload = true;           
+          this.selectedOrderId = orderNo;
+          this.isSignedPIUploaded = true;
         },
 
         GoToAddNew() {

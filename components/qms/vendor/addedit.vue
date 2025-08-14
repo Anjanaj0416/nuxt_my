@@ -5,7 +5,7 @@
           <div class="text-2xl uppercase mb-4"> Vendor Details - {{ isEditing ? "Edit" : "Add" }}</div>
       </div>
        <!-- {{ Id }} -->
-      <pre>{{ JSON.stringify(curVendor, null, 2) }}</pre>  
+      <!-- <pre>{{ JSON.stringify(curVendor, null, 2) }}</pre>   -->
 
 
       <!-- Modal Content (scrollable) -->
@@ -476,6 +476,14 @@ export default {
       this.curVendor.csoNo = selectedId;
     },
 
+    isValidDate(dateStr) {
+      return dateStr && !dateStr.startsWith("0001-01-01");
+    },
+  
+    formatDate(dateStr) {
+      return this.isValidDate(dateStr) ? dateStr.split("T")[0] : "";
+    },
+
     clearCurVendor() {
       this.curVendor = {
         id: "",
@@ -527,11 +535,14 @@ export default {
       ).then(async (result) => {
         if (result.isConfirmed) {
           const formData = this.convertToFormData(this.curVendor);
+          
+          const jsonObject = {};
+            formData.forEach((value, key) => {
+              jsonObject[key] = value;
+          });
 
-          // Optional: log formData for testing
-          for (let [key, value] of formData.entries()) {
-            console.log(`${key}:`, value);
-          }
+          // console.log("FormData as JSON:\n", JSON.stringify(jsonObject, null, 2));
+
           await this.vendorStore.AddEditVendor(formData, this.showLoading);
           this.clearCurVendor();
           // this.vendorStore.ResetVendor();
@@ -585,9 +596,9 @@ export default {
       // formData.append("DistrictId", this.curVendor.districtId);
       formData.append("CityId", this.curVendor.cityId );
       formData.append("CSONo", this.curVendor.csoNo );;
-      formData.append("VendorImageFile", this.curVendor.vendorImageFile || "");
+      formData.append("ClientImageFile,", this.curVendor.vendorImageFile || "");
       formData.append("BRCopyFile", this.curVendor.brCopyImage || "");
-      formData.append("ShopLogoPath", this.curVendor.shopLogo || "");
+      formData.append("ShopLogoFile", this.curVendor.shopLogo || "");
       formData.append("BRNumber", this.curVendor.brNumber || "");
       formData.append("VATNo", this.curVendor.vatNo || "");
       formData.append("TINNo", this.curVendor.tinNo || "");
