@@ -3,7 +3,7 @@
     <div class="modal">
       <!-- Modal Header -->
       <div class="modal-header">
-        <h2 class="modal-title">Signed PI Upload</h2>
+        <h2 class="modal-title">Quotation Approval</h2>
         <!-- <button @click="closeModal" class="absolute z-50 p-2 text-white rounded-md  close-button">&times;</button> -->
         <closebtn @close="closeModal()" />
       </div>
@@ -14,8 +14,7 @@
           <div class="grid grid-cols-2 gap-4 mt-1 sm:grid-cols-1 md:grid-cols-1">
             <div>
               <h3 class="font-bold">
-                Order No - {{ id }}
-              
+                Quotaion No - {{ id }}
               </h3>
             </div>
             <hr />
@@ -37,7 +36,15 @@
                 {{ err.approvedImage }}
               </p>
             </div>
-
+            <div>
+              <label class="block text-sm font-bold text-gray-600">Reserve PI No. Enter</label>
+              <input 
+                type="text" 
+                v-model="PreIssuedPINumber"
+                placeholder="Enter Reserve PI No."
+                class="w-full p-2 mt-2 text-sm bg-gray-100 border rounded-md" 
+              />
+            </div>
           </div>
           <div>
             <!-- {{ quotationStore.curQuotation.id }} -->
@@ -56,6 +63,7 @@
 </template>
 
 <script>
+import { useOrderStore } from "~/stores/modules/orderStore";
 
 import closebtn from "~/components/customcontrol/modal_close_button";
 import Lable from "~/components/customcontrol/Lable";
@@ -66,8 +74,6 @@ import LinkBtn from "~/components/customcontrol/Link";
 import imagepicker1 from "~/components/customcontrol/imagepicker1.vue";
 import Swal from "sweetalert2";
 
-import { useOrderStore } from "~/stores/modules/orderStore";
-
 export default {
   components: { closebtn, LinkBtn, Lable, Button, ImageLable, imagepicker1 },
   props: ['id'],
@@ -75,6 +81,7 @@ export default {
     return {
       imageroot: "",
       ApprovalMemo: "",
+      PreIssuedPINumber: "",
       isOpen: true,
       err: { ApprovalMemo: "" },
     };
@@ -82,8 +89,6 @@ export default {
   async created() {
     this.showLoading = this.$showLoading;
     this.orderStore = useOrderStore();
-
-
   },
   async mounted() {
     //this.showAlert('fff', 'error');
@@ -101,21 +106,26 @@ export default {
       
     },
 
-  async SetApprove() {
-    if (this.IsValidate()) {
-      try {
-        const orderNo = this.id;
-        const signedImage = this.ApprovalMemo;
+    async SetApprove() {
+      if (this.IsValidate()) {
+        const formData = new FormData();
+        formData.append("orderNo", this.id);
+        formData.append("signedImage", this.ApprovalMemo);
 
-        await this.orderStore.UploadSignedPI(signedImage, orderNo, this.showLoading);
-        this.closeModal();
-      } catch (error) {
-        console.error("Approval failed:", error);
+        const loadingAlert = this.showLoading(""); 
+
+        try {
+          await this.orderStore.GetQuotationApprove(formData);
+          loadingAlert.close();
+          this.closeModal();
+        } catch (error) {
+          loadingAlert.close();
+          console.error("Approval failed:", error);
+        }
+      } else {
+        console.log("Validation failed");
       }
-    } else {
-      console.log("Validation failed");
-    }
-  },
+    },
 
 
 

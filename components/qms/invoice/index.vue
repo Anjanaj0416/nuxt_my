@@ -28,14 +28,15 @@
             </div>
 
             <!-- Button Section (Right) -->
-            <div class="w-full md:w-auto">
-              <div class="mr-2">
+            <div class="w-full md:w-auto"  >
+              <div class="mr-2" v-if="status && status.trim().toLowerCase() !== 'canceled'">
 
                   <Button
                     class="w-26 px-4 py-1.5 mt-2 rounded-full text-xs transition"
                     label="Add Payment"
                     variant="primary"
                     v-if="
+                      status !== 'Canceled' &&
                       userStore.loggedUser.granted.includes('su') ||
                       userStore.loggedUser.granted.includes('flo') ||
                       userStore.loggedUser.granted.includes('sso')
@@ -55,6 +56,8 @@
               :key="index"
               class="bg-white shadow-sm border border-gray-200 rounded-lg p-3 hover:shadow-md transition-all duration-200 text-xs"
             >
+
+            <!-- {{ item }} -->
               <!-- Top row -->
               <div class="flex justify-between items-center flex-wrap gap-1 border-b pb-1">
                 <div class="flex items-center gap-1 text-gray-600">
@@ -148,7 +151,7 @@
   export default {
     
     components: {LinkBtn,Button,selectinput2,addPayment},
-    props:['orderId'],
+    props:['orderId','status'],
     data() {
       return {
         imageroot: "",

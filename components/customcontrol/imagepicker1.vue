@@ -27,7 +27,7 @@
     <div
       class="relative flex flex-col items-center justify-center p-6 transition border-2 border-dashed rounded-lg cursor-pointer hover:bg-gray-100"
       @click="triggerFileInput">
-      <input ref="fileInput" type="file" accept="image/*" class="hidden" @change="handleFileChange" />
+      <input ref="fileInput" type="file" accept="" class="hidden" @change="handleFileChange" />
 
       <!-- New image preview -->
       <div v-if="imagePreview" class="relative w-full">

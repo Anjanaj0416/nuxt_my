@@ -10,7 +10,8 @@ export const useOrderStore = defineStore("orderStore", {
     initOrder: [],
     listoPackagesDetails: [],
     listOrder : [],
-    PaymentDetails: []
+    PaymentDetails: [],
+    piSigned : []
   }),
   persist: true,
 
@@ -215,36 +216,25 @@ actions: {
       }
     },
 
-    async UploadSignedPI(signedImage, orderNo, showLoading) {
-      const loadingAlert = showLoading("");
-
-      const formData = new FormData();
-      formData.append("orderNo", orderNo);
-      formData.append("signedImage", signedImage);
-
-      console.log("FormData content:");
-
+    async GetQuotationApprove(formData) {
       try {
         const response = await axios.post(
           `${import.meta.env.VITE_API_URL}/qms/Order/GetUploadSignedImage`,
           formData,
-          {
-            headers: {
-              "Content-Type": "multipart/form-data",
-            },
-          }
+          { headers: { "Content-Type": "multipart/form-data" } }
         );
+        if (response.data.isSuccess) {
 
-        loadingAlert.close();
+          this.piSigned = response.data.data.data;
 
-        if (response?.data?.IsSuccess) {
-          this.showAlert(response.data.Message, "success");
+
+          this.showToast(response.data.message, "success");
         } else {
-          this.showAlert(response.data.Message, "error");
+          this.showToast(response.data.message, "error");
         }
       } catch (error) {
-        loadingAlert.close();
-        this.showAlert(error.message || "Unknown error", "error");
+        this.showToast("An error occurred during approval", "error");
+        console.error(error);
       }
     },
 

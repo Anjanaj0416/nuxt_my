@@ -17,17 +17,15 @@
               <div class="mr-2">
             
                 <Button class="w-24 px-4 py-1.5 mt-2 rounded-full text-xs transition" label="Create" variant="primary" 
-                v-if="userStore.loggedUser.granted.includes('su') || userStore.loggedUser.granted.includes('flo') || userStore.loggedUser.granted.includes('sso')"
-                  @click="handleCreateClick" />
+                  v-if="userStore.loggedUser.granted.includes('su') || userStore.loggedUser.granted.includes('flo') || userStore.loggedUser.granted.includes('sso')"
+                  @click="handleCreateClick" 
+                />
               </div>
             </div>
           </div>
 
 
           <!-- {{ orderStore.listOrder }} -->
-
-
-          
 
         <div class="max-h-[660px] overflow-y-auto space-y-4">
           <div
@@ -41,7 +39,7 @@
             <div class="flex flex-col sm:flex-row sm:justify-between sm:items-center gap-2">
               <div class="flex flex-col text-center sm:text-left">
                 <h1 class="text-xs font-medium text-gray-600">Order No</h1>
-                <p class="text-sm font-semibold text-blue-600">{{ order.orderNo }}</p>
+                <p class="text-sm font-semibold text-gray-700">{{ order.orderNo }}</p>
               </div>
               <div class="hidden sm:block w-px bg-gray-300 h-8"></div>
 
@@ -68,7 +66,7 @@
                 <a
                   :href="imageroot + order.piUrl"
                   target="_blank"
-                  class="text-sm font-semibold text-blue-600 hover:underline"
+                  class="text-sm font-semibol text-blue-600 hover:underline"
                 >
                   view
                 </a>
@@ -78,14 +76,28 @@
 
               <div class="flex flex-col text-center sm:text-left">
                 <h1 class="text-xs font-medium text-gray-600">Pi Signed Scan</h1>
+
+                <!-- Show "view" only if signed PI is uploaded (boolean true) -->
                 <a
+                  v-if="order.isSignedPIUploaded"
                   :href="imageroot + order.piSignedScanUrl"
                   target="_blank"
-                  class="text-sm font-semibold text-blue-600 hover:underline"
+                  class="text-sm  text-blue-600 hover:underline"
                 >
-                  view
+                  View
                 </a>
+
+                <!-- Show "Upload Signed PI" only if not uploaded (boolean false) -->
+                <button
+                  v-else
+                  @click="handlePIUploderClick(order.orderNo)"
+                  class="text-sm  text-blue-600 hover:underline"
+                >
+                  upload signed PI
+                </button>
               </div>
+
+
               <div class="hidden sm:block w-px bg-gray-300 h-8"></div>
 
               <div class="flex flex-col text-center sm:text-left">
@@ -94,7 +106,7 @@
                   :class="{
                     'bg-green-100 text-green-700': order.orderStatus === 'Check All Paid',
                     'bg-yellow-100 text-yellow-700': order.orderStatus === 'pending',
-                    'bg-red-100 text-red-700': order.orderStatus === 'Rejected'
+                    'bg-red-100 text-red-700': order.orderStatus === 'Canceled'
                   }"
                   class="text-xs font-semibold px-2 py-0.5 rounded-full"
                 >
@@ -104,24 +116,17 @@
 
               <!-- v-if="order.isSignedPIUploaded" -->
 
-              <div  class="sm:flex sm:justify-end mt-2">
+              <!-- Action Buttons -->
+              <!-- <div class="flex flex-wrap sm:justify-end gap-2 mt-4">
                 <button
-                  @click="handlePIUploderClick(order.orderNo)"
-                  class="text-red-600 border border-red-300 hover:bg-red-50 font-medium text-sm px-4 py-2 rounded-md transition duration-200"
-                >
-                  SignedPIUploaded
-                </button>
-
-              </div>
-
-              <div class="sm:flex sm:justify-end mt-2">
-                <button
+                  v-if="order.orderStatus !== 'Canceled'"
                   @click="confirmDelete(order.id)"
-                  class="text-red-600 border border-red-300 hover:bg-red-50 font-medium text-sm px-4 py-2 rounded-md transition duration-200"
+                  class="flex items-center gap-2 bg-red-50 text-red-700 hover:bg-red-100 border border-red-300 font-medium text-sm px-4 py-2 rounded-lg transition duration-200"
                 >
                   Delete
                 </button>
-              </div>
+              </div> -->
+
             </div>
 
             <!-- Proposal Tab Buttons -->
@@ -131,18 +136,26 @@
                   @click="activeOrderInvoiceId = order.id"
                   :class="[
                     'p-4 border-b-2 rounded-t-lg text-center',
-                    'border-transparent hover:text-gray-600 hover:border-gray-300'
+                    'border-transparent text-blue-600 hover:text-gray-600 hover:border-gray-300'
                   ]">
-                  Invoice
+                  View Payments
                 </button>
 
                 <button v-else
                   @click="activeOrderInvoiceId = null"
                   class="p-4 border-b-2 rounded-t-lg text-center text-red-600 border-transparent">
-                  Close Invoice
+                  Close Payments
                 </button>
 
-                <button v-if="activeOrderWorkFloweId !== order.id"
+                <button
+                  v-if="order.orderStatus !== 'Canceled'"
+                  @click="confirmDelete(order.id)"
+                  class="text-sm  text-blue-600 hover:underline"
+                >
+                  Delete
+                </button>
+
+                <!-- <button v-if="activeOrderWorkFloweId !== order.id"
                   @click="activeOrderWorkFloweId = order.id"
                   :class="[
                     'p-4 border-b-2 rounded-t-lg text-center',
@@ -155,14 +168,14 @@
                   @click="activeOrderWorkFloweId = null"
                   class="p-4 border-b-2 rounded-t-lg text-center text-red-600 border-transparent">
                   Close WorkFlow
-                </button>
+                </button> -->
               </div>
             </div>
 
             <!-- Button group -->
             <div class="p-0 dark:border-gray-700">
               <div v-if="activeOrderInvoiceId === order.id">
-                <Invoice :orderId="order.id"/>
+                <Invoice :orderId="order.id" :status="order.orderStatus"/>
               </div>
               <div v-if="activeOrderWorkFloweId === order.id">
                 <WorkFlow  />
@@ -171,13 +184,13 @@
           </div>
 
           <div v-if="!orderStore.listOrder.length" class="mt-4 text-center text-blue-950">
-            No quotations found.
+            No Orders found.
           </div>
         </div>
       </div>
 
       <AddOrder v-if="isAddEdit && showAddProposal" @close="isAddEdit = false; showAddProposal = false" :customerRef="customerRef" :id="id"/>
-      <SignedPIUpload v-if="isSignedPIUploaded"  @close="isSignedPIUploaded = false"  :id="selectedOrderId"/>
+      <SignedPIUpload v-if="isSignedPIUploaded"  @close="isSignedPIUploaded = false"  :id="selectedOrderId" />
 
 
       
@@ -236,7 +249,7 @@
 
 
       await this.orderStore.loadListOrder(
-        { keyword: "", searchBy: this.searchBy },
+        { keyword: this.id, searchBy: 'clientId' },
         this.showLoading
       );
 

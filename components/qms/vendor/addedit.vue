@@ -91,7 +91,7 @@
             </div>
             <div class="">
               <label class="block text-sm font-bold text-gray-600">TIN No</label>
-              <input type="text" v-model="curVendor.tinNo" placeholder="Enter VAT Number" required
+              <input type="text" v-model="curVendor.yourTinNo" placeholder="Enter VAT Number" required
                 class="w-full p-2 mt-2 text-sm border rounded-md focus:ring-indigo-500 focus:border-indigo-500" />
             </div>
             <div class="">
@@ -132,9 +132,13 @@
             <div>
               <label class="block text-sm font-bold text-gray-600">BR</label>
               <div class="relative mt-2">
-                <imagecomp :existing_image_path="imageroot + curVendor.shopLogo"
-                  @deleteExistingImage="curVendor.brCopyImage = ''" @GetSelectedImage="GetSelectedBRCopy"
-                  ref="refBRCopy" />
+                <imagepicker1
+                  :existingImagePath="imageroot + curVendor.brCopyImage"
+                  @GetSelectedImage="GetSelectedBRCopy"
+                  @deleteExistingImage="curVendor.brCopyImage = ''"
+                  ref="refBRCopy"
+                />
+
               </div>
             </div>
 
@@ -312,6 +316,8 @@ import { reactive, computed } from "vue";
 import { ref } from 'vue'
 import closebtn from "~/components/customcontrol/modal_close_button";
 import imagecomp from "~/components/customcontrol/imagepicker";
+import imagepicker1 from "~/components/customcontrol/imagepicker1.vue";
+
 
 import ImageLable from "~/components/customcontrol/ImageLable";
 import serach_Input from "~/components/customcontrol/SearchInput.vue";
@@ -326,7 +332,7 @@ definePageMeta({
   layout: "default",
 });
 export default {
-  components: { closebtn, serach_Input, ImageLable, imagecomp, toggleoption },
+  components: { closebtn, serach_Input, ImageLable, imagecomp, toggleoption ,imagepicker1},
   props:[''],
   data() {
     return {
@@ -468,9 +474,11 @@ export default {
     GetSelectedShopCoverImage(image) {
       this.curVendor.shopCoverImageFile = image;
     },
-    GetSelectedBRCopy(image) {
-      this.curVendor.brCopyImage = image;
+    GetSelectedBRCopy(file) {
+      this.curVendor.brCopyImage = file;
+      console.log(file);
     },
+
     onSelectRSO(selectedId) {
       console.log("Selected RSO from native select:", selectedId);
       this.curVendor.csoNo = selectedId;
@@ -601,7 +609,7 @@ export default {
       formData.append("ShopLogoFile", this.curVendor.shopLogo || "");
       formData.append("BRNumber", this.curVendor.brNumber || "");
       formData.append("VATNo", this.curVendor.vatNo || "");
-      formData.append("TINNo", this.curVendor.tinNo || "");
+      formData.append("TINNo", this.curVendor.yourTinNo || "");
       formData.append("Description", this.curVendor.description || "");
 
       // Contact Person
