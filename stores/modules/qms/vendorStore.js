@@ -41,7 +41,7 @@ export const useVendorStore = defineStore("vendorStore", {
       const loadingAlert = showLoading("");
       try {
         const response = await axios.post(
-          `${import.meta.env.VITE_API_URL}/qms/Vendor/SetVendorAdminDetails`,
+          `${import.meta.env.VITE_API_URL}/qms/Client/AddEditClient`,
           regVendorAdmin,         
         );
 
@@ -69,7 +69,7 @@ export const useVendorStore = defineStore("vendorStore", {
     const loadingAlert = showLoading("");
        
     try {
-      const response = await axios.get(`${import.meta.env.VITE_API_URL}/qms/Vendor/GetVendorById?id=`+id );
+      const response = await axios.get(`${import.meta.env.VITE_API_URL}/qms/Client/GetClientById?id=`+id );
       console.log(response);
       
       loadingAlert.close();
@@ -95,7 +95,7 @@ export const useVendorStore = defineStore("vendorStore", {
       const loadingAlert = showLoading("");
       try {
         const response = await axios.post(
-          `${import.meta.env.VITE_API_URL}/qms/Vendor/AddEditVendor`,
+          `${import.meta.env.VITE_API_URL}/qms/Client/AddEditClient`,
           formData,
           {
             headers: {
@@ -126,7 +126,7 @@ export const useVendorStore = defineStore("vendorStore", {
        console.log('API-InitVendor');
       try {
         const response = await axios.get(
-          `${import.meta.env.VITE_API_URL}/qms/Vendor/InitVendor`
+          `${import.meta.env.VITE_API_URL}/qms/Client/InitClient`
         );
 
         if (response.data.isSuccess) {
@@ -149,7 +149,7 @@ export const useVendorStore = defineStore("vendorStore", {
       try {
        
         const response = await axios.get(
-          `${import.meta.env.VITE_API_URL}/qms/Vendor/VendorList?keyword=${
+          `${import.meta.env.VITE_API_URL}/qms/Client/ClientList?keyword=${
             req.keyword
           }&searchBy=${req.searchBy}`
         );
@@ -175,7 +175,7 @@ export const useVendorStore = defineStore("vendorStore", {
       const loadingAlert = showLoading("");
       try {
         const response = await axios.get(
-          `${import.meta.env.VITE_API_URL}/qms/Vendor/Delete?id=${req.id}`
+          `${import.meta.env.VITE_API_URL}/qms/Client/DeleteClient?id=${req.id}`
         );
         loadingAlert.close();
        

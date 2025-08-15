@@ -13,43 +13,44 @@
 </template> -->
 
 <template>
-  <section class="page-container">
+  <section class="page-container bg-blue-50">
     <!-- Spinner only shows when loading -->
     <LoadingSpinner v-if="isLoading" />
 
     <!-- Rest of the app shows only after loading is done -->
     <div v-else>
-      <!-- <headercomp/> -->
+      <Headercomp />
       <main class="content">
         <NuxtPage />
       </main>
-      
+      <!-- hide -->
+      <Footercomp />
     </div>
   </section>
 </template>
 
 
 <script>
-import headercomp from '~/components/society/header.vue'
-import footercomp from '~/components/footer'
+import Headercomp from '~/components/Q-Appts/header'
+import Footercomp from '~/components/Q-Appts/footer'
 import LoadingSpinner from '~/components/LoadingSpinner.vue'
 
 export default {
-  components: {headercomp,footercomp,LoadingSpinner},
+  components: { Headercomp, Footercomp, LoadingSpinner },
   data() {
     return {
-       showLoading: null,
-       isLoading:null,
+      showLoading: null,
+      isLoading: null,
     }
   },
   async created() {
     this.isLoading = useLoading()
     // console.log("isLoading:",this.isLoading);
-    
-   // alert('sl')
-     // this.showLoading = this.$showLoading;
+
+    // alert('sl')
+    // this.showLoading = this.$showLoading;
     //  const loadingAlert = showLoading("");
-      // loadingAlert.close();
+    // loadingAlert.close();
   },
 }
 </script>
@@ -59,10 +60,11 @@ export default {
   display: flex;
   flex-direction: column;
   height: 100%;
+  min-height: 100vh;
 }
 
 .content {
-  flex-grow: 1; /* Allows the content to take the available space */
+  flex-grow: 1;
+  /* Allows the content to take the available space */
 }
-
 </style>
