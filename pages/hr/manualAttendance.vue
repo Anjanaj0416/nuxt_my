@@ -145,7 +145,7 @@ import { useHrStore } from "~/stores/modules/hrStore";
               date: this.selectedDate,
               inTime: this.selectedInTime,
               outTime: this.selectedOutTime,
-              dayType: 505,
+              dayType: -1,
             };
             await this.hrStore.setManualAttendenceRecord(req, this.$showLoading);
 

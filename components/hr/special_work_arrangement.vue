@@ -48,36 +48,43 @@
             <!-- End Heading  -->
 
             <!-- start rows  -->
-            <div class="cssrows overflow-y-scroll">
-              <div v-for="swa in hrStore.arrSWA" :key="swa" :index="index"
-                class="text-white bg-gray-600 rounded-md p-2 mt-1">
+            <div v-if="hrStore.arrSWA.length > 0">
+              <div class="cssrows overflow-y-scroll">
+                <div v-for="swa in hrStore.arrSWA" :key="swa" :index="index"
+                  class="text-white bg-gray-600 rounded-md p-2 mt-1">
 
-                <div class="grid grid-cols-3 lg:grid-cols-3 w-full">
-                  <div class="text-center">
-                    {{ swa.appliedToAll ? 'Yes' : 'No' }}
-                  </div>
-                  <div>{{ getFormatDate(swa.date) }}</div>
-                  <div class="flex justify-between">
-                    <div> {{ swa.description }}</div>
-                    <div title="Delete record" class="cursor-pointer hover:text-red-800" @click="deleteRecord(swa.id)">
-                      <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24"
-                        stroke="currentColor">
-                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                          d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16" />
-                      </svg>
+                  <div class="grid grid-cols-3 lg:grid-cols-3 w-full">
+                    <div class="text-center">
+                      {{ swa.appliedToAll ? 'Yes' : 'No' }}
+                    </div>
+                    <div>{{ getFormatDate(swa.date) }}</div>
+                    <div class="flex justify-between">
+                      <div> {{ swa.description }}</div>
+                      <div title="Delete record" class="cursor-pointer hover:text-red-800"
+                        @click="deleteRecord(swa.id)">
+                        <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24"
+                          stroke="currentColor">
+                          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                            d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16" />
+                        </svg>
+                      </div>
+
                     </div>
 
                   </div>
 
-                </div>
-
-                <div class="flex gap-2 p-2 ">
-                  <div v-for="id in swa.empIds" :key="id" class="bg-gray-800 text-sm text-gray-500 p-1 rounded">
-                    {{ getEmployee(id) }}
+                  <div class="flex gap-2 p-2 ">
+                    <div v-for="id in swa.empIds" :key="id" class="bg-gray-800 text-sm text-gray-500 p-1 rounded">
+                      {{ getEmployee(id) }}
+                    </div>
                   </div>
                 </div>
               </div>
             </div>
+            <div v-else class="text-center text-sm pt-2 text-gray-200">
+              No special work arrangements for selected month..
+            </div>
+
             <!-- End rows  -->
           </div>
           <div class="bg-gray-600 rounded-md p-2 relative">

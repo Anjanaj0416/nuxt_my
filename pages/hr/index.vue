@@ -321,14 +321,14 @@
       </div>
       <!--  Holiday  -->
       <div>
-        <holidaylist v-show="cur_sec.toLowerCase() == 'holiday'" ref="compholiday" @exitpopup="exitpopup" />
+        <!-- <holidaylist v-show="cur_sec.toLowerCase() == 'holiday'" ref="compholiday" @exitpopup="exitpopup" /> -->
       </div>
       <!-- End  Holiday  -->
 
       <!--  Special Work Arrangemnt  -->
       <div>
-        <special_work_arrangement v-show="cur_sec.toLowerCase() == 'special_work_arrangement'"
-          ref="comp_special_work_arrangement" @exitpopup="exitpopup" />
+        <!-- <special_work_arrangement v-show="cur_sec.toLowerCase() == 'special_work_arrangement'"
+          ref="comp_special_work_arrangement" @exitpopup="exitpopup" /> -->
       </div>
       <!-- End  Special Work Arrangemnt  -->
 
@@ -540,22 +540,9 @@ export default {
     },
 
     async init_attendence(empId, rowId) {
-      // await this.$refs.atten[row_no].init()
-
       this.cur_sec = 'attendence';
       this.selectedrow = rowId;
       this.isSecClose = false;
-      //this.isLoading = true;
-
-      // let req = {
-      //   EmpNo: empId,
-      //   FromDate: this.dtfrom,
-      //   ToDate: this.dtto,
-      // }
-      // await this.hrStore.getAttendenceByEmp(req, this.showLoading);
-
-      // this.isLoading = false;
-
     },
 
     async init_movement(empId, rowId) {

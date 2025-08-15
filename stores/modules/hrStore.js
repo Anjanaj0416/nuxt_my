@@ -659,7 +659,7 @@ export const useHrStore = defineStore("hrStore", {
           this.showToast("In-Out change successful!", "success");
         } else {
           console.error("Loading error:", response.data.message);
-          // this.showToast(response.data.message, 'error');
+          this.showToast(response.data.message, 'error');
         }
       } catch (error) {
         console.error("Loading error:", error);

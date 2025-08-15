@@ -122,7 +122,7 @@
               </div>
               <!-- && loggeduser.granted.indexOf('hradmin')>-1 -->
             </div>
-            <div class="flex">
+            <!-- <div class="flex">
               <span v-show="isOTEntitled &&
                 !isOTAppling &&
                 dayatt.dayType != 100.1 &&
@@ -152,7 +152,7 @@
                 @click="showOTManualApplyForm(dayatt.id)">
                 Manual OT
               </span>
-            </div>
+            </div> -->
             <div>
               <div v-show="userStore.loggedUser.granted.includes('hradmin') ||
                 userStore.loggedUser.granted.includes('hradmin')
@@ -474,7 +474,6 @@ export default {
   async mounted() {
     this.dtfrom = '';
     this.dtto = '';
-    this.hrStore.RestAttendance();
   },
 
 
@@ -488,12 +487,6 @@ export default {
       this.dtto = this.$myUtility.toInputTypeDate(
         new Date(date.getFullYear(), date.getMonth() + 1, 0)
       );
-
-      let req = {
-        EmpNo: this.empno,
-        FromDate: this.dtfrom,
-        ToDate: this.dtto,
-      };
     },
 
     setRectifing(rowid) {
@@ -524,12 +517,13 @@ export default {
         ToDate: this.dtto,
       };
 
-      await this.getLoadAttendnece(req);
-    },
-
-    async getLoadAttendnece(req) {
+      // await this.getLoadAttendnece(req);
       await this.hrStore.getAttendenceByEmp(req, this.showLoading)
     },
+
+    // async getLoadAttendnece(req) {
+    //   await this.hrStore.getAttendenceByEmp(req, this.showLoading)
+    // },
 
     async oTApplingCancel() {
       this.oTPreApprovalRequest.OTFrom = "";
@@ -547,36 +541,37 @@ export default {
     },
 
     async save_rectification(row_id, empNo) {
-      if (!confirm("Sure to apply this Rectification?")) {
-        return;
-      }
+      this.$showConfirm("Sure to apply this Rectification?", "warning")
+        .then(async (result) => {
+          if (result.isConfirmed) {
+            let item_attn = this.hrStore.attendence.alattendences.filter((att) => {
+              return att.id == row_id;
+            })[0];
 
-      let item_attn = this.hrStore.attendence.alattendences.filter((att) => {
-        return att.id == row_id;
-      })[0];
+            if (this.validateRectificationApply()) {
+              const fromDate = this.$refs.datediffRef.dtfrom;
+              const toDate = this.$refs.datediffRef.dtto;
 
-      if (this.validateRectificationApply()) {
-        const fromDate = this.$refs.datediffRef.dtfrom;
-        const toDate = this.$refs.datediffRef.dtto;
+              let req = {
+                attendance_id: row_id,
+                intime: this.rectificationRequest.inTime,
+                outtime: this.rectificationRequest.outTime,
+                comment: this.rectificationRequest.reason,
+                EmpNo: empNo,
+                FromDate: fromDate,
+                ToDate: toDate,
+              };
 
-        let req = {
-          attendance_id: row_id,
-          intime: this.rectificationRequest.inTime,
-          outtime: this.rectificationRequest.outTime,
-          comment: this.rectificationRequest.reason,
-          EmpNo: empNo,
-          FromDate: fromDate,
-          ToDate: toDate,
-        };
+              await this.hrStore.setManualRectification(req, this.showLoading);
 
-        await this.hrStore.setManualRectification(req, this.showLoading);
-
-        this.rectifingrow = -1;
-        this.isrectifing = false;
-        this.rectificationRequest.reason = "";
-        this.rectificationRequest.inTime = "00:00";
-        this.rectificationRequest.outTime = "00:00";
-      }
+              this.rectifingrow = -1;
+              this.isrectifing = false;
+              this.rectificationRequest.reason = "";
+              this.rectificationRequest.inTime = "00:00";
+              this.rectificationRequest.outTime = "00:00";
+            }
+          }
+        });
     },
 
     cancelRectify() {
