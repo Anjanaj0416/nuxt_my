@@ -1,6 +1,6 @@
 // plugins/toast.js
 import Swal from 'sweetalert2';
-import lodingGif from '~/assets/img/digitalTechLabs/LodingGif.gif'
+//import lodingGif from '~/assets/img/digitalTechLabs/LodingGif.gif'
 
 export default defineNuxtPlugin(nuxtApp => {
   // Add showToast globally, available as $showToast
