@@ -7,7 +7,6 @@
         <!-- <button @click="closeModal" class="absolute z-50 p-2 text-white rounded-md  close-button">&times;</button> -->
         <closebtn @close="closeModal()" />
       </div>
-
       <!-- Modal Content (scrollable) -->
       <div class="modal-content">
         <div class="form-content">
@@ -182,6 +181,7 @@
 
 <script>
 import { useQuotationStore } from "~/stores/modules/qms/quotationStore";
+import { useOrderStore } from "~/stores/modules/orderStore";
 
 import closebtn from "~/components/customcontrol/modal_close_button";
 import Lable from "~/components/customcontrol/Lable";
@@ -194,12 +194,12 @@ import Swal from "sweetalert2";
 
 export default {
   components: { closebtn, LinkBtn, Lable, Button, ImageLable, imagepicker1 },
-props: {
-  id: {
-    type: [String, Number],
-    required: true,
-  }
-},
+  props: {
+    orderId: {
+      type: [String, Number],
+      required: true,
+    }
+  },
   data() {
     return {
       imageroot: "",
@@ -214,6 +214,9 @@ props: {
   async created() {
     this.showLoading = this.$showLoading;
     this.quotationStore = useQuotationStore();
+    this.orderStore = useOrderStore();
+
+
     await this.quotationStore.loadInitPayment(this.showLoading);
     this.initPaymentDetails = this.quotationStore.initPaymentDetails;
 
@@ -247,7 +250,7 @@ props: {
         ).then(async (result) => {
           if (result.isConfirmed) {
             const formData = new FormData();
-            formData.append("OrderId", this.id || "");
+            formData.append("OrderId", this.orderId || "");
             formData.append("Amount", this.Amount || "");
             formData.append("PayMode", this.PayMode || "");
             formData.append("Remarks", this.Remarks || "");
@@ -260,10 +263,12 @@ props: {
               formData.append("PaymentSlipImage", this.PaymentSlipImage);
             }
           for (let [key, value] of formData.entries()) {
-            console.log(`${key}:`, value);
+            // console.log(`${key}:`, value);
           }
+          
+          await this.orderStore.getDoPay(formData, this.showLoading);
+          
 
-          await this.quotationStore.GetDoPayment(formData, this.$showLoading);
           this.closeModal();
            
           } else {

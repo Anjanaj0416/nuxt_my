@@ -1,8 +1,6 @@
 <template>
   <!-- <section class="justify-center min-h-screen px-4 mt-24 mb-20 lg:px-80"> -->
-  <section class="justify-center min-h-screen px-4 mt-24 mb-20 lg:px-60">
-
-
+  <section class="justify-center min-h-screen px-4 mt-24 mb-20 lg:px-[60px] md:px-[82px]">
     <div class="flex flex-col items-center justify-between mt-2 mb-2 md:flex-row">
       <div class="w-full mb-4 md:mb-0">
         <div class="text-2xl uppercase">Vendors</div>

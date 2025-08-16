@@ -90,6 +90,11 @@
                 class="w-full p-2 mt-2 text-sm border rounded-md focus:ring-indigo-500 focus:border-indigo-500" />
             </div>
             <div class="">
+              <label class="block text-sm font-bold text-gray-600">TIN No</label>
+              <input type="text" v-model="curVendor.yourTinNo" placeholder="Enter VAT Number" required
+                class="w-full p-2 mt-2 text-sm border rounded-md focus:ring-indigo-500 focus:border-indigo-500" />
+            </div>
+            <div class="">
               <label class="block text-sm font-bold text-gray-600">Store Url</label>
               <input type="text" v-model="curVendor.storeUrl" placeholder="Enter QR Link" required
                 class="w-full p-2 mt-2 text-sm border rounded-md focus:ring-indigo-500 focus:border-indigo-500" />
@@ -127,9 +132,13 @@
             <div>
               <label class="block text-sm font-bold text-gray-600">BR</label>
               <div class="relative mt-2">
-                <imagecomp :existing_image_path="imageroot + curVendor.shopLogo"
-                  @deleteExistingImage="curVendor.brCopyImage = ''" @GetSelectedImage="GetSelectedBRCopy"
-                  ref="refBRCopy" />
+                <imagepicker1
+                  :existingImagePath="imageroot + curVendor.brCopyImage"
+                  @GetSelectedImage="GetSelectedBRCopy"
+                  @deleteExistingImage="curVendor.brCopyImage = ''"
+                  ref="refBRCopy"
+                />
+
               </div>
             </div>
 
@@ -307,6 +316,8 @@ import { reactive, computed } from "vue";
 import { ref } from 'vue'
 import closebtn from "~/components/customcontrol/modal_close_button";
 import imagecomp from "~/components/customcontrol/imagepicker";
+import imagepicker1 from "~/components/customcontrol/imagepicker1.vue";
+
 
 import ImageLable from "~/components/customcontrol/ImageLable";
 import serach_Input from "~/components/customcontrol/SearchInput.vue";
@@ -321,7 +332,7 @@ definePageMeta({
   layout: "default",
 });
 export default {
-  components: { closebtn, serach_Input, ImageLable, imagecomp, toggleoption },
+  components: { closebtn, serach_Input, ImageLable, imagecomp, toggleoption ,imagepicker1},
   props:[''],
   data() {
     return {
@@ -463,12 +474,22 @@ export default {
     GetSelectedShopCoverImage(image) {
       this.curVendor.shopCoverImageFile = image;
     },
-    GetSelectedBRCopy(image) {
-      this.curVendor.brCopyImage = image;
+    GetSelectedBRCopy(file) {
+      this.curVendor.brCopyImage = file;
+      console.log(file);
     },
+
     onSelectRSO(selectedId) {
       console.log("Selected RSO from native select:", selectedId);
       this.curVendor.csoNo = selectedId;
+    },
+
+    isValidDate(dateStr) {
+      return dateStr && !dateStr.startsWith("0001-01-01");
+    },
+  
+    formatDate(dateStr) {
+      return this.isValidDate(dateStr) ? dateStr.split("T")[0] : "";
     },
 
     clearCurVendor() {
@@ -522,11 +543,14 @@ export default {
       ).then(async (result) => {
         if (result.isConfirmed) {
           const formData = this.convertToFormData(this.curVendor);
+          
+          const jsonObject = {};
+            formData.forEach((value, key) => {
+              jsonObject[key] = value;
+          });
 
-          // Optional: log formData for testing
-          for (let [key, value] of formData.entries()) {
-            console.log(`${key}:`, value);
-          }
+          // console.log("FormData as JSON:\n", JSON.stringify(jsonObject, null, 2));
+
           await this.vendorStore.AddEditVendor(formData, this.showLoading);
           this.clearCurVendor();
           // this.vendorStore.ResetVendor();
@@ -580,11 +604,12 @@ export default {
       // formData.append("DistrictId", this.curVendor.districtId);
       formData.append("CityId", this.curVendor.cityId );
       formData.append("CSONo", this.curVendor.csoNo );;
-      formData.append("VendorImageFile", this.curVendor.vendorImageFile || "");
+      formData.append("ClientImageFile,", this.curVendor.vendorImageFile || "");
       formData.append("BRCopyFile", this.curVendor.brCopyImage || "");
-      formData.append("ShopLogoPath", this.curVendor.shopLogo || "");
+      formData.append("ShopLogoFile", this.curVendor.shopLogo || "");
       formData.append("BRNumber", this.curVendor.brNumber || "");
       formData.append("VATNo", this.curVendor.vatNo || "");
+      formData.append("TINNo", this.curVendor.yourTinNo || "");
       formData.append("Description", this.curVendor.description || "");
 
       // Contact Person

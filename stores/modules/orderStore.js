@@ -9,7 +9,9 @@ export const useOrderStore = defineStore("orderStore", {
     getWorkFlow: [],
     initOrder: [],
     listoPackagesDetails: [],
-    listOrder : []
+    listOrder : [],
+    PaymentDetails: [],
+    piSigned : []
   }),
   persist: true,
 
@@ -214,38 +216,81 @@ actions: {
       }
     },
 
-    async UploadSignedPI(signedImage, orderNo, showLoading) {
-      const loadingAlert = showLoading("");
-
-      const formData = new FormData();
-      formData.append("orderNo", orderNo);
-      formData.append("signedImage", signedImage);
-
-      console.log("FormData content:");
-
+    async GetQuotationApprove(formData) {
       try {
         const response = await axios.post(
           `${import.meta.env.VITE_API_URL}/qms/Order/GetUploadSignedImage`,
           formData,
-          {
-            headers: {
-              "Content-Type": "multipart/form-data",
-            },
-          }
+          { headers: { "Content-Type": "multipart/form-data" } }
+        );
+        if (response.data.isSuccess) {
+
+          this.piSigned = response.data.data.data;
+
+
+          this.showToast(response.data.message, "success");
+        } else {
+          this.showToast(response.data.message, "error");
+        }
+      } catch (error) {
+        this.showToast("An error occurred during approval", "error");
+        console.error(error);
+      }
+    },
+
+    async GettPaymentDetails(orderId, showLoading) {
+       console.log('API-CancelOrder')
+      console.log('fuck,',JSON.stringify(orderId));
+
+      const loadingAlert = showLoading("");
+    
+      try {
+        const response = await axios.get(
+          `${import.meta.env.VITE_API_URL}/qms/Order/GetPaymentDetails?orderId=${orderId}`
+        );
+        console.log(response);
+        
+        loadingAlert.close();
+        if (response.data.isSuccess) {
+           this.PaymentDetails = response.data.data.data;
+          // this.showToast(response.data.message, "success");
+        } else {
+          this.showToast(response.data.message, "error");
+        }
+      } catch (error) {
+        this.showToast("Error while deleting order", "error");
+      }
+    },
+
+    //GetPayment
+
+    async getDoPay(formData, showLoading) {
+      console.log('API-DoPayment');
+      for (let [key, value] of formData.entries()) {
+        console.log(`${key}:`, value);
+      }
+
+      const loadingAlert = showLoading("");
+      try {
+        const response = await axios.post(
+          `${import.meta.env.VITE_API_URL}/qms/Order/DoPayment`,
+          formData
         );
 
         loadingAlert.close();
 
-        if (response?.data?.IsSuccess) {
-          this.showAlert(response.data.Message, "success");
+        if (response.data.isSuccess) {
+          this.showToast(response.data.message, "success");
         } else {
-          this.showAlert(response.data.Message, "error");
+          this.showToast(response.data.message, "error");
         }
       } catch (error) {
         loadingAlert.close();
-        this.showAlert(error.message || "Unknown error", "error");
+        this.showToast(error.message || "Error during payment", "error");
       }
     },
+
+
 
 
 
