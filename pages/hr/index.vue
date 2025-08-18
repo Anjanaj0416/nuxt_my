@@ -42,10 +42,6 @@
 
       </div>
     </div>
-
-
-
-
     <!-- End  Top Header -->
 
     <div class="px-2 mt-4 lg:px-12">
@@ -110,7 +106,6 @@
                 <div class="cssdatarowitem lg:border-0">
                   <span class="lg:hidden ">Employee Name</span>
                   <div class="flex gap-x-2">
-
 
                     <img class="w-16 h-16 transform rounded hover:scale-125"
                       :src="userStore.loggedUser.resourceURLRoot + emp.image" alt="" />
