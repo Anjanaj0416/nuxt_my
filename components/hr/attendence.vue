@@ -98,7 +98,7 @@
             <div>{{ dayatt.inLocation }}</div>
             <div>{{ dayatt.outLocation }}</div>
             <div>{{ dayatt.overTime }}</div>
-            <!-- <div>{{ getDayTypeName(dayatt) }}</div> -->
+            <div>{{ getDayTypeName(dayatt) }}</div>
             <div>
               <span v-show="dayatt.lateMin > 0">
                 Late {{ dayatt.weekType }} min</span>
