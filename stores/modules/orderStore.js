@@ -298,7 +298,7 @@ actions: {
       const loading = showLoading?.('');
       try {
         const response = await axios.get(
-          `${import.meta.env.VITE_API_URL}/qms/qms/Order/GetGenerateInvoicePdf?orderNo=${req.orderNo}&receiptNo=${req.receiptNo}&amountPaid=${req.amountPaid}&isTax=${req.isTax}`,
+          `${import.meta.env.VITE_API_URL}/qms/Order/GetGenerateInvoicePdf?orderNo=${req.orderNo}&receiptNo=${req.receiptNo}&amountPaid=${req.amountPaid}&isTax=${req.isTax}`,
           { responseType: 'blob' }
         );
         const blob = new Blob([response.data], { type: "application/pdf" });
