@@ -98,8 +98,7 @@
             <div>{{ dayatt.inLocation }}</div>
             <div>{{ dayatt.outLocation }}</div>
             <div>{{ dayatt.overTime }}</div>
-            <div>{{ getDayTypeName(dayatt) }}</div>
-            <!-- <div>{{ getDayTypeName(dayatt.dayType) }}</div> -->
+            <!-- <div>{{ getDayTypeName(dayatt) }}</div> -->
             <div>
               <span v-show="dayatt.lateMin > 0">
                 Late {{ dayatt.weekType }} min</span>
@@ -161,6 +160,12 @@
                 @click="getReCalcOT(dayatt)">
                 ReCalc.OT
               </div>
+            </div>
+          </div>
+          <div v-if="dayatt.comment">
+            <div>Comment:</div>
+            <div class="bg-white text-black p-2 rounded mt-1 text-xs max-h-20 overflow-y-auto whitespace-pre-line">
+              {{ formatComment(dayatt.comment) || 'No comment available' }}
             </div>
           </div>
 
@@ -655,6 +660,12 @@ export default {
       } else {
         this.rectificationRequest.outTime = e.target.value;
       }
+    },
+
+    formatComment(html) {
+      if (!html) return '';
+      // Replace <br> with newline, remove other HTML tags
+      return html.replace(/<br\s*\/?>/gi, '\n').replace(/<[^>]+>/g, '').trim();
     },
 
     showMessage({ type, message }) {
