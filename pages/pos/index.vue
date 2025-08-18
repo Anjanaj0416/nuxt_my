@@ -309,6 +309,14 @@ export default {
         this.cart.push({ ...item, qty: 1, discount: 0 });
       }
     }
-  }
+  },
+   async beforeMount() {
+   if (this.userStore.loggeduser && !this.userStore.loggeduser.granted.contains('pos') ) {
+      } else {        
+        this.$router.push('/user/login')
+        this.$showToast('Not Allowed to access this page')
+      }
+  
+    },
 };
 </script>
