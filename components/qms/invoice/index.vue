@@ -11,6 +11,10 @@
 
           <!-- {{ orderStore.PaymentDetails }} -->
 
+          <!-- {{ orderId }}<br></br> -->
+
+          <!-- {{ orderNo }} -->
+
 
         <div class="bg-white border rounded-lg shadow-md p-6 text-sm text-gray-800">
           <div class="flex items-center justify-between mb-6">
@@ -103,18 +107,14 @@
                   📄 Slip
                 </a>
                 <a
-                  v-if="item.taxInvoiceURL"
-                  :href="imageroot + item.taxInvoiceURL"
-                  target="_blank"
-                  class="text-blue-600 hover:underline flex items-center gap-1"
+                  class="text-blue-600 hover:underline flex items-center gap-1 cursor-pointer"
+                  @click="handleInvoice(item)"
                 >
                   🧾 Tax Invoice
                 </a>
                 <a
-                  v-if="item.invoiceURL"
-                  :href="imageroot + item.invoiceURL"
-                  target="_blank"
-                  class="text-blue-600 hover:underline flex items-center gap-1"
+                  class="text-blue-600 hover:underline flex items-center gap-1 cursor-pointer"
+                  @click="handleInvoice(item)"
                 >
                   🧾 Invoice
                 </a>
@@ -151,7 +151,7 @@
   export default {
     
     components: {LinkBtn,Button,selectinput2,addPayment},
-    props:['orderId','status'],
+    props:['orderId','status','orderNo'],
     data() {
       return {
         imageroot: "",
@@ -183,6 +183,19 @@
       GoToPayment() {
         this.selectedOrderId = this.orderId;
         this.isAddPayment = true;
+      },
+
+      async handleInvoice(item) {
+        const req = {
+          orderNo: this.orderNo,
+          receiptNo: item.receiptNo,
+          amountPaid : item.amount,
+          isTax : item.taxRegisteredClient,
+        };
+
+        console.log(req);
+        
+        this.orderStore.PrintInvoice(req, this.$showLoading);
       },
 
 

@@ -240,7 +240,7 @@ actions: {
 
     async GettPaymentDetails(orderId, showLoading) {
        console.log('API-CancelOrder')
-      console.log('fuck,',JSON.stringify(orderId));
+      console.log('getPayment,',JSON.stringify(orderId));
 
       const loadingAlert = showLoading("");
     
@@ -291,12 +291,26 @@ actions: {
     },
 
 
+    async PrintInvoice(req, showLoading) {
+       console.log('API-GetGenerateInvoicePdf')
+      console.log(JSON.stringify(req));
 
-
-
-
-
-
+      const loading = showLoading?.('');
+      try {
+        const response = await axios.get(
+          `${import.meta.env.VITE_API_URL}/qms/Order/GetGenerateInvoicePdf?orderNo=${req.orderNo}&receiptNo=${req.receiptNo}&amountPaid=${req.amountPaid}&isTax=${req.isTax}`,
+          { responseType: 'blob' }
+        );
+        const blob = new Blob([response.data], { type: "application/pdf" });
+        const url = window.URL.createObjectURL(blob);
+        window.open(url, "_blank");
+      } catch (error) {
+        console.error(error);
+        this.showToast("Failed to load Employee data", "error");
+      } finally {
+        loading?.close();
+      }
+    },
 
 
   showToast(message, type) {
