@@ -28,7 +28,7 @@
             </div>
 
             <div
-                class="grid w-full grid-cols-1 p-2 text-center text-white bg-blue-800 lg:grid-cols-10 lg:w-5/6 rounded-t-md">
+                class="grid w-full grid-cols-1 p-2 text-center text-white bg-blue-800 lg:grid-cols-9 lg:w-5/6 rounded-t-md">
                 <div class="hidden lg:block">Emp No</div>
                 <div class="hidden lg:block">Date</div>
                 <div class="hidden lg:block">In Time</div>
@@ -36,7 +36,6 @@
                 <div class="hidden lg:block">Over Time</div>
                 <div class="hidden lg:block">Day Type</div>
 
-                <div class="hidden lg:block"></div>
                 <div class="hidden lg:block"></div>
                 <div class="hidden lg:block"></div>
                 <div class="hidden lg:block"></div>
@@ -48,15 +47,14 @@
          {{ getDayTypeName(dayatt) }} -->
                 <div class="w-full p-2 mt-1 text-white bg-gray-600 rounded-md lg:w-5/6"
                     v-bind:class="[getAttRowColor(dayatt)]">
-                    <div class="grid grid-cols-1 text-center lg:grid-cols-10">
+                    <div class="grid grid-cols-1 text-center lg:grid-cols-9">
                         <div>{{ dayatt.empNo }}</div>
                         <div>{{ $options.filters.toReadableDate(dayatt.date) }}</div>
                         <div class="ml-4">
                             <div class="flex gap-x-2 justify-center items-center">
                                 <div v-if="editingRowId === dayatt.id && editingField === 'intime'">
-                                    <input v-model="editedIntime" type="text"
-                                        class="w-20 p-1 text-sm text-gray-800 border rounded-md focus:ring-2 focus:ring-blue-300"
-                                        placeholder="HH:MM" />
+                                    <input v-model="editedIntime" type="time"
+                                        class=" p-1 text-sm text-gray-800 border rounded-md focus:ring-2 focus:ring-blue-300" />
                                 </div>
                                 <div v-else>{{ dayatt.inTime }}</div>
                                 <button type="button" @click="
@@ -74,9 +72,8 @@
                         <div class="ml-4">
                             <div class="flex gap-x-2 justify-center items-center">
                                 <div v-if="editingRowId === dayatt.id && editingField === 'outtime'">
-                                    <input v-model="editedOuttime" type="text"
-                                        class="w-20 p-1 text-sm text-gray-800 border rounded-md focus:ring-2 focus:ring-blue-300"
-                                        placeholder="HH:MM" />
+                                    <input v-model="editedOuttime" type="time"
+                                        class=" p-1 text-sm text-gray-800 border rounded-md focus:ring-2 focus:ring-blue-300" />
                                 </div>
                                 <div v-else>{{ dayatt.outTime }}</div>
                                 <button type="button" @click="
@@ -110,7 +107,6 @@
                             </div>
                         </div>
                         <div>{{ getDayTypeName(dayatt.dayType) }}</div>
-                        <div></div>
                         <div></div>
                         <div></div>
                         <div>
