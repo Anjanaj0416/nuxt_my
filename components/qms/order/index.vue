@@ -175,7 +175,7 @@
             <!-- Button group -->
             <div class="p-0 dark:border-gray-700">
               <div v-if="activeOrderInvoiceId === order.id">
-                <Invoice :orderId="order.id" :status="order.orderStatus"/>
+                <Invoice :orderId="order.id" :status="order.orderStatus" :orderNo="order.orderNo"/>
               </div>
               <div v-if="activeOrderWorkFloweId === order.id">
                 <WorkFlow  />

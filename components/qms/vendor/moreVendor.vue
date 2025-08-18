@@ -28,7 +28,7 @@
               </div>
             </div>
           </div>
-<!-- {{ curVendor }} -->
+{{ curVendor }}
           <div class="grid grid-cols-1 gap-4 mt-4 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-3">
             <div v-if="isEditing" class="mb-2">
                 <label class="block text-sm font-bold text-gray-600 mb-1">Customer Ref</label>
@@ -174,11 +174,13 @@
                   ref="refBRCopy" />
               </div> -->
                 <div class="relative mt-2">
-                <img
-                    :src="imageroot + curVendor.refBRCopy"
-                    alt="Vendor Logo"
-                    class="w-32 h-32 object-cover border border-gray-300 rounded-lg shadow-md"
-                />
+                <a :href="imageroot + curVendor.brCopyImage" target="_blank">
+                  <img
+                      :src="imageroot + curVendor.brCopyImage"
+                      alt="Vendor Logo"
+                      class="w-32 h-32 object-cover border border-gray-300 rounded-lg shadow-md"
+                  />
+                </a>
               </div>
             </div>
             <!-- QR Image -->
