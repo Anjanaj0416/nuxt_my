@@ -4,7 +4,9 @@
     <headerdd />
 
     <!-- POS Layout -->
+     <div></div>
     <div class="flex h-screen text-white mt-16">
+       <div class="mb-12"> cat </div>
       <!-- Sidebar Categories -->
       <div class="w-20 flex flex-col items-center py-4 space-y-4 rounded-r-lg shadow-lg">
         <button
@@ -20,31 +22,31 @@
 
 
       <!-- Items Grid -->
-       
       <div class="flex-1 p-4 grid grid-cols-2 md:grid-cols-4 lg:grid-cols-6 gap-4 overflow-y-auto">
         <button
           v-for="item in filteredItems"
           :key="item.code"
           @click="addToCart(item)"
-          class="bg-white border border-gray-300 rounded-xl flex flex-col w-full shadow hover:shadow-xl transition transform hover:-translate-y-1"
+          class="bg-white border border-gray-300 rounded-xl  flex flex-col shadow hover:shadow-xl transition transform hover:-translate-y-1 h-44"
         >
           <div class="w-full aspect-[4/3] bg-gray-100 rounded-t-xl overflow-hidden">
-            <img :src="item.image || 'https://via.placeholder.com/600x400?text=No+Image'"
-                :alt="item.name" class="object-cover w-full h-full" />
+            <img
+              :src="item.image || 'https://via.placeholder.com/600x400?text=No+Image'"
+              :alt="item.name"
+              class="object-cover w-full h-full"
+            />
           </div>
 
-          <div class="px-2 py-3 text-center">
-            <div class="font-semibold text-sm text-gray-800 truncate">{{ item.name }}</div>
+          <div class="px-2 py-3 text-center flex-1 flex flex-col justify-between">
+            <div class="font-semibold text-sm text-gray-800 truncate">
+              {{ item.name }}
+            </div>
             <div class="text-xs text-gray-600 mt-1">
               ₨{{ item.price.toLocaleString('en-LK', { minimumFractionDigits: 2 }) }}
             </div>
           </div>
         </button>
-        <h1  v-for="item in filteredItems"
-          :key="item.code"
-          @click="addToCart(item)">
-        {{ item.name }}
-        </h1>
+
    
         <div v-if="filteredItems.length === 0" class="col-span-8 text-center text-gray-500">
           No product
@@ -262,6 +264,18 @@ export default {
         { id: "sweets", name: "Sweets" },
       ],
       items: [
+        { name: "Ham Sandwich", price: 1600, code: "M23", image: "https://www.indianveggiedelight.com/wp-content/uploads/2017/03/vegetable-mayonnaise-sandwich-featured.jpg", category: "breakfast" },
+        { name: "Tuna Sandwich", price: 2100, code: "M25", category: "breakfast" },
+        { name: "Steak Sandwich", price: 2100, code: "M28", category: "breakfast" },
+        { name: "Cheese Burger", price: 1800, code: "M30", category: "breakfast" },
+          { name: "Ham Sandwich", price: 1600, code: "M23", image: "https://www.indianveggiedelight.com/wp-content/uploads/2017/03/vegetable-mayonnaise-sandwich-featured.jpg", category: "breakfast" },
+        { name: "Tuna Sandwich", price: 2100, code: "M25", category: "breakfast" },
+        { name: "Steak Sandwich", price: 2100, code: "M28", category: "breakfast" },
+        { name: "Cheese Burger", price: 1800, code: "M30", category: "breakfast" },
+          { name: "Ham Sandwich", price: 1600, code: "M23", image: "https://www.indianveggiedelight.com/wp-content/uploads/2017/03/vegetable-mayonnaise-sandwich-featured.jpg", category: "breakfast" },
+        { name: "Tuna Sandwich", price: 2100, code: "M25", category: "breakfast" },
+        { name: "Steak Sandwich", price: 2100, code: "M28", category: "breakfast" },
+        { name: "Cheese Burger", price: 1800, code: "M30", category: "breakfast" },
         { name: "Ham Sandwich", price: 1600, code: "M23", image: "https://www.indianveggiedelight.com/wp-content/uploads/2017/03/vegetable-mayonnaise-sandwich-featured.jpg", category: "breakfast" },
         { name: "Tuna Sandwich", price: 2100, code: "M25", category: "breakfast" },
         { name: "Steak Sandwich", price: 2100, code: "M28", category: "breakfast" },

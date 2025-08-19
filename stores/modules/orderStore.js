@@ -292,7 +292,7 @@ actions: {
 
 
     async PrintInvoice(req, showLoading) {
-       console.log('API-GetGenerateInvoicePdf')
+      console.log('API-GetGenerateInvoicePdf')
       console.log(JSON.stringify(req));
 
       const loading = showLoading?.('');
