@@ -619,7 +619,6 @@ export const useHrStore = defineStore("hrStore", {
 
       const loadingAlert = showLoading("");
       try {
-        console.log("req:", req);
         const response = await axios.get(
           `${import.meta.env.VITE_API_URL}/hr/Attendance/GetOTApprovals`,
           {
@@ -630,6 +629,8 @@ export const useHrStore = defineStore("hrStore", {
             },
           }
         );
+
+        console.log("response:", response);
       
         if (response.data.isSuccess) {
           this.OTApllyDetails.arrOTApply = response.data.data.data || [];

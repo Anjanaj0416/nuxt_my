@@ -459,7 +459,7 @@ export default {
                                                               ? "Holiday"
                                                               : dayatt.dayType == 505
                                                                 ? "InComplete"
-                                                                : dayatt.comment;
+                                                                : ""
 
           return dayname;
         } catch {
