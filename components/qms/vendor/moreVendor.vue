@@ -28,7 +28,7 @@
               </div>
             </div>
           </div>
-{{ curVendor }}
+<!-- {{ curVendor }} -->
           <div class="grid grid-cols-1 gap-4 mt-4 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-3">
             <div v-if="isEditing" class="mb-2">
                 <label class="block text-sm font-bold text-gray-600 mb-1">Customer Ref</label>
