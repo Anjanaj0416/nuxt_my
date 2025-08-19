@@ -9,6 +9,10 @@
     </div>
     <!-- {{ id }} -->
 
+    {{ id }}<br></br>
+
+    {{ customerRef }}
+
     <!-- <pre>{{ JSON.stringify(orderStore.order, null, 2) }}</pre> -->
 
     <div class="form-content bg-white mt-4 border rounded-lg shadow-md p-4 space-y-1 text-sm text-gray-800">

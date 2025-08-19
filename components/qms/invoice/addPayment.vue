@@ -241,44 +241,48 @@ export default {
 // },
 
 
-    SetApprove() {
-      if (this.IsValidate()) {
-       
-        this.$showConfirm(
-          "Are you sure to Save this Payment?",
-          "warning"
-        ).then(async (result) => {
-          if (result.isConfirmed) {
-            const formData = new FormData();
-            formData.append("OrderId", this.orderId || "");
-            formData.append("Amount", this.Amount || "");
-            formData.append("PayMode", this.PayMode || "");
-            formData.append("Remarks", this.Remarks || "");
-            formData.append("ReferenceNo", this.ReferenceNo || "");
-            formData.append("ReceiptType", this.ReceiptType || "");
-            formData.append("BankName", this.BankName || "");
-            formData.append("OriginalAdvanceReceiptNo", this.OriginalAdvanceReceiptNo || "");
-            formData.append("OriginalAdvanceReceiptDate", this.OriginalAdvanceReceiptDate || "");
-            if (this.PaymentSlipImage) {
-              formData.append("PaymentSlipImage", this.PaymentSlipImage);
-            }
-          for (let [key, value] of formData.entries()) {
-            // console.log(`${key}:`, value);
-          }
-          
-          await this.orderStore.getDoPay(formData, this.showLoading);
-          
+async SetApprove() {
+  if (!this.IsValidate()) return;
 
-          this.closeModal();
-           
-          } else {
-            console.log("Action canceled");
-          }
-          this.closeModal();
-  
-        });
-      }
-    },
+  const confirmed = await this.$showConfirm(
+    "Are you sure to Save this Payment?",
+    "warning"
+  );
+
+  if (!confirmed.isConfirmed) return;
+
+  const formData = new FormData();
+  formData.append("OrderId", this.orderId || "");
+  formData.append("Amount", this.Amount || "");
+  formData.append("PayMode", this.PayMode || "");
+  formData.append("Remarks", this.Remarks || "");
+  formData.append("ReferenceNo", this.ReferenceNo || "");
+  formData.append("ReceiptType", this.ReceiptType || "");
+  formData.append("BankName", this.BankName || "");
+  formData.append("OriginalAdvanceReceiptNo", this.OriginalAdvanceReceiptNo || "");
+  formData.append("OriginalAdvanceReceiptDate", this.OriginalAdvanceReceiptDate || "");
+  if (this.PaymentSlipImage) {
+    formData.append("PaymentSlipImage", this.PaymentSlipImage);
+  }
+
+  // Do the payment
+  const success = await this.orderStore.getDoPay(formData, this.showLoading);
+
+  if (success) {
+    // Fetch updated payment details from backend
+    await this.orderStore.GettPaymentDetails(this.orderId, this.showLoading);
+
+    // Optionally, update the quotationStore if needed
+    this.quotationStore.PaymentDetails = this.orderStore.PaymentDetails;
+
+    this.showToast("Payment added successfully", "success");
+
+    // Close modal after updating data
+    this.closeModal();
+  }
+}
+,
+
 
  
 

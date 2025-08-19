@@ -1,56 +1,43 @@
 <template>
-  <div class="modal-overlay" v-if="isOpen">
-    <div class="modal">
-      <!-- Modal Header -->
-      <div class="modal-header">
-        <h2 class="modal-title">Quotation Approval</h2>
-        <!-- <button @click="closeModal" class="absolute z-50 p-2 text-white rounded-md  close-button">&times;</button> -->
-        <closebtn @close="closeModal()" />
-      </div>
+  <div class="bg-white text-gray-800 rounded-xl shadow-md p-4 w-full max-w-sm">
+    <h2 class="text-lg font-semibold mb-4">Cart Summary</h2>
 
-      <!-- Modal Content (scrollable) -->
-      <div class="modal-content">
-        <div class="form-content">
-          <div class="grid grid-cols-2 gap-4 mt-1 sm:grid-cols-1 md:grid-cols-1">
-            <div>
-              <h3 class="font-bold">
-                Quotaion No - {{ id }}
-              </h3>
-            </div>
-            <hr />
-            <div>
-              <label class="block text-sm mb-2 font-bold text-gray-600">Attached the approval prrof</label>
-              
-              <imagepicker1
-                @GetSelectedImage="GetAttachedImage"
-                :image_file="imageroot"
-                ref="refApprovedImg"
-                accept=""
-              />
-
-              <!-- accept="image/*,application/pdf"
-                accept="application/pdf"
-                 accept="image/*" -->
-  
-              <p v-if="err.approvedImage" class="mt-2 text-sm text-red-600">
-                {{ err.approvedImage }}
-              </p>
-            </div>
-
-          </div>
-          <div>
-            <!-- {{ quotationStore.curQuotation.id }} -->
-          </div>
-        </div>
-      </div>
-      <!-- End Modal Content -->
-
-      <!-- Modal Footer -->
-      <div class="modal-footer">
-        <button @click="closeModal" class="cancel-button">Cancel</button>
-        <button @click="SetApprove" class="confirm-button">Approve</button>
-      </div>
+    <!-- Subtotal -->
+    <div class="flex justify-between mb-2">
+      <span>Subtotal</span>
+      <span class="font-medium">Rs. 0.00</span>
     </div>
+
+    <!-- Discount -->
+    <div class="flex justify-between mb-2 items-center">
+      <span>Discount</span>
+      <input
+        type="number"
+        placeholder="0"
+        class="w-20 border rounded-lg px-2 py-1 text-right"
+      />
+    </div>
+
+    <!-- VAT -->
+    <div class="flex justify-between mb-2">
+      <span>VAT (15%)</span>
+      <span class="font-medium">Rs. 0.00</span>
+    </div>
+
+    <hr class="my-3" />
+
+    <!-- Grand Total -->
+    <div class="flex justify-between text-lg font-bold">
+      <span>Total</span>
+      <span>Rs. 0.00</span>
+    </div>
+
+    <!-- Checkout Button -->
+    <button
+      class="mt-4 w-full bg-blue-600 text-white font-semibold py-2 rounded-lg hover:bg-blue-700 transition"
+    >
+      Checkout
+    </button>
   </div>
 </template>
 
@@ -75,12 +62,11 @@ export default {
       ApprovalMemo: "",
       PreIssuedPINumber: "",
       isOpen: true,
-      err: { ApprovalMemo: "" },
     };
   },
   async created() {
     this.showLoading = this.$showLoading;
-    this.orderStore = useOrderStore();
+
   },
   async mounted() {
     //this.showAlert('fff', 'error');
@@ -98,40 +84,26 @@ export default {
       
     },
 
-  closeModal() {
-    this.isOpen = false;
-    this.$emit("close"); // tell parent to hide modal
-  },
+    async SetApprove() {
+      if (this.IsValidate()) {
+        const formData = new FormData();
+        formData.append("orderNo", this.id);
+        formData.append("signedImage", this.ApprovalMemo);
 
-  async SetApprove() {
-    if (!this.IsValidate()) return;
+        const loadingAlert = this.showLoading(""); 
 
-    const formData = new FormData();
-    formData.append("orderNo", this.id);
-    formData.append("signedImage", this.ApprovalMemo);
-
-    // show loading
-    const loadingAlert = this.showLoading ? this.showLoading("") : null;
-
-    try {
-      const result = await this.orderStore.GetQuotationApprove(formData);
-
-      if (loadingAlert) loadingAlert.close();
-
-      if (result.success) {
-        if (this.showToast) this.showToast(result.message, "success"); // show toast
-        this.closeModal(); // close modal
+        try {
+          await this.orderStore.GetQuotationApprove(formData);
+          loadingAlert.close();
+          this.closeModal();
+        } catch (error) {
+          loadingAlert.close();
+          console.error("Approval failed:", error);
+        }
       } else {
-        if (this.showToast) this.showToast(result.message, "error");
+        console.log("Validation failed");
       }
-    } catch (error) {
-      if (loadingAlert) loadingAlert.close();
-      if (this.showToast) this.showToast("An error occurred during approval", "error");
-      console.error("Approval failed:", error);
-    }
-  },
-
-
+    },
 
 
 
@@ -153,36 +125,6 @@ export default {
       this.$emit("close");
     },
 
-    async showConfirmAlert_ApproveQuotation(message, type) {
-      try {
-        const result = await Swal.fire({
-          icon: type,
-          title: message,
-          showConfirmButton: true,
-          toast: false,
-          customClass: {
-            popup: "custom-swal-popup",
-          },
-        });
-
-        if (result.isConfirmed) {
-          await this.quotationStore.GetAprrovingTheQuotation(
-            this.quotationStore.curQuotation.id,
-            this.ApprovalMemo
-          );
-          await Swal.fire({
-            icon: "success",
-            title: "Saved!",
-            text: "Quotation Approved",
-            customClass: {
-              popup: "swal-custom-zindex",
-            },
-          });
-        }
-      } catch (error) {
-        console.error("Error displaying alert:", error);
-      }
-    },
 
   },
 
