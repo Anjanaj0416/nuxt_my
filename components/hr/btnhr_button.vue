@@ -1,7 +1,6 @@
 <template>
   <section>
-    <div
-      class="
+    <div class="
         p-1
         border-gray-500 rounded p-2
         rounded-md
@@ -9,10 +8,8 @@
         cursor-pointer
         font-bold
         hover:bg-blue-500 hover:text-white
-      "
-      @click="click"
-    >
-     {{ name }}
+      " @click="click">
+      {{ name }}
     </div>
   </section>
 </template>
@@ -21,10 +18,12 @@
 export default {
   props: ['name'],
   methods: {
-    click() {this.$emit('click')},
+    click() {
+      if (this.disabled) return;
+      this.$emit('click')
+    },
   },
 }
 </script>
 
-<style>
-</style>
+<style></style>

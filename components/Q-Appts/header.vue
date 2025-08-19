@@ -3,10 +3,14 @@
     <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-4 flex justify-between items-center">
       <NuxtLink to="/" class="text-3xl font-bold text-blue-600">Q - Appts</NuxtLink>
 
+      <div v-if="showSearchInNavbar" class="hidden md:block w-64">
+        <searchBar />
+      </div>
+
       <nav class="hidden md:flex space-x-6 text-sm2 font-semibold text-gray-700">
         <NuxtLink to="/Q-Appts" class="hover:text-blue-600">Home</NuxtLink>
         <NuxtLink to="/about" class="hover:text-blue-600">About us</NuxtLink>
-        <NuxtLink to="/customer" class="hover:text-blue-600">Customer</NuxtLink>
+        <NuxtLink to="/customer" class="hover:text-blue-600">Contact Us</NuxtLink>
       </nav>
 
       <!-- Mobile Menu Button -->
@@ -31,5 +35,20 @@
 
 <script setup>
 import { ref } from 'vue'
+import searchBar from '~/components/Q-Appts/searchBar.vue'
+const showSearchInNavbar = ref(false)
 const mobileMenuOpen = ref(false)
+
+const handleScroll = () => {
+  showSearchInNavbar.value = window.scrollY > 430 // Show search bar after 150px scroll
+}
+
+onMounted(() => {
+  window.addEventListener('scroll', handleScroll)
+})
+
+onBeforeUnmount(() => {
+  window.removeEventListener('scroll', handleScroll)
+})
+
 </script>

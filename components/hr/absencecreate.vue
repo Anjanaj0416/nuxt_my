@@ -13,7 +13,7 @@
               p-1
               rounded-md
             ">
-            Appling Leave - {{ leaveyear }}
+            Applying Leave - {{ leaveyear }}
           </div>
         </div>
         <div class="cursor-pointer hover:text-gray-600" title="Exit Leave Apply" @click="goto_absenceview">
@@ -83,7 +83,7 @@
               </div>
             </div>
 
-            <div class="grid grid-cols-4 mt-2 w-1/2">
+            <!-- <div class="grid grid-cols-4 mt-2 w-1/2">
               <div>
                 <div v-show="absense_apply.absence_type != 'Short Leave'">
                   To Date
@@ -93,11 +93,11 @@
                 <input v-show="absense_apply.absence_type != 'Short Leave'" class="text-gray-600 rounded p-1"
                   type="date" v-model="absense_apply.end_date" />
               </div>
-            </div>
+            </div> -->
 
             <div class="mt-8 w-full flex justify-end gap-x-4">
-              <btnhr_Save class="w-20" name="Clear" @click="getClear" />
-              <btnhr_Save class="w-20" name="Save" @click="getSave" />
+              <btnhr_Save class="w-20" name="Clear" @click="getClear" :disabled="isSaving" />
+              <btnhr_Save class="w-20" name="Save" @click="getSave" :disabled="isSaving" />
             </div>
           </div>
         </div>
@@ -145,6 +145,7 @@ export default {
         },
       },
       leave_entitle_year: -1,
+      isSaving: false,
       showLoading: null,
       hrStore: null,
     }
@@ -168,40 +169,44 @@ export default {
     },
 
     async getSave() {
-      if (!this.validate()) {
-        return
-      }
-
-      if (this.leavedocDetails.imagechanged) {
-        await this.setMedicalDocument(this.leavedocDetails.Uploading_file_details)
-      }
-
-      this.absense_apply.empNo = this.empno
-      let reqSetLeave = {
-        EmpNo: this.absense_apply.empNo,
-        AbsenceType: this.absense_apply.absence_type,
-        AbsenceReason: this.absense_apply.absence_reason,
-        LeaveType: this.absense_apply.leave_type,
-        StartDate: this.absense_apply.start_date,
-        StartTime: this.absense_apply.start_time,
-        // MedicalReport: this.leave_medical_document,
-        EndDate: this.absense_apply.end_date,
-        EndTime: this.absense_apply.end_time,
-      };
-
-      await this.hrStore.setLeave(reqSetLeave, this.showLoading)
-      console.log("setLeave:", reqSetLeave);
-
-
-      let reqGetViewAbsences = {
-        empNo: this.absense_apply.empNo,
-        fromDate: this.fromDate,
-        toDate: this.toDate,
-      }
-
-      await this.hrStore.getViewAbsences(reqGetViewAbsences, this.showLoading)
-      this.getClear();
-      this.$emit('goto_absenceview')
+      this.$showConfirm("Sure to apply this leave?", "warning")
+        .then(async (result) => {
+          if (result.isConfirmed) {
+            if (this.isSaving) return; // Prevent multiple submissions
+            this.isSaving = true;
+            try {
+              if (!this.validate()) return;
+              if (this.leavedocDetails.imagechanged) {
+                await this.setMedicalDocument(this.leavedocDetails.Uploading_file_details);
+              }
+              this.absense_apply.empNo = this.empno;
+              let reqSetLeave = {
+                EmpNo: this.absense_apply.empNo,
+                AbsenceType: this.absense_apply.absence_type,
+                AbsenceReason: this.absense_apply.absence_reason,
+                LeaveType: this.absense_apply.leave_type,
+                StartDate: this.absense_apply.start_date,
+                StartTime: this.absense_apply.start_time,
+                EndDate: this.absense_apply.end_date,
+                EndTime: this.absense_apply.end_time,
+              };
+              await this.hrStore.setLeave(reqSetLeave, this.showLoading);
+              console.log('setLeave:', reqSetLeave);
+              await this.hrStore.getViewAbsences(
+                {
+                  empNo: this.absense_apply.empNo,
+                  fromDate: this.fromDate,
+                  toDate: this.toDate,
+                },
+                this.showLoading
+              );
+              this.getClear();
+              this.$emit('goto_absenceview');
+            } finally {
+              this.isSaving = false; // Re-enable the button
+            }
+          }
+        });
     },
 
     // async LoadLeaveBalance() {

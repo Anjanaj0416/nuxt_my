@@ -11,8 +11,8 @@
     <p class="text-gray-600 md:text-2xl max-w-md mt-4">
       EasyQueue lets you join queues and book appointments from anywhere — no more waiting around
     </p>
-    <button class="mt-6 px-6 py-3 bg-blue-900 text-white rounded-full font-semibold shadow hover:bg-blue-800 transition">
-      Get Start
+    <button @click="scrollToFilterBar" class="mt-6 px-6 py-3 bg-blue-900 text-white rounded-full font-semibold shadow hover:bg-blue-800 transition">
+      Make Appointment
     </button>
   </div>
 
@@ -25,29 +25,52 @@
   </div>
 </section>
 
+      <div v-if="!showSearchInNavbar" class="sticky top-1 z-50">
+        <searchBar />
+      </div>
 
-      <FilterBar />
+    
+      <FilterBar 
+      @filter-selected="onFilterSelected"
+      :current-filter="shopStore.selectedFilter"
+      ref="filterBar"class="w-full z-50 md:sticky md:top-20"/>
 
     <section class="p-4 grid gap-4 grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4">
-      <SalonCard v-for="salon in salonStore.salons" :key="salon.id" :salon="salon" />
+       <ShopCard v-for="shop in shopStore.filteredShops" :key="shop.id" :shop="shop" />
     </section>
 
+    <div class="text-center my-4" v-if="shopStore.shops.length < shopStore.total">
+      <button
+        @click="loadMore"
+        class="px-4 py-2 bg-blue-600 text-white rounded shadow hover:bg-blue-500"
+        :disabled="shopStore.loading"
+      >
+        {{ shopStore.loading ? 'Loading...' : 'Load More' }}
+      </button>
+    </div>
+
+    <!-- <div class="p-2 bg-yellow-100 text-sm rounded mb-4" v-if="shopStore.lat && shopStore.lng">
+      Geolocation: {{ shopStore.lat }}, {{ shopStore.lng }}
+    </div> -->
   </section>
     <!-- <input type="text" oninput="this.value = this.value.replace(/[^0-9.]/g, '').replace(/(\..*?)\..*/g, '$1');" > -->
 </template>
   
 <script>
+import { onMounted } from 'vue'
 //import { useRoute } from 'vue-router'
 //import { useUserStore } from "~/stores/modules/userStore";
-import { useSalonStore } from "~/stores/modules/Q-Appts/shops";
+import { useShopStore } from "~/stores/modules/Q-Appts/shops";
 //import { login } from '~/pages/Q-Appts/login.vue';
 //import { register } from '~/pages/Q-Appts/register.vue';
 
-import SalonCard from '@/components/Q-Appts/SalonCard.vue';
+import ShopCard from '~/components/Q-Appts/ShopCard.vue';
 import header from '@/components/Q-Appts/header.vue';
 import footer from '@/components/Q-Appts/footer.vue';
 import FilterBar from '@/components/Q-Appts/FilterBar.vue';
+import searchBar from "~/components/Q-Appts/searchBar.vue";
 
+//const shopStore = useShopStore();
 
  definePageMeta({ 
     layout: 'appts',   
@@ -56,17 +79,55 @@ import FilterBar from '@/components/Q-Appts/FilterBar.vue';
    
   export default {
     
-    components: {header, footer, FilterBar, SalonCard},
+    components: {header, footer, FilterBar, ShopCard , searchBar},
+    setup() {
+    const shopStore = useShopStore();
+
+    function onFilterSelected(filter) {
+      shopStore.setSelectedFilter(filter);
+    }
+    onMounted(() => {
+      console.log('Mounted Q-Appts page');
+      if (navigator.geolocation) {
+      navigator.geolocation.getCurrentPosition(
+      (pos) => {
+        const { latitude, longitude } = pos.coords
+        shopStore.lat = latitude
+        shopStore.lng = longitude
+        //shopStore.fetchNearbyShops(latitude, longitude, true)
+        console.log(`Current location: ${latitude}, ${longitude}`);
+        console.log('Nearby shops fetched successfully');
+        
+      },
+      (err) => {
+        console.error('Location error:', err)
+        // Fallback location (Colombo)
+        //shopStore.fetchNearbyShops(6.9271, 79.8612, true)
+      }
+      )
+      }
+    })
+
+    /* function loadMore() {
+        shopStore.fetchNearbyShops(shopStore.lat, shopStore.lng)
+    } */
+
+    return {
+      shopStore,
+      onFilterSelected,
+    };
+    },
     props:[''],
     data() {
       return {
         imageroot: "",
         showLoading: null,
         userStore: null,
+        showSearchInNavbar: false
       }
     },
-    async mounted() {
-     
+    mounted() {
+      window.addEventListener('scroll', this.handleScroll)
     },
     async created() {
       //this.userStore = useUserStore();
@@ -76,7 +137,7 @@ import FilterBar from '@/components/Q-Appts/FilterBar.vue';
        //const encode = btoa('facebook'); //console.log(encode) // "SGVsbG8gV29ybGQ="        
         //const decode = atob(encode);console.log(decode); // "Hello World"
          
-        //linkedin - p=bGlua2VkaW4=
+        //linkedin - p=bGlua2VketW5=
         // facebook  - p=ZmFjZWJvb2s=
        //  const route = useRoute();
         //let val = route.query.p;
@@ -85,14 +146,22 @@ import FilterBar from '@/components/Q-Appts/FilterBar.vue';
          // this.medium = atob(val);         
        // }
     },
-    watch: {},
-    computed: {
-      salonStore() {
-      return useSalonStore();
-    }
+  watch: {},
+  computed: {
+      shopStore() {
+      return useShopStore();
     },
-    methods: {
-     
+  },
+  methods: {
+      handleScroll() {
+      this.showSearchInNavbar = window.scrollY > 430
+      },
+      scrollToFilterBar() {
+        const el = this.$refs.filterBar?.$el || this.$refs.filterBar;
+          if (el) {
+          el.scrollIntoView({ behavior: 'smooth', block: 'start' }); 
+        }
+      },
      
       // async copyContent(value) {
       //   try {
@@ -127,6 +196,7 @@ import FilterBar from '@/components/Q-Appts/FilterBar.vue';
   //       this.$router.push('/user/login')
   //       this.$showToast('Not Allowed to access this page')
   //     }
+      window.removeEventListener('scroll', this.handleScroll)
   
     },
     head() {
@@ -237,6 +307,5 @@ import FilterBar from '@/components/Q-Appts/FilterBar.vue';
   margin: auto;
 }
   </style>
-  
-  
-  
+
+

@@ -58,9 +58,9 @@
       </div>
 
 
-      <div class="bg-white p-6 rounded shadow border mt-6">
+      <!-- <div class="bg-white p-6 rounded shadow border mt-6">
         <h2 class="text-lg font-semibold mb-4">Attendance</h2>
-        <!-- <ul class="space-y-4 text-gray-800 text-sm">
+        <ul class="space-y-4 text-gray-800 text-sm">
             <li v-if="selectedEmployee">Employee: <strong>{{ selectedEmployee }}</strong></li>
             <li v-if="selectedTimeType && selectedTimeValue">
                 Selected Time: <strong>{{ selectedTimeType }} - {{ selectedTimeValue }}</strong>
@@ -68,8 +68,8 @@
             <li v-if="!selectedEmployee || !selectedTimeType" class="text-gray-400 italic">
             Please select employee and time.
             </li>
-        </ul> -->
-      </div>
+        </ul>
+      </div> -->
 
 
 
@@ -137,16 +137,23 @@ import { useHrStore } from "~/stores/modules/hrStore";
     methods: {
 
       async manualAdd() {
-        const req = {
-          empNo: this.selectedEmployee,
-          date: this.selectedDate,
-          inTime: this.selectedInTime,
-          outTime: this.selectedOutTime,
-          dayType: 505,
-        };
-        await this.hrStore.setManualAttendenceRecord(req, this.$showLoading);
+        this.$showConfirm("Sure to apply this manual attendance?", "warning")
+        .then(async (result) => {
+          if (result.isConfirmed) {
+            const req = {
+              empNo: this.selectedEmployee,
+              date: this.selectedDate,
+              inTime: this.selectedInTime,
+              outTime: this.selectedOutTime,
+              dayType: -1,
+            };
+            await this.hrStore.setManualAttendenceRecord(req, this.$showLoading);
 
-        await this.cleaAll();
+            await this.cleaAll();
+            }
+        });
+
+        
       },
 
       async cleaAll(){
@@ -156,6 +163,7 @@ import { useHrStore } from "~/stores/modules/hrStore";
         this.selectedOutTime = null;
       }
     },
+
     async beforeMount() {
       // if (this.loggeduser.granted.indexOf('workgroup') > -1 || this.loggeduser.usergroup == 'Supervisor' ) {
       // } else {

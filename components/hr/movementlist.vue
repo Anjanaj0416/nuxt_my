@@ -117,7 +117,7 @@ export default {
       return (ab) => {
         try {
           let rowclass =
-            ab.status.toLowerCase() == 'pending' ? 'cssPending' : (ab.status.toLowerCase() == 'reject') ? 'cssReject' : 'cssDefault'
+            ab.pendingAt.toLowerCase() == 'pending' ? 'cssPending' : (ab.status.toLowerCase() == 'reject') ? 'cssReject' : 'cssDefault'
 
           return rowclass
         } catch {

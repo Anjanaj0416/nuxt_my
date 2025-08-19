@@ -19,9 +19,9 @@ export default {
   props: ['name'],
   methods: {
     clickLoad() {
-     
-       this.$emit('click_Load')
-       },
+
+      this.$emit('click')
+    },
   },
 }
 </script>

@@ -1,7 +1,7 @@
 <template>
   <section>
-    <div class="cssholidayview w-screen absolute top-0 left-0 bg-white">
-      <div class="w-3/4 bg-gray-500 mx-auto mt-8 rounded-md p-8 relative">
+    <div class="cssholidayview w-screen absolute mt-10 left-0 bg-white">
+      <div class="w-3/4 bg-gray-500 mx-auto mt-16 rounded-md p-8 relative">
         <div class="cursor-pointer absolute top-0 right-0 m-8 flex gap-x-8">
           <holidayloader @click="loadSWA" />
           <div title="Exit Holiday View" class="text-gray-600 transform hover:scale-125 delay-75" @click="getclose">
@@ -48,35 +48,43 @@
             <!-- End Heading  -->
 
             <!-- start rows  -->
-            <div class="cssrows overflow-y-scroll">
-              <div v-for="swa in arrSWA" :key="swa" :index="index" class="text-white bg-gray-600 rounded-md p-2 mt-1">
+            <div v-if="hrStore.arrSWA.length > 0">
+              <div class="cssrows overflow-y-scroll">
+                <div v-for="swa in hrStore.arrSWA" :key="swa" :index="index"
+                  class="text-white bg-gray-600 rounded-md p-2 mt-1">
 
-                <div class="grid grid-cols-3 lg:grid-cols-3 w-full">
-                  <div class="text-center">
-                    {{ swa.appliedToAll ? 'Yes' : 'No' }}
-                  </div>
-                  <div>{{ getFormatDate(swa.date) }}</div>
-                  <div class="flex justify-between">
-                    <div> {{ swa.description }}</div>
-                    <div title="Delete record" class="cursor-pointer hover:text-red-800" @click="deleteRecord(swa.id)">
-                      <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24"
-                        stroke="currentColor">
-                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                          d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16" />
-                      </svg>
+                  <div class="grid grid-cols-3 lg:grid-cols-3 w-full">
+                    <div class="text-center">
+                      {{ swa.appliedToAll ? 'Yes' : 'No' }}
+                    </div>
+                    <div>{{ getFormatDate(swa.date) }}</div>
+                    <div class="flex justify-between">
+                      <div> {{ swa.description }}</div>
+                      <div title="Delete record" class="cursor-pointer hover:text-red-800"
+                        @click="deleteRecord(swa.id)">
+                        <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24"
+                          stroke="currentColor">
+                          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                            d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16" />
+                        </svg>
+                      </div>
+
                     </div>
 
                   </div>
 
-                </div>
-
-                <div class="flex gap-2 p-2 ">
-                  <div v-for="id in swa.empIds" :key="id" class="bg-gray-800 text-sm text-gray-500 p-1 rounded">
-                    {{ getEmployee(id) }}
+                  <div class="flex gap-2 p-2 ">
+                    <div v-for="id in swa.empIds" :key="id" class="bg-gray-800 text-sm text-gray-500 p-1 rounded">
+                      {{ getEmployee(id) }}
+                    </div>
                   </div>
                 </div>
               </div>
             </div>
+            <div v-else class="text-center text-sm pt-2 text-gray-200">
+              No special work arrangements for selected month..
+            </div>
+
             <!-- End rows  -->
           </div>
           <div class="bg-gray-600 rounded-md p-2 relative">
@@ -123,8 +131,8 @@
             </div>
 
             <div class="absolute bottom-0 right-0 m-4 flex gap-x-4">
-              <btnhr_Save class="w-20" name="Clear" @click="getClear" />
-              <btnhr_Save class="w-20" name="Proceed" @click="getProceed" />
+              <btnhr_Save class="w-20 text-white" name="Clear" @click="getClear" />
+              <btnhr_Save class="w-20 text-white" name="Proceed" @click="getProceed" />
             </div>
           </div>
         </div>
@@ -139,8 +147,9 @@ import btnhr_Save from '~/components/hr/btnhr_button'
 
 import toggleoption from '~/components/customcontrol/toggleoption'
 import inputtags_search from '~/components/customcontrol/inputtags_search'
+import { useHrStore } from '~/stores/modules/hrStore'
 
-// import * as Global from '@/assets/js/Global'
+import * as Global from '@/assets/js/Global'
 //import * as myfilter from '@/plugins/myfilter'
 //import { mapState, mapGetters, mapActions, mapMutations } from 'vuex'
 
@@ -159,15 +168,21 @@ export default {
         date: '',
         description: '',
       },
+      selectedYear: null,
+      selectedMonth: null,
+      hrStore: null,
+      showLoading: null,
     }
   },
-  computed: {
-    // ...mapState({
-    //   loggeduser: (state) => state.loggeduser,
-    //   arrEmp: (state) => state.hr.reportInitData.arrEmp,
-    //   arrSWA: (state) => state.hr.SWAdetails.arrSWA,
-    // }),
 
+  async created() {
+    this.hrStore = useHrStore();
+    this.showLoading = this.$showLoading;
+
+    this.init();
+  },
+
+  computed: {
     getEmployee() {
       return (empid) => {
         try {
@@ -188,14 +203,6 @@ export default {
     },
   },
   methods: {
-    // ...mapActions({
-    //   getSpecialWorkArrangement: 'hr/getSpecialWorkArrangement',
-    //   setSpecialWorkArrangement: 'hr/setSpecialWorkArrangement',
-    //   deleteSpecialWorkArrangement: 'hr/deleteSpecialWorkArrangement',
-    // }),
-    // ...mapMutations({
-    //   showMessage: 'PUSH_NOTIFICATION',
-    // }),
     getclose() {
       this.$emit('exitpopup')
     },
@@ -207,32 +214,49 @@ export default {
     //   this.swa.empIds.push(employee.id)
     //   this.arremployees.push(employee.value)
     // },
+
     async loadSWA(param) {
-      let req = { month: param.month, year: param.year, user: this.loggeduser }
-      await this.getSpecialWorkArrangement(req)
+      this.selectedYear = param.year;
+      this.selectedMonth = param.month;
+
+      let req = { month: param.month, year: param.year }
+      await this.hrStore.getSpecialWorkArrangement(req, this.showLoading)
     },
+
     async init() {
-      //    var date = new Date();
-      //   let month =date.getMonth()+1;
-      //   let year = date.getFullYear();
-      //  let req={month:month,year:year,user:this.loggeduser};
-      //  await this.getAssignedHolidays(req);
+      var date = new Date();
+      let month = date.getMonth() + 1;
+      let year = date.getFullYear();
+      let req = { month: month, year: year };
+      await this.hrStore.getAssignedHolidays(req, this.showLoading);
     },
+
     async deleteRecord(id) {
-      if (confirm('Sure to delete this record?')) {
-        let req = { id: id, user: this.loggeduser }
-        await this.deleteSpecialWorkArrangement(req)
-      }
+      console.log("selectedYear:", this.selectedYear);
+      console.log("selectedMonth:", this.selectedMonth);
+
+      this.$showConfirm("Sure to delete this record?", "warning")
+        .then(async (result) => {
+          if (result.isConfirmed) {
+            let req = { id: id, user: this.loggeduser }
+            await this.hrStore.deleteSpecialWorkArrangement(req, this.showLoading)
+          }
+        });
     },
+
     async getProceed() {
       if (!this.validate()) {
         return
       }
-      if (confirm('Sure to Proceed this SWA for the Employee/s')) {
-        let req = { swa: this.swa, user: this.loggeduser }
-        //console.log( JSON.stringify(req))
-        await this.setSpecialWorkArrangement(req)
-      }
+
+      this.$showConfirm("Sure to Proceed this SWA for the Employee/s?", "warning")
+        .then(async (result) => {
+          if (result.isConfirmed) {
+            let req = { swa: this.swa, user: this.loggeduser }
+            //console.log( JSON.stringify(req))
+            await this.hrStore.setSpecialWorkArrangement(req, this.showLoading)
+          }
+        });
     },
 
     changeATAL() {
