@@ -27,6 +27,11 @@
     }); */
     import { useShopStore } from '@/stores/modules/Q-Appts/shops'
     const store = useShopStore()
+  
+  /* const localSearchTerm = computed({
+  get: () => store.searchTerm,
+  set: (val) => store.setSearchTerm(val)
+  }) */
 
   const localSearchTerm = ref('')
 

@@ -5,9 +5,11 @@
     <img :src="shop.image" alt="shop" class="rounded w-full h-36 object-cover" />
     <div class="p-2">
       <h3 class="font-semibold">{{ shop.name }}</h3>
-      <p class="text-sm text-gray-500">📍 {{ shop.distance }} away</p>
+      <p class="text-sm text-gray-500">📍 {{ shop.district}},{{ shop.city }}</p>
+      <p class="text-sm text-gray-500">👣 {{shop.distance}} away</p>
       <p class="text-sm text-yellow-500">⭐ {{ shop.rating }}</p>
       <p class="text-sm text-blue-500">🕒 {{ shop.wait }} wait</p>
+      
       <div class="mt-2 flex gap-2">
         <button class="bg-gray-800 text-white px-3 py-1 text-sm rounded">View</button>
         <button @click="bookShop" class="bg-blue-500 text-white px-3 py-1 text-sm rounded">Book</button>

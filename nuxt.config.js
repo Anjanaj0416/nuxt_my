@@ -1,5 +1,7 @@
 
 // https://nuxt.com/docs/api/configuration/nuxt-config
+import { defineNuxtConfig } from 'nuxt/config'
+
 export default defineNuxtConfig({
   router: {
     middleware: ['auth']
@@ -11,8 +13,9 @@ export default defineNuxtConfig({
 
   modules: [
     '@pinia/nuxt',
-  
+    '@nuxtjs/i18n'
   ],
+  
   pinia: {
     autoImports: ['defineStore']
   },
@@ -23,6 +26,7 @@ export default defineNuxtConfig({
       autoprefixer: {},
     },
   },
+
   
   plugins: [
     { src: '@/plugins/message.js' },

@@ -13,6 +13,18 @@
         <NuxtLink to="/customer" class="hover:text-blue-600">Contact Us</NuxtLink>
       </nav>
 
+      <div class="flex gap-2">
+        <button @click="switchLang('si')">සිංහල</button>
+        <button @click="switchLang('en')">English</button>
+        <button @click="switchLang('ta')">தமிழ்</button>
+      </div>
+
+ <!--  <select v-model="$i18n.locale">
+    <option value="en">English</option>
+    <option value="si">සිංහල</option>
+  </select> -->
+
+
       <!-- Mobile Menu Button -->
       <div class="md:hidden">
         <button @click="mobileMenuOpen = !mobileMenuOpen">
@@ -36,8 +48,11 @@
 <script setup>
 import { ref } from 'vue'
 import searchBar from '~/components/Q-Appts/searchBar.vue'
+import { useI18n } from 'vue-i18n'
+
 const showSearchInNavbar = ref(false)
 const mobileMenuOpen = ref(false)
+const { locale } = useI18n()
 
 const handleScroll = () => {
   showSearchInNavbar.value = window.scrollY > 430 // Show search bar after 150px scroll
@@ -50,5 +65,9 @@ onMounted(() => {
 onBeforeUnmount(() => {
   window.removeEventListener('scroll', handleScroll)
 })
+
+function switchLang(lang) {
+  locale.value = lang
+}
 
 </script>
