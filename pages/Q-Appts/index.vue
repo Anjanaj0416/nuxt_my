@@ -125,7 +125,7 @@ onBeforeUnmount(() => {
 </script>
 
 <style scoped>
-.csscmd {
+/* .csscmd {
   @apply p-2 text-center bg-blue-200 rounded;
 }
 .csscmd:hover {
@@ -135,7 +135,7 @@ onBeforeUnmount(() => {
 .cssBox {
   border: 1px solid;
   @apply border-gray-500 rounded p-2;
-}
+} */
 
 section {
   max-width: 1200px;
