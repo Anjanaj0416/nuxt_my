@@ -6,13 +6,13 @@
     <div class="p-2">
       <h3 class="font-semibold">{{ shop.name }}</h3>
       <p class="text-sm text-gray-500">📍 {{ shop.district}},{{ shop.city }}</p>
-      <p class="text-sm text-gray-500">👣 {{shop.distance}} away</p>
+      <p class="text-sm text-gray-500">👣 {{shop.distance}} {{ t('away') }}</p>
       <p class="text-sm text-yellow-500">⭐ {{ shop.rating }}</p>
-      <p class="text-sm text-blue-500">🕒 {{ shop.wait }} wait</p>
+      <p class="text-sm text-blue-500">🕒 {{ shop.wait }} {{ t('wait') }}</p>
       
       <div class="mt-2 flex gap-2">
-        <button class="bg-gray-800 text-white px-3 py-1 text-sm rounded">View</button>
-        <button @click="bookShop" class="bg-blue-500 text-white px-3 py-1 text-sm rounded">Book</button>
+        <button class="bg-gray-800 text-white px-3 py-1 text-sm rounded">{{ t('view') }}</button>
+        <button @click="bookShop" class="bg-blue-500 text-white px-3 py-1 text-sm rounded">{{ t('book') }}</button>
       </div>
     </div>
   </div>
@@ -20,7 +20,9 @@
 
 <script setup>
 import { useRouter } from 'vue-router'
+import { useI18n } from 'vue-i18n'
 
+const { t } = useI18n()
 const router = useRouter()
 const props = defineProps({
   shop: Object

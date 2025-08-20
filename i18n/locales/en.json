@@ -1,4 +1,26 @@
 {
     "welcome1": "Skip the Line,",
-    "welcome2": "Save Time"
+    "welcome2": "Save Time",
+    "welcome3": "Q-Appts lets you join queues and book appointments from anywhere — no more waiting around",
+    "home": "Home",
+    "about": "About Us",
+    "makeAppointment": "Make Appointment",
+    "joinQueue": "Join Queue",
+    "search": "Search",
+    "searchPlaceholder": "Search by supplier name..........",
+    "all": "All",
+    "nearby": "Nearby",
+    "further": "Further",
+    "availableIn30Mins": "Available in 30 Mins",
+    "availableIn1Hour": "Available in 1 Hour",
+    "availableMoreThan1Hour": "Available More Than 1 Hour",
+    "male": "Male",
+    "female": "Female",
+    "district": "Select the District",
+    "city": "Select the City",
+    "away": " away",
+    "wait": " min wait",
+    "view": "View",
+    "book": "Book",
+    "contact": "Contact Us"
 }

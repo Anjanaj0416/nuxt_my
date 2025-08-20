@@ -8,12 +8,12 @@
           {{ t('welcome2') }}
         </h2>
         <p class="text-gray-600 md:text-2xl max-w-md mt-4">
-          EasyQueue lets you join queues and book appointments from anywhere — no more waiting around
+          {{ t('welcome3') }}
         </p>
         <button 
           @click="scrollToFilterBar" 
           class="mt-6 px-6 py-3 bg-blue-900 text-white rounded-full font-semibold shadow hover:bg-blue-800 transition">
-          Make Appointment
+          {{ t('makeAppointment') }}
         </button>
       </div>
 

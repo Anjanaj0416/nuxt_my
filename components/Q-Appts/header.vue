@@ -8,14 +8,14 @@
       </div>
 
       <nav class="hidden md:flex space-x-6 text-sm2 font-semibold text-gray-700">
-        <NuxtLink to="/Q-Appts" class="hover:text-blue-600">Home</NuxtLink>
-        <NuxtLink to="/about" class="hover:text-blue-600">About us</NuxtLink>
-        <NuxtLink to="/customer" class="hover:text-blue-600">Contact Us</NuxtLink>
+        <NuxtLink to="/Q-Appts" class="hover:text-blue-600">{{ t('home') }}</NuxtLink>
+        <NuxtLink to="/about" class="hover:text-blue-600">{{ t('about') }}</NuxtLink>
+        <NuxtLink to="/customer" class="hover:text-blue-600">{{ t('contact') }}</NuxtLink>
       </nav>
 
       <div class="flex gap-2">
         <button @click="switchLang('si')">සිංහල</button>
-        <button @click="switchLang('en')">English</button>
+        <button @click="switchLang('en')">| English |</button>
         <button @click="switchLang('ta')">தமிழ்</button>
       </div>
 
@@ -38,7 +38,7 @@
 
     <!-- Mobile Dropdown -->
     <div v-if="mobileMenuOpen" class="md:hidden px-4 pb-4">
-      <NuxtLink to="/Q-Appts" class="block py-2 text-gray-700 hover:text-blue-600">Home</NuxtLink>
+      <NuxtLink to="/Q-Appts" class="block py-2 text-gray-700 hover:text-blue-600">{{ t('home') }}</NuxtLink>
       <NuxtLink to="/about" class="block py-2 text-gray-700 hover:text-blue-600">About us</NuxtLink>
       <NuxtLink to="/customer" class="block py-2 text-gray-700 hover:text-blue-600">Customer</NuxtLink>
     </div>
@@ -53,6 +53,7 @@ import { useI18n } from 'vue-i18n'
 const showSearchInNavbar = ref(false)
 const mobileMenuOpen = ref(false)
 const { locale } = useI18n()
+const { t } = useI18n()
 
 const handleScroll = () => {
   showSearchInNavbar.value = window.scrollY > 430 // Show search bar after 150px scroll
