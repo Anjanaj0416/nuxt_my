@@ -96,7 +96,8 @@
               <div class="block font-semibold md:hidden">Pending At:</div>
               <div>{{ ot.supervisor }}</div>
             </div>
-            <div title="Delete record" class="mx-auto cursor-pointer" @click="deleteRecord(ot.id)">
+            <div v-show="userStore.loggedUser.granted.includes('hradmin')" title="Delete record"
+              class="mx-auto cursor-pointer" @click="deleteRecord(ot.id)">
               <svg xmlns="http://www.w3.org/2000/svg" class="w-6 h-6" fill="none" viewBox="0 0 24 24"
                 stroke="currentColor">
                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"

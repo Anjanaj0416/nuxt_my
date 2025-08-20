@@ -28,12 +28,13 @@
             </div>
 
             <div
-                class="grid w-full grid-cols-1 p-2 text-center text-white bg-blue-800 lg:grid-cols-9 lg:w-5/6 rounded-t-md">
+                class="grid w-full grid-cols-1 p-2 text-center text-white bg-blue-800 lg:grid-cols-10 lg:w-5/6 rounded-t-md">
                 <div class="hidden lg:block">Emp No</div>
                 <div class="hidden lg:block">Date</div>
                 <div class="hidden lg:block">In Time</div>
                 <div class="hidden lg:block">Out Time</div>
                 <div class="hidden lg:block">Over Time</div>
+                <div class="hidden lg:block"></div>
                 <div class="hidden lg:block">Day Type</div>
 
                 <div class="hidden lg:block"></div>
@@ -47,10 +48,10 @@
          {{ getDayTypeName(dayatt) }} -->
                 <div class="w-full p-2 mt-1 text-white bg-gray-600 rounded-md lg:w-5/6"
                     v-bind:class="[getAttRowColor(dayatt)]">
-                    <div class="grid grid-cols-1 text-center lg:grid-cols-9">
+                    <div class="grid grid-cols-1 text-center lg:grid-cols-10">
                         <div>{{ dayatt.empNo }}</div>
-                        <div>{{ $options.filters.toReadableDate(dayatt.date) }}</div>
-                        <div class="ml-4">
+                        <div class="mr-4">{{ $options.filters.toReadableDate(dayatt.date) }}</div>
+                        <div class="ml-4 mr-4">
                             <div class="flex gap-x-2 justify-center items-center">
                                 <div v-if="editingRowId === dayatt.id && editingField === 'intime'">
                                     <input v-model="editedIntime" type="time"
@@ -60,7 +61,7 @@
                                 <button type="button" @click="
                                     editingRowId === dayatt.id && editingField === 'intime'
                                         ? SetManualInOut(dayatt.date, editedIntime, dayatt.outTime)
-                                        : isEditChange(dayatt.id, 'intime', editedIntime)
+                                        : isEditChange(dayatt.id, 'intime', dayatt.inTime)
                                     "
                                     class="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:ring-blue-300 font-medium rounded-lg text-sm px-1 py-1">
                                     {{ editingRowId === dayatt.id && editingField === 'intime' ? 'Save' : 'Edit' }}
@@ -79,9 +80,9 @@
                                 <button type="button" @click="
                                     editingRowId === dayatt.id && editingField === 'outtime'
                                         ? SetManualInOut(dayatt.date, dayatt.inTime, editedOuttime)
-                                        : isEditChange(dayatt.id, 'outtime', editedOuttime)
+                                        : isEditChange(dayatt.id, 'outtime', dayatt.outTime)
                                     "
-                                    class="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:ring-blue-300 font-medium rounded-lg text-sm px-1 py-1">
+                                    class="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:ring-blue-300 font-medium rounded-lg text-sm px-1 py-1 ">
                                     {{ editingRowId === dayatt.id && editingField === 'outtime' ? 'Save' : 'Edit' }}
                                 </button>
                                 <!-- <swipes v-show="dayatt.swipesout.length > 0" :swipes="dayatt.swipesout"
@@ -105,6 +106,12 @@
                                     {{ editingRowId === dayatt.id && editingField === 'overtime' ? 'Save' : 'Edit' }}
                                 </button>
                             </div>
+                        </div>
+                        <div>
+                            <button v-if="editingRowId === dayatt.id && editingField" type="button" @click="getCancel()"
+                                class="text-white bg-red-700 hover:bg-red-800 focus:ring-4 focus:ring-red-300 font-medium rounded-lg w-20 text-sm px-1 py-1 ml-2">
+                                Cancel
+                            </button>
                         </div>
                         <div>{{ getDayTypeName(dayatt.dayType) }}</div>
                         <div></div>
@@ -317,7 +324,7 @@ export default {
                                                                                                                             : dayatt.daytype == 505
                                                                                                                                 ? 'InComplete'
 
-                                                                                                                                : dayatt.comment
+                                                                                                                                : ""
 
                     return dayname
                 } catch {
@@ -439,6 +446,14 @@ export default {
                     EmpNo: this.empNo,
                 }, this.showLoading);
             }
+        },
+
+        async getCancel() {
+            this.editingRowId = null;
+            this.editingField = null;
+            this.editedIntime = '';
+            this.editedOuttime = '';
+            this.editedOvertime = '';
         },
 
         async getRefreshAttendance() {
