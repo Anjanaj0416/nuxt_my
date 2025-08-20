@@ -20,6 +20,9 @@
 
       </div>
 
+      <!-- <pre>{{ initPosData }}</pre> -->
+
+
       <!-- POS Layout -->
       <div class="flex h-[calc(100vh-8rem)] gap-4 mt-2 px-2">
         <!-- Left: Category List -->
@@ -94,7 +97,7 @@
                       type="number" 
                       v-model.number="cartItem.qty" 
                       min="1"
-                      class="w-20 h-10 border border-gray-300 text-gray-800 rounded-lg text-center text-sm sm:text-base font-semibold focus:ring-2 focus:ring-blue-400 focus:border-blue-400"
+                      class="w-16 h-10 border border-gray-300 text-gray-800 rounded-lg text-center text-sm sm:text-base font-semibold focus:ring-2 focus:ring-blue-400 focus:border-blue-400"
                     />
                   </div>
 
@@ -143,10 +146,10 @@
             </div>
           </div>
           <div class="mt-6 grid grid-cols-3 gap-3">
-              <button   @click="handleCashClick('cash')" class="bg-green-500 hover:bg-green-600 text-white py-2 rounded-lg font-semibold shadow-md">Cash</button>
-              <button @click="makePayment('card')" class="bg-blue-500 hover:bg-blue-600 text-white py-2 rounded-lg font-semibold shadow-md">Card</button>
-              <button @click="makePayment('other')" class="bg-gray-500 hover:bg-gray-600 text-white py-2 rounded-lg font-semibold shadow-md">Other</button>
-            </div>
+            <button   @click="handleCashClick('cash')" class="bg-green-500 hover:bg-green-600 text-white py-2 rounded-lg font-semibold shadow-md">Cash</button>
+            <button @click="makePayment('card')" class="bg-blue-500 hover:bg-blue-600 text-white py-2 rounded-lg font-semibold shadow-md">Card</button>
+            <button @click="makePayment('other')" class="bg-gray-500 hover:bg-gray-600 text-white py-2 rounded-lg font-semibold shadow-md">Other</button>
+          </div>
 
         </div>
       </div>
@@ -264,6 +267,9 @@
 <script>
 import headerdd from "~/components/pos/header.vue";
 import CashMethod from "~/components/pos/payment/cash.vue";
+import { useUserStore } from '~/stores/modules/userStore';
+import { useposStore } from "~/stores/modules/pos/posStore";
+
 
 export default {
   components: { headerdd,CashMethod },
@@ -318,7 +324,22 @@ export default {
       showCartModal: false
     };
   },
+
+  async created() {
+    this.userStore = useUserStore();
+    this.posStore = useposStore();
+
+    this.showLoading = this.$showLoading;
+
+    await this.posStore.loadInitPosData(this.showLoading);
+
+    this.initPosData = this.posStore.initPosData;
+
+  },
   computed: {
+    initPosData() {
+    return this.posStore.initPosData;
+  },
     categories() {
       const master = this.masterCategories.find(m => m.id === this.selectedMasterCategory);
       return master ? master.subCategories : [];
@@ -357,7 +378,15 @@ export default {
         this.selectedCategory = master.subCategories[0].id;
       }
     }
-  }
+  },
+  async beforeMount() {
+   if (this.userStore.loggeduser && !this.userStore.loggeduser.granted.contains('pos') ) {
+      } else {        
+        this.$router.push('/pos')
+        this.$showToast('Not Allowed to access this page')
+      }
+  
+    },
 };
 </script>
 

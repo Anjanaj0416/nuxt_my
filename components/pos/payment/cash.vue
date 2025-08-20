@@ -1,43 +1,62 @@
 <template>
-  <div class="bg-white text-gray-800 rounded-xl shadow-md p-4 w-full max-w-sm">
-    <h2 class="text-lg font-semibold mb-4">Cart Summary</h2>
+  <div class="modal-overlay" v-if="isOpen">
+    <div class="modal">
+      <!-- Modal Header -->
+      <div class="modal-header">
+        <h2 class="modal-title">Pay Now</h2>
+        <!-- <button @click="closeModal" class="absolute z-50 p-2 text-white rounded-md  close-button">&times;</button> -->
+        <closebtn @close="closeModal()" />
+      </div>
 
-    <!-- Subtotal -->
-    <div class="flex justify-between mb-2">
-      <span>Subtotal</span>
-      <span class="font-medium">Rs. 0.00</span>
+      <!-- Modal Content (scrollable) -->
+      <div class="modal-content">
+        <div class="form-content">
+
+          <div class="bg-gray-50 p-4 rounded-lg shadow-sm flex flex-col gap-2">
+            <div class="flex justify-between">
+              <span class="font-semibold">Customer Name:</span>
+              <span>dd</span>
+            </div>
+            <div class="flex justify-between">
+              <span class="font-semibold">Invoice Amount:</span>
+              <span>Rs. dd</span>
+            </div>
+            <div class="flex justify-between">
+              <span class="font-semibold">Previous Balance:</span>
+              <span>Rs. dd</span>
+            </div>
+          </div>
+          <div class="flex flex-col gap-2">
+            <label class="font-semibold text-gray-700">Enter Cash Received:</label>
+            <input
+              type="number"
+              v-model.number="cashReceived"
+              class="border border-gray-300 rounded-lg p-2 focus:outline-none focus:ring-2 focus:ring-blue-500"
+              placeholder="Enter amount"
+            />
+            <p  class="text-red-600 text-sm"></p>
+          </div>
+
+          <!-- Calculated Balance -->
+          <div class="bg-gray-100 p-4 rounded-lg shadow-inner flex justify-between font-semibold">
+            <span>Remaining Balance:</span>
+            <span>
+            Rs.500.00
+            </span>
+          </div>
+          <div>
+            <!-- {{ quotationStore.curQuotation.id }} -->
+          </div>
+        </div>
+      </div>
+      <!-- End Modal Content -->
+
+      <!-- Modal Footer -->
+      <div class="modal-footer">
+        <button @click="closeModal" class="cancel-button">Cancel</button>
+        <button @click="SetApprove" class="confirm-button">Submit Payment</button>
+      </div>
     </div>
-
-    <!-- Discount -->
-    <div class="flex justify-between mb-2 items-center">
-      <span>Discount</span>
-      <input
-        type="number"
-        placeholder="0"
-        class="w-20 border rounded-lg px-2 py-1 text-right"
-      />
-    </div>
-
-    <!-- VAT -->
-    <div class="flex justify-between mb-2">
-      <span>VAT (15%)</span>
-      <span class="font-medium">Rs. 0.00</span>
-    </div>
-
-    <hr class="my-3" />
-
-    <!-- Grand Total -->
-    <div class="flex justify-between text-lg font-bold">
-      <span>Total</span>
-      <span>Rs. 0.00</span>
-    </div>
-
-    <!-- Checkout Button -->
-    <button
-      class="mt-4 w-full bg-blue-600 text-white font-semibold py-2 rounded-lg hover:bg-blue-700 transition"
-    >
-      Checkout
-    </button>
   </div>
 </template>
 
@@ -62,11 +81,12 @@ export default {
       ApprovalMemo: "",
       PreIssuedPINumber: "",
       isOpen: true,
+      err: { ApprovalMemo: "" },
     };
   },
   async created() {
     this.showLoading = this.$showLoading;
-
+    this.orderStore = useOrderStore();
   },
   async mounted() {
     //this.showAlert('fff', 'error');
@@ -84,26 +104,40 @@ export default {
       
     },
 
-    async SetApprove() {
-      if (this.IsValidate()) {
-        const formData = new FormData();
-        formData.append("orderNo", this.id);
-        formData.append("signedImage", this.ApprovalMemo);
+  closeModal() {
+    this.isOpen = false;
+    this.$emit("close"); // tell parent to hide modal
+  },
 
-        const loadingAlert = this.showLoading(""); 
+  async SetApprove() {
+    if (!this.IsValidate()) return;
 
-        try {
-          await this.orderStore.GetQuotationApprove(formData);
-          loadingAlert.close();
-          this.closeModal();
-        } catch (error) {
-          loadingAlert.close();
-          console.error("Approval failed:", error);
-        }
+    const formData = new FormData();
+    formData.append("orderNo", this.id);
+    formData.append("signedImage", this.ApprovalMemo);
+
+    // show loading
+    const loadingAlert = this.showLoading ? this.showLoading("") : null;
+
+    try {
+      const result = await this.orderStore.GetQuotationApprove(formData);
+
+      if (loadingAlert) loadingAlert.close();
+
+      if (result.success) {
+        if (this.showToast) this.showToast(result.message, "success"); // show toast
+        this.closeModal(); // close modal
       } else {
-        console.log("Validation failed");
+        if (this.showToast) this.showToast(result.message, "error");
       }
-    },
+    } catch (error) {
+      if (loadingAlert) loadingAlert.close();
+      if (this.showToast) this.showToast("An error occurred during approval", "error");
+      console.error("Approval failed:", error);
+    }
+  },
+
+
 
 
 
@@ -125,6 +159,36 @@ export default {
       this.$emit("close");
     },
 
+    async showConfirmAlert_ApproveQuotation(message, type) {
+      try {
+        const result = await Swal.fire({
+          icon: type,
+          title: message,
+          showConfirmButton: true,
+          toast: false,
+          customClass: {
+            popup: "custom-swal-popup",
+          },
+        });
+
+        if (result.isConfirmed) {
+          await this.quotationStore.GetAprrovingTheQuotation(
+            this.quotationStore.curQuotation.id,
+            this.ApprovalMemo
+          );
+          await Swal.fire({
+            icon: "success",
+            title: "Saved!",
+            text: "Quotation Approved",
+            customClass: {
+              popup: "swal-custom-zindex",
+            },
+          });
+        }
+      } catch (error) {
+        console.error("Error displaying alert:", error);
+      }
+    },
 
   },
 
@@ -167,12 +231,12 @@ export default {
 .modal {
   background: white;
   width: 80%;
-  max-width: 400px;
+  max-width: 800px;
     border-radius: 1rem;
     overflow: hidden;
   display: flex;
   flex-direction: column;
-  height: 60%;
+  height: 80%;
   /* Set the default height for larger screens */
   position: relative;
   /* Needed for proper footer placement */

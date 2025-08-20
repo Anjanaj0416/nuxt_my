@@ -5,7 +5,7 @@
           <div class="text-2xl uppercase mb-4"> Vendor Details - {{ isEditing ? "Edit" : "Add" }}</div>
       </div>
        <!-- {{ Id }} -->
-      <!-- <pre>{{ JSON.stringify(curVendor, null, 2) }}</pre>   -->
+      <pre>{{ JSON.stringify(curVendor, null, 2) }}</pre>  
 
 
       <!-- Modal Content (scrollable) -->
@@ -120,12 +120,25 @@
 
           <div class="grid grid-cols-2 gap-4 mt-4 sm:grid-cols-2 md:grid-cols-3">
             <!--Vendor Image -->
-            <div>
+            <!-- <div>
               <label class="block text-sm font-bold text-gray-600">Vendor Image</label>
               <div class="relative mt-2">
                 <imagecomp :existing_image_path="imageroot + curVendor.shopLogo"
                   @deleteExistingImage="curVendor.shopLogo = ''" @GetSelectedImage="GetSelectedVendorImage"
                   ref="refVendorImage" />
+              </div>
+            </div> -->
+            <!-- ShopLogo Image -->
+            <div>
+              <label class="block text-sm font-bold text-gray-600">shopLogo</label>
+              <div class="relative mt-2">
+                <imagepicker1
+                  :existingImagePath="imageroot + curVendor.shopLogo"
+                  @GetSelectedImage="GetSelectedShopLogo"
+                  @deleteExistingImage="curVendor.shopLogo = ''"
+                  ref="refShopLogo"
+                />
+
               </div>
             </div>
             <!-- BR Image -->
@@ -161,8 +174,7 @@
             </div>
             <div class="">
               <label class="block text-sm font-bold text-gray-600">Date of Birth</label>
-              <input type="date" v-model="curVendor.authorisePersonBDate" required
-                class="w-full p-2 mt-2 text-sm border rounded-md focus:ring-indigo-500 focus:border-indigo-500" />
+             <input type="date" v-model="formattedAuthorisePersonBDate" required class="w-full p-2 mt-2 text-sm border rounded-md focus:ring-indigo-500 focus:border-indigo-500" />
             </div>
             <div class="">
               <label class="block text-sm font-bold text-gray-600">Email</label>
@@ -195,8 +207,7 @@
             </div>
             <div class="">
               <label class="block text-sm font-bold text-gray-600">Date of Birth</label>
-              <input type="date" v-model="curVendor.shopContactPersonBDate"
-                class="w-full p-2 mt-2 text-sm border rounded-md focus:ring-indigo-500 focus:border-indigo-500" />
+              <input type="date" v-model="formattedShopContactPersonBDate" class="w-full p-2 mt-2 text-sm border rounded-md focus:ring-indigo-500 focus:border-indigo-500" />
 
             </div>
             <div class="">
@@ -419,8 +430,27 @@ export default {
         }));
 
       return sortedCities;
-    }
+    },
 
+    formattedShopContactPersonBDate: {
+      get() {
+        const date = this.curVendor.shopContactPersonBDate;
+        return date && date !== "0001-01-01T00:00:00" ? date.substring(0, 10) : "";
+      },
+      set(value) {
+        this.curVendor.shopContactPersonBDate = value;
+      }
+    },
+
+    formattedAuthorisePersonBDate: {
+      get() {
+        const date = this.curVendor.authorisePersonBDate;
+        return date && date !== "0001-01-01T00:00:00" ? date.substring(0, 10) : "";
+      },
+      set(value) {
+        this.curVendor.authorisePersonBDate = value;
+      }
+    }
     
   },
   async created() {
@@ -448,6 +478,19 @@ export default {
     this.$refs.refCity.initItem(this.curVendor.cityId);
     this.$refs.refCso?.initItem(this.curVendor.csoNo);
     // this.$refs.refDistrict.initItem(this.curVendor.district);
+
+    if (this.curVendor.shopContactPersonBDate && this.curVendor.shopContactPersonBDate !== "0001-01-01T00:00:00") {
+      this.curVendor.shopContactPersonBDate = this.curVendor.shopContactPersonBDate.substring(0, 10);
+    } else {
+      this.curVendor.shopContactPersonBDate = ""; // empty for invalid date
+    }
+
+    if (this.curVendor.authorisePersonBDate && this.curVendor.authorisePersonBDate !== "0001-01-01T00:00:00") {
+      this.curVendor.authorisePersonBDate = this.curVendor.authorisePersonBDate.substring(0, 10);
+    } else {
+      this.curVendor.authorisePersonBDate = ""; // empty for invalid date
+    }
+    
   },
   
   methods: {
@@ -473,6 +516,10 @@ export default {
     },
     GetSelectedShopCoverImage(image) {
       this.curVendor.shopCoverImageFile = image;
+    },
+    GetSelectedShopLogo(file) {
+      this.curVendor.shopLogo = file;
+      console.log(file);
     },
     GetSelectedBRCopy(file) {
       this.curVendor.brCopyImage = file;
