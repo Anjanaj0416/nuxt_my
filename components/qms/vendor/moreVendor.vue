@@ -133,7 +133,14 @@
             <div class="">
               <label class="block text-sm font-bold text-gray-600 mb-1">QR Link</label>
               <span class="inline-block text-sm font-semibold text-gray-800" v-if="curVendor.storeUrl">
+                <a 
+                  :href="curVendor.storeUrl" 
+                  target="_blank" 
+                  rel="noopener noreferrer"
+                  class="text-blue-600 hover:underline"
+                >
                 {{ curVendor.storeUrl }}
+                </a>
               </span>
               <span class="inline-block text-sm italic text-gray-500" v-else>
                 NO data

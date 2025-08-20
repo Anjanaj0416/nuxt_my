@@ -14,7 +14,7 @@
             <!-- {{ quotationStore.initPaymentDetails.listReceiptType }} -->
             <!-- {{ orderId }} -->
             <div>
-              <label class="block text-sm font-bold text-gray-600">Pay Amount</label>
+              <label class="block text-sm font-bold text-gray-600">Paid Amount</label>
               <input 
                 type="text"
                 v-model="formattedAmount"
@@ -109,7 +109,7 @@
               
             </div>
             <div>
-              <label class="block text-sm font-bold text-gray-600">Original Advance Receipt No</label>
+              <label class="block text-sm font-bold text-gray-600">Advance Receipt No</label>
               <input 
                 type="text" 
                 v-model="OriginalAdvanceReceiptNo"
@@ -121,7 +121,7 @@
                 </p>
             </div>
             <div>
-              <label class="block text-sm font-bold text-gray-600">Original Advance Receipt Date</label>
+              <label class="block text-sm font-bold text-gray-600">Advance Receipt Date</label>
               <input 
                 type="date" 
                 v-model="OriginalAdvanceReceiptDate"
@@ -134,7 +134,7 @@
                 </p>
             </div>
             <div>
-              <label class="block text-sm mb-2 font-bold text-gray-600"> Attach Approval Proof Payment</label>
+              <label class="block text-sm mb-2 font-bold text-gray-600"> Attachment For Payment Referance</label>
               
               <imagepicker1
                 @GetSelectedImage="GetAttachedImage"
@@ -240,19 +240,20 @@ export default {
       }
     },
 
-    formatAmount() {
-      // Remove anything except numbers
-      let numericValue = this.formattedAmount.replace(/[^\d]/g, '');
+  formatAmount() {
+    // Remove anything except numbers and dot
+    let numericValue = this.formattedAmount.replace(/[^0-9.]/g, '');
 
-      // Convert to number
-      let number = parseFloat(numericValue) || 0;
+    // Split by dot to handle decimals
+    let parts = numericValue.split('.');
+    let integerPart = parts[0].replace(/\B(?=(\d{3})+(?!\d))/g, ','); // Add comma for thousands
+    let decimalPart = parts[1] ? parts[1].slice(0, 2) : '00'; // Keep max 2 decimal digits
 
-      // Format with commas as thousands separators
-      this.formattedAmount = number.toLocaleString('en-US');
+    this.formattedAmount = decimalPart ? `${integerPart}.${decimalPart}` : `${integerPart}.00`;
 
-      // Store numeric value for backend
-      this.Amount = number;
-    },
+    // Store numeric value for backend
+    this.Amount = parseFloat(this.formattedAmount.replace(/,/g, '')) || 0;
+  },
 //     handleFileUpload(event) {
 //   const file = event.target.files[0];
 //   if (file) {
@@ -261,47 +262,37 @@ export default {
 // },
 
 
-async SetApprove() {
-  if (!this.IsValidate()) return;
+  async SetApprove() {
+    if (!this.IsValidate()) return;
 
-  const confirmed = await this.$showConfirm(
-    "Are you sure to Save this Payment?",
-    "warning"
-  );
+    const confirmed = await this.$showConfirm(
+      "Are you sure to Save this Payment?",
+      "warning"
+    );
 
-  if (!confirmed.isConfirmed) return;
+    if (!confirmed.isConfirmed) return;
 
-  const formData = new FormData();
-  formData.append("OrderId", this.orderId || "");
-  formData.append("Amount", this.Amount || "");
+    const formData = new FormData();
+    formData.append("OrderId", this.orderId || "");
+    formData.append("Amount", this.Amount || "");
 
-  formData.append("Remarks", this.Remarks || "");
-  formData.append("ReferenceNo", this.ReferenceNo || "");
-  formData.append("ReceiptType", this.ReceiptType || "");
-  formData.append("BankName", this.BankName || "");
-  formData.append("OriginalAdvanceReceiptNo", this.OriginalAdvanceReceiptNo || "");
-  formData.append("OriginalAdvanceReceiptDate", this.OriginalAdvanceReceiptDate || "");
-  if (this.PaymentSlipImage) {
-    formData.append("PaymentSlipImage", this.PaymentSlipImage);
-  }
+    formData.append("Remarks", this.Remarks || "");
+    formData.append("ReferenceNo", this.ReferenceNo || "");
+    formData.append("ReceiptType", this.ReceiptType || "");
+    formData.append("BankName", this.BankName || "");
+    formData.append("OriginalAdvanceReceiptNo", this.OriginalAdvanceReceiptNo || "");
+    formData.append("OriginalAdvanceReceiptDate", this.OriginalAdvanceReceiptDate || "");
+    if (this.PaymentSlipImage) {
+      formData.append("PaymentSlipImage", this.PaymentSlipImage);
+    }
 
-  // Do the payment
-  const success = await this.orderStore.getDoPay(formData, this.showLoading);
+    // Do the payment
+    const success = await this.orderStore.getDoPay(formData, this.showLoading);
 
-  if (success) {
-    // Fetch updated payment details from backend
-    await this.orderStore.GettPaymentDetails(this.orderId, this.showLoading);
 
-    // Optionally, update the quotationStore if needed
-    this.orderStore.PaymentDetails = this.orderStore.PaymentDetails;
-
-    this.showToast("Payment added successfully", "success");
-
-    // Close modal after updating data
-    this.closeModal();
-  }
-}
-,
+      this.closeModal();
+    
+  },
 
 
  
