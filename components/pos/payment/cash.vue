@@ -3,7 +3,7 @@
     <div class="modal">
       <!-- Modal Header -->
       <div class="modal-header">
-        <h2 class="modal-title">Quotation Approval</h2>
+        <h2 class="modal-title">Pay Now</h2>
         <!-- <button @click="closeModal" class="absolute z-50 p-2 text-white rounded-md  close-button">&times;</button> -->
         <closebtn @close="closeModal()" />
       </div>
@@ -11,32 +11,38 @@
       <!-- Modal Content (scrollable) -->
       <div class="modal-content">
         <div class="form-content">
-          <div class="grid grid-cols-2 gap-4 mt-1 sm:grid-cols-1 md:grid-cols-1">
-            <div>
-              <h3 class="font-bold">
-                Quotaion No - {{ id }}
-              </h3>
-            </div>
-            <hr />
-            <div>
-              <label class="block text-sm mb-2 font-bold text-gray-600">Attached the approval prrof</label>
-              
-              <imagepicker1
-                @GetSelectedImage="GetAttachedImage"
-                :image_file="imageroot"
-                ref="refApprovedImg"
-                accept=""
-              />
 
-              <!-- accept="image/*,application/pdf"
-                accept="application/pdf"
-                 accept="image/*" -->
-  
-              <p v-if="err.approvedImage" class="mt-2 text-sm text-red-600">
-                {{ err.approvedImage }}
-              </p>
+          <div class="bg-gray-50 p-4 rounded-lg shadow-sm flex flex-col gap-2">
+            <div class="flex justify-between">
+              <span class="font-semibold">Customer Name:</span>
+              <span>dd</span>
             </div>
+            <div class="flex justify-between">
+              <span class="font-semibold">Invoice Amount:</span>
+              <span>Rs. dd</span>
+            </div>
+            <div class="flex justify-between">
+              <span class="font-semibold">Previous Balance:</span>
+              <span>Rs. dd</span>
+            </div>
+          </div>
+          <div class="flex flex-col gap-2">
+            <label class="font-semibold text-gray-700">Enter Cash Received:</label>
+            <input
+              type="number"
+              v-model.number="cashReceived"
+              class="border border-gray-300 rounded-lg p-2 focus:outline-none focus:ring-2 focus:ring-blue-500"
+              placeholder="Enter amount"
+            />
+            <p  class="text-red-600 text-sm"></p>
+          </div>
 
+          <!-- Calculated Balance -->
+          <div class="bg-gray-100 p-4 rounded-lg shadow-inner flex justify-between font-semibold">
+            <span>Remaining Balance:</span>
+            <span>
+            Rs.500.00
+            </span>
           </div>
           <div>
             <!-- {{ quotationStore.curQuotation.id }} -->
@@ -48,7 +54,7 @@
       <!-- Modal Footer -->
       <div class="modal-footer">
         <button @click="closeModal" class="cancel-button">Cancel</button>
-        <button @click="SetApprove" class="confirm-button">Approve</button>
+        <button @click="SetApprove" class="confirm-button">Submit Payment</button>
       </div>
     </div>
   </div>
@@ -225,12 +231,12 @@ export default {
 .modal {
   background: white;
   width: 80%;
-  max-width: 400px;
+  max-width: 800px;
     border-radius: 1rem;
     overflow: hidden;
   display: flex;
   flex-direction: column;
-  height: 60%;
+  height: 80%;
   /* Set the default height for larger screens */
   position: relative;
   /* Needed for proper footer placement */

@@ -27,7 +27,7 @@
               <h2 class="text-sm font-semibold text-gray-700">
                 Installment: <span class="text-gray-500 font-bold">Installment</span>
               </h2> -->
-          <div class="text-2xl uppercase">Payments</div>
+               <div class="text-2xl uppercase">Payments</div>
 
             </div>
 
@@ -75,8 +75,8 @@
               <!-- Details -->
               <div class="grid grid-cols-2 gap-x-2 gap-y- mt-2">
                 <div>
-                  <span class="font-semibold text-gray-500">Mode:</span>
-                  <span class="ml-1 text-gray-700">{{ item.payMode.trim() }}</span>
+                  <span class="font-semibold text-gray-500">Receipt No:</span>
+                  <span class="ml-1 text-gray-700">{{ item.receiptNo}}</span>
                 </div>
                 <div>
                   <span class="font-semibold text-gray-500">Ref:</span>
@@ -84,11 +84,11 @@
                 </div>
                 <div>
                   <span class="font-semibold text-gray-500">Receipt:</span>
-                  <span class="ml-1 text-gray-700">{{ item.receiptType.trim() }}</span>
+                  <span class="ml-1 text-gray-700">{{ item.receiptType }}</span>
                 </div>
                 <div>
                   <span class="font-semibold text-gray-500">Bank:</span>
-                  <span class="ml-1 text-gray-700">{{ item.bankName.trim() }}</span>
+                  <span class="ml-1 text-gray-700">{{ item.bankName }}</span>
                 </div>
                 <div class="col-span-2">
                   <span class="font-semibold text-gray-500">Remarks:</span>
@@ -107,6 +107,7 @@
                   📄 Slip
                 </a>
                 <a
+                  v-if="item.taxRegisteredClient"
                   class="text-blue-600 hover:underline flex items-center gap-1 cursor-pointer"
                   @click="handleInvoice(item)"
                 >

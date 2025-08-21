@@ -155,6 +155,9 @@ actions: {
 
       loadingAlert.close();
 
+      console.log(response);
+      
+
       if (response.data.isSuccess) {
         this.showToast(response.data.message, 'success');
         this.listVendor = response.data.data.data;
@@ -216,6 +219,7 @@ actions: {
       }
     },
 
+    // orderStore.js
     async GetQuotationApprove(formData) {
       try {
         const response = await axios.post(
@@ -224,17 +228,21 @@ actions: {
           { headers: { "Content-Type": "multipart/form-data" } }
         );
         if (response.data.isSuccess) {
+          const uploadedPath = response.data.data.data;
+          const orderNo = formData.get("orderNo");
 
-          this.piSigned = response.data.data.data;
-
-
-          this.showToast(response.data.message, "success");
+          const order = this.listOrder.find(o => o.orderNo === orderNo);
+          if (order) {
+            order.isSignedPIUploaded = true;
+            order.piSignedScanUrl = uploadedPath;
+          }
+          return { success: true, message: response.data.message };
         } else {
-          this.showToast(response.data.message, "error");
+          return { success: false, message: response.data.message };
         }
       } catch (error) {
-        this.showToast("An error occurred during approval", "error");
-        console.error(error);
+        console.error("GetQuotationApprove failed:", error);
+        return { success: false, message: "An error occurred during approval" };
       }
     },
 
@@ -277,10 +285,16 @@ actions: {
           formData
         );
 
+        console.log(response);
+        
+
         loadingAlert.close();
 
         if (response.data.isSuccess) {
           this.showToast(response.data.message, "success");
+          
+           this.PaymentDetails = response.data.data.data;
+
         } else {
           this.showToast(response.data.message, "error");
         }
@@ -292,7 +306,7 @@ actions: {
 
 
     async PrintInvoice(req, showLoading) {
-       console.log('API-GetGenerateInvoicePdf')
+      console.log('API-GetGenerateInvoicePdf')
       console.log(JSON.stringify(req));
 
       const loading = showLoading?.('');

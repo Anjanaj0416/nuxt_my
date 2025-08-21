@@ -12,7 +12,7 @@
             : 'bg-white text-blue-800 border border-blue-300 hover:bg-blue-100'
         ]"
       >
-        All
+        {{ t('all') }}
       </button>
     </div>
 
@@ -78,7 +78,7 @@
 
       
   >
-    <option value="" disabled>Select the District</option>
+    <option value="" disabled>{{ t('district') }}</option>
     <option v-for="district in districts" :key="district" :value="district">
       {{ district }}
     </option>
@@ -101,7 +101,7 @@
       bg-white text-blue-800 border border-blue-300 hover:bg-blue-100 shadow-sm
       w-full pr-8 cursor-pointer disabled:bg-gray-100 disabled:text-gray-400 disabled:cursor-not-allowed"
   >
-    <option value="" disabled >Select the City</option>
+    <option value="" disabled >{{ t('city') }}</option>
     <option v-for="city in citiesForSelectedDistrict" :key="city" :value="city">
       {{ city }}
     </option>
@@ -122,10 +122,12 @@
 </template>
 
 <script setup>
+import { useI18n } from 'vue-i18n'
 import { computed } from 'vue'
 import { useShopStore } from '~/stores/modules/Q-Appts/shops'
 
 const shopStore = useShopStore()
+const { t } = useI18n()
 
 const districtsCities = {
   Colombo: ['Colombo', 'Dehiwala', 'Nugegoda', 'Mount Lavinia'],
@@ -163,19 +165,19 @@ function onCityChange(event) {
   shopStore.setSelectedCity(event.target.value)
 }
 
-const distanceFilters = [
-  'Nearby (< 1KM)',
-  'Nearby (< 5KM)',
-  'Farther (> 5KM)',
-]
+const distanceFilters = computed(() => [
+  `${t('nearby')} (< 1KM)`,
+  `${t('nearby')} (< 5KM)`,
+  `${t('further')} (> 5KM)`,
+])
 
-const availabilityFilters = [
-  'Available in 30 min',
-  'Available in 1 hour',
-  'Available more than 1 hour',
-]
+const availabilityFilters = computed(() => [
+  t('availableIn30Mins'),
+  t('availableIn1Hour'),
+  t('availableMoreThan1Hour'),
+])
 
-const genderFilters = ['Male', 'Female']
+const genderFilters = computed(() => [t('male'), t('female')])
 
 const selectedDistance = computed(() => shopStore.selectedDistance)
 const selectedAvailability = computed(() => shopStore.selectedAvailability)

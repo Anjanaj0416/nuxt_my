@@ -189,11 +189,9 @@
         </div>
       </div>
 
-      <AddOrder v-if="isAddEdit && showAddProposal" @close="isAddEdit = false; showAddProposal = false" :customerRef="customerRef" :id="id"/>
-      <SignedPIUpload v-if="isSignedPIUploaded"  @close="isSignedPIUploaded = false"  :id="selectedOrderId" />
+      <AddOrder v-if="isAddEdit && showAddProposal" @close="isAddEdit = false; showAddProposal = false" :customerRef="customerRef" :id="id" />
+      <SignedPIUpload v-if="isSignedPIUploaded"    @close="isSignedPIUploaded = false"  :id="selectedOrderId" />
 
-
-      
     </section>
   </template>
   

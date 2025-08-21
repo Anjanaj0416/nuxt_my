@@ -12,45 +12,19 @@
         <div class="form-content">
           <div class="grid grid-cols-1 gap-4 mt-1 sm:grid-cols-1 md:grid-cols-2">
             <!-- {{ quotationStore.initPaymentDetails.listReceiptType }} -->
+            <!-- {{ orderId }} -->
             <div>
-              <label class="block text-sm font-bold text-gray-600">Pay Amount</label>
+              <label class="block text-sm font-bold text-gray-600">Paid Amount</label>
               <input 
-                type="number" 
-                v-model="Amount"
+                type="text"
+                v-model="formattedAmount"
+                @input="formatAmount"
                 placeholder="Enter pay amount"
                 class="w-full p-2 mt-2 text-sm border rounded-md" 
               />
                <p v-if="err.packageError" class="mt-2 text-sm text-red-600">
                 {{ err.packageError }}
                 </p>
-            </div>
-            <div>
-              <label class="block mb-2 text-sm font-semibold text-gray-700">Pay Mode</label>
-              <div class="relative">
-                <select
-                  v-model="PayMode"
-                  class="block w-full appearance-none bg-white border border-gray-300 text-sm text-gray-700 px-4 py-2 pr-10 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
-                >
-                  <option value="" disabled>Select Pay Mode</option>
-                  <option
-                    v-for="(mode, index) in quotationStore.initPaymentDetails.listPayMode"
-                    :key="index"
-                    :value="mode"
-                  >
-                    {{ mode }}
-                  </option>
-                </select>
-                <div class="pointer-events-none absolute inset-y-0 right-0 flex items-center pr-3">
-                  <svg class="w-4 h-4 text-gray-400" fill="none" stroke="currentColor" stroke-width="2"
-                    viewBox="0 0 24 24" stroke-linecap="round" stroke-linejoin="round">
-                    <path d="M6 9l6 6 6-6" />
-                  </svg>
-                </div>
-              </div>
-
-              <p v-if="err.payModeError" class="mt-2 text-sm text-red-600">
-                {{ err.payModeError }}
-              </p>
             </div>
             <div>
               <label class="block text-sm font-bold text-gray-600">Reference No</label>
@@ -60,14 +34,27 @@
                 placeholder="Enter reference no"
                 class="w-full p-2 mt-2 text-sm border rounded-md" 
               />
-               <p v-if="err.remarksError" class="mt-2 text-sm text-red-600">
-                {{ err.remarksError }}
+               <p v-if="err.referenceNoError" class="mt-2 text-sm text-red-600">
+                {{ err.referenceNoError }}
                 </p>
             </div>
             <div>
               <label class="block mb-2 text-sm font-semibold text-gray-700">Receipt Type</label>
               <div class="relative">
                 <select
+                  v-model="ReceiptType"
+                  class="w-full border border-gray-300 rounded px-3 py-2 mt-2 text-sm text-gray-700 px-4 py-2 pr-10"
+                >
+                  <option disabled value="">Select Receipt Type</option>
+                  <option
+                    v-for="(cat, index) in quotationStore.initPaymentDetails.listReceiptType"
+                    :key="index"
+                    :value="cat"
+                  >
+                    {{ cat }}
+                  </option>
+                </select>
+                <!-- <select
                   v-model="ReceiptType"
                   class="block w-full appearance-none bg-white border border-gray-300 text-sm text-gray-700 px-4 py-2 pr-10 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
                 >
@@ -79,32 +66,50 @@
                   >
                     {{ mode }}
                   </option>
-                </select>
-                <div class="pointer-events-none absolute inset-y-0 right-0 flex items-center pr-3">
-                  <svg class="w-4 h-4 text-gray-400" fill="none" stroke="currentColor" stroke-width="2"
-                    viewBox="0 0 24 24" stroke-linecap="round" stroke-linejoin="round">
-                    <path d="M6 9l6 6 6-6" />
-                  </svg>
-                </div>
+                </select> -->
+                
               </div>
                <p v-if="err.receiptTypeError" class="mt-2 text-sm text-red-600">
                 {{ err.receiptTypeError }}
                 </p>
             </div>
             <div>
-              <label class="block text-sm font-bold text-gray-600">Bank Name</label>
-              <input 
-                type="text" 
-                v-model="BankName"
-                placeholder="Enter reference no"
-                class="w-full p-2 mt-2 text-sm border rounded-md" 
-              />
+              <label class="block text-sm mb-2 font-bold text-gray-600">Bank Name</label>
+              <div class="relative">
+                <!-- <select
+                  v-model="BankName"
+                  class="block w-full appearance-none bg-white border border-gray-300 text-sm text-gray-700 px-4 py-2 pr-10 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
+                >
+                  <option value="" selected>Select Bank</option>
+                  <option
+                    v-for="(bank, index) in quotationStore.initPaymentDetails.listBanks"
+                    :key="index"
+                    :value="bank"
+                  >
+                    {{ bank }}
+                  </option>
+                </select> -->
+                <select
+                  v-model="BankName"
+                  class="w-full border border-gray-300 rounded px-3 py-2 mt-2 text-sm text-gray-700 px-4 py-2 pr-10"
+                >
+                  <option disabled value="">Select Bank</option>
+                  <option
+                    v-for="(cat, index) in quotationStore.initPaymentDetails.listBanks"
+                    :key="index"
+                    :value="cat.id"
+                  >
+                    {{ cat.value }}
+                  </option>
+                </select>
+              </div>
                <p v-if="err.bankNameError" class="mt-2 text-sm text-red-600">
                 {{ err.bankNameError }}
                 </p>
+              
             </div>
             <div>
-              <label class="block text-sm font-bold text-gray-600">Original Advance Receipt No</label>
+              <label class="block text-sm font-bold text-gray-600">Advance Receipt No</label>
               <input 
                 type="text" 
                 v-model="OriginalAdvanceReceiptNo"
@@ -116,19 +121,20 @@
                 </p>
             </div>
             <div>
-              <label class="block text-sm font-bold text-gray-600">Original Advance Receipt Date</label>
+              <label class="block text-sm font-bold text-gray-600">Advance Receipt Date</label>
               <input 
                 type="date" 
                 v-model="OriginalAdvanceReceiptDate"
                 placeholder="Enter Pay Date"
                 class="w-full p-2 mt-2 text-sm border rounded-md" 
+                min="2025-05-02"
               />
                <p v-if="err.originalAdvanceReceiptDateError" class="mt-2 text-sm text-red-600">
                 {{ err.originalAdvanceReceiptDateError }}
                 </p>
             </div>
             <div>
-              <label class="block text-sm mb-2 font-bold text-gray-600"> Attach Approval Proof Payment</label>
+              <label class="block text-sm mb-2 font-bold text-gray-600"> Attachment For Payment Referance</label>
               
               <imagepicker1
                 @GetSelectedImage="GetAttachedImage"
@@ -149,7 +155,7 @@
               </p>
             </div>
           </div>
-          <div class="grid grid-cols-1 gap-4 mt-1 sm:grid-cols-1 md:grid-cols-1">
+          <div class="grid grid-cols-1 gap-4 mt-1 sm:grid-cols-1 md:grid-cols-1 mb-8">
             <div>
               <label class="block text-sm font-bold text-gray-600">Remarks</label>
               <textarea 
@@ -159,9 +165,6 @@
                 placeholder="Enter remarks"
                 class="w-full p-2 mt-2 text-sm border rounded-md" 
               />
-               <p v-if="err.remarksError" class="mt-2 text-sm text-red-600">
-                {{ err.remarksError }}
-                </p>
             </div>
           </div>
           <div>
@@ -207,8 +210,12 @@ export default {
       PayAmount: "",
       PayTerms:"",
       PayDate: "",
+      ReceiptType: "" ,
+      BankName: "",
       isOpen: true,
       err: { PaymentSlipImage: "" },
+      formattedAmount: '', // the formatted string
+      Amount: 0, 
     };
   },
   async created() {
@@ -233,6 +240,20 @@ export default {
       }
     },
 
+  formatAmount() {
+    // Remove anything except numbers and dot
+    let numericValue = this.formattedAmount.replace(/[^0-9.]/g, '');
+
+    // Split by dot to handle decimals
+    let parts = numericValue.split('.');
+    let integerPart = parts[0].replace(/\B(?=(\d{3})+(?!\d))/g, ','); // Add comma for thousands
+    let decimalPart = parts[1] ? parts[1].slice(0, 2) : '00'; // Keep max 2 decimal digits
+
+    this.formattedAmount = decimalPart ? `${integerPart}.${decimalPart}` : `${integerPart}.00`;
+
+    // Store numeric value for backend
+    this.Amount = parseFloat(this.formattedAmount.replace(/,/g, '')) || 0;
+  },
 //     handleFileUpload(event) {
 //   const file = event.target.files[0];
 //   if (file) {
@@ -241,44 +262,38 @@ export default {
 // },
 
 
-    SetApprove() {
-      if (this.IsValidate()) {
-       
-        this.$showConfirm(
-          "Are you sure to Save this Payment?",
-          "warning"
-        ).then(async (result) => {
-          if (result.isConfirmed) {
-            const formData = new FormData();
-            formData.append("OrderId", this.orderId || "");
-            formData.append("Amount", this.Amount || "");
-            formData.append("PayMode", this.PayMode || "");
-            formData.append("Remarks", this.Remarks || "");
-            formData.append("ReferenceNo", this.ReferenceNo || "");
-            formData.append("ReceiptType", this.ReceiptType || "");
-            formData.append("BankName", this.BankName || "");
-            formData.append("OriginalAdvanceReceiptNo", this.OriginalAdvanceReceiptNo || "");
-            formData.append("OriginalAdvanceReceiptDate", this.OriginalAdvanceReceiptDate || "");
-            if (this.PaymentSlipImage) {
-              formData.append("PaymentSlipImage", this.PaymentSlipImage);
-            }
-          for (let [key, value] of formData.entries()) {
-            // console.log(`${key}:`, value);
-          }
-          
-          await this.orderStore.getDoPay(formData, this.showLoading);
-          
+  async SetApprove() {
+    if (!this.IsValidate()) return;
 
-          this.closeModal();
-           
-          } else {
-            console.log("Action canceled");
-          }
-          this.closeModal();
-  
-        });
-      }
-    },
+    const confirmed = await this.$showConfirm(
+      "Are you sure to Save this Payment?",
+      "warning"
+    );
+
+    if (!confirmed.isConfirmed) return;
+
+    const formData = new FormData();
+    formData.append("OrderId", this.orderId || "");
+    formData.append("Amount", this.Amount || "");
+
+    formData.append("Remarks", this.Remarks || "");
+    formData.append("ReferenceNo", this.ReferenceNo || "");
+    formData.append("ReceiptType", this.ReceiptType || "");
+    formData.append("BankName", this.BankName || "");
+    formData.append("OriginalAdvanceReceiptNo", this.OriginalAdvanceReceiptNo || "");
+    formData.append("OriginalAdvanceReceiptDate", this.OriginalAdvanceReceiptDate || "");
+    if (this.PaymentSlipImage) {
+      formData.append("PaymentSlipImage", this.PaymentSlipImage);
+    }
+
+    // Do the payment
+    const success = await this.orderStore.getDoPay(formData, this.showLoading);
+
+
+      this.closeModal();
+    
+  },
+
 
  
 
@@ -305,20 +320,6 @@ export default {
             isSuccess = false;
         } else {
             this.err.originalAdvanceReceiptDateError = "";
-        }
-
-        if (!this.PayMode) {
-            this.err.payModeError = "Please enter PayMode.";
-            isSuccess = false;
-        } else {
-            this.err.payModeError = "";
-        }
-
-        if (!this.Remarks) {
-            this.err.remarksError = "Please enter remarks.";
-            isSuccess = false;
-        } else {
-            this.err.remarksError = "";
         }
 
         if (!this.ReferenceNo) {

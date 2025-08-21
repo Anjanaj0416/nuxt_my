@@ -28,7 +28,7 @@
               </div>
             </div>
           </div>
-{{ curVendor }}
+<!-- {{ curVendor }} -->
           <div class="grid grid-cols-1 gap-4 mt-4 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-3">
             <div v-if="isEditing" class="mb-2">
                 <label class="block text-sm font-bold text-gray-600 mb-1">Customer Ref</label>
@@ -133,7 +133,14 @@
             <div class="">
               <label class="block text-sm font-bold text-gray-600 mb-1">QR Link</label>
               <span class="inline-block text-sm font-semibold text-gray-800" v-if="curVendor.storeUrl">
+                <a 
+                  :href="curVendor.storeUrl" 
+                  target="_blank" 
+                  rel="noopener noreferrer"
+                  class="text-blue-600 hover:underline"
+                >
                 {{ curVendor.storeUrl }}
+                </a>
               </span>
               <span class="inline-block text-sm italic text-gray-500" v-else>
                 NO data
