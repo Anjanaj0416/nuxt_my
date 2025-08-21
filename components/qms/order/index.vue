@@ -60,6 +60,12 @@
                 <p class="text-sm font-semibold text-gray-800">Rs. {{ order.orderAmount }}</p>
               </div>
               <div class="hidden sm:block w-px bg-gray-300 h-8"></div>
+              <div class="flex flex-col text-center sm:text-left">
+
+                <h1 class="text-xs font-medium text-gray-600">Settled Amount</h1>
+                <p class="text-sm font-semibold text-gray-800">Rs. {{ order.orderSettledAmount }}</p>
+              </div>
+              <div class="hidden sm:block w-px bg-gray-300 h-8"></div>
 
               <div class="flex flex-col text-center sm:text-left">
                 <h1 class="text-xs font-medium text-gray-600">Proforma</h1>
@@ -106,6 +112,7 @@
                   :class="{
                     'bg-green-100 text-green-700': order.orderStatus === 'Check All Paid',
                     'bg-yellow-100 text-yellow-700': order.orderStatus === 'pending',
+                    'bg-yellow-900 text-white': order.orderStatus === 'Active',
                     'bg-red-100 text-red-700': order.orderStatus === 'Canceled'
                   }"
                   class="text-xs font-semibold px-2 py-0.5 rounded-full"

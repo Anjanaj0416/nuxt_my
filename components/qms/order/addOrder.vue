@@ -543,9 +543,15 @@ export default {
               }))
             };
 
-            // console.log("Payload to send:", JSON.stringify(payload, null, 2));
+            console.log("Payload to send:", JSON.stringify(payload, null, 2));
 
             await this.orderStore.GetAddorder(payload, this.showLoading);
+            
+            // refresh list after add
+            await this.orderStore.loadListOrder(
+              { keyword: this.id, searchBy: 'clientId' },
+              this.showLoading
+            );
             
           } else {
             console.log("Action canceled");

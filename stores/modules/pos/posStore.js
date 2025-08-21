@@ -5,6 +5,7 @@ import Swal from "sweetalert2";
 export const useposStore = defineStore("posStore",{
     state: () => ({
         initPosData: {},
+        listSubCategories: {},
     }),
     persist: true,
 
@@ -19,7 +20,7 @@ actions: {
           `${import.meta.env.VITE_API_URL}/POS/InitPOS`
         );
 
-        console.log(response);
+        // console.log(response);
         
 
         if (response.data.isSuccess) {
@@ -29,6 +30,40 @@ actions: {
         }
       } catch (error) {
         this.showToast("Failed to load vendor data", "error");
+      }
+    },
+
+
+    async setSelectedMainCategoryId(masterId, showLoading) {
+      console.log('API-GetItemsByCategory');
+      console.log("Category ID:", JSON.stringify(masterId));
+
+      const loadingAlert = showLoading("");
+
+      try {
+        const response = await axios.get(
+          `${import.meta.env.VITE_API_URL}/POS/GetSubCategoriesByMainCategories?id=${masterId}`
+        );
+
+        loadingAlert.close();
+
+        if (response.data.isSuccess) {
+          const items = response.data.data.data;
+          
+          // Log the full nested data
+    
+          console.log("items:", items);
+
+          this.listSubCategories = items;
+
+          this.showToast(response.data.message);
+        } else {
+          this.showToast(response.data.message, "error");
+        }
+      } catch (error) {
+        loadingAlert.close();
+        console.error("API error:", error);
+        this.showToast("Failed to fetch category items", "error");
       }
     },
 
