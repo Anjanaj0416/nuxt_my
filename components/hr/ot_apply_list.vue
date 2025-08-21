@@ -235,42 +235,46 @@ export default {
       this.dtfrom = this.$refs.datediffRef.dtfrom;
       this.dtto = this.$refs.datediffRef.dtto;
 
-      if (this.validate()) {
-        if (confirm('Sure to apply this OT Pre-Approval?')) {
-          let req = {
-            EmpNo: this.oTPreApprovalRequest.empno,
-            Date: this.oTPreApprovalRequest.date,
-            OTFrom: this.oTPreApprovalRequest.OTFrom,
-            OTTo: this.oTPreApprovalRequest.OTTo,
-            OTHour: this.oTPreApprovalRequest.otHour,
-            Reason: this.oTPreApprovalRequest.Reason,
-            FromDate: this.dtfrom,
-            ToDate: this.dtto,
-            Note: "OTBtn"
+      this.$showConfirm("Sure to apply this OT Pre-Approval?", "warning")
+        .then(async (result) => {
+          if (result.isConfirmed) {
+            let req = {
+              EmpNo: this.oTPreApprovalRequest.empno,
+              Date: this.oTPreApprovalRequest.date,
+              OTFrom: this.oTPreApprovalRequest.OTFrom,
+              OTTo: this.oTPreApprovalRequest.OTTo,
+              OTHour: this.oTPreApprovalRequest.otHour,
+              Reason: this.oTPreApprovalRequest.Reason,
+              FromDate: this.dtfrom,
+              ToDate: this.dtto,
+              Note: "OTBtn"
+            }
+            await this.hrStore.setOTApproval(req, this.showLoading)
+            this.oTPreApprovalRequest = {}
           }
-          await this.hrStore.setOTApproval(req, this.showLoading)
-        }
-        this.oTPreApprovalRequest = {}
-      }
+        });
     },
 
     async deleteRecord(ot_id) {
-      if (confirm('Sure to delete this OT Pre-Approval?')) {
-        let req = {
-          id: ot_id
-        }
-        await this.hrStore.setDeleteOTApproval(req, this.showLoading);
+      this.$showConfirm("Sure to delete this OT Pre-Approval?", "warning")
+        .then(async (result) => {
+          if (result.isConfirmed) {
+            let req = {
+              id: ot_id
+            }
+            await this.hrStore.setDeleteOTApproval(req, this.showLoading);
 
-        this.dtfrom = this.$refs.datediffRef.dtfrom;
-        this.dtto = this.$refs.datediffRef.dtto;
+            this.dtfrom = this.$refs.datediffRef.dtfrom;
+            this.dtto = this.$refs.datediffRef.dtto;
 
-        let reqSetDeleteOTApproval = {
-          empNo: this.empno,
-          fromDate: this.dtfrom,
-          toDate: this.dtto,
-        };
-        await this.hrStore.getOTApprovals(reqSetDeleteOTApproval, this.showLoading);
-      }
+            let reqSetDeleteOTApproval = {
+              empNo: this.empno,
+              fromDate: this.dtfrom,
+              toDate: this.dtto,
+            };
+            await this.hrStore.getOTApprovals(reqSetDeleteOTApproval, this.showLoading);
+          }
+        });
     },
 
     async getclose() {
