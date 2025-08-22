@@ -4,8 +4,9 @@ import Swal from "sweetalert2";
 
 export const useposStore = defineStore("posStore",{
     state: () => ({
-        initPosData: {},
-        listSubCategories: {},
+        listMainCategories: [],
+        listSubCategories: [],
+        listItems: [],
     }),
     persist: true,
 
@@ -20,11 +21,12 @@ actions: {
           `${import.meta.env.VITE_API_URL}/POS/InitPOS`
         );
 
-        // console.log(response);
+         console.log(response);
         
 
         if (response.data.isSuccess) {
-          this.initPosData = response.data.data.data;
+          console.log(response.data.data.data);
+         // this.initPosData = response.data.data.data;
         } else {
           this.showToast(response.data.message, "error");
         }
