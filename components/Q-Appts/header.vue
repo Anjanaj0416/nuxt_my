@@ -13,7 +13,7 @@
         <NuxtLink to="/customer" class="hover:text-blue-600">{{ t('contact') }}</NuxtLink>
       </nav>
 
-      <div class="flex gap-2">
+      <div class="flex flex-wrap gap-2 text-sm md:text-base justify-center md:justify-start">
         <button @click="switchLang('si')">සිංහල</button>
         <button @click="switchLang('en')">| English |</button>
         <button @click="switchLang('ta')">தமிழ்</button>
