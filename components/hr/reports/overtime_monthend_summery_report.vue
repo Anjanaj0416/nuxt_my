@@ -2,28 +2,7 @@
     <section class="justify-center min-h-screen px-4 mt-24 mb-20 lg:px-60">
       <div class="text-2xl uppercase">Overtime Month-End Report</div>
       <div class="bg-gradient-to-r from-blue-900 via-indigo-700 to-blue-600 shadow-md rounded-lg p-6 mt-10 mb-10 border text-white">
-        <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
-          <div>
-            <label class="block mb-1 font-medium">Employee</label>
-            <selectinput2
-            v-model="selectedEmployee"
-            :selections="hrStore.initData.initReport.arrEmp"
-            :isReport=true
-            @change="logSelectedDates"
-            placeholder="Select Employee"
-            class=" text-gray-900 text-sm focus:ring-indigo-500 focus:border-indigo-500"
-          />
-            <!-- <div class="relative">
-              <input 
-                type="date" 
-                v-model="dateFrom"
-                placeholder="Enter Designation" 
-                @change="logSelectedDates"
-                required
-                class="w-full p-2 mt-2 text-gray-900 text-sm border rounded-md focus:ring-indigo-500 focus:border-indigo-500" 
-              />
-            </div> -->
-          </div>
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
           <div>
             <label class="block mb-1 font-medium">Year</label>
             <div class="relative">
@@ -34,14 +13,6 @@
             @change="logSelectedDates"
             class=" text-gray-900 text-sm focus:ring-indigo-500 focus:border-indigo-500"
           />
-              <!-- <input 
-                type="date" 
-                v-model="dateFrom"
-                placeholder="Enter Designation" 
-                @change="logSelectedDates"
-                required
-                class="w-full p-2 mt-2 text-gray-900 text-sm border rounded-md focus:ring-indigo-500 focus:border-indigo-500" 
-              /> -->
             </div>
           </div>
           <div>
@@ -55,14 +26,6 @@
             @change="logSelectedDates"
             class=" text-gray-900 text-sm focus:ring-indigo-500 focus:border-indigo-500"
           />
-              <!-- <input 
-                type="date" 
-                v-model="dateTo"
-                placeholder="Enter Designation" 
-                @change="logSelectedDates"
-                required
-                class="w-full p-2 mt-2 text-sm border text-gray-900 rounded-md focus:ring-indigo-500 focus:border-indigo-500 dark:text-gray-900" 
-              /> -->
             </div>
           </div>
         </div>
@@ -72,44 +35,8 @@
         v-if="!selectedYear || !selectedMonth" 
         class="text-sm text-gray-500 italic text-center"
       >
-        Please select an Employee, Year and Month..
+        Please select a Year and Month..
       </p>
-
-
-      <!-- <div class="bg-white p-6 rounded shadow border mt-6">
-        <p class="text-sm text-gray-500 italic text-center">Report preview will appear here after selection.</p>
-        <h2 class="text-lg font-semibold mb-4">Generated Reports</h2>
-        <ul class="space-y-4">
-          <li class="flex items-center justify-between border p-4 rounded hover:bg-gray-50 transition">
-            <div class="flex items-center space-x-3">
-              <i class="fas fa-file-alt text-blue-600 text-xl"></i>
-              <span class="text-gray-800 font-medium">January 2025 - Matara Arachchi</span>
-            </div>
-            <a
-              href="http://localhost:3000/hr/reports/overtime_individual_summery_report?user=JohnDoe&month=01&year=2025"
-              target="_blank"
-              class="text-blue-600 hover:underline text-sm"
-            >
-              View
-            </a>
-          </li>
-          <li class="flex items-center justify-between border p-4 rounded hover:bg-gray-50 transition">
-            <div class="flex items-center space-x-3">
-              <i class="fas fa-file-alt text-blue-600 text-xl"></i>
-              <span class="text-gray-800 font-medium">February 2025 - Nimal</span>
-            </div>
-            <a
-              href="http://localhost:3000/hr/reports/overtime_individual_summery_report?user=JaneSmith&month=02&year=2025"
-              target="_blank"
-              class="text-blue-600 hover:underline text-sm"
-            >
-              View
-            </a>
-          </li>
-        </ul>
-      </div> -->
-
-
     </section>
 </template>
 
@@ -144,7 +71,6 @@
         imageroot: "",
         showLoading: null,
         isReport: false,
-        selectedEmployee: '',
         selectedYear: '',
         selectedMonth: ''
         }
@@ -166,13 +92,12 @@
     methods: {
 
         async logSelectedDates() {
-        if (!this.selectedEmployee || !this.selectedYear || !this.selectedMonth) {
-            this.$showToast('Please select an Employee, Year and Month', 'warning');
+        if (!this.selectedYear || !this.selectedMonth) {
+            this.$showToast('Please select a Year and Month', 'warning');
             return;
         }
 
         const req = {
-            EmpNo: this.selectedEmployee,
             Year: this.selectedYear,
             Month: this.selectedMonth,
         };
