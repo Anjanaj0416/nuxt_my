@@ -54,8 +54,8 @@ actions: {
 
     //loadListLeads
     async loadListLeads(req, showLoading) {
-       console.log('API-GetVendorLeads');
-    console.log(JSON.stringify(req));
+      console.log('API-GetVendorLeads');
+      console.log(JSON.stringify(req));
     
       
       const loadingAlert = showLoading("");

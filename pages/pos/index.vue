@@ -11,16 +11,16 @@
           :key="master.id"
           @click="selectMasterCategory(master.id)"
           :class="selectedMasterCategory === master.id 
-            ? 'bg-blue-600 text-white' 
+            ? 'bg-blue-800 text-white' 
             : 'bg-blue-500 text-white'"
           class="flex-shrink-0 px-3 py-1.5 rounded-full shadow-lg hover:scale-105 transition"
         >
-          {{ master.name }}
+          {{ master.value  }}
         </button>
 
       </div>
 
-      <!-- <pre>{{ initPosData }}</pre> -->
+      <pre>{{ listSubCategories }}</pre>
 
 
       <!-- POS Layout -->
@@ -37,8 +37,9 @@
                 : 'bg-white text-gray-700'"
               class="flex flex-col items-center justify-center p-2 rounded-xl hover:scale-105 transition"
             >
-              <span class="text-xl mb-1">{{ cat.icon }}</span>
-              <span class="text-xs text-center truncate">{{ cat.name }}</span>
+              <!-- <span class="text-xl mb-1">{{ cat.icon }}</span> -->
+               <img v-if="cat.imageUrl" :src="cat.imageUrl" class="w-8 h-8 rounded mb-1"/>
+              <span class="text-xs text-center truncate">{{ cat.value  }}</span>
             </button>
           </div>
         </div>
@@ -53,10 +54,10 @@
 
           >
             <div class="w-full aspect-[4/3] bg-gray-200 rounded-t-2xl overflow-hidden">
-              <img :src="item.image || 'https://via.placeholder.com/600x400?text=No+Image'" class="w-full h-full object-cover"/>
+              <img :src="item.itemImage  || 'https://via.placeholder.com/600x400?text=No+Image'" class="w-full h-full object-cover"/>
             </div>
             <div class="p-2 flex flex-col items-center justify-between">
-              <div class="text-sm font-semibold text-gray-800 truncate">{{ item.name }}</div>
+              <div class="text-sm font-semibold text-gray-800 truncate">{{ item.itemName  }}</div>
               <div class="text-xs text-gray-600 mt-1">₨{{ item.price?.toLocaleString('en-LK', { minimumFractionDigits: 2 }) }}</div>
             </div>
           </div>
@@ -146,7 +147,7 @@
             </div>
           </div>
           <div class="mt-6 grid grid-cols-3 gap-3">
-            <button   @click="handleCashClick('cash')" class="bg-green-500 hover:bg-green-600 text-white py-2 rounded-lg font-semibold shadow-md">Cash</button>
+            <button @click="handleCashClick('cash')" class="bg-green-500 hover:bg-green-600 text-white py-2 rounded-lg font-semibold shadow-md">Cash</button>
             <button @click="makePayment('card')" class="bg-blue-500 hover:bg-blue-600 text-white py-2 rounded-lg font-semibold shadow-md">Card</button>
             <button @click="makePayment('other')" class="bg-gray-500 hover:bg-gray-600 text-white py-2 rounded-lg font-semibold shadow-md">Other</button>
           </div>
@@ -258,6 +259,28 @@
       </div>
     </div>
     <CashMethod v-if="isCashPayment" @close="isCashPayment = false" />
+    <!-- Fullscreen Button (Desktop only) -->
+      <button
+        @click="toggleFullScreen"
+        class="hidden lg:flex fixed bottom-6 right-6 bg-gradient-to-r from-blue-500 to-indigo-600 text-white 
+              p-4 rounded-full shadow-2xl z-50 hover:scale-110 hover:rotate-6 
+              transition-all duration-300 ease-out"
+      >
+        <!-- Enter Fullscreen Icon -->
+        <svg v-if="!isFullScreen" xmlns="http://www.w3.org/2000/svg" 
+            class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+          <path stroke-linecap="round" stroke-linejoin="round" 
+                d="M4 8V4h4M20 8V4h-4M4 16v4h4M20 16v4h-4" />
+        </svg>
+
+        <!-- Exit Fullscreen Icon -->
+        <svg v-else xmlns="http://www.w3.org/2000/svg" 
+            class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+          <path stroke-linecap="round" stroke-linejoin="round" 
+                d="M4 4h6v2H6v4H4V4zm10 0h6v6h-2V6h-4V4zm6 10v6h-6v-2h4v-4h2zm-10 6H4v-6h2v4h4v2z" />
+        </svg>
+      </button>
+
   </section>
 </template>
 
@@ -275,49 +298,10 @@ export default {
   components: { headerdd,CashMethod },
   data() {
     return {
+      isFullScreen: false,
       isCashPayment: false,
-      masterCategories: [
-        {
-          id: 'food',
-          name: 'Food',
-          subCategories: [
-            { id: 'breakfast', name: 'Breakfast', icon: '🍎' },
-            { id: 'pizza', name: 'Pizza', icon: '🍕' },
-            { id: 'soups', name: 'Soups', icon: '🥣' }
-          ]
-        },
-        {
-          id: 'drinks',
-          name: 'Drinks',
-          subCategories: [
-            { id: 'cold', name: 'Cold Drinks', icon: '🥤' },
-            { id: 'hot', name: 'Hot Drinks', icon: '☕' }
-          ]
-        },
-        {
-          id: 'sweets',
-          name: 'Sweets',
-          subCategories: [
-            { id: 'cakes', name: 'Cakes', icon: '🍰' },
-            { id: 'icecream', name: 'Ice Cream', icon: '🍨' }
-          ]
-        }
-      ],
-      selectedMasterCategory: 'food',
-      selectedCategory: 'breakfast',
-      items: [
-        { name: "Ham Sandwich", price: 1600, code: "M23", image: "https://www.indianveggiedelight.com/wp-content/uploads/2017/03/vegetable-mayonnaise-sandwich-featured.jpg", category: "breakfast" },
-        { name: "Tuna Sandwich", price: 2100, code: "M25", category: "Drinks" },
-        { name: "Steak Sandwich", price: 2100, code: "M28", category: "breakfast" },
-        { name: "Cheese Burger", price: 1800, code: "M30", category: "breakfast" },
-        { name: "Steak Sandwich", price: 2100, code: "M28", category: "breakfast" },
-        { name: "Cheese Burger", price: 1800, code: "M30", category: "breakfast" },
-        { name: "Steak Sandwich", price: 2100, code: "M28", category: "breakfast" },
-        { name: "Cheese Burger", price: 1800, code: "M30", category: "breakfast" },
-        { name: "Coca Cola", price: 1200, code: "C09", category: "Drinks" },
-        { name: "Fanta", price: 1200, code: "C11", category: "cold" },
-        { name: "Coffee", price: 800, code: "H01", category: "hot" }
-      ],
+      selectedMasterCategory: null,
+      selectedCategory: null,
       cart: [],
       subDiscount: 0,
       cvatRate: 0,
@@ -332,20 +316,33 @@ export default {
     this.showLoading = this.$showLoading;
 
     await this.posStore.loadInitPosData(this.showLoading);
+    // this.initPosData = this.posStore.initPosData;
 
-    this.initPosData = this.posStore.initPosData;
+    if (this.masterCategories.length > 0) {
+      const firstMasterId = this.masterCategories[0].id;
+      await this.selectMasterCategory(firstMasterId);
+    }
+
+    this.listSubCategories = this.posStore.listSubCategories
 
   },
+  
   computed: {
     initPosData() {
-    return this.posStore.initPosData;
-  },
+      return this.posStore.initPosData;
+    },
+    masterCategories() {
+      return this.initPosData.listMainCategries || [];
+    },
     categories() {
-      const master = this.masterCategories.find(m => m.id === this.selectedMasterCategory);
-      return master ? master.subCategories : [];
+      return (this.initPosData.listSubCategories || []).filter(
+        (cat) => cat.masterId === this.selectedMasterCategory
+      );
     },
     filteredItems() {
-      return this.items.filter(i => i.category === this.selectedCategory);
+      return (this.initPosData.listItems || []).filter(
+        (item) => item.subCategoryId === this.selectedCategory
+      );
     },
     totalBeforeTax() {
       return this.cart.reduce((sum, i) => sum + ((i.price * (i.qty || 1)) - (i.discount || 0)), 0);
@@ -370,15 +367,49 @@ export default {
         this.cart.push({ ...item, qty: 1, discount: 0 });
       }
     },
-    selectMasterCategory(masterId) {
+
+    async selectMasterCategory(masterId) {
       this.selectedMasterCategory = masterId;
-      // Automatically select first subcategory
-      const master = this.masterCategories.find(m => m.id === masterId);
-      if (master && master.subCategories.length) {
-        this.selectedCategory = master.subCategories[0].id;
+
+      // auto-select first subcategory
+      const subCats = (this.initPosData.listSubCategories || []).filter(
+        (cat) => cat.masterId === masterId
+      );
+      this.selectedCategory = subCats.length > 0 ? subCats[0].id : null;
+
+      // Wait for next tick so Vue updates reactive properties
+      await this.$nextTick();
+
+      // Call store after selection
+      if (this.posStore && this.posStore.setSelectedMainCategoryId) {
+        await this.posStore.setSelectedMainCategoryId(masterId, this.showLoading);
+      }
+    },
+
+    toggleFullScreen() {
+      if (!document.fullscreenElement) {
+        document.documentElement.requestFullscreen().then(() => {
+          this.isFullScreen = true;
+        });
+      } else {
+        document.exitFullscreen().then(() => {
+          this.isFullScreen = false;
+        });
       }
     }
+
   },
+  mounted() {
+    document.addEventListener("fullscreenchange", () => {
+      this.isFullScreen = !!document.fullscreenElement;
+    });
+  },
+  beforeUnmount() {
+    document.removeEventListener("fullscreenchange", () => {
+      this.isFullScreen = !!document.fullscreenElement;
+    });
+  },
+
   async beforeMount() {
    if (this.userStore.loggeduser && !this.userStore.loggeduser.granted.contains('pos') ) {
       } else {        
@@ -387,6 +418,7 @@ export default {
       }
   
     },
+
 };
 </script>
 

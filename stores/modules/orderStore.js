@@ -21,8 +21,7 @@ actions: {
 
     try {
       const response = await axios.get(
-        `${import.meta.env.VITE_API_URL}/qms/Order/GetNextAvaialblePINumber`,
-        { params: { vendorId } }
+        `${import.meta.env.VITE_API_URL}/qms/Order/GetNextAvaialblePINumber?clientId=${vendorId}`,
       );
 
       if (response.data.isSuccess) {
@@ -45,7 +44,7 @@ actions: {
         `${import.meta.env.VITE_API_URL}/qms/Order/GetIssuePINumber`,
         {
             params: {
-            vendorId: request.vendorId,
+            clientId: request.vendorId,
             PINo: request.PINo,
             },
         }
@@ -156,11 +155,10 @@ actions: {
       loadingAlert.close();
 
       console.log(response);
-      
-
       if (response.data.isSuccess) {
         this.showToast(response.data.message, 'success');
-        this.listVendor = response.data.data.data;
+        this.listOrder = response.data.data.data;
+        
       } else {
         console.error('Backend error:', response.data.message);
         this.showToast(response.data.message || 'Unknown error', 'error');

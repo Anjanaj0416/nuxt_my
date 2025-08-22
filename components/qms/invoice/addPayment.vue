@@ -254,12 +254,13 @@ export default {
     // Store numeric value for backend
     this.Amount = parseFloat(this.formattedAmount.replace(/,/g, '')) || 0;
   },
-//     handleFileUpload(event) {
-//   const file = event.target.files[0];
-//   if (file) {
-//     this.PaymentSlipImage = file;
-//   }
-// },
+
+  //     handleFileUpload(event) {
+  //   const file = event.target.files[0];
+  //   if (file) {
+  //     this.PaymentSlipImage = file;
+  //   }
+  // },
 
 
   async SetApprove() {
@@ -287,10 +288,12 @@ export default {
     }
 
     // Do the payment
-    const success = await this.orderStore.getDoPay(formData, this.showLoading);
+    await this.orderStore.getDoPay(formData, this.showLoading);
 
+     // refresh list after add
+    await this.orderStore.GettPaymentDetails(this.orderId, this.showLoading);
 
-      this.closeModal();
+    this.closeModal();
     
   },
 
