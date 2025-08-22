@@ -187,7 +187,7 @@ export default {
                 LeaveType: this.absense_apply.leave_type,
                 StartDate: this.absense_apply.start_date,
                 StartTime: this.absense_apply.start_time,
-                EndDate: this.absense_apply.end_date,
+                EndDate: this.absense_apply.start_date,
                 EndTime: this.absense_apply.end_time,
               };
               await this.hrStore.setLeave(reqSetLeave, this.showLoading);

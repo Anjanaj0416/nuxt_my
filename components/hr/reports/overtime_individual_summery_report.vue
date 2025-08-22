@@ -1,11 +1,19 @@
 <template>
     <section class="justify-center min-h-screen px-4 mt-24 mb-20 lg:px-60">
-      <div class="text-2xl uppercase">Overtime individual Report</div>
+      <div class="text-2xl uppercase">Overtime Individual Report</div>
       <div class="bg-gradient-to-r from-blue-900 via-indigo-700 to-blue-600 shadow-md rounded-lg p-6 mt-10 mb-10 border text-white">
-        <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
           <div>
-            <label class="block mb-1 font-medium">From</label>
-            <div class="relative">
+            <label class="block mb-1 font-medium">Employee</label>
+            <selectinput2
+            v-model="selectedEmployee"
+            :selections="hrStore.initData.initReport.arrEmp"
+            :isReport=true
+            @change="logSelectedDates"
+            placeholder="Select Employee"
+            class=" text-gray-900 text-sm focus:ring-indigo-500 focus:border-indigo-500"
+          />
+            <!-- <div class="relative">
               <input 
                 type="date" 
                 v-model="dateFrom"
@@ -14,29 +22,57 @@
                 required
                 class="w-full p-2 mt-2 text-gray-900 text-sm border rounded-md focus:ring-indigo-500 focus:border-indigo-500" 
               />
+            </div> -->
+          </div>
+          <div>
+            <label class="block mb-1 font-medium">Year</label>
+            <div class="relative">
+              <selectinput2
+            v-model="selectedYear"
+            :selections="hrStore.initData.initReport.listYears"
+            placeholder="Select Employee"
+            @change="logSelectedDates"
+            class=" text-gray-900 text-sm focus:ring-indigo-500 focus:border-indigo-500"
+          />
+              <!-- <input 
+                type="date" 
+                v-model="dateFrom"
+                placeholder="Enter Designation" 
+                @change="logSelectedDates"
+                required
+                class="w-full p-2 mt-2 text-gray-900 text-sm border rounded-md focus:ring-indigo-500 focus:border-indigo-500" 
+              /> -->
             </div>
           </div>
           <div>
-            <label class="block mb-1 font-medium">To</label>
+            <label class="block mb-1 font-medium">Month</label>
             <div class="relative">
-              <input 
+              <selectinput2
+            v-model="selectedMonth"
+            :selections="hrStore.initData.initReport.listMonths"
+            :isReport=true
+            placeholder="Select Employee"
+            @change="logSelectedDates"
+            class=" text-gray-900 text-sm focus:ring-indigo-500 focus:border-indigo-500"
+          />
+              <!-- <input 
                 type="date" 
                 v-model="dateTo"
                 placeholder="Enter Designation" 
                 @change="logSelectedDates"
                 required
                 class="w-full p-2 mt-2 text-sm border text-gray-900 rounded-md focus:ring-indigo-500 focus:border-indigo-500 dark:text-gray-900" 
-              />
+              /> -->
             </div>
           </div>
         </div>
       </div>
 
       <p 
-        v-if="!dateFrom || !dateTo" 
+        v-if="!selectedYear || !selectedMonth" 
         class="text-sm text-gray-500 italic text-center"
       >
-        Please select date range.
+        Please select an Employee, Year and Month..
       </p>
 
 
@@ -81,8 +117,7 @@
   
   <script>
 
- import { useRoute } from 'vue-router'
- import { useUserStore } from "~/stores/modules/userStore";
+import { useUserStore } from "~/stores/modules/userStore";
 import { useHrStore } from "~/stores/modules/hrStore";
  
  import LinkBtn from "~/components/customcontrol/Link";
@@ -108,8 +143,20 @@ import { useHrStore } from "~/stores/modules/hrStore";
       return {
         imageroot: "",
         showLoading: null,
-        dateFrom: '',
-        dateTo: '',
+        isReport: false,
+        selectedEmployee: '',
+        selectedYear: '',
+        selectedMonth: '',
+        years: [
+          "2000",
+          "2001",
+          "2002",
+          "2003",
+          "2004",
+          "2005",
+          "2006",
+        ],
+        months: [1,2,3,4,5,6,7,8,9,10,11,12]
        
       }
     },
@@ -121,30 +168,27 @@ import { useHrStore } from "~/stores/modules/hrStore";
       this.userStore = useUserStore();
       this.showLoading = this.$showLoading;
       this.imageroot = this.userStore.loggedUser.resourceURLRoot;
+
+      await this.hrStore.getReportInitData();
+
     },
     watch: {},
-    computed: {
-  
-    },
+    computed: {},
     methods: {
 
       async logSelectedDates() {
-        if (!this.dateFrom || !this.dateTo) {
-          this.$showToast('Please select both From and To dates', 'warning');
+        if (!this.selectedEmployee || !this.selectedYear || !this.selectedMonth) {
+          this.$showToast('Please select an Employee, Year and Month', 'warning');
           return;
         }
 
         const req = {
-          dateFrom: this.dateFrom,
-          dateTo: this.dateTo,
+          EmpNo: this.selectedEmployee,
+          Year: this.selectedYear,
+          Month: this.selectedMonth,
         };
-        console.log(req);
-        
-        await this.hrStore.GetPrintHrReports({ dateFrom: this.dateFrom, dateTo: this.dateFrom }, this.$showLoading);
-
-        
+        await this.hrStore.getOTPeriodSummeryIndividual(req, this.$showLoading);
       }
-     
    
       //this.$showToast('Login successful!', 'success'); //success ,error ,warning,info
     },

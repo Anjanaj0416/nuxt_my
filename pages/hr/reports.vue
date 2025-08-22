@@ -4,6 +4,7 @@
     <section class="my-20 mx-10">
    
       <overtime_individual_summery_report v-if="reportNo=='R1001'"/>
+      <overtime_monthend_summery_report v-if="reportNo=='R1002'"/>
     </section>
     <!-- <input type="text" oninput="this.value = this.value.replace(/[^0-9.]/g, '').replace(/(\..*?)\..*/g, '$1');" > -->
   </template>
@@ -20,6 +21,7 @@
  
 
 import overtime_individual_summery_report from "~/components/hr/reports/overtime_individual_summery_report";
+import overtime_monthend_summery_report from "~/components/hr/reports/overtime_monthend_summery_report";
 import { useRoute } from 'vue-router'
 
  //import LinkBtn from "~/components/customcontrol/Link";
@@ -33,8 +35,13 @@ import { useRoute } from 'vue-router'
    
   export default {
     
-    components: {overtime_individual_summery_report},//LinkBtn,Button,selectinput2
+    components: {
+      overtime_individual_summery_report,
+      overtime_monthend_summery_report,
+    },//LinkBtn,Button,selectinput2
+
     props:[''],
+
     data() {
       return {
         imageroot: "",
@@ -43,6 +50,12 @@ import { useRoute } from 'vue-router'
        
       }
     },
+
+    setup() {
+      const route = useRoute();
+      return { route };
+    },
+
     async mounted() {
      
     },
@@ -50,11 +63,18 @@ import { useRoute } from 'vue-router'
     //  this.userStore = useUserStore();
       //this.showLoading = this.$showLoading;
      // this.imageroot = this.userStore.loggedUser.resourceURLRoot;
-       const route = useRoute();
-    this.reportNo  = route.query.p ;
+    const route = useRoute();
+    this.reportNo  = route.query.p || 'R1001';
 
     },
-    watch: {},
+    watch: {
+      'route.query.p': {
+      immediate: true, // Trigger immediately on mount
+      handler(newVal) {
+        this.reportNo = newVal || 'R1001'; // Update reportNo when query param changes
+      },
+    },
+    },
     computed: {
   
     },

@@ -214,7 +214,7 @@ const links = [
         to: "#",
         submenu: [
           { name: "All Staff OT Reports for the Duration", to: "/hr/reports?p=R1001" },
-          { name: "OT Month End Summery Report", to: "#" },
+          { name: "OT Month End Summery Report", to: "/hr/reports?p=R1002" },
 
           { name: "Daily Presence Report", to: "#" },
           { name: "Employee Rectification Report", to: "#" },

@@ -112,7 +112,7 @@ export default {
     <div class="relative">
       <select :class="[
         cssclass,
-        'appearance-none border border-gray-300 rounded-md px-3 py-2 pr-10 bg-white text-gray-700 shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition duration-150 ease-in-out'
+        'appearance-none border border-gray-300 w-full rounded-md px-3 py-2 pr-10 bg-white text-gray-700 shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition duration-150 ease-in-out'
       ]" :value="modelValue" @change="onChange" @click.stop>
         <option disabled value="" v-if="!modelValue">Please select</option>
         <!-- <option  v-for="sitem in selections" :key="sitem" :value="sitem" class="uppercase">
@@ -121,6 +121,12 @@ export default {
         <template v-if="isDistrict">
           <option v-for="item in selections" :key="item.id" :value="item.id">
             {{ item.name }}
+          </option>
+        </template>
+
+        <template v-else-if="isReport">
+          <option v-for="item in selections" :key="item.id" :value="item.id">
+            {{ item.value }}
           </option>
         </template>
 
@@ -159,6 +165,7 @@ export default {
       default: ''
     },
     isDistrict: Boolean,
+    isReport: Boolean,
     err: {
       type: String,
       default: ''
