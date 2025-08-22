@@ -48,14 +48,14 @@
       </div>
 
       <div v-for="(ab, index) in hrStore.absense.arrabsences" :key="ab.id" :index="index">
-        <div class="grid w-full grid-cols-1 p-2 mt-1 text-center text-white rounded-md lg:grid-cols-9 lg:w-5/6"
+        <div class="grid w-full grid-cols-1 p-2 mt-1 text-center text-white rounded-md lg:grid-cols-8 lg:w-5/6"
           v-bind:class="[getAbsenceRowColor(ab)]">
           <div>{{ myUtility.toReadableDate(ab.startDate) }}</div>
           <div>{{ myUtility.toReadableDate(ab.endDate) }}</div>
           <div>{{ ab.absenceType }}</div>
           <div>{{ ab.durationDays }}</div>
           <div>{{ ab.durationinMinutes }}</div>
-          <div class="mx-auto">
+          <!-- <div class="mx-auto">
             <a v-if="ab.attachment" :href="`http://220.247.243.114/SLTDS/hr/medicalreports/${ab.attachment}`"
               target="_blank">
               <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5"
@@ -64,7 +64,7 @@
                   d="M19.5 14.25v-2.625a3.375 3.375 0 00-3.375-3.375h-1.5A1.125 1.125 0 0113.5 7.125v-1.5a3.375 3.375 0 00-3.375-3.375H8.25m2.25 0H5.625c-.621 0-1.125.504-1.125 1.125v17.25c0 .621.504 1.125 1.125 1.125h12.75c.621 0 1.125-.504 1.125-1.125V11.25a9 9 0 00-9-9z" />
               </svg>
             </a>
-          </div>
+          </div> -->
           <div>{{ ab.approvalStatus }}</div>
           <div>{{ ab.pendingAt }}</div>
           <div title="Delete record" @click="deleteRecord(ab.id)" class="m-auto ">
@@ -74,7 +74,6 @@
                 d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16" />
             </svg>
           </div>
-          <div></div>
         </div>
       </div>
     </div>

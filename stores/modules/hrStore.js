@@ -148,6 +148,7 @@ export const useHrStore = defineStore("hrStore", {
       // initEmployee: {},
       initAbsence: {},
       initMovement: {},
+      initReport: {},
     },
     authToken: "",
     isLoading: true,
@@ -691,12 +692,6 @@ export const useHrStore = defineStore("hrStore", {
       }
       loadingAlert.close();
     },
-
-
-
-
-
-
 
     // async setOTManual(req, showLoading) {
     //   console.log('API-setOTManual');
@@ -1414,6 +1409,85 @@ export const useHrStore = defineStore("hrStore", {
       }
       loadingAlert.close();
     },
+
+  // Report
+
+    async getReportInitData() {
+      console.log('API-getReportInitData');
+
+      try {
+        const response = await axios.get(
+          `${import.meta.env.VITE_API_URL}/hr/Report/GetReportInitData`
+        );
+        console.log("response:", response);
+        if (response.data.isSuccess) {
+          this.initData.initReport = response.data.data.data;
+        } else {
+          console.error("Loading error:", response.data.message);
+          // this.showToast(response.data.message, 'error');
+        }
+      } catch (error) {
+        console.error("Loading error:", error);
+        // this.showToast(error.response.data.Message, 'error');
+      }
+      // loadingAlert.close();
+  },
+
+  async getOTPeriodSummeryIndividual(req, showLoading) {
+      console.log('API-getOTPeriodSummeryIndividual:',req);
+
+      const loadingAlert = showLoading("");
+      try {
+        const response = await axios.post(
+          `${import.meta.env.VITE_API_URL}/hr/Report/GetOTPeriodSummeryIndividual`,req,{ responseType: 'blob' });
+          const blob = new Blob([response.data], { type: 'application/pdf' });
+          const url = URL.createObjectURL(blob);
+          window.open(url, '_blank');
+
+        console.log("response:", response);
+        if (response.data.isSuccess) {
+          // this.absense.arrabsences = response.data.data.data.arrAbsences || [];
+        } else {
+          console.error("Loading error:", response.data.message);
+          // this.showToast(response.data.message, 'error');
+        }
+      } catch (error) {
+        console.error("Loading error:", error);
+        if (error.response && error.response.status == 400) {
+        }
+        // this.showToast(error.response.data.Message, 'error');
+      }
+      loadingAlert.close();
+  },
+
+  async getOTPeriodSummeryMonthEnd(req, showLoading) {
+      console.log('API-GetOTPeriodSummeryMonthEnd:',req);
+
+      const loadingAlert = showLoading("");
+      try {
+        const response = await axios.post(
+          `${import.meta.env.VITE_API_URL}/hr/Report/GetOTPeriodSummeryMonthEnd`,req,{ responseType: 'blob' });
+          const blob = new Blob([response.data], { type: 'application/pdf' });
+          const url = URL.createObjectURL(blob);
+          window.open(url, '_blank');
+
+        console.log("response:", response);
+        if (response.data.isSuccess) {
+          // this.absense.arrabsences = response.data.data.data.arrAbsences || [];
+        } else {
+          console.error("Loading error:", response.data.message);
+          // this.showToast(response.data.message, 'error');
+        }
+      } catch (error) {
+        console.error("Loading error:", error);
+        if (error.response && error.response.status == 400) {
+        }
+        // this.showToast(error.response.data.Message, 'error');
+      }
+      loadingAlert.close();
+  },
+
+
 
 
     async showToast(message, type) {
