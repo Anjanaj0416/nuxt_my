@@ -13,14 +13,31 @@
           />
         </div> -->
       </div>
-      <div class="w-full md:w-auto">
-        <SearchComp @DoSearch="GetSearch" />
+      <div class="w-full md:w-auto flex items-center gap-2">
+        <!-- Dropdown -->
+        <select
+          v-model="searchBy"
+          @change="SetSelectedFilter"
+          class="w-44 border border-btn text-gray-900 text-sm rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-600 px-3 py-2.5"
+        >
+          <option disabled value="">Filter By</option>
+          <option value="orderno">Order No</option>
+          <option value="customerRef">Customer Ref</option>
+          <option value="shopName">Shop Name</option>
+        </select>
+
+
+        <!-- Search -->
+        <div class="w-full md:w-64">
+          <SearchComp @DoSearch="GetSearch" />
+        </div>
       </div>
+
     </div>
 
 
-    <FilterTab @selected="SetSelectedFilter"
-      :arrFilter="vendorStore.initVendor?.vendorViewItemCount ? Object.values(vendorStore.initVendor.vendorViewItemCount) : {}" />
+    <!-- <FilterTab @selected="SetSelectedFilter"
+      :arrFilter="vendorStore.initVendor?.vendorViewItemCount ? Object.values(vendorStore.initVendor.vendorViewItemCount) : {}" /> -->
 
     <!-- {{ vendorStore.initVendor.vendorViewItemCount }} -->
 
@@ -362,32 +379,26 @@ export default {
 ,
 
 
-    async SetSelectedFilter(type) {
-      this.searchBy = type;
+    async SetSelectedFilter(event) {
+      this.searchBy = event.target.value;
       await this.GetSearch();
     },
 
     async GetSearch(searchVal) {
-      // await this.vendorStore.loadListVendors(
-      //   { keyword: searchVal, searchBy: this.searchBy },
-      //   this.showLoading
-      // );
 
-      if (searchVal) {
-        this.keyword = searchVal
-      } else {
-        this.keyword = ""
-      }
-      console.log("keyword, searchBy", searchVal, this.searchBy);
+      this.keyword = searchVal || "";
+
+      console.log("keyword, searchBy", this.keyword, this.searchBy);
+
       await this.vendorStore.loadInitVendor(this.showLoading);
+
       await this.vendorStore.loadListVendors(
         { keyword: this.keyword, searchBy: this.searchBy },
         this.showLoading
       );
 
-
-      this.searchBy = "";
       this.keyword = "";
+
     },
 
     // async toggleMoreEdit(id) {
