@@ -4,7 +4,8 @@ import Swal from "sweetalert2";
 
 export const useposStore = defineStore("posStore",{
     state: () => ({
-        listMainCategories: [],
+        initPosData:{},
+        listMainCategries: [],
         listSubCategories: [],
         listItems: [],
     }),
@@ -13,20 +14,18 @@ export const useposStore = defineStore("posStore",{
 actions: {
 
     //loadInitVendor
-    async loadInitPosData(showLoading) {
-       console.log('API-InitPOS');
+    async loadInitPosData(showLoading) {      
   
       try {
         const response = await axios.get(
           `${import.meta.env.VITE_API_URL}/POS/InitPOS`
-        );
+        );   
 
-         console.log(response);
-        
-
-        if (response.data.isSuccess) {
-          console.log(response.data.data.data);
-         // this.initPosData = response.data.data.data;
+        if (response.data.isSuccess) {          
+           this.initPosData = response.data.data.data;               
+           this.listMainCategries =  this.initPosData.listMainCategries;        
+            this.listSubCategories =  this.initPosData.listSubCategories;
+             this.listItems =  this.initPosData.listItems;
         } else {
           this.showToast(response.data.message, "error");
         }
