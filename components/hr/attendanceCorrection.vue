@@ -6,7 +6,7 @@
                 <div class="flex mt-5">
                     <div class="mr-3">Employee</div>
                     <div>
-                        <selectinput2 :selections="arr_employee" @changed="setEmployee" :cur_item="curItem" />
+                        <selectinput2 :selections="arr_employee" @changed="setEmployee" :cur_item="empNo" />
                     </div>
                 </div>
                 <div class="flex flex-col gap-4 mb-4 sm:flex-row sm:justify-between ml-2">

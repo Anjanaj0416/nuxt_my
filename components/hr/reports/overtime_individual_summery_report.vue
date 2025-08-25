@@ -6,13 +6,13 @@
           <div>
             <label class="block mb-1 font-medium">Employee</label>
             <selectinput2
-            v-model="selectedEmployee"
-            :selections="hrStore.initData.initReport.arrEmp"
-            :isReport=true
-            @change="logSelectedDates"
-            placeholder="Select Employee"
-            class=" text-gray-900 text-sm focus:ring-indigo-500 focus:border-indigo-500"
-          />
+              v-model="selectedEmployee"
+              :selections="hrStore.initData.initReport.arrEmp"
+              :isReport=true
+              @change="logSelectedDates"
+              placeholder="Select Employee"
+              class=" text-gray-900 text-sm focus:ring-indigo-500 focus:border-indigo-500"
+            />
             <!-- <div class="relative">
               <input 
                 type="date" 
@@ -28,12 +28,12 @@
             <label class="block mb-1 font-medium">Year</label>
             <div class="relative">
               <selectinput2
-            v-model="selectedYear"
-            :selections="hrStore.initData.initReport.listYears"
-            placeholder="Select Employee"
-            @change="logSelectedDates"
-            class=" text-gray-900 text-sm focus:ring-indigo-500 focus:border-indigo-500"
-          />
+                v-model="selectedYear"
+                :selections="hrStore.initData.initReport.listYears"
+                placeholder="Select Employee"
+                @change="logSelectedDates"
+                class=" text-gray-900 text-sm focus:ring-indigo-500 focus:border-indigo-500"
+              />
               <!-- <input 
                 type="date" 
                 v-model="dateFrom"
@@ -48,13 +48,13 @@
             <label class="block mb-1 font-medium">Month</label>
             <div class="relative">
               <selectinput2
-            v-model="selectedMonth"
-            :selections="hrStore.initData.initReport.listMonths"
-            :isReport=true
-            placeholder="Select Employee"
-            @change="logSelectedDates"
-            class=" text-gray-900 text-sm focus:ring-indigo-500 focus:border-indigo-500"
-          />
+                v-model="selectedMonth"
+                :selections="hrStore.initData.initReport.listMonths"
+                :isReport=true
+                placeholder="Select Employee"
+                @change="logSelectedDates"
+                class=" text-gray-900 text-sm focus:ring-indigo-500 focus:border-indigo-500"
+              />
               <!-- <input 
                 type="date" 
                 v-model="dateTo"
