@@ -523,7 +523,7 @@ import gsap from 'gsap';
 // Mobile Menu Toggle
 const menuOpen = ref(false);
 const isLoading = useLoading();
-console.log("isLoading:",isLoading);
+
 
 
 const toggleMenu = () => {

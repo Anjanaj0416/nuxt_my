@@ -27,3 +27,7 @@ pm2 restart dtlapp
 pm2 logs dtlapp
 D:\WWWRoot\dtlApp\.output\.output\server -> npm install
 npm install --legacy-peer-deps
+
+D:\Miracal SW Solutions\Digital Tech Lab\Intranet\App\certs> 
+mkcert -install
+mkcert localhost

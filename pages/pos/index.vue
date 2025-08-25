@@ -3,51 +3,63 @@
     <!-- Header -->
     <headerdd />
 
-    <!-- Horizontal Button Bar -->
+    <!-- Horizontal Button Bar  zz-->
     <div class="h-screen">
       <div class="flex flex-row gap-2 overflow-x-auto py-4 px-2 mt-16 scrollbar-thin scrollbar-thumb-gray-400 scrollbar-track-gray-200 ">
         <button
-          v-for="master in masterCategories"
+          v-for="master in posStore.listMainCategries"
           :key="master.id"
           @click="selectMasterCategory(master.id)"
           :class="selectedMasterCategory === master.id 
             ? 'bg-blue-800 text-white' 
             : 'bg-blue-500 text-white'"
           class="flex-shrink-0 px-3 py-1.5 rounded-full shadow-lg hover:scale-105 transition"
-        >
+        >           
+              <img
+              :src="master.imageUrl"
+              alt="Image"
+              width="50"
+             />
           {{ master.value  }}
         </button>
 
       </div>
+    <div>
 
-      <pre>{{ listSubCategories }}</pre>
 
+
+       
+</div>
 
       <!-- POS Layout -->
       <div class="flex h-[calc(100vh-8rem)] gap-4 mt-2 px-2">
+      
         <!-- Left: Category List -->
+        
         <div class="w-24 bg-gray-100 p-2 rounded-lg overflow-y-auto">
           <div class="flex flex-col gap-2">
             <button
-              v-for="cat in categories"
-              :key="cat.id"
-              @click="selectedCategory = cat.id"
-              :class="selectedCategory === cat.id 
+              v-for="subcat in posStore.listSubCategories"
+              :key="subcat.id"
+              @click="selectedCategory = subcat.id"
+              :class="selectedCategory === subcat.id 
                 ? 'bg-blue-600 text-white' 
                 : 'bg-white text-gray-700'"
               class="flex flex-col items-center justify-center p-2 rounded-xl hover:scale-105 transition"
             >
+          
               <!-- <span class="text-xl mb-1">{{ cat.icon }}</span> -->
-               <img v-if="cat.imageUrl" :src="cat.imageUrl" class="w-8 h-8 rounded mb-1"/>
-              <span class="text-xs text-center truncate">{{ cat.value  }}</span>
+               
+               <img  :src="subcat.imageUrl" class="w-8 h-8 rounded mb-1"/>
+              <span class="text-xs text-center truncate">{{ subcat.value  }}</span>
             </button>
           </div>
         </div>
 
         <!-- Middle: Items Grid -->
-        <div class="flex-1 grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-6 gap-4 overflow-y-auto">
-          <div
-            v-for="item in filteredItems"
+        <div class="flex-1 grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-6 gap-4 overflow-y-auto" v-if="this.posStore.listItems">
+          <div 
+            v-for="item in this.posStore.listItems"
             :key="item.code"
             @click="addToCart(item)"
             class="bg-white rounded-2xl shadow-md hover:shadow-xl hover:scale-105 transition-transform cursor-pointer overflow-hidden h-48 lg:h-64"
@@ -63,7 +75,7 @@
           </div>
         </div>
         
-        
+       
         <!-- Right: Selected Items & Total -->
         <div class="w-96 bg-gray-50 p-4 rounded-lg flex flex-col gap-4 hidden lg:flex">
           <h2 class="text-lg font-bold mb-2">Selected Items</h2>
@@ -290,9 +302,14 @@
 <script>
 import headerdd from "~/components/pos/header.vue";
 import CashMethod from "~/components/pos/payment/cash.vue";
-import { useUserStore } from '~/stores/modules/userStore';
+import { useUserStore } from "~/stores/modules/userStore";
 import { useposStore } from "~/stores/modules/pos/posStore";
 
+ definePageMeta({
+    layout: 'POSLayout',   
+    middleware: 'auth',
+   });
+   
 
 export default {
   components: { headerdd,CashMethod },
@@ -305,45 +322,30 @@ export default {
       cart: [],
       subDiscount: 0,
       cvatRate: 0,
-      showCartModal: false
+      showCartModal: false,
+      testImgUrl:'https://drive.google.com/thumbnail?id=14ukBKtgUk2TpNRJ1HMJ-NzXeyiD50KCc&sz=w1000',
     };
   },
 
-  async created() {
-    this.userStore = useUserStore();
-    this.posStore = useposStore();
-
-    this.showLoading = this.$showLoading;
-
-    await this.posStore.loadInitPosData(this.showLoading);
-    // this.initPosData = this.posStore.initPosData;
-
-    if (this.masterCategories.length > 0) {
-      const firstMasterId = this.masterCategories[0].id;
-      await this.selectMasterCategory(firstMasterId);
-    }
-
-    this.listSubCategories = this.posStore.listSubCategories
-
-  },
+ 
   
   computed: {
-    initPosData() {
-      return this.posStore.initPosData;
-    },
-    masterCategories() {
-      return this.initPosData.listMainCategries || [];
-    },
-    categories() {
-      return (this.initPosData.listSubCategories || []).filter(
-        (cat) => cat.masterId === this.selectedMasterCategory
-      );
-    },
-    filteredItems() {
-      return (this.initPosData.listItems || []).filter(
-        (item) => item.subCategoryId === this.selectedCategory
-      );
-    },
+    // initPosData() {
+    //   return this.posStore.initPosData;
+    // },
+    // masterCategories() {
+    //   return this.initPosData.listMainCategries || [];
+    // },
+    // categories() {
+    //   return (this.initPosData.listSubCategories || []).filter(
+    //     (cat) => cat.masterId === this.selectedMasterCategory
+    //   );
+    // },
+    // filteredItems() {
+    //   return (this.initPosData.listItems || []).filter(
+    //     (item) => item.subCategoryId === this.selectedCategory
+    //   );
+    // },
     totalBeforeTax() {
       return this.cart.reduce((sum, i) => sum + ((i.price * (i.qty || 1)) - (i.discount || 0)), 0);
     },
@@ -368,23 +370,23 @@ export default {
       }
     },
 
-    async selectMasterCategory(masterId) {
-      this.selectedMasterCategory = masterId;
+    // async selectMasterCategory(masterId) {
+    //   this.selectedMasterCategory = masterId;
 
-      // auto-select first subcategory
-      const subCats = (this.initPosData.listSubCategories || []).filter(
-        (cat) => cat.masterId === masterId
-      );
-      this.selectedCategory = subCats.length > 0 ? subCats[0].id : null;
+    //   // auto-select first subcategory
+    //   const subCats = (this.initPosData.listSubCategories || []).filter(
+    //     (cat) => cat.masterId === masterId
+    //   );
+    //   this.selectedCategory = subCats.length > 0 ? subCats[0].id : null;
 
-      // Wait for next tick so Vue updates reactive properties
-      await this.$nextTick();
+    //   // Wait for next tick so Vue updates reactive properties
+    //   await this.$nextTick();
 
-      // Call store after selection
-      if (this.posStore && this.posStore.setSelectedMainCategoryId) {
-        await this.posStore.setSelectedMainCategoryId(masterId, this.showLoading);
-      }
-    },
+    //   // Call store after selection
+    //   if (this.posStore && this.posStore.setSelectedMainCategoryId) {
+    //     await this.posStore.setSelectedMainCategoryId(masterId, this.showLoading);
+    //   }
+    // },
 
     toggleFullScreen() {
       if (!document.fullscreenElement) {
@@ -399,25 +401,52 @@ export default {
     }
 
   },
-  mounted() {
-    document.addEventListener("fullscreenchange", () => {
-      this.isFullScreen = !!document.fullscreenElement;
-    });
-  },
-  beforeUnmount() {
-    document.removeEventListener("fullscreenchange", () => {
-      this.isFullScreen = !!document.fullscreenElement;
-    });
-  },
+
+ 
 
   async beforeMount() {
-   if (this.userStore.loggeduser && !this.userStore.loggeduser.granted.contains('pos') ) {
-      } else {        
-        this.$router.push('/pos')
-        this.$showToast('Not Allowed to access this page')
-      }
+
+    
+   },
+
+  async mounted() {
+    
+
+  },
+
+    async created() {
+      
+    this.userStore = useUserStore();    
+    this.posStore = useposStore();
+    this.showLoading = this.$showLoading;
+
+    const granted = this.userStore.loggedUser?.granted || [];
+
+    if (granted.includes('pos') ) {
+    }
+    else{
+      this.$router.push('/user/login');
+      this.$showToast('Not Allowed to access this page');
+    }
+
+   await this.posStore.loadInitPosData(this.showLoading);
+
+   // document.addEventListener("fullscreenchange", () => {
+    //   this.isFullScreen = !!document.fullscreenElement;
+    // });
+
+    // this.initPosData = this.posStore.initPosData;
+
+    // if (this.masterCategories.length > 0) {
+    //   const firstMasterId = this.masterCategories[0].id;
+    //   await this.selectMasterCategory(firstMasterId);
+    // }
+
+   // this.listSubCategories = this.posStore.listSubCategories
   
-    },
+  }
+
+  
 
 };
 </script>

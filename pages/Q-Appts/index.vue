@@ -27,9 +27,21 @@
     </section>
 
     <!-- Search Bar -->
-    <div v-if="!showSearchInNavbar" class="sticky top-1 z-50">
+    <!-- <div v-if="!showSearchInNavbar" class="sticky top-4 z-50">
       <SearchBar />
-    </div>
+    </div> -->
+
+    <div class="z-50 md:hidden">
+  <SearchBar />
+</div>
+
+<!-- Controlled by scroll only on desktop -->
+<div v-if="!showSearchInNavbar" class="sticky top-4 z-50 hidden md:block">
+  <SearchBar />
+</div>
+    
+
+
 
     <!-- Filter Bar -->
     <FilterBar 
