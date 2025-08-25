@@ -8,7 +8,15 @@
           <div>
             <label class="block text-sm font-bold text-gray-600">Employee</label>
             <div class="relative">
-              <select 
+              <selectinput2
+                v-model="selectedEmployee"
+                :selections="hrStore.initData.initReport.arrEmp"
+                :isReport=true
+                @change="logSelectedDates"
+                placeholder="Select Employee"
+                class=" text-gray-900 text-sm focus:ring-indigo-500 focus:border-indigo-500"
+              />
+              <!-- <select 
                 v-model="selectedEmployee"
                 required
                 class="w-60 p-2 mt-2 text-sm border text-gray-900 rounded-md focus:ring-indigo-500 focus:border-indigo-500 dark:text-gray-900"
@@ -16,7 +24,7 @@
                 <option value="">Select an Employee</option>
                 <option value="dev">Dev</option>
                 <option value="D1001">D1001</option>
-              </select>
+              </select> -->
             </div>
           </div>
           <div>
