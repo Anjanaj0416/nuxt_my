@@ -5,7 +5,7 @@
           <div class="text-2xl uppercase mb-4"> Vendor Details - {{ isEditing ? "Edit" : "Add" }}</div>
       </div>
        <!-- {{ Id }} -->
-      <pre>{{ JSON.stringify(curVendor, null, 2) }}</pre>  
+      <!-- <pre>{{ JSON.stringify(curVendor, null, 2) }}</pre>   -->
 
 
       <!-- Modal Content (scrollable) -->

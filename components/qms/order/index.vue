@@ -79,6 +79,32 @@
               </div>
               <div class="hidden sm:block w-px bg-gray-300 h-8"></div>
 
+              <div class="flex flex-col text-center sm:text-left">
+                <h1 class="text-xs font-medium text-gray-600">Proposal</h1>
+
+                <!-- Show "view" only if signed PI is uploaded (boolean true) -->
+                <a
+                  v-if="order.isScanedProposalUploaded"
+                  :href="imageroot + order.scanedProposalUrl"
+                  target="_blank"
+                  class="text-sm  text-blue-600 hover:underline"
+                >
+                  View
+                </a>
+
+                <!-- Show "Upload Signed PI" only if not uploaded (boolean false) -->
+                <button
+                  v-else
+                  @click="handleProposalUploderClick(order.orderNo)"
+                  class="text-sm  text-blue-600 hover:underline"
+                >
+                  upload proposal
+                </button>
+              </div>
+
+
+              <div class="hidden sm:block w-px bg-gray-300 h-8"></div>
+
 
               <div class="flex flex-col text-center sm:text-left">
                 <h1 class="text-xs font-medium text-gray-600">Pi Signed Scan</h1>
@@ -197,7 +223,8 @@
       </div>
 
       <AddOrder v-if="isAddEdit && showAddProposal" @close="isAddEdit = false; showAddProposal = false" :customerRef="customerRef" :id="id" />
-      <SignedPIUpload v-if="isSignedPIUploaded"    @close="isSignedPIUploaded = false"  :id="selectedOrderId" />
+      <SignedPIUpload v-if="isSignedPIUploaded"   @close="isSignedPIUploaded = false"  :id="selectedOrderId" />
+      <ProposalUpload v-if="isScanedProposalUploaded"   @Close="isScanedProposalUploaded = false"  :id="selectedOrderId" />
 
     </section>
   </template>
@@ -217,6 +244,8 @@
   import Invoice from "~/components/qms/invoice/index.vue";
   import WorkFlow from "~/components/qms/workFlow/index.vue";
   import SignedPIUpload from './signUpload.vue';
+  import ProposalUpload from './proposalUpload.vue';
+import Close from '~/components/customcontrol/close.vue';
 
 
  definePageMeta({
@@ -226,13 +255,14 @@
    
   export default {
     
-    components: {LinkBtn,Button,selectinput2,Invoice,WorkFlow,AddOrder,SignedPIUpload},
+    components: {LinkBtn,Button,selectinput2,Invoice,WorkFlow,AddOrder,SignedPIUpload,ProposalUpload},
     props: ['id', 'customerRef'],
     data() {
       return {
         isAddEdit: false,
         isViewMore: false,
         isSignedPIUploaded: false,
+        isScanedProposalUploaded: false,
         showInvoice: false,
         showWorkFlow:false,
         activeOrderInvoiceId: null, 
@@ -276,6 +306,11 @@
         handlePIUploderClick(orderNo) {
           this.selectedOrderId = orderNo;
           this.isSignedPIUploaded = true;
+        },
+
+        handleProposalUploderClick(orderNo) {
+          this.selectedOrderId = orderNo;
+          this.isScanedProposalUploaded = true;
         },
 
         GoToAddNew() {

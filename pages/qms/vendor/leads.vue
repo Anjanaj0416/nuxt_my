@@ -2,7 +2,7 @@
   <section class="justify-center min-h-screen px-4 mt-24 mb-20 lg:px-[60px] md:px-[82px]">
     <div class="text-2xl uppercase">Merchant Leads</div>
     <div
-      class="flex flex-col items-center justify-between mt-2 mb-8 md:flex-row"
+      class="flex flex-col items-center justify-between mt-2 mb-2 md:flex-row"
     >
       <div class="w-full mb-4 md:mb-0">
         <div class="mr-2">
@@ -14,7 +14,7 @@
           />
         </div>
       </div>
-      <div class="w-full md:w-auto">
+      <div class="w-full md:w-96">
         <SearchComp @DoSearch="GetSearch" />
       </div>
     </div>

@@ -244,6 +244,32 @@ actions: {
       }
     },
 
+    async GetPraposalDocument(formData) {
+      try {
+        const response = await axios.post(
+          `${import.meta.env.VITE_API_URL}/qms/Order/GetUploadScanedProposal`,
+          formData,
+          { headers: { "Content-Type": "multipart/form-data" } }
+        );
+        if (response.data.isSuccess) {
+          const uploadedPath = response.data.data.data;
+          const orderNo = formData.get("orderNo");
+
+          const order = this.listOrder.find(o => o.orderNo === orderNo);
+          if (order) {
+            order.isScanedProposalUploaded = true;
+            order.scanedProposalUrl = uploadedPath;
+          }
+          return { success: true, message: response.data.message };
+        } else {
+          return { success: false, message: response.data.message };
+        }
+      } catch (error) {
+        console.error("GetProposal failed:", error);
+        return { success: false, message: "An error occurred during approval" };
+      }
+    },
+
     async GettPaymentDetails(orderId, showLoading) {
        console.log('API-CancelOrder')
       console.log('getPayment,',JSON.stringify(orderId));
