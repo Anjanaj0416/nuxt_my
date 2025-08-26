@@ -2,7 +2,7 @@
 -->
 <template>
    <section>
-    <div class="flex items-center justify-center w-full px-4 sm:max-w-sm mx-auto relative">
+    <div class="flex items-center justify-center w-full  sm:max-w-sm mx-auto relative">
       <div class="relative w-full">
         <div class="absolute inset-y-0 start-0 flex items-center ps-3 pointer-events-none">
           <svg

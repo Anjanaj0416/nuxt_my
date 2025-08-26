@@ -3,10 +3,27 @@
   <section class="mt-24 mx-4 my-8 md:mx-10 lg:mx-24">
     <div class="p-4">
       <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-        <CompanyCard  imgUrl="https://rainbowpages.lk/uploads/listings/logo/l/lakan1g.jpg"/>
-        <CompanyCard imgUrl="https://rainbowpages.lk/uploads/listings/logo/d/deepn1g2.jpg"/>
-        <CompanyCard imgUrl="https://rainbowpages.lk/uploads/listings/logo/d/douglassc.jpg"/>
-        <CompanyCard  imgUrl="https://rainbowpages.lk/uploads/listings/logo/h/hayleys_agricul.jpg"/>
+       <img src="https://drive.google.com/thumbnail?id=14ukBKtgUk2TpNRJ1HMJ-NzXeyiD50KCc&sz=w1000" 
+     alt="Drive Image" width="400">
+
+     <img 
+    :src="`/api/image/14ukBKtgUk2TpNRJ1HMJ-NzXeyiD50KCc`" 
+    alt="Drive Image" 
+    width="400" 
+  />
+
+   <ClientOnly>
+    <img
+      src="https://lh3.googleusercontent.com/d/14ukBKtgUk2TpNRJ1HMJ-NzXeyiD50KCc=w1000?authuser=0"
+      alt="Drive Image"
+      width="400"
+    />
+     <img
+      :src="imgurl"
+      alt="Drive Image"
+      width="400"
+    />
+  </ClientOnly>
         <!-- Add more <CompanyCard /> as needed -->
       </div>
     </div>
@@ -26,6 +43,7 @@ export default {
     return {
       // greeting: '',
       // sum: 0,
+      imgurl : 'https://drive.google.com/thumbnail?id=14ukBKtgUk2TpNRJ1HMJ-NzXeyiD50KCc&sz=w1000'
     }
   },
   mounted() {

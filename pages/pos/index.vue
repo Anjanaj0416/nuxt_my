@@ -5,23 +5,31 @@
 
     <!-- Horizontal Button Bar  zz-->
     <div class="h-screen">
-      <div class="flex flex-row gap-2 overflow-x-auto py-4 px-2 mt-16 scrollbar-thin scrollbar-thumb-gray-400 scrollbar-track-gray-200 " v-if="this.posStore.listMainCategories.length>0">
+      <div class="flex flex-row gap-2 overflow-x-auto py-4 px-2 mt-16 scrollbar-thin scrollbar-thumb-gray-400 scrollbar-track-gray-200 ">
         <button
-          v-for="master in this.posStore.listMainCategories"
+          v-for="master in posStore.listMainCategries"
           :key="master.id"
           @click="selectMasterCategory(master.id)"
           :class="selectedMasterCategory === master.id 
             ? 'bg-blue-800 text-white' 
             : 'bg-blue-500 text-white'"
           class="flex-shrink-0 px-3 py-1.5 rounded-full shadow-lg hover:scale-105 transition"
-        >
+        >           
+              <img
+              :src="master.imageUrl"
+              alt="Image"
+              width="50"
+             />
           {{ master.value  }}
         </button>
 
       </div>
+    <div>
 
-      
 
+
+       
+</div>
 
       <!-- POS Layout -->
       <div class="flex h-[calc(100vh-8rem)] gap-4 mt-2 px-2">
@@ -29,19 +37,21 @@
         <!-- Left: Category List -->
         
         <div class="w-24 bg-gray-100 p-2 rounded-lg overflow-y-auto">
-          <div class="flex flex-col gap-2" v-if="this.posStore.listSubCategories.length>0">
+          <div class="flex flex-col gap-2">
             <button
-              v-for="cat in this.posStore.listSubCategories"
-              :key="cat.id"
-              @click="selectedCategory = cat.id"
-              :class="selectedCategory === cat.id 
+              v-for="subcat in posStore.listSubCategories"
+              :key="subcat.id"
+              @click="selectedCategory = subcat.id"
+              :class="selectedCategory === subcat.id 
                 ? 'bg-blue-600 text-white' 
                 : 'bg-white text-gray-700'"
               class="flex flex-col items-center justify-center p-2 rounded-xl hover:scale-105 transition"
             >
+          
               <!-- <span class="text-xl mb-1">{{ cat.icon }}</span> -->
-               <img v-if="cat.imageUrl" :src="cat.imageUrl" class="w-8 h-8 rounded mb-1"/>
-              <span class="text-xs text-center truncate">{{ cat.value  }}</span>
+               
+               <img  :src="subcat.imageUrl" class="w-8 h-8 rounded mb-1"/>
+              <span class="text-xs text-center truncate">{{ subcat.value  }}</span>
             </button>
           </div>
         </div>
@@ -65,7 +75,7 @@
           </div>
         </div>
         
-        
+       
         <!-- Right: Selected Items & Total -->
         <div class="w-96 bg-gray-50 p-4 rounded-lg flex flex-col gap-4 hidden lg:flex">
           <h2 class="text-lg font-bold mb-2">Selected Items</h2>
@@ -295,6 +305,11 @@ import CashMethod from "~/components/pos/payment/cash.vue";
 import { useUserStore } from "~/stores/modules/userStore";
 import { useposStore } from "~/stores/modules/pos/posStore";
 
+ definePageMeta({
+    layout: 'POSLayout',   
+    middleware: 'auth',
+   });
+   
 
 export default {
   components: { headerdd,CashMethod },
@@ -307,7 +322,8 @@ export default {
       cart: [],
       subDiscount: 0,
       cvatRate: 0,
-      showCartModal: false
+      showCartModal: false,
+      testImgUrl:'https://drive.google.com/thumbnail?id=14ukBKtgUk2TpNRJ1HMJ-NzXeyiD50KCc&sz=w1000',
     };
   },
 
@@ -389,34 +405,36 @@ export default {
  
 
   async beforeMount() {
-  alert('1')
-  console.log(this.userStore.loggeduser)
-   if (this.userStore.loggeduser && !this.userStore.loggedUser.granted.contains('pos') ) {
-      } else {   
-       
-       this.$router.push('/user/login')
-        this.$showToast('Not Allowed to access this page')
-      }
-  //  document.removeEventListener("fullscreenchange", () => {
-  //     this.isFullScreen = !!document.fullscreenElement;
-  //   });
+
+    
    },
 
   async mounted() {
-    alert('2')
-    this.userStore = useUserStore();    
-    this.posStore = useposStore();
-    this.showLoading = this.$showLoading;
-    //await this.posStore.loadInitPosData(this.showLoading);
-
-    document.addEventListener("fullscreenchange", () => {
-      this.isFullScreen = !!document.fullscreenElement;
-    });
+    
 
   },
 
     async created() {
-   //    alert('3')
+      
+    this.userStore = useUserStore();    
+    this.posStore = useposStore();
+    this.showLoading = this.$showLoading;
+
+    const granted = this.userStore.loggedUser?.granted || [];
+
+    if (granted.includes('pos') ) {
+    }
+    else{
+      this.$router.push('/user/login');
+      this.$showToast('Not Allowed to access this page');
+    }
+
+   await this.posStore.loadInitPosData(this.showLoading);
+
+   // document.addEventListener("fullscreenchange", () => {
+    //   this.isFullScreen = !!document.fullscreenElement;
+    // });
+
     // this.initPosData = this.posStore.initPosData;
 
     // if (this.masterCategories.length > 0) {
@@ -425,8 +443,10 @@ export default {
     // }
 
    // this.listSubCategories = this.posStore.listSubCategories
+  
+  }
 
-  },
+  
 
 };
 </script>

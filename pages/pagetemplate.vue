@@ -92,7 +92,7 @@
       //this.$showToast('Login successful!', 'success'); //success ,error ,warning,info
     },
     async beforeMount() {
-  //  if (this.userStore.loggeduser && !this.userStore.loggeduser.granted.contains('english') ) {
+  //  if (this.userStore.loggeduser && this.userStore.loggeduser.granted.contains('english') ) {
   //     } else {        
   //       this.$router.push('/user/login')
   //       this.$showToast('Not Allowed to access this page')
