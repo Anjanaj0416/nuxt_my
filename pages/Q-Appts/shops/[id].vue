@@ -1,26 +1,3 @@
-<script setup lang="ts">
-import { useRoute } from 'vue-router'
-import { useShopStore } from '~/stores/modules/Q-Appts/shops'
-
-const route = useRoute()
-const shopStore = useShopStore()
-
-// get shop id from route
-const id = Number(route.params.id)
-const shop = shopStore.shops.find(s => s.id === id)
-
-definePageMeta({
-  //name: 'booking-id' , // MUST match the router.push name
-  layout: 'appts',
-})
-
-
-// fallback if shop not found
-if (!shop) {
-  throw createError({ statusCode: 404, statusMessage: 'Shop not found' })
-}
-</script>
-
 <template>
   <div class="bg-blue-50 max-w-6xl mx-auto px-4 py-6">
     <!-- Breadcrumb -->
@@ -189,3 +166,25 @@ if (!shop) {
     </div>
   </div>
 </template>
+<script setup lang="ts">
+import { useRoute } from 'vue-router'
+import { useShopStore } from '~/stores/modules/Q-Appts/shops'
+
+const route = useRoute()
+const shopStore = useShopStore()
+
+// get shop id from route
+const id = Number(route.params.id)
+const shop = shopStore.shops.find(s => s.id === id)
+
+definePageMeta({
+  //name: 'booking-id' , // MUST match the router.push name
+  layout: 'appts',
+})
+
+
+// fallback if shop not found
+if (!shop) {
+  throw createError({ statusCode: 404, statusMessage: 'Shop not found' })
+}
+</script>
