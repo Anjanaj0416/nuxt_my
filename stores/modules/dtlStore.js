@@ -383,8 +383,18 @@ export const useStandpageStore = defineStore("standpage", {
       const loadingAlert = showLoading('') // showLoading is a function
 
       try {
+
+        const userStoreData = JSON.parse(localStorage.getItem("userStore"));
+        const token = userStoreData?.token;
+        
         const response = await axios.post(
-          `${import.meta.env.VITE_API_URL}/dtl/SetContactUs`, req)
+          `${import.meta.env.VITE_API_URL}/dtl/SetContactUs`, req,
+           {
+            headers: {
+              Authorization: `Bearer ${token}`
+            }
+          }
+        )
 
         loadingAlert.close()
 

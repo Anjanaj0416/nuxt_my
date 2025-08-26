@@ -9,6 +9,8 @@
     </div>
     <!-- {{ id }} -->
 
+    <!-- {{ orderNo }} -->
+
  
     <!-- <pre>{{ JSON.stringify(orderStore.order, null, 2) }}</pre> -->
 
@@ -36,7 +38,9 @@
             {{ err.curProductCategory }}
             </p>
         </div>
-        <div>
+    
+        
+        <div v-if="!orderNo">
           <label class="block text-sm font-semibold text-gray-700 mb-2">
             PI Number Issued?
           </label>
@@ -58,6 +62,13 @@
             </span>
           </div>
         </div>
+
+        <p v-else>
+          <label class="block text-sm font-semibold text-gray-700 mb-2">
+            orderNo
+          </label>
+          {{ localOrderNo  }}
+        </p>
 
         <!-- PI Number Input (Conditional) -->
         <div v-if="piIssued" class="transition-all duration-300">
@@ -293,7 +304,7 @@ export default {
     selectinput2,
     Button,
   },
-  props:['customerRef', 'id'],
+  props:['customerRef', 'id','orderNo'],
   data() {
     return {
       isOpen: true,
@@ -307,6 +318,7 @@ export default {
       showLoading: null, 
       listoPackagesDetails: [],
       curProductCategory: '',
+      localOrderNo: this.orderNo, 
 
       order: {
         customerRef: "",
@@ -438,14 +450,19 @@ export default {
       const qty = Number(item.qty) || 0;
       const unitPrice = Number(item.unitPrice) || 0;
       const discount = Number(item.discount) || 0;
-      const vatAmount = Number(item.vatRate) || 0;
-      const ssclAmount = Number(item.ssclRate) || 0;
+      const vatRate = Number(item.vatRate) || 0;   // % VAT
+      const ssclRate = Number(item.ssclRate) || 0; // % SSCL
 
-      const baseTotal = qty * unitPrice * (1 - discount / 100);
+      // Base total after discount
+      const baseTotal = qty * unitPrice - discount;
 
-      const totalWithVAT = baseTotal + vatAmount;
+      // Apply SSCL first
+      const ssclAmount = baseTotal * (ssclRate / 100);
+      const afterSSCL = baseTotal + ssclAmount;
 
-      const finalTotal = totalWithVAT + ssclAmount;
+     
+      const vatAmount = afterSSCL * (vatRate / 100);
+      const finalTotal = afterSSCL + vatAmount;
 
       item.total = finalTotal;
 
@@ -481,7 +498,7 @@ export default {
           if (result.isConfirmed) {
             const payload = {
               QuotationId: '',
-              OrderNo: this.piNumber || "",
+              OrderNo: this.piNumber || this.orderNo || '',
               ClientId: this.id, 
               OrderItems: this.order.listOrderItem.map((item, index) => ({
                 Index: index + 1,
@@ -499,6 +516,13 @@ export default {
             console.log("Payload to send:", JSON.stringify(payload, null, 2));
 
             await this.orderStore.GetAddorder(payload, this.showLoading);
+
+            // ✅ reset form after submit
+            this.localOrderNo = '';
+            this.piIssued = false;
+            this.piNumber = '';
+            this.order.listOrderItem = [];
+            this.curProductCategory = '';
             
             // refresh list after add
             await this.orderStore.loadListOrder(

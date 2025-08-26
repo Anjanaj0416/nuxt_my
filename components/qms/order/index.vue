@@ -33,7 +33,7 @@
             :key="index"
             class="flex flex-col gap-3 p-3 mt-2 border border-gray-200 rounded-lg shadow-sm hover:shadow-md transition-shadow sm:p-4"
             :class="{
-              'border-emerald-400 border-2': order.orderStatus === 'FullPaid',
+              'border-green-400 border-2': order.orderStatus === 'FullPaid',
               'border-gray-200': order.orderStatus === 'Pending',
               'border-red-300': order.orderStatus === 'Canceled'
             }"
@@ -194,6 +194,14 @@
                 </button>
 
                 <button
+                  v-if="order.orderStatus === 'Active'"
+                  @click="createOrder(order.orderNo)"
+                  class="text-sm  text-blue-600 hover:underline"
+                >
+                  Create order
+                </button>
+
+                <button
                   v-if="order.orderStatus !== 'Canceled'"
                   @click="confirmDelete(order.id)"
                   class="text-sm  text-blue-600 hover:underline"
@@ -235,7 +243,7 @@
         </div>
       </div>
 
-      <AddOrder v-if="isAddEdit && showAddProposal" @close="isAddEdit = false; showAddProposal = false" :customerRef="customerRef" :id="id" />
+      <AddOrder v-if="isAddEdit && showAddProposal" @close="isAddEdit = false; showAddProposal = false" :customerRef="customerRef" :id="id" :orderNo="selectedOrderNo"/>
       <SignedPIUpload v-if="isSignedPIUploaded"   @close="isSignedPIUploaded = false"  :id="selectedOrderId" />
       <ProposalUpload v-if="isScanedProposalUploaded"   @Close="isScanedProposalUploaded = false"  :id="selectedOrderId" />
 
@@ -281,6 +289,7 @@ import Close from '~/components/customcontrol/close.vue';
         activeOrderInvoiceId: null, 
         activeOrderWorkFloweId: null,
         selectedOrderId: null,
+        selectedOrderNo: null,
         listOrder: [] ,
       }
     },
@@ -337,6 +346,12 @@ import Close from '~/components/customcontrol/close.vue';
         },
 
         GoToAddNew() {
+          this.isAddEdit = true;
+        },
+
+        createOrder(orderNo) {
+          this.selectedOrderNo = orderNo;
+          this.showAddProposal = true;
           this.isAddEdit = true;
         },
 
