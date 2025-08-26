@@ -1,14 +1,14 @@
 <template>
   <section>
-    <div class="w-full lg:w-2/4 flex gap-x-4 mt-2 ">
+    <div class="w-full flex gap-x-4 mt-2 ">
       <div class="text-right pr-2">Year</div>
       <div>
-        <selectinput2 class="w-16" v-model="year" :selections="arryear" @click.stop />
+        <selectinput2 v-model="year" :selections="arryear" @click.stop />
       </div>
 
       <div class="text-right pr-2">Month</div>
       <div>
-        <selectinput2 class="w-24" v-model="monthname" :selections="arrmonths" @click.stop />
+        <selectinput2 v-model="monthname" :selections="arrmonths" @click.stop />
       </div>
       <div>
         <btnhr_load name="View" @click="load" />

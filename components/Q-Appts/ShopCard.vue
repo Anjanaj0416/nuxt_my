@@ -11,7 +11,9 @@
       <p class="text-sm text-blue-500">🕒 {{ shop.wait }} {{ t('wait') }}</p>
       
       <div class="mt-2 flex gap-2">
-        <button class="bg-gray-800 text-white px-3 py-1 text-sm rounded">{{ t('view') }}</button>
+        <NuxtLink
+          :to="`/Q-Appts/shops/${shop.id}`"class="bg-gray-800 text-white px-3 py-1 text-sm rounded">{{ t('view') }}
+        </NuxtLink>
         <button @click="bookShop" class="bg-blue-500 text-white px-3 py-1 text-sm rounded">{{ t('book') }}</button>
       </div>
     </div>

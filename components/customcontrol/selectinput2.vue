@@ -112,9 +112,10 @@ export default {
     <div class="relative">
       <select :class="[
         cssclass,
-        'appearance-none border border-gray-300 rounded-md px-3 py-2 pr-10 w-full bg-white text-gray-700 shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition duration-150 ease-in-out'
+        'appearance-none border border-gray-300 rounded-md w-full px-3 py-2 pr-10 bg-white text-gray-700 shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition duration-150 ease-in-out'
       ]" :value="modelValue" @change="onChange" @click.stop>
         <option disabled value="" v-if="!modelValue">Please select</option>
+        <!-- <option disabled value="{{cur_item}}" v-if="!modelValue && cur_item">{{ cur_item }}</option> -->
         <!-- <option  v-for="sitem in selections" :key="sitem" :value="sitem" class="uppercase">
           {{ sitem }}
         </option> -->
@@ -140,11 +141,11 @@ export default {
       </select>
 
       <!-- Custom dropdown icon -->
-      <div class="absolute inset-y-0 right-0 flex items-center px-2 pointer-events-none">
+      <!-- <div class="absolute inset-y-0 right-0 flex items-center px-2 pointer-events-none">
         <svg class="w-4 h-4 text-gray-500 dark:text-gray-300" fill="none" stroke="currentColor" viewBox="0 0 24 24">
           <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7" />
         </svg>
-      </div>
+      </div> -->
     </div>
 
     <p v-if="err" class="mt-2 text-sm text-red-600">
@@ -161,6 +162,10 @@ export default {
       default: () => []
     },
     modelValue: {
+      type: [String, Number],
+      default: ''
+    },
+    cur_item: {
       type: [String, Number],
       default: ''
     },
