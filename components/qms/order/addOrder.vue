@@ -143,162 +143,87 @@
           v-if="order?.listOrderItem?.length > 0"
         >
 
-          <!-- Header Row -->
-          <div class="hidden w-full p-2 text-center bg-gray-100 rounded-lg shadow-sm sm:p-2 dark:bg-gray-100 dark:border-gray-700 lg:block">
-            <div
-              class="grid grid-cols-1 gap-1 text-xs text-gray-700 uppercase sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-10"
-            >
-              <div class="p-2 hidden">Index</div>
-              <div class="p-2">Description</div>
-              <div class="p-2">No Of Banners</div>
-              <div class="p-2">No Of Links</div>
-              <div class="p-2">Unit Price</div>
-              <div class="p-2">qty</div>
-              <div class="p-2">
-                Discount
-                <span class="text-xs font-bold text-red-500">(Rs.)</span>
-              </div>
-              <div class="p-2">
-                SSL
-                <span class="text-xs font-bold text-red-500">(Rs.)</span>
-              </div>
-              <div class="p-2">
-                VAT
-                <span class="text-xs font-bold text-red-500">(Rs.)</span>
-              </div>
-              <div class="p-2">Total</div>
-              <div class="p-2"></div>
-            </div>
-          </div>
-
           <!-- Package Items -->
-          <div class="w-full p-2 text-center bg-white rounded-lg shadow-sm sm:p-4 dark:bg-gray-100 dark:border-gray-700 overflow-y-auto max-h-[300px]">
-            <div
-              v-for="(orderItem, index) in order.listOrderItem"
-              :key="index"
-            >
-          <div>
-              <div
-                class="relative grid grid-cols-1 gap-4 py-2 text-xs text-gray-700 uppercase sm:grid-cols-6 md:grid-cols-8 lg:grid-cols-10"
-              >
-                <div class="flex items-center justify-center hidden">
-                  <p class="mr-2 sm:hidden">Index:</p>
-                  <strong>{{ index + 1 }}</strong>
-                </div>
-                <div class="flex items-center justify-center">
-                  <p class="mr-2 sm:hidden">Package Name:</p>
-                  <strong>{{ orderItem.packageName }} </strong>
-                </div>
-                 <div class="flex items-center justify-center">
-                  <p class="mr-2 sm:hidden">No Of Banners :</p>
-                  <!-- <strong>{{ this.$myUtility.toLKR(orderItem.unitPrice) }}</strong> -->
-                  <input
-                    type="number"
-                    min="1"
-                    class="block p-1 text-xs text-gray-900 border border-gray-300 rounded-lg w-24 sm:w-16 bg-gray-50 sm:text-sm"
-                    placeholder=""
-                    v-model="orderItem.NoOfBanners"
-                  />
-                </div>
-                 <div class="flex items-center justify-center">
-                  <p class="mr-2 sm:hidden">No Of Links :</p>
-                  <!-- <strong>{{ this.$myUtility.toLKR(orderItem.unitPrice) }}</strong> -->
-                  <input
-                    type="number"
-                    min="1"
-                    class="block p-1 text-xs text-gray-900 border border-gray-300 rounded-lg w-24 sm:w-16 bg-gray-50 sm:text-sm"
-                    placeholder=""
-                    v-model="orderItem.NoOfLinks"
-                  />
-                </div>
-                <div class="flex items-center justify-center">
-                  <p class="mr-2 sm:hidden">Unit Price :</p>
-                  <!-- <strong>{{ this.$myUtility.toLKR(orderItem.unitPrice) }}</strong> -->
-                  <input
-                    type="number"
-                    min="1"
-                    class="block p-1 text-xs text-gray-900 border border-gray-300 rounded-lg w-24 sm:w-16 bg-gray-50 sm:text-sm"
-                    placeholder="In Rupees"
-                    v-model="orderItem.unitPrice"
-                    @input="updateUnitPrice(index)"
-
-                  />
-                </div>
-                <div class="flex flex-col items-center justify-center">
-                  <p class="mb-2 sm:hidden">Qty:</p>
-                  <input
-                    type="number"
-                    min="1"
-                    class="block p-1 text-xs text-gray-900 border border-gray-300 rounded-lg w-24 sm:w-16 bg-gray-50 sm:text-sm"
-                    placeholder="In Rupees"
-                    v-model="orderItem.qty"
-                    @input="updateTotalPrice(index)"
-
-                  />
-                </div>
-                
-                <!-- <span class="mt-1 text-xs text-blue-600">
-                  {{ orderItem.qty}} 
-                    </span> -->
-
-                <!-- Discount Input -->
-                <div class="flex flex-col items-center justify-center">
-                  <p class="mb-2 sm:hidden">Discount:</p>
-                  <input
-                    type="number"
-                    min="0"
-                    class="block w-24 p-1 text-xs text-gray-900 border border-gray-300 rounded-lg sm:w-24 bg-gray-50 sm:text-sm"
-                    placeholder="In Rupeesdds"
-                    v-model="orderItem.discount"
-                    @input="updateTotalPrice(index)"
-
-                  />
-                  <!-- @input="updateTotalPrice(index)" -->
-                </div>
-                <div class="flex flex-col items-center justify-center">
-                  <p class="mb-2 sm:hidden">SSL:</p>
-
-                  <div>
-                    <strong>{{ this.$myUtility.toLKR(orderItem.ssclRate) }}</strong>
-                  </div>
-
-                </div>
-                <div class="flex flex-col items-center justify-center">
-
-                  <div>
-                    <strong>{{ this.$myUtility.toLKR(orderItem.vatRate) }}</strong>
-                  </div>
-                </div>
-
-                <!-- Total Price -->
-                <div class="flex items-center justify-center">
-                  <p class="mr-2 sm:hidden">Total:</p>
-                  <strong>{{ this.$myUtility.toLKR(orderItem.total) }}</strong>
-
-                </div>
-
+          <div class="w-full p-2 bg-white rounded-lg shadow-sm sm:p-4 dark:bg-gray-100 dark:border-gray-700 overflow-y-auto max-h-[300px]">
+            <div v-for="(orderItem, index) in order.listOrderItem" :key="index" class="mb-4 rounded-lg border border-gray-200 shadow-sm p-4 bg-gray-50">
+              
+              <!-- Package Name (Top Left) -->
+              <div class="flex justify-between items-center mb-3">
+                <h2 class="text-sm font-bold text-gray-800">
+                  {{ orderItem.packageName }}
+                </h2>
                 <!-- Remove Button -->
-                <div class="flex items-center justify-center">
-                  <div class="text-center">
-                    <button
-                      type="button"
-                      @click="GetRemoveRow(index)"
-                      class="text-red-600 hover:text-red-800"
-                      title="Remove"
-                    >
-                      <!-- Trash icon (Heroicons) -->
-                      <svg xmlns="http://www.w3.org/2000/svg" class="w-4 h-4 mx-auto" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                          d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6M9 7h6m-6 0V5a1 1 0 011-1h4a1 1 0 011 1v2" />
-                      </svg>
-                    </button>
-                  </div>
+                <button type="button" @click="GetRemoveRow(index)" class="text-blue-600 hover:text-black" title="Remove">
+                  <!-- <svg xmlns="http://www.w3.org/2000/svg" class="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                      d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6M9 7h6m-6 0V5a1 1 0 011-1h4a1 1 0 011 1v2" />
+                  </svg> -->
+                  Delete
+                </button>
+              </div>
+
+              <!-- Inputs Section -->
+              <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-8 gap-4">
+
+                <!-- No of Banners -->
+                <div v-if="orderItem.packageName === 'Customized Package'" class="flex flex-col">
+                  <label class="text-xs font-medium text-gray-600 mb-1">No. of Banners</label>
+                  <input type="number" min="1" v-model="orderItem.NoOfBanners"
+                    class="p-2 text-xs border rounded-lg focus:ring-2 focus:ring-blue-400 focus:outline-none" 
+                    placeholder="Enter number of banners"/>
                 </div>
+
+                <!-- No of Links -->
+                <div v-if="orderItem.packageName === 'Customized Package'" class="flex flex-col">
+                  <label class="text-xs font-medium text-gray-600 mb-1">No. of Links</label>
+                  <input type="number" min="1" v-model="orderItem.NoOfLinks"
+                    class="p-2 text-xs border rounded-lg focus:ring-2 focus:ring-blue-400 focus:outline-none"
+                    placeholder="Enter number of links" />
+                </div>
+
+                <!-- Unit Price -->
+                <div class="flex flex-col">
+                  <label class="text-xs font-medium text-gray-600 mb-1">Unit Price (Rs)</label>
+                  <input type="number" min="1" v-model="orderItem.unitPrice" @input="updateUnitPrice(index)"
+                    class="p-2 text-xs border rounded-lg focus:ring-2 focus:ring-green-400 focus:outline-none" />
+                </div>
+
+                <!-- Quantity -->
+                <div class="flex flex-col">
+                  <label class="text-xs font-medium text-gray-600 mb-1">Quantity</label>
+                  <input type="number" min="1" v-model="orderItem.qty" @input="updateTotalPrice(index)"
+                    class="p-2 text-xs border rounded-lg focus:ring-2 focus:ring-purple-400 focus:outline-none" />
+                </div>
+
+                <!-- Discount -->
+                <div class="flex flex-col">
+                  <label class="text-xs font-medium text-gray-600 mb-1">Discount (Rs)</label>
+                  <input type="number" min="0" v-model="orderItem.discount" @input="updateTotalPrice(index)"
+                    class="p-2 text-xs border rounded-lg focus:ring-2 focus:ring-pink-400 focus:outline-none" />
+                </div>
+
+                <!-- SSL -->
+                <div class="flex flex-col">
+                  <label class="text-xs font-medium text-gray-600 mb-1">SSL</label>
+                  <strong class="text-sm text-blue-700">{{ this.$myUtility.toLKR(orderItem.ssclRate) }}</strong>
+                </div>
+
+                <!-- VAT -->
+                <div class="flex flex-col">
+                  <label class="text-xs font-medium text-gray-600 mb-1">VAT</label>
+                  <strong class="text-sm text-blue-700">{{ this.$myUtility.toLKR(orderItem.vatRate) }}</strong>
+                </div>
+
+                <!-- Total -->
+                <div class="flex flex-col">
+                  <label class="text-xs font-medium text-gray-600 mb-1">Total</label>
+                  <strong class="text-sm font-bold text-green-600">{{ this.$myUtility.toLKR(orderItem.total) }}</strong>
+                </div>
+
               </div>
-              </div>
-              <hr class="my-2 border-gray-300 dark:border-gray-600" />
             </div>
           </div>
+
         </div>
         <!-- <div v-else>
           <p class="mt-6 text-center text-gray-500">
@@ -564,10 +489,10 @@ export default {
                 UnitPrice: Number(item.unitPrice),
                 Quantity: Number(item.qty),
                 Discount: Number(item.discount),
-                Data: {
-                  NoOfBanners: item.NoOfBanners || 0,
-                  NoOfLinks: item.NoOfLinks || 0,
-                },
+                Data: JSON.stringify({
+                  NoOfBanners: item.NoOfBanners,
+                  NoOfLinks: item.NoOfLinks
+                })
               }))
             };
 

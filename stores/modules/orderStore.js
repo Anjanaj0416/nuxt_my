@@ -209,6 +209,7 @@ actions: {
         loadingAlert.close();
         if (response.data.isSuccess) {
           this.showToast(response.data.message, "success");
+          this.listOrder = response.data.data.data;
         } else {
           this.showToast(response.data.message, "error");
         }
@@ -226,6 +227,7 @@ actions: {
           { headers: { "Content-Type": "multipart/form-data" } }
         );
         if (response.data.isSuccess) {
+         this.showToast?.(response.data.message, "success"); 
           const uploadedPath = response.data.data.data;
           const orderNo = formData.get("orderNo");
 
@@ -234,6 +236,8 @@ actions: {
             order.isSignedPIUploaded = true;
             order.piSignedScanUrl = uploadedPath;
           }
+          
+
           return { success: true, message: response.data.message };
         } else {
           return { success: false, message: response.data.message };
@@ -260,6 +264,7 @@ actions: {
             order.isScanedProposalUploaded = true;
             order.scanedProposalUrl = uploadedPath;
           }
+
           return { success: true, message: response.data.message };
         } else {
           return { success: false, message: response.data.message };

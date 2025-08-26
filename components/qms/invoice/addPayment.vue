@@ -201,7 +201,12 @@ export default {
     orderId: {
       type: [String, Number],
       required: true,
-    }
+    },
+     status: {   // ✅ Add this
+      type: String,
+      required: false,
+      default: ''
+    },
   },
   data() {
     return {

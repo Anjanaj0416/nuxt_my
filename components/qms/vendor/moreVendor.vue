@@ -28,7 +28,7 @@
               </div>
             </div>
           </div>
-<!-- {{ curVendor }} -->
+          <!-- {{ curVendor }} -->
           <div class="grid grid-cols-1 gap-4 mt-4 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-3">
             <div v-if="isEditing" class="mb-2">
                 <label class="block text-sm font-bold text-gray-600 mb-1">Customer Ref</label>
@@ -180,7 +180,7 @@
                   @deleteExistingImage="curVendor.brCopyImage = ''" @GetSelectedImage="GetSelectedBRCopy"
                   ref="refBRCopy" />
               </div> -->
-                <div class="relative mt-2">
+                <!-- <div class="relative mt-2">
                 <a :href="imageroot + curVendor.brCopyImage" target="_blank">
                   <img
                       :src="imageroot + curVendor.brCopyImage"
@@ -188,7 +188,31 @@
                       class="w-32 h-32 object-cover border border-gray-300 rounded-lg shadow-md"
                   />
                 </a>
+              </div> -->
+              <div v-if="curVendor.brCopyImage && isImage(curVendor.brCopyImage)">
+                <a :href="imageroot + curVendor.brCopyImage" target="_blank">
+                  <img
+                    :src="imageroot + curVendor.brCopyImage"
+                    alt="Vendor Document"
+                    class="w-32 h-32 object-cover border border-gray-300 rounded-lg shadow-md"
+                  />
+                </a>
               </div>
+
+              <div v-else-if="curVendor.brCopyImage && isPDF(curVendor.brCopyImage)">
+                <a :href="imageroot + curVendor.brCopyImage" target="_blank">
+                  <div class="w-32 h-32 flex items-center justify-center border border-gray-300 rounded-lg shadow-md bg-gray-100 text-xs text-gray-600">
+                    View PDF
+                  </div>
+                </a>
+              </div>
+
+              <div v-else>
+                <div class="w-32 h-32 flex items-center justify-center border border-gray-300 rounded-lg shadow-md bg-gray-50 text-xs text-gray-400">
+                  No Document
+                </div>
+              </div>
+
             </div>
             <!-- QR Image -->
             <!-- <div>
@@ -566,6 +590,14 @@ export default {
     // this.$refs.refDistrict.initItem(this.curVendor.district);
   },
   methods: {
+
+    isImage(file) {
+    return /\.(jpg|jpeg|png|gif|bmp|webp)$/i.test(file);
+    },
+
+    isPDF(file) {
+      return /\.pdf$/i.test(file);
+    },
 
     cancel() {
       this.clearErr();

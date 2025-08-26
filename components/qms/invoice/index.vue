@@ -16,6 +16,7 @@
           <!-- {{ orderNo }} -->
 
 
+
         <div class="bg-white border rounded-lg shadow-md p-6 text-sm text-gray-800">
           <div class="flex items-center justify-between mb-6">
             <div>
@@ -32,23 +33,23 @@
             </div>
 
             <!-- Button Section (Right) -->
-            <div class="w-full md:w-auto"  >
-              <div class="mr-2" v-if="status && status.trim().toLowerCase() !== 'canceled'">
+            <div class="w-full md:w-auto">
+  <div class="mr-2" v-if="status && status.trim().toLowerCase() !== 'canceled' && status !== 'FullPaid'">
+    <Button
+      class="w-26 px-4 py-1.5 mt-2 rounded-full text-xs transition"
+      label="Add Payment"
+      variant="primary"
+      v-if="
+        (status !== 'Canceled' && status !== 'FullPaid') &&
+        (userStore.loggedUser.granted.includes('su') ||
+         userStore.loggedUser.granted.includes('flo') ||
+         userStore.loggedUser.granted.includes('sso'))
+      "
+      @click="GoToPayment"
+    />
+  </div>
+</div>
 
-                  <Button
-                    class="w-26 px-4 py-1.5 mt-2 rounded-full text-xs transition"
-                    label="Add Payment"
-                    variant="primary"
-                    v-if="
-                      status !== 'Canceled' &&
-                      userStore.loggedUser.granted.includes('su') ||
-                      userStore.loggedUser.granted.includes('flo') ||
-                      userStore.loggedUser.granted.includes('sso')
-                    "
-                    @click="GoToPayment"
-                  />
-              </div>
-            </div>
           </div>
 
           <!-- Payment History Section -->

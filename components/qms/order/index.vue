@@ -31,7 +31,12 @@
           <div
             v-for="(order, index) in orderStore.listOrder"
             :key="index"
-            class="flex flex-col gap-3 p-3 mt-2 bg-white border border-gray-200 rounded-lg shadow-sm hover:shadow-md transition-shadow sm:p-4"
+            class="flex flex-col gap-3 p-3 mt-2 border border-gray-200 rounded-lg shadow-sm hover:shadow-md transition-shadow sm:p-4"
+            :class="{
+              'border-emerald-400 border-2': order.orderStatus === 'FullPaid',
+              'border-gray-200': order.orderStatus === 'Pending',
+              'border-red-300': order.orderStatus === 'Canceled'
+            }"
           >
           <!-- {{ order}} -->
 
@@ -70,12 +75,18 @@
               <div class="flex flex-col text-center sm:text-left">
                 <h1 class="text-xs font-medium text-gray-600">Proforma</h1>
                 <a
-                  :href="imageroot + order.piUrl"
+                  :href="order.orderStatus !== 'Active' ? imageroot + order.piUrl : undefined"
                   target="_blank"
-                  class="text-sm font-semibol text-blue-600 hover:underline"
+                  :class="[
+                    'text-sm  hover:underline',
+                    order.orderStatus === 'Active'
+                      ? 'text-gray-400 cursor-not-allowed pointer-events-none'
+                      : 'text-sm font-semibol text-blue-600 hover:underline'
+                  ]"
                 >
                   view
                 </a>
+
               </div>
               <div class="hidden sm:block w-px bg-gray-300 h-8"></div>
 
@@ -136,14 +147,15 @@
                 <h1 class="text-xs font-medium text-gray-600">Status</h1>
                 <span 
                   :class="{
-                    'bg-green-100 text-green-700': order.orderStatus === 'Check All Paid',
+                    'bg-green-100 text-green-700': order.orderStatus === 'FullPaid',
                     'bg-yellow-100 text-yellow-700': order.orderStatus === 'pending',
-                    'bg-yellow-900 text-white': order.orderStatus === 'Active',
+                    'bg-yellow-600 text-white': order.orderStatus === 'Active',
                     'bg-red-100 text-red-700': order.orderStatus === 'Canceled'
                   }"
                   class="text-xs font-semibold px-2 py-0.5 rounded-full"
                 >
-                  {{ order.orderStatus }}
+                  <!-- {{ order.orderStatus }} -->
+                  {{ formatStatus(order.orderStatus) }}
                 </span>
               </div>
 
@@ -165,7 +177,7 @@
             <!-- Proposal Tab Buttons -->
             <div class="sm:flex sm:justify-end sm:gap-4">
               <div class="grid grid-cols-3 gap-2 sm:flex sm:gap-4 text-sm font-medium text-gray-500">
-                <button v-if="activeOrderInvoiceId !== order.id"
+                <button  v-if="activeOrderInvoiceId !== order.id && order.orderStatus !== 'Active'"
                   @click="activeOrderInvoiceId = order.id"
                   :class="[
                     'p-4 border-b-2 rounded-t-lg text-center',
@@ -174,7 +186,8 @@
                   View Payments
                 </button>
 
-                <button v-else
+                <button 
+                  v-else-if="activeOrderInvoiceId === order.id && order.orderStatus !== 'Active'"
                   @click="activeOrderInvoiceId = null"
                   class="p-4 border-b-2 rounded-t-lg text-center text-red-600 border-transparent">
                   Close Payments
@@ -297,6 +310,16 @@ import Close from '~/components/customcontrol/close.vue';
 
     
     methods: {
+
+      formatStatus(status) {
+        const map = {
+          FullPaid: "Fully Paid",
+          pending: "Pending",
+          Active: "Active",
+          Canceled: "Cancelled"
+        };
+        return map[status] || status; // fallback if no match
+      },
 
         handleCreateClick() {
           this.showAddProposal = true;
