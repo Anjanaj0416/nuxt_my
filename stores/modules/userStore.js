@@ -37,29 +37,33 @@ export const useUserStore = defineStore('userStore', {
       }
     },
 
-  async AppLogin(formData,showLoading) { 
-    console.log('FormData in AppLogin:', Object.fromEntries(formData));
-    const loadingAlert = showLoading(''); 
+    async AppLogin(formData,showLoading) { 
+      console.log('FormData in AppLogin:', Object.fromEntries(formData));
+      const loadingAlert = showLoading(''); 
 
-      try {
-        // const secretCode = formData.get('secretCode');
-        const response = await axios.post(`${import.meta.env.VITE_API_URL}/IAM/GetAppAccessToken`,formData);     
-        console.log("response:",response);
-         
-        loadingAlert.close();                            
+        try {
+          // const secretCode = formData.get('secretCode');
+          const response = await axios.post(`${import.meta.env.VITE_API_URL}/IAM/GetAppAccessToken`,formData);     
+          console.log("response:",response);
+          
+          loadingAlert.close();                            
 
-        if (response.data.isSuccess) {         
-          this.token = response.data.authToken;  // Assuming the response contains a 'token'                          
-       }
-       else{        
-        this.showToast('AppLogin error:'+response.data.message,'error');
-       }
-       
+          if (response.data.isSuccess) {         
+            this.token = response.data.authToken;  // Assuming the response contains a 'token'  
+            
+               localStorage.setItem("authToken", response.data.authToken);
+        this.showToast("Login successful!", "success");
+
+        }
+        else{        
+          this.showToast('AppLogin error:'+response.data.message,'error');
+        }
         
-      } catch (error) {     
-        console.error("error:",error);
-        loadingAlert.close(); 
-      }
+          
+        } catch (error) {     
+          console.error("error:",error);
+          loadingAlert.close(); 
+        }
       
     },
 

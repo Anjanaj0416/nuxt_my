@@ -5,6 +5,8 @@
 
   <NewsHeader/>
 
+  <!-- {{ listNews.otherNews }} -->
+
   <section class="bg-white max-w-screen-xl mx-auto px-4 py-6 grid grid-cols-1 md:grid-cols-4 gap-6">
     <!-- Left Column -->
     <div class="md:col-span-1 space-y-6">
@@ -13,8 +15,8 @@
         <h2 class="text-xl font-bold text-red-800 mb-2">Top Story</h2>
         <h3 
           class="font-semibold leading-snug text-gray-800 hover:underline hover:text-blue-600 cursor-pointer"
-          @click="goToDetails(news.topNews)">
-            {{ news.topNews.title || "No Title Available" }}
+          @click="goToDetails(listNews.topNews)">
+            {{ listNews.topNews.title || "No Title Available" }}
         </h3>
         <!-- <nuxt-link to="/News/newsDetails">
           <button class="px-4 py-2 bg-blue-600 text-white rounded">
@@ -22,17 +24,17 @@
           </button>
         </nuxt-link> -->
         <div class="flex items-center text-xs text-gray-500 space-x-2 mt-2">
-          <span>{{ news.topNews.hour }}</span>
+          <span>{{ listNews.topNews.hour }}</span>
           <span>💬</span>
           <span>7</span>
           <span>👁️</span>
           <span>14</span>
         </div>
         <div class="flex mt-2">
-        <img :src="news.topNews.image" class="w-24 h-16 object-cover mr-3" />
+        <img :src="listNews.topNews.image" class="w-24 h-16 object-cover mr-3" />
 
           <p class="text-sm text-gray-700">
-            {{ news.topNews.shortContent.slice(0, 76) }}...
+            {{ listNews.topNews.shortContent }}...
           </p>
         </div>
       </div>
@@ -42,8 +44,8 @@
         <h2 class="text-xl font-bold text-red-800 mb-2">Breaking News</h2>
         <h3 
           class="font-semibold leading-snug text-gray-800 hover:underline hover:text-blue-600 cursor-pointer"
-          @click="goToDetails(news.breakingNews)">
-            {{ news.breakingNews.title || "No Title Available" }}
+          @click="goToDetails(listNews.breakingNews )">
+            {{ listNews.breakingNews.title || "No Title Available" }}
         </h3>
         <!-- <nuxt-link to="/News/newsDetails">
           <button class="px-4 py-2 bg-blue-600 text-white rounded">
@@ -51,17 +53,17 @@
           </button>
         </nuxt-link> -->
         <div class="flex items-center text-xs text-gray-500 space-x-2 mt-2">
-          <span>{{ news.breakingNews.hour }}</span>
+          <span>{{ listNews.breakingNews.hour }}</span>
           <span>💬</span>
           <span>7</span>
           <span>👁️</span>
           <span>14</span>
         </div>
         <div class="flex mt-2">
-        <img :src="news.breakingNews.image" class="w-24 h-16 object-cover mr-3" />
+        <img :src="listNews.breakingNews.image" class="w-24 h-16 object-cover mr-3" />
 
           <p class="text-sm text-gray-700">
-            {{ news.breakingNews.shortContent.slice(0, 130) }}...
+            {{ listNews.breakingNews.shortContent }}
           </p>
         </div>
       </div>
@@ -71,18 +73,18 @@
     <div class="md:col-span-2">
       <h4 class="uppercase text-sm text-gray-500 font-medium mb-1">Picture Story</h4>
       <img
-        :src="news.mainNews.image"
+        :src="listNews.mainNews.image"
         alt="Feature Story"
         class="w-full rounded-md mb-3"
       />
       <h1 class="font-semibold leading-snug text-gray-800 hover:underline hover:text-blue-600 cursor-pointer"
-        @click="goToDetails(news.mainNews)"
+        @click="goToDetails(listNews.mainNews)"
       >
-        {{ news.mainNews.title || "No Title Available"}}
+        {{ listNews.mainNews.title || "No Title Available"}}
       </h1>
 
       <div class="flex text-xs text-gray-500 space-x-4 mt-4">
-        <span>{{ news.mainNews.hour }}</span>
+        <span>{{ listNews.mainNews.hour }}</span>
         <span>💬</span>
         <span>10</span>
         <span>👁️</span>
@@ -171,7 +173,7 @@
 
   <section class="p-4 grid grid-cols-1 md:grid-cols-4 gap-4 max-w-screen-xl mx-auto px-4 py-4 ">
     <div class="md:col-span-3 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
-      <div v-for="newsItem in news.otherNews" :key="newsItem.id">
+      <div v-for="newsItem in listNews.otherNews" :key="newsItem.id">
         <h2 class="text-xl font-bold text-red-800 mb-2">Story</h2>
         <h3 class="font-semibold leading-snug text-gray-800 hover:underline hover:text-blue-600 cursor-pointer"
           @click="goToDetails(newsItem)"
@@ -227,6 +229,8 @@ import mainBanner from '~/assets/img/news/mainNews.jpg';
 import topBanner from '~/assets/img/news/topNews.png'
 import otherNews1 from '~/assets/img/news/otherNews1Banner.jpg'
 import braking from '~/assets/img/news/braking.jpg'
+import { useUserStore } from '~/stores/modules/userStore';
+import { useStandpageStore } from '~/stores/modules/dtlStore';
 
 
 definePageMeta({
@@ -237,85 +241,15 @@ export default {
   components: {NewsHeader,NewsFooter},
   data() {
     return {
-      news: {
-        topNews: {
-          title: "75% of APAC CFOs Believe That AI Agents Will Drive Revenue and Transform Existing Organizational Structures: Salesforce Research",
-          image: topBanner,
-          hour: "22 Aug 2025",
-          shortContent: "Colombo, Sri Lanka – Full’r Burgers, one of the fastest-growing names in Sri Lanka’s quick service restaurant (QSR) industry,  ",
-          fullContent: [
-            {
-              paragraph1:"CFOs recognise that AI has evolved from an emerging technology to a strategic tool, with only 3% of APAC CFOs still conservative in their AI strategy, down drastically from 63% five years ago ",
-              paragraph2:"INDIA, 19 August 2025 – Chief Financial Officers (CFOs) in Asia Pacific (APAC) have fundamentally shifted their approach to Artificial Intelligence (AI), according to new research from Salesforce, moving from cautious spenders to strategic investors who are betting on AI not just for cost-cutting, but as a crucial engine for long-term revenue growth.",
-              paragraph3:"A striking 63% of APAC CFOs reported having a conservative AI strategy in 2020. Fast forward to today, and that number has plummeted to a mere 3%. This rapid transformation highlights a widespread recognition among financial leaders that AI is no longer just an emerging technology but a crucial tool for enhancing efficiency, optimizing operations, and, critically, driving long-term growth.",
-              paragraph4:"CFOs' fundamental rethinking of tech investment ROI, according to the data, explains this transformation. Half (50%) of APAC CFOs say AI agents — digital labor capable of performing tasks autonomously — are changing how they evaluate ROI, measuring the success of technology investments beyond traditional metrics to encompass a broader range of business outcomes. ",
-              paragraph5:"The introduction of digital labor isn’t just a technical upgrade — it represents a decisive and strategic shift for CFOs, said Robin Washington, President and Chief Operating and Financial Officer at Salesforce. “With AI agents, we’re not merely transforming business models; we’re fundamentally reshaping the entire scope of the CFO function. This demands a new mindset as we expand beyond financial stewards to also become architects of agentic enterprise value.",
-              paragraph6:"Last year, in fact, 65% of global CFOs faced pressure to accelerate tech investment ROI. Today, they recognize the value of AI isn’t just about short-term cost-cutting, but also long-term business outcomes like revenue generation, productivity gains and improved decision-making. –  things AI agents are uniquely suited to improve. ",
+      listNews: {
+        breakingNews: {},
+        businessNews: {},
+        mainNews: {},
+        otherNews: [],
+        topNews: {}
+      },
+      showLoading: null,
 
-            }
-          ],
-        },
-        mainNews: {
-          title: "Full’r Burgers Reopens at Crescat Boulevard with a New Look and Upgraded Dining Experience",
-          image: mainBanner,
-          hour: "22 Aug 2025",
-          shortContent: "Colombo, Sri Lanka – Full’r Burgers, one of the fastest-growing names in Sri Lanka’s quick service restaurant (QSR) industry, has officially reopened its Crescat Boulevard outlet with a fresh new brand identity ",
-          fullContent: [
-            {
-              paragraph1:"Colombo, Sri Lanka – Full’r Burgers, one of the fastest-growing names in Sri Lanka’s quick service restaurant (QSR) industry, has officially reopened its Crescat Boulevard outlet with a fresh new brand identity and enhanced dining experience. This milestone marks another exciting chapter in Full’r Burgers journey to become a top contender for the best burgers in Colombo",
-              paragraph2:"Located in the heart of the city at the popular Crescat Boulevard, the revamped Full’r Burgers outlet now features expanded indoor and outdoor seating, designed to offer a more comfortable, convenient space for both dine-in guests and takeaway customers. The refreshed layout improves customer flow while maintaining the brand’s signature vibrant and casual ambiance.",
-              paragraph3:"With this relaunch, Full’r Burgers introduces a modernized brand image and focuses more than ever on providing a seamless, fast-casual dining experience. From quick service to quality food and welcoming interiors, every aspect of the new outlet reflects Full’r Burgers dedication to great burgers and great service.",
-              paragraph4:"The reopening is a strategic move as Full’r Burgers strengthens its presence in Colombo’s competitive burger restaurant space. It aligns with the brand’s wider expansion goals and its mission to deliver a premium yet affordable burger experiences across key urban hubs.",
-              paragraph5:"Full’r Burgers has built a loyal following with its juicy burger patties, fresh ingredients, and bold flavors. The new Crescat outlet brings this signature taste to a modern setting, offering customers more reasons to choose Full’r when searching for burgers near me in Colombo.",
-              paragraph4:"Whether you’re grabbing a quick bite, enjoying a meal with friends, or exploring the city’s best food spots, the new Full’r at Crescat Boulevard is a must-visit. The brand invites everyone to step in, enjoy the vibe, and be part of its evolving QSR story ; one delicious burger at a time.",
-
-
-            }
-          ],
-        },
-        businessNews: {
-          title: "",
-          image: "",
-          hour: "",
-          shortContent: "",
-          fullContent: "",
-        },
-        breakingNews: {
-          title: "Former President Ranil Wickremesinghe arrested ",
-          image: braking,
-          hour: "22 Aug 2025",
-          shortContent: "Former President Ranil Wickremesinghe was arrested today by the Criminal Investigation Department (CID) after arriving to record a",
-          fullContent: "",
-        },
-        otherNews: [
-          {
-            id: 1,
-            title: "Abans Solar Introduces ‘Tiken Tika Pay’ for Solar PV Systems",
-            image: otherNews1, 
-            hour: "22 Aug 2025",
-            shortContent: "Within a time of increasing grid failures, environmental concerns, and the growing energy demand, Solar power stands as the sustainable solution, which could pave the pathway for energy independence, while reducing the reliance on typical power sources ",
-            fullContent: [
-              {
-                paragraph1: "Within a time of increasing grid failures, environmental concerns, and the growing energy demand, Solar power stands as the sustainable solution, which could pave the pathway for energy independence, while reducing the reliance on typical power sources and lowering energy bills. However, one significant hurdle that prevents many from venturing into investing in Solar Power Systems is the high initial cost of the power system. ",
-                paragraph2: "As the ultimate solution to this problem, Abans Solar is proud to introduce ‘Tiken Tika Pay’ hire purchase facility for Solar PV systems, which brings the monthly instalment rate for Solar as low as mere Rs. 20,139/-. Under this facility, customers can not only gain the benefit of instalment payment plans, but Abans Solar provides with the access to the best technology, reliable consumer service, and long-term warranties. As a stable company that is able to guide you through the whole process, from selecting the right solutions, to providing installation and after-sales service support, Abans Solar functions under a ‘customer-first’ philosophy. ",
-                paragraph3: "Abans Solar doesn’t just stop at affordability. The company is committed to delivering a full-circle energy experience, combining world-class products with personalized service, nationwide support, and unbeatable value.",
-                paragraph4: "This is delivered through the high-efficiency photovoltaic (PV) panels and inverters sourced from globally trusted manufacturers, such as JinkoSolar, Huawei, Growatt and more. This means better performance, longer life, and maximum savings from day one.",
-                paragraph5: "Why choose Abans? With island wide coverage of a network of over 400 showrooms, experienced electrical engineers and technical staff, well trained installation teams, 24/7 after sales service support, not only Abans offers top quality, highly efficient product components, but also offers trustworthy warranty up to 30 years.",
-                paragraph6: "Additionally, Abans Solar offers free site visits and consultation, free insurance coverage, an online monitoring application, while offering the first service for free. With Abans Solar, you can harness the sun’s power to create a cleaner, greener, and brighter future for generations to come. Choosing Abans Solar doesn’t just benefit your wallet but becomes a gift to the environment and the future. Contact us at 0112 222 888 for more information.",
-              }
-            ],
-          },
-          // {
-          //   id: 2,
-          //   title: "Another News Title",
-          //   image: "",
-          //   hour: "5 hours ago",
-          //   shortContent: "Short summary...",
-          //   fullContent: "",
-          // },
-        ]
-
-      }
     };
   },
 
@@ -324,6 +258,17 @@ export default {
   },
 
   async created() {
+    this.dtlStore = useStandpageStore();
+    this.userStore = useUserStore();
+    this.showLoading = this.$showLoading;
+
+    this.loginWithSecretCode();
+
+    await this.dtlStore.fetchNews(this.showLoading);
+
+    this.listNews = this.dtlStore.newsList;
+
+
 
     },
 
@@ -332,6 +277,23 @@ export default {
 
   },
   methods: {
+
+    async loginWithSecretCode() {
+      const secretCode = 'w5jzxd02';
+      const formData = new FormData();
+      formData.append('secretCode', secretCode);
+
+      try {
+        await this.userStore.AppLogin(formData, this.showLoading);
+        console.log('Login successful');
+      } catch (err) {
+        console.error('Login failed:', err);
+      }
+    },
+
+  
+
+
     goToDetails(item) {
       console.log('test:',item);
       // Use this.$router for Options API
