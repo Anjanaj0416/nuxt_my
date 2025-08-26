@@ -1,86 +1,127 @@
-<!-- pages/dashboard.vue -->
 <template>
-  <div>
-    <!-- Top Row -->
-    <div class="grid grid-cols-2 gap-6">
-      <!-- Ongoing -->
-      <div class="bg-white shadow rounded-lg p-4 flex flex-col gap-2">
-        <p class="text-gray-500 text-sm">On going</p>
-        <p class="text-4xl font-bold">#18</p>
-        <p class="text-gray-600">Name : Nuskan</p>
-        <div class="flex gap-2 mt-2">
-          <button class="flex-1 bg-gray-800 text-white py-2 rounded-lg hover:bg-gray-900">Mark Finished</button>
-          <button class="flex-1 bg-gray-200 py-2 rounded-lg hover:bg-gray-300">Skip</button>
-        </div>
-      </div>
-
-      <!-- Next -->
-      <div class="bg-white shadow rounded-lg p-4 flex flex-col justify-between">
-        <div class="flex justify-between items-start">
-          <div class="flex items-center gap-3">
-            <i class="fas fa-user-circle text-4xl text-gray-400"></i>
-            <div>
-              <p class="font-bold text-lg">Nuskan Nawaz</p>
-              <p class="text-gray-500 text-sm">0712922270</p>
-            </div>
-          </div>
-          <p class="text-gray-500 text-sm">Est Time : 3.40</p>
-        </div>
-        <div class="mt-4">
-          <button class="w-full bg-blue-500 text-white py-2 rounded-lg hover:bg-blue-600">Call</button>
-        </div>
-      </div>
-    </div>
-
-    <!-- Stats Grid -->
-    <div class="grid grid-cols-3 gap-6 mt-6">
-      <div class="bg-white shadow rounded-lg p-4 text-center">
-        <p class="text-gray-500">People Waiting</p>
-        <p class="text-2xl font-bold">06</p>
-      </div>
-      <div class="bg-white shadow rounded-lg p-4 text-center">
-        <p class="text-gray-500">People Served</p>
-        <p class="text-2xl font-bold">05</p>
-      </div>
-      <div class="bg-white shadow rounded-lg p-4 text-center">
-        <p class="text-gray-500">Total Tokens (Today)</p>
-        <p class="text-2xl font-bold">11</p>
-      </div>
-      <div class="bg-blue-500 shadow rounded-lg p-4 flex items-center justify-center">
-        <button class="text-white font-bold text-xl">Provide Token</button>
-      </div>
-      <div class="bg-white shadow rounded-lg p-4 text-center">
-        <p class="text-gray-500">Avg. Handling Time</p>
-        <p class="text-2xl font-bold">32 min</p>
-      </div>
-      <div class="bg-white shadow rounded-lg p-4 text-center">
-        <p class="text-gray-500">Skipped</p>
-        <p class="text-2xl font-bold">00</p>
-      </div>
-    </div>
-
-    <!-- Start/End Button -->
-    <div class="flex justify-end mt-6">
-      <button
-        @click="toggleQueue"
-        :class="queueActive ? 'bg-red-500 text-white' : 'bg-white border text-black'"
-        class="px-6 py-2 rounded-lg shadow hover:opacity-90"
+  
+    <!-- Live Queue (like Instagram Stories) -->
+    <div class="flex space-x-4">
+    <div
+      v-for="(item, index) in liveQueue"
+      :key="index"
+      :class="[
+        'w-20 h-20 rounded-full p-1 bg-blue-950 text-white shadow-md flex flex-col items-center justify-center cursor-pointer hover:scale-105 transition',
+        item.status === 'ongoing' ? 'ring-4 ring-yellow-500' :
+        item.status === 'served' ? 'ring-4 ring-gray-400' :
+        item.status === 'skipped' ? 'ring-4 ring-red-500' :
+        'ring-4 ring-blue-500' // default waiting
+      ]"
+    >
+      <span class="text-lg font-bold">#{{ item.token }}</span>
+      <span
+        :class="[
+          'mt-2 text-sm font-medium',
+          item.status === 'ongoing' ? 'text-yellow-600' :
+          item.status === 'served' ? 'text-gray-500' :
+          item.status === 'skipped' ? 'text-red-600' :
+          'text-blue-500'
+        ]"
       >
-        {{ queueActive ? 'End the Queue' : 'Start the Queue' }}
-      </button>
+        {{ item.status.charAt(0).toUpperCase() + item.status.slice(1) }}
+      </span>
     </div>
   </div>
+    <!-- Middle Content -->
+    <div class="flex flex-1 gap-4">
+      <!-- Current Token Section -->
+      <div class="flex-1 bg-white rounded-xl shadow-md p-6 space-y-4 flex flex-col justify-between">
+        <div>
+          <p class="text-gray-500">On going</p>
+          <h2 class="text-4xl font-bold text-blue-600">#{{ current.token }}</h2>
+          <p class="text-lg font-medium">Name: {{ current.name }}</p>
+        </div>
+        <div class="flex space-x-3">
+          <button class="flex-1 bg-green-500 text-white py-2 rounded-lg hover:bg-green-600">
+            Mark Finished
+          </button>
+          <button class="flex-1 bg-gray-300 text-gray-700 py-2 rounded-lg hover:bg-gray-400">
+            Skip
+          </button>
+        </div>
+      </div>
+
+      <!-- Customer Info -->
+      <div class="flex-1 bg-white rounded-xl shadow-md p-6 flex flex-col justify-between">
+        <div>
+          <h3 class="text-xl font-semibold">{{ current.name }}</h3>
+          <p class="text-gray-500">{{ current.phone }}</p>
+          <p class="text-gray-400 text-sm">Est Time: {{ current.estTime }} min</p>
+        </div>
+        <button class="mt-6 bg-blue-600 text-white py-2 rounded-lg hover:bg-blue-700">
+          Call
+        </button>
+      </div>
+    </div>
+
+    <!-- Stats -->
+    <div class="grid grid-cols-5 gap-4">
+      <div
+        v-for="(stat, i) in stats"
+        :key="i"
+        class="bg-white rounded-xl shadow-md p-4 text-center"
+      >
+        <h4 class="text-2xl font-bold text-blue-600">{{ stat.value }}</h4>
+        <p class="text-gray-500">{{ stat.label }}</p>
+      </div>
+    </div>
+
+    <!-- Bottom Actions -->
+    <div class="flex justify-between items-center">
+      <button class="bg-yellow-500 text-white px-6 py-2 rounded-lg hover:bg-yellow-600">
+        Provide Token
+      </button>
+      <button
+        :class="[
+          'px-6 py-2 rounded-lg transition',
+          isQueueActive ? 'bg-red-600 hover:bg-red-700 text-white' : 'bg-blue-600 hover:bg-blue-700 text-white'
+        ]"
+        @click="toggleQueue"
+      >
+        {{ isQueueActive ? 'End the Queue' : 'Start the Queue' }}
+      </button>
+    </div>
+
 </template>
 
 <script setup>
 import { ref } from 'vue'
 
+const liveQueue = [
+  { token: 19, name: "A19", status: "served" },
+  { token: 21, name: "A21", status: "ongoing" },
+  { token: 22, name: "A22", status: "skipped" },
+  { token: 23, name: "A23", status: "waiting" },
+  { token: 24, name: "A24", status: "waiting" }
+]
+
+const current = {
+  token: 18,
+  name: "Nuskan Nawaz",
+  phone: "0712922270",
+  estTime: 3.4
+}
+
+const stats = [
+  { label: "People Waiting", value: "06" },
+  { label: "People Served", value: "05" },
+  { label: "Total Tokens (Today)", value: "11" },
+  { label: "Avg. Handling Time", value: "32 min" },
+  { label: "Skipped", value: "00" }
+]
+
+const isQueueActive = ref(false)
+
+const toggleQueue = () => {
+  isQueueActive.value = !isQueueActive.value
+}
+
 definePageMeta({
   layout: 'appts-shops'
 })
-
-const queueActive = ref(false)
-const toggleQueue = () => {
-  queueActive.value = !queueActive.value
-}
 </script>

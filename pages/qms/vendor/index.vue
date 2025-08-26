@@ -15,20 +15,24 @@
       </div>
       <div class="w-full md:w-auto flex items-center gap-2">
         <!-- Dropdown -->
-        <select
-          v-model="searchBy"
-          @change="SetSelectedFilter"
-          class="w-44 border border-btn text-gray-900 text-sm rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-600 px-3 py-2.5"
-        >
-          <option disabled value="">Filter By</option>
-          <option value="orderno">Order No</option>
-          <option value="customerRef">Customer Ref</option>
-          <option value="shopName">Shop Name</option>
-        </select>
+       <select
+        v-model="searchBy"
+        @change="SetSelectedFilter"
+        class="w-44 border border-gray-300 rounded-full focus:outline-none 
+               focus:ring-2 focus:ring-blue-500 px-4 py-3 text-gray-700"
+      >
+        <option disabled value="" class="bg-blue-900">Filter By</option>
+        <option value="orderno">Order No</option>
+        <option value="customerRef">Customer Ref</option>
+        <option value="shopName">Shop Name</option>
+      </select>
+<!-- 
+         class="absolute top-1/2 right-2 -translate-y-1/2 flex items-center justify-center 
+                 w-10 h-10 bg-yellow-400 rounded-full hover:bg-yellow-500 transition duration-200" -->
 
 
         <!-- Search -->
-        <div class="w-full md:w-64">
+        <div class="w-full md:w-96">
           <SearchComp @DoSearch="GetSearch" />
         </div>
       </div>
@@ -91,7 +95,11 @@
 
               <!-- Generic Text Values -->
               <p v-else class="text-xs text-gray-500 mt-0.5">
-                {{ vd[field.key] }} {{ field.secondKey ? vd[field.secondKey] : "" }}
+                <!-- {{ vd[field.key] }} {{ field.secondKey ? vd[field.secondKey] : ""  }} -->
+                  <span v-if="vd[field.key] || field.secondKey && vd[field.secondKey]">
+                    {{ vd[field.key] }} {{ field.secondKey ? vd[field.secondKey] : "" }}
+                  </span>
+                  <span v-else class="italic text-gray-400">no data</span>
               </p>
             </div>
           </div>

@@ -146,10 +146,12 @@
           <!-- Header Row -->
           <div class="hidden w-full p-2 text-center bg-gray-100 rounded-lg shadow-sm sm:p-2 dark:bg-gray-100 dark:border-gray-700 lg:block">
             <div
-              class="grid grid-cols-1 gap-1 text-xs text-gray-700 uppercase sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-9"
+              class="grid grid-cols-1 gap-1 text-xs text-gray-700 uppercase sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-10"
             >
-              <div class="p-2">Index</div>
+              <div class="p-2 hidden">Index</div>
               <div class="p-2">Description</div>
+              <div class="p-2">No Of Banners</div>
+              <div class="p-2">No Of Links</div>
               <div class="p-2">Unit Price</div>
               <div class="p-2">qty</div>
               <div class="p-2">
@@ -177,15 +179,37 @@
             >
           <div>
               <div
-                class="relative grid grid-cols-1 gap-4 py-2 text-xs text-gray-700 uppercase sm:grid-cols-6 md:grid-cols-8 lg:grid-cols-9"
+                class="relative grid grid-cols-1 gap-4 py-2 text-xs text-gray-700 uppercase sm:grid-cols-6 md:grid-cols-8 lg:grid-cols-10"
               >
-                <div class="flex items-center justify-center">
+                <div class="flex items-center justify-center hidden">
                   <p class="mr-2 sm:hidden">Index:</p>
                   <strong>{{ index + 1 }}</strong>
                 </div>
                 <div class="flex items-center justify-center">
                   <p class="mr-2 sm:hidden">Package Name:</p>
                   <strong>{{ orderItem.packageName }} </strong>
+                </div>
+                 <div class="flex items-center justify-center">
+                  <p class="mr-2 sm:hidden">No Of Banners :</p>
+                  <!-- <strong>{{ this.$myUtility.toLKR(orderItem.unitPrice) }}</strong> -->
+                  <input
+                    type="number"
+                    min="1"
+                    class="block p-1 text-xs text-gray-900 border border-gray-300 rounded-lg w-24 sm:w-16 bg-gray-50 sm:text-sm"
+                    placeholder=""
+                    v-model="orderItem.NoOfBanners"
+                  />
+                </div>
+                 <div class="flex items-center justify-center">
+                  <p class="mr-2 sm:hidden">No Of Links :</p>
+                  <!-- <strong>{{ this.$myUtility.toLKR(orderItem.unitPrice) }}</strong> -->
+                  <input
+                    type="number"
+                    min="1"
+                    class="block p-1 text-xs text-gray-900 border border-gray-300 rounded-lg w-24 sm:w-16 bg-gray-50 sm:text-sm"
+                    placeholder=""
+                    v-model="orderItem.NoOfLinks"
+                  />
                 </div>
                 <div class="flex items-center justify-center">
                   <p class="mr-2 sm:hidden">Unit Price :</p>
@@ -539,7 +563,11 @@ export default {
                 ItemId: item.packageId,
                 UnitPrice: Number(item.unitPrice),
                 Quantity: Number(item.qty),
-                Discount: Number(item.discount)
+                Discount: Number(item.discount),
+                Data: {
+                  NoOfBanners: item.NoOfBanners || 0,
+                  NoOfLinks: item.NoOfLinks || 0,
+                },
               }))
             };
 
