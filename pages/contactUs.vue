@@ -18,9 +18,8 @@
         <!-- Desktop Navigation -->
         <div
           class="items-center hidden px-4 py-2 space-x-4 text-sm text-white bg-blue-900 rounded-full shadow-lg md:flex">
-          <a href="#services" class="transition duration-300 hover:text-gray-300">Service</a>
-          <a href="#Product" class="transition duration-300 hover:text-gray-300">Product</a>
-          <a href="#" class="transition duration-300 hover:text-gray-300">Projects</a>
+          <NuxtLink to="/service" class="transition duration-300 hover:text-gray-300">Service</NuxtLink>
+          <NuxtLink to="/project" class="transition duration-300 hover:text-gray-300">Project</NuxtLink>
           <NuxtLink to="/aboutUs" class="transition duration-300 hover:text-gray-300">About us</NuxtLink>
           <NuxtLink to="/contactUs" class="transition duration-300 hover:text-gray-300">Contact</NuxtLink>
           <NuxtLink to="/user/login" class="transition duration-300 hover:text-gray-300">Intranet</NuxtLink>
@@ -32,12 +31,13 @@
             <div v-if="showDropdown" class="absolute left-0 z-50 w-40 mt-2 text-blue-900 bg-white rounded shadow-md">
               <NuxtLink @click="closeDropdown" to="/portfoliotemplates/standard"
                 class="block px-4 py-2 hover:bg-blue-100">Standard</NuxtLink>
-              <NuxtLink @click="closeDropdown" to="/portfoliotemplates/premium"
-                class="block px-4 py-2 hover:bg-blue-100">Premium</NuxtLink>
+              <NuxtLink @click="closeDropdown" to="/portfoliotemplates/premium" class="block px-4 py-2 hover:bg-blue-100">
+                Premium</NuxtLink>
               <NuxtLink @click="closeDropdown" to="/portfoliotemplates/enterprise"
                 class="block px-4 py-2 hover:bg-blue-100">Enterprise</NuxtLink>
             </div>
           </div>
+          <NuxtLink to="careers" class="transition duration-300 hover:text-gray-300">Careers</NuxtLink>
           <a href="tel:+011 222 3 222"
             class="px-4 py-2 ml-4 font-semibold text-blue-900 transition-transform transform bg-white rounded-full shadow-md hover:scale-105 hover:bg-blue-100">
             Talk to Us
@@ -52,58 +52,57 @@
         </button>
       </nav>
 
-      <!-- Mobile Sidebar -->
-      <transition name="slide">
-        <div v-if="menuOpen" class="fixed inset-0 z-50 bg-black bg-opacity-50 md:hidden" @click="toggleMenu">
-          <div class="fixed top-0 left-0 w-64 h-full p-6 overflow-y-auto text-white bg-blue-900 shadow-lg" @click.stop>
-            <!-- Header Row with Logo Left and Close Button Right -->
-            <div class="flex items-center justify-between mb-6">
-              <!-- Logo on the Left -->
-              <NuxtLink to="/" class="flex items-center text-2xl font-bold transition duration-300 hover:opacity-90">
-                <img src="/assets/img/digitalTechLabs/DigitalTechLabsLogo.jpg" alt="Digital Tech Labs Logo"
-                  class="w-24 px-2 rounded-full" />
-              </NuxtLink>
+    <!-- Mobile Sidebar -->
+    <transition name="slide">
+      <div v-if="menuOpen" class="fixed inset-0 z-50 bg-black bg-opacity-50 md:hidden" @click="toggleMenu">
+        <div class="fixed top-0 left-0 w-64 h-full p-6 overflow-y-auto text-white bg-blue-900 shadow-lg" @click.stop>
+          <!-- Header Row with Logo Left and Close Button Right -->
+          <div class="flex items-center justify-between mb-6">
+            <!-- Logo on the Left -->
+            <NuxtLink to="/" class="flex items-center text-2xl font-bold transition duration-300 hover:opacity-90">
+              <img src="/assets/img/digitalTechLabs/DigitalTechLabsLogo.jpg" alt="Digital Tech Labs Logo"
+                class="w-24 px-2 rounded-full" />
+            </NuxtLink>
 
-              <!-- Close Button on the Right -->
-              <button class="text-xl font-bold text-white transition hover:text-gray-300" @click="toggleMenu">
-                ✕
-              </button>
-            </div>
-
-
-            <!-- Navigation Links -->
-            <nav class="flex flex-col mt-6 space-y-4">
-              <a href="#services" class="hover:text-gray-300">Service</a>
-              <a href="#Product" class="hover:text-gray-300">Product</a>
-              <a href="#" class="hover:text-gray-300">Projects</a>
-              <NuxtLink to="/aboutUs" class="hover:text-gray-300">About us</NuxtLink>
-              <NuxtLink to="/contactUs" class="hover:text-gray-300">Contact</NuxtLink>
-              <NuxtLink to="/user/login" class="hover:text-gray-300">Intranet</NuxtLink>
-
-              <!-- Dropdown in Sidebar -->
-              <div class="relative pl-3">
-                <button @click="toggleDropdown" class="w-full text-left transition hover:text-gray-300">
-                  Packages
-                </button>
-                <div v-if="showDropdown" class="p-2 mt-2 ml-2 space-y-1 text-blue-900 bg-white rounded shadow">
-                  <NuxtLink @click="closeDropdown" to="/portfoliotemplates/standard"
-                    class="block px-2 py-1 rounded hover:bg-blue-100">Standard</NuxtLink>
-                  <NuxtLink @click="closeDropdown" to="/portfoliotemplates/premium"
-                    class="block px-2 py-1 rounded hover:bg-blue-100">Premium</NuxtLink>
-                  <NuxtLink @click="closeDropdown" to="/portfoliotemplates/enterprise"
-                    class="block px-2 py-1 rounded hover:bg-blue-100">Enterprise</NuxtLink>
-                </div>
-              </div>
-
-              <!-- CTA Button -->
-              <a href="tel:+011 222 3 222"
-                class="px-4 py-2 mt-6 font-semibold text-center text-blue-900 bg-white rounded-full shadow-md hover:bg-blue-100">
-                Talk to Us
-              </a>
-            </nav>
+            <!-- Close Button on the Right -->
+            <button class="text-xl font-bold text-white transition hover:text-gray-300" @click="toggleMenu">
+              ✕
+            </button>
           </div>
+
+
+          <!-- Navigation Links -->
+          <nav class="flex flex-col mt-6 space-y-4">
+            <a href="/service" class="hover:text-gray-300">Service</a>
+            <a href="/project" class="hover:text-gray-300">Projects</a>
+            <NuxtLink to="/aboutUs" class="hover:text-gray-300">About us</NuxtLink>
+            <NuxtLink to="/contactUs" class="hover:text-gray-300">Contact</NuxtLink>
+            <NuxtLink to="/user/login" class="hover:text-gray-300">Intranet</NuxtLink>
+
+            <!-- Dropdown in Sidebar -->
+            <div class="relative pl-3">
+              <button @click="toggleDropdown" class="w-full text-left transition hover:text-gray-300">
+                Packages
+              </button>
+              <div v-if="showDropdown" class="p-2 mt-2 ml-2 space-y-1 text-blue-900 bg-white rounded shadow">
+                <NuxtLink @click="closeDropdown" to="/portfoliotemplates/standard"
+                  class="block px-2 py-1 rounded hover:bg-blue-100">Standard</NuxtLink>
+                <NuxtLink @click="closeDropdown" to="/portfoliotemplates/premium"
+                  class="block px-2 py-1 rounded hover:bg-blue-100">Premium</NuxtLink>
+                <NuxtLink @click="closeDropdown" to="/portfoliotemplates/enterprise"
+                  class="block px-2 py-1 rounded hover:bg-blue-100">Enterprise</NuxtLink>
+              </div>
+            </div>
+            <NuxtLink to="/careers" class="transition duration-300 hover:text-gray-300">Careers</NuxtLink>
+            <!-- CTA Button -->
+            <a href="tel:+011 222 3 222"
+              class="px-4 py-2 mt-6 font-semibold text-center text-blue-900 bg-white rounded-full shadow-md hover:bg-blue-100">
+              Talk to Us
+            </a>
+          </nav>
         </div>
-      </transition>
+      </div>
+    </transition>
 
     </header>
     <!-- section 1 -->
@@ -131,6 +130,8 @@
           </div>
 
         </div>
+
+        
 
         <div class="grid md:grid-cols-2 md:gap-6">
           <div class="relative z-0 w-full mb-5 group">
@@ -209,7 +210,7 @@
               <ul class="text-gray-600">
                 <li class="mb-4">
                   <!-- hide Img -->
-                  <a href="https://prep.btob.lk" target="_blank" class="hover:underline">B2B.lk</a>
+                  <a href="https://www.btob.lk/" target="_blank" class="hover:underline">B2B.lk</a>
                 </li>
                 <li>
                   <!-- <a href="" class="hover:underline">Automobile.lk</a> -->
@@ -263,7 +264,7 @@ import { useUserStore } from '~/stores/modules/userStore';
 
 
 definePageMeta({
-  layout: 'contactus',
+  layout: '',
 });
 
 export default {
@@ -300,37 +301,90 @@ export default {
   computed: {
   },
   methods: {
+    // async AddContact() {
+    //   if (this.validateForm()) {
+    //     this.$showConfirm(
+    //       "Are you sure to submit this contact?",
+    //       "warning"
+    //     ).then(async (result) => {
+    //       if (result.isConfirmed) {
+    //         const req = {
+    //           fullName: this.formData.fullName,
+    //           email: this.formData.email,
+    //           phone: this.formData.phone,
+    //           webSite: this.formData.webSite,
+    //           comment: this.formData.comment,
+    //         };
+    //         console.log("Submitted:", req);
+
+    //         const secretCode = 'w5jzxd02';
+    //         const formData = new FormData();
+    //         formData.append('secretCode', secretCode);
+    //         await this.userStore.AppLogin(formData, this.showLoading);
+
+    //         await this.dtlStore.SetContactUs(req, this.showLoading);
+    //       } else {
+    //         console.log("Action canceled");
+    //       }
+    //       this.resetForm();
+    //     });
+    //   } else {
+    //   }
+    // },
+
     async AddContact() {
-      if (this.validateForm()) {
-        this.$showConfirm(
-          "Are you sure to submit this contact?",
-          "warning"
-        ).then(async (result) => {
-          if (result.isConfirmed) {
-            const req = {
-              fullName: this.formData.fullName,
-              email: this.formData.email,
-              phone: this.formData.phone,
-              webSite: this.formData.webSite,
-              comment: this.formData.comment,
-            };
-            console.log("Submitted:", req);
+          if (this.validateForm()) {
+            this.$swal.fire({
+              title: "Confirm Submission",
+              text: "Are you sure you want to submit this contact?",
+              icon: "question",
+              showCancelButton: true,
+              confirmButtonColor: "#2563eb", // Tailwind blue-600
+              cancelButtonColor: "#6b7280",  // Tailwind gray-500
+              confirmButtonText: "Submit",
+              cancelButtonText: "Cancel",
+              focusConfirm: true,
+              reverseButtons: false,
+              customClass: {
+                popup: "rounded-xl shadow-lg",
+                title: "text-xl font-semibold text-gray-800",
+                htmlContainer: "text-gray-600",
+                confirmButton: "px-6 py-2 font-medium rounded-lg",
+                cancelButton: "px-6 py-2 font-medium rounded-lg",
+              },
+            }).then(async (result) => {
+              if (result.isConfirmed) {
+                const req = {
+                  fullName: this.formData.fullName,
+                  email: this.formData.email,
+                  phone: this.formData.phone,
+                  webSite: this.formData.webSite,
+                  comment: this.formData.comment,
+                };
+                console.log("Submitted:", req);
 
-            const secretCode = 'w5jzxd02';
-            const formData = new FormData();
-            formData.append('secretCode', secretCode);
-            await this.userStore.AppLogin(formData, this.showLoading);
+                const secretCode = "w5jzxd02";
+                const formData = new FormData();
+                formData.append("secretCode", secretCode);
+                await this.userStore.AppLogin(formData, this.showLoading);
 
-            await this.dtlStore.SetContactUs(req, this.showLoading);
-          } else {
-            console.log("Action canceled");
+                await this.dtlStore.SetContactUs(req, this.showLoading);
+
+                this.$swal.fire({
+                  title: "Submitted Successfully",
+                  text: "Your contact details have been sent.",
+                  icon: "success",
+                  confirmButtonColor: "#2563eb",
+                });
+              } else {
+                console.log("Action canceled");
+              }
+              this.resetForm();
+            });
           }
-          this.resetForm();
-        });
-      } else {
-      }
     },
 
+   
     validateForm() {
       this.err = {};
       let isValid = true;

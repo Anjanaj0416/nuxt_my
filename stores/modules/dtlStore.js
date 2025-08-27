@@ -24,6 +24,7 @@ export const useStandpageStore = defineStore("standpage", {
       otherNews: [],
       topNews: {}
     },
+    selectedNews: null, 
     pageData: {
       standard:{
           // section1
@@ -413,31 +414,21 @@ export const useStandpageStore = defineStore("standpage", {
       }
     },
 
-    async fetchNews() {
-      console.log('API-GetReadBToBNews');
-
-      const loadingAlert = this.showLoading ? this.showLoading('Loading news...') : null;
+   
+    async fetchNews(showLoading) {
+      const loadingAlert = showLoading ? showLoading('Loading news...') : null;
 
       try {
         const userStoreData = JSON.parse(localStorage.getItem("userStore"));
         const token = userStoreData?.token;
 
-        const response = await axios.get(
-          `${import.meta.env.VITE_API_URL}/dtl/GetReadBToBNews`,
-          {
-            headers: {
-              Authorization: `Bearer ${token}`
-            }
-          }
-        );
-
-        console.log('news,:',response);
-        
+        const response = await axios.get(`${import.meta.env.VITE_API_URL}/dtl/GetReadBToBNews`, {
+          headers: { Authorization: `Bearer ${token}` }
+        });
 
         loadingAlert?.close();
 
         if (response.data.isSuccess) {
-          // Replace static news with API data
           const newsData = response.data.data.data;
           this.newsList = {
             breakingNews: newsData.breakingNews || {},
@@ -446,7 +437,6 @@ export const useStandpageStore = defineStore("standpage", {
             otherNews: newsData.otherNews || [],
             topNews: newsData.topNews || {},
           };
-
         } else {
           this.newsList = {
             breakingNews: {},
@@ -455,15 +445,20 @@ export const useStandpageStore = defineStore("standpage", {
             otherNews: [],
             topNews: {}
           };
-          this.showToast(response.data.message, "error");
         }
-
-      } catch (error) {
+      } catch (err) {
         loadingAlert?.close();
-        this.showToast(error.message, "error");
-        console.error('Failed to load news:', error);
+        console.error(err);
       }
     },
+
+    setSelectedNews(news) {
+      this.selectedNews = news;
+    },
+    clearSelectedNews() {
+      this.selectedNews = null;
+    },
+  
 
 
     async showToast(message, type) {

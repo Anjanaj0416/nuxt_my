@@ -43,22 +43,23 @@
     </div>
 
     <!-- Middle Navigation Bar -->
-    <nav class="border-t border-gray-200">
-      <div class="flex flex-wrap justify-center px-4 py-2 space-x-12 text-sm font-medium text-gray-700">
-        <a href="/News" class="hover:text-blue-600">Home</a>
-        <a href="#" class="hover:text-blue-600">Latest News</a>
-        <a href="#" class="hover:text-blue-600">Opinion</a>
-        <a href="#" class="hover:text-blue-600">Features</a>
-        <a href="#" class="hover:text-blue-600">Expose</a>
-        <a href="#" class="hover:text-blue-600">Business</a>
-        <a href="#" class="hover:text-blue-600">Sports</a>
-        <a href="#" class="hover:text-blue-600">World News</a>
-        <a href="#" class="hover:text-blue-600">Videos</a>
-        <a href="#" class="hover:text-blue-600">The Sun</a>
-        <a href="#" class="hover:text-blue-600">Life</a>
-        <a href="#" class="hover:text-blue-600">Obituaries</a>
+    <nav class="border-t border-gray-200"> 
+      <div class="flex overflow-x-auto whitespace-nowrap px-4 py-2 text-sm font-medium text-gray-700 md:justify-center lg:justify-center">
+        <a href="/News" class="hover:text-blue-600 px-4 py-1 inline-block">Home</a>
+        <a href="#" class="hover:text-blue-600 px-4 py-1 inline-block">Latest News</a>
+        <a href="#" class="hover:text-blue-600 px-4 py-1 inline-block">Opinion</a>
+        <a href="#" class="hover:text-blue-600 px-4 py-1 inline-block">Features</a>
+        <a href="#" class="hover:text-blue-600 px-4 py-1 inline-block">Expose</a>
+        <a href="#" class="hover:text-blue-600 px-4 py-1 inline-block">Business</a>
+        <a href="#" class="hover:text-blue-600 px-4 py-1 inline-block">Sports</a>
+        <a href="#" class="hover:text-blue-600 px-4 py-1 inline-block">World News</a>
+        <a href="#" class="hover:text-blue-600 px-4 py-1 inline-block">Videos</a>
+        <a href="#" class="hover:text-blue-600 px-4 py-1 inline-block">The Sun</a>
+        <a href="#" class="hover:text-blue-600 px-4 py-1 inline-block">Life</a>
+        <a href="#" class="hover:text-blue-600 px-4 py-1 inline-block">Obituaries</a>
       </div>
     </nav>
+
   </header>
 
 </template>
@@ -76,6 +77,7 @@
  import LinkBtn from "~/components/customcontrol/Link";
   import Button from "~/components/customcontrol/Button";
   import selectinput2 from "~/components/customcontrol/selectinput2";
+  
 
  definePageMeta({
     layout: 'contactus',   

@@ -1,122 +1,104 @@
-
 <template>
-  
-    <!-- Header -->
+  <div>
     <fheader />
-      <section class="bg-white max-w-screen-xl mx-auto px-4 py-6 grid grid-cols-1 6">
 
-    <!-- News Title -->
-    <h1 class="text-2xl font-bold mb-6">{{ newsItem.title }}</h1>
+    <!-- News Section -->
+    <section
+      v-if="newsItem"
+      class="bg-white max-w-screen-xl mx-auto px-4 py-6 grid grid-cols-1"
+    >
+      <!-- News Title -->
+      <h1 class="text-2xl font-bold mb-6">{{ newsItem.title }}</h1>
 
-    <!-- Content with image on the right -->
-    <div class="flex flex-col md:flex-row md:items-start md:gap-6">
-      <!-- Text Content -->
-      <div class="flex-1 mb-4 md:mb-0">
-        <p class="text-gray-700">{{ newsItem.fullContent[0].paragraph1 }}</p>
-        <p class="text-gray-700 mt-2">{{ newsItem.fullContent[0].paragraph2 }}</p>
-        <p class="text-gray-700 mt-2">{{ newsItem.fullContent[0].paragraph3 }}</p>
-        <p class="text-gray-700 mt-2">{{ newsItem.fullContent[0].paragraph4 }}</p>
-        <p class="text-gray-700 mt-2">{{ newsItem.fullContent[0].paragraph5 }}</p>
-        <p class="text-gray-700 mt-2">{{ newsItem.fullContent[0].paragraph6 }}</p>
+      <div class="flex flex-col md:flex-row md:items-start md:gap-6">
+        <!-- Text Content -->
+        <div class="flex-1 mb-4 md:mb-0">
+          <template v-if="hasFullContent">
+            <p
+              v-for="(paragraph, idx) in fullContentArray"
+              :key="idx"
+              class="text-gray-700 mt-2"
+            >
+              {{ paragraph }}
+            </p>
+          </template>
+          <p v-else class="text-gray-500 italic">
+            No full news available.
+          </p>
+        </div>
+
+        <!-- Image on the right -->
+        <div class="flex-shrink-0 w-full md:w-48">
+          <img
+            :src="newsItem.image || 'https://via.placeholder.com/200x150'"
+            class="w-full h-36 object-cover rounded"
+            alt="News Image"
+          />
+        </div>
       </div>
+    </section>
 
-      <!-- Image on the right -->
-      <div class="flex-shrink-0 w-full md:w-48">
-        <img
-          :src="newsItem.image || 'https://via.placeholder.com/200x150'"
-          class="w-full h-36 object-cover rounded"
-          alt="News Image"
-        />
-      </div>
+    <!-- If no news selected -->
+    <div v-else class="flex flex-wrap justify-center px-4 py-2 text-sm font-medium text-white bg-purple-700 sticky">
+      <span class="font-medium">News Update: </span>
+      You are being redirected to the latest headlines...
     </div>
-  </section>
-  <NewsFooter/>
+
+    <NewsFooter />
+  </div>
 </template>
 
-  
-  <script>
+<script>
+import fheader from '~/components/News/header.vue'
+import NewsFooter from '~/components/News/footer.vue'
+import { useStandpageStore } from '~/stores/modules/dtlStore'
 
- import { useRoute } from 'vue-router'
- import { useUserStore } from "~/stores/modules/userStore";
- 
- import fheader from '~/components/News/header.vue';
- import NewsFooter from '~/components/News/footer.vue';
+definePageMeta({
+  layout: 'contactus',
+})
 
+export default {
+  components: { fheader, NewsFooter },
 
- definePageMeta({
-      layout: 'contactus',
-
-    //middleware: 'auth',
-   });
-   
-  export default {
-    
-    components: {fheader,NewsFooter},
-    props:[''],
-    data() {
-      return {
-        imageroot: "",
-        showLoading: null,
-        newsItem: null
-      }
-    },
-    async mounted() {
-     
-    },
-    async created() {
-      this.userStore = useUserStore();
-      this.showLoading = this.$showLoading;
-      this.imageroot = this.userStore.loggedUser.resourceURLRoot;
-
-      const route = useRoute();
-        if (route.query.item) {
-        try {
-            this.newsItem = JSON.parse(route.query.item); // deserialize object
-        } catch (error) {
-            console.error('Failed to parse news item:', error);
-        }
-        } else {
-        console.warn('No news item found in query params');
-        }
-      
-    },
-    watch: {},
-     head() {
+  data() {
     return {
-      title: this.newsItem ? this.newsItem.title : 'News Details',
-    };
+      newsItem: null,
+    }
   },
-    computed: {
-  
-    },
-    methods: {
-    
-    },
-    async beforeMount() {
-        his.$showToast('Not Allowed to access this page')
-    },
-    head() {
-      return {
-        title: 'Intranet - Digital Tech Labs',
-      }
-    },
-  }
 
-  </script>
-  
-  <style scoped>
-  .csscmd{
-    @apply p-2 text-center bg-blue-200 rounded;
-  }
-  .csscmd:hover{
-    @apply bg-blue-200 cursor-pointer;
-  }
-  
-  .cssBox {
-    border: 1px solid;
-    @apply border-gray-500 rounded p-2;
-  }
-  </style>
-  
-  
-  
+  computed: {
+    // Check if fullContent has any non-empty paragraph
+    hasFullContent() {
+      if (!this.newsItem?.fullContent?.[0]) return false
+      return Object.values(this.newsItem.fullContent[0]).some(
+        (text) => text && text.trim() !== ''
+      )
+    },
+    // Convert fullContent object to array for v-for
+    fullContentArray() {
+      if (!this.newsItem?.fullContent?.[0]) return []
+      return Object.values(this.newsItem.fullContent[0]).filter(
+        (text) => text && text.trim() !== ''
+      )
+    },
+  },
+
+  mounted() {
+    const dtlStore = useStandpageStore()
+
+    // Get selected news from store
+    if (dtlStore.selectedNews) {
+      this.newsItem = dtlStore.selectedNews
+    } else {
+      // fallback: redirect if no news selected
+      this.$router.push('/News')
+    }
+  },
+
+  head() {
+    return {
+      title: this.newsItem?.title || 'News Details',
+    }
+  },
+}
+</script>

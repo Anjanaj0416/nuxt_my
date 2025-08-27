@@ -44,7 +44,7 @@ export const useUserStore = defineStore('userStore', {
         try {
           // const secretCode = formData.get('secretCode');
           const response = await axios.post(`${import.meta.env.VITE_API_URL}/IAM/GetAppAccessToken`,formData);     
-          console.log("response:",response);
+          // console.log("response:",response);
           
           loadingAlert.close();                            
 
@@ -52,7 +52,7 @@ export const useUserStore = defineStore('userStore', {
             this.token = response.data.authToken;  // Assuming the response contains a 'token'  
             
                localStorage.setItem("authToken", response.data.authToken);
-        this.showToast("Login successful!", "success");
+        // this.showToast("Login successful!", "success");
 
         }
         else{        

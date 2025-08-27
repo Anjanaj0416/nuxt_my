@@ -1,7 +1,22 @@
 <template>
-  <div class="flex flex-wrap justify-center px-4 py-2 space-x-3 text-sm font-medium text-white bg-purple-700 sticky" role="alert">
+  <!-- <div class="flex flex-wrap justify-center px-4 py-2 space-x-3 text-sm font-medium text-white bg-purple-700 sticky" role="alert">
     <span class="font-medium">News Update: </span> New articles are available. Check out the latest headlines now !
-  </div>
+  </div> -->
+
+    <div class="flex flex-wrap justify-center px-4 py-2 space-x-3 text-sm font-medium text-white bg-purple-700 sticky">
+      <div class="inline-block align-middle">
+        <div id="newsTicker" class="whitespace-nowrap animate-slide text-sm">
+          <span class="mr-8 ">📰 Breaking: New product launch today!</span>
+          <span class="mr-8">📰Update: Website maintenance at midnight</span>
+          <span class="mr-8">📰Alert: Special discounts available now!</span>
+          <span class="mr-8">📰Reminder: Subscribe to our newsletter</span>
+          <span class="mr-8">📰Update: Website maintenance at midnight</span>
+
+        </div>
+      </div>
+    </div>
+
+
 
   <NewsHeader/>
 
@@ -98,13 +113,23 @@
       <div class="max-w-xs bg-white rounded-xl shadow-md p-4 space-y-4 border border-gray-200 text-sm">
         <!-- Weather Section -->
         <div class="flex items-center justify-between">
-          <div>
-            <h2 class="font-semibold text-gray-800">Colombo, LK</h2>
-            <p class="text-gray-500 text-xs">30°C | Clear</p>
-          </div>
-          <!-- <img src="https://openweathermap.org/img/wn/01d.png" alt="weather" class="w-8 h-8"> -->
-           🌤️
+        <div>
+          <h2 class="font-semibold text-gray-800">{{ weather?.name || 'Colombo, LK' }}</h2>
+          <p class="text-gray-500 text-xs">
+            {{ weather?.main?.temp ?? '30' }}°C | {{ weather?.weather?.[0]?.description ?? 'Clear' }}
+          </p>
         </div>
+        <div>
+          <!-- <img 
+            :src="weather?.weather?.[0]?.icon 
+              ? `http://openweathermap.org/img/wn/${weather.weather[0].icon}@2x.png` 
+              : 'https://via.placeholder.com/50'" 
+            alt="weather" 
+            class="w-8 h-8" 
+          /> -->
+        </div>
+      </div>
+
 
         <hr class="border-gray-300" />
 
@@ -224,11 +249,7 @@
 
 import NewsHeader from '~/components/News/header.vue';
 import NewsFooter from '~/components/News/footer.vue';
-import b2bLogo from '~/assets/img/b2b/BtoBNewsLogo.png';
-import mainBanner from '~/assets/img/news/mainNews.jpg';
-import topBanner from '~/assets/img/news/topNews.png'
-import otherNews1 from '~/assets/img/news/otherNews1Banner.jpg'
-import braking from '~/assets/img/news/braking.jpg'
+
 import { useUserStore } from '~/stores/modules/userStore';
 import { useStandpageStore } from '~/stores/modules/dtlStore';
 
@@ -249,7 +270,8 @@ export default {
         topNews: {}
       },
       showLoading: null,
-
+      weather: null,
+      currencyRates: {},
     };
   },
 
@@ -263,21 +285,19 @@ export default {
     this.showLoading = this.$showLoading;
 
     this.loginWithSecretCode();
+    await this.fetchWeather();
+    await this.fetchCurrencyRates();
 
     await this.dtlStore.fetchNews(this.showLoading);
-
     this.listNews = this.dtlStore.newsList;
-
-
-
-    },
+  },
 
   watch: {},
   computed: {
 
   },
-  methods: {
 
+  methods: {
     async loginWithSecretCode() {
       const secretCode = 'w5jzxd02';
       const formData = new FormData();
@@ -285,27 +305,41 @@ export default {
 
       try {
         await this.userStore.AppLogin(formData, this.showLoading);
-        console.log('Login successful');
+        // console.log('Login successful');
       } catch (err) {
-        console.error('Login failed:', err);
+        // console.error('Login failed:', err);
       }
     },
 
-  
+    goToDetails(news) {
+      this.dtlStore.setSelectedNews(news);
+      this.$router.push('/News/newsDetails');
+    },
 
+    async fetchWeather() {
+      const apiKey = 'YOUR_OPENWEATHERMAP_KEY';
+      const city = 'Colombo';
+      const country = 'LK';
+      const url = `https://api.openweathermap.org/data/2.5/weather?q=${city},${country}&units=metric&appid=${apiKey}`;
+      try {
+        const res = await fetch(url);
+        const data = await res.json();
+        this.weather = data;
+      } catch (err) {
+        console.error('Weather fetch error:', err);
+      }
+    },
 
-    goToDetails(item) {
-      console.log('test:',item);
-      // Use this.$router for Options API
-      this.$router.push({
-        path: '/News/newsDetails',
-        params: { id: item.id },
-        query: { item: JSON.stringify(item) }
-      })
-
-    }
+    async fetchCurrencyRates() {
+      try {
+        const res = await fetch('https://api.exchangerate.host/latest?base=LKR&symbols=USD,EUR,GBP,INR');
+        const data = await res.json();
+        this.currencyRates = data.rates;
+      } catch (err) {
+        console.error('Currency fetch error:', err);
+      }
+    },
   },
-
 
 
 
@@ -373,4 +407,12 @@ nav a {
 nav a:hover {
   @apply bg-white text-black;
 }
+  @keyframes slide {
+    0% { transform: translateX(100%); }
+    100% { transform: translateX(-100%); }
+  }
+  .animate-slide {
+    display: inline-block;
+    animation: slide 20s linear infinite;
+  }
 </style>
