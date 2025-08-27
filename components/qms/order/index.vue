@@ -243,7 +243,7 @@
         </div>
       </div>
 
-      <AddOrder v-if="isAddEdit && showAddProposal" @close="isAddEdit = false; showAddProposal = false" :customerRef="customerRef" :id="id" :orderNo="selectedOrderNo"/>
+      <AddOrder v-if="isAddEdit && showAddProposal"   @close="handleCloseAddOrder" :customerRef="customerRef" :id="id" :orderNo="selectedOrderNo"/>
       <SignedPIUpload v-if="isSignedPIUploaded"   @close="isSignedPIUploaded = false"  :id="selectedOrderId" />
       <ProposalUpload v-if="isScanedProposalUploaded"   @Close="isScanedProposalUploaded = false"  :id="selectedOrderId" />
 
@@ -327,73 +327,79 @@ import Close from '~/components/customcontrol/close.vue';
           Active: "Active",
           Canceled: "Cancelled"
         };
-        return map[status] || status; // fallback if no match
+        return map[status] || status; 
       },
 
-        handleCreateClick() {
-          this.showAddProposal = true;
-          this.GoToAddNew(); 
-        },
+      handleCreateClick() {
+        this.showAddProposal = true;
+        this.GoToAddNew(); 
+      },
 
-        handlePIUploderClick(orderNo) {
-          this.selectedOrderId = orderNo;
-          this.isSignedPIUploaded = true;
-        },
+      handlePIUploderClick(orderNo) {
+        this.selectedOrderId = orderNo;
+        this.isSignedPIUploaded = true;
+      },
 
-        handleProposalUploderClick(orderNo) {
-          this.selectedOrderId = orderNo;
-          this.isScanedProposalUploaded = true;
-        },
+      handleProposalUploderClick(orderNo) {
+        this.selectedOrderId = orderNo;
+        this.isScanedProposalUploaded = true;
+      },
 
-        GoToAddNew() {
-          this.isAddEdit = true;
-        },
+      GoToAddNew() {
+        this.isAddEdit = true;
+      },
 
-        createOrder(orderNo) {
-          this.selectedOrderNo = orderNo;
-          this.showAddProposal = true;
-          this.isAddEdit = true;
-        },
+      handleCloseAddOrder() {
+        this.isAddEdit = false;
+        this.showAddProposal = false;
+        this.selectedOrderNo = null; 
+      },
 
-        confirmDelete(orderId) {
-          this.$showConfirm(
-            "Are you sure you want to delete this order?",
-            "warning"
-          ).then(async (result) => {
-            if (!result.isConfirmed) {
-              console.log("Action canceled");
-              return;
-            }
+      createOrder(orderNo) {
+        this.selectedOrderNo = orderNo;
+        this.showAddProposal = true;
+        this.isAddEdit = true;
+      },
 
-            try {
-              // console.log("Deleting Order ID:", orderId);
+      confirmDelete(orderId) {
+        this.$showConfirm(
+          "Are you sure you want to delete this order?",
+          "warning"
+        ).then(async (result) => {
+          if (!result.isConfirmed) {
+            console.log("Action canceled");
+            return;
+          }
 
-              await this.orderStore.deleteOrder(orderId, this.showLoading);
+          try {
+            // console.log("Deleting Order ID:", orderId);
 
-            } catch (error) {
-              console.error("Failed to delete order:", error);
-            }
-          });
-        },
+            await this.orderStore.deleteOrder(orderId, this.showLoading);
 
-        async GoToInvoice(){
-            this.resetViews();  
+          } catch (error) {
+            console.error("Failed to delete order:", error);
+          }
+        });
+      },
 
-            // let id = this.quotationStore.curQuotation.id;
-            this.isViewMore = true;
-        },
+      async GoToInvoice(){
+          this.resetViews();  
 
-        async GoToWorkFlow(){
-            this.resetViews();  
+          // let id = this.quotationStore.curQuotation.id;
+          this.isViewMore = true;
+      },
 
-            // let id = this.quotationStore.curQuotation.id;
-            this.isViewMore = true;
-        },
+      async GoToWorkFlow(){
+          this.resetViews();  
 
-        resetViews(){
-            this.isViewMore= false
-            this.showInvoice= false
-        },
+          // let id = this.quotationStore.curQuotation.id;
+          this.isViewMore = true;
+      },
+
+      resetViews(){
+          this.isViewMore= false
+          this.showInvoice= false
+      },
     },
 
     head() {
