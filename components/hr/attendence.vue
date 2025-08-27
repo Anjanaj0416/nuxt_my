@@ -161,12 +161,24 @@
                 ReCalc.OT
               </div>
             </div>
+            <div>
+              <div class="font-bold text-center text-xs cursor-pointer p-1 p-2 gap-x-1 text-sm hover:text-blue-500"
+                @click="changeView(dayatt.id)">View more>>></div>
+            </div>
           </div>
           <div v-if="dayatt.comment">
-            <div>Comment:</div>
-            <div class="bg-white text-black p-2 rounded mt-1 text-xs max-h-20 overflow-y-auto whitespace-pre-line">
-              {{ formatComment(dayatt.comment) || 'No comment available' }}
-            </div>
+            <div class=" hover:text-blue-500" @click="changeCommentView(dayatt.id)">Comment>></div>
+          </div>
+
+          <!-- View more -->
+          <div v-show="isView && viewRow == dayatt.id">
+            <viewMore :dayInfo="dayInfo" />
+          </div>
+
+          <!-- Comments view -->
+          <div v-show="isCommentView && commentRow == dayatt.id"
+            class="bg-white text-black p-2 rounded mt-1 text-xs max-h-20 overflow-y-auto whitespace-pre-line">
+            {{ formatComment(dayatt.comment) || 'No comment available' }}
           </div>
 
           <!-- Rectify form -->
@@ -284,12 +296,12 @@ import btnhr_print from "~/components/hr/btnhr_print";
 import btnhr_rectify from "~/components/hr/btnhr_rectify";
 import atten_colorbox from "~/components/hr/atten_colorbox";
 import attnrectify from "~/components/hr/attnrectify";
+import viewMore from "~/components/hr/viewMore";
 
 import swipes from "~/components/hr/swipes";
 import datediff from "~/components/hr/datediff";
 import { useHrStore } from "~/stores/modules/hrStore";
 import { useUserStore } from "~/stores/modules/userStore";
-
 
 // import * as Global from '@/assets/js/Global'
 //import * as myfilter from '@/plugins/myfilter'
@@ -311,6 +323,12 @@ export default {
       otApplingRow: -1,
       isOTAppling: false,
 
+      viewRow: -1,
+      isView: false,
+
+      commentRow: -1,
+      isCommentView: false,
+
       dtfrom: "",
       dtto: "",
       attenViewRequest: {},
@@ -331,6 +349,50 @@ export default {
         otHour: "",
         comment: "",
       },
+      "dayInfo": {
+        "movementDetails": {
+          "Type": "Movement",
+          "Id": 1,
+          "StartTime": "2025-08-25T09:00:00",
+          "EndTime": "2025-08-25T11:30:00",
+          "FromLocation": "Colombo Office",
+          "ToLocation": "Kandy Branch",
+          "Vehicle": "Company Car",
+          "Distance": "115 km",
+          "ApprovalStatus": "Approved",
+
+        },
+        "OTDetails": {
+          "Type": "OT Request",
+          "Id": 1,
+          "OverTimeFrom": "2025-08-25T18:00:00",
+          "OverTimeTo": "2025-08-25T21:00:00",
+          "OTHours": "3",
+          "NatureOfWork": "Monthly Report Preparation",
+          "Status": "Pending",
+          "TotalApproved": "0 Hrs"
+        },
+        "LeaveDetails": {
+          "Type": "Leave",
+          "Id": 1,
+          "EndDate": "2025-08-26",
+          "AbsenceType": "Casual Leave",
+          "DurationDays": "1",
+          "DurationHours": "8",
+          "Attachment": "leave_letter.pdf",
+          "ApprovalStatus": "Pending",
+
+        },
+        "RectificationDetails": {
+          "Type": "Rectify",
+          "Id": 1,
+          "BeforeRectify": "2025-08-25T08:45:00",
+          "AfterRectify": "2025-08-25T09:00:00",
+          "InorOut": "In",
+          "ApprovalStatus": "Approved",
+
+        }
+      },
       showLoading: null,
       isLoading: false,
       userStore: null,
@@ -345,6 +407,7 @@ export default {
     datediff,
     swipes,
     attnrectify,
+    viewMore
   },
   computed: {
     getAttRowColor() {
@@ -473,7 +536,22 @@ export default {
     this.hrStore = useHrStore();
     this.userStore = useUserStore();
     this.showLoading = this.$showLoading;
-    this.init();
+
+    const firstDate = new Date();
+    firstDate.setDate(1); // Set to first day of the month
+    this.dtfrom = firstDate.toISOString().split('T')[0]; // Format: YYYY-MM-DD
+
+    // Calculate today's date
+    this.dtto = new Date().toISOString().split('T')[0]; // Format: YYYY-MM-DD
+
+    let req = {
+      EmpNo: this.empno,
+      FromDate: this.dtfrom,
+      ToDate: this.dtto,
+    };
+    // await this.getLoadAttendnece(req);
+    await this.hrStore.getAttendenceByEmp(req, this.showLoading)
+    await this.init();
   },
 
   async mounted() {
@@ -511,6 +589,16 @@ export default {
           OTTo: this.oTPreApprovalRequest.OTTo,
         });
       }
+    },
+
+    async changeView(rowid) {
+      this.viewRow = rowid;
+      this.isView = !this.isView;
+    },
+
+    async changeCommentView(rowid) {
+      this.commentRow = rowid;
+      this.isCommentView = !this.isCommentView;
     },
 
     async handleDateChange(reqFromDateDiff) {
@@ -668,17 +756,6 @@ export default {
       return html.replace(/<br\s*\/?>/gi, '\n').replace(/<[^>]+>/g, '').trim();
     },
 
-    showMessage({ type, message }) {
-      alert(`${type}: ${message}`); // or use a toast/snackbar
-    },
-
-    show_error(msg) {
-      this.showMessage({
-        type: "Failed",
-        message: msg,
-      });
-    },
-
     validateRectificationApply() {
       if (this.rectificationRequest.inTime == "00:00") {
         this.show_error("Invalid In Time");
@@ -781,6 +858,17 @@ export default {
     //   }
     //   else { alert('select the date range') }
     // },
+
+    showMessage({ type, message }) {
+      alert(`${type}: ${message}`); // or use a toast/snackbar
+    },
+
+    show_error(msg) {
+      this.showMessage({
+        type: "Failed",
+        message: msg,
+      });
+    },
 
     async getPrint() {
 
