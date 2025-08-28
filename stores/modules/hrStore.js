@@ -80,6 +80,7 @@ export const useHrStore = defineStore("hrStore", {
       isTheTimeCardApproved: false,
       alattendences: [],
     },
+    dayInfo : {},
     timecard: {
       arrtimecard: [
         {
@@ -614,6 +615,30 @@ export const useHrStore = defineStore("hrStore", {
       loadingAlert.close();
     },
 
+    async getDayAppliedRecords(req, showLoading) {
+      console.log('API-getDayAppliedRecords',req);
+
+      const loadingAlert = showLoading("");
+      try {
+        const response = await axios.post(
+          `${import.meta.env.VITE_API_URL}/hr/Attendance/GetDayAppliedRecords`,
+          req
+        );
+        console.log("response:", response.data.data.data);
+        if (response.data.isSuccess) {
+          this.dayInfo = response.data.data.data || {}
+          // this.showToast('Loading successful!', 'success');
+        } else {
+          console.error("Loading error:", response.data.message);
+          // this.showToast(response.data.message, 'error');
+        }
+      } catch (error) {
+        console.error("Loading error:", error);
+        this.showToast(error.response.data.Message, "error");
+      }
+      loadingAlert.close();
+    },
+
     async getOTApprovals(req, showLoading) {
       console.log('API-getOTApprovals');
       console.log(JSON.stringify(req));
@@ -840,29 +865,32 @@ export const useHrStore = defineStore("hrStore", {
       this.OTApllyDetails.ot_hours = 0;
     },
 
-    async setManualRectification(req, showLoading) {
-      console.log('API-setManualRectification');
-      console.log(JSON.stringify(req));
+    async setRectifyAttendance(req, showLoading) {
+      console.log('API-setRectifyAttendance',req);
 
       const loadingAlert = showLoading("");
       try {
         console.log("req:", req);
-        const response = await axios.get(
+
+        const setRectifyAttendanceReq = {
+          AttendanceId: req.attendance_id,
+          InTime: req.intime,
+          OutTime: req.outtime,
+          Comment: req.comment,
+        }
+
+        console.log("setRectifyAttendanceReq:",setRectifyAttendanceReq);
+        
+
+        const response = await axios.post(
           `${
             import.meta.env.VITE_API_URL
-          }/hr/Attendance/SetManualRectification`,
-          {
-            params: {
-              Id: req.attendance_id,
-              InTime: req.intime,
-              OutTime: req.outtime,
-            },
-          }
-        );
+          }/hr/Attendance/SetRectifyAttendance`,setRectifyAttendanceReq );
+          
         console.log("response:", response);
         if (response.data.isSuccess) {
           // this.empdetails = response.data.data.data || {};
-          // this.showToast('Rectify apply successful!', 'success');
+          this.showToast('Rectify apply successful!', 'success');
 
           const attendenceReq = {
             EmpNo: req.EmpNo,
@@ -1058,7 +1086,7 @@ export const useHrStore = defineStore("hrStore", {
         console.log("req:", req);
         const response = await axios.get(
           `${import.meta.env.VITE_API_URL}/hr/Absence/GetDeleteAbsence`,
-          { params: { Id: req.absendce_id } }
+          { params: { Id: req.id } }
         );
         console.log("response:", response);
         if (response.data.isSuccess) {
@@ -1172,7 +1200,7 @@ export const useHrStore = defineStore("hrStore", {
         console.log("req:", req);
         const response = await axios.get(
           `${import.meta.env.VITE_API_URL}/hr/Movement/GetDeleteMovement`,
-          { params: { Id: req.movement_id } }
+          { params: { Id: req.id } }
         );
         console.log("response:", response);
         if (response.data.isSuccess) {
@@ -1467,6 +1495,33 @@ export const useHrStore = defineStore("hrStore", {
       try {
         const response = await axios.post(
           `${import.meta.env.VITE_API_URL}/hr/Report/GetOTPeriodSummeryMonthEnd`,req,{ responseType: 'blob' });
+          const blob = new Blob([response.data], { type: 'application/pdf' });
+          const url = URL.createObjectURL(blob);
+          window.open(url, '_blank');
+
+        console.log("response:", response);
+        if (response.data.isSuccess) {
+          // this.absense.arrabsences = response.data.data.data.arrAbsences || [];
+        } else {
+          console.error("Loading error:", response.data.message);
+          // this.showToast(response.data.message, 'error');
+        }
+      } catch (error) {
+        console.error("Loading error:", error);
+        if (error.response && error.response.status == 400) {
+        }
+        // this.showToast(error.response.data.Message, 'error');
+      }
+      loadingAlert.close();
+  },
+
+  async getTimeCardSummery(req, showLoading) {
+      console.log('API-getTimeCardSummery:',req);
+
+      const loadingAlert = showLoading("");
+      try {
+        const response = await axios.post(
+          `${import.meta.env.VITE_API_URL}/hr/Report/GetTimeCardSummery`,req,{ responseType: 'blob' });
           const blob = new Blob([response.data], { type: 'application/pdf' });
           const url = URL.createObjectURL(blob);
           window.open(url, '_blank');

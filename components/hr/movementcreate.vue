@@ -121,6 +121,14 @@
               <selectinput2 v-model="movement_apply.travel_by" :cur_item="movement_apply.travel_by"
                 :selections="hrStore.initData.initMovement.arrTravelBy" />
             </div>
+
+            <div class="" v-show="!isWFH">Reason</div>
+            <div class="" v-show="!isWFH">
+              <input class="text-gray-600 w-full rounded p-1" v-model="movement_apply.reason" type="text" />
+              <p v-if="err.reason" class="mt-2 text-sm text-red-600">
+                {{ err.reason }}
+              </p>
+            </div>
           </div>
         </div>
 
@@ -159,6 +167,7 @@ export default {
         from_location: "",
         start_from: "",
         movementType: '',
+        reason: '',
       },
       movement_apply: {
         empNo: '',
@@ -173,6 +182,7 @@ export default {
         travel_by: '',
         movementType: '',
         movementPeriod: '',
+        reason: '',
         user: {},
       },
       dtfrom: null,
@@ -214,6 +224,7 @@ export default {
               TravelBy: this.movement_apply.travel_by,
               MovementType: this.movement_apply.movementType,
               MovementPeriod: this.movement_apply.movementPeriod,
+              Reason: this.movement_apply.reason,
             }
             //console.log(JSON.stringify(this.movement_apply));
             await this.hrStore.setMovement(req, this.showLoading);
@@ -289,6 +300,11 @@ export default {
 
       if (!this.isWFH && this.movement_apply.to_location == '') {
         this.err.to_location = "Invalid To Location";
+        validate = false;
+      }
+
+      if (!this.isWFH && this.movement_apply.reason == '') {
+        this.err.reason = "Invalid Reason";
         validate = false;
       }
 

@@ -66,7 +66,10 @@
                 d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16" />
             </svg>
           </div>
-          <div></div>
+          <div v-if="mv.reason" class="flex col-span-full text-left">
+            <div>Reason:</div>
+            <div class="ml-3">{{ mv.reason }}</div>
+          </div>
         </div>
       </div>
     </div>
@@ -169,7 +172,7 @@ export default {
     },
     async deleteRecord(id) {
       if (confirm('Sure to delete this record?')) {
-        let req = { movement_id: id }
+        let req = { id: id }
         await this.hrStore.getDeleteMovement(req, this.showLoading)
 
         this.dtfrom = this.$refs.datediffRef.dtfrom;
