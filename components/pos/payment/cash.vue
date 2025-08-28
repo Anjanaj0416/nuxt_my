@@ -4,331 +4,361 @@
       <!-- Modal Header -->
       <div class="modal-header">
         <h2 class="modal-title">Pay Now</h2>
-        <!-- <button @click="closeModal" class="absolute z-50 p-2 text-white rounded-md  close-button">&times;</button> -->
         <closebtn @close="closeModal()" />
       </div>
 
-      <!-- Modal Content (scrollable) -->
-      <div class="modal-content">
-        <div class="form-content">
+      <!-- Modal Content -->
+      <div class="p-6 overflow-y-auto flex flex-col">
+        <div class="flex flex-col gap-6">
 
-          <div class="bg-gray-50 p-4 rounded-lg shadow-sm flex flex-col gap-2">
-            <div class="flex justify-between">
-              <span class="font-semibold">Customer Name:</span>
-              <span>dd</span>
-            </div>
-            <div class="flex justify-between">
-              <span class="font-semibold">Invoice Amount:</span>
-              <span>Rs. dd</span>
-            </div>
-            <div class="flex justify-between">
-              <span class="font-semibold">Previous Balance:</span>
-              <span>Rs. dd</span>
+          <!-- {{ posStore.listClients }} -->
+        <template v-if="!paymentSuccess">
+
+          <!-- Customer Selection -->
+          <div class="space-y-2">
+            <label class="font-bold text-gray-800 text-lg">Select Customer</label>
+            <select
+              v-model="selectedClientId"
+              @change="onClientSelect"
+              class="w-full border border-gray-300 rounded-lg p-3 focus:outline-none focus:ring-2 focus:ring-blue-400 transition"
+            >
+              <option value="" disabled>Select a client</option>
+              <option v-for="client in posStore.listClients" :key="client.id" :value="client.id">
+                {{ client.name }}
+              </option>
+
+
+
+            </select>
+            <p v-if="errors.client" class="text-red-500 text-sm">{{ errors.client }}</p>
+
+            <div
+              v-if="selectedClient"
+              class="grid grid-cols-1 sm:grid-cols-2 gap-4 bg-blue-50 p-4 rounded-xl shadow-inner mt-2"
+            >
+              <p><span class="font-semibold">Name:</span> {{ selectedClient.name }}</p>
+              <p><span class="font-semibold">Address:</span> {{ selectedClient.address }}</p>
+              <p class="sm:col-span-2"><span class="font-semibold">Phone:</span> {{ selectedClient.contactNo }}</p>
             </div>
           </div>
-          <div class="flex flex-col gap-2">
-            <label class="font-semibold text-gray-700">Enter Cash Received:</label>
+
+          <!-- Invoice & Reference -->
+          <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+            <div class="flex flex-col">
+              <label class="font-bold text-gray-800">Invoice Template Code</label>
+              <input
+                type="number"
+                v-model="InvoiceTemplateCode"
+                placeholder="Enter invoice code"
+                class="mt-2 border border-gray-300 rounded-lg p-3 focus:outline-none focus:ring-2 focus:ring-blue-400 transition"
+              />
+              <p v-if="errors.InvoiceTemplateCode" class="text-red-500 text-sm">{{ errors.InvoiceTemplateCode }}</p>
+            </div>
+            <div class="flex flex-col">
+              <label class="font-bold text-gray-800">Pay Reference</label>
+              <input
+                type="number"
+                v-model="payReference"
+                placeholder="Enter reference"
+                class="mt-2 border border-gray-300 rounded-lg p-3 focus:outline-none focus:ring-2 focus:ring-blue-400 transition"
+              />
+              <p v-if="errors.payReference" class="text-red-500 text-sm">{{ errors.payReference }}</p>
+            </div>
+          </div>
+
+          <!-- Discounts & Total -->
+          <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+            <div class="bg-gradient-to-r from-green-100 to-green-200 p-4 rounded-xl shadow-md flex justify-between items-center">
+              <span class="font-semibold">Whole Discount:</span>
+              <span class="font-bold text-green-800">Rs. {{ Number(subDiscount).toLocaleString('en-LK', { minimumFractionDigits: 2 }) }}</span>
+            </div>
+            <div class="bg-gradient-to-r from-blue-100 to-blue-200 p-4 rounded-xl shadow-md flex justify-between items-center">
+              <span class="font-semibold">Total:</span>
+              <span class="font-bold text-blue-800">Rs. {{ Number(grandTotal).toLocaleString('en-LK', { minimumFractionDigits: 2 }) }}</span>
+            </div>
+          </div>
+
+          <!-- Cash Received -->
+          <div class="flex flex-col">
+            <label class="font-bold text-gray-800">Enter Cash Received</label>
             <input
               type="number"
               v-model.number="cashReceived"
-              class="border border-gray-300 rounded-lg p-2 focus:outline-none focus:ring-2 focus:ring-blue-500"
               placeholder="Enter amount"
+              class="mt-2 border border-gray-300 rounded-lg p-3 focus:outline-none focus:ring-2 focus:ring-blue-400 transition"
             />
-            <p  class="text-red-600 text-sm"></p>
+            <!-- <p v-if="errors.cashReceived" class="text-red-500 text-sm">{{ errors.cashReceived }}</p> -->
           </div>
 
-          <!-- Calculated Balance -->
-          <div class="bg-gray-100 p-4 rounded-lg shadow-inner flex justify-between font-semibold">
+          <!-- Remaining Balance -->
+          <div class="bg-gradient-to-r from-yellow-50 to-yellow-100 p-4 rounded-xl shadow-inner flex justify-between font-semibold">
             <span>Remaining Balance:</span>
-            <span>
-            Rs.500.00
+            <span :class="{'text-red-600 font-bold': remainingBalance < 0, 'text-green-700 font-bold': remainingBalance >= 0}">
+              Rs. {{ remainingBalance.toLocaleString('en-LK', { minimumFractionDigits: 2 }) }}
             </span>
           </div>
-          <div>
-            <!-- {{ quotationStore.curQuotation.id }} -->
+          <p v-if="remainingBalance < 0" class="text-red-600 font-medium text-sm">
+            Cash received is less than total!
+          </p>
+
+          <!-- Submit Button -->
+         <button
+            @click="submitPayment"
+            class="mt-4 w-full bg-blue-500 hover:bg-blue-600 text-white font-bold py-3 rounded-xl shadow-lg transition transform "
+          >
+            Make Payment
+          </button>
+
+        </template>
+        <template v-else>
+          <div class="text-center py-10 px-6">
+            <!-- Success Message -->
+            <p class="text-green-700 text-2xl font-extrabold mb-6">
+              Payment Successful!
+            </p>
+
+            <!-- Description / Optional -->
+            <p class="text-gray-600 mb-8">
+              You can print the bill, send it via WhatsApp, or download the PDF.
+            </p>
+
+            <!-- Button Group -->
+            <div class="flex flex-col md:flex-row justify-center gap-4">
+              <!-- Thermal Print -->
+              <button
+                @click="handleThermalPrint"
+                class="flex-1 bg-blue-500 hover:bg-blue-600 text-white font-semibold py-3 px-6 rounded-xl shadow-lg transform "
+              >
+                🖨️ Thermal Print
+              </button>
+
+              <!-- WhatsApp -->
+              <button
+                @click="handleWhatsAppSend"
+                :disabled="true"
+                class="flex-1 bg-green-500 text-white font-semibold py-3 px-6 rounded-xl shadow-lg transform transition
+                      disabled:opacity-50 disabled:cursor-not-allowed"
+              >
+                💬 WhatsApp
+              </button>
+
+
+              <!-- PDF -->
+              <button
+                @click="handlePDFDownload"
+                class="flex-1 bg-gray-500 text-white font-semibold py-3 px-6 rounded-xl shadow-lg transform transition
+                      disabled:opacity-50 disabled:cursor-not-allowed"
+              >
+                📄 PDF
+              </button>
+            </div>
           </div>
+        </template>
+
         </div>
       </div>
-      <!-- End Modal Content -->
+
+      
+
 
       <!-- Modal Footer -->
-      <div class="modal-footer">
+      <!-- <div class="modal-footer">
         <button @click="closeModal" class="cancel-button">Cancel</button>
-        <button @click="SetApprove" class="confirm-button">Submit Payment</button>
-      </div>
+        <button @click="submitPayment" class="confirm-button">Submit Payment</button>
+      </div> -->
     </div>
   </div>
 </template>
 
 <script>
-import { useOrderStore } from "~/stores/modules/orderStore";
-
+import { useUserStore } from "~/stores/modules/userStore";
+import { useposStore } from "~/stores/modules/pos/posStore";
 import closebtn from "~/components/customcontrol/modal_close_button";
-import Lable from "~/components/customcontrol/Lable";
-import Button from "~/components/customcontrol/Button";
-import ImageLable from "~/components/customcontrol/ImageLable";
-import LinkBtn from "~/components/customcontrol/Link";
-// import imagecomp from "~/components/customcontrol/imagepicker";
-import imagepicker1 from "~/components/customcontrol/imagepicker1.vue";
-import Swal from "sweetalert2";
 
 export default {
-  components: { closebtn, LinkBtn, Lable, Button, ImageLable, imagepicker1 },
-  props: ['id'],
+  components: { closebtn },
+  props: {
+    cart: Array,
+    subDiscount: { type: Number, default: 0 },
+    grandTotal: { type: Number, default: 0 },
+    payType: { type: Number, default: 0 }
+  },
   data() {
     return {
-      imageroot: "",
-      ApprovalMemo: "",
-      PreIssuedPINumber: "",
       isOpen: true,
-      err: { ApprovalMemo: "" },
+      selectedClientId: "",
+      selectedClient: null,
+      InvoiceTemplateCode: "",
+      payReference: "",
+      cashReceived: 0,
+      paymentSuccess: false,
+      errors: {},
     };
   },
-  async created() {
-    this.showLoading = this.$showLoading;
-    this.orderStore = useOrderStore();
-  },
-  async mounted() {
-    //this.showAlert('fff', 'error');
-  },
-  watch: {},
   computed: {
-    // ...mapState({
-    //   //loggeduser: (state) => state.loggeduser,
-    // }),
-  },
-  methods: {
-    GetAttachedImage(file) {
-      this.ApprovalMemo = file;
-      console.log(file);
-      
+
+    remainingBalance() {
+      const balance = this.cashReceived - this.grandTotal;
+      return balance >= 0 ? balance : 0; // prevent negative if you want
+      }
     },
 
-  closeModal() {
-    this.isOpen = false;
-    this.$emit("close"); // tell parent to hide modal
-  },
+  async created() {
+    this.userStore = useUserStore();    
+    this.posStore = useposStore();
+    this.showLoading = this.$showLoading;
 
-  async SetApprove() {
-    if (!this.IsValidate()) return;
-
-    const formData = new FormData();
-    formData.append("orderNo", this.id);
-    formData.append("signedImage", this.ApprovalMemo);
-
-    // show loading
-    const loadingAlert = this.showLoading ? this.showLoading("") : null;
-
-    try {
-      const result = await this.orderStore.GetQuotationApprove(formData);
-
-      if (loadingAlert) loadingAlert.close();
-
-      if (result.success) {
-        if (this.showToast) this.showToast(result.message, "success"); // show toast
-        this.closeModal(); // close modal
-      } else {
-        if (this.showToast) this.showToast(result.message, "error");
-      }
-    } catch (error) {
-      if (loadingAlert) loadingAlert.close();
-      if (this.showToast) this.showToast("An error occurred during approval", "error");
-      console.error("Approval failed:", error);
+    const granted = this.userStore.loggedUser?.granted || [];
+    if (!granted.includes('pos')) {
+      this.$router.push('/user/login');
+      this.$showToast('Not Allowed to access this page');
+      return;
     }
+
+    await this.posStore.listClients(this.showLoading); 
+ 
   },
 
-
-
-
-
-    IsValidate() {
-      let isSuccess = true;
-
-      if (this.ApprovalMemo && this.ApprovalMemo.size > 0) {
-        this.err.approvedImage = "";
-      } else {
-        this.err.approvedImage = "Attach the approval proof.";
-        isSuccess = false;
-      }
-
-      return isSuccess;
+  methods: {
+    onClientSelect() {
+      this.selectedClient = this.posStore.listClients.find(
+        client => client.id === this.selectedClientId
+      );
     },
+
 
     closeModal() {
       this.isOpen = false;
       this.$emit("close");
     },
 
-    async showConfirmAlert_ApproveQuotation(message, type) {
-      try {
-        const result = await Swal.fire({
-          icon: type,
-          title: message,
-          showConfirmButton: true,
-          toast: false,
-          customClass: {
-            popup: "custom-swal-popup",
-          },
-        });
+    async submitPayment() {
+      if (!this.validateForm()) ;
+      const result = await this.$showConfirm(
+        "Are you sure to Save this Lead?", "warning"
+      );
+      if (!result.isSuccess);
+      const payload = {
+        ClientId: this.selectedClientId,
+        InvoiceTemplateCode: this.InvoiceTemplateCode,
+        PayType: this.payType,
+        PayReference: this.payReference,
+        WholeDiscount: this.subDiscount,
+        ReceiptItems: this.cart.map((item, index) => ({
+          Index: index + 1,
+          ItemId: item.id,
+          UnitPrice: item.price,
+          Quantity: item.qty,
+          Discount: item.discount || 0
+        }))
+      };
 
-        if (result.isConfirmed) {
-          await this.quotationStore.GetAprrovingTheQuotation(
-            this.quotationStore.curQuotation.id,
-            this.ApprovalMemo
-          );
-          await Swal.fire({
-            icon: "success",
-            title: "Saved!",
-            text: "Quotation Approved",
-            customClass: {
-              popup: "swal-custom-zindex",
-            },
-          });
-        }
-      } catch (error) {
-        console.error("Error displaying alert:", error);
+      // console.log("Payload to send:", payload);
+
+      try {
+        await this.posStore.makePayment(payload, this.showLoading);
+
+        this.paymentSuccess = true;
+
+        this.resetForm();
+        // this.closeModal();
+      } catch (err) {
+        console.error(err);
+        this.$showToast("Payment Failed", "error");
       }
     },
 
-  },
 
-  async beforeMount() {
-    // if (this.loggeduser.granted.indexOf('workgroup') > -1 || this.loggeduser.usergroup == 'Supervisor' ) {
-    // } else {
-    //   this.show_error('Not Allowed to access this page')
-    //   this.$router.push('/')
-    // }
-  },
-  head() {
-    return {
-      title: "Intranet - Digital Tech Labs",
-    };
+
+    resetForm() {
+      this.selectedClientId = "";
+      this.selectedClient = null;
+      this.InvoiceTemplateCode = "";
+      this.payReference = "";
+      this.cashReceived = 0;
+      this.UnitPrice = "";
+    },
+
+    validateForm() {
+      this.errors = {};
+      let valid = true;
+
+      if (!this.selectedClientId) {
+        this.errors.client = "Please select a client";
+        valid = false;
+      }
+      if (!this.InvoiceTemplateCode) {
+        this.errors.InvoiceTemplateCode = "Invoice code is required";
+        valid = false;
+      }
+      if (!this.payReference) {
+        this.errors.payReference = "Pay reference is required";
+        valid = false;
+      }
+      // if (this.cashReceived <= 0) {
+      //   this.errors.cashReceived = "Cash received must be greater than 0";
+      //   valid = false;
+      // }
+      return valid;
+    },
+
   },
 };
 </script>
 
 <style scoped>
-.custom-swal-popup {
-  z-index: 9999 !important;
-  /* Ensure SweetAlert is above the modal */
-}
-
-/* Modal Overlay */
 .modal-overlay {
   position: fixed;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
+  inset: 0;
   background: rgba(0, 0, 0, 0.5);
   display: flex;
   justify-content: center;
   align-items: center;
-  z-index: 8888;
+  z-index: 9999;
 }
-
-/* Modal Container */
 .modal {
   background: white;
-  width: 80%;
+  width: 90%;
   max-width: 800px;
-    border-radius: 1rem;
-    overflow: hidden;
+  border-radius: 1rem;
+  overflow: hidden;
   display: flex;
   flex-direction: column;
-  height: 80%;
-  /* Set the default height for larger screens */
-  position: relative;
-  /* Needed for proper footer placement */
+  max-height: 90%;
 }
-
-/* Modal Header */
 .modal-header {
   background: #0b2145;
+  color: white;
   padding: 15px;
   display: flex;
   justify-content: space-between;
   align-items: center;
-  color: white;
 }
-
-.modal-title {
-  margin: 0;
-  font-size: 18px;
-  font-weight: bold;
-}
-
-/* Modal Content */
 .modal-content {
   padding: 20px;
-  max-height: 80%;
-  /* Set max height */
   overflow-y: auto;
-  /* Make it scrollable */
   flex-grow: 1;
-  /* Allow content to grow */
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
 }
-
-/* Modal Footer */
 .modal-footer {
   background: #f1f1f1;
   padding: 15px;
   display: flex;
   justify-content: space-between;
-  position: absolute;
-  /* Sticky footer */
-  bottom: 0;
-  width: 100%;
 }
-
-button {
-  padding: 10px 20px;
-  border: none;
-  cursor: pointer;
-  font-size: 14px;
-  border-radius: 5px;
-}
-
-.cancel-button {
-  background: #e4e4e4;
-  color: #333;
-}
-
 .confirm-button {
   background: #0b2145;
   color: white;
+  padding: 10px 20px;
+  border-radius: 5px;
+}
+.cancel-button {
+  background: #e4e4e4;
+  padding: 10px 20px;
+  border-radius: 5px;
 }
 
-button:hover {
-  opacity: 0.8;
-}
 
-/* Mobile Styles */
-@media (max-width: 768px) {
-  .modal {
-    width: 100%;
-    /* Full width on mobile */
-    height: 100%;
-    /* Full screen height on mobile */
-    border-radius: 0;
-    /* Remove rounded corners for mobile */
-  }
-
-  .modal-header {
-    padding: 10px;
-  }
-
-  .modal-content {
-    padding: 10px;
-    max-height: none;
-    /* Remove max-height for mobile */
-    overflow-y: auto;
-    /* Enable scroll */
-    max-height: 80%;
-  }
-
-  .modal-footer {
-    padding: 10px;
-  }
-}
 </style>

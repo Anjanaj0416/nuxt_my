@@ -3,6 +3,7 @@
     <!-- Header -->
     <headerdd />
 
+
     <!-- Horizontal Button Bar  zz-->
     <div class="h-screen">
       <div class="flex flex-row gap-2 overflow-x-auto py-4 px-2 mt-16 scrollbar-thin scrollbar-thumb-gray-400 scrollbar-track-gray-200 ">
@@ -13,56 +14,69 @@
           :class="selectedMasterCategory === master.id 
             ? 'bg-blue-800 text-white' 
             : 'bg-blue-500 text-white'"
-          class="flex-shrink-0 px-3 py-1.5 rounded-full shadow-lg hover:scale-105 transition"
+          class="flex items-center gap-2 flex-shrink-0 px-3 py-1.5 rounded-full shadow-lg hover:scale-105 transition"
         >           
-              <img
-              :src="master.imageUrl"
-              alt="Image"
-              width="50"
-             />
-          {{ master.value  }}
+          <img
+            :src="master.imageUrl"
+            alt="Image"
+            class="w-6 h-6 object-contain"
+          />
+          <span>{{ master.value }}</span>
         </button>
-
       </div>
-    <div>
-
-
-
-       
-</div>
 
       <!-- POS Layout -->
       <div class="flex h-[calc(100vh-8rem)] gap-4 mt-2 px-2">
       
         <!-- Left: Category List -->
+         
+         
         
         <div class="w-24 bg-gray-100 p-2 rounded-lg overflow-y-auto">
           <div class="flex flex-col gap-2">
-            <button
+
+            <!-- <button
               v-for="subcat in posStore.listSubCategories"
               :key="subcat.id"
-              @click="selectedCategory = subcat.id"
+              @click="selectSubCategory(subcat.id)" 
               :class="selectedCategory === subcat.id 
                 ? 'bg-blue-600 text-white' 
                 : 'bg-white text-gray-700'"
               class="flex flex-col items-center justify-center p-2 rounded-xl hover:scale-105 transition"
             >
-          
-              <!-- <span class="text-xl mb-1">{{ cat.icon }}</span> -->
-               
                <img  :src="subcat.imageUrl" class="w-8 h-8 rounded mb-1"/>
               <span class="text-xs text-center truncate">{{ subcat.value  }}</span>
+            </button> -->
+
+            <button
+              v-for="subcat in posStore.listSubCategories"
+              :key="subcat.id"
+              @click="selectSubCategory(subcat.id)" 
+              :style="{ backgroundImage: `url(${subcat.imageUrl})` }"
+              :class="selectedCategory === subcat.id 
+                ? 'ring-2 ring-blue-600 shadow-lg' 
+                : 'shadow-md'"
+              class="relative flex flex-col items-center justify-end w-18 h-20 bg-cover bg-center rounded-2xl overflow-hidden hover:scale-105 transition"
+            >
+              <!-- Overlay for readability -->
+              <div class="absolute bottom-0 left-0 right-0 h-8 bg-gradient-to-t from-white via-white/80 to-transparent"></div>
+
+              <!-- Product Name -->
+              <span class="relative z-10 text-sm font-semibold text-black text-center px-2 truncate ">
+                {{ subcat.value }}
+              </span>
             </button>
+
           </div>
         </div>
 
         <!-- Middle: Items Grid -->
-        <div class="flex-1 grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-6 gap-4 overflow-y-auto" v-if="this.posStore.listItems">
+        <!-- <div class="flex-1 grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-6 gap-4 overflow-y-auto" v-if="this.posStore.listItems">
           <div 
             v-for="item in this.posStore.listItems"
-            :key="item.code"
+            :key="item.id"
             @click="addToCart(item)"
-            class="bg-white rounded-2xl shadow-md hover:shadow-xl hover:scale-105 transition-transform cursor-pointer overflow-hidden h-48 lg:h-64"
+            class="bg-white rounded-2xl shadow-md hover:shadow-xl hover:scale-105 transition-transform cursor-pointer overflow-hidden h-48 lg:h-42"
 
           >
             <div class="w-full aspect-[4/3] bg-gray-200 rounded-t-2xl overflow-hidden">
@@ -73,7 +87,38 @@
               <div class="text-xs text-gray-600 mt-1">₨{{ item.price?.toLocaleString('en-LK', { minimumFractionDigits: 2 }) }}</div>
             </div>
           </div>
+        </div> -->
+        <div class="flex-1 grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-6 gap-4 overflow-y-auto" v-if="posStore.listItems">
+          <div 
+            v-for="item in posStore.listItems"
+            :key="item.id"
+            @click="addToCart(item)"
+            class="relative flex flex-col items-center justify-end w-full h-48 rounded-2xl shadow-md hover:shadow-lg hover:scale-105 transition-transform cursor-pointer overflow-hidden"
+            :style="{ backgroundImage: `url(${item.itemImage || 'https://via.placeholder.com/600x400?text=No+Image'})`, backgroundSize: 'cover', backgroundPosition: 'center' }"
+          >
+            <!-- Discount Badge (Top Right) -->
+            <div 
+              v-if="item.discount "
+              class="absolute top-2 right-2 bg-red-500 text-white text-xs font-bold px-2 py-1 rounded-lg shadow"
+            >
+              -₨{{ item.discount?.toLocaleString('en-LK', { minimumFractionDigits: 2 }) }}
+            </div>
+
+            <!-- Overlay Gradient -->
+            <div class="absolute bottom-0 left-0 right-0 h-20 bg-gradient-to-t from-white via-white/80 to-transparent"></div>
+
+            <!-- Product Name and Price -->
+            <div class="relative z-10 w-full text-center p-1">
+              <div class="text-base font-semibold text-black truncate">{{ item.itemName }}</div>
+              <div class="text-base font-semibold text-gray-800 ">
+                ₨{{ (item.price - item.discount)?.toLocaleString('en-LK', { minimumFractionDigits: 2 }) }}
+              </div>
+            </div>
+          </div>
+
+
         </div>
+
         
        
         <!-- Right: Selected Items & Total -->
@@ -83,17 +128,17 @@
             <div class="flex-1 min-h-0 overflow-y-auto space-y-3 p-2">
               <div
                 v-for="(cartItem, index) in cart"
-                :key="cartItem.code"
+                :key="cartItem.id + '-' + index"
                 class="bg-white rounded-xl shadow-md p-4 flex flex-col hover:shadow-lg transition"
               >
                 <!-- Top Row -->
                 <div class="flex items-start">
                   <div class="w-14 h-14 flex-shrink-0 rounded-md overflow-hidden border border-gray-200">
-                    <img :src="cartItem.image || 'https://via.placeholder.com/60'" class="w-full h-full object-cover" />
+                    <img :src="cartItem.itemImage || 'https://via.placeholder.com/60'" class="w-full h-full object-cover" />
                   </div>
                   <div class="flex-1 ml-3">
                     <div class="flex justify-between items-center">
-                      <span class="font-semibold text-gray-800 truncate text-sm sm:text-base">{{ cartItem.name }}</span>
+                      <span class="font-semibold text-gray-800 truncate text-sm sm:text-base">{{ cartItem.itemName }}</span>
                       <button @click="cart.splice(index, 1)" class="text-red-500 font-bold text-lg hover:scale-110 transition">✕</button>
                     </div>
                     <p class="text-xs sm:text-sm text-gray-500">
@@ -143,7 +188,7 @@
               <span>₨{{ totalBeforeTax.toLocaleString('en-LK', { minimumFractionDigits: 2 }) }}</span>
             </div>
             <div class="flex justify-between text-sm font-semibold text-gray-700">
-              <span>Discount</span>
+              <span>Whole Discount</span>
               <input type="number" v-model.number="subDiscount"
                     class="w-16 border border-gray-300 text-gray-800 rounded text-center text-xs px-1"/>
             </div>
@@ -160,8 +205,8 @@
           </div>
           <div class="mt-6 grid grid-cols-3 gap-3">
             <button @click="handleCashClick('cash')" class="bg-green-500 hover:bg-green-600 text-white py-2 rounded-lg font-semibold shadow-md">Cash</button>
-            <button @click="makePayment('card')" class="bg-blue-500 hover:bg-blue-600 text-white py-2 rounded-lg font-semibold shadow-md">Card</button>
-            <button @click="makePayment('other')" class="bg-gray-500 hover:bg-gray-600 text-white py-2 rounded-lg font-semibold shadow-md">Other</button>
+            <button @click="handleCardClick('card')" class="bg-blue-500 hover:bg-blue-600 text-white py-2 rounded-lg font-semibold shadow-md">Card</button>
+            <button @click="handleOtherClick('other')" class="bg-gray-500 hover:bg-gray-600 text-white py-2 rounded-lg font-semibold shadow-md">Other</button>
           </div>
 
         </div>
@@ -255,13 +300,13 @@
               Cash
             </button>
             <button
-              @click="makePayment('card')"
+              @click="handleCardClick('card')"
               class="bg-blue-500 hover:bg-blue-600 text-white py-2 rounded-lg font-semibold shadow-md"
             >
               Card
             </button>
             <button
-              @click="makePayment('other')"
+              @click="handleOtherClick('other')"
               class="bg-gray-500 hover:bg-gray-600 text-white py-2 rounded-lg font-semibold shadow-md"
             >
               Other
@@ -270,7 +315,18 @@
         </div>
       </div>
     </div>
-    <CashMethod v-if="isCashPayment" @close="isCashPayment = false" />
+
+    <CashMethod 
+      v-if="isCashPayment" 
+      :cart="cart" 
+      :payType="PayType"   
+      :subDiscount="subDiscount"
+      :grandTotal="grandTotal"
+      @cashPaymentConfirmed="handleCashPayment"
+    />
+
+
+
     <!-- Fullscreen Button (Desktop only) -->
       <button
         @click="toggleFullScreen"
@@ -327,25 +383,9 @@ export default {
     };
   },
 
- 
   
   computed: {
-    // initPosData() {
-    //   return this.posStore.initPosData;
-    // },
-    // masterCategories() {
-    //   return this.initPosData.listMainCategries || [];
-    // },
-    // categories() {
-    //   return (this.initPosData.listSubCategories || []).filter(
-    //     (cat) => cat.masterId === this.selectedMasterCategory
-    //   );
-    // },
-    // filteredItems() {
-    //   return (this.initPosData.listItems || []).filter(
-    //     (item) => item.subCategoryId === this.selectedCategory
-    //   );
-    // },
+
     totalBeforeTax() {
       return this.cart.reduce((sum, i) => sum + ((i.price * (i.qty || 1)) - (i.discount || 0)), 0);
     },
@@ -357,36 +397,83 @@ export default {
       return Math.max(this.totalBeforeTax - (this.subDiscount || 0), 0) + this.cvatAmount;
     }
   },
+
+    async created() {
+      
+    this.userStore = useUserStore();    
+    this.posStore = useposStore();
+    this.showLoading = this.$showLoading;
+
+    const granted = this.userStore.loggedUser?.granted || [];
+
+    if (granted.includes('pos') ) {
+    }
+    else{
+      this.$router.push('/user/login');
+      this.$showToast('Not Allowed to access this page');
+    }
+
+   await this.posStore.loadInitPosData(this.showLoading);
+
+  
+  },
+  
   methods: {
-      handleCashClick() {
-        this.isCashPayment = true;
-      },
+
+    handleCashClick(type) {
+      this.PayType = type; 
+      this.isCashPayment = true;
+    },
+
+    handleCardClick(type) {
+      this.PayType = type;      
+      this.isCashPayment = true;
+    },
+
+    handleOtherClick(type) {
+      this.PayType = type;      
+      this.isCashPayment = true;
+    },
+
+    
     addToCart(item) {
-      const existing = this.cart.find(i => i.code === item.code);
+      console.log(item);
+
+      // Use 'id' if your item JSON has 'id', otherwise use 'code'
+      const existing = this.cart.find(i => i.id === item.id);
       if (existing) {
+        // Increment quantity if already in cart
         existing.qty = (existing.qty || 1) + 1;
       } else {
+        // Add as new cart line
         this.cart.push({ ...item, qty: 1, discount: 0 });
       }
     },
 
-    // async selectMasterCategory(masterId) {
-    //   this.selectedMasterCategory = masterId;
+    selectMasterCategory(id) {
+      console.log(id);
+      this.selectedMasterCategory = id;
+      this.posStore.setSelectedCategory(id,this.showLoading); 
+    },
 
-    //   // auto-select first subcategory
-    //   const subCats = (this.initPosData.listSubCategories || []).filter(
-    //     (cat) => cat.masterId === masterId
-    //   );
-    //   this.selectedCategory = subCats.length > 0 ? subCats[0].id : null;
+    selectSubCategory(id) {
+      console.log("SubCategory clicked:", id);
+      this.selectedCategory = id;
+      this.posStore.setSelectedSubCategory(id,this.showLoading); 
+    },
 
-    //   // Wait for next tick so Vue updates reactive properties
-    //   await this.$nextTick();
+    handleCashPayment(payload) {
+      console.log("Cash Payment Payload:", payload);
 
-    //   // Call store after selection
-    //   if (this.posStore && this.posStore.setSelectedMainCategoryId) {
-    //     await this.posStore.setSelectedMainCategoryId(masterId, this.showLoading);
-    //   }
-    // },
+      this.$showToast('Cash Payment Processed!');
+      
+      // Clear cart and discounts after payment
+      this.cart = [];
+      this.subDiscount = '0';
+      this.isCashPayment = false;
+      this.PayType = '';
+    },
+
 
     toggleFullScreen() {
       if (!document.fullscreenElement) {
@@ -414,37 +501,7 @@ export default {
 
   },
 
-    async created() {
-      
-    this.userStore = useUserStore();    
-    this.posStore = useposStore();
-    this.showLoading = this.$showLoading;
 
-    const granted = this.userStore.loggedUser?.granted || [];
-
-    if (granted.includes('pos') ) {
-    }
-    else{
-      this.$router.push('/user/login');
-      this.$showToast('Not Allowed to access this page');
-    }
-
-   await this.posStore.loadInitPosData(this.showLoading);
-
-   // document.addEventListener("fullscreenchange", () => {
-    //   this.isFullScreen = !!document.fullscreenElement;
-    // });
-
-    // this.initPosData = this.posStore.initPosData;
-
-    // if (this.masterCategories.length > 0) {
-    //   const firstMasterId = this.masterCategories[0].id;
-    //   await this.selectMasterCategory(firstMasterId);
-    // }
-
-   // this.listSubCategories = this.posStore.listSubCategories
-  
-  }
 
   
 
