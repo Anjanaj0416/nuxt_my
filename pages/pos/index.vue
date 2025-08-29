@@ -88,36 +88,39 @@
             </div>
           </div>
         </div> -->
-        <div class="flex-1 grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-6 gap-4 overflow-y-auto" v-if="posStore.listItems">
+        <div
+          class="flex-1 grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-6 gap-4 overflow-y-auto"
+          v-if="posStore.listItems"
+        >
           <div 
             v-for="item in posStore.listItems"
             :key="item.id"
-            @click="addToCart(item)"
+            @click="addToCart(item)"   
             class="relative flex flex-col items-center justify-end w-full h-48 rounded-2xl shadow-md hover:shadow-lg hover:scale-105 transition-transform cursor-pointer overflow-hidden"
             :style="{ backgroundImage: `url(${item.itemImage || 'https://via.placeholder.com/600x400?text=No+Image'})`, backgroundSize: 'cover', backgroundPosition: 'center' }"
           >
-            <!-- Discount Badge (Top Right) -->
+            <!-- Discount Badge -->
             <div 
-              v-if="item.discount "
+              v-if="item.discount"
               class="absolute top-2 right-2 bg-red-500 text-white text-xs font-bold px-2 py-1 rounded-lg shadow"
             >
               -₨{{ item.discount?.toLocaleString('en-LK', { minimumFractionDigits: 2 }) }}
             </div>
 
-            <!-- Overlay Gradient -->
+            <!-- Overlay -->
             <div class="absolute bottom-0 left-0 right-0 h-20 bg-gradient-to-t from-white via-white/80 to-transparent"></div>
 
-            <!-- Product Name and Price -->
+            <!-- Product Info -->
             <div class="relative z-10 w-full text-center p-1">
               <div class="text-base font-semibold text-black truncate">{{ item.itemName }}</div>
-              <div class="text-base font-semibold text-gray-800 ">
+              <div class="text-base font-semibold text-gray-800">
                 ₨{{ (item.price - item.discount)?.toLocaleString('en-LK', { minimumFractionDigits: 2 }) }}
               </div>
             </div>
           </div>
-
-
         </div>
+
+
 
         
        
@@ -294,8 +297,8 @@
 
           <div class="mt-6 grid grid-cols-3 gap-3">
             <button 
-              @click="handleCashClick('cash')"
-              class="text-sm  text-blue-600 hover:underline"
+              @click="handleCashClick('cash')" 
+              class="bg-green-500 hover:bg-green-600 text-white py-2 rounded-lg font-semibold shadow-md"
             >
               Cash
             </button>
@@ -318,14 +321,15 @@
 
     <CashMethod 
       v-if="isCashPayment" 
+      :key="cashComponentKey"
       :cart="cart" 
       :payType="PayType"   
       :subDiscount="subDiscount"
       :grandTotal="grandTotal"
       @cashPaymentConfirmed="handleCashPayment"
+       @openInvoice="openInvoice($event)"
     />
-
-
+    <invoice v-if="showInvoice" :invoiceData="invoiceData" @close="showInvoice = false"/>
 
     <!-- Fullscreen Button (Desktop only) -->
       <button
@@ -358,6 +362,7 @@
 <script>
 import headerdd from "~/components/pos/header.vue";
 import CashMethod from "~/components/pos/payment/cash.vue";
+import invoice from "~/components/pos/invoice.vue";
 import { useUserStore } from "~/stores/modules/userStore";
 import { useposStore } from "~/stores/modules/pos/posStore";
 
@@ -368,7 +373,7 @@ import { useposStore } from "~/stores/modules/pos/posStore";
    
 
 export default {
-  components: { headerdd,CashMethod },
+  components: { headerdd,CashMethod ,invoice},
   data() {
     return {
       isFullScreen: false,
@@ -380,12 +385,15 @@ export default {
       cvatRate: 0,
       showCartModal: false,
       testImgUrl:'https://drive.google.com/thumbnail?id=14ukBKtgUk2TpNRJ1HMJ-NzXeyiD50KCc&sz=w1000',
+      cashComponentKey: 0,
+
+      showInvoice: false,
+      invoiceData: null
     };
   },
 
   
   computed: {
-
     totalBeforeTax() {
       return this.cart.reduce((sum, i) => sum + ((i.price * (i.qty || 1)) - (i.discount || 0)), 0);
     },
@@ -398,8 +406,7 @@ export default {
     }
   },
 
-    async created() {
-      
+  async created() {
     this.userStore = useUserStore();    
     this.posStore = useposStore();
     this.showLoading = this.$showLoading;
@@ -412,10 +419,7 @@ export default {
       this.$router.push('/user/login');
       this.$showToast('Not Allowed to access this page');
     }
-
    await this.posStore.loadInitPosData(this.showLoading);
-
-  
   },
   
   methods: {
@@ -423,6 +427,8 @@ export default {
     handleCashClick(type) {
       this.PayType = type; 
       this.isCashPayment = true;
+
+       this.cashComponentKey++;
     },
 
     handleCardClick(type) {
@@ -435,10 +441,14 @@ export default {
       this.isCashPayment = true;
     },
 
-    
+    openInvoice(payload) {
+      this.invoiceData = payload;
+      this.showInvoice = true;
+    },
+
     addToCart(item) {
       console.log(item);
-
+      // this.cart.push(item);
       // Use 'id' if your item JSON has 'id', otherwise use 'code'
       const existing = this.cart.find(i => i.id === item.id);
       if (existing) {
@@ -464,16 +474,12 @@ export default {
 
     handleCashPayment(payload) {
       console.log("Cash Payment Payload:", payload);
-
       this.$showToast('Cash Payment Processed!');
-      
-      // Clear cart and discounts after payment
-      this.cart = [];
-      this.subDiscount = '0';
-      this.isCashPayment = false;
-      this.PayType = '';
+        this.cart = [];
+        this.subDiscount = 0;
+        this.PayType = "";
+        this.isCashPayment = false;
     },
-
 
     toggleFullScreen() {
       if (!document.fullscreenElement) {
@@ -489,21 +495,8 @@ export default {
 
   },
 
- 
-
-  async beforeMount() {
-
-    
-   },
-
-  async mounted() {
-    
-
-  },
-
-
-
-  
+  async beforeMount() {},
+  async mounted() {},
 
 };
 </script>

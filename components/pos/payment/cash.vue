@@ -12,7 +12,7 @@
         <div class="flex flex-col gap-6">
 
           <!-- {{ posStore.listClients }} -->
-        <template v-if="!paymentSuccess">
+     
 
           <!-- Customer Selection -->
           <div class="space-y-2">
@@ -109,63 +109,9 @@
             Make Payment
           </button>
 
-        </template>
-        <template v-else>
-          <div class="text-center py-10 px-6">
-            <!-- Success Message -->
-            <p class="text-green-700 text-2xl font-extrabold mb-6">
-              Payment Successful!
-            </p>
-
-            <!-- Description / Optional -->
-            <p class="text-gray-600 mb-8">
-              You can print the bill, send it via WhatsApp, or download the PDF.
-            </p>
-
-            <!-- Button Group -->
-            <div class="flex flex-col md:flex-row justify-center gap-4">
-              <!-- Thermal Print -->
-              <button
-                @click="handleThermalPrint"
-                class="flex-1 bg-blue-500 hover:bg-blue-600 text-white font-semibold py-3 px-6 rounded-xl shadow-lg transform "
-              >
-                🖨️ Thermal Print
-              </button>
-
-              <!-- WhatsApp -->
-              <button
-                @click="handleWhatsAppSend"
-                :disabled="true"
-                class="flex-1 bg-green-500 text-white font-semibold py-3 px-6 rounded-xl shadow-lg transform transition
-                      disabled:opacity-50 disabled:cursor-not-allowed"
-              >
-                💬 WhatsApp
-              </button>
-
-
-              <!-- PDF -->
-              <button
-                @click="handlePDFDownload"
-                class="flex-1 bg-gray-500 text-white font-semibold py-3 px-6 rounded-xl shadow-lg transform transition
-                      disabled:opacity-50 disabled:cursor-not-allowed"
-              >
-                📄 PDF
-              </button>
-            </div>
-          </div>
-        </template>
-
         </div>
       </div>
 
-      
-
-
-      <!-- Modal Footer -->
-      <!-- <div class="modal-footer">
-        <button @click="closeModal" class="cancel-button">Cancel</button>
-        <button @click="submitPayment" class="confirm-button">Submit Payment</button>
-      </div> -->
     </div>
   </div>
 </template>
@@ -174,9 +120,10 @@
 import { useUserStore } from "~/stores/modules/userStore";
 import { useposStore } from "~/stores/modules/pos/posStore";
 import closebtn from "~/components/customcontrol/modal_close_button";
+import Invoice from "../invoice.vue";
 
 export default {
-  components: { closebtn },
+  components: { closebtn,Invoice },
   props: {
     cart: Array,
     subDiscount: { type: Number, default: 0 },
@@ -261,6 +208,8 @@ export default {
         this.paymentSuccess = true;
 
         this.resetForm();
+        this.$emit("cashPaymentConfirmed", payload);
+          this.$emit("openInvoice", payload);
         // this.closeModal();
       } catch (err) {
         console.error(err);
@@ -277,6 +226,7 @@ export default {
       this.payReference = "";
       this.cashReceived = 0;
       this.UnitPrice = "";
+      this.errors = {};
     },
 
     validateForm() {

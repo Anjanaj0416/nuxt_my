@@ -11,7 +11,8 @@
 
         <!-- Header -->
         <div class="px-3 text-center border-b-2 border-gray-400 pb-2">
-          <img :src="bill.logo" class="w-auto h-16 mx-auto" alt="Company Logo" />
+          <img v-if="bill && bill.logo" :src="bill.logo" class="w-auto h-16 mx-auto" alt="Company Logo" />
+
           <h1 class="text-lg font-bold text-gray-800 mt-1 uppercase">{{ bill.companyName }}</h1>
           <p class="text-xs text-gray-600">{{ bill.address }}</p>
           <p class="text-xs text-gray-600">Hotline: {{ bill.hotline }}</p>
@@ -76,33 +77,22 @@ import { useUserStore } from "~/stores/modules/userStore";
    });
 
 export default {
+  props: {
+    bill: {
+      type: Object,
+      required: true,
+      default: () => ({})
+    },
+    loggedUser: {
+      type: Object,
+      required: true,
+      default: () => ({})
+    }
+  },
   data() {
     return {
       assetsRoot: process.env.McleAssets || '/assets',
-      bill: {
-        logo: 'https://w7.pngwing.com/pngs/195/996/png-transparent-shopping-cart-computer-icons-online-shopping-symbol-shopping-logo-design-supermarket-bag-shopping-list.png',
-        name: 'John Doe',           // matches template
-        billNo: 'BILL-2025-001',    // matches template
-        address: '123 Main Street, Colombo',
-        hotline: '011 234 5678',
-        age: 32,
-        sex: 'Male',
-        date: '2025-08-28',
-        time: '14:30',
-        items: [
-          { description: 'Consultation', amount: 1500 },
-          { description: 'Blood Test', amount: 500 },
-          { description: 'X-Ray', amount: 1200 },
-        ],
-        grossTotal: 3200,
-        discount: 200,
-        netTotal: 3000,
-        payment: 3000,
-        balance: 0
-      },
-      loggedUser: {
-        name: 'Operator 1'
-      }
+
     }
   },
   created() {
@@ -121,6 +111,36 @@ export default {
     },
     formatCurrency(amount) {
       return 'LKR ' + amount.toLocaleString();
+    },
+    print() {
+      const { bill, loggedUser } = this;
+      let content = `
+      ${bill.logo ? '<img src="' + bill.logo + '" width="80" />' : ''}
+      Name: ${bill.name}
+      Bill No: ${bill.billNo}
+      Address: ${bill.address}
+      Hotline: ${bill.hotline}
+      Age/Sex: ${bill.age}/${bill.sex}
+      Date/Time: ${bill.date} ${bill.time}
+
+      Items:
+      ${bill.items.map(i => `${i.description} - ${i.amount}`).join('\n')}
+
+      Gross Total: ${bill.grossTotal}
+      Discount: ${bill.discount}
+      Net Total: ${bill.netTotal}
+      Payment: ${bill.payment}
+      Balance: ${bill.balance}
+
+      Operator: ${loggedUser.name}
+      `;
+
+      // Open new window for printing (or send to real thermal printer SDK)
+      const printWindow = window.open('', '', 'width=400,height=600');
+      printWindow.document.write('<pre>' + content + '</pre>');
+      printWindow.document.close();
+      printWindow.focus();
+      printWindow.print();
     }
   }
 }
