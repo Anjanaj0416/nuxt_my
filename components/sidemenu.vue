@@ -10,7 +10,7 @@
         <!-- Logo -->
         <router-link to="/dashboard" class="flex items-center space-x-2">
           <!-- hide Img -->
-          <img src="/assets/img/LogoDigitalTechLab.png" alt="Logo" class="h-auto rounded-full w-28" />
+          <!-- <img src="/assets/img/LogoDigitalTechLab.png" alt="Logo" class="h-auto rounded-full w-28" /> -->
         </router-link>
         <!-- Close Button -->
         <button @click="$emit('close-sidebar')"
@@ -220,7 +220,7 @@ const links = [
           { name: "Employee Rectification Report", to: "#" },
           { name: "Employee leave Annual Report", to: "#" },
           { name: "Annual Summery Report", to: "#" },
-          { name: "TimeCard Summery Report", to: "#" },
+          { name: "TimeCard Summery Report", to: "/hr/reports?p=R1007" },
           { name: "No Pay Summery Report", to: "#" },
           { name: "No Pay Monthly Report", to: "#" },
           { name: "Supervisor Approval Pending Summery", to: "#" },

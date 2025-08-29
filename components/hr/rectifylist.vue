@@ -188,7 +188,7 @@ export default {
 
         async deleteRecord(id) {
             if (confirm('Sure to delete this Absence?')) {
-                let req = { absendce_id: id }
+                let req = { id: id }
                 await this.hrStore.getDeleteAbsence(req, this.showLoading)
 
                 const fromDate = this.$refs.datediffRef.dtfrom;
