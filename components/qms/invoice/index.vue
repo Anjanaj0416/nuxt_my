@@ -34,21 +34,20 @@
 
             <!-- Button Section (Right) -->
             <div class="w-full md:w-auto">
-  <div class="mr-2" v-if="status && status.trim().toLowerCase() !== 'canceled' && status !== 'FullPaid'">
-    <Button
-      class="w-26 px-4 py-1.5 mt-2 rounded-full text-xs transition"
-      label="Add Payment"
-      variant="primary"
-      v-if="
-        (status !== 'Canceled' && status !== 'FullPaid') &&
-        (userStore.loggedUser.granted.includes('su') ||
-         userStore.loggedUser.granted.includes('flo') ||
-         userStore.loggedUser.granted.includes('sso'))
-      "
-      @click="GoToPayment"
-    />
-  </div>
-</div>
+          <div class="mr-2" v-if="status && status.trim().toLowerCase() !== 'canceled' && status !== 'FullPaid'">
+            <Button
+              class="w-26 px-4 py-1.5 mt-2 rounded-full text-xs transition"
+              label="Add Payment"
+              variant="primary"
+              v-if="
+                (status !== 'Canceled' && status !== 'FullPaid') &&
+                (userStore.loggedUser.granted.includes('su') ||
+                userStore.loggedUser.granted.includes('accdept') )
+              "
+              @click="GoToPayment"
+            />
+          </div>
+        </div>
 
           </div>
 

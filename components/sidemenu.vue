@@ -26,6 +26,8 @@
       <div class="flex items-center justify-between px-6 py-3 text-white bg-gradient-to-r from-gray-800 to-gray-700">
         <h1 class="text-xl font-semibold tracking-wide">INTRANET</h1>
       </div>
+
+      {{ loggedUser.granted }}
       <nav class="p-4">
         <div v-for="link in filteredLinks" :key="link.name">
 
@@ -106,7 +108,7 @@
 </template>
 
 <script setup>
-import { ref, onMounted } from "vue";
+import { ref, computed ,onMounted } from "vue";
 import { useUserStore } from '~/stores/modules/userStore';
 
 const userStore = useUserStore();
@@ -118,24 +120,62 @@ const props = defineProps({
   loggedUser: {},
 });
 
-const filteredLinks = computed(() => {
-  return links.filter(link => {
-    if (!link || !link.name) return false;
-
-    // Only show CRM if user has sso or flo
-    // if (link.name === 'CRM') {
-    //   return granted.value.includes('sso') || granted.value.includes('flo') || granted.value.includes('su') || granted.value.includes('cso');
-    // }
-
-    return true; // Show all other links
-  });
-});
-
-
 const emit = defineEmits(["close-sidebar"]);
 
 const openSubmenus = ref([]);
 
+// ==========================
+// 🔑 Access Rules
+// ==========================
+const accessRules = {
+  "CRM": ["sso", "flo", "su", "cso","accdept"],
+  "Leads": ["sso","cso","su"],
+  "Vendors": ["sso","accdept","su"],
+  "HR System": ["hradmin","su"],        
+  "QMS": ["sso", "flo", "su", "cso"],
+  "HR": ["hradmin", "su"],         
+};
+
+
+// ==========================
+// 🔑 Check Access
+// ==========================
+function canAccess(itemName) {
+  const roles = accessRules[itemName];
+  if (!roles) return true; // if no rule -> visible for everyone
+  return roles.some(role => granted.value.includes(role));
+}
+
+// ==========================
+// 🔑 Recursive Filter
+// ==========================
+function filterMenu(items) {
+  return items
+    .map(item => {
+      if (!item) return null;
+
+      // Check direct rule
+      if (!canAccess(item.name)) return null;
+
+      // Submenus
+      if (item.submenu) {
+        const filteredSub = filterMenu(item.submenu);
+        if (filteredSub.length > 0) {
+          return { ...item, submenu: filteredSub };
+        }
+        return null; // hide parent if all children are removed
+      }
+
+      return item;
+    })
+    .filter(Boolean);
+}
+
+const filteredLinks = computed(() => filterMenu(links));
+
+// ==========================
+// 🔑 Submenu Controls
+// ==========================
 const toggleSubmenu = (name) => {
   if (openSubmenus.value.includes(name)) {
     openSubmenus.value = openSubmenus.value.filter((n) => n !== name);
@@ -144,15 +184,16 @@ const toggleSubmenu = (name) => {
   }
 };
 
-const GetOpenRegistryFtp = () => {
-  // alert(this.loggedUser.granted.includes('doc_Registry'))
-  if (this.loggedUser.granted.includes('doc_Registry')) {
-    window.open('ftp://149.102.129.195/documentregistry', '_blank');
-  }
-  // else {alert('No include')}
-};
-
 const isSubmenuOpen = (name) => openSubmenus.value.includes(name);
+
+// ==========================
+// 🔑 Open FTP (Document Registry)
+// ==========================
+const GetOpenRegistryFtp = () => {
+  if (props.loggedUser?.granted?.includes("doc_Registry")) {
+    window.open("ftp://149.102.129.195/documentregistry", "_blank");
+  }
+};
 
 const links = [
   {
