@@ -127,7 +127,12 @@
               Close Proposal
             </button> -->
 
-            <button v-if="vendorTabs[vd.id] !== 'isuePINo'"
+            <button  
+              v-if="
+                (userStore.loggedUser.granted.includes('su') ||
+                userStore.loggedUser.granted.includes('sso')) &&
+                vendorTabs[vd.id] !== 'isuePINo'
+              "
               @click="vendorTabs[vd.id] = 'isuePINo'; quotationStore.curVendorId = vd.id" :class="[
                 'p-4 border-b-2 rounded-t-lg text-center',
                 vendorTabs[vd.id] === 'isuePINo'
@@ -137,7 +142,12 @@
               Issue PI No.
             </button>
 
-            <button v-if="vendorTabs[vd.id] === 'isuePINo'"
+            <button 
+              v-if="
+                (userStore.loggedUser.granted.includes('su') ||
+                userStore.loggedUser.granted.includes('sso')) &&
+                vendorTabs[vd.id] === 'isuePINo'
+              "
               @click="vendorTabs[vd.id] = ''; quotationStore.curVendorId = null"
               class="p-4 border-b-2 rounded-t-lg text-center text-red-600 border-transparent ">
               Close Issue PI No.
@@ -195,7 +205,11 @@
               Close View More
             </button>
 
-            <button v-if="vendorTabs[vd.id] !== 'edit'"
+            <button v-if=" 
+                (userStore.loggedUser.granted.includes('su') ||
+                userStore.loggedUser.granted.includes('sso')) &&
+                vendorTabs[vd.id] !== 'edit'
+              "
               @click="vendorTabs[vd.id] = 'edit'; quotationStore.curVendorId = vd.id; GoToAddEdit(vd.id)" :class="[
                 'p-4 border-b-2 rounded-t-lg text-center',
                 vendorTabs[vd.id] === 'edit'
@@ -205,7 +219,11 @@
               Edit
             </button>
             <!-- Show this only when in 'proposal' mode -->
-            <button v-if="vendorTabs[vd.id] === 'edit'"
+            <button v-if="
+                (userStore.loggedUser.granted.includes('su') ||
+                userStore.loggedUser.granted.includes('sso')) &&
+                vendorTabs[vd.id] === 'edit'
+              "
               @click="vendorTabs[vd.id] = ''; quotationStore.curVendorId = null"
               class="p-4 border-b-2 rounded-t-lg text-center text-red-600 border-transparent ">
               Close Edit
