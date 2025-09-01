@@ -9,6 +9,7 @@
         <!-- Header -->
         <header class="flex items-center justify-between h-16 p-4 shadow bg-nav">
           <button @click="isSidebarOpen = !isSidebarOpen" class="absolute z-50 p-2 text-white rounded-md top-4 left-4">
+            
             <svg v-if="!isSidebarOpen" class="w-6 h-6" fill="none" stroke="currentColor" stroke-width="2"
               viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
               <path stroke-linecap="round" stroke-linejoin="round" d="M4 6h16M4 12h16M4 18h16"></path>

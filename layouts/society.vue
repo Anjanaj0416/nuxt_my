@@ -19,11 +19,12 @@
 
     <!-- Rest of the app shows only after loading is done -->
     <div v-else>
-      <!-- <headercomp/> -->
-      <main class="content">
-        <!-- <NuxtPage /> -->
-      </main>
+      <headercomp/>
       
+      <main class="content">
+        <NuxtPage />
+      </main>
+         <footercomp/>
     </div>
   </section>
 </template>
@@ -31,7 +32,7 @@
 
 <script>
 import headercomp from '~/components/society/header.vue'
-import footercomp from '~/components/footer'
+import footercomp from '~/components/society/footer.vue'
 import LoadingSpinner from '~/components/LoadingSpinner.vue'
 
 export default {
@@ -39,7 +40,7 @@ export default {
   data() {
     return {
        showLoading: null,
-       isLoading:null,
+       isLoading:false,
     }
   },
   async created() {

@@ -22,8 +22,12 @@ devServer: {
   routeRules: {
     '/*': { ssr: false }, // Disable SSR for non-existent routes
   },
+  
+  image: {
+    domains: ['lh3.googleusercontent.com', 'drive.google.com']
+  },
 
-  modules: ['@pinia/nuxt', '@nuxtjs/i18n'],
+  modules: ['@pinia/nuxt', '@nuxtjs/i18n','@nuxt/image'],
   
   pinia: {
     autoImports: ['defineStore']

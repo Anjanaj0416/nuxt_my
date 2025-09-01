@@ -13,7 +13,7 @@
         <input
           type="text"
           v-model="searchVal"
-          placeholder="Enter name or ID"
+          placeholder="Book Id"
           class="border border-gray-300 rounded-md px-3 py-2 w-full sm:w-56 focus:ring-2 focus:ring-teal-500 focus:outline-none"
         />
       </div>
@@ -187,17 +187,17 @@ export default {
     //this.$showToast('Login successful!', 'success'); //success ,error ,warning,info
   },
   async beforeMount() {
-    if (      
-      this.userStore.loggedUser.userCompanyDetails.companyType.includes("welfare")
-    ) {
-    } else {
-      this.$router.push("/user/login");
-      this.$showToast("Not Allowed to access this page");
-    }
+    // if (      
+    //   this.userStore.loggedUser.userCompanyDetails.companyType.includes("welfare")
+    // ) {
+    // } else {
+    //   this.$router.push("/user/login");
+    //   this.$showToast("Not Allowed to access this page");
+    // }
   },
   head() {
     return {
-      title: "Intranet - Digital Tech Labs",
+      title: "Welfare System",
     };
   },
 };
