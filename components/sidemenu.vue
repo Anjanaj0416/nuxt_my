@@ -27,7 +27,7 @@
         <h1 class="text-xl font-semibold tracking-wide">INTRANET</h1>
       </div>
 
-      {{ loggedUser.granted }}
+      <!-- {{ loggedUser.granted }} -->
       <nav class="p-4">
         <div v-for="link in filteredLinks" :key="link.name">
 
