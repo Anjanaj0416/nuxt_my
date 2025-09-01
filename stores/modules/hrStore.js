@@ -251,6 +251,9 @@ export const useHrStore = defineStore("hrStore", {
           req
         );
 
+        console.log("response:",response);
+        
+
         if (response.data.isSuccess) {
           this.alempdetails =
             response.data.data.data.alpagedetails[0].alempdetails || [];

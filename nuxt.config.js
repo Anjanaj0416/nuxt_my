@@ -1,6 +1,5 @@
 // https://nuxt.com/docs/api/configuration/nuxt-config
 import { defineNuxtConfig } from 'nuxt/config'
-import fs from "fs"
 import { resolve } from 'path'
 
 
@@ -62,7 +61,7 @@ devServer: {
       { name: 'viewport', content: 'width=device-width, initial-scale=1' },
       { hid: 'description', name: 'description', content: '' },
     ],
-    link: [{ rel: 'icon', type: 'image/x-icon', href: 'favicon_io/favicon-32x32.png' }],
+    // link: [{ rel: 'icon', type: 'image/x-icon', href: 'favicon_io/favicon-32x32.png' }],
     },
  
     

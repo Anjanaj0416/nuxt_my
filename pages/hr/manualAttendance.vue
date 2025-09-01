@@ -2,8 +2,6 @@
     <section class="justify-center min-h-screen px-4 mt-24 mb-20 lg:px-60">
       <div class="text-2xl uppercase">Manual Employee Attendance</div>
       <div class=" shadow-md rounded-lg p-6 mt-10 mb-10 border text-white">
-    {{ hrStore.alempdetails }}
-
         <div class="grid grid-cols-1 md:grid-cols-4 gap-4">
           <div>
             <label class="block text-sm font-bold text-gray-600">Employee</label>

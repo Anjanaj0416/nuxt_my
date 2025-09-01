@@ -15,10 +15,11 @@
 <template>
   <section class="page-container">
     <!-- Spinner only shows when loading -->
-    <LoadingSpinner v-if="isLoading" />
+    <!-- <LoadingSpinner v-if="isLoading" /> -->
 
     <!-- Rest of the app shows only after loading is done -->
-    <div v-else>
+    <!-- v-else -->
+    <div>
       <headercomp />
       <main class="content">
         <NuxtPage />

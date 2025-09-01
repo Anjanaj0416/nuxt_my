@@ -516,13 +516,19 @@ export default {
     // Calculate today's date
     this.dtto = new Date().toISOString().split('T')[0]; // Format: YYYY-MM-DD
 
-    let req = {
-      EmpNo: this.empno,
-      FromDate: this.dtfrom,
-      ToDate: this.dtto,
-    };
-    // await this.getLoadAttendnece(req);
-    await this.hrStore.getAttendenceByEmp(req, this.showLoading)
+    // Only fetch attendance if explicitly needed
+    // if (this.$parent.cur_sec !== 'attendence') {
+    //   console.log('cur_sec is not attendence, skipping getAttendenceByEmp');
+    //   return;
+    // }
+
+    // let req = {
+    //   EmpNo: this.empno,
+    //   FromDate: this.dtfrom,
+    //   ToDate: this.dtto,
+    // };
+    // // await this.getLoadAttendnece(req);
+    // await this.hrStore.getAttendenceByEmp(req, this.showLoading)
     await this.init();
   },
 
