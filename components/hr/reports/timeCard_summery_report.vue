@@ -86,7 +86,7 @@ export default {
             }
 
             const req = {
-                Department: this.selectedDepartment,
+                DeptId: this.selectedDepartment,
                 Year: this.selectedYear,
                 Month: this.selectedMonth,
             };
