@@ -11,7 +11,7 @@
         <div class="form-content">
           <!-- sales -->
           <div class="form-content">
-            {{ leadStore.InitLeads.listRSOs }}
+            <!-- {{ leadStore.InitLeads.listRSOs }} -->
             <!-- SALES SECTION -->
             <div v-if="!showCityForm">
               <div class="grid grid-cols-1 gap-4 sm:grid-cols-1">
