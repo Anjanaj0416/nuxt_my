@@ -64,9 +64,22 @@
       </div>
 
 
-      <!-- <div class="bg-white p-6 rounded shadow border mt-6">
+      <div v-if="Object.keys(hrStore.attendence.manualAttendance).length !== 0" class="bg-white p-6 rounded shadow border mt-6">
         <h2 class="text-lg font-semibold mb-4">Attendance</h2>
-        <ul class="space-y-4 text-gray-800 text-sm">
+        <div class="grid grid-cols-1 lg:grid-cols-4">
+          <div>Date</div>
+          <div>Employee</div>
+          <div>In-Time</div>
+          <div>Out-Time</div>
+        </div>
+
+        <div class="grid grid-cols-1 lg:grid-cols-4 mt-2 bg-gray-300 p-2">
+          <div>{{hrStore.attendence.manualAttendance.date}}</div>
+          <div>{{hrStore.attendence.manualAttendance.employee}}</div>
+          <div>{{hrStore.attendence.manualAttendance.inTime}}</div>
+          <div>{{hrStore.attendence.manualAttendance.outTime}}</div>
+        </div>
+        <!-- <ul class="space-y-4 text-gray-800 text-sm">
             <li v-if="selectedEmployee">Employee: <strong>{{ selectedEmployee }}</strong></li>
             <li v-if="selectedTimeType && selectedTimeValue">
                 Selected Time: <strong>{{ selectedTimeType }} - {{ selectedTimeValue }}</strong>
@@ -74,8 +87,8 @@
             <li v-if="!selectedEmployee || !selectedTimeType" class="text-gray-400 italic">
             Please select employee and time.
             </li>
-        </ul>
-      </div> -->
+        </ul> -->
+      </div>
 
 
 
@@ -118,24 +131,24 @@ import { useHrStore } from "~/stores/modules/hrStore";
         selectedOutTime: ''
       }
     },
-    async mounted() {
-     
-    },
+
     async created() {
       this.hrStore = useHrStore();
       this.userStore = useUserStore();
       this.showLoading = this.$showLoading;
       this.imageroot = this.userStore.loggedUser.resourceURLRoot;
+
+      await this.hrStore.getReportInitData();
     },
     watch: {
-        selectedTimeType(newVal) {
-            if (newVal) {
-            const now = new Date();
-            this.selectedTimeValue = now.toLocaleTimeString(); // set time
-            } else {
-            this.selectedTimeValue = '';
-            }
-        }
+      selectedTimeType(newVal) {
+          if (newVal) {
+          const now = new Date();
+          this.selectedTimeValue = now.toLocaleTimeString(); // set time
+          } else {
+          this.selectedTimeValue = '';
+          }
+      }
     },
     computed: {
         

@@ -52,6 +52,16 @@ export default {
           @click="search_begin">
           Search
         </button>
+        <button type="submit"
+          class="px-4 py-2 ml-2 text-sm text-white bg-blue-800 rounded-lg hover:bg-blue-900 focus:outline-none focus:ring-4 focus:ring-blue-300 dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800"
+          @click="goToAddNew">
+          New
+        </button>
+        <button v-if="search_val" type="submit"
+          class="px-4 py-2 ml-2 text-sm text-white bg-blue-800 rounded-lg hover:bg-blue-900 focus:outline-none focus:ring-4 focus:ring-blue-300 dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800"
+          @click="goToClear">
+          Clear
+        </button>
         <!-- </div> -->
       </div>
 
@@ -107,6 +117,15 @@ export default {
       // console.log( {searchby:this.serach_id,searchval : this.search_val });
       this.$emit('getsearch', { searchby: this.serach_id, searchval: this.search_val })
       this.isopened = false
+    },
+
+    goToAddNew() {
+      this.$emit('goToAddNew')
+    },
+
+    goToClear(){
+      this.search_val = '';
+      this.$emit('goToClear')
     },
 
     clear() {

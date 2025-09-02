@@ -3,8 +3,10 @@
 
     <div class="relative min-h-screen px-4 pt-2 text-sm" v-show="hrStore.empdetails.id">
       <div class="absolute top-0 right-0 flex mt-8 mr-8 gap-x-4">
-        <div v-show="userStore.loggedUser.granted.includes('hradmin') || userStore.loggedUser.granted.includes('su')" class="btn" @click="setEdit">Edit</div>
-        <div v-show="userStore.loggedUser.granted.includes('hradmin') || userStore.loggedUser.granted.includes('su')" class="btn" @click="setdelete">Delete</div>
+        <div v-show="userStore.loggedUser.granted.includes('hradmin') || userStore.loggedUser.granted.includes('su')"
+          class="btn" @click="setEdit">Edit</div>
+        <div v-show="userStore.loggedUser.granted.includes('hradmin') || userStore.loggedUser.granted.includes('su')"
+          class="btn" @click="setdelete">Delete</div>
 
 
         <div class="cursor-pointer text-gray-500 hover:text-gray-800" title="Exit Employee Details" @click="getclose">
@@ -57,7 +59,7 @@
             </div>
 
             <div class="col-span-1">
-              <hr_item item="Contact" :value="hrStore.empdetails.contact1 +','+hrStore.empdetails.contact2" />
+              <hr_item item="Contact" :value="hrStore.empdetails.contact1 + ',' + hrStore.empdetails.contact2" />
             </div>
 
             <div class="col-span-1">
@@ -66,7 +68,7 @@
 
             <div class="col-span-1">
               <hr_item item="Email 2" :value="hrStore.empdetails.email2" />
-            </div>            
+            </div>
 
             <div class="col-span-1">
               <hr_item item="Emergency Contact" :value="hrStore.empdetails.emergencyContact" />
@@ -154,67 +156,67 @@
             <div class="col-span-1">
               <hr_item item="Reson For Resign" :value="hrStore.empdetails.reasonForResign" />
             </div>
-               <div class="col-span-1">
-              <hr_item item="Activation"   :value="hrStore.empdetails.isActive ? 'Active' : 'In active'" />
+            <div class="col-span-1">
+              <hr_item item="Activation" :value="hrStore.empdetails.isActive ? 'Active' : 'In active'" />
             </div>
           </div>
 
-            <div class="grid grid-cols-1 mt-2 gap-y-4 sm:grid-cols-5 sm:gap-x-6">  
-               
-          
+          <div class="grid grid-cols-1 mt-2 gap-y-4 sm:grid-cols-5 sm:gap-x-6">
+
+
             <!-- <div class="col-span-1">
               <hr_item item="Status"   :value="hrStore.empdetails.employeeStatus" />
             </div> -->
-              <div class="col-span-1">
-              <hr_item item="Feature  Granting"   :value="hrStore.empdetails.granted" />
+            <div class="col-span-1">
+              <hr_item item="Feature  Granting" :value="hrStore.empdetails.granted" />
             </div>
             <div class="col-span-1">
-              <hr_item item="Morning OT Allowed"   :value="hrStore.empdetails.isMorningOtAllowed" />
+              <hr_item item="Morning OT Allowed" :value="hrStore.empdetails.isMorningOtAllowed" />
             </div>
-             <div class="col-span-1">
-              <hr_item item="Role"   :value="hrStore.empdetails.role.value" />
+            <div class="col-span-1">
+              <hr_item item="Role" :value="hrStore.empdetails.role.value" />
             </div>
-              </div>
+          </div>
 
-               <div class="grid grid-cols-1 mt-2 gap-y-4 sm:grid-cols-5 sm:gap-x-6">  
-                <div class="col-span-1">
-              <hr_item item="Secret Code"   :value="hrStore.empdetails.secretCode" />
-            </div>
-
-              <div class="col-span-1">
-              <hr_item item="UserCode"   :value="hrStore.empdetails.userCode" />
+          <div class="grid grid-cols-1 mt-2 gap-y-4 sm:grid-cols-5 sm:gap-x-6">
+            <div class="col-span-1">
+              <hr_item item="Secret Code" :value="hrStore.empdetails.secretCode" />
             </div>
 
-             <div class="col-span-1">
-              <hr_item item="User Group"   :value="hrStore.empdetails.userGroup" />
+            <div class="col-span-1">
+              <hr_item item="UserCode" :value="hrStore.empdetails.userCode" />
             </div>
 
-             <div class="col-span-1">
-              <hr_item item="User Name"   :value="hrStore.empdetails.username" />
+            <div class="col-span-1">
+              <hr_item item="User Group" :value="hrStore.empdetails.userGroup" />
             </div>
- <div class="col-span-1">
+
+            <div class="col-span-1">
+              <hr_item item="User Name" :value="hrStore.empdetails.username" />
+            </div>
+            <div class="col-span-1">
               <hr_item item="Gender" :value="hrStore.empdetails.gender" />
             </div>
-            
-               </div>
 
-          <div class="grid grid-cols-1 mt-2 gap-y-4 sm:grid-cols-5 sm:gap-x-6">  
-            
-            
-             
-              <div class="col-span-1">
+          </div>
+
+          <div class="grid grid-cols-1 mt-2 gap-y-4 sm:grid-cols-5 sm:gap-x-6">
+
+
+
+            <div class="col-span-1">
               <hr_item item="NIC" :value="hrStore.empdetails.nic" />
             </div>
-             <div class="pt-4">
+            <div v-if="hrStore.empdetails.nicUrl" class="pt-4">
               <label for="price" class="block text-sm font-medium leading-6 text-gray-900">NIC Image</label>
-              <div class="mt-2">                
+              <div class="mt-2">
                 <a :href="userStore.assetsBaseUrl + hrStore.empdetails.nicUrl" target="_blank">
                   <img class="w-16 h-16 border-2 border-white rounded"
                     :src="userStore.assetsBaseUrl + hrStore.empdetails.nicUrl" alt="" />
                 </a>
               </div>
             </div>
-            <div class="pt-4">
+            <div v-if="hrStore.empdetails.signatureUrl" class="pt-4">
               <label for="price" class="block text-sm font-medium leading-6 text-gray-900">Signature</label>
               <div class="mt-2">
                 <!-- <a :href="imageroot + '/Resource/HR/signature/' + hrStore.empdetails.signature + '.png'"
@@ -289,7 +291,7 @@ export default {
       this.$emit('setDeleteEmployee')
     },
     setEdit() {
-       this.hrStore.empdetails = this.hrStore.curEmployee;
+      this.hrStore.empdetails = this.hrStore.curEmployee;
       this.$emit('setEmployee')
     },
   },

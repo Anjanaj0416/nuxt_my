@@ -73,12 +73,12 @@ export const useHrStore = defineStore("hrStore", {
       username: "",
       userType: "",
     },
-
     attendence: {
       tot_normal_overtime: 0,
       tot_sunday_overtime: 0,
       isTheTimeCardApproved: false,
       alattendences: [],
+      manualAttendance: {},
     },
     dayInfo : {},
     timecard: {
@@ -153,6 +153,7 @@ export const useHrStore = defineStore("hrStore", {
     },
     authToken: "",
     isLoading: true,
+    isModalOpen:true,
   }),
 
   persist: true,
@@ -192,6 +193,7 @@ export const useHrStore = defineStore("hrStore", {
         if (response.data.isSuccess) {
           this.showToast(response.data.message, "success");
           this.alempdetails = response.data.data.data;
+          this.closeModal();
           // You can also update other state values if needed
         } else {
           console.error("Server error:", response.data.message);
@@ -279,7 +281,7 @@ export const useHrStore = defineStore("hrStore", {
           `${import.meta.env.VITE_API_URL}/hr/Employee/GetEmployeeByID`,
           { params: { id: id.empid } }
         );
-        // console.log("response:",response.data.data.data);
+        console.log("response:",response.data.data.data);
         if (response.data.isSuccess) {
           this.curEmployee = response.data.data.data || {};
           this.empdetails = this.curEmployee;
@@ -430,6 +432,11 @@ export const useHrStore = defineStore("hrStore", {
       this.timecard.arrtimecard = [];
       this.OTApllyDetails.arrOTApply = [];
     },
+
+    async closeModal() {
+      this.isModalOpen = !this.isModalOpen;
+    },
+
 
     // WorkLoad
 
@@ -935,7 +942,7 @@ export const useHrStore = defineStore("hrStore", {
         );
         console.log("response:", response);
         if (response.data.isSuccess) {
-          // this.empdetails = response.data.data.data || {};
+          this.attendence.manualAttendance = response.data.data.data || {};
           this.showToast(response.data.message, 'success');
         } else {
           console.error("Loading error:", response.data.message);
@@ -1445,7 +1452,6 @@ export const useHrStore = defineStore("hrStore", {
 
     async getReportInitData() {
       console.log('API-getReportInitData');
-
       try {
         const response = await axios.get(
           `${import.meta.env.VITE_API_URL}/hr/Report/GetReportInitData`

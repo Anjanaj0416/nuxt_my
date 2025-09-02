@@ -1,5 +1,5 @@
 <template>
-  <div class="modal-overlay" v-if="isOpen">
+  <div class="modal-overlay" v-if="hrStore.isModalOpen">
     <div class="modal">
       <!-- Modal Header -->
       <div class="modal-header">
@@ -566,6 +566,10 @@ export default {
     this.showLoading = this.$showLoading;
     this.imageroot = this.userStore.loggedUser.resourceURLRoot;
 
+    if (!this.hrStore.isModalOpen) {
+      this.hrStore.closeModal();
+    }
+
   },
   mounted() {
     this.$refs.refDepartment.initItem(this.hrStore.empdetails.department.id);
@@ -589,19 +593,16 @@ export default {
     async SaveEmployee() {
 
       if (this.IsValidate()) {
-
-        console.log(JSON.stringify(this.hrStore.empdetails));
-
-        const formData = this.convertToFormData(this.hrStore.empdetails);
-
-        await this.hrStore.AddEdiEmployee(formData, this.showLoading);
-
-        await this.closeModal();
+        this.$showConfirm("Sure to add this new employee?", "warning")
+          .then(async (result) => {
+            if (result.isConfirmed) {
+                const formData = this.convertToFormData(this.hrStore.empdetails);
+                await this.hrStore.AddEdiEmployee(formData, this.showLoading);
+              // await this.closeModal();
+            }
+          });
       }
     },
-
-
-
 
     convertToFormData(formObject) {
       const formData = new FormData();

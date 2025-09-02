@@ -23,11 +23,7 @@
             v-show="userStore.loggedUser.granted.includes('hradmin')">
 
             <search_dashboard placeholder="Search Employee" :arrsections="arrsections_DBSerach"
-              @getsearch="search_begin_DBSerach" />
-            <div class="bg-white p-1 -ml-2 rounded">
-              <Button class="w-24 -py-4 ml-2 border-white border-0 bg-blue-800 text-white font-bold" label="New"
-                variant="primary" @click="GoToAddNew" />
-            </div>
+              @getsearch="search_begin_DBSerach" @goToAddNew="GoToAddNew" @goToClear="GoToClear" />
           </div>
         </div>
       </div>
@@ -167,7 +163,7 @@
 
                 <!-- Apply OT -->
                 <div
-                  v-show="!emp.isOTAllow && (userStore.loggedUser.userName === emp.empNo || userStore.loggedUser.userGroup.includes('HRAdmin'))"
+                  v-show="!emp.isOTAllow && (userStore.loggedUser.userName === emp.empNo || userStore.loggedUser.granted.includes('hradmin'))"
                   title="OT Apply"
                   @click="init_otapply(index, emp.empNo); cur_sec = 'otapply'; selectedrow = emp.id; isSecClose = false;"
                   class="p-2 border-2 rounded-lg cursor-pointer hover:text-blue-200">
@@ -176,7 +172,7 @@
                 </div>
 
                 <!-- Leave Details -->
-                <div v-show="userStore.loggedUser.userName === emp.empNo || userStore.loggedUser.userGroup.includes('HRAdmin')
+                <div v-show="userStore.loggedUser.userName === emp.empNo || userStore.loggedUser.granted.includes('hradmin')
                   " title="Leave Details" @click="
                     init_absense(emp.empNo, emp.id);
                   cur_sec = 'absense';
@@ -199,7 +195,7 @@
                 </div> -->
 
                 <!-- Movement Details -->
-                <div v-show="userStore.loggedUser.userName === emp.empNo || userStore.loggedUser.userGroup.includes('HRAdmin')
+                <div v-show="userStore.loggedUser.userName === emp.empNo || userStore.loggedUser.granted.includes('hradmin')
                   " title="Movement Details" @click="
                     init_movement(emp.empNo, emp.id);//index
                   cur_sec = 'movement';
@@ -210,7 +206,7 @@
                 </div>
 
                 <!-- Time Card Details -->
-                <div title="Time Card Details" v-show="userStore.loggedUser.userName === emp.empNo || userStore.loggedUser.userGroup.includes('HRAdmin')
+                <div title="Time Card Details" v-show="userStore.loggedUser.userName === emp.empNo || userStore.loggedUser.granted.includes('hradmin')
                   " @click="
                     init_timecard(emp.empNo, index);
                   cur_sec = 'timecard';
@@ -458,11 +454,24 @@ export default {
   async beforeMount() {
     this.cur_sec = '';
     this.selectedrow = null;
-    const req = {
-      searchval: this.userStore.loggedUser.userName,
-      searchby: 101,
+
+    let isHrAdmin = this.userStore.loggedUser.granted.includes('hradmin');
+
+    if (isHrAdmin) {
+      const req = {
+        searchval: "",
+        searchby: 101,
+      }
+
+      this.search_begin_DBSerach(req);
+    } else {
+      const req = {
+        searchval: this.userStore.loggedUser.userName,
+        searchby: 101,
+      }
+      this.search_begin_DBSerach(req);
     }
-    this.search_begin_DBSerach(req);
+
     this.assetsBaseUrl = localStorage.getItem("assetsBaseUrl");
   },
 
@@ -473,6 +482,14 @@ export default {
 
       await this.hrStore.clearAll();
 
+    },
+
+    async GoToClear() {
+      const req = {
+        keyword: "",
+        searchby: 101,
+      }
+      await this.hrStore.searchEmployees(req, this.showLoading)
     },
 
     GoToAddNew() {
@@ -681,6 +698,7 @@ export default {
       this.cur_sec = '';
       this.selectedrow = null;
       console.log('search_begin_DBSerach called with:', req);
+
       await this.hrStore.searchEmployees({
         keyword: req.searchval,
         searchby: req.searchby,
@@ -723,7 +741,9 @@ export default {
 .cssemplist .cssdatarow:hover {}
 
 .cssemplist .cssdatarowitem {
-  @apply p-2 relative font-semibold;
+  @apply p-2 overflow-hidden font-semibold;
+  white-space: nowrap;
+  text-overflow: ellipsis;
 }
 
 .cssemplist input {
