@@ -12,13 +12,13 @@
       </div>
     </div>
     <div class="max-w-3xl py-12 mx-auto sm:py-12 lg:py-16">
-      <div class="hidden sm:mb-8 sm:flex sm:justify-center">
+      <!-- <div class="hidden sm:mb-8 sm:flex sm:justify-center">
         <div
           class="relative px-3 py-1 text-white rounded-full text-sm/6 ring-1 ring-white-900/10 hover:ring-gray-900/20">
           Announcing our next round of funding. <a href="#" class="font-semibold text-white"><span
               class="absolute inset-0" aria-hidden="true"></span>Read more <span aria-hidden="true">&rarr;</span></a>
         </div>
-      </div>
+      </div> -->
       <div class="text-center">
         <h1 class="text-5xl font-semibold tracking-tight text-white text-balance sm:text-7xl">Empowering Businesses with
           Cutting-Edge Tech Solutions!</h1>
@@ -26,10 +26,11 @@
           multivendor marketplaces scale with innovative software solutions.
           Meet Our Team Section</p>
         <div class="flex items-center justify-center mt-10 gap-x-6">
-          <a href="#"
-            class=" bg-white px-3.5 py-2.5 text-sm font-semibold text-blue-900 shadow-xs rounded-full hover:bg-blue-300 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600">Get
-            started</a>
-          <a href="#" class="font-semibold text-white text-sm/6">Learn more <span aria-hidden="true">→</span></a>
+          <a href="/contactUs"
+            class=" bg-white px-3.5 py-2.5 text-sm font-semibold text-blue-900 shadow-xs rounded-full hover:bg-blue-50 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600">
+            Get started
+          </a>
+          <a href="/aboutUs" class="font-semibold text-white text-sm/6">Learn more <span aria-hidden="true">→</span></a>
         </div>
       </div>
     </div>
@@ -61,11 +62,15 @@
           thrive in a fast-paced digital landscape. Our team of passionate developers, designers, and strategists work
           together to craft high-performance software solutions tailored to your needs.
         </p>
-        <button type="button"
-          class="px-3 py-2 mt-4 text-sm font-medium text-center text-white bg-blue-900 rounded-full hover:bg-blue-800 hover:shadow-xl dark:bg-blue-900 dark:hover:bg-blue-700">
-          See our Service →
-        </button>
+        <a href="/service">
+          <button type="button"
+            class="px-3 py-2 mt-4 text-sm font-medium text-center text-white bg-blue-900 rounded-full hover:bg-blue-800 hover:shadow-xl">
+            See our Service →
+          </button>
+          </a>
       </div>
+
+       
 
       <!-- Images Grid with Scroll Animation -->
       <div class="grid grid-cols-2 gap-4" ref="imageGridSection1">
@@ -105,19 +110,20 @@
       <!-- Text Section -->
       <div class="max-w-xl">
         <!-- <span class="px-8 py-1 text-sm font-medium border-2 border-indigo-600 rounded-full">Product</span> -->
-        <h2 class="text-4xl font-extrabold text-gray-900">How to Product </h2>
+        <h2 class="text-4xl font-extrabold text-gray-900">How to Project </h2>
         <p class="mt-4 text-lg text-gray-700">
-          At Digital TechLab, we develop innovative and high-quality digital products that enhance business efficiency
-          and customer experiences. Our solutions are designed to be scalable, secure, and tailored to meet the evolving
-          needs of various industries.
+          At Digital TechLabs, we don’t just build software — we engineer digital ecosystems that drive growth, efficiency, 
+          and competitive edge. Each project reflects our commitment to innovation, performance, and meaningful results.
         </p>
         <!-- <p class="mt-4 text-gray-600">
                 Whether you're looking to collaborate or join us, we welcome creative minds and diverse talents.
             </p> -->
-        <button type="button"
-          class="px-3 py-2 mt-4 text-sm font-medium text-center text-white bg-blue-900 rounded-full hover:bg-blue-800 hover:shadow-xl dark:bg-blue-900 dark:hover:bg-blue-700">
-          Join our team →
-        </button>
+        <a href="/project">
+          <button type="button"
+            class="px-3 py-2 mt-4 text-sm font-medium text-center text-white bg-blue-900 rounded-full hover:bg-blue-800 hover:shadow-xl dark:bg-blue-900 dark:hover:bg-blue-700">
+            See our Project →
+          </button>
+        </a>
       </div>
     </div>
   </section>
@@ -126,15 +132,11 @@
   <section class="px-6 bg-gray-100">
     <div class="max-w-screen-xl px-4 py-8 mx-auto lg:py-16 lg:px-6">
       <div class="max-w-screen-lg text-gray-500 sm:text-lg dark:text-gray-400">
-        <h2 class="mb-4 text-4xl font-bold tracking-tight text-gray-900 ">Powering innovation at <span
-            class="font-extrabold">200,000+</span> companies worldwide with Digital TechLab</h2>
-        <p class="mb-4 font-light">Digital TechLab is driving technological innovation by enabling companies to enhance
-          their operations, optimize workflows, and accelerate digital transformation. By integrating cutting-edge tools
-          and methodologies, it empowers businesses to deliver exceptional service experiences and innovate faster than
-          ever before.</p>
-        <p class="mb-4 font-medium">In the context of Digital TechLab, a company or department could be leveraging such
-          a platform to innovate and accelerate their development processes. Here are some key concepts related to this
-          kind of digital transformation.</p>
+        <h2 class="mb-4 text-4xl font-bold tracking-tight text-gray-900 ">"Fueling Digital Innovation: Transforming Businesses Worldwide with Digital TechLab"</h2>
+        <p class="mb-4 font-light">Digital TechLab can drive innovation across B2B.lk, Market Palace, and Automobile.lk by enabling these platforms to optimize workflows, automate operations, 
+          and accelerate digital transformation. For B2B.lk, it can streamline procurement, invoicing, and supplier management while providing data-driven insights; for Market Palace.</p>
+        <p class="mb-4 font-medium">it can enhance vendor onboarding, automate product listings and promotions, and deliver personalized customer experiences; and for Automobile.lk, it can simplify vehicle listings, finance approvals, and service reminders while leveraging predictive analytics for market trends and pricing. By integrating cutting-edge tools, analytics, and automation, Digital TechLab empowers these projects to innovate faster, 
+          improve operational efficiency, and provide exceptional user experiences across business and consumer interactions.</p>
         <a href="#"
           class="inline-flex items-center font-medium text-primary-600 hover:text-primary-800 ">
           Learn more
@@ -149,7 +151,7 @@
   </section>
 
   <!-- section 5 -->
-  <section class="py-6 antialiased bg-white  md:py-16">
+  <!-- <section class="py-6 antialiased bg-white  md:py-16">
 
     <div
       class="grid max-w-screen-xl grid-cols-2 gap-8 px-4 mx-auto text-gray-500 sm:grid-cols-3 sm:gap-12 lg:grid-cols-6">
@@ -235,7 +237,7 @@
         </svg>
       </a>
     </div>
-  </section>
+  </section> -->
 
   <section class="px-6 py-16 mx-auto max-w-7xl">
     <div class="grid grid-cols-1 gap-6 mt-6 md:grid-cols-2">

@@ -62,7 +62,7 @@
               <div class="absolute bottom-0 left-0 right-0 h-8 bg-gradient-to-t from-white via-white/80 to-transparent"></div>
 
               <!-- Product Name -->
-              <span class="relative z-10 text-sm font-semibold text-black text-center px-2 truncate ">
+              <span class="relative z-0 text-sm font-semibold text-black text-center px-2 truncate ">
                 {{ subcat.value }}
               </span>
             </button>
@@ -111,7 +111,7 @@
             <div class="absolute bottom-0 left-0 right-0 h-20 bg-gradient-to-t from-white via-white/80 to-transparent"></div>
 
             <!-- Product Info -->
-            <div class="relative z-10 w-full text-center p-1">
+            <div class="relative z-0 w-full text-center p-1">
               <div class="text-base font-semibold text-black truncate">{{ item.itemName }}</div>
               <div class="text-base font-semibold text-gray-800">
                 ₨{{ (item.price - item.discount)?.toLocaleString('en-LK', { minimumFractionDigits: 2 }) }}
@@ -134,6 +134,7 @@
                 :key="cartItem.id + '-' + index"
                 class="bg-white rounded-xl shadow-md p-4 flex flex-col hover:shadow-lg transition"
               >
+              {{ cartItem }}
                 <!-- Top Row -->
                 <div class="flex items-start">
                   <div class="w-14 h-14 flex-shrink-0 rounded-md overflow-hidden border border-gray-200">
@@ -206,10 +207,10 @@
               </div>
             </div>
           </div>
-          <div class="mt-6 grid grid-cols-3 gap-3">
-            <button @click="handleCashClick('cash')" class="bg-green-500 hover:bg-green-600 text-white py-2 rounded-lg font-semibold shadow-md">Cash</button>
-            <button @click="handleCardClick('card')" class="bg-blue-500 hover:bg-blue-600 text-white py-2 rounded-lg font-semibold shadow-md">Card</button>
-            <button @click="handleOtherClick('other')" class="bg-gray-500 hover:bg-gray-600 text-white py-2 rounded-lg font-semibold shadow-md">Other</button>
+          <div class="mt-6 grid grid-cols-1 gap-3">
+            <button @click="handleCashClick('cash')" class="bg-green-500 hover:bg-green-600 text-white py-2 rounded-lg font-semibold shadow-md">💳 Pay Now</button>
+            <button @click="handleCardClick('card')" class="bg-blue-500 hover:bg-blue-600 text-white py-2 rounded-lg font-semibold shadow-md">⏸️ Hold Payment</button>
+            <!-- <button @click="handleOtherClick('other')" class="bg-gray-500 hover:bg-gray-600 text-white py-2 rounded-lg font-semibold shadow-md">Other</button> -->
           </div>
 
         </div>
@@ -388,7 +389,9 @@ export default {
       cashComponentKey: 0,
 
       showInvoice: false,
-      invoiceData: null
+      invoiceData: null,
+
+      holdItem: null,
     };
   },
 
@@ -427,24 +430,9 @@ export default {
     handleCashClick(type) {
       this.PayType = type; 
       this.isCashPayment = true;
-
-       this.cashComponentKey++;
+      this.cashComponentKey++;
     },
 
-    handleCardClick(type) {
-      this.PayType = type;      
-      this.isCashPayment = true;
-    },
-
-    handleOtherClick(type) {
-      this.PayType = type;      
-      this.isCashPayment = true;
-    },
-
-    openInvoice(payload) {
-      this.invoiceData = payload;
-      this.showInvoice = true;
-    },
 
     addToCart(item) {
       console.log(item);
@@ -495,8 +483,20 @@ export default {
 
   },
 
+  mounted() {
+    const dtlStore = useposStore()
+
+    // Get selected news from store
+    if (dtlStore.selectedPayment) {
+      this.holdItem = dtlStore.selectedPayment
+    } else {
+      // fallback: redirect if no news selected
+      // this.$router.push('/News')
+    }
+  },
+
   async beforeMount() {},
-  async mounted() {},
+
 
 };
 </script>
