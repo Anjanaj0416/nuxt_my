@@ -134,6 +134,7 @@
                 :key="cartItem.id + '-' + index"
                 class="bg-white rounded-xl shadow-md p-4 flex flex-col hover:shadow-lg transition"
               >
+              {{ cartItem }}
                 <!-- Top Row -->
                 <div class="flex items-start">
                   <div class="w-14 h-14 flex-shrink-0 rounded-md overflow-hidden border border-gray-200">
@@ -388,7 +389,9 @@ export default {
       cashComponentKey: 0,
 
       showInvoice: false,
-      invoiceData: null
+      invoiceData: null,
+
+      holdItem: null,
     };
   },
 
@@ -427,24 +430,9 @@ export default {
     handleCashClick(type) {
       this.PayType = type; 
       this.isCashPayment = true;
-
-       this.cashComponentKey++;
+      this.cashComponentKey++;
     },
 
-    handleCardClick(type) {
-      this.PayType = type;      
-      this.isCashPayment = true;
-    },
-
-    handleOtherClick(type) {
-      this.PayType = type;      
-      this.isCashPayment = true;
-    },
-
-    openInvoice(payload) {
-      this.invoiceData = payload;
-      this.showInvoice = true;
-    },
 
     addToCart(item) {
       console.log(item);
@@ -495,8 +483,20 @@ export default {
 
   },
 
+  mounted() {
+    const dtlStore = useposStore()
+
+    // Get selected news from store
+    if (dtlStore.selectedPayment) {
+      this.holdItem = dtlStore.selectedPayment
+    } else {
+      // fallback: redirect if no news selected
+      // this.$router.push('/News')
+    }
+  },
+
   async beforeMount() {},
-  async mounted() {},
+
 
 };
 </script>

@@ -33,6 +33,7 @@
       :key="index"
     >
 
+
       <div class="flex justify-start">
         <span
           class="inline-block px-1 py-0.5 text-[9px] font-medium text-blue-800 bg-blue-100 rounded-full"
