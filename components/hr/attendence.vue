@@ -121,6 +121,7 @@
               </div>
               <!-- && loggeduser.granted.indexOf('hradmin')>-1 -->
             </div>
+
             <!-- <div class="flex">
               <span v-show="isOTEntitled &&
                 !isOTAppling &&
@@ -161,18 +162,34 @@
                 ReCalc.OT
               </div>
             </div>
+
             <div>
               <div class="font-bold text-center text-xs cursor-pointer p-1 p-2 gap-x-1 text-sm hover:text-blue-500"
-                @click="changeView(dayatt.id)">View more>>></div>
+                @click="changeView(dayatt.id); getDayAppliedRecords(dayatt.date)">View more>>></div>
+              <div v-if="dayatt.comment"
+                class="font-bold text-center text-xs cursor-pointer p-1 p-2 gap-x-1 text-sm hover:text-blue-500"
+                @click="changeCommentView(dayatt.id)">Comments>>></div>
             </div>
-          </div>
-          <div v-if="dayatt.comment">
-            <div class=" hover:text-blue-500" @click="changeCommentView(dayatt.id)">Comment>></div>
+
           </div>
 
           <!-- View more -->
           <div v-show="isView && viewRow == dayatt.id">
-            <viewMore :dayInfo="dayInfo" />
+            <div class="relative  px-4 pt-2 text-sm">
+              <div class="absolute top-0 right-0 flex mt-3 mr-5 gap-x-4">
+                <div class="cursor-pointer text-gray-500 hover:text-gray-800" title="Exit Employee Details"
+                  @click="getClose">
+                  <svg xmlns="http://www.w3.org/2000/svg" class="w-8 h-8" fill="none" viewBox="0 0 24 24"
+                    stroke="currentColor">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                      d="M10 14l2-2m0 0l2-2m-2 2l-2-2m2 2l2 2m7-2a9 9 0 11-18 0 9 9 0 0118 0z" />
+                  </svg>
+                </div>
+              </div>
+              <div class="space-y-12">
+                <viewMore @test="({ id, type }) => deleteRecord(id, type)" :dayInfo="hrStore.dayInfo" />
+              </div>
+            </div>
           </div>
 
           <!-- Comments view -->
@@ -198,7 +215,7 @@
 
               <div>
                 <span class="pr-4">Rectification Reason</span>
-                <input v-model="rectificationRequest.reason" type="text" />
+                <input required v-model="rectificationRequest.reason" type="text" />
               </div>
 
               <div
@@ -303,9 +320,6 @@ import datediff from "~/components/hr/datediff";
 import { useHrStore } from "~/stores/modules/hrStore";
 import { useUserStore } from "~/stores/modules/userStore";
 
-// import * as Global from '@/assets/js/Global'
-//import * as myfilter from '@/plugins/myfilter'
-//import { mapState, mapGetters, mapActions, mapMutations } from 'vuex'
 export default {
   props: ["empno", "empname", "isOTEntitled"],
 
@@ -329,6 +343,8 @@ export default {
       commentRow: -1,
       isCommentView: false,
 
+      rowDate: "",
+
       dtfrom: "",
       dtto: "",
       attenViewRequest: {},
@@ -348,50 +364,6 @@ export default {
       oTManualRequest: {
         otHour: "",
         comment: "",
-      },
-      "dayInfo": {
-        "movementDetails": {
-          "Type": "Movement",
-          "Id": 1,
-          "StartTime": "2025-08-25T09:00:00",
-          "EndTime": "2025-08-25T11:30:00",
-          "FromLocation": "Colombo Office",
-          "ToLocation": "Kandy Branch",
-          "Vehicle": "Company Car",
-          "Distance": "115 km",
-          "ApprovalStatus": "Approved",
-
-        },
-        "OTDetails": {
-          "Type": "OT Request",
-          "Id": 1,
-          "OverTimeFrom": "2025-08-25T18:00:00",
-          "OverTimeTo": "2025-08-25T21:00:00",
-          "OTHours": "3",
-          "NatureOfWork": "Monthly Report Preparation",
-          "Status": "Pending",
-          "TotalApproved": "0 Hrs"
-        },
-        "LeaveDetails": {
-          "Type": "Leave",
-          "Id": 1,
-          "EndDate": "2025-08-26",
-          "AbsenceType": "Casual Leave",
-          "DurationDays": "1",
-          "DurationHours": "8",
-          "Attachment": "leave_letter.pdf",
-          "ApprovalStatus": "Pending",
-
-        },
-        "RectificationDetails": {
-          "Type": "Rectify",
-          "Id": 1,
-          "BeforeRectify": "2025-08-25T08:45:00",
-          "AfterRectify": "2025-08-25T09:00:00",
-          "InorOut": "In",
-          "ApprovalStatus": "Approved",
-
-        }
       },
       showLoading: null,
       isLoading: false,
@@ -544,13 +516,19 @@ export default {
     // Calculate today's date
     this.dtto = new Date().toISOString().split('T')[0]; // Format: YYYY-MM-DD
 
-    let req = {
-      EmpNo: this.empno,
-      FromDate: this.dtfrom,
-      ToDate: this.dtto,
-    };
-    // await this.getLoadAttendnece(req);
-    await this.hrStore.getAttendenceByEmp(req, this.showLoading)
+    // Only fetch attendance if explicitly needed
+    // if (this.$parent.cur_sec !== 'attendence') {
+    //   console.log('cur_sec is not attendence, skipping getAttendenceByEmp');
+    //   return;
+    // }
+
+    // let req = {
+    //   EmpNo: this.empno,
+    //   FromDate: this.dtfrom,
+    //   ToDate: this.dtto,
+    // };
+    // // await this.getLoadAttendnece(req);
+    // await this.hrStore.getAttendenceByEmp(req, this.showLoading)
     await this.init();
   },
 
@@ -593,6 +571,11 @@ export default {
 
     async changeView(rowid) {
       this.viewRow = rowid;
+      this.isView = true;//!this.isView
+    },
+
+    async getClose() {
+      this.viewRow = -1;
       this.isView = !this.isView;
     },
 
@@ -614,9 +597,16 @@ export default {
       await this.hrStore.getAttendenceByEmp(req, this.showLoading)
     },
 
-    // async getLoadAttendnece(req) {
-    //   await this.hrStore.getAttendenceByEmp(req, this.showLoading)
-    // },
+    async getDayAppliedRecords(date) {
+      this.rowDate = date.split("T")[0];
+      let req = {
+        EmpNo: this.empno,
+        Date: this.rowDate
+      }
+      console.log("getDayAppliedRecords:", req);
+
+      await this.hrStore.getDayAppliedRecords(req, this.showLoading)
+    },
 
     async oTApplingCancel() {
       this.oTPreApprovalRequest.OTFrom = "";
@@ -655,7 +645,7 @@ export default {
                 ToDate: toDate,
               };
 
-              await this.hrStore.setManualRectification(req, this.showLoading);
+              await this.hrStore.setRectifyAttendance(req, this.showLoading);
 
               this.rectifingrow = -1;
               this.isrectifing = false;
@@ -844,6 +834,48 @@ export default {
       if (item_attn.outTime !== "00:00") {
         this.rectificationRequest.outTime = item_attn.outTime;
       }
+    },
+
+    async deleteRecord(recordId, type) {
+      console.log("deleteRecord:", recordId, type);
+
+      this.$showConfirm("Sure to delete this record?", "warning")
+        .then(async (result) => {
+          if (result.isConfirmed) {
+            let req = {
+              id: recordId
+            }
+            if (type === "OT Approval") {
+              await this.hrStore.setDeleteOTApproval(req, this.showLoading);
+            }
+
+            if (type === "Leave") {
+              await this.hrStore.getDeleteAbsence(req, this.showLoading);
+            }
+
+            if (type === "Movement") {
+              await this.hrStore.getDeleteMovement(req, this.showLoading);
+            }
+
+            if (type === "Rectify") {
+              await this.hrStore.setDeleteOTApproval(req, this.showLoading);
+            }
+
+            let getDayAppliedRecordsReq = {
+              EmpNo: this.empno,
+              Date: this.rowDate
+            }
+            await this.hrStore.getDayAppliedRecords(getDayAppliedRecordsReq, this.showLoading);
+
+            let getAttendenceByEmpReq = {
+              EmpNo: this.empno,
+              FromDate: this.dtfrom,
+              ToDate: this.dtto,
+            }
+            await this.hrStore.getAttendenceByEmp(getAttendenceByEmpReq, this.showLoading)
+
+          }
+        });
     },
 
     async getclose() {

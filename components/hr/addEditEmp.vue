@@ -595,8 +595,8 @@ export default {
         const formData = this.convertToFormData(this.hrStore.empdetails);
 
         await this.hrStore.AddEdiEmployee(formData, this.showLoading);
-        this.closeModal();
 
+        await this.closeModal();
       }
     },
 

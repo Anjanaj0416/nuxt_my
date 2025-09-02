@@ -20,7 +20,7 @@
           </div>
 
           <div class="flex items-center justify-center md:ml-8"
-            v-show="userStore.loggedUser.granted.includes('hradmin') || userStore.loggedUser.granted.includes('su')">
+            v-show="userStore.loggedUser.granted.includes('hradmin')">
 
             <search_dashboard placeholder="Search Employee" :arrsections="arrsections_DBSerach"
               @getsearch="search_begin_DBSerach" />
@@ -160,14 +160,14 @@
                 </div>
 
                 <!-- Attendance -->
-                <div @click="init_attendence(emp.empNo, emp.id);//, FromDate: $refs.atten.$refs.datediffRef.dtfrom, ToDate: $refs.atten.$refs.datediffRef.dtto
+                <div @click.stop="init_attendence(emp.empNo, emp.id);//, FromDate: $refs.atten.$refs.datediffRef.dtfrom, ToDate: $refs.atten.$refs.datediffRef.dtto
                 " class="p-2 border-2 rounded-lg cursor-pointer hover:text-blue-200">
                   Attendance
                 </div>
 
                 <!-- Apply OT -->
                 <div
-                  v-show="!emp.isOTAllow && (userStore.loggedUser.userName === emp.empNo || userStore.loggedUser.userGroup === 'Supervisor' || userStore.loggedUser.userGroup?.toLowerCase() === 'admin')"
+                  v-show="!emp.isOTAllow && (userStore.loggedUser.userName === emp.empNo || userStore.loggedUser.userGroup.includes('HRAdmin'))"
                   title="OT Apply"
                   @click="init_otapply(index, emp.empNo); cur_sec = 'otapply'; selectedrow = emp.id; isSecClose = false;"
                   class="p-2 border-2 rounded-lg cursor-pointer hover:text-blue-200">
@@ -176,8 +176,7 @@
                 </div>
 
                 <!-- Leave Details -->
-                <div v-show="userStore.loggedUser.userName === emp.empNo || userStore.loggedUser.userGroup === 'hradmin' || userStore.loggedUser.userGroup === 'su' || userStore.loggedUser.userGroup === 'Supervisor' ||
-                  userStore.loggedUser.userGroup?.toLowerCase() === 'admin'
+                <div v-show="userStore.loggedUser.userName === emp.empNo || userStore.loggedUser.userGroup.includes('HRAdmin')
                   " title="Leave Details" @click="
                     init_absense(emp.empNo, emp.id);
                   cur_sec = 'absense';
@@ -188,7 +187,7 @@
                 </div>
 
                 <!-- Rectify Details -->
-                <div v-show="userStore.loggedUser.userName === emp.empNo || userStore.loggedUser.userGroup === 'hradmin' || userStore.loggedUser.granted.includes('hradmin') ||
+                <!-- <div v-show="userStore.loggedUser.userName === emp.empNo || userStore.loggedUser.userGroup === 'hradmin' || userStore.loggedUser.granted.includes('hradmin') ||
                   userStore.loggedUser.userGroup?.toLowerCase() === 'admin'
                   " title="Leave Details" @click="
                     init_rectify(emp.empNo, emp.id);
@@ -197,11 +196,10 @@
                   isSecClose = false;
                   " class="p-2 border-2 rounded-lg cursor-pointer hover:text-blue-200">
                   Rectify
-                </div>
+                </div> -->
 
                 <!-- Movement Details -->
-                <div v-show="userStore.loggedUser.userName === emp.empNo || userStore.loggedUser.userGroup === 'Supervisor' || userStore.loggedUser.userGroup === 'su' ||
-                  userStore.loggedUser?.userGroup?.toLowerCase() === 'admin'
+                <div v-show="userStore.loggedUser.userName === emp.empNo || userStore.loggedUser.userGroup.includes('HRAdmin')
                   " title="Movement Details" @click="
                     init_movement(emp.empNo, emp.id);//index
                   cur_sec = 'movement';
@@ -212,12 +210,13 @@
                 </div>
 
                 <!-- Time Card Details -->
-                <div title="Time Card Details" @click="
-                  init_timecard(emp.empNo, index);
-                cur_sec = 'timecard';
-                selectedrow = emp.id;
-                isSecClose = false;
-                " class="p-2 border-2 rounded-lg cursor-pointer hover:text-blue-200">
+                <div title="Time Card Details" v-show="userStore.loggedUser.userName === emp.empNo || userStore.loggedUser.userGroup.includes('HRAdmin')
+                  " @click="
+                    init_timecard(emp.empNo, index);
+                  cur_sec = 'timecard';
+                  selectedrow = emp.id;
+                  isSecClose = false;
+                  " class="p-2 border-2 rounded-lg cursor-pointer hover:text-blue-200">
                   Time Card
                 </div>
               </div>
@@ -240,7 +239,8 @@
                 !isSecClose
                 ">
                 <attendence v-if="!isLoading" ref="atten" :empno="emp.empNo" :empname="emp.empName"
-                  :isOTEntitled="isOTEntitled" @exit="exit" />
+                  :isOTEntitled="isOTEntitled"
+                  @hook:created="console.log('attendence component created for empno:', emp.empNo)" @exit="exit" />
               </div>
 
               <!-- view Absense -->
@@ -264,13 +264,13 @@
               <!-- End view Absense Create -->
 
               <!-- view Rectify -->
-              <div v-show="cur_sec.toLowerCase() === 'rectify' &&
+              <!-- <div v-show="cur_sec.toLowerCase() === 'rectify' &&
                 selectedrow == emp.id &&
                 !isSecClose
                 ">
                 <rectifylist v-if="!isLoading" ref="atten" :empno="emp.empNo" :empname="emp.empName"
                   :isOTEntitled="isOTEntitled" @exit="exit" />
-              </div>
+              </div> -->
               <!-- End view Rectify -->
 
               <!-- view movement -->
@@ -456,11 +456,12 @@ export default {
   computed: {
   },
   async beforeMount() {
+    this.cur_sec = '';
+    this.selectedrow = null;
     const req = {
       searchval: this.userStore.loggedUser.userName,
       searchby: 101,
     }
-
     this.search_begin_DBSerach(req);
     this.assetsBaseUrl = localStorage.getItem("assetsBaseUrl");
   },
@@ -535,6 +536,7 @@ export default {
     },
 
     async init_attendence(empId, rowId) {
+      console.log(`init_attendence called for empId: ${empId}, rowId: ${rowId}`);
       this.cur_sec = 'attendence';
       this.selectedrow = rowId;
       this.isSecClose = false;
@@ -676,6 +678,9 @@ export default {
     },
 
     async search_begin_DBSerach(req) {
+      this.cur_sec = '';
+      this.selectedrow = null;
+      console.log('search_begin_DBSerach called with:', req);
       await this.hrStore.searchEmployees({
         keyword: req.searchval,
         searchby: req.searchby,

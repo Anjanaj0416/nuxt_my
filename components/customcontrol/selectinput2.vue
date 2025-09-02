@@ -171,6 +171,7 @@ export default {
     },
     isDistrict: Boolean,
     isReport: Boolean,
+    isDepartment: Boolean,
     err: {
       type: String,
       default: ''

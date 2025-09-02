@@ -1,6 +1,5 @@
 // https://nuxt.com/docs/api/configuration/nuxt-config
 import { defineNuxtConfig } from 'nuxt/config'
-import fs from "fs"
 import { resolve } from 'path'
 
 
@@ -22,8 +21,12 @@ devServer: {
   routeRules: {
     '/*': { ssr: false }, // Disable SSR for non-existent routes
   },
+  
+  image: {
+    domains: ['lh3.googleusercontent.com', 'drive.google.com']
+  },
 
-  modules: ['@pinia/nuxt', '@nuxtjs/i18n'],
+  modules: ['@pinia/nuxt', '@nuxtjs/i18n','@nuxt/image'],
   
   pinia: {
     autoImports: ['defineStore']
@@ -62,7 +65,7 @@ devServer: {
       { name: 'viewport', content: 'width=device-width, initial-scale=1' },
       { hid: 'description', name: 'description', content: '' },
     ],
-    link: [{ rel: 'icon', type: 'image/x-icon', href: 'favicon_io/favicon-32x32.png' }],
+    // link: [{ rel: 'icon', type: 'image/x-icon', href: 'favicon_io/favicon-32x32.png' }],
     },
  
     
