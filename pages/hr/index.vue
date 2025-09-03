@@ -19,7 +19,7 @@
             <hr_menu v-show="ismenuopen" class="absolute top-0 left-0 z-50 mt-12 ml-2" @click="clickmenuitem" /> -->
           </div>
 
-          <div class="flex items-center justify-center md:ml-8"
+          <div class="flex items-center justify-center "
             v-show="userStore.loggedUser.granted.includes('hradmin')">
 
             <search_dashboard placeholder="Search Employee" :arrsections="arrsections_DBSerach"
