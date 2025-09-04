@@ -38,7 +38,7 @@
           <span class="pr-4">To</span>
           <input v-model="oTPreApprovalRequest.OTTo" @blur="calcOTHours" type="time" />
         </div>
-        <div class="pt-1">OT Hrs: {{ hrStore.OTApllyDetails.ot_hours }}</div>
+        <div class="pt-1">OT Hrs: {{ attendanceStore.OTApllyDetails.ot_hours }}</div>
         <div>
           <span class="pr-4">Nature Of Works</span>
           <input v-model="oTPreApprovalRequest.Reason" type="text" />
@@ -63,13 +63,13 @@
             <div class="font-bold">Total Approved: {{ Tot_OT_Hours }} Hrs</div>
           </div>
 
-          {{ hrStore.OTApllyDetails.otRecords }}
+          {{ attendanceStore.OTApllyDetails.otRecords }}
 
-          <div v-if="hrStore.OTApllyDetails.arrOTApply.length === 0" class="mt-5 text-center text-white">
+          <div v-if="attendanceStore.OTApllyDetails.arrOTApply.length === 0" class="mt-5 text-center text-white">
             <p>No Apply OT available.</p>
           </div>
 
-          <div v-for="(ot, index) in hrStore.OTApllyDetails.arrOTApply" :key="ot.id"
+          <div v-for="(ot, index) in attendanceStore.OTApllyDetails.arrOTApply" :key="ot.id"
             class="grid w-full grid-cols-1 p-2 my-1 text-center text-white break-words rounded-md sm:grid-cols-4 lg:grid-cols-8 lg:w-5/6"
             v-bind:class="[getOTApplyRowColor(ot)]">
             <div class="grid w-full grid-cols-2 ">
@@ -115,8 +115,8 @@
 <script>
 import datediff from '~/components/hr/datediff'
 import btnhr from '~/components/hr/btnhr'
-import { useHrStore } from '~/stores/modules/hrStore'
 import { useUserStore } from '~/stores/modules/userStore'
+import { useAttendanceStore } from '~/stores/modules/hr/attendanceStore'
 
 // import * as Global from '@/assets/js/Global'
 //import * as myfilter from '@/plugins/myfilter'
@@ -145,7 +145,7 @@ export default {
       Tot_OT_Hours: '0.00',
 
       userStore: null,
-      hrStore: null,
+      attendanceStore: null,
       myUtility: null,
       showLoading: null,
     }
@@ -172,7 +172,7 @@ export default {
 
   async created() {
     this.userStore = useUserStore();
-    this.hrStore = useHrStore();
+    this.attendanceStore = useAttendanceStore();
     this.showLoading = this.$showLoading;
 
     const { $myUtility } = useNuxtApp();
@@ -193,8 +193,8 @@ export default {
           OTTo: this.oTPreApprovalRequest.OTTo,
         };
 
-        await this.hrStore.getOTHours(req);
-        this.oTPreApprovalRequest.otHour = this.hrStore.OTApllyDetails.ot_hours
+        await this.attendanceStore.getOTHours(req);
+        this.oTPreApprovalRequest.otHour = this.attendanceStore.OTApllyDetails.ot_hours
       }
     },
 
@@ -207,7 +207,7 @@ export default {
         fromDate: this.dtfrom,
         toDate: this.dtto,
       }
-      await this.hrStore.getOTApprovals(req, this.showLoading)
+      await this.attendanceStore.getOTApprovals(req, this.showLoading)
       // this.getTot_OT_Hours()
     },
 
@@ -226,7 +226,7 @@ export default {
         fromDate: this.dtfrom,
         toDate: this.dtto,
       }
-      await this.hrStore.getOTApprovals(req, this.showLoading)
+      await this.attendanceStore.getOTApprovals(req, this.showLoading)
       // this.getTot_OT_Hours()
     },
 
@@ -249,7 +249,7 @@ export default {
               ToDate: this.dtto,
               Note: "OTBtn"
             }
-            await this.hrStore.setOTApproval(req, this.showLoading)
+            await this.attendanceStore.setOTApproval(req, this.showLoading)
             this.oTPreApprovalRequest = {}
           }
         });
@@ -262,7 +262,7 @@ export default {
             let req = {
               id: ot_id
             }
-            await this.hrStore.setDeleteOTApproval(req, this.showLoading);
+            await this.attendanceStore.setDeleteOTApproval(req, this.showLoading);
 
             this.dtfrom = this.$refs.datediffRef.dtfrom;
             this.dtto = this.$refs.datediffRef.dtto;
@@ -272,7 +272,7 @@ export default {
               fromDate: this.dtfrom,
               toDate: this.dtto,
             };
-            await this.hrStore.getOTApprovals(reqSetDeleteOTApproval, this.showLoading);
+            await this.attendanceStore.getOTApprovals(reqSetDeleteOTApproval, this.showLoading);
           }
         });
     },

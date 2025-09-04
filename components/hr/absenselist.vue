@@ -43,11 +43,11 @@
         </div>
       </div>
 
-      <div v-if="hrStore.absense.arrabsences.length === 0" class="text-center text-white">
+      <div v-if="leaveStore.absense.arrabsences.length === 0" class="text-center text-white">
         <p>No Leave available.</p>
       </div>
 
-      <div v-for="(ab, index) in hrStore.absense.arrabsences" :key="ab.id" :index="index">
+      <div v-for="(ab, index) in leaveStore.absense.arrabsences" :key="ab.id" :index="index">
         <div class="grid w-full grid-cols-1 p-2 mt-1 text-center text-white rounded-md lg:grid-cols-8 lg:w-5/6"
           v-bind:class="[getAbsenceRowColor(ab)]">
           <div>{{ myUtility.toReadableDate(ab.startDate) }}</div>
@@ -84,8 +84,8 @@
 <script>
 import datediff from '~/components/hr/datediff'
 import btnapplyleave from '~/components/hr/btnapplyleave'
-import { useHrStore } from '~/stores/modules/hrStore';
 import { useUserStore } from '~/stores/modules/userStore';
+import { useLeaveStore } from '~/stores/modules/hr/leaveStore';
 
 // import * as Global from '@/assets/js/Global'
 // import * as myfilter from '@/plugins/myfilter'
@@ -126,7 +126,7 @@ export default {
     },
   },
   async created() {
-    this.hrStore = useHrStore();
+    this.leaveStore = useLeaveStore();
     this.userStore = useUserStore();
     this.showLoading = this.$showLoading;
 
@@ -172,13 +172,13 @@ export default {
         fromDate: fromDate,
         toDate: toDate,
       }
-      await this.hrStore.getViewAbsences(req, this.showLoading);
+      await this.leaveStore.getViewAbsences(req, this.showLoading);
     },
     getclose() {
       this.$emit('exit');
       this.dtfrom = '';
       this.dtto = '';
-      // this.hrStore.clearAbsence();
+      // this.leaveStore.clearAbsence();
     },
     async applyleave() {
       let leaveYear = new Date().getFullYear()
@@ -188,7 +188,7 @@ export default {
     async deleteRecord(id) {
       if (confirm('Sure to delete this Absence?')) {
         let req = { id: id }
-        await this.hrStore.getDeleteAbsence(req, this.showLoading)
+        await this.leaveStore.getDeleteAbsence(req, this.showLoading)
 
         const fromDate = this.$refs.datediffRef.dtfrom;
         const toDate = this.$refs.datediffRef.dtto;
@@ -198,7 +198,7 @@ export default {
           fromDate: fromDate,
           toDate: toDate,
         }
-        await this.hrStore.getViewAbsences(reqGetViewAbsences, this.showLoading);
+        await this.leaveStore.getViewAbsences(reqGetViewAbsences, this.showLoading);
       }
     },
   },

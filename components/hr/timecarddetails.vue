@@ -53,12 +53,12 @@
           </div>
         </div>
 
-        <div v-if="hrStore.timecard.arrtimecard.length === 0" class="text-center text-white">
+        <div v-if="timeCardStore.timecard.arrtimecard.length === 0" class="text-center text-white">
           <p>No Time card available.</p>
         </div>
 
         <!-- Timecard Rows -->
-        <div v-for="jc in hrStore.timecard.arrtimecard" :key="jc" :index="index">
+        <div v-for="jc in timeCardStore.timecard.arrtimecard" :key="jc" :index="index">
           <div
             class="grid grid-cols-2 gap-2 p-2 mt-1 text-center text-white rounded-md sm:grid-cols-4 md:grid-cols-6 lg:grid-cols-11 lg:w-5/6"
             v-bind:class="[getTimeCardRowColor(jc)]">
@@ -84,10 +84,10 @@
 // import datediff from '~/components/customcontrol/datediff'
 import btnapplyleave from '~/components/hr/btnapplyleave'
 import selectinput2 from '~/components/customcontrol/selectinput2'
-import { useHrStore } from '~/stores/modules/hrStore'
 import { useUserStore } from '~/stores/modules/userStore'
 
 import * as Global from '@/assets/js/Global'
+import { useTimeCardStore } from '~/stores/modules/hr/timeCardStore'
 //import * as myfilter from '@/plugins/myfilter'
 //import { mapState, mapGetters, mapActions, mapMutations } from 'vuex'
 
@@ -109,7 +109,7 @@ export default {
         year: '',
         month: '',
       },
-      hrStore: null,
+      timeCardStore: null,
       userStore: null,
       showLoading: null,
     }
@@ -135,7 +135,7 @@ export default {
   },
 
   async created() {
-    this.hrStore = useHrStore();
+    this.timeCardStore = useTimeCardStore();
     this.userStore = useUserStore();
     this.showLoading = this.$showLoading;
   },
@@ -172,7 +172,7 @@ export default {
       this.month = this.month_names[dt.getMonth() - 1]
 
       let req = { empNo: this.empno }
-      await this.hrStore.getTimeCards(req, this.showLoading)
+      await this.timeCardStore.getTimeCards(req, this.showLoading)
 
     },
 
@@ -187,7 +187,7 @@ export default {
         let month = parseInt(this.month_names.indexOf(this.month) + 1);//this.month;
         let req = { empNo: this.empno, month: month, year: year }
 
-        await this.hrStore.getCreateTimeCard(req, this.showLoading)
+        await this.timeCardStore.getCreateTimeCard(req, this.showLoading)
         this.getRefresh();
       }
     },

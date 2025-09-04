@@ -1468,189 +1468,189 @@ export const useHrStore = defineStore("hrStore", {
         // this.showToast(error.response.data.Message, 'error');
       }
       // loadingAlert.close();
-  },
+    },
 
-  async getOTPeriodSummeryIndividual(req, showLoading) {
-      console.log('API-getOTPeriodSummeryIndividual:',req);
+    async getOTPeriodSummeryIndividual(req, showLoading) {
+        console.log('API-getOTPeriodSummeryIndividual:',req);
 
-      const loadingAlert = showLoading("");
-      try {
-        const response = await axios.post(
-          `${import.meta.env.VITE_API_URL}/hr/Report/GetOTPeriodSummeryIndividual`,req,{ responseType: 'blob' });
-          const blob = new Blob([response.data], { type: 'application/pdf' });
-          const url = URL.createObjectURL(blob);
-          window.open(url, '_blank');
+        const loadingAlert = showLoading("");
+        try {
+          const response = await axios.post(
+            `${import.meta.env.VITE_API_URL}/hr/Report/GetOTPeriodSummeryIndividual`,req,{ responseType: 'blob' });
+            const blob = new Blob([response.data], { type: 'application/pdf' });
+            const url = URL.createObjectURL(blob);
+            window.open(url, '_blank');
 
-        console.log("response:", response);
-        if (response.data.isSuccess) {
-          // this.absense.arrabsences = response.data.data.data.arrAbsences || [];
-        } else {
-          console.error("Loading error:", response.data.message);
-          // this.showToast(response.data.message, 'error');
+          console.log("response:", response);
+          if (response.data.isSuccess) {
+            // this.absense.arrabsences = response.data.data.data.arrAbsences || [];
+          } else {
+            console.error("Loading error:", response.data.message);
+            // this.showToast(response.data.message, 'error');
+          }
+        } catch (error) {
+          console.error("Loading error:", error);
+          if (error.response && error.response.status == 400) {
+          }
+          // this.showToast(error.response.data.Message, 'error');
         }
-      } catch (error) {
-        console.error("Loading error:", error);
-        if (error.response && error.response.status == 400) {
+        loadingAlert.close();
+    },
+
+    async getOTPeriodSummeryMonthEnd(req, showLoading) {
+        console.log('API-GetOTPeriodSummeryMonthEnd:',req);
+
+        const loadingAlert = showLoading("");
+        try {
+          const response = await axios.post(
+            `${import.meta.env.VITE_API_URL}/hr/Report/GetOTPeriodSummeryMonthEnd`,req,{ responseType: 'blob' });
+            const blob = new Blob([response.data], { type: 'application/pdf' });
+            const url = URL.createObjectURL(blob);
+            window.open(url, '_blank');
+
+          console.log("response:", response);
+          if (response.data.isSuccess) {
+            // this.absense.arrabsences = response.data.data.data.arrAbsences || [];
+          } else {
+            console.error("Loading error:", response.data.message);
+            // this.showToast(response.data.message, 'error');
+          }
+        } catch (error) {
+          console.error("Loading error:", error);
+          if (error.response && error.response.status == 400) {
+          }
+          // this.showToast(error.response.data.Message, 'error');
         }
-        // this.showToast(error.response.data.Message, 'error');
-      }
-      loadingAlert.close();
-  },
+        loadingAlert.close();
+    },
 
-  async getOTPeriodSummeryMonthEnd(req, showLoading) {
-      console.log('API-GetOTPeriodSummeryMonthEnd:',req);
+    async getRectificationReport(req, showLoading) {
+        console.log('API-GetRectificationReport:',req);
 
-      const loadingAlert = showLoading("");
-      try {
-        const response = await axios.post(
-          `${import.meta.env.VITE_API_URL}/hr/Report/GetOTPeriodSummeryMonthEnd`,req,{ responseType: 'blob' });
-          const blob = new Blob([response.data], { type: 'application/pdf' });
-          const url = URL.createObjectURL(blob);
-          window.open(url, '_blank');
+        const loadingAlert = showLoading("");
+        try {
+          const response = await axios.get(
+            `${import.meta.env.VITE_API_URL}/hr/Report/GetRectificationReport`,
+            {params: {
+              empNo:req.empNo, 
+              dateFrom: req.dateFrom, 
+              dateTo:req.dateTo 
+            },
+            responseType: 'blob' 
+          }); 
 
-        console.log("response:", response);
-        if (response.data.isSuccess) {
-          // this.absense.arrabsences = response.data.data.data.arrAbsences || [];
-        } else {
-          console.error("Loading error:", response.data.message);
-          // this.showToast(response.data.message, 'error');
+          // const response = await axios.get(
+          //   `${import.meta.env.VITE_API_URL}/hr/Report/GetRectificationReport`,{params: {empNo:req.empNo, dateFrom: req.dateFrom, dateTo:req.dateTo }},{ responseType: 'blob' });
+            const blob = new Blob([response.data], { type: 'application/pdf' });
+            const url = URL.createObjectURL(blob);
+            window.open(url, '_blank');
+
+          console.log("response:", respurlnse);
+          if (response.data.isSuccess) {
+            // this.absense.arrabsences = response.data.data.data.arrAbsences || [];
+          } else {
+            console.error("Loading error:", response.data.message);
+            // this.showToast(response.data.message, 'error');
+          }
+        } catch (error) {
+          console.error("Loading error:", error);
+          if (error.response && error.response.status == 400) {
+          }
+          // this.showToast(error.response.data.Message, 'error');
         }
-      } catch (error) {
-        console.error("Loading error:", error);
-        if (error.response && error.response.status == 400) {
+        loadingAlert.close();
+    },
+
+    async getEmployeeLeaveAnnualReport(req, showLoading) {
+        console.log('API-getEmployeeLeaveAnnualReport:',req);
+
+        const loadingAlert = showLoading("");
+        try {
+          const response = await axios.get(
+            `${import.meta.env.VITE_API_URL}/hr/Report/GetEmployeeLeave_AnnualReport`,{params: {departmentId:req.departmentId, year: req.year}},{ responseType: 'blob' });
+            const blob = new Blob([response.data], { type: 'application/pdf' });
+            const url = URL.createObjectURL(blob);
+            window.open(url, '_blank');
+
+          console.log("response:", response);
+          if (response.data.isSuccess) {
+          } else {
+            console.error("Loading error:", response.data.message);
+            // this.showToast(response.data.message, 'error');
+          }
+        } catch (error) {
+          console.error("Loading error:", error);
+          if (error.response && error.response.status == 400) {
+          }
+          // this.showToast(error.response.data.Message, 'error');
         }
-        // this.showToast(error.response.data.Message, 'error');
-      }
-      loadingAlert.close();
-  },
+        loadingAlert.close();
+    },
 
-  async getRectificationReport(req, showLoading) {
-      console.log('API-GetRectificationReport:',req);
+    async getTimeCardSummery(req, showLoading) {
+        console.log('API-getTimeCardSummery:',req);
 
-      const loadingAlert = showLoading("");
-      try {
-        const response = await axios.get(
-          `${import.meta.env.VITE_API_URL}/hr/Report/GetRectificationReport`,
-          {params: {
-            empNo:req.empNo, 
-            dateFrom: req.dateFrom, 
-            dateTo:req.dateTo 
-          },
-          responseType: 'blob' 
-         }); 
+        const loadingAlert = showLoading("");
+        try {
+          const response = await axios.post(
+            `${import.meta.env.VITE_API_URL}/hr/Report/GetTimeCardSummery`,req,{ responseType: 'blob' });
+            const blob = new Blob([response.data], { type: 'application/pdf' });
+            const url = URL.createObjectURL(blob);
+            window.open(url, '_blank');
 
-        // const response = await axios.get(
-        //   `${import.meta.env.VITE_API_URL}/hr/Report/GetRectificationReport`,{params: {empNo:req.empNo, dateFrom: req.dateFrom, dateTo:req.dateTo }},{ responseType: 'blob' });
-          const blob = new Blob([response.data], { type: 'application/pdf' });
-          const url = URL.createObjectURL(blob);
-          window.open(url, '_blank');
-
-        console.log("response:", respurlnse);
-        if (response.data.isSuccess) {
-          // this.absense.arrabsences = response.data.data.data.arrAbsences || [];
-        } else {
-          console.error("Loading error:", response.data.message);
-          // this.showToast(response.data.message, 'error');
+          console.log("response:", response);
+          if (response.data.isSuccess) {
+            // this.absense.arrabsences = response.data.data.data.arrAbsences || [];
+          } else {
+            console.error("Loading error:", response.data.message);
+            // this.showToast(response.data.message, 'error');
+          }
+        } catch (error) {
+          console.error("Loading error:", error);
+          if (error.response && error.response.status == 400) {
+          }
+          // this.showToast(error.response.data.Message, 'error');
         }
-      } catch (error) {
-        console.error("Loading error:", error);
-        if (error.response && error.response.status == 400) {
+        loadingAlert.close();
+    },
+
+    async getNoPayMonthlyReport(req, showLoading) {
+        console.log('API-getNoPayMonthlyReport:',req);
+
+        const loadingAlert = showLoading("");
+        try {
+          const response = await axios.get(
+            `${import.meta.env.VITE_API_URL}/hr/Report/GetNoPayMonthlyReport`,{params:{dateFrom: req.dateFrom, dateTo: req.dateTo}},{ responseType: 'blob' });
+            const blob = new Blob([response.data], { type: 'application/pdf' });
+            const url = URL.createObjectURL(blob);
+            window.open(url, '_blank');
+
+          console.log("response:", response);
+          if (response.data.isSuccess) {
+          } else {
+            console.error("Loading error:", response.data.message);
+            // this.showToast(response.data.message, 'error');
+          }
+        } catch (error) {
+          console.error("Loading error:", error);
+          if (error.response && error.response.status == 400) {
+          }
+          // this.showToast(error.response.data.Message, 'error');
         }
-        // this.showToast(error.response.data.Message, 'error');
-      }
-      loadingAlert.close();
-  },
+        loadingAlert.close();
+    },
 
-  async getEmployeeLeaveAnnualReport(req, showLoading) {
-      console.log('API-getEmployeeLeaveAnnualReport:',req);
-
-      const loadingAlert = showLoading("");
-      try {
-        const response = await axios.get(
-          `${import.meta.env.VITE_API_URL}/hr/Report/GetEmployeeLeave_AnnualReport`,{params: {departmentId:req.departmentId, year: req.year}},{ responseType: 'blob' });
-          const blob = new Blob([response.data], { type: 'application/pdf' });
-          const url = URL.createObjectURL(blob);
-          window.open(url, '_blank');
-
-        console.log("response:", response);
-        if (response.data.isSuccess) {
-        } else {
-          console.error("Loading error:", response.data.message);
-          // this.showToast(response.data.message, 'error');
-        }
-      } catch (error) {
-        console.error("Loading error:", error);
-        if (error.response && error.response.status == 400) {
-        }
-        // this.showToast(error.response.data.Message, 'error');
-      }
-      loadingAlert.close();
-  },
-
-  async getTimeCardSummery(req, showLoading) {
-      console.log('API-getTimeCardSummery:',req);
-
-      const loadingAlert = showLoading("");
-      try {
-        const response = await axios.post(
-          `${import.meta.env.VITE_API_URL}/hr/Report/GetTimeCardSummery`,req,{ responseType: 'blob' });
-          const blob = new Blob([response.data], { type: 'application/pdf' });
-          const url = URL.createObjectURL(blob);
-          window.open(url, '_blank');
-
-        console.log("response:", response);
-        if (response.data.isSuccess) {
-          // this.absense.arrabsences = response.data.data.data.arrAbsences || [];
-        } else {
-          console.error("Loading error:", response.data.message);
-          // this.showToast(response.data.message, 'error');
-        }
-      } catch (error) {
-        console.error("Loading error:", error);
-        if (error.response && error.response.status == 400) {
-        }
-        // this.showToast(error.response.data.Message, 'error');
-      }
-      loadingAlert.close();
-  },
-
-  async getNoPayMonthlyReport(req, showLoading) {
-      console.log('API-getNoPayMonthlyReport:',req);
-
-      const loadingAlert = showLoading("");
-      try {
-        const response = await axios.get(
-          `${import.meta.env.VITE_API_URL}/hr/Report/GetNoPayMonthlyReport`,{params:{dateFrom: req.dateFrom, dateTo: req.dateTo}},{ responseType: 'blob' });
-          const blob = new Blob([response.data], { type: 'application/pdf' });
-          const url = URL.createObjectURL(blob);
-          window.open(url, '_blank');
-
-        console.log("response:", response);
-        if (response.data.isSuccess) {
-        } else {
-          console.error("Loading error:", response.data.message);
-          // this.showToast(response.data.message, 'error');
-        }
-      } catch (error) {
-        console.error("Loading error:", error);
-        if (error.response && error.response.status == 400) {
-        }
-        // this.showToast(error.response.data.Message, 'error');
-      }
-      loadingAlert.close();
-  },
-
-  async showToast(message, type) {
-    const Swal = (await import("sweetalert2")).default;
-    Swal.fire({
-      icon: type,
-      title: type,
-      text: message,
-      timer: 5000,
-      showConfirmButton: false,
-      toast: true,
-      position: "top-end",
-    });
-  },
+    async showToast(message, type) {
+      const Swal = (await import("sweetalert2")).default;
+      Swal.fire({
+        icon: type,
+        title: type,
+        text: message,
+        timer: 5000,
+        showConfirmButton: false,
+        toast: true,
+        position: "top-end",
+      });
+    },
   },
 });

@@ -19,8 +19,7 @@
             <hr_menu v-show="ismenuopen" class="absolute top-0 left-0 z-50 mt-12 ml-2" @click="clickmenuitem" /> -->
           </div>
 
-          <div class="flex items-center justify-center "
-            v-show="userStore.loggedUser.granted.includes('hradmin')">
+          <div class="flex items-center justify-center " v-show="userStore.loggedUser.granted.includes('hradmin')">
 
             <search_dashboard placeholder="Search Employee" :arrsections="arrsections_DBSerach"
               @getsearch="search_begin_DBSerach" @goToAddNew="GoToAddNew" @goToClear="GoToClear" />
@@ -33,7 +32,7 @@
         <!-- Hide on mobile -->
         <div class="mr-8" v-show="userStore.loggedUser.userGroup === 'Supervisor'">
           <!-- HRAdmin -->
-          <btnwgstatus name="workgroup" :wgjobcount="hrStore.dashboard.workgroupjobcount" @click="getviewwg" />
+          <btnwgstatus name="workgroup" :wgjobcount="workLoadStore.dashboard.workgroupjobcount" @click="getviewwg" />
         </div>
 
       </div>
@@ -85,14 +84,15 @@
           </div> -->
           <div class="flex flex-col items-center md:pt-4 md:flex-row sm:gap-y-0 lg:hidden sm:justify-start">
             <div v-show="userStore.loggedUser.userGroup === 'Supervisor'">
-              <btnwgstatus name="workgroup" :wgjobcount="hrStore.dashboard.workgroupjobcount" @click="getviewwg" />
+              <btnwgstatus name="workgroup" :wgjobcount="workLoadStore.dashboard.workgroupjobcount"
+                @click="getviewwg" />
             </div>
           </div>
         </div>
 
 
         <!-- Employees List  -->
-        <div class="cssemplist" v-for="(emp, index) in hrStore.alempdetails" :key="emp">
+        <div class="cssemplist" v-for="(emp, index) in employeeStore.alempdetails" :key="emp">
 
           <div class="mt-1 text-sm rounded-md cursor-pointer hover:text-white text-white-300 hover:bg-gray-500"
             :class="emp.isresigned ? 'bg-red-500' : 'bg-gray-400'">
@@ -341,9 +341,6 @@
 //// import * as Global from '@/assets/js/Global'
 //import { mapState, mapGetters, mapActions, mapMutations } from 'vuex'
 
-import { useHrStore } from "~/stores/modules/hrStore";
-import { useUserStore } from "~/stores/modules/userStore";
-
 import selectinput2 from '~/components/customcontrol/selectinput2'
 import search_dashboard from '~/components/customcontrol/search_bysections_ver2'
 import btnwgstatus from '~/components/hr/btnwgstatus'
@@ -366,11 +363,18 @@ import special_work_arrangement from '~/components/hr/special_work_arrangement'
 
 import empupdate from '~/components/hr/empupdate'
 import Ot_apply_list from '~/components/hr/ot_apply_list.vue'
-
 import timecarddetails from '~/components/hr/timecarddetails.vue'
 import Button from "~/components/customcontrol/Button";
 import SearchComp from "~/components/customcontrol/SearchComp";
 import AddEdit from "~/components/hr/addEditEmp.vue"
+
+import { useEmployeeStore } from "~/stores/modules/hr/employeeStore";
+import { useWorkLoadStore } from "~/stores/modules/hr/workLoadStore";
+import { useMovementStore } from '~/stores/modules/hr/movementStore'
+import { useTimeCardStore } from '~/stores/modules/hr/timeCardStore'
+import { useLeaveStore } from '~/stores/modules/hr/leaveStore'
+import { useAttendanceStore } from '~/stores/modules/hr/attendanceStore'
+import { useUserStore } from '~/stores/modules/userStore'
 
 
 
@@ -427,17 +431,23 @@ export default {
       dtto: null,
       isLoading: false,
       showLoading: null,
-      hrStore: null,
       isAddEdit: false,
     }
   },
 
   async created() {
     try {
-      this.hrStore = useHrStore();
       this.userStore = useUserStore();
+      this.employeeStore = useEmployeeStore();
+      this.workLoadStore = useWorkLoadStore();
+      this.movementStore = useMovementStore();
+      this.timeCardStore = useTimeCardStore();
+      this.leaveStore = useLeaveStore();
+      this.attendanceStore = useAttendanceStore();
       this.showLoading = this.$showLoading;
-      await this.hrStore.loadInitEmployee(this.showLoading);
+
+      await this.employeeStore.loadInitEmployee(this.showLoading);
+
     } catch (error) {
       console.error("error:", error)
     }
@@ -480,7 +490,7 @@ export default {
       this.isSecClose = true
       this.cur_sec = ''
 
-      await this.hrStore.clearAll();
+      await this.employeeStore.clearAll();
 
     },
 
@@ -489,11 +499,11 @@ export default {
         keyword: "",
         searchby: 101,
       }
-      await this.hrStore.searchEmployees(req, this.showLoading)
+      await this.employeeStore.searchEmployees(req, this.showLoading)
     },
 
     GoToAddNew() {
-      this.hrStore.clearEmployee();
+      this.employeeStore.clearEmployee();
       this.isAddEdit = true;
     },
 
@@ -517,13 +527,12 @@ export default {
     // },
 
     async init_employee(id) {
-      const hrStore = useHrStore();
 
       this.cur_sec = 'viewemployee'
       this.isSecClose = true
       this.selectedrow = id
       this.isSecClose = false
-      await hrStore.getEmployeeByID({ empid: id }, this.showLoading)
+      await this.employeeStore.getEmployeeByID({ empid: id }, this.showLoading)
     },
 
     async setDeleteEmployee(empNo) {
@@ -572,7 +581,7 @@ export default {
         fromDate: this.dtfrom,
         toDate: this.dtto,
       }
-      await this.hrStore.getViewMovement(req, this.showLoading);
+      await this.movementStore.getViewMovement(req, this.showLoading);
     },
 
     async init_timecard(empId, row_no) {
@@ -586,7 +595,7 @@ export default {
       let req = {
         empNo: empId,
       }
-      await this.hrStore.getTimeCards(req, this.showLoading);
+      await this.timeCardStore.getTimeCards(req, this.showLoading);
     },
 
     async init_absense(empNo, rowId) {
@@ -601,7 +610,7 @@ export default {
         fromDate: this.dtfrom,
         toDate: this.dtto,
       }
-      await this.hrStore.getViewAbsences(req, this.showLoading);
+      await this.leaveStore.getViewAbsences(req, this.showLoading);
     },
 
     async init_rectify(empNo, rowId) {
@@ -615,13 +624,12 @@ export default {
         fromDate: this.dtfrom,
         toDate: this.dtto,
       }
-      // await this.hrStore.getViewAbsences(req, this.showLoading);
     },
 
     async goto_absenseapply(req) {
       this.leaveYear = req.leaveYear;
-      await this.hrStore.getLeaveBalance(req, this.showLoading)
-      await this.hrStore.getAbsenceInitData()
+      await this.leaveStore.getLeaveBalance(req, this.showLoading)
+      await this.leaveStore.getAbsenceInitData()
       this.cur_sec = 'absenseapply'
     },
 
@@ -632,13 +640,13 @@ export default {
         toDate: this.dtto,
       }
 
-      await this.hrStore.getOTApprovals(req, this.showLoading);
+      await this.attendanceStore.getOTApprovals(req, this.showLoading);
     },
 
     async goto_movementapply() {
       this.cur_sec = 'movementapply'
 
-      await this.hrStore.getMovementInitData(this.showLoading);
+      await this.movementStore.getMovementInitData(this.showLoading);
     },
 
     goto_absenceview() {
@@ -699,13 +707,13 @@ export default {
       this.selectedrow = null;
       console.log('search_begin_DBSerach called with:', req);
 
-      await this.hrStore.searchEmployees({
+      await this.employeeStore.searchEmployees({
         keyword: req.searchval,
         searchby: req.searchby,
       }, this.showLoading)
 
       //get workgroup count
-      await this.hrStore.getWorkLoadCount(this.showLoading);
+      await this.workLoadStore.getWorkLoadCount(this.showLoading);
     },
 
     getviewwg() {

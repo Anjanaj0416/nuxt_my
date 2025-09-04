@@ -31,7 +31,6 @@
 <script>
 // import * as Global from '@/assets/js/Global'
 import btnhr_load from '~/components/hr/btnhr_load'
-import { useHrStore } from '~/stores/modules/hrStore';
 
 export default {
   components: { btnhr_load, },
@@ -45,7 +44,6 @@ export default {
   },
 
   async created() {
-    this.hrStore = useHrStore();
     var date = new Date();
     this.dtfrom = this.$myUtility.toInputTypeDate(new Date(date.getFullYear(), date.getMonth(), 1));
     this.dtto = this.$myUtility.toInputTypeDate(new Date(date.getFullYear(), date.getMonth(), date.getDate()));

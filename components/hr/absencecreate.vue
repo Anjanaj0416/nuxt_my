@@ -30,13 +30,13 @@
             <div class="">Absence Type</div>
             <div class="">
               <selectinput2 v-model="absense_apply.absence_type" :cur_item="absense_apply.absence_type"
-                :selections="hrStore.initData.initAbsence.arrAbsenceType" />
+                :selections="leaveStore.initData.initAbsence.arrAbsenceType" />
             </div>
 
             <div class="">Absence Reason</div>
             <div class="">
               <!-- <selectinput2 v-model="absense_apply.absence_reason" :cur_item="absense_apply.absence_reason"
-                :selections="hrStore.initData.initAbsence.arrAbsenceTeason" />
+                :selections="leaveStore.initData.initAbsence.arrAbsenceTeason" />
               <br /> -->
               <input type="text" v-model="absense_apply.absence_reason"
                 class="text-black w-full rounded p-1 border-gray-500 rounded p-2" />
@@ -47,7 +47,7 @@
             </div>
             <div class="" v-show="absense_apply.absence_type !== 'Short Leave'">
               <selectinput2 v-model="absense_apply.leave_type" :cur_item="absense_apply.leave_type"
-                :selections="hrStore.initData.initAbsence.arrLeaveType" />
+                :selections="leaveStore.initData.initAbsence.arrLeaveType" />
             </div>
 
 
@@ -103,7 +103,7 @@
         </div>
 
         <div class="my-4">
-          <leave_entitlement :leaveBalances="hrStore.absense.arrLeaveBalances" :year="leaveyear" />
+          <leave_entitlement :leaveBalances="leaveStore.absense.arrLeaveBalances" :year="leaveyear" />
         </div>
       </div>
     </div>
@@ -114,7 +114,7 @@
 import selectinput2 from '~/components/customcontrol/selectinput2'
 import btnhr_Save from '~/components/hr/btnhr_button'
 import leave_entitlement from '~/components/hr/leave_entitlement'
-import { useHrStore } from '~/stores/modules/hrStore'
+import { useLeaveStore } from '~/stores/modules/hr/leaveStore'
 // import imagecomp from '~/components/customcontrol/fupload'
 
 // import * as Global from '@/assets/js/Global'
@@ -147,12 +147,12 @@ export default {
       leave_entitle_year: -1,
       isSaving: false,
       showLoading: null,
-      hrStore: null,
+      leaveStore: null,
     }
   },
 
   async created() {
-    this.hrStore = useHrStore();
+    this.leaveStore = useLeaveStore();
     this.showLoading = this.$showLoading;
   },
 
@@ -190,9 +190,9 @@ export default {
                 EndDate: this.absense_apply.start_date,
                 EndTime: this.absense_apply.end_time,
               };
-              await this.hrStore.setLeave(reqSetLeave, this.showLoading);
+              await this.leaveStore.setLeave(reqSetLeave, this.showLoading);
               console.log('setLeave:', reqSetLeave);
-              await this.hrStore.getViewAbsences(
+              await this.leaveStore.getViewAbsences(
                 {
                   empNo: this.absense_apply.empNo,
                   fromDate: this.fromDate,
@@ -211,7 +211,7 @@ export default {
 
     // async LoadLeaveBalance() {
     //   this.leave_entitle_year = new Date(this.absense_apply.start_date).getFullYear();
-    //   await this.hrStore.getLeaveBalance({ empNo: this.empno, year: this.leave_entitle_year }, this.showLoading)
+    //   await this.leaveStore.getLeaveBalance({ empNo: this.empno, year: this.leave_entitle_year }, this.showLoading)
     // },
 
     validate() {

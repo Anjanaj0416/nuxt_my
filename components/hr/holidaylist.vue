@@ -49,9 +49,9 @@
             <!-- End Heading  -->
 
             <!-- start rows  -->
-            <div v-if="hrStore.holiday.arrholidays.length > 0">
+            <div v-if="holidayStore.holiday.arrholidays.length > 0">
               <div class="cssrows   overflow-y-scroll">
-                <div v-for="holiday in hrStore.holiday.arrholidays" :key="holiday.id">
+                <div v-for="holiday in holidayStore.holiday.arrholidays" :key="holiday.id">
                   <!-- :index="index" -->
                   <div class="
                   grid grid-cols-3
@@ -127,7 +127,7 @@
 <script>
 import holidayloader from '~/components/hr/holidayloader'
 import btnhr_Save from '~/components/hr/btnhr_button'
-import { useHrStore } from '~/stores/modules/hrStore'
+import { useHolidayStore } from '~/stores/modules/hr/holidayStore'
 
 export default {
   components: { holidayloader, btnhr_Save },
@@ -140,13 +140,13 @@ export default {
       },
       selectedMonth: "",
       selectedYear: "",
-      hrStore: null,
+      holidayStore: null,
       showLoading: null,
     }
   },
 
   async created() {
-    this.hrStore = useHrStore();
+    this.holidayStore = useHolidayStore();
     this.showLoading = this.$showLoading;
 
     this.init();
@@ -166,7 +166,7 @@ export default {
       this.selectedYear = value.year
 
       let req = { month: value.month, year: value.year };
-      await this.hrStore.getAssignedHolidays(req, this.showLoading);
+      await this.holidayStore.getAssignedHolidays(req, this.showLoading);
     },
 
     async init() {
@@ -174,17 +174,17 @@ export default {
       let month = date.getMonth() + 1;
       let year = date.getFullYear();
       let req = { month: month, year: year };
-      await this.hrStore.getAssignedHolidays(req, this.showLoading);
+      await this.holidayStore.getAssignedHolidays(req, this.showLoading);
     },
 
     async deleteRecord(id) {
-      this.hrStore = useHrStore();
+      this.holidayStore = useholidayStore();
 
       this.$showConfirm("Sure to delete this record?", "warning")
         .then(async (result) => {
           if (result.isConfirmed) {
             let req = { id: id }
-            await this.hrStore.getDeleteHoliday(req, this.showLoading)
+            await this.holidayStore.getDeleteHoliday(req, this.showLoading)
           }
         });
     },
@@ -200,7 +200,7 @@ export default {
       this.$showConfirm("Sure to add this day as holiday?", "warning")
         .then(async (result) => {
           if (result.isConfirmed) {
-            await this.hrStore.setAssignedHolidays(req, this.showLoading)
+            await this.holidayStore.setAssignedHolidays(req, this.showLoading)
 
             this.getClear();
           }

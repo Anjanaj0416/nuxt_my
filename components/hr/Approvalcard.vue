@@ -46,7 +46,7 @@
 
 import btn_jobcard_approve from '~/components/hr/btn_jobcard_approve'
 import btn_jobcard_reject from '~/components/hr/btn_jobcard_reject'
-import { useHrStore } from '~/stores/modules/hrStore'
+import { useWorkLoadStore } from '~/stores/modules/hr/workLoadStore'
 
 export default {
   components: { btn_jobcard_approve, btn_jobcard_reject },
@@ -59,11 +59,11 @@ export default {
       cur_jobid: -1,
       comment: '',
       showLoading: null,
-      hrStore: null,
+      workLoadStore: null,
     }
   },
   async created() {
-    this.hrStore = useHrStore();
+    this.workLoadStore = useWorkLoadStore();
     this.showLoading = this.$showLoading;
   },
 
@@ -127,7 +127,7 @@ export default {
         .then(async (result) => {
           if (result.isConfirmed) {
 
-            await this.hrStore.getWorkLoadApprove({
+            await this.workLoadStore.getWorkLoadApprove({
               jobId: jobId,
               jobType: this.jobType,
               comment: this.comment,
@@ -151,7 +151,7 @@ export default {
               return
             }
 
-            await this.hrStore.getWorkLoadReject({
+            await this.workLoadStore.getWorkLoadReject({
               jobId: jobId,
               jobType: this.jobType,
               comment: this.comment,

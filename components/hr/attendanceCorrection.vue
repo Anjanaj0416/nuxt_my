@@ -42,7 +42,7 @@
                 <div class="hidden lg:block"></div>
             </div>
 
-            <div v-for="dayatt in hrStore.attendence.alattendences" :key="dayatt">
+            <div v-for="dayatt in attendanceStore.attendence.alattendences" :key="dayatt">
 
                 <!-- {{dayatt}} <br>
          {{ getDayTypeName(dayatt) }} -->
@@ -117,7 +117,7 @@
                         <div></div>
                         <div></div>
                         <div>
-                            <div v-show="userStore.loggedUser.userGroup === 'Supervisor' || hrStore.loggeduser.granted === 'hradmin' || hrStore.loggeduser.granted === 'admin'"
+                            <div v-show="userStore.loggedUser.userGroup === 'Supervisor' || userStore.loggedUser.granted === 'hradmin' || userStore.loggedUser.granted === 'admin'"
                                 class="w-4/5 p-1 p-2 font-bold text-center border-gray-500 rounded rounded-md cursor-pointer gap-x-1 hover:bg-blue-500 hover:text-white"
                                 @click="getReCalcOT(dayatt.id)">
                                 ReCalc.OT
@@ -141,8 +141,8 @@ import btnhr_load from '~/components/hr/btnhr_load'
 
 import swipes from "~/components/hr/swipes";
 import datediff from '~/components/hr/datediff'
-import { useHrStore } from '~/stores/modules/hrStore'
 import { useUserStore } from '~/stores/modules/userStore'
+import { useAttendanceStore } from '~/stores/modules/hr/attendanceStore'
 
 // import { mapState, mapActions, mapMutations } from 'vuex'
 
@@ -180,12 +180,12 @@ export default {
             showLoading: null,
             editingField: null,
             myUtility: null,
-            hrStore: null,
+            attendanceStore: null,
         }
     },
 
     async created() {
-        this.hrStore = useHrStore();
+        this.attendanceStore = useAttendanceStore();
         this.userStore = useUserStore();
         this.showLoading = this.$showLoading;
 
@@ -204,7 +204,7 @@ export default {
             EmpNo: this.userStore.loggedUser.userName,
         }
 
-        this.hrStore.getAttendenceByEmp(req, this.showLoading);
+        this.attendanceStore.getAttendenceByEmp(req, this.showLoading);
     },
 
     computed: {
@@ -370,7 +370,7 @@ export default {
             this.dtto = req.dtto
             // this.reset();
 
-            await this.hrStore.getAttendenceByEmp({
+            await this.attendanceStore.getAttendenceByEmp({
                 FromDate: this.dtfrom,
                 ToDate: this.dtto,
                 EmpNo: this.empNo,
@@ -388,7 +388,7 @@ export default {
             this.$showConfirm("Sure to edit this in-out time?", "warning")
                 .then(async (result) => {
                     if (result.isConfirmed) {
-                        await this.hrStore.setManualInOut(req, this.showLoading);
+                        await this.attendanceStore.setManualInOut(req, this.showLoading);
 
                         const attendanceReq = {
                             FromDate: this.dtfrom,
@@ -396,7 +396,7 @@ export default {
                             EmpNo: this.empNo
                         }
 
-                        await this.hrStore.getAttendenceByEmp(attendanceReq, this.showLoading);
+                        await this.attendanceStore.getAttendenceByEmp(attendanceReq, this.showLoading);
 
                         this.editingRowId = null;
                         this.editingField = null;
@@ -415,7 +415,7 @@ export default {
             this.$showConfirm("Sure to edit this OT time?", "warning")
                 .then(async (result) => {
                     if (result.isConfirmed) {
-                        await this.hrStore.setOTManual(req, this.showLoading);
+                        await this.attendanceStore.setOTManual(req, this.showLoading);
 
                         const attendanceReq = {
                             FromDate: this.dtfrom,
@@ -423,7 +423,7 @@ export default {
                             EmpNo: this.empNo
                         }
 
-                        await this.hrStore.getAttendenceByEmp(attendanceReq, this.showLoading);
+                        await this.attendanceStore.getAttendenceByEmp(attendanceReq, this.showLoading);
 
                         this.editingRowId = null;
                         this.editingField = null;
@@ -439,8 +439,8 @@ export default {
                 this.show_error('Invalid In or Out Time')
             }
             else {
-                await this.hrStore.getRecalcOTByHR(attn, this.showLoading)
-                await this.hrStore.getAttendenceByEmp({
+                await this.attendanceStore.getRecalcOTByHR(attn, this.showLoading)
+                await this.attendanceStore.getAttendenceByEmp({
                     FromDate: this.dtfrom,
                     ToDate: this.dtto,
                     EmpNo: this.empNo,
@@ -462,7 +462,7 @@ export default {
                 dtTo: this.dtto,
                 empNo: this.empNo,
             }
-            await this.hrStore.getRefreshAttendance(req, this.showLoading)
+            await this.attendanceStore.getRefreshAttendance(req, this.showLoading)
         },
     },
 

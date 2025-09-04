@@ -19,11 +19,11 @@
         <div class="flex flex-wrap items-center justify-between gap-4 rounded-md sm:justify-start">
           <div
             class="w-full p-2 font-bold text-center text-gray-700 border border-white rounded-md sm:w-auto hover:text-white">
-            Normal OT Hrs - {{ hrStore.attendence.tot_normal_overtime }}
+            Normal OT Hrs - {{ attendanceStore.attendence.tot_normal_overtime }}
           </div>
           <div
             class="w-full p-2 font-bold text-center text-gray-700 border border-white rounded-md sm:w-auto hover:text-white">
-            Sunday OT Hrs - {{ hrStore.attendence.tot_sunday_overtime }}
+            Sunday OT Hrs - {{ attendanceStore.attendence.tot_sunday_overtime }}
           </div>
 
           <!-- <div class="w-full sm:w-auto">
@@ -64,7 +64,7 @@
         <div class="hidden lg:block"></div>
         <div class="hidden lg:block"></div>
       </div>
-      <div v-for="dayatt in hrStore.attendence.alattendences" :key="dayatt">
+      <div v-for="dayatt in attendanceStore.attendence.alattendences" :key="dayatt">
         <div class="w-full p-2 mt-1 text-white bg-gray-600 rounded-md lg:w-5/6" v-bind:class="[getAttRowColor(dayatt)]">
           <div class="grid grid-cols-1 text-center lg:grid-cols-12">
             <div>{{ dayatt.empNo }}</div>
@@ -187,7 +187,7 @@
                 </div>
               </div>
               <div class="space-y-12">
-                <viewMore @test="({ id, type }) => deleteRecord(id, type)" :dayInfo="hrStore.dayInfo" />
+                <viewMore @test="({ id, type }) => deleteRecord(id, type)" :dayInfo="attendanceStore.dayInfo" />
               </div>
             </div>
           </div>
@@ -250,7 +250,7 @@
                 <input v-model="oTPreApprovalRequest.OTTo" @blur="calcOTHours" type="time" />
               </div>
               |
-              <div class="">OT Hrs : {{ hrStore.OTApllyDetails.ot_hours }}</div>
+              <div class="">OT Hrs : {{ attendanceStore.OTApllyDetails.ot_hours }}</div>
               |
               <div>
                 <span class="pr-4">Nature Of Works</span>
@@ -317,8 +317,8 @@ import viewMore from "~/components/hr/viewMore";
 
 import swipes from "~/components/hr/swipes";
 import datediff from "~/components/hr/datediff";
-import { useHrStore } from "~/stores/modules/hrStore";
 import { useUserStore } from "~/stores/modules/userStore";
+import { useAttendanceStore } from "~/stores/modules/hr/attendanceStore";
 
 export default {
   props: ["empno", "empname", "isOTEntitled"],
@@ -368,7 +368,7 @@ export default {
       showLoading: null,
       isLoading: false,
       userStore: null,
-      hrStore: null,
+      attendanceStore: null,
     };
   },
 
@@ -505,7 +505,7 @@ export default {
   },
 
   async created() {
-    this.hrStore = useHrStore();
+    this.attendanceStore = useAttendanceStore();
     this.userStore = useUserStore();
     this.showLoading = this.$showLoading;
 
@@ -515,20 +515,6 @@ export default {
 
     // Calculate today's date
     this.dtto = new Date().toISOString().split('T')[0]; // Format: YYYY-MM-DD
-
-    // Only fetch attendance if explicitly needed
-    // if (this.$parent.cur_sec !== 'attendence') {
-    //   console.log('cur_sec is not attendence, skipping getAttendenceByEmp');
-    //   return;
-    // }
-
-    // let req = {
-    //   EmpNo: this.empno,
-    //   FromDate: this.dtfrom,
-    //   ToDate: this.dtto,
-    // };
-    // // await this.getLoadAttendnece(req);
-    // await this.hrStore.getAttendenceByEmp(req, this.showLoading)
     await this.init();
   },
 
@@ -561,7 +547,7 @@ export default {
         this.oTPreApprovalRequest.OTFrom != "" &&
         this.oTPreApprovalRequest.OTTo != ""
       ) {
-        await this.hrStore.getOTHours({
+        await this.attendanceStore.getOTHours({
           EmpNo: this.empno,
           OTFrom: this.oTPreApprovalRequest.OTFrom,
           OTTo: this.oTPreApprovalRequest.OTTo,
@@ -594,7 +580,7 @@ export default {
       };
 
       // await this.getLoadAttendnece(req);
-      await this.hrStore.getAttendenceByEmp(req, this.showLoading)
+      await this.attendanceStore.getAttendenceByEmp(req, this.showLoading)
     },
 
     async getDayAppliedRecords(date) {
@@ -605,7 +591,7 @@ export default {
       }
       console.log("getDayAppliedRecords:", req);
 
-      await this.hrStore.getDayAppliedRecords(req, this.showLoading)
+      await this.attendanceStore.getDayAppliedRecords(req, this.showLoading)
     },
 
     async oTApplingCancel() {
@@ -613,21 +599,21 @@ export default {
       this.oTPreApprovalRequest.OTTo = "";
       this.isOTAppling = false;
       this.otApplingRow = -1;
-      await this.hrStore.otCancel();
+      await this.attendanceStore.otCancel();
     },
 
     async manualOTApplingCancel() {
       this.oTManualRequest.otHour = "";
       this.isOtManual = false;
       this.otManualRow = -1;
-      await this.hrStore.otCancel();
+      await this.attendanceStore.otCancel();
     },
 
     async save_rectification(row_id, empNo) {
       this.$showConfirm("Sure to apply this Rectification?", "warning")
         .then(async (result) => {
           if (result.isConfirmed) {
-            let item_attn = this.hrStore.attendence.alattendences.filter((att) => {
+            let item_attn = this.attendanceStore.attendence.alattendences.filter((att) => {
               return att.id == row_id;
             })[0];
 
@@ -645,7 +631,7 @@ export default {
                 ToDate: toDate,
               };
 
-              await this.hrStore.setRectifyAttendance(req, this.showLoading);
+              await this.attendanceStore.setRectifyAttendance(req, this.showLoading);
 
               this.rectifingrow = -1;
               this.isrectifing = false;
@@ -682,7 +668,7 @@ export default {
             ToDate: toDate,
           };
 
-          await this.hrStore.setOTApproval(req, this.showLoading);
+          await this.attendanceStore.setOTApproval(req, this.showLoading);
         }
         this.oTPreApprovalRequest.OTFrom = "";
         this.oTPreApprovalRequest.OTTo = "";
@@ -690,7 +676,7 @@ export default {
         this.oTPreApprovalRequest.Reason = "";
         this.isOTAppling = false;
         this.otApplingRow = -1;
-        await this.hrStore.otCancel();
+        await this.attendanceStore.otCancel();
       }
     },
 
@@ -708,13 +694,13 @@ export default {
             ToDate: toDate,
             EmpNo: this.empno,
           };
-          await this.hrStore.setOTManual(req, this.showLoading);
+          await this.attendanceStore.setOTManual(req, this.showLoading);
         }
         this.oTManualRequest.otHour = "";
         this.oTManualRequest.comment = "";
         this.isOTManualAppling = false;
         this.otApplingRow = -1;
-        await this.hrStore.otCancel();
+        await this.attendanceStore.otCancel();
       }
     },
 
@@ -815,7 +801,7 @@ export default {
         let req = {
           Id: attn.id,
         };
-        await this.hrStore.getReCalcOT(req, this.showLoading);
+        await this.attendanceStore.getReCalcOT(req, this.showLoading);
       }
     },
 
@@ -823,7 +809,7 @@ export default {
       this.rectifingrow = rowId;
       this.isrectifing = true;
 
-      let item_attn = this.hrStore.attendence.alattendences.filter((att) => {
+      let item_attn = this.attendanceStore.attendence.alattendences.filter((att) => {
         return att.id == rowId;
       })[0];
 
@@ -846,33 +832,33 @@ export default {
               id: recordId
             }
             if (type === "OT Approval") {
-              await this.hrStore.setDeleteOTApproval(req, this.showLoading);
+              await this.attendanceStore.setDeleteOTApproval(req, this.showLoading);
             }
 
             if (type === "Leave") {
-              await this.hrStore.getDeleteAbsence(req, this.showLoading);
+              await this.attendanceStore.getDeleteAbsence(req, this.showLoading);
             }
 
             if (type === "Movement") {
-              await this.hrStore.getDeleteMovement(req, this.showLoading);
+              await this.attendanceStore.getDeleteMovement(req, this.showLoading);
             }
 
             if (type === "Rectify") {
-              await this.hrStore.setDeleteOTApproval(req, this.showLoading);
+              await this.attendanceStore.setDeleteOTApproval(req, this.showLoading);
             }
 
             let getDayAppliedRecordsReq = {
               EmpNo: this.empno,
               Date: this.rowDate
             }
-            await this.hrStore.getDayAppliedRecords(getDayAppliedRecordsReq, this.showLoading);
+            await this.attendanceStore.getDayAppliedRecords(getDayAppliedRecordsReq, this.showLoading);
 
             let getAttendenceByEmpReq = {
               EmpNo: this.empno,
               FromDate: this.dtfrom,
               ToDate: this.dtto,
             }
-            await this.hrStore.getAttendenceByEmp(getAttendenceByEmpReq, this.showLoading)
+            await this.attendanceStore.getAttendenceByEmp(getAttendenceByEmpReq, this.showLoading)
 
           }
         });
@@ -919,7 +905,7 @@ export default {
         empNo: this.empno
       };
 
-      await this.hrStore.GetPrintAttendanceSheet(req, this.showLoading);
+      await this.attendanceStore.GetPrintAttendanceSheet(req, this.showLoading);
       // const encodedData = Global.atob(JSON.stringify(req))
 
       // window.open(

@@ -43,11 +43,11 @@
         </div>
       </div>
 
-      <div v-if="hrStore.movement.arrmovements.length === 0" class="text-center text-white">
+      <div v-if="movementStore.movement.arrmovements.length === 0" class="text-center text-white">
         <p>No movements available.</p>
       </div>
 
-      <div v-for="(mv, index) in hrStore.movement.arrmovements" :key="mv" :index="index">
+      <div v-for="(mv, index) in movementStore.movement.arrmovements" :key="mv" :index="index">
         <div class="grid w-full grid-cols-1 p-2 mt-1 text-center text-white rounded-md lg:grid-cols-10 lg:w-5/6"
           v-bind:class="[getMovementRowColor(mv)]">
           <div>{{ getFormatDate(mv.date) }}</div>
@@ -80,8 +80,8 @@
 <script>
 import datediff from '~/components/hr/datediff'
 import btnapplyleave from '~/components/hr/btnapplyleave'
-import { useHrStore } from '~/stores/modules/hrStore'
 import { useUserStore } from '~/stores/modules/userStore'
+import { useMovementStore } from '~/stores/modules/hr/movementStore'
 
 
 // import * as Global from '@/assets/js/Global'
@@ -99,14 +99,14 @@ export default {
       dtfrom: '',
       dtto: '',
       showLoading: null,
-      hrStore: null,
+      movementStore: null,
       userStore: null,
       myUtility: null,
     }
   },
 
   async created() {
-    this.hrStore = useHrStore();
+    this.movementStore = useMovementStore();
     this.userStore = useUserStore();
     this.showLoading = this.$showLoading;
 
@@ -162,7 +162,7 @@ export default {
         toDate: this.dtto,
         empNo: this.empno,
       }
-      await this.hrStore.getViewMovement(req, this.showLoading)
+      await this.movementStore.getViewMovement(req, this.showLoading)
     },
     getclose() {
       this.$emit('exit')
@@ -173,7 +173,7 @@ export default {
     async deleteRecord(id) {
       if (confirm('Sure to delete this record?')) {
         let req = { id: id }
-        await this.hrStore.getDeleteMovement(req, this.showLoading)
+        await this.movementStore.getDeleteMovement(req, this.showLoading)
 
         this.dtfrom = this.$refs.datediffRef.dtfrom;
         this.dtto = this.$refs.datediffRef.dtto;
@@ -183,7 +183,7 @@ export default {
           toDate: this.dtto,
           empNo: this.empno,
         }
-        await this.hrStore.getViewMovement(reqGetViewMovement, this.showLoading)
+        await this.movementStore.getViewMovement(reqGetViewMovement, this.showLoading)
       }
     },
   },

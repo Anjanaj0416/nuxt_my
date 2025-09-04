@@ -65,7 +65,7 @@
             <div>Movement Type</div>
             <div class="">
               <selectinput2 v-model="movement_apply.movementType" :cur_item="movement_apply.movementType"
-                :selections="hrStore.initData.initMovement.arrMovementType" />
+                :selections="movementStore.initData.initMovement.arrMovementType" />
               <!-- @changed=movementTypeChanged  -->
               <p v-if="err.movementType" class="mt-2 text-sm text-red-600">
                 {{ err.movementType }}
@@ -75,7 +75,7 @@
             <div class="text-right px-2">Movement Period</div>
             <div class="">
               <selectinput2 v-model="movement_apply.movementPeriod" :cur_item="movement_apply.movementPeriod"
-                :selections="hrStore.initData.initMovement.arrMovementPeriod" />
+                :selections="movementStore.initData.initMovement.arrMovementPeriod" />
               <!-- @changed=movementTypeChanged -->
               <p v-if="err.movementPeriod" class="mt-2 text-sm text-red-600">
                 {{ err.movementPeriod }}
@@ -84,7 +84,7 @@
             <div class="" v-show="!isWFH">Start From</div>
             <div class="" v-show="!isWFH">
               <selectinput2 v-model="movement_apply.start_from" :cur_item="movement_apply.start_from"
-                :selections="hrStore.initData.initMovement.arrStartFrom" />
+                :selections="movementStore.initData.initMovement.arrStartFrom" />
               <p v-if="err.start_from" class="mt-2 text-sm text-red-600">
                 {{ err.start_from }}
               </p>
@@ -119,7 +119,7 @@
             <div class="text-right px-2" v-show="!isWFH">Travel By</div>
             <div class="" v-show="!isWFH">
               <selectinput2 v-model="movement_apply.travel_by" :cur_item="movement_apply.travel_by"
-                :selections="hrStore.initData.initMovement.arrTravelBy" />
+                :selections="movementStore.initData.initMovement.arrTravelBy" />
             </div>
 
             <div class="" v-show="!isWFH">Reason</div>
@@ -146,7 +146,7 @@
 import selectinput2 from '~/components/customcontrol/selectinput2'
 import btnhr_Save from '~/components/hr/btnhr_button'
 import leave_entitlement from '~/components/hr/leave_entitlement'
-import { useHrStore } from '~/stores/modules/hrStore'
+import { useMovementStore } from '~/stores/modules/hr/movementStore'
 
 // import * as Global from '@/assets/js/Global'
 //import * as myfilter from '@/plugins/myfilter'
@@ -187,13 +187,13 @@ export default {
       },
       dtfrom: null,
       dtto: null,
-      hrStore: null,
+      movementStore: null,
       showLoading: null,
     }
   },
 
   async created() {
-    this.hrStore = useHrStore();
+    this.movementStore = useMovementStore();
     this.showLoading = this.$showLoading;
   },
 
@@ -227,7 +227,7 @@ export default {
               Reason: this.movement_apply.reason,
             }
             //console.log(JSON.stringify(this.movement_apply));
-            await this.hrStore.setMovement(req, this.showLoading);
+            await this.movementStore.setMovement(req, this.showLoading);
 
             let reqGetViewMovement = {
               fromDate: this.dtFrom,
@@ -235,7 +235,7 @@ export default {
               empNo: this.empno,
             }
 
-            await this.hrStore.getViewMovement(reqGetViewMovement, this.showLoading)
+            await this.movementStore.getViewMovement(reqGetViewMovement, this.showLoading)
             this.$emit('goto_movementview')
 
           } else {

@@ -48,9 +48,9 @@
             <!-- End Heading  -->
 
             <!-- start rows  -->
-            <div v-if="hrStore.arrSWA.length > 0">
+            <div v-if="swaStore.arrSWA.length > 0">
               <div class="cssrows overflow-y-scroll">
-                <div v-for="swa in hrStore.arrSWA" :key="swa" :index="index"
+                <div v-for="swa in swaStore.arrSWA" :key="swa" :index="index"
                   class="text-white bg-gray-600 rounded-md p-2 mt-1">
 
                   <div class="grid grid-cols-3 lg:grid-cols-3 w-full">
@@ -147,9 +147,10 @@ import btnhr_Save from '~/components/hr/btnhr_button'
 
 import toggleoption from '~/components/customcontrol/toggleoption'
 import inputtags_search from '~/components/customcontrol/inputtags_search'
-import { useHrStore } from '~/stores/modules/hrStore'
 
 import * as Global from '@/assets/js/Global'
+import { useHolidayStore } from '~/stores/modules/hr/holidayStore'
+import { useSwaStore } from '~/stores/modules/hr/swaStore'
 //import * as myfilter from '@/plugins/myfilter'
 //import { mapState, mapGetters, mapActions, mapMutations } from 'vuex'
 
@@ -170,13 +171,14 @@ export default {
       },
       selectedYear: null,
       selectedMonth: null,
-      hrStore: null,
+      swaStore: null,
       showLoading: null,
     }
   },
 
   async created() {
-    this.hrStore = useHrStore();
+    this.swaStore = useSwaStore();
+    this.holidayStore = useHolidayStore();
     this.showLoading = this.$showLoading;
 
     this.init();
@@ -220,7 +222,7 @@ export default {
       this.selectedMonth = param.month;
 
       let req = { month: param.month, year: param.year }
-      await this.hrStore.getSpecialWorkArrangement(req, this.showLoading)
+      await this.swaStore.getSpecialWorkArrangement(req, this.showLoading)
     },
 
     async init() {
@@ -228,7 +230,7 @@ export default {
       let month = date.getMonth() + 1;
       let year = date.getFullYear();
       let req = { month: month, year: year };
-      await this.hrStore.getAssignedHolidays(req, this.showLoading);
+      await this.holidayStore.getAssignedHolidays(req, this.showLoading);
     },
 
     async deleteRecord(id) {
@@ -239,7 +241,7 @@ export default {
         .then(async (result) => {
           if (result.isConfirmed) {
             let req = { id: id, user: this.loggeduser }
-            await this.hrStore.deleteSpecialWorkArrangement(req, this.showLoading)
+            await this.swaStore.deleteSpecialWorkArrangement(req, this.showLoading)
           }
         });
     },
@@ -254,7 +256,7 @@ export default {
           if (result.isConfirmed) {
             let req = { swa: this.swa, user: this.loggeduser }
             //console.log( JSON.stringify(req))
-            await this.hrStore.setSpecialWorkArrangement(req, this.showLoading)
+            await this.swaStore.setSpecialWorkArrangement(req, this.showLoading)
           }
         });
     },
