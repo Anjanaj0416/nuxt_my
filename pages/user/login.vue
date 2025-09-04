@@ -11,11 +11,11 @@
           <!-- Email -->
           <div>
             <label class="block mb-1 text-sm font-medium text-gray-700">User Name</label>
-            <input type="email" v-model="loginDetails.userName" placeholder="Enter your email" required
+            <input type="text" v-model="loginDetails.userName" placeholder="Enter your username"
               class="w-full px-4 py-2 text-sm border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-300" />
-            <div v-if="!loginDetails.userName" class="mt-1 text-sm text-red-500">
-              Please Enter Your User Name.
-            </div>
+            <p v-if="err.userName" class="mt-2 text-sm text-red-600">
+              {{ err.userName }}
+            </p>
           </div>
 
           <!-- Password -->
@@ -23,7 +23,7 @@
             <label class="block mb-1 text-sm font-medium text-gray-700">Password</label>
             <div class="relative">
               <input :type="showPassword ? 'text' : 'password'" v-model="loginDetails.password"
-                placeholder="Enter your password" required
+                placeholder="Enter your password"
                 class="w-full px-4 py-2 pr-10 text-sm border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-300" />
               <button type="button" @click="togglePassword"
                 class="absolute inset-y-0 flex items-center text-black right-3">
@@ -42,9 +42,9 @@
                 </svg>
               </button>
             </div>
-            <div v-if="!loginDetails.password" class="mt-1 text-sm text-red-500">
-              Please Enter Valid Password.
-            </div>
+            <p v-if="err.password" class="mt-2 text-sm text-red-600">
+              {{ err.password }}
+            </p>
           </div>
 
           <!-- Sign In Button -->
@@ -108,6 +108,12 @@ export default {
         password: "",
         RequestedUrl: "",
       },
+      err: {
+        loginDetails: {
+          userName: "",
+          password: "",
+        },
+      },
       showPassword: false,
       showLoading: null,
     };
@@ -123,14 +129,19 @@ export default {
   },
   computed: {},
   methods: {
+
     async GetLogin() {
+
+      if (!this.IsValidate()) return;
+
       const redirectToCookie = useCookie("redirectTo");
 
       if (redirectToCookie.value !== undefined) {
-        this.loginDetails.requestedUrl = redirectToCookie.value;
+        this.loginDetails.RequestedUrl = redirectToCookie.value;
       }
 
       await this.userStore.login(this.loginDetails, this.showLoading);
+
       //api Call using pinia
       try {
         var token = this.userStore.token;
@@ -164,6 +175,22 @@ export default {
           "error"
         );
       }
+    },
+
+    IsValidate() {
+      let isvalid = true;
+
+      if (!this.loginDetails.userName) {
+        this.err.userName = "Invalid Username!";
+        isvalid = false;
+      }
+
+      if (!this.loginDetails.password) {
+        this.err.password = "invalid Password!";
+        isvalid = false;
+      }
+
+      return isvalid;
     },
 
     goToChangeLogin() {

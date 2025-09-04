@@ -68,12 +68,16 @@ export const useUserStore = defineStore('userStore', {
     },
 
     async login(loginDetails,showLoading) {   
+      console.log("API - login:",loginDetails);
 
       const loadingAlert = showLoading(''); 
       try {
 
         const response = await axios.post(`${import.meta.env.VITE_API_URL}/IAM/Login`, loginDetails);      
-        loadingAlert.close();                            
+        loadingAlert.close();      
+        
+        console.log("response:",response);
+        
 
         if (response.data.isSuccess) {
           
@@ -92,8 +96,7 @@ export const useUserStore = defineStore('userStore', {
         
       } catch (error) {     
         console.error("error:",error);
-        
-        this.showToast('Network Error! Login failed. Please try again.','error');     
+        this.showToast(' Login failed! Please try again.','error');     
       }
       
     },
@@ -104,12 +107,16 @@ export const useUserStore = defineStore('userStore', {
         const response = await axios.post(
         `${import.meta.env.VITE_API_URL}/hr/Employee/GetUpdateProfile`,formData,);
         loadingAlert.close();
+
         if (response.data.isSuccess) {
-          this.showToast(response.data.message);
+
+          this.showToast(response.data.message,"success");
           this.updateProfile = response.data.data.data;
+
         } else {
           this.showToast(response.data.message, "error");
         }
+
       } catch (error) {
         console.error("error:",error);
         this.showToast('Network Error! Login failed. Please try again.','error');    
