@@ -1530,7 +1530,17 @@ export const useHrStore = defineStore("hrStore", {
       const loadingAlert = showLoading("");
       try {
         const response = await axios.get(
-          `${import.meta.env.VITE_API_URL}/hr/Report/GetRectificationReport`,{params: {empNo:req.empNo, dateFrom: req.dateFrom, dateTo:req.dateTo }},{ responseType: 'blob' });
+          `${import.meta.env.VITE_API_URL}/hr/Report/GetRectificationReport`,
+          {params: {
+            empNo:req.empNo, 
+            dateFrom: req.dateFrom, 
+            dateTo:req.dateTo 
+          },
+          responseType: 'blob' 
+         }); 
+
+        // const response = await axios.get(
+        //   `${import.meta.env.VITE_API_URL}/hr/Report/GetRectificationReport`,{params: {empNo:req.empNo, dateFrom: req.dateFrom, dateTo:req.dateTo }},{ responseType: 'blob' });
           const blob = new Blob([response.data], { type: 'application/pdf' });
           const url = URL.createObjectURL(blob);
           window.open(url, '_blank');
@@ -1591,6 +1601,32 @@ export const useHrStore = defineStore("hrStore", {
         console.log("response:", response);
         if (response.data.isSuccess) {
           // this.absense.arrabsences = response.data.data.data.arrAbsences || [];
+        } else {
+          console.error("Loading error:", response.data.message);
+          // this.showToast(response.data.message, 'error');
+        }
+      } catch (error) {
+        console.error("Loading error:", error);
+        if (error.response && error.response.status == 400) {
+        }
+        // this.showToast(error.response.data.Message, 'error');
+      }
+      loadingAlert.close();
+  },
+
+  async getNoPayMonthlyReport(req, showLoading) {
+      console.log('API-getNoPayMonthlyReport:',req);
+
+      const loadingAlert = showLoading("");
+      try {
+        const response = await axios.get(
+          `${import.meta.env.VITE_API_URL}/hr/Report/GetNoPayMonthlyReport`,{params:{dateFrom: req.dateFrom, dateTo: req.dateTo}},{ responseType: 'blob' });
+          const blob = new Blob([response.data], { type: 'application/pdf' });
+          const url = URL.createObjectURL(blob);
+          window.open(url, '_blank');
+
+        console.log("response:", response);
+        if (response.data.isSuccess) {
         } else {
           console.error("Loading error:", response.data.message);
           // this.showToast(response.data.message, 'error');
