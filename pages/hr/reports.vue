@@ -5,6 +5,8 @@
    
       <overtime_individual_summery_report v-if="reportNo=='R1001'"/>
       <overtime_monthend_summery_report v-if="reportNo=='R1002'"/>
+      <employee_rectification_report v-if="reportNo=='R1004'"/>
+      <employee_leave_annual_report v-if="reportNo=='R1005'"/>
       <timeCard_summery_report v-if="reportNo=='R1007'"/>
     </section>
     <!-- <input type="text" oninput="this.value = this.value.replace(/[^0-9.]/g, '').replace(/(\..*?)\..*/g, '$1');" > -->
@@ -23,6 +25,8 @@
 
 import overtime_individual_summery_report from "~/components/hr/reports/overtime_individual_summery_report";
 import overtime_monthend_summery_report from "~/components/hr/reports/overtime_monthend_summery_report";
+import employee_rectification_report from "~/components/hr/reports/employee_rectification_report";
+import employee_leave_annual_report from "~/components/hr/reports/employee_leave_annual_report";
 import timeCard_summery_report from "~/components/hr/reports/timeCard_summery_report";
 import { useRoute } from 'vue-router'
 
@@ -40,6 +44,8 @@ import { useRoute } from 'vue-router'
     components: {
       overtime_individual_summery_report,
       overtime_monthend_summery_report,
+      employee_rectification_report,
+      employee_leave_annual_report,
       timeCard_summery_report,
     },//LinkBtn,Button,selectinput2
 

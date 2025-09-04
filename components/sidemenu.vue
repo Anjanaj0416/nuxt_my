@@ -108,7 +108,7 @@
 </template>
 
 <script setup>
-import { ref, computed ,onMounted } from "vue";
+import { ref, computed, onMounted } from "vue";
 import { useUserStore } from '~/stores/modules/userStore';
 
 const userStore = useUserStore();
@@ -128,12 +128,12 @@ const openSubmenus = ref([]);
 // 🔑 Access Rules
 // ==========================
 const accessRules = {
-  "CRM": ["sso", "flo", "su", "cso","accdept"],
-  "Leads": ["sso","cso","su"],
-  "Vendors": ["sso","accdept","su"],
-  "HR System": ["hradmin","su"],        
+  "CRM": ["sso", "flo", "su", "cso", "accdept"],
+  "Leads": ["sso", "cso", "su"],
+  "Vendors": ["sso", "accdept", "su"],
+  "HR System": ["hradmin", "su"],
   "QMS": ["sso", "flo", "su", "cso"],
-  "HR": ["hradmin", "su"],         
+  "HR": ["hradmin", "su"],
 };
 
 
@@ -258,8 +258,8 @@ const links = [
           { name: "OT Month End Summery Report", to: "/hr/reports?p=R1002" },
 
           { name: "Daily Presence Report", to: "#" },
-          { name: "Employee Rectification Report", to: "#" },
-          { name: "Employee leave Annual Report", to: "#" },
+          { name: "Employee Rectification Report", to: "/hr/reports?p=R1004" },
+          { name: "Employee leave Annual Report", to: "/hr/reports?p=R1005" },
           { name: "Annual Summery Report", to: "#" },
           { name: "TimeCard Summery Report", to: "/hr/reports?p=R1007" },
           { name: "No Pay Summery Report", to: "#" },

@@ -1524,6 +1524,59 @@ export const useHrStore = defineStore("hrStore", {
       loadingAlert.close();
   },
 
+  async getRectificationReport(req, showLoading) {
+      console.log('API-GetRectificationReport:',req);
+
+      const loadingAlert = showLoading("");
+      try {
+        const response = await axios.get(
+          `${import.meta.env.VITE_API_URL}/hr/Report/GetRectificationReport`,{params: {empNo:req.empNo, dateFrom: req.dateFrom, dateTo:req.dateTo }},{ responseType: 'blob' });
+          const blob = new Blob([response.data], { type: 'application/pdf' });
+          const url = URL.createObjectURL(blob);
+          window.open(url, '_blank');
+
+        console.log("response:", respurlnse);
+        if (response.data.isSuccess) {
+          // this.absense.arrabsences = response.data.data.data.arrAbsences || [];
+        } else {
+          console.error("Loading error:", response.data.message);
+          // this.showToast(response.data.message, 'error');
+        }
+      } catch (error) {
+        console.error("Loading error:", error);
+        if (error.response && error.response.status == 400) {
+        }
+        // this.showToast(error.response.data.Message, 'error');
+      }
+      loadingAlert.close();
+  },
+
+  async getEmployeeLeaveAnnualReport(req, showLoading) {
+      console.log('API-getEmployeeLeaveAnnualReport:',req);
+
+      const loadingAlert = showLoading("");
+      try {
+        const response = await axios.get(
+          `${import.meta.env.VITE_API_URL}/hr/Report/GetEmployeeLeave_AnnualReport`,{params: {departmentId:req.departmentId, year: req.year}},{ responseType: 'blob' });
+          const blob = new Blob([response.data], { type: 'application/pdf' });
+          const url = URL.createObjectURL(blob);
+          window.open(url, '_blank');
+
+        console.log("response:", response);
+        if (response.data.isSuccess) {
+        } else {
+          console.error("Loading error:", response.data.message);
+          // this.showToast(response.data.message, 'error');
+        }
+      } catch (error) {
+        console.error("Loading error:", error);
+        if (error.response && error.response.status == 400) {
+        }
+        // this.showToast(error.response.data.Message, 'error');
+      }
+      loadingAlert.close();
+  },
+
   async getTimeCardSummery(req, showLoading) {
       console.log('API-getTimeCardSummery:',req);
 
@@ -1551,20 +1604,17 @@ export const useHrStore = defineStore("hrStore", {
       loadingAlert.close();
   },
 
-
-
-
-    async showToast(message, type) {
-      const Swal = (await import("sweetalert2")).default;
-      Swal.fire({
-        icon: type,
-        title: type,
-        text: message,
-        timer: 5000,
-        showConfirmButton: false,
-        toast: true,
-        position: "top-end",
-      });
-    },
+  async showToast(message, type) {
+    const Swal = (await import("sweetalert2")).default;
+    Swal.fire({
+      icon: type,
+      title: type,
+      text: message,
+      timer: 5000,
+      showConfirmButton: false,
+      toast: true,
+      position: "top-end",
+    });
+  },
   },
 });
