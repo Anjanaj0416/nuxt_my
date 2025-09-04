@@ -3,9 +3,9 @@
     <!-- Header -->
     <headerdd />
 
-
     <!-- Horizontal Button Bar  zz-->
     <div class="h-screen">
+      
       <div class="flex flex-row gap-2 overflow-x-auto py-4 px-2 mt-16 scrollbar-thin scrollbar-thumb-gray-400 scrollbar-track-gray-200 ">
         <button
           v-for="master in posStore.listMainCategries"
@@ -24,6 +24,9 @@
           <span>{{ master.value }}</span>
         </button>
       </div>
+
+<!-- {{ holdItem }} -->
+
 
       <!-- POS Layout -->
       <div class="flex h-[calc(100vh-8rem)] gap-4 mt-2 px-2">
@@ -392,6 +395,7 @@ export default {
       invoiceData: null,
 
       holdItem: null,
+       posStore: null,
     };
   },
 
@@ -484,14 +488,11 @@ export default {
   },
 
   mounted() {
-    const dtlStore = useposStore()
-
-    // Get selected news from store
-    if (dtlStore.selectedPayment) {
-      this.holdItem = dtlStore.selectedPayment
+    if (this.posStore.selectedPayment) {
+      this.holdItem = this.posStore.selectedPayment;
     } else {
-      // fallback: redirect if no news selected
-      // this.$router.push('/News')
+      // fallback if no payment selected
+      // this.$router.push('/pos');
     }
   },
 

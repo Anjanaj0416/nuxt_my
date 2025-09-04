@@ -133,12 +133,16 @@ export default {
       this.isOpen = false;
       this.$emit("close");
     },
-    
+
    loadBill(bill) {
-      const items = bill.items;
-      console.log(items);
-      this.posStore.selectedPayment(items);
-      this.$router.push('/pos');
+       const items = bill.items;
+  console.log("Selected bill items:", items);
+
+  // ✅ assign instead of calling as a function
+  this.posStore.selectedPayment = items;
+
+  // ✅ navigate to POS
+  this.$router.push('/pos');
       // this.$emit("loadBill", items);
       // this.closeModal();
     }
