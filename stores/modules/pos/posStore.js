@@ -9,11 +9,11 @@ export const useposStore = defineStore("posStore",{
         listMainCategries: [],
         listSubCategories: [],
         listItems: [],
-        holdPayments: [],
         selectedCategory: null,
         selectedSubCategory: null,
 
-         selectedPayment: null,
+        holdPayments: [],
+        selectedPayment: null,
     }),
     persist: true,
 
@@ -165,12 +165,6 @@ actions: {
       }
     },
 
-    setSelectedPayment(payment) {
-      this.selectedPayment = payment;
-    },
-    clearSelectedPayment() {
-      this.selectedPayment = null;
-    },
 
 
 

@@ -5,36 +5,37 @@
 
     <!-- Horizontal Button Bar  zz-->
     <div class="h-screen">
+
+        <div class="flex flex-row gap-2">
+
+        </div>
       
-      <div class="flex flex-row gap-2 overflow-x-auto py-4 px-2 mt-16 scrollbar-thin scrollbar-thumb-gray-400 scrollbar-track-gray-200 ">
-        <button
-          v-for="master in posStore.listMainCategries"
-          :key="master.id"
-          @click="selectMasterCategory(master.id)"
-          :class="selectedMasterCategory === master.id 
-            ? 'bg-blue-800 text-white' 
-            : 'bg-blue-500 text-white'"
-          class="flex items-center gap-2 flex-shrink-0 px-3 py-1.5 rounded-full shadow-lg hover:scale-105 transition"
-        >           
-          <img
-            :src="master.imageUrl"
-            alt="Image"
-            class="w-6 h-6 object-contain"
-          />
-          <span>{{ master.value }}</span>
-        </button>
-      </div>
+        <div class="flex flex-row gap-2 overflow-x-auto py-4 px-2 mt-16 scrollbar-thin scrollbar-thumb-gray-400 scrollbar-track-gray-200 ">
+            <button
+            v-for="master in posStore.listMainCategries"
+            :key="master.id"
+            @click="selectMasterCategory(master.id)"
+            :style="{
+                backgroundColor: selectedMasterCategory === master.id ? '#A68A6B' : '#C2B280',
+                color: 'white'
+            }"
+            class="flex items-center gap-2 flex-shrink-0 px-3 py-1.5 rounded-full shadow-lg hover:scale-105 transition"
+            >           
+            <img
+                :src="master.imageUrl"
+                alt="Image"
+                class="w-6 h-6 object-contain"
+            />
+            <span>{{ master.value }}</span>
+            </button>
+        </div>
 
 <!-- {{ holdItem }} -->
 
 
       <!-- POS Layout -->
       <div class="flex h-[calc(100vh-8rem)] gap-4 mt-2 px-2">
-      
         <!-- Left: Category List -->
-         
-         
-        
         <div class="w-24 bg-gray-100 p-2 rounded-lg overflow-y-auto">
           <div class="flex flex-col gap-2">
 
@@ -74,54 +75,70 @@
         </div>
 
         <!-- Middle: Items Grid -->
-        <!-- <div class="flex-1 grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-6 gap-4 overflow-y-auto" v-if="this.posStore.listItems">
-          <div 
-            v-for="item in this.posStore.listItems"
-            :key="item.id"
-            @click="addToCart(item)"
-            class="bg-white rounded-2xl shadow-md hover:shadow-xl hover:scale-105 transition-transform cursor-pointer overflow-hidden h-48 lg:h-42"
 
-          >
-            <div class="w-full aspect-[4/3] bg-gray-200 rounded-t-2xl overflow-hidden">
-              <img :src="item.itemImage  || 'https://via.placeholder.com/600x400?text=No+Image'" class="w-full h-full object-cover"/>
-            </div>
-            <div class="p-2 flex flex-col items-center justify-between">
-              <div class="text-sm font-semibold text-gray-800 truncate">{{ item.itemName  }}</div>
-              <div class="text-xs text-gray-600 mt-1">₨{{ item.price?.toLocaleString('en-LK', { minimumFractionDigits: 2 }) }}</div>
-            </div>
-          </div>
-        </div> -->
         <div
-          class="flex-1 grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-6 gap-4 overflow-y-auto"
-          v-if="posStore.listItems"
+            class="flex-1 grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-6 gap-4 overflow-y-auto"
+            v-if="posStore.listItems"
         >
-          <div 
-            v-for="item in posStore.listItems"
-            :key="item.id"
-            @click="addToCart(item)"   
-            class="relative flex flex-col items-center justify-end w-full h-48 rounded-2xl shadow-md hover:shadow-lg hover:scale-105 transition-transform cursor-pointer overflow-hidden"
-            :style="{ backgroundImage: `url(${item.itemImage || 'https://via.placeholder.com/600x400?text=No+Image'})`, backgroundSize: 'cover', backgroundPosition: 'center' }"
-          >
-            <!-- Discount Badge -->
             <div 
-              v-if="item.discount"
-              class="absolute top-2 right-2 bg-red-500 text-white text-xs font-bold px-2 py-1 rounded-lg shadow"
+                v-for="item in posStore.listItems"
+                :key="item.id"
+                class="relative flex flex-col justify-between w-full h-56 rounded-2xl shadow-md hover:shadow-lg hover:scale-105 transition-transform cursor-pointer overflow-hidden"
+                :style="{ backgroundImage: `url(${item.itemImage || 'https://via.placeholder.com/600x400?text=No+Image'})`, backgroundSize: 'cover', backgroundPosition: 'center' }"
             >
-              -₨{{ item.discount?.toLocaleString('en-LK', { minimumFractionDigits: 2 }) }}
-            </div>
+                <!-- Discount Badge -->
+                <div 
+                    v-if="item.discount"
+                    class="absolute top-2 right-2 bg-red-500 text-white text-xs font-bold px-2 py-1 rounded-lg shadow"
+                >
+                -₨{{ item.discount?.toLocaleString('en-LK', { minimumFractionDigits: 2 }) }}
+                </div>
 
-            <!-- Overlay -->
-            <div class="absolute bottom-0 left-0 right-0 h-20 bg-gradient-to-t from-white via-white/80 to-transparent"></div>
+                <!-- Overlay -->
+                <div class="absolute bottom-0 left-0 right-0 h-28 bg-gradient-to-t from-white via-white/80 to-transparent"></div>
 
-            <!-- Product Info -->
-            <div class="relative z-0 w-full text-center p-1">
-              <div class="text-base font-semibold text-black truncate">{{ item.itemName }}</div>
-              <div class="text-base font-semibold text-gray-800">
-                ₨{{ (item.price - item.discount)?.toLocaleString('en-LK', { minimumFractionDigits: 2 }) }}
-              </div>
+                <!-- Product Info -->
+                <div class="relative z-10 w-full text-center p-2 bg-gradient-to-t from-white via-white/80 to-transparent absolute bottom-0 left-0 right-0 ">
+                    <div class="text-base font-semibold text-black truncate">{{ item.itemName }}</div>
+                    <div class="text-base font-semibold text-gray-800">
+                        ₨{{ (item.price - item.discount)?.toLocaleString('en-LK', { minimumFractionDigits: 2 }) }}
+                    </div>
+                </div>
+
+                <!-- Two Small Buttons (Stacked) -->
+                <div class="relative z-10 flex flex-col items-center gap-1 pb-2 mt-auto">
+                <button
+                    @click.stop="addToCart(item)"
+                    class="w-20 text-white text-xs px-2 py-1 rounded-full shadow hover:scale-105 transition"
+                    style="background-color: #7B5B3A;"
+                >
+                    Order
+                </button>
+                <button
+                    @click.stop="viewVideo(item)"
+                    class="w-20 text-white text-xs px-2 py-1 rounded-full shadow hover:scale-105 transition"
+                    style="background-color: #4B3D3A;"
+                    >
+                    View Video
+                </button>
+                <!-- Modal -->
+                <div v-if="showVideo" class="fixed inset-0 flex items-center justify-center bg-black/70">
+                <div class="bg-white rounded-lg shadow-lg p-4 w-3/4 md:w-1/2 relative">
+                    <button @click="showVideo = false" class="absolute top-2 right-2 text-gray-600">✖</button>
+                    <iframe
+                    :src="videoUrl"
+                    class="w-full h-64 md:h-96 rounded-lg"
+                    frameborder="0"
+                    allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                    allowfullscreen
+                    ></iframe>
+                </div>
+                </div>
+
+                </div>
             </div>
-          </div>
         </div>
+
 
 
 
@@ -364,7 +381,7 @@
 
 
 <script>
-import headerdd from "~/components/pos/header.vue";
+import headerdd from "~/components/pos/cafeHeader.vue";
 import CashMethod from "~/components/pos/payment/cash.vue";
 import invoice from "~/components/pos/invoice.vue";
 import { useUserStore } from "~/stores/modules/userStore";
@@ -396,6 +413,9 @@ export default {
 
       holdItem: null,
        posStore: null,
+
+          showVideo: false,
+      videoUrl: "https://www.youtube.com/watch?v=3FBp_Tlgefk"
     };
   },
 
@@ -482,6 +502,16 @@ export default {
         document.exitFullscreen().then(() => {
           this.isFullScreen = false;
         });
+      }
+    },
+
+    viewVideo(item) {
+      if (item.videoUrl) {
+        // make sure it's in embed format
+        this.videoUrl = item.videoUrl.replace("watch?v=", "embed/");
+        this.showVideo = true;
+      } else {
+        alert("No video available");
       }
     }
 

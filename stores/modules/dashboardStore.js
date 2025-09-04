@@ -1,10 +1,27 @@
+import { defineStore } from "pinia";
+import axios from "axios";
+import Swal from "sweetalert2";
 
-import { defineStore } from 'pinia';
-import Finance from '~/components/qms/dashboard/finance.vue';
 
 export const useDashboardStore  = defineStore('dashboard', {
   state: () => ({
     // hr
+
+    hrDashboardList: {
+      loggedUserName: "",
+      todayAttendance: {},
+      leaveBalance: {},
+      todayEmployeeSummary: {},
+      todayManagers: [],
+      upcommingBirthdays: [],
+      approvalStatus: {},
+      monthNoOfNoPays: {},
+      monthTotalOverTimes: {},
+      monthTotalLeave: {},
+      monthTotalMovement: {},
+      monthTotalRectification: {},
+      monthTotalWorkedHours: {}
+    },
      attendanceOverview: {
       totalEmployees: 50,
       present: 14,
@@ -85,4 +102,65 @@ export const useDashboardStore  = defineStore('dashboard', {
     },
 
   }),
+
+  actions: {
+
+  async hrDashboard(showLoading) {
+    // const loadingAlert = showLoading('') 
+
+    try {
+      const response = await axios.get(
+        `${import.meta.env.VITE_API_URL}/hr/HRCommon/GetEmployeeDashBoardDetails`
+      );
+
+      console.log('dassh:', response);
+
+      if (response.data.isSuccess) {
+        const hrData = response.data.data.data;
+
+
+        this.hrDashboardList = {
+          loggedUserName: hrData.loggedUserName,
+          todayAttendance: hrData.todayAttendance,
+          leaveBalance: hrData.leaveBalance,
+          todayEmployeeSummary: hrData.todayEmployeeSummary,
+          todayManagers: hrData.todayManagers,
+          upcommingBirthdays: hrData.upcommingBirthdays, 
+          approvalStatus: hrData.approvalStatus,
+          monthNoOfNoPays: hrData.monthNoOfNoPays,
+          monthTotalOverTimes: hrData.monthTotalOverTimes,
+          monthTotalLeave: hrData.monthTotalLeave,
+          monthTotalMovement: hrData.monthTotalMovement,
+          monthTotalRectification: hrData.monthTotalRectification,
+          monthTotalWorkedHours: hrData.monthTotalWorkedHours,
+        };
+      } else {
+        this.showToast(response.data.message, "error");
+      }
+    } catch (error) {
+      this.showToast("Failed to load Employee data", "error");
+      loadingAlert.close();
+    }
+  },
+
+
+   
+  
+
+  
+
+
+    async showToast(message, type) {
+      const Swal = (await import("sweetalert2")).default;
+      Swal.fire({
+        icon: type,
+        title: type,
+        text: message,
+        timer: 5000,
+        showConfirmButton: false,
+        toast: true,
+        position: "top-end",
+      });
+    },
+  }
 });
