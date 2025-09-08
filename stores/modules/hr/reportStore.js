@@ -146,7 +146,6 @@ export const useReportStore = defineStore("reportStore", {
     },
     arrSWA:[],
     initData: {
-      // initEmployee: {},
       initAbsence: {},
       initMovement: {},
       initReport: {},
@@ -247,16 +246,12 @@ export const useReportStore = defineStore("reportStore", {
             },
             responseType: 'blob' 
           }); 
-
-          // const response = await axios.get(
-          //   `${import.meta.env.VITE_API_URL}/hr/Report/GetRectificationReport`,{params: {empNo:req.empNo, dateFrom: req.dateFrom, dateTo:req.dateTo }},{ responseType: 'blob' });
             const blob = new Blob([response.data], { type: 'application/pdf' });
             const url = URL.createObjectURL(blob);
             window.open(url, '_blank');
 
-          console.log("response:", respurlnse);
+          console.log("response:", response);
           if (response.data.isSuccess) {
-            // this.absense.arrabsences = response.data.data.data.arrAbsences || [];
           } else {
             console.error("Loading error:", response.data.message);
             // this.showToast(response.data.message, 'error');
@@ -276,7 +271,8 @@ export const useReportStore = defineStore("reportStore", {
         const loadingAlert = showLoading("");
         try {
           const response = await axios.get(
-            `${import.meta.env.VITE_API_URL}/hr/Report/GetEmployeeLeave_AnnualReport`,{params: {departmentId:req.departmentId, year: req.year}},{ responseType: 'blob' });
+            `${import.meta.env.VITE_API_URL}/hr/Report/GetEmployeeLeave_AnnualReport`,{params: {departmentId:req.departmentId, year: req.year}, responseType: 'blob' });
+
             const blob = new Blob([response.data], { type: 'application/pdf' });
             const url = URL.createObjectURL(blob);
             window.open(url, '_blank');
@@ -328,11 +324,19 @@ export const useReportStore = defineStore("reportStore", {
 
         const loadingAlert = showLoading("");
         try {
+
           const response = await axios.get(
-            `${import.meta.env.VITE_API_URL}/hr/Report/GetNoPayMonthlyReport`,{params:{dateFrom: req.dateFrom, dateTo: req.dateTo}},{ responseType: 'blob' });
+            `${import.meta.env.VITE_API_URL}/hr/Report/GetNoPayMonthlyReport`,
+            {params: {
+              dateFrom: req.dateFrom, 
+              dateTo:req.dateTo 
+            },
+            responseType: 'blob' 
+          }); 
             const blob = new Blob([response.data], { type: 'application/pdf' });
             const url = URL.createObjectURL(blob);
             window.open(url, '_blank');
+
 
           console.log("response:", response);
           if (response.data.isSuccess) {
@@ -360,19 +364,6 @@ export const useReportStore = defineStore("reportStore", {
         toast: true,
         position: "top-end",
       });
-    },
-
-    async showToast(message, type) {
-        const Swal = (await import("sweetalert2")).default;
-        Swal.fire({
-        icon: type,
-        title: type,
-        text: message,
-        timer: 5000,
-        showConfirmButton: false,
-        toast: true,
-        position: "top-end",
-        });
     },
     },
 });

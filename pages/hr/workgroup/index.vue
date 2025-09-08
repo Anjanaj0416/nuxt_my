@@ -3,7 +3,6 @@
     <div class="flex justify-between px-2 lg:justify-start gap-x-4">
       <div class="font-bold">My Workgroup</div>
       <div class="flex items-center justify-center w-8 p-1 px-2 font-bold bg-green-400 rounded-full text-SID-green-600">
-        <!-- {{ totalJobs(hrStore.workgroup.arrJobCardDetails) }} -->
 
       </div>
 
@@ -25,7 +24,7 @@
 
     <div class="lb"></div>
     <div class="grid grid-cols-1 gap-4 p-4 mx-2 my-2 cssEmps lg:grid-cols-4">
-      <div v-for="aprovalCardDetail in hrStore.workgroup.arrJobCardDetails" :key="aprovalCardDetail" class="">
+      <div v-for="aprovalCardDetail in workLoadStore.workgroup.arrJobCardDetails" :key="aprovalCardDetail" class="">
         <div
           class="p-1 p-2 text-gray-800 border-gray-500 rounded rounded-md cursor-pointer bg-gradient-to-r from-blue-900 to-blue-800 text-md">
           <div class="flex justify-between mb-2">
@@ -88,8 +87,10 @@
 <script>
 import Approvalcard from '~/components/hr/Approvalcard'
 // import * as myfilter from '@/plugins/myfilter'
+
 import { useUserStore } from '~/stores/modules/userStore'
-import { useHrStore } from '~/stores/modules/hrStore'
+import { useWorkLoadStore } from '~/stores/modules/hr/workLoadStore'
+
 import * as Global from '@/assets/js/Global'
 
 export default {
@@ -106,14 +107,13 @@ export default {
       cur_aproval_id: -1,
       comment: '',
       showLoading: null,
-      hrStore: null,
       userStore: null,
     }
   },
 
   async created() {
     this.userStore = useUserStore();
-    this.hrStore = useHrStore();
+    this.workLoadStore = useWorkLoadStore();
     this.showLoading = this.$showLoading;
   },
   computed: {
@@ -176,7 +176,7 @@ export default {
   },
   async beforeMount() {
     if (this.userStore.loggedUser.userGroup === 'Supervisor') {
-      await this.hrStore.getWorkLoadDetails(this.showLoading);
+      await this.workLoadStore.getWorkLoadDetails(this.showLoading);
     } else {
       this.showMessage({
         type: 'Failed',
@@ -191,12 +191,11 @@ export default {
       //this.viewed_jobs = []
       let index = this.viewed_jobs.find((ind) => ind.jobId == jobId)
       this.viewed_jobs.splice(index, 1)
-      // await this.hrStore.getWorkLoadDetails(this.showLoading);
     },
 
     async getRefreshWorkGroup(jobId) {
       this.viewed_jobs = []
-      await this.hrStore.getWorkLoadDetails(this.showLoading);
+      await this.workLoadStore.getWorkLoadDetails(this.showLoading);
     },
 
     // FindTest(job_id){

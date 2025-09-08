@@ -226,7 +226,6 @@
 </template>
 
 <script>
-import { useHrStore } from '~/stores/modules/hrStore';
 
 export default {
     props: ["dayInfo"],
@@ -234,12 +233,10 @@ export default {
     data() {
         return {
             showLoading: null,
-            hrStore: null,
         }
     },
 
     async created() {
-        this.hrStore = useHrStore();
         this.showLoading = this.$showLoading;
     },
 

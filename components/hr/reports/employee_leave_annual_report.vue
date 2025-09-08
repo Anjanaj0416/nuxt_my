@@ -8,7 +8,7 @@
                     <label class="block mb-1 font-medium">Department</label>
                     <div class="relative">
                         <selectinput2 v-model="selectedDepartment"
-                            :selections="hrStore.initData.initReport.listDepartments" :isReport=true
+                            :selections="reportStore.initData.initReport.listDepartments" :isReport=true
                             placeholder="Select Department" @change="logSelectedDates"
                             class=" text-gray-900 text-sm focus:ring-indigo-500 focus:border-indigo-500" />
                     </div>
@@ -16,7 +16,7 @@
                 <div>
                     <label class="block mb-1 font-medium">Year</label>
                     <div class="relative">
-                        <selectinput2 v-model="selectedYear" :selections="hrStore.initData.initReport.listYears"
+                        <selectinput2 v-model="selectedYear" :selections="reportStore.initData.initReport.listYears"
                             placeholder="Select Employee" @change="logSelectedDates"
                             class=" text-gray-900 text-sm focus:ring-indigo-500 focus:border-indigo-500" />
                     </div>
@@ -32,9 +32,9 @@
 
 
 <script>
-import { useHrStore } from "~/stores/modules/hrStore";
 
 import selectinput2 from "~/components/customcontrol/selectinput2";
+import { useReportStore } from "~/stores/modules/hr/reportStore";
 
 definePageMeta({
     layout: 'default',
@@ -59,10 +59,10 @@ export default {
 
     },
     async created() {
-        this.hrStore = useHrStore();
+        this.reportStore = useReportStore();
         this.showLoading = this.$showLoading;
 
-        await this.hrStore.getReportInitData();
+        await this.reportStore.getReportInitData();
 
     },
     watch: {},
@@ -79,7 +79,7 @@ export default {
                 departmentId: this.selectedDepartment,
                 year: this.selectedYear,
             };
-            await this.hrStore.getEmployeeLeaveAnnualReport(req, this.$showLoading);
+            await this.reportStore.getEmployeeLeaveAnnualReport(req, this.$showLoading);
         }
 
     },

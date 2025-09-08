@@ -113,7 +113,7 @@ export const useDashboardStore  = defineStore('dashboard', {
         `${import.meta.env.VITE_API_URL}/hr/HRCommon/GetEmployeeDashBoardDetails`
       );
 
-      console.log('dassh:', response);
+      console.log('response:', response);
 
       if (response.data.isSuccess) {
         const hrData = response.data.data.data;

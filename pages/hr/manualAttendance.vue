@@ -8,7 +8,7 @@
             <div class="relative">
               <selectinput2
                 v-model="selectedEmployee"
-                :selections="hrStore.initData.initReport.arrEmp"
+                :selections="reportStore.initData.initReport.arrEmp"
                 :isReport=true
                 @change="logSelectedDates"
                 placeholder="Select Employee"
@@ -64,7 +64,7 @@
       </div>
 
 
-      <div v-if="Object.keys(hrStore.attendence.manualAttendance).length !== 0" class="bg-white p-6 rounded shadow border mt-6">
+      <div v-if="Object.keys(attendanceStore.attendence.manualAttendance).length !== 0" class="bg-white p-6 rounded shadow border mt-6">
         <h2 class="text-lg font-semibold mb-4">Attendance</h2>
         <div class="grid grid-cols-1 lg:grid-cols-4">
           <div>Date</div>
@@ -74,10 +74,10 @@
         </div>
 
         <div class="grid grid-cols-1 lg:grid-cols-4 mt-2 bg-gray-300 p-2">
-          <div>{{hrStore.attendence.manualAttendance.date}}</div>
-          <div>{{hrStore.attendence.manualAttendance.employee}}</div>
-          <div>{{hrStore.attendence.manualAttendance.inTime}}</div>
-          <div>{{hrStore.attendence.manualAttendance.outTime}}</div>
+          <div>{{attendanceStore.attendence.manualAttendance.date}}</div>
+          <div>{{attendanceStore.attendence.manualAttendance.employee}}</div>
+          <div>{{attendanceStore.attendence.manualAttendance.inTime}}</div>
+          <div>{{attendanceStore.attendence.manualAttendance.outTime}}</div>
         </div>
         <!-- <ul class="space-y-4 text-gray-800 text-sm">
             <li v-if="selectedEmployee">Employee: <strong>{{ selectedEmployee }}</strong></li>
@@ -99,13 +99,15 @@
   
   <script>
 
- import { useUserStore } from "~/stores/modules/userStore";
-import { useHrStore } from "~/stores/modules/hrStore";
- 
- import LinkBtn from "~/components/customcontrol/Link";
-  import Button from "~/components/customcontrol/Button";
-  import selectinput2 from "~/components/customcontrol/selectinput2";
-  import SearchInput from '~/components/customcontrol/SearchInput.vue';
+import { useUserStore } from "~/stores/modules/userStore";
+import { useAttendanceStore } from "~/stores/modules/hr/attendanceStore";
+import { useReportStore } from "~/stores/modules/hr/reportStore";
+
+import LinkBtn from "~/components/customcontrol/Link";
+import Button from "~/components/customcontrol/Button";
+import selectinput2 from "~/components/customcontrol/selectinput2";
+import SearchInput from '~/components/customcontrol/SearchInput.vue';
+
 
  definePageMeta({
     layout: 'default',   
@@ -133,12 +135,12 @@ import { useHrStore } from "~/stores/modules/hrStore";
     },
 
     async created() {
-      this.hrStore = useHrStore();
-      this.userStore = useUserStore();
+      this.reportStore = useReportStore();
+      this.attendanceStore = useAttendanceStore();
       this.showLoading = this.$showLoading;
       this.imageroot = this.userStore.loggedUser.resourceURLRoot;
 
-      await this.hrStore.getReportInitData();
+      await this.reportStore.getReportInitData();
     },
     watch: {
       selectedTimeType(newVal) {
@@ -166,7 +168,7 @@ import { useHrStore } from "~/stores/modules/hrStore";
               outTime: this.selectedOutTime,
               dayType: -1,
             };
-            await this.hrStore.setManualAttendenceRecord(req, this.$showLoading);
+            await this.attendanceStore.setManualAttendenceRecord(req, this.$showLoading);
 
             await this.cleaAll();
             }

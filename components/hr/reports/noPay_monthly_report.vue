@@ -41,9 +41,8 @@
 
 <script>
 
-import { useHrStore } from "~/stores/modules/hrStore";
-
 import selectinput2 from "~/components/customcontrol/selectinput2";
+import { useReportStore } from "~/stores/modules/hr/reportStore";
 
 definePageMeta({
     layout: 'default',
@@ -69,10 +68,10 @@ export default {
 
     },
     async created() {
-        this.hrStore = useHrStore();
+        this.reportStore = useReportStore();
         this.showLoading = this.$showLoading;
 
-        await this.hrStore.getReportInitData();
+        await this.reportStore.getReportInitData();
 
     },
     watch: {},
@@ -89,7 +88,7 @@ export default {
                 dateFrom: this.selectedFromDate,
                 dateTo: this.selectedToDate,
             };
-            await this.hrStore.getNoPayMonthlyReport(req, this.$showLoading);
+            await this.reportStore.getNoPayMonthlyReport(req, this.$showLoading);
         }
     },
 

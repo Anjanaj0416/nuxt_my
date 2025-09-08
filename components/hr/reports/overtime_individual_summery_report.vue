@@ -7,7 +7,7 @@
             <label class="block mb-1 font-medium">Employee</label>
             <selectinput2
               v-model="selectedEmployee"
-              :selections="hrStore.initData.initReport.arrEmp"
+              :selections="reportStore.initData.initReport.arrEmp"
               :isReport=true
               @change="logSelectedDates"
               placeholder="Select Employee"
@@ -29,7 +29,7 @@
             <div class="relative">
               <selectinput2
                 v-model="selectedYear"
-                :selections="hrStore.initData.initReport.listYears"
+                :selections="reportStore.initData.initReport.listYears"
                 placeholder="Select Employee"
                 @change="logSelectedDates"
                 class=" text-gray-900 text-sm focus:ring-indigo-500 focus:border-indigo-500"
@@ -49,7 +49,7 @@
             <div class="relative">
               <selectinput2
                 v-model="selectedMonth"
-                :selections="hrStore.initData.initReport.listMonths"
+                :selections="reportStore.initData.initReport.listMonths"
                 :isReport=true
                 placeholder="Select Employee"
                 @change="logSelectedDates"
@@ -118,12 +118,12 @@
   <script>
 
 import { useUserStore } from "~/stores/modules/userStore";
-import { useHrStore } from "~/stores/modules/hrStore";
- 
- import LinkBtn from "~/components/customcontrol/Link";
-  import Button from "~/components/customcontrol/Button";
-  import selectinput2 from "~/components/customcontrol/selectinput2";
-  import SearchInput from '~/components/customcontrol/SearchInput.vue';
+import { useReportStore } from "~/stores/modules/hr/reportStore";
+
+import LinkBtn from "~/components/customcontrol/Link";
+import Button from "~/components/customcontrol/Button";
+import selectinput2 from "~/components/customcontrol/selectinput2";
+import SearchInput from '~/components/customcontrol/SearchInput.vue';
 
  definePageMeta({
     layout: 'default',   
@@ -164,12 +164,12 @@ import { useHrStore } from "~/stores/modules/hrStore";
      
     },
     async created() {
-      this.hrStore = useHrStore();
+      this.reportStore = useReportStore();
       this.userStore = useUserStore();
       this.showLoading = this.$showLoading;
       this.imageroot = this.userStore.loggedUser.resourceURLRoot;
 
-      await this.hrStore.getReportInitData();
+      await this.reportStore.getReportInitData();
 
     },
     watch: {},
@@ -187,7 +187,7 @@ import { useHrStore } from "~/stores/modules/hrStore";
           Year: this.selectedYear,
           Month: this.selectedMonth,
         };
-        await this.hrStore.getOTPeriodSummeryIndividual(req, this.$showLoading);
+        await this.reportStore.getOTPeriodSummeryIndividual(req, this.$showLoading);
       }
    
       //this.$showToast('Login successful!', 'success'); //success ,error ,warning,info
