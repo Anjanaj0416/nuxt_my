@@ -32,12 +32,23 @@
             <img src="https://via.placeholder.com/120x40" alt="Logo" class="h-10 w-auto" />
           </div>
 
+          
+
+
           <!-- User Section -->
           <div class="relative flex items-center ml-3">
+            <button   @click="isPayment = true" type="button" class="relative mx-8 inline-flex items-center p-3 text-sm font-medium text-center text-white bg-blue-700 rounded-lg hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800">
+              <svg class="w-5 h-5 mr-2" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 3h2l.4 2M7 13h10l4-8H5.4M7 13l-1.35 2.7a1 1 0 0 0 .9 1.5h12.7M7 13L5.4 5M16 21a2 2 0 1 0 0-4 2 2 0 0 0 0 4zm-8 0a2 2 0 1 0 0-4 2 2 0 0 0 0 4z"/>
+              </svg>
+              <span class="sr-only">Notifications</span>
+              <div class="absolute inline-flex items-center justify-center w-6 h-6 text-xs font-bold text-white bg-red-500 border-2 border-white rounded-full -top-2 -end-2 dark:border-gray-900">20</div>
+            </button>
+            
             <!-- User Info -->
             <span class="ml-2 uppercase">
-              John Doe<br />
-              <span class="text-xs lowercase">johndoe</span>
+              {{ userStore.loggedUser.name }}<br />
+              <!-- <span class="text-xs lowercase">johndoe</span> -->
             </span>
 
             <!-- Avatar -->
@@ -46,11 +57,9 @@
                 @click="isDropdownOpen = !isDropdownOpen"
                 class="relative flex items-center justify-center w-10 h-10 ml-3 rounded-full focus:outline-none"
               >
-                <img
-                  class="w-10 h-10 rounded-full border-2 border-white"
-                  src="https://via.placeholder.com/150"
-                  alt="Profile"
-                />
+                <img class="w-8 h-8 rounded-full"
+                  v-if="userStore.loggedUser.resourceURLRoot && userStore.loggedUser.image"
+                  :src="userStore.loggedUser.resourceURLRoot + userStore.loggedUser.image" alt="Profile" />
               </button>
 
               <!-- Dropdown -->
@@ -59,13 +68,15 @@
                 class="absolute right-0 z-10 w-48 py-1 mt-2 origin-top-right bg-white rounded-md shadow-lg ring-1 ring-black/5 text-gray-800"
               >
                 <button
-                  @click="openProfile"
+                  @click="GoToProfile"
                   class="block w-full text-left px-4 py-2 text-sm hover:bg-gray-100"
                 >
                   Your Profile
                 </button>
                 <a href="#" class="block px-4 py-2 text-sm hover:bg-gray-100">Settings</a>
-                <a href="/user/login" class="block px-4 py-2 text-sm hover:bg-gray-100">Sign out</a>
+                <a href="/user/login" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100">
+                  Sign out
+                </a>
               </div>
             </div>
           </div>
@@ -73,58 +84,53 @@
       </div>
     </div>
 
-    <!-- Profile Modal -->
-    <div
-      v-if="isProfile"
-      class="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50 z-50"
-    >
-      <div class="bg-white rounded-lg shadow-lg w-96 p-6">
-        <h2 class="text-xl font-bold mb-4">User Profile</h2>
-        <div class="flex items-center space-x-4">
-          <img
-            class="w-16 h-16 rounded-full"
-            src="https://via.placeholder.com/150"
-            alt="Profile"
-          />
-          <div>
-            <p class="font-semibold">John Doe</p>
-            <p class="text-sm text-gray-600">johndoe</p>
-          </div>
-        </div>
-        <div class="mt-4">
-          <p class="text-gray-700"><strong>Email:</strong> john@example.com</p>
-          <p class="text-gray-700"><strong>Role:</strong> Admin</p>
-        </div>
-        <div class="flex justify-end mt-6">
-          <button
-            @click="isProfile = false"
-            class="px-4 py-2 text-white bg-indigo-600 rounded hover:bg-indigo-700"
-          >
-            Close
-          </button>
-        </div>
-      </div>
-    </div>
+    <profile v-if="isProfile" :profile="profileData" @close="isProfile = !isProfile" />
+
+    <HoldPayment v-if="isPayment" @close="isPayment = !isPayment" />
+
   </section>
 </template>
 
 <script>
 import Sidebar from './sidemenu.vue';
+import { useUserStore } from "~/stores/modules/userStore";
+import profile from "~/pages/user/profile.vue";
+import HoldPayment from './holdPayment.vue';
+
 
 export default {
-  components: { Sidebar },
+  components: { Sidebar,profile,HoldPayment },
   data() {
     return {
       isSidebarOpen: false,
       isDropdownOpen: false,
       isProfile: false,
+      isPayment: false,
+      userStore: null,
+      profileData: null,
     };
   },
+  async created() {
+    this.userStore = useUserStore();    
+    this.showLoading = this.$showLoading;
+
+
+  },
   methods: {
-    openProfile() {
-      this.isProfile = true;
-      this.isDropdownOpen = false;
-    },
+    async GoToProfile() {
+      try {
+        const response = await this.userStore.fetchProfileData(this.userStore.loggedUser.id, this.$showLoading);
+        if (response && response.data) {
+          this.profileData = response.data.data;
+          this.profileData.loggedUserId = this.userStore.loggedUser.id;
+          this.isProfile = true;
+          this.isDropdownOpen = false;
+        }
+        console.log('profileData:', this.profileData);
+      } catch (err) {
+        console.error("Error in GoToProfile:", err);
+      }
+    }
   },
 };
 </script>

@@ -1,33 +1,30 @@
 <template>
   <div class="flex min-h-screen bg-gray-50">
-    <Sidebar />
+    <!-- <Sidebar /> -->
     <div class="flex-1 flex flex-col">
-      <Navbar />
+      <!-- <Navbar /> -->
 
       <section class="px-4 py-8 mt-20 lg:px-24">
         <!-- <h1 class="text-2xl font-bold mb-4">Dashboard</h1> -->
-
         <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-          
-
-            <div class="relative overflow-hidden rounded-2xl p-6 text-white shadow-lg bg-gradient-to-r from-indigo-600 to-blue-500">
-              <img
-                :src="backgroundImage"
-                class="absolute inset-0 object-cover w-full h-full opacity-20"
-                alt="Greeting Background"
-              />
-              <div class="">
-                <h1 class="text-3xl font-bold mb-2">Hi, {{ userStore.loggedUser.name }}</h1>
-                <h2 class="text-lg">{{ greetingMessage }} </h2>
-                <div v-if="weatherInfo" class="mt-4 bg-white/10 backdrop-blur-sm p-4 rounded-lg text-sm text-white/90 shadow ring-1 ring-white/10">
-                  📍 <strong>{{ weatherInfo.locationName }}</strong><br>
-                  🌡️ {{ weatherInfo.temp }}°C — {{ weatherInfo.description }}
-                </div>
-                <div v-if="locationError" class="text-sm text-red-400">
-                  ⚠️ {{ locationError }}
-                </div>
+          <div class="relative overflow-hidden rounded-2xl p-6 text-white shadow-lg bg-gradient-to-r from-indigo-600 to-blue-500">
+            <img
+              :src="backgroundImage"
+              class="absolute inset-0 object-cover w-full h-full opacity-20"
+              alt="Greeting Background"
+            />
+            <div class="">
+              <h1 class="text-3xl font-bold mb-2">Hi, {{ userStore.loggedUser.name }}</h1>
+              <h2 class="text-lg">{{ greetingMessage }} </h2>
+              <div v-if="weatherInfo" class="mt-4 bg-white/10 backdrop-blur-sm p-4 rounded-lg text-sm text-white/90 shadow ring-1 ring-white/10">
+                📍 <strong>{{ weatherInfo.locationName }}</strong><br>
+                🌡️ {{ weatherInfo.temp }}°C — {{ weatherInfo.description }}
+              </div>
+              <div v-if="locationError" class="text-sm text-red-400">
+                ⚠️ {{ locationError }}
               </div>
             </div>
+          </div>
           <!-- Attendance Card -->
           <div
             class="bg-gradient-to-br from-blue-50 to-white border border-blue-200 p-6 rounded-2xl shadow-md hover:shadow-lg transition-all duration-300 w-full max-w-md mx-auto"
@@ -105,62 +102,38 @@
               </p>
             </div>
           </div>
-
           <!-- Leave Balance Card -->
-          <div class="bg-gradient-to-br from-blue-50 to-white border border-blue-200 p-6 rounded-2xl shadow-md hover:shadow-lg transition-all duration-300">
-            <div class="flex items-center gap-3 mb-6">
-              <!-- <div class="bg-blue-100 p-2 rounded-full">
-                <svg class="w-6 h-6 text-blue-600" fill="none" stroke="currentColor" stroke-width="2"
-                  viewBox="0 0 24 24">
-                  <path stroke-linecap="round" stroke-linejoin="round"
-                    d="M8 7V3m8 4V3M3 11h18M5 19h14a2 2 0 002-2v-5H3v5a2 2 0 002 2z" />
-                </svg>
-              </div> -->
-              <h2 class="text-xl font-semibold text-gray-800">Leave Balance</h2>
+          <div class="border border-blue-200 p-4 rounded-2xl shadow-md hover:shadow-lg transition-all duration-300">
+            <div class="flex items-center gap-2 mb-4">
+              <h2 class="text-xl font-bold text-gray-800">{{ userStore.loggedUser.name }} Leave Balance</h2>
             </div>
-
-            <!-- Grid for 3 columns -->
-            <div class="grid grid-cols-1 sm:grid-cols-3 gap-4">
-              <!-- Casual Leave -->
-              <div class="p-2 bg-white border border-gray-200 rounded-lg shadow-sm text-center">
-                <h3 class="text-sm font-semibold text-gray-700 mb-1">Available Casual</h3>
-                <p class="text-2xl font-bold text-indigo-700">14</p>
-                <span class="inline-block mt-2 px-3 py-0.5 text-xs font-medium bg-blue-100 text-blue-700 rounded-full">
-                  Full Balance: <span class="font-semibold text-gray-700">24</span>
-                </span>
-              </div>
-
+            <div class="grid grid-cols-2 sm:grid-cols-3 gap-3">
               <!-- Annual Leave -->
-              <div class="p-2 bg-white border border-gray-200 rounded-lg shadow-sm text-center">
-                <h3 class="text-sm font-semibold text-gray-700 mb-1">Available Annual</h3>
-                <p class="text-2xl font-bold text-indigo-700">12</p>
-                <span class="inline-block mt-2 px-3 py-0.5 text-xs font-medium bg-blue-100 text-blue-700 rounded-full">
-                  Full Balance: <span class="font-semibold text-gray-700">24</span>
-                </span>
+              <div class="p-3 bg-white border border-gray-200 rounded-xl shadow-sm text-center hover:shadow-md transition">
+                <h3 class="font-semibold text-gray-600 mb-1">Annual</h3>
+                <p class="text-2xl font-extrabold text-blue-800">{{ dashboardStore.hrDashboardList.leaveBalance.annualBalance }}</p>
+                <p class="text-[15px] text-gray-500">of {{ dashboardStore.hrDashboardList.leaveBalance.annualEntitle }}</p>
               </div>
-
+              <!-- Casual Leave -->
+              <div class="p-3 bg-white border border-gray-200 rounded-xl shadow-sm text-center hover:shadow-md transition">
+                <h3 class="font-semibold text-gray-600 mb-1">Casual</h3>
+                <p class="text-2xl font-extrabold text-blue-800">{{ dashboardStore.hrDashboardList.leaveBalance.casualBalance }}</p>
+                <p class="text-[15px] text-gray-500">of {{ dashboardStore.hrDashboardList.leaveBalance.casualEntitle }}</p>
+              </div>
               <!-- Medical Leave -->
-              <div class="p-2 bg-white border border-gray-200 rounded-lg shadow-sm text-center">
-                <h3 class="text-sm font-semibold text-gray-700 mb-1">Available Medical</h3>
-                <p class="text-2xl font-bold text-indigo-700">7</p>
-                <span class="inline-block mt-2 px-3 py-0.5 text-xs font-medium bg-blue-100 text-blue-700 rounded-full">
-                  Full Balance: <span class="font-semibold text-gray-700">24</span>
-                </span>
+              <div class="p-3 bg-white border border-gray-200 rounded-xl shadow-sm text-center hover:shadow-md transition">
+                <h3 class="font-semibold text-gray-600 mb-1">Sick</h3>
+                <p class="text-2xl font-extrabold text-blue-800">{{ dashboardStore.hrDashboardList.leaveBalance.sickBalance }}</p>
+                <p class="text-[15px] text-gray-500">of {{ dashboardStore.hrDashboardList.leaveBalance.sickEntitle }}</p>
               </div>
             </div>
           </div>
-
-
-     
         </div>
         <div class="mt-6" v-if="userStore.loggedUser.userGroup === 'HRAdmin'">
           <hrDash />
         </div>
         <div class="mt-6" v-if="userStore.loggedUser.userGroup === 'Supervisor'">
           <supervisor/>
-          <!-- <financeDash /> -->
-          <!-- <hrDash /> -->
-           <!-- <saleDash/> -->
         </div>
         <div class="mt-6" v-if="userStore.loggedUser.userGroup === 'Freelance'">
           <freelance/>
@@ -178,9 +151,7 @@
           <saleDash/>
         </div>
 
-
-        
-     <!-- {{ userStore.loggedUser.userGroup }} -->
+      <!-- {{ userStore.loggedUser.userGroup }} -->
 
       </section>
     </div>
@@ -201,6 +172,8 @@ import saleDash from '~/components/qms/dashboard/sales.vue'
 import supervisor from '~/components/qms/dashboard/supervisor.vue'
 import freelance from '~/components/qms/dashboard/freelance.vue'
 import { useUserStore } from '~/stores/modules/userStore';
+import { useDashboardStore  } from "~/stores/modules/dashboardStore";
+
 import { ref, computed, onMounted } from 'vue'
 
 
@@ -244,7 +217,13 @@ export default {
     };
   },
   async created() {
-    this.userStore = useUserStore();
+      this.dashboardStore  = useDashboardStore();
+      this.userStore = useUserStore();
+      this.showLoading = this.$showLoading;
+      this.imageroot = this.userStore.loggedUser.resourceURLRoot;
+
+      await this.dashboardStore.hrDashboard(this.showLoading);
+      this.dashboardList = this.dashboardStore.hrDashboardList;
   },
   mounted() {
     this.timer = setInterval(() => {
