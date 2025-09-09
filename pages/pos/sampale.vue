@@ -77,9 +77,29 @@
           </div>
         </div>
       </div>
+      <!-- sub catogory mobile-->
+      <div class="flex flex-row gap-2 overflow-x-auto py-4 px-2 scrollbar-track-gray-200 md:hidden lg:hidden">
+        <button
+          v-for="subcat in posStore.listSubCategories"
+          :key="subcat.id"
+          @click="selectSubCategory(subcat.id)" 
+          :class="[ 
+            'flex items-center gap-2 flex-shrink-0 px-3 py-1.5 rounded-full shadow-lg hover:scale-105 transition text-white',
+            selectedCategory === subcat.id ? 'bg-green-600' : 'bg-green-500'
+          ]"
+        >
+          <img
+            :src="subcat.imageUrl"
+            alt="Image"
+            class="w-6 h-6 object-contain"
+          />
+          <span>{{ subcat.value }}</span>
+        </button>
+      </div>
+
       <div class="flex h-[calc(100vh-8rem)] gap-4 mt-2 px-2">
         <!-- sub catogory -->
-        <div class="w-24 bg-gray-100 p-2 rounded-lg overflow-y-auto">
+        <div class="w-24 bg-gray-100 p-2 rounded-lg overflow-y-auto hidden sm:block">
           <div class="flex flex-col gap-2">
             <button
               v-for="subcat in posStore.listSubCategories"
@@ -122,16 +142,13 @@
                   d="M2.458 12C3.732 7.943 7.523 5 12 5c4.477 0 8.268 2.943 9.542 7-1.274 4.057-5.065 7-9.542 7-4.477 0-8.268-2.943-9.542-7z" />
               </svg>
             </button>
-
             <div 
               v-if="item.discount"
               class="absolute top-2 left-2 bg-red-500 text-white text-xs font-bold px-2 py-1 rounded-lg shadow"
             >
               -₨{{ item.discount?.toLocaleString('en-LK', { minimumFractionDigits: 2 }) }}
             </div>
-
             <div class="absolute bottom-0 left-0 right-0 h-20 bg-gradient-to-t from-white via-white/80 to-transparent"></div>
-
             <div class="relative z-0 w-full text-center p-1">
               <div class="text-base font-semibold text-black truncate">{{ item.itemName }}</div>
               <div class="text-base font-semibold text-gray-800">
@@ -143,14 +160,12 @@
 
         <!-- Cart -->
         <div class="w-96 bg-white border border-gray-200 shadow-xl rounded-2xl flex flex-col hidden lg:flex">
-          <!-- Header -->
           <div class="px-4 py-3 border-b border-gray-200 flex justify-between items-center">
             <h2 class="text-lg font-bold text-gray-800">🛒 Selected Items</h2>
             <span class="bg-green-100 text-green-700 px-3 py-1 rounded-full text-xs font-semibold">
               {{ cart.length }} Items
             </span>
           </div>
-
           <!-- Items List -->
           <div class="flex-1 overflow-y-auto max-h-[55vh]">
             <div class="space-y-4 p-4">
@@ -271,7 +286,7 @@
       <!--  Cart Button (Mobile only) -->
       <button
         @click="showCartModal = true"
-        class="lg:hidden fixed bottom-4 right-4 bg-[#5bb450] text-white px-5 py-3 rounded-full shadow-xl flex items-center gap-2"
+        class="lg:hidden fixed bottom-4 right-4 bg-green-500 text-white px-5 py-3 rounded-full shadow-xl flex items-center gap-2"
       >
         <span class="font-bold text-sm">₨{{ grandTotal.toLocaleString('en-LK', { minimumFractionDigits: 2 }) }}</span>
         <span class="bg-white text-[#5bb450] font-bold px-2 py-0.5 rounded-full text-xs shadow">
@@ -392,24 +407,18 @@
             </div>
 
             <!-- Payment Buttons -->
-            <div class="grid grid-cols-3 gap-3">
-              <button
-                @click="handleCashClick('cash')"
-                class="bg-green-500 hover:bg-green-600 text-white py-2 rounded-lg font-semibold shadow-md"
+            <div class="grid grid-cols-2 gap-3">
+              <button 
+                @click="handleCashClick('cash')" 
+                class="bg-green-500 hover:bg-green-600 text-white py-2 rounded-xl font-semibold shadow-lg flex items-center justify-center gap-2 transition"
               >
-                💵 Cash
+                💵 Cash Pay
               </button>
-              <button
-                @click="handleCardClick('card')"
-                class="bg-blue-500 hover:bg-blue-600 text-white py-2 rounded-lg font-semibold shadow-md"
+              <button 
+                @click="handleCardClick('hold')" 
+                class="bg-green-500 hover:bg-green-600 text-white py-2 rounded-xl font-semibold shadow-lg flex items-center justify-center gap-2 transition"
               >
-                💳 Card
-              </button>
-              <button
-                @click="handleOtherClick('other')"
-                class="bg-yellow-500 hover:bg-yellow-600 text-white py-2 rounded-lg font-semibold shadow-md"
-              >
-                ⏸ Hold
+                ⏸ Hold Payment
               </button>
             </div>
           </div>
