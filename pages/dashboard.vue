@@ -1,12 +1,14 @@
 <template>
-  <div class="flex min-h-screen bg-gray-50">
+  <div class="flex min-h-screen ">
     <!-- <Sidebar /> -->
     <div class="flex-1 flex flex-col">
       <!-- <Navbar /> -->
 
       <section class="px-4 py-8 mt-20 lg:px-24">
         <!-- <h1 class="text-2xl font-bold mb-4">Dashboard</h1> -->
-        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 lg:gap-4">
+
+
           <div class="relative overflow-hidden rounded-2xl p-6 text-white shadow-lg bg-gradient-to-r from-indigo-600 to-blue-500">
             <img
               :src="backgroundImage"
@@ -129,6 +131,7 @@
             </div>
           </div>
         </div>
+        
         <div class="mt-6" v-if="userStore.loggedUser.userGroup === 'HRAdmin'">
           <hrDash />
         </div>

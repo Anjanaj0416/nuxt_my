@@ -24,7 +24,7 @@
             </div>
           </div>
 
-
+          
           <!-- {{ orderStore.listOrder }} -->
 
         <div class="max-h-[660px] overflow-y-auto space-y-4">
@@ -109,8 +109,31 @@
                   @click="handleProposalUploderClick(order.orderNo)"
                   class="text-sm  text-blue-600 hover:underline"
                 >
-                  upload proposal
+                  upload proposals
                 </button>
+              </div>
+
+
+              <div class="hidden sm:block w-px bg-gray-300 h-8"></div>
+
+              <div class="flex flex-col text-center sm:text-left">
+                <h1 class="text-xs font-medium text-gray-600">Final Proposal</h1>
+
+                <a
+                  :href="order.isScanedProposalUploaded ? imageroot + order.scanedProposalUrl : null"
+                  target="_blank"
+                  :class="[
+                    'text-sm px-2 py-1 rounded',
+                    order.isScanedProposalUploaded
+                      ? 'text-blue-600 hover:underline'
+                      : 'text-gray-400 pointer-events-none cursor-not-allowed'
+                  ]"
+                >
+                  view
+                </a>
+
+
+                
               </div>
 
 

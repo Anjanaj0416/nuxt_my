@@ -2,11 +2,11 @@
   <div>
     <div v-if="isOpen" class="fixed inset-0 z-30 bg-black bg-opacity-50" @click="$emit('close-sidebar')"></div>
     <aside :class="[
-      'fixed inset-y-0 left-0 z-40 w-64 bg-gray-800 text-white overflow-y-auto shadow-lg transform transition-transform duration-300 ease-in-out',
+      'fixed inset-y-0 left-0 z-40 w-64  bg-gradient-to-b from-blue-800 via-blue-900 to-blue-950  text-white overflow-y-auto shadow-lg transform transition-transform duration-300 ease-in-out',
       isOpen ? 'translate-x-0' : '-translate-x-full',
     ]" role="navigation" :aria-hidden="!isOpen">
       <!-- Top Navbar -->
-      <div class="flex items-center justify-between px-6 py-4 bg-gray-900 shadow-md">
+      <div class="flex items-center justify-between px-6 py-4 bg-blue-900 shadow-md">
         <!-- Logo -->
         <router-link to="/dashboard" class="flex items-center space-x-2">
           <!-- hide Img -->
@@ -23,7 +23,7 @@
         </button>
       </div>
       <!-- Subheader -->
-      <div class="flex items-center justify-between px-6 py-3 text-white bg-gradient-to-r from-gray-800 to-gray-700">
+      <div class="flex items-center justify-between px-6 py-3 text-white bg-gradient-to-r from-blue-800 to-gray-700">
         <h1 class="text-xl font-semibold tracking-wide">INTRANET</h1>
       </div>
 
