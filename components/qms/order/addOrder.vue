@@ -612,15 +612,15 @@ export default {
                   NoOfBanners: item.NoOfBanners,
                   NoOfLinks: item.NoOfLinks
                 }),
-                Installments: this.listInstallmentDetails.map((inst) => ({
-                  Fee: Number(inst.fee) || 0,
-                  Date: inst.date
-                }))
+                // Installments: this.listInstallmentDetails.map((inst) => ({
+                //   Fee: Number(inst.fee) || 0,
+                //   Date: inst.date
+                // }))
               }))
             };
 
             console.log("Payload to send:", JSON.stringify(payload, null, 2));
-            return
+           
             await this.orderStore.GetAddorder(payload, this.showLoading);
 
             // ✅ reset form after submit
@@ -672,10 +672,10 @@ export default {
         isValidated = false;
       }
       // Installment validation
-      if (!this.listInstallmentDetails || this.listInstallmentDetails.length === 0) {
-        this.err.installmentError = "Please add at least one installment!";
-        isValidated = false;
-      }
+      // if (!this.listInstallmentDetails || this.listInstallmentDetails.length === 0) {
+      //   this.err.installmentError = "Please add at least one installment!";
+      //   isValidated = false;
+      // }
       return isValidated;
     },
 

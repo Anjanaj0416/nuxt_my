@@ -6,9 +6,8 @@
         <h2 class="modal-title">Upload Proposal</h2>
         <button @click="closeModal" class="close-btn">&times;</button>
       </div>
-
-      {{ id }}
-
+<!-- {{ id }}
+{{ proposales.listVersions }} -->
       <!-- Modal Content -->
       <div class="modal-content space-y-6">
         <div class="flex justify-end">
@@ -31,14 +30,13 @@
 
         <!-- Final Proposal -->
         <div class="p-4 border rounded-lg shadow-sm bg-white">
-          <label class="block text-sm font-bold text-gray-700 mb-2">
-            Final Proposal Document
-          </label>
-
-          <!-- Existing final proposal -->
-          <div v-if="proposales.final && !editingFinal" class="flex items-center gap-2 mb-2">
+          <h3 class="font-bold text-gray-700 mb-4">Final Proposal Documents</h3>
+          <div 
+            v-if="proposales.final && proposales.final.quotationId !== '00000000-0000-0000-0000-000000000000' && !editingFinal" 
+            class="flex items-center gap-2 mb-2"
+          >
             <a 
-              :href="proposales.final" 
+              :href="proposales.final.url" 
               target="_blank"
               class="text-sm text-blue-600 underline hover:text-blue-800"
             >
@@ -52,28 +50,35 @@
             </button>
           </div>
 
-
-          <!-- File input for new or editing -->
-          <div v-else class="flex items-center gap-2 mb-2">
+          <div 
+            v-else 
+            class="flex items-center gap-2 mb-2"
+          >
             <input 
               type="file"
               ref="finalProposal"
               class="block w-full text-sm text-gray-900 border border-gray-300 rounded-lg cursor-pointer bg-white focus:outline-none"
-              @change="handleFinalProposal"
+              @change="handleUpdateFinalProposal"
             />
+            <div class="flex gap-2">
+              <button 
+                @click="updateFinalProposal"
+                class="px-2 py-1 text-xs text-white bg-blue-900 rounded hover:bg-blue-800"
+              >
+                Upload
+              </button>
+            </div>
             <div v-if="editingFinal" class="flex gap-2">
               <button 
-                @click="cancelEditFinal()"
+                @click="cancelEditFinal"
                 class="px-2 py-1 text-xs text-white bg-red-500 rounded hover:bg-red-600"
               >
                 Cancel
               </button>
             </div>
           </div>
-
-          <!-- Error message -->
-          <!-- <p v-if="err.approvedImage" class="mt-2 text-sm text-red-600">{{ err.approvedImage }}</p> -->
         </div>
+
 
 
 
@@ -91,32 +96,36 @@
           </div>
 
           <!-- Existing versions (view only) -->
-          <div v-for="(proposal, index) in proposales.versions" :key="'existing-'+index" 
+          <div v-for="(proposal, index) in proposales.listVersions" :key="'existing-'+index" 
               class="flex justify-between items-center mb-2 p-2 border rounded-lg bg-gray-50">
 
             <!-- Proposal Name -->
             <div class="flex items-center gap-2">
-              <span class="text-sm font-semibold text-gray-700">{{ proposal.name }}</span>
+              <span class="text-sm font-semibold text-gray-700">{{ proposal.versionName }}</span>
             </div>
 
-            <!-- Actions -->
             <div class="flex items-center gap-2">
-              <input 
-                v-if="proposal.editing"
-                type="file"
-                class="text-sm text-gray-900 border border-gray-300 rounded-lg cursor-pointer bg-white"
-                @change="updateExistingProposal($event, index)"
-              />
-              
               <template v-if="proposal.editing">
+                <input 
+                  type="file"
+                  @change="onEditProposalFileChange($event, index)"
+                  class="text-sm text-gray-900 border border-red-300 rounded-lg cursor-pointer bg-white"
+                />
                 <button 
                   @click="cancelEditProposal(index)"
                   class="px-2 py-1 text-xs text-white bg-red-500 rounded hover:bg-red-600 rounded-lg"
                 >
                   Cancel
                 </button>
+                <button 
+                  @click="updateOtherProposal(index)"
+                  class="px-2 py-1 text-xs text-white bg-blue-900 rounded hover:bg-blue-800 rounded-lg"
+                >
+                  Upload
+                </button>
               </template>
 
+              <!-- VIEW EXISTING PROPOSAL -->
               <template v-else>
                 <a 
                   :href="proposal.url"
@@ -136,18 +145,17 @@
             </div>
           </div>
 
-
           <!-- New uploads -->
           <div v-for="(file, index) in otherProposals" :key="'new-'+index" 
               class="flex items-center gap-2 mb-2 p-2 border rounded-lg bg-white shadow-sm">
             <span class="text-sm font-semibold text-gray-700">
-              Version {{ proposales.versions.length + index + 1 }}
+              Version {{ (proposales.listVersions?.length || 0) + index + 1 }}
             </span>
             
             <input 
               type="file"
               class="flex-1 text-sm text-gray-900 border border-gray-300 rounded-lg cursor-pointer bg-white"
-              @change="updateOtherProposal($event, index)"
+              @change="onEditProposalFileChange($event, index)"
             />
 
             <button 
@@ -156,7 +164,14 @@
             >
               ✕ Remove
             </button>
+            <button 
+              @click="updateOtherProposal(index)" 
+              class="px-2 py-1 text-xs font-medium text-white bg-blue-900 rounded-lg hover:bg-blue-800 transition"
+            >
+              Upload
+            </button>
           </div>
+
         </div>
 
       </div>
@@ -164,7 +179,7 @@
       <!-- Modal Footer -->
       <div class="modal-footer">
         <button @click="closeModal" class="cancel-button">Cancel</button>
-        <button @click="SetApprove" class="confirm-button">upload</button>
+        <!-- <button @click="SetApprove" class="confirm-button">upload</button> -->
       </div>
     </div>
   </div>
@@ -172,6 +187,7 @@
 
 <script>
 import { useOrderStore } from "~/stores/modules/orderStore";
+import { useUserStore } from "~/stores/modules/userStore";
 
 export default {
   props: ["id"],
@@ -183,15 +199,24 @@ export default {
       otherProposals: [], 
       err: { approvedImage: "" },
       editingFinal: false,
-      proposales:{
-        final: "",
-        versions: [
-          { name: "Version 1", url: "/assets/img/proposal-template-v1.pdf" },
-          { name: "Version 2", url: "/assets/img/proposal-template-v2.pdf" },
-        ]
+      editingOther: false,
+      proposales: {
+        final: {
+          quotationId: "00000000-0000-0000-0000-000000000000",
+          url: null
+        },
+        listVersions: []
       }
-       
     };
+  },
+  async created() {
+    this.userStore = useUserStore();
+    this.orderStore = useOrderStore();
+    this.imageroot = this.userStore.loggedUser.resourceURLRoot;
+    this.showLoading = this.$showLoading;
+
+    await this.orderStore.loadProposal(this.id, this.showLoading);
+    this.proposales = this.orderStore.listProposal;
   },
   methods: {
     startEditFinal() {
@@ -200,100 +225,122 @@ export default {
     cancelEditFinal() {
       this.editingFinal = false;
       this.$refs.finalProposal.value = null;
+      this.finalFile = null;
     },
-    handleFinalProposal(event) {
-      const file = event.target.files[0];
-      console.log("Selected final proposal file:", file);
-      this.finalFile = file;
-    },
+
     startEditProposal(index) {
-      this.proposales.versions[index].editing = true;
+      this.proposales.listVersions[index].editing = true;
     },
     cancelEditProposal(index) {
-      const proposal = this.proposales.versions[index];
-      proposal.editing = false;
-      proposal.tempName = proposal.name; 
+      this.proposales.listVersions[index].editing = false;
     },
+
     addOtherProposal() {
       this.otherProposals.push({ file: null });
     },
-    updateExistingProposal(event, index) {
-      const file = event.target.files[0];
-      if (file) {
-        this.proposales.versions[index].file = file;
-        console.log(`Updated existing proposal ${index}:`, file);
-      }
-    },
-    updateOtherProposal(e, index) {
+
+    handleUpdateFinalProposal(e) {
       const file = e.target.files[0];
       if (file) {
-        this.otherProposals[index] = { file };
-        console.log(`Selected file for new proposal ${index}:`, file);
+        this.finalProposalFile = file;
+        console.log("Selected filess:", file);
       }
     },
+    
+    updateFinalProposal() {
+      if (!this.finalProposalFile) {
+        console.warn("No file selected for final proposal!");
+        return;
+      }
+
+      this.$showConfirm("Confirm: Upload proposal?", "warning")
+        .then(async (result) => {
+          if (result.isConfirmed) {
+            const formData = new FormData();
+            formData.append("File", this.finalProposalFile);
+            formData.append("IsFinal", "true");
+            formData.append("QuotationId", this.proposales.final?.quotationId || this.quotationId || '');
+            formData.append("OrderId", this.id);
+
+            // Optional: log FormData for debugging
+            // console.log("FormData contents to send to store:");
+            // for (let [key, value] of formData.entries()) {
+            //   if (value instanceof File) {
+            //     console.log(`${key}: File name = ${value.name}, size = ${value.size} bytes, type = ${value.type}`);
+            //   } else {
+            //     console.log(`${key}: ${value}`);
+            //   }
+            // }
+
+            await this.orderStore.GetPraposalDocument(formData, this.showLoading);
+
+            // Reset editing state
+            this.editingFinal = false;
+            this.finalProposalFile = null;
+          } else {
+            console.log("Upload canceled by user.");
+          }
+        });
+    },
+
+    onEditProposalFileChange(e, index) {
+         const file = e.target.files[0];
+      if (file) {
+        this.finalProposalFile = file;
+        console.log("Selected filess:", file);
+      }
+    },
+
+    updateOtherProposal(index) {
+      if (!this.finalProposalFile) {
+        console.warn("No file selected for final proposal!");
+        return;
+      }
+
+      this.$showConfirm("Confirm: Upload proposal?", "warning")
+        .then(async (result) => {
+          if (result.isConfirmed) {
+          const formData = new FormData();
+          formData.append("File", this.finalProposalFile);
+          formData.append("IsFinal", "false"); 
+          const quotationId = this.proposales.listVersions?.[index]?.quotationId || this.quotationId || '';
+          formData.append("QuotationId", quotationId);
+          formData.append("OrderId", this.id);
+
+            // Optional: log FormData for debugging
+            console.log("FormData contents to send to store:");
+            for (let [key, value] of formData.entries()) {
+              if (value instanceof File) {
+                console.log(`${key}: File name = ${value.name}, size = ${value.size} bytes, type = ${value.type}`);
+              } else {
+                console.log(`${key}: ${value}`);
+              }
+            }
+return
+            await this.orderStore.GetPraposalDocument(formData, this.showLoading);
+
+            // Reset editing state
+            this.editingFinal = false;
+            this.finalProposalFile = null;
+          } else {
+            console.log("Upload canceled by user.");
+          }
+        });
+    },
+
     removeOtherProposal(index) {
       this.otherProposals.splice(index, 1);
     },
+
     closeModal() {
       this.isOpen = false;
       this.$emit("close");
-    },
-
-    async SetApprove() {
-      if (!this.IsValidate()) return;
-
-      const finalProposalObj = {
-        QuotationId: this.id,
-        VersionName: "Final-Version",
-        Url: this.finalFile ? this.finalFile.name : this.proposales.final 
-      };
-
-      const otherVersions = [
-        // Existing proposals
-        ...this.proposales.versions.map((p, idx) => ({
-          QuotationId: this.id,
-          VersionName: p.name,
-          Url: p.file ? p.file.name : p.url
-        })),
-        // Newly added proposals
-        ...this.otherProposals.map((p, idx) => ({
-          QuotationId: this.id,
-          VersionName: `Version ${this.proposales.versions.length + idx + 1}`,
-          Url: p.file ? p.file.name : ""
-        }))
-      ];
-
-      const payload = {
-        Final: finalProposalObj,
-        listVersions: otherVersions
-      };
-
-      console.log("Payload to send to store:", payload);
-
-      return
-
-      try {
-        const result = await useOrderStore().GetPraposalDocument(payload);
-        if (result.success) {
-          this.closeModal();
-        }
-      } catch (error) {
-        console.error("Approval failed:", error);
-      }
-    },
-    IsValidate() {
-      let isSuccess = true;
-      // if (this.ApprovalMemo && this.ApprovalMemo.size > 0) {
-      //   this.err.approvedImage = "";
-      // } else {
-      //   this.err.approvedImage = "Attach the final proposal document.";
-      //   isSuccess = false;
-      // }
-      return isSuccess;
-    },
-  },
+    }
+    
+  }
 };
 </script>
+
 
 <style scoped>
 /* Modal Overlay */

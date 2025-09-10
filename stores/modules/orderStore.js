@@ -11,7 +11,8 @@ export const useOrderStore = defineStore("orderStore", {
     listoPackagesDetails: [],
     listOrder : [],
     PaymentDetails: [],
-    piSigned : []
+    piSigned : [],
+    listProposal : {},
   }),
   persist: true,
 
@@ -248,32 +249,82 @@ actions: {
       }
     },
 
-    async GetPraposalDocument(formData) {
+    async loadProposal(orderId, showLoading) {
+       console.log('API-ListProposal')
+      console.log(JSON.stringify(orderId));
+
+      const loadingAlert = showLoading("");
+    
+      try {
+        const response = await axios.get(
+          `${import.meta.env.VITE_API_URL}/qms/Quotation/GetUploadedQuotations?orderId=${orderId}`
+        );
+        loadingAlert.close();
+        if (response.data.isSuccess) {
+          this.showToast(response.data.message, "success");
+          this.listProposal = response.data.data.data;
+        } else {
+          this.showToast(response.data.message, "error");
+        }
+      } catch (error) {
+        this.showToast("Error while deleting order", "error");
+      }
+    },
+
+    async GetPraposalDocument(formData, showLoading) {
+      console.log('API-SetUploadQuotation')
+      console.log(JSON.stringify(formData));
+
+      for (let [key, value] of formData.entries()) {
+        console.log(`${key}:`, value);
+      }
+
+      const loadingAlert = showLoading("");
+
       try {
         const response = await axios.post(
-          `${import.meta.env.VITE_API_URL}/qms/Order/GetUploadScanedProposal`,
+          `${import.meta.env.VITE_API_URL}/qms/Quotation/SetUploadQuotation`,
           formData,
           { headers: { "Content-Type": "multipart/form-data" } }
         );
+       loadingAlert.close();
         if (response.data.isSuccess) {
-          const uploadedPath = response.data.data.data;
-          const orderNo = formData.get("orderNo");
-
-          const order = this.listOrder.find(o => o.orderNo === orderNo);
-          if (order) {
-            order.isScanedProposalUploaded = true;
-            order.scanedProposalUrl = uploadedPath;
-          }
-
-          return { success: true, message: response.data.message };
+          this.showToast(response.data.message, "success");
+          this.listProposal = response.data.data.data;
         } else {
-          return { success: false, message: response.data.message };
+          this.showToast(response.data.message, "error");
         }
       } catch (error) {
-        console.error("GetProposal failed:", error);
-        return { success: false, message: "An error occurred during approval" };
+        this.showToast("Error while deleting order", "error");
       }
     },
+
+    // async GetPraposalDocument(formData) {
+    //   try {
+    //     const response = await axios.post(
+    //       `${import.meta.env.VITE_API_URL}/qms/Order/GetUploadScanedProposal`,
+    //       formData,
+    //       { headers: { "Content-Type": "multipart/form-data" } }
+    //     );
+    //     if (response.data.isSuccess) {
+    //       const uploadedPath = response.data.data.data;
+    //       const orderNo = formData.get("orderNo");
+
+    //       const order = this.listOrder.find(o => o.orderNo === orderNo);
+    //       if (order) {
+    //         order.isScanedProposalUploaded = true;
+    //         order.scanedProposalUrl = uploadedPath;
+    //       }
+
+    //       return { success: true, message: response.data.message };
+    //     } else {
+    //       return { success: false, message: response.data.message };
+    //     }
+    //   } catch (error) {
+    //     console.error("GetProposal failed:", error);
+    //     return { success: false, message: "An error occurred during approval" };
+    //   }
+    // },
 
     async GettPaymentDetails(orderId, showLoading) {
        console.log('API-CancelOrder')
