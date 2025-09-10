@@ -7,17 +7,12 @@
       <!-- Main Content -->
       <div class="flex flex-col flex-1">
         <!-- Header -->
-        <header
-          class="flex items-center justify-between h-16 px-6 shadow-md 
+        <header class="flex items-center justify-between h-16 px-6 shadow-md 
           bg-gradient-to-r from-blue-600 via-blue-700 to-blue-900 
-          backdrop-blur-md"
-        >
+          backdrop-blur-md">
           <!-- Sidebar Toggle -->
-          <button
-            @click="isSidebarOpen = !isSidebarOpen"
-            class="absolute z-50 p-2 rounded-full bg-white/20 hover:bg-white/30 
-            transition-all duration-300 top-4 left-4"
-          >
+          <button @click="isSidebarOpen = !isSidebarOpen" class="absolute z-50 p-2 rounded-full bg-white/20 hover:bg-white/30 
+            transition-all duration-300 top-4 left-4">
             <svg v-if="!isSidebarOpen" class="w-6 h-6 text-white" fill="none" stroke="currentColor" stroke-width="2"
               viewBox="0 0 24 24">
               <path stroke-linecap="round" stroke-linejoin="round" d="M4 6h16M4 12h16M4 18h16"></path>
@@ -26,8 +21,8 @@
 
           <!-- Logo -->
           <NuxtLink to="/dashboard" class="flex items-center space-x-2 ml-14">
-               <!-- hide Img -->
-            <img src="/assets/img/LogoDigitalTechLab.png" alt="Digital Tech Labs Logo" class="h-auto rounded-full w-28" />
+            <!-- hide Img -->
+            <!-- <img src="/assets/img/LogoDigitalTechLab.png" alt="Digital Tech Labs Logo" class="h-auto rounded-full w-28" /> -->
           </NuxtLink>
 
           <!-- User Profile -->
@@ -39,29 +34,19 @@
 
             <!-- Profile Button -->
             <div>
-              <button
-                @click="isDropdownOpen = !isDropdownOpen"
-                class="relative flex items-center justify-center w-10 h-10 rounded-full 
-                border-2 border-white shadow-md hover:scale-105 transition-all duration-300"
-              >
-                <img
-                  v-if="userStore.loggedUser.resourceURLRoot && userStore.loggedUser.image"
-                  :src="userStore.loggedUser.resourceURLRoot + userStore.loggedUser.image"
-                  alt="Profile"
-                  class="w-10 h-10 rounded-full object-cover"
-                />
+              <button @click="isDropdownOpen = !isDropdownOpen" class="relative flex items-center justify-center w-10 h-10 rounded-full 
+                border-2 border-white shadow-md hover:scale-105 transition-all duration-300">
+                <img v-if="userStore.loggedUser.resourceURLRoot && userStore.loggedUser.image"
+                  :src="userStore.loggedUser.resourceURLRoot + userStore.loggedUser.image" alt="Profile"
+                  class="w-10 h-10 rounded-full object-cover" />
               </button>
 
               <!-- Dropdown Menu -->
               <transition name="fade-scale">
-                <div
-                  v-if="isDropdownOpen"
-                  class="absolute right-0 mt-3 w-48 rounded-xl bg-white shadow-xl ring-1 ring-black/5 overflow-hidden"
-                >
-                  <button
-                    @click="GoToProfile"
-                    class="block w-full px-4 py-2 text-sm text-gray-700 hover:bg-blue-50 hover:text-blue-700 transition text-left"
-                  >
+                <div v-if="isDropdownOpen"
+                  class="absolute right-0 mt-3 w-48 rounded-xl bg-white shadow-xl ring-1 ring-black/5 overflow-hidden">
+                  <button @click="GoToProfile"
+                    class="block w-full px-4 py-2 text-sm text-gray-700 hover:bg-blue-50 hover:text-blue-700 transition text-left">
                     Your Profile
                   </button>
                   <a href="#" class="block px-4 py-2 text-sm text-gray-700 hover:bg-blue-50 hover:text-blue-700">
@@ -125,10 +110,13 @@ export default {
 
 <style>
 /* Smooth dropdown animation */
-.fade-scale-enter-active, .fade-scale-leave-active {
+.fade-scale-enter-active,
+.fade-scale-leave-active {
   transition: all 0.2s ease;
 }
-.fade-scale-enter-from, .fade-scale-leave-to {
+
+.fade-scale-enter-from,
+.fade-scale-leave-to {
   opacity: 0;
   transform: scale(0.95);
 }

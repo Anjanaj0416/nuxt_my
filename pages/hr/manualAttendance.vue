@@ -136,6 +136,7 @@ import SearchInput from '~/components/customcontrol/SearchInput.vue';
 
     async created() {
       this.reportStore = useReportStore();
+      this.userStore = useUserStore();
       this.attendanceStore = useAttendanceStore();
       this.showLoading = this.$showLoading;
       this.imageroot = this.userStore.loggedUser.resourceURLRoot;

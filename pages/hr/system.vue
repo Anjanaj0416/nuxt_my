@@ -15,42 +15,20 @@
         <!-- {{ hrStore.initHRDetails }} -->
         <p class="my-2">
           Click here to view existing employee details -
-          <a
-            :href="
-              userStore.assetsBaseUrl +
-              hrStore.initHRDetails.urlEmployeeDetailsXlsx
-            "
-            class="text-blue-600"
-            target="_blank"
-            >Download</a
-          >
+          <a :href="userStore.assetsBaseUrl +
+            hrStore.initHRDetails.urlEmployeeDetailsXlsx
+            " class="text-blue-600" target="_blank">Download</a>
         </p>
 
         <div class=" my-2">
-        <div>Selection Upload Section</div>
-        <serach_Input
-          :arrItems="arrEmployeeDatailSections"
-          ref="refEmployeeDatailSections"
-          class="w-48"
-       
-            @selectItem="GetSelectSection"
-          v-model="empSection"
-        />
+          <div>Selection Upload Section</div>
+          <serach_Input :arrItems="arrEmployeeDatailSections" ref="refEmployeeDatailSections" class="w-48"
+            @selectItem="GetSelectSection" v-model="empSection" />
         </div>
 
-        <fileuploader
-          v-model="fileEmployeeDetails"
-          caption="Attach Employee Details file"
-          @FileChanged="GetFileChangedEmployeeDetails"
-          fileType=".xlsx"
-          ref="refFile"
-        />
-        <Button
-          class="w-16 h-8"
-          label="Upload"
-          variant="primary"
-          @click="GetUploadEmployeeDetails"
-        />
+        <fileuploader v-model="fileEmployeeDetails" caption="Attach Employee Details file"
+          @FileChanged="GetFileChangedEmployeeDetails" fileType=".xlsx" ref="refFile" />
+        <Button class="w-16 h-8" label="Upload" variant="primary" @click="GetUploadEmployeeDetails" />
       </div>
     </div>
     <!-- End HR System Data -->
@@ -68,7 +46,6 @@ import serach_Input from "~/components/customcontrol/SearchInput";
 import fileuploader from "~/components/customcontrol/fileupload";
 import Button from "~/components/customcontrol/Button";
 
-import { useHrStore } from "~/stores/modules/hrStore";
 import { useUserStore } from "~/stores/modules/userStore";
 
 definePageMeta({
@@ -77,7 +54,7 @@ definePageMeta({
 });
 
 export default {
-  components: { fileuploader, Button,  serach_Input },
+  components: { fileuploader, Button, serach_Input },
   props: [""],
   data() {
     return {
@@ -98,12 +75,11 @@ export default {
       showLoading: null,
     };
   },
-  async mounted() {},
+  async mounted() { },
   async created() {
     this.showLoading = this.$showLoading;
     this.userStore = useUserStore();
 
-    this.hrStore = useHrStore();
     await this.hrStore.loadInitHRDetails(this.showLoading);
 
     this.fileroot = this.userStore.loggedUser.resourceURLRoot;
@@ -114,8 +90,8 @@ export default {
   watch: {},
   computed: {},
   methods: {
-    GetSelectSection(id){
-     this.empSection = id;
+    GetSelectSection(id) {
+      this.empSection = id;
     },
 
     GetFileChangedEmployeeDetails(file) {
@@ -132,7 +108,7 @@ export default {
         return;
       }
 
-     if (this.empSection<0) {
+      if (this.empSection < 0) {
         this.$showCustomToast(
           "Please select the employee section",
           "error",
@@ -140,15 +116,15 @@ export default {
         );
         return;
       }
-      
+
       this.$showConfirm(
         "Are you sure you want to update employee details?",
         "warning"
       ).then(async (result) => {
         if (result.isConfirmed) {
-          const formData = new FormData();         
+          const formData = new FormData();
           formData.append("fileEmployee", this.fileEmployeeDetails);
-                    formData.append("section", this.empSection);
+          formData.append("section", this.empSection);
           await this.hrStore.GetUpdateEmployeeDetails(
             formData,
             this.showLoading
@@ -258,6 +234,7 @@ export default {
 .csscmd {
   @apply p-2 text-center bg-blue-200 rounded;
 }
+
 .csscmd:hover {
   @apply bg-blue-200 cursor-pointer;
 }
@@ -267,7 +244,7 @@ export default {
   @apply border-gray-500 rounded p-2;
 }
 
-.cssHREmployees > div {
-  @apply border-2 border-gray-400  my-4 p-2 rounded-lg;
+.cssHREmployees>div {
+  @apply border-2 border-gray-400 my-4 p-2 rounded-lg;
 }
 </style>

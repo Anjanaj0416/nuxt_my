@@ -85,7 +85,6 @@
 <script>
 import datediff from '~/components/hr/datediff'
 import btnapplyleave from '~/components/hr/btnapplyleave'
-import { useHrStore } from '~/stores/modules/hrStore';
 import { useUserStore } from '~/stores/modules/userStore';
 
 // import * as Global from '@/assets/js/Global'
@@ -127,7 +126,6 @@ export default {
         },
     },
     async created() {
-        this.hrStore = useHrStore();
         this.userStore = useUserStore();
         this.showLoading = this.$showLoading;
 
