@@ -1,5 +1,3 @@
-<!-- https://flowbite.com/docs/components/avatar/ -->
-
 <template>
     <section class="p-4 mt-20 max-w-2xl mx-auto">
         <h2 class="text-xl font-bold mb-4 ">Document Register</h2>

@@ -481,8 +481,6 @@ export const useStandpageStore = defineStore("standpage", {
     clearSelectedNews() {
       this.selectedNews = null;
     },
-  
-
 
     async showToast(message, type) {
       const Swal = (await import("sweetalert2")).default;
