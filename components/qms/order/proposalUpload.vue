@@ -244,7 +244,6 @@ export default {
 
       const finalProposalObj = {
         QuotationId: this.id,
-        VersionName: "Final-Version",
         Url: this.finalFile ? this.finalFile.name : this.proposales.final 
       };
 
@@ -252,13 +251,11 @@ export default {
         // Existing proposals
         ...this.proposales.versions.map((p, idx) => ({
           QuotationId: this.id,
-          VersionName: p.name,
           Url: p.file ? p.file.name : p.url
         })),
         // Newly added proposals
         ...this.otherProposals.map((p, idx) => ({
           QuotationId: this.id,
-          VersionName: `Version ${this.proposales.versions.length + idx + 1}`,
           Url: p.file ? p.file.name : ""
         }))
       ];

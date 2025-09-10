@@ -131,6 +131,9 @@
             </div>
           </div>
         </div>
+
+<!-- {{ dashboardStore.hrDashboardList }} -->
+
         
         <div class="mt-6" v-if="userStore.loggedUser.userGroup === 'HRAdmin'">
           <hrDash />
@@ -155,7 +158,7 @@
         </div>
 
       <!-- {{ userStore.loggedUser.userGroup }} -->
-
+<!-- {{ dashboardStore.hrDashboardList }} -->
       </section>
     </div>
   </div>
@@ -214,19 +217,34 @@ export default {
       },
       weatherInfo: null,
       locationError: '',
-      inTime: new Date('2025-06-26T08:20:00'), 
+      inTime: null, 
       // outTime: new Date('2025-06-25T17:30:00') ,
       outTime: null  
     };
   },
   async created() {
-      this.dashboardStore  = useDashboardStore();
-      this.userStore = useUserStore();
-      this.showLoading = this.$showLoading;
-      this.imageroot = this.userStore.loggedUser.resourceURLRoot;
+    this.dashboardStore  = useDashboardStore();
+    this.userStore = useUserStore();
+    this.showLoading = this.$showLoading;
 
-      await this.dashboardStore.hrDashboard(this.showLoading);
-      this.dashboardList = this.dashboardStore.hrDashboardList;
+    await this.dashboardStore.hrDashboard(this.showLoading);
+    this.dashboardList = this.dashboardStore.hrDashboardList;
+
+    const todayAttendance = this.dashboardList.todayAttendance;
+
+    if (todayAttendance) {
+      // 👇 Helper to merge today’s date + HH:mm
+      const makeDate = (timeStr) => {
+        if (!timeStr) return null;
+        const [h, m] = timeStr.split(":").map(Number);
+        const d = new Date();
+        d.setHours(h, m, 0, 0);
+        return d;
+      };
+
+      this.inTime = makeDate(todayAttendance.inTime);
+      this.outTime = makeDate(todayAttendance.outTime);
+    }
   },
   mounted() {
     this.timer = setInterval(() => {
@@ -340,12 +358,12 @@ export default {
       this.$router.push("/signin");
     },
     formatTime(date) {
-      if (!date) return ''
-      return new Intl.DateTimeFormat('en-US', {
-        hour: 'numeric',
-        minute: 'numeric',
-        hour12: true
-      }).format(date)
+      if (!date) return '';
+      return new Intl.DateTimeFormat('en-GB', {
+        hour: '2-digit',
+        minute: '2-digit',
+        hour12: false
+      }).format(date);
     },
     fetchWeather() {
       fetch('https://wttr.in/?format=j1')
