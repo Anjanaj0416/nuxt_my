@@ -612,14 +612,15 @@ export default {
                   NoOfBanners: item.NoOfBanners,
                   NoOfLinks: item.NoOfLinks
                 }),
-                // Installments: this.listInstallmentDetails.map((inst) => ({
-                //   Fee: Number(inst.fee) || 0,
-                //   Date: inst.date
-                // }))
+                Installments: this.listInstallmentDetails.map((inst) => ({
+                  Fee: Number(inst.fee) || 0,
+                  Date: inst.date
+                }))
               }))
             };
 
             console.log("Payload to send:", JSON.stringify(payload, null, 2));
+            return
            
             await this.orderStore.GetAddorder(payload, this.showLoading);
 
