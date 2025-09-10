@@ -19,9 +19,11 @@
                 </svg>
             </div>
 
+
             <!-- Level 2 submenu -->
             <div v-show="isSubmenuOpen['CRM']" class="pl-4 mt-1 space-y-1">
                 <router-link to="/qms/vendor/leads"
+                    v-if="userStore.loggedUser.granted.includes('su') || userStore.loggedUser.granted.includes('flo') || userStore.loggedUser.granted.includes('sso')"
                     class="block px-3 py-2 text-gray-300 rounded hover:text-white hover:bg-blue-800"
                     @click="$emit('close-sidebar')">
                     <span>Leads</span>
@@ -102,7 +104,8 @@ export default {
     },
 
     async created() {
-        const userStore = useUserStore();
+        this.userStore = useUserStore();
+
     },
 }
 

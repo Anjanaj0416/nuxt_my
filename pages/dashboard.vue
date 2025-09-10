@@ -7,8 +7,6 @@
       <section class="px-4 py-8 mt-20 lg:px-24">
         <!-- <h1 class="text-2xl font-bold mb-4">Dashboard</h1> -->
         <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 lg:gap-4">
-
-
           <div class="relative overflow-hidden rounded-2xl p-6 text-white shadow-lg bg-gradient-to-r from-indigo-600 to-blue-500">
             <img
               :src="backgroundImage"

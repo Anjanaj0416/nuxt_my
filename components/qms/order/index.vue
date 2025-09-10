@@ -106,7 +106,7 @@
                 <!-- Show "Upload Signed PI" only if not uploaded (boolean false) -->
                 <button
                   v-else
-                  @click="handleProposalUploderClick(order.orderNo)"
+                  @click="handleProposalUploderClick(order.id)"
                   class="text-sm  text-blue-600 hover:underline"
                 >
                   upload proposals
@@ -267,7 +267,7 @@
       </div>
 
       <AddOrder v-if="isAddEdit && showAddProposal"   @close="handleCloseAddOrder" :customerRef="customerRef" :id="id" :orderNo="selectedOrderNo"/>
-      <SignedPIUpload v-if="isSignedPIUploaded"   @close="isSignedPIUploaded = false"  :id="selectedOrderId" />
+      <SignedPIUpload v-if="isSignedPIUploaded"   @close="isSignedPIUploaded = false"  :id="selectedOrderNo" />
       <ProposalUpload v-if="isScanedProposalUploaded"   @Close="isScanedProposalUploaded = false"  :id="selectedOrderId" />
 
     </section>
@@ -359,12 +359,12 @@ import Close from '~/components/customcontrol/close.vue';
       },
 
       handlePIUploderClick(orderNo) {
-        this.selectedOrderId = orderNo;
+        this.selectedOrderNo = orderNo;
         this.isSignedPIUploaded = true;
       },
 
-      handleProposalUploderClick(orderNo) {
-        this.selectedOrderId = orderNo;
+      handleProposalUploderClick(id) {
+        this.selectedOrderId = id;
         this.isScanedProposalUploaded = true;
       },
 
