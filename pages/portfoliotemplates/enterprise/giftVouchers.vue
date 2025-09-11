@@ -1,7 +1,7 @@
 <template>
 
-  <heder/>
-  
+  <heder />
+
   <section class="px-4 py-12 mt-12">
     <div class="min-h-screen p-6 text-white ">
       <!-- Breadcrumbs -->
@@ -27,21 +27,16 @@
         <!-- Product Grid -->
         <section class="w-full px-2 py-8 rounded-lg lg:px-4 bg-gray-50">
           <h1 class="mb-6 text-3xl font-semibold text-gray-800">Gift Vouchers</h1>
-          <div class="grid grid-cols-1 gap-8 mx-auto sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-3 max-w-7xl">          
-              <!-- Product Card -->
-              <div 
-                  v-for="(voucher, index) in giftVouchers"
-                  :key="index"
-                  class="p-4 text-center transition duration-300 bg-white shadow-md rounded-2xl hover:shadow-xl"
-              >
-              <img
-                  :src="voucher.image"
-                  :alt="voucher.title"
-                  class="object-cover w-full h-48 mb-4 rounded-lg"
-              />
+          <div class="grid grid-cols-1 gap-8 mx-auto sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-3 max-w-7xl">
+            <!-- Product Card -->
+            <div v-for="(voucher, index) in giftVouchers" :key="index"
+              class="p-4 text-center transition duration-300 bg-white shadow-md rounded-2xl hover:shadow-xl">
+              <img :src="voucher.image" :alt="voucher.title" class="object-cover w-full h-48 mb-4 rounded-lg" />
               <p class="font-medium text-gray-700">{{ voucher.title }}</p>
               <p class="mt-1 text-lg font-bold text-gray-900">{{ voucher.price }}</p>
-              <button class="mt-3 inline-block border-2 text-gray-600 text-xs font-semibold px-4 py-1.5 rounded-full hover:bg-gray-100 transition">Shop Now</button>
+              <button
+                class="mt-3 inline-block border-2 text-gray-600 text-xs font-semibold px-4 py-1.5 rounded-full hover:bg-gray-100 transition">Shop
+                Now</button>
             </div>
 
           </div>
@@ -56,122 +51,121 @@
       </div>
     </div>
   </section>
-  
+
   <whatsappChats />
   <mainFooter />
-  
-  
-  </template>
-  
-  <script setup>
-    import { ref } from "vue";
-    import { Swiper, SwiperSlide } from "swiper/vue";
-    import "swiper/css";
-    import "swiper/css/pagination";
-    import "swiper/css/autoplay";
-    import { Pagination, Autoplay } from "swiper/modules";
-    import { useStandpageStore } from '~/stores/modules/dtlStore';
-    import whatsappChats from '../chat/whatsappChat.vue';
-    import heder from "./heder.vue";
-    import mainFooter from "./footer.vue";
-    
 
 
-      const giftVouchers = [
-          {
-              title: 'Gift Voucher Rs.5000 (Redeem at Online Store Only)',
-              price: 'Rs.5,000.00',
-              image: 'https://thilakawardhana.com/cdn/shop/files/TV5000_28cc1114-9cbb-49d4-8a80-f5a17719396f_940x.png?v=1722253751'
-          },
-          {
-              title: 'Gift Voucher Rs.2000 (Valid In-store & Online)',
-              price: 'Rs.2,000.00',
-              image: 'https://thilakawardhana.com/cdn/shop/files/TV2000_fe84521f-3d7f-4480-a5cd-36b3ac03b7e0_940x.png?v=1722253755'
-          },
-          {
-              title: 'Gift Voucher Rs.10000 (Online Store Only)',
-              price: 'Rs.10,000.00',
-              image: 'https://thilakawardhana.com/cdn/shop/files/TV1000.1_6eed9eeb-74d8-4aba-9a98-cc0ac119343d_940x.png?v=1722253748'
-          }
-      ]
-  
-  
-  
-  </script>
-  
-  <script>
-    definePageMeta({
-      layout: 'bst',
-    });
-  
-    export default {
-      data() {
-        return {
-          imageroot: process.env.Assets_83,
-          isMenuOpen: false,
-              isSidebarOpen: false,
-              isDropdownOpen: false,
-        };
-      },
-      async mounted() {
-        
-      },
-      async created() {
-        this.store = useStandpageStore();
-    
-      },
-      watch: {},
-      computed: {
-        // ...mapState({
-        //   //loggeduser: (state) => state.loggeduser,
-        // }),
-      },
-      methods: {
-        handleSideButton() {
-          this.showChatBox = !this.showChatBox;
-          if (this.showChatBox) {
-            // Initially, show the welcome message
-            this.messages = [{ text: "Hi! Please wait, we're preparing to assist you.", isUser: false }];
-          }
-        },
-        
-      },
-      mounted() {
-        document.addEventListener('click', this.closeAll);
-      },
-      beforeUnmount() {
-        document.removeEventListener('click', this.closeAll);
-      },
-      head() {
-        return {
-          title: 'Intranet - Digital Tech Labs',
-        };
-      },
+</template>
+
+<script setup>
+import { ref } from "vue";
+import { Swiper, SwiperSlide } from "swiper/vue";
+import "swiper/css";
+import "swiper/css/pagination";
+import "swiper/css/autoplay";
+import { Pagination, Autoplay } from "swiper/modules";
+import { useDtlStore } from '~/stores/modules/dtlStore';
+import whatsappChats from '../chat/whatsappChat.vue';
+import heder from "./heder.vue";
+import mainFooter from "./footer.vue";
+
+
+
+const giftVouchers = [
+  {
+    title: 'Gift Voucher Rs.5000 (Redeem at Online Store Only)',
+    price: 'Rs.5,000.00',
+    image: 'https://thilakawardhana.com/cdn/shop/files/TV5000_28cc1114-9cbb-49d4-8a80-f5a17719396f_940x.png?v=1722253751'
+  },
+  {
+    title: 'Gift Voucher Rs.2000 (Valid In-store & Online)',
+    price: 'Rs.2,000.00',
+    image: 'https://thilakawardhana.com/cdn/shop/files/TV2000_fe84521f-3d7f-4480-a5cd-36b3ac03b7e0_940x.png?v=1722253755'
+  },
+  {
+    title: 'Gift Voucher Rs.10000 (Online Store Only)',
+    price: 'Rs.10,000.00',
+    image: 'https://thilakawardhana.com/cdn/shop/files/TV1000.1_6eed9eeb-74d8-4aba-9a98-cc0ac119343d_940x.png?v=1722253748'
+  }
+]
+
+
+
+</script>
+
+<script>
+definePageMeta({
+  layout: 'bst',
+});
+
+export default {
+  data() {
+    return {
+      imageroot: process.env.Assets_83,
+      isMenuOpen: false,
+      isSidebarOpen: false,
+      isDropdownOpen: false,
     };
-  </script>
-  
-  <style scoped>
-  /* Utility Classes */
-  .html {
-    scroll-behavior: smooth;
-  }
-  .csscmd {
-    @apply p-2 text-center bg-blue-200 rounded;
-  }
-  .csscmd:hover {
-    @apply bg-blue-300 cursor-pointer;
-  }
-  
-  .cssBox {
-    border: 1px solid;
-    @apply border-gray-500 rounded p-2;
-  }
+  },
+  async mounted() {
 
-  /* Navbar Specific */
-nav a {
-  @apply px-3  rounded-lg transition-colors;
+  },
+  async created() {
+    this.store = useDtlStore();
+
+  },
+  watch: {},
+  computed: {
+    // ...mapState({
+    //   //loggeduser: (state) => state.loggeduser,
+    // }),
+  },
+  methods: {
+    handleSideButton() {
+      this.showChatBox = !this.showChatBox;
+      if (this.showChatBox) {
+        // Initially, show the welcome message
+        this.messages = [{ text: "Hi! Please wait, we're preparing to assist you.", isUser: false }];
+      }
+    },
+
+  },
+  mounted() {
+    document.addEventListener('click', this.closeAll);
+  },
+  beforeUnmount() {
+    document.removeEventListener('click', this.closeAll);
+  },
+  head() {
+    return {
+      title: 'Intranet - Digital Tech Labs',
+    };
+  },
+};
+</script>
+
+<style scoped>
+/* Utility Classes */
+.html {
+  scroll-behavior: smooth;
 }
 
+.csscmd {
+  @apply p-2 text-center bg-blue-200 rounded;
+}
 
-  </style>
-  
+.csscmd:hover {
+  @apply bg-blue-300 cursor-pointer;
+}
+
+.cssBox {
+  border: 1px solid;
+  @apply border-gray-500 rounded p-2;
+}
+
+/* Navbar Specific */
+nav a {
+  @apply px-3 rounded-lg transition-colors;
+}
+</style>

@@ -11,7 +11,7 @@ import TreeView from "~/components/customcontrol/TreeView.vue";
 import LinkBtn from "~/components/customcontrol/Link";
 import Button from "~/components/customcontrol/Button";
 import selectinput2 from "~/components/customcontrol/selectinput2";
-import { useStandpageStore } from "~/stores/modules/dtlStore";
+import { useDtlStore } from "~/stores/modules/dtlStore";
 import { useUserStore } from "~/stores/modules/userStore";
 
 definePageMeta({
@@ -34,7 +34,7 @@ export default {
         this.showLoading = this.$showLoading;
 
         this.userStore = useUserStore();
-        this.dtlStore = useStandpageStore();
+        this.dtlStore = useDtlStore();
         this.dtlStore.getDocumentRegistry(this.showLoading);
 
         this.imageroot = this.userStore.loggedUser.resourceURLRoot;

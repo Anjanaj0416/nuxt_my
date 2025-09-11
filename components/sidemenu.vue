@@ -8,9 +8,9 @@
       <!-- Top Navbar -->
       <div class="flex items-center justify-between px-6 py-4 bg-blue-900 shadow-md">
         <!-- Logo -->
-        <router-link to="/dashboard" class="flex items-center space-x-2" >
+        <router-link to="/dashboard" class="flex items-center space-x-2">
           <!-- hide Img -->
-          <img src="/assets/img/LogoDigitalTechLab.png" alt="Logo" class="h-auto rounded-full w-28" />
+          <!-- <img src="/assets/img/LogoDigitalTechLab.png" alt="Logo" class="h-auto rounded-full w-28" /> -->
         </router-link>
         <!-- Close Button -->
         <button @click="$emit('close-sidebar')"
@@ -29,8 +29,10 @@
 
       <!-- {{ userStore.loggedUser.granted }} -->
       <nav class="p-4">
-        <crm v-if="userStore.loggedUser.granted.includes('su') || userStore.loggedUser.granted.includes('flo') || userStore.loggedUser.granted.includes('sso')" />
-        <hrsystem v-if="userStore.loggedUser.granted.includes('su') || userStore.loggedUser.granted.includes('hradmin')"/>
+        <crm
+          v-if="userStore.loggedUser.granted.includes('su') || userStore.loggedUser.granted.includes('flo') || userStore.loggedUser.granted.includes('sso')" />
+        <hrsystem
+          v-if="userStore.loggedUser.granted.includes('su') || userStore.loggedUser.granted.includes('hradmin')" />
         <settings />
         <document_registry />
       </nav>

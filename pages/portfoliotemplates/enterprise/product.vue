@@ -1,7 +1,7 @@
   <template>
 
-    <heder/>
-    
+    <heder />
+
     <section class="px-4 py-12 mt-12">
       <div class="min-h-screen p-6 text-white ">
         <!-- Breadcrumbs -->
@@ -9,7 +9,7 @@
           <a href="#" class="hover:underline">Home</a> /
           <span class="text-gray-800">Product</span>
         </div>
-  
+
         <!-- Layout -->
         <div class="flex flex-col gap-6 lg:flex-row">
           <!-- Sidebar Filters -->
@@ -23,31 +23,26 @@
               <li><input type="checkbox" class="mr-2" /> JEANS</li>
             </ul>
           </aside>
-  
+
           <!-- Product Grid -->
           <section class="w-full px-2 py-8 rounded-lg lg:px-4 bg-gray-50">
             <h1 class="mb-6 text-3xl font-semibold text-gray-800">Product</h1>
-            <div class="grid grid-cols-1 gap-8 mx-auto sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 max-w-7xl">          
-                <!-- Product Card -->
-                <div 
-                    v-for="(product, index) in product"
-                    :key="index"
-                    class="p-4 text-center transition duration-300 bg-white shadow-md rounded-2xl hover:shadow-xl"
-                >
-                <img
-                    :src="product.image"
-                    :alt="product.title"
-                    class="object-cover w-full h-48 mb-4 rounded-lg"
-                />
+            <div class="grid grid-cols-1 gap-8 mx-auto sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 max-w-7xl">
+              <!-- Product Card -->
+              <div v-for="(product, index) in product" :key="index"
+                class="p-4 text-center transition duration-300 bg-white shadow-md rounded-2xl hover:shadow-xl">
+                <img :src="product.image" :alt="product.title" class="object-cover w-full h-48 mb-4 rounded-lg" />
                 <p class="font-medium text-gray-700">{{ product.title }}</p>
                 <p class="mt-1 text-lg font-bold text-gray-900">{{ product.price }}</p>
-                <button class="mt-3 inline-block border-2 text-gray-600 text-xs font-semibold px-4 py-1.5 rounded-full hover:bg-gray-100 transition">Shop Now</button>
+                <button
+                  class="mt-3 inline-block border-2 text-gray-600 text-xs font-semibold px-4 py-1.5 rounded-full hover:bg-gray-100 transition">Shop
+                  Now</button>
               </div>
-  
+
             </div>
           </section>
         </div>
-  
+
         <!-- Pagination -->
         <div class="flex justify-center mt-8 space-x-2">
           <button class="px-3 py-1 text-gray-500 border-2 rounded hover:bg-gray-50">1</button>
@@ -58,129 +53,128 @@
     </section>
 
     <whatsappChats />
-    <mainFooter/>
+    <mainFooter />
 
   </template>
-    
-    <script setup>
-      import { ref } from "vue";
-      import { Swiper, SwiperSlide } from "swiper/vue";
-      import "swiper/css";
-      import "swiper/css/pagination";
-      import "swiper/css/autoplay";
-      import { useStandpageStore } from '~/stores/modules/dtlStore';
-      import whatsappChats from '../chat/whatsappChat.vue';
-      import heder from "./heder.vue";
-      import mainFooter from "./footer.vue";
 
-      import product1 from '../../../assets/img/digitalTechLabs/standard/s1.png'
-      import product2 from '../../../assets/img/digitalTechLabs/standard/s2.png'
-      import product3 from '../../../assets/img/digitalTechLabs/standard/s3.png'
-      import product4 from '../../../assets/img/digitalTechLabs/standard/s4.png'
+<script setup>
+import { ref } from "vue";
+import { Swiper, SwiperSlide } from "swiper/vue";
+import "swiper/css";
+import "swiper/css/pagination";
+import "swiper/css/autoplay";
+import { useDtlStore } from '~/stores/modules/dtlStore';
+import whatsappChats from '../chat/whatsappChat.vue';
+import heder from "./heder.vue";
+import mainFooter from "./footer.vue";
 
-      
-    
+import product1 from '../../../assets/img/digitalTechLabs/standard/s1.png'
+import product2 from '../../../assets/img/digitalTechLabs/standard/s2.png'
+import product3 from '../../../assets/img/digitalTechLabs/standard/s3.png'
+import product4 from '../../../assets/img/digitalTechLabs/standard/s4.png'
 
-        const product = [
-            {
-                title: 'Comfort Fit Crew Neck T-shirt – Black)',
-                price: 'Rs.5,000.00',
-                image: product1,
-            },
-            {
-                title: 'Gift Voucher Rs.2000 (Valid In-store & Online)',
-                price: 'Rs.2,000.00',
-                image: product2,
-            },
-            {
-                title: 'Gift Voucher Rs.10000 (Online Store Only)',
-                price: 'Rs.10,000.00',
-                image: product3,
-            },
-            {
-                title: 'Gift Voucher Rs.10000 (Online Store Only)',
-                price: 'Rs.10,000.00',
-                image: product4,
-            }
-        ]
-    
-    
-    
-    </script>
-    
-    <script>
-      definePageMeta({
-        layout: 'bst',
-      });
-    
-      export default {
-        data() {
-          return {
-            imageroot: process.env.Assets_83,
-            isMenuOpen: false,
-                isSidebarOpen: false,
-                isDropdownOpen: false,
-          };
-        },
-        async mounted() {
-          
-        },
-        async created() {
-          this.store = useStandpageStore();
-      
-        },
-        watch: {},
-        computed: {
-          // ...mapState({
-          //   //loggeduser: (state) => state.loggeduser,
-          // }),
-        },
-        methods: {
-          handleSideButton() {
-            this.showChatBox = !this.showChatBox;
-            if (this.showChatBox) {
-              // Initially, show the welcome message
-              this.messages = [{ text: "Hi! Please wait, we're preparing to assist you.", isUser: false }];
-            }
-          },
-          
-        },
-        mounted() {
-          document.addEventListener('click', this.closeAll);
-        },
-        beforeUnmount() {
-          document.removeEventListener('click', this.closeAll);
-        },
-        head() {
-          return {
-            title: 'Intranet - Digital Tech Labs',
-          };
-        },
-      };
-    </script>
-    
-    <style scoped>
-    /* Utility Classes */
-    .html {
-      scroll-behavior: smooth;
-    }
-    .csscmd {
-      @apply p-2 text-center bg-blue-200 rounded;
-    }
-    .csscmd:hover {
-      @apply bg-blue-300 cursor-pointer;
-    }
-    
-    .cssBox {
-      border: 1px solid;
-      @apply border-gray-500 rounded p-2;
-    }
-  
-    /* Navbar Specific */
-  nav a {
-    @apply px-3  rounded-lg transition-colors;
+
+
+
+const product = [
+  {
+    title: 'Comfort Fit Crew Neck T-shirt – Black)',
+    price: 'Rs.5,000.00',
+    image: product1,
+  },
+  {
+    title: 'Gift Voucher Rs.2000 (Valid In-store & Online)',
+    price: 'Rs.2,000.00',
+    image: product2,
+  },
+  {
+    title: 'Gift Voucher Rs.10000 (Online Store Only)',
+    price: 'Rs.10,000.00',
+    image: product3,
+  },
+  {
+    title: 'Gift Voucher Rs.10000 (Online Store Only)',
+    price: 'Rs.10,000.00',
+    image: product4,
   }
-  
-  
-    </style>
-    
+]
+
+
+
+</script>
+
+<script>
+definePageMeta({
+  layout: 'bst',
+});
+
+export default {
+  data() {
+    return {
+      imageroot: process.env.Assets_83,
+      isMenuOpen: false,
+      isSidebarOpen: false,
+      isDropdownOpen: false,
+    };
+  },
+  async mounted() {
+
+  },
+  async created() {
+    this.store = useDtlStore();
+
+  },
+  watch: {},
+  computed: {
+    // ...mapState({
+    //   //loggeduser: (state) => state.loggeduser,
+    // }),
+  },
+  methods: {
+    handleSideButton() {
+      this.showChatBox = !this.showChatBox;
+      if (this.showChatBox) {
+        // Initially, show the welcome message
+        this.messages = [{ text: "Hi! Please wait, we're preparing to assist you.", isUser: false }];
+      }
+    },
+
+  },
+  mounted() {
+    document.addEventListener('click', this.closeAll);
+  },
+  beforeUnmount() {
+    document.removeEventListener('click', this.closeAll);
+  },
+  head() {
+    return {
+      title: 'Intranet - Digital Tech Labs',
+    };
+  },
+};
+</script>
+
+<style scoped>
+/* Utility Classes */
+.html {
+  scroll-behavior: smooth;
+}
+
+.csscmd {
+  @apply p-2 text-center bg-blue-200 rounded;
+}
+
+.csscmd:hover {
+  @apply bg-blue-300 cursor-pointer;
+}
+
+.cssBox {
+  border: 1px solid;
+  @apply border-gray-500 rounded p-2;
+}
+
+/* Navbar Specific */
+nav a {
+  @apply px-3 rounded-lg transition-colors;
+}
+</style>

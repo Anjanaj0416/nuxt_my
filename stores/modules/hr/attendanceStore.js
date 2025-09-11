@@ -501,7 +501,7 @@ export const useAttendanceStore = defineStore("attendanceStore", {
           await this.getAttendenceByEmp(attendenceReq, showLoading);
         } else {
           console.error("Loading error:", response.data.message);
-          // this.showToast(response.data.message, 'error');
+          this.showToast(response.data.message, 'error');
         }
       } catch (error) {
         console.error("Loading error:", error);
