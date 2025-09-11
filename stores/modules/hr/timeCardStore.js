@@ -188,8 +188,8 @@ export const useTimeCardStore = defineStore("timeCardStore", {
       loadingAlert.close();
     },
 
-    async getCreateTimeCard(req, showLoading) {
-      console.log('API-getCreateTimeCard');
+    async setTimeCardWorkLoad(req, showLoading) {
+      console.log('API-setTimeCardWorkLoad');
       console.log(JSON.stringify(req));
 
       const loadingAlert = showLoading("");

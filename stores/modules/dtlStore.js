@@ -372,6 +372,7 @@ export const useStandpageStore = defineStore("standpage", {
         ],
       }
     },
+    treeData:[],
   }),
 
   persist: true,
@@ -452,14 +453,34 @@ export const useStandpageStore = defineStore("standpage", {
       }
     },
 
+    async getDocumentRegistry(showLoading) {
+      console.log('API-getDocumentRegistry');
+
+      const loadingAlert = showLoading("");
+      try {
+        const response = await axios.get(
+          `${import.meta.env.VITE_API_URL}/dtl/GetDocumentRegistry`);
+        console.log("response:", response);
+        if (response.data.isSuccess) {
+          this.showToast('Loading successful!', 'success');
+          this.treeData = response.data.data.data;
+        } else {
+          console.error("Loading error:", response.data.message);
+          // this.showToast(response.data.message, 'error');
+        }
+      } catch (error) {
+        console.error("Loading error:", error);
+        this.showToast(error.response.data.Message, "error");
+      }
+      loadingAlert.close();
+    },
+
     setSelectedNews(news) {
       this.selectedNews = news;
     },
     clearSelectedNews() {
       this.selectedNews = null;
     },
-  
-
 
     async showToast(message, type) {
       const Swal = (await import("sweetalert2")).default;

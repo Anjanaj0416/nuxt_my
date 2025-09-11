@@ -181,15 +181,18 @@ export default {
     },
 
     async applyTimeCard() {
-      if (confirm('Sure to Create this Time Card?')) {
 
-        let year = parseInt(this.year)
-        let month = parseInt(this.month_names.indexOf(this.month) + 1);//this.month;
-        let req = { empNo: this.empno, month: month, year: year }
+      this.$showConfirm("Sure to create this Time Card?", "warning")
+        .then(async (result) => {
+          if (result.isConfirmed) {
+            let year = parseInt(this.year)
+            let month = parseInt(this.month_names.indexOf(this.month) + 1);//this.month;
+            let req = { empNo: this.empno, month: month, year: year }
 
-        await this.timeCardStore.getCreateTimeCard(req, this.showLoading)
-        this.getRefresh();
-      }
+            await this.timeCardStore.setTimeCardWorkLoad(req, this.showLoading)
+            this.getRefresh();
+          }
+        });
     },
 
   },
