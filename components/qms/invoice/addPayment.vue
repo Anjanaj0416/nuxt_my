@@ -202,7 +202,7 @@ export default {
       type: [String, Number],
       required: true,
     },
-     status: {   // ✅ Add this
+     status: {  
       type: String,
       required: false,
       default: ''
@@ -228,7 +228,6 @@ export default {
     this.quotationStore = useQuotationStore();
     this.orderStore = useOrderStore();
 
-
     await this.quotationStore.loadInitPayment(this.showLoading);
     this.initPaymentDetails = this.quotationStore.initPaymentDetails;
 
@@ -245,66 +244,54 @@ export default {
       }
     },
 
-  formatAmount() {
-    // Remove anything except numbers and dot
-    let numericValue = this.formattedAmount.replace(/[^0-9.]/g, '');
+    formatAmount() {
+      // Remove anything except numbers and dot
+      let numericValue = this.formattedAmount.replace(/[^0-9.]/g, '');
 
-    // Split by dot to handle decimals
-    let parts = numericValue.split('.');
-    let integerPart = parts[0].replace(/\B(?=(\d{3})+(?!\d))/g, ','); // Add comma for thousands
-    let decimalPart = parts[1] ? parts[1].slice(0, 2) : '00'; // Keep max 2 decimal digits
+      // Split by dot to handle decimals
+      let parts = numericValue.split('.');
+      let integerPart = parts[0].replace(/\B(?=(\d{3})+(?!\d))/g, ','); // Add comma for thousands
+      let decimalPart = parts[1] ? parts[1].slice(0, 2) : '00'; // Keep max 2 decimal digits
 
-    this.formattedAmount = decimalPart ? `${integerPart}.${decimalPart}` : `${integerPart}.00`;
+      this.formattedAmount = decimalPart ? `${integerPart}.${decimalPart}` : `${integerPart}.00`;
 
-    // Store numeric value for backend
-    this.Amount = parseFloat(this.formattedAmount.replace(/,/g, '')) || 0;
-  },
+      // Store numeric value for backend
+      this.Amount = parseFloat(this.formattedAmount.replace(/,/g, '')) || 0;
+    },
 
-  //     handleFileUpload(event) {
-  //   const file = event.target.files[0];
-  //   if (file) {
-  //     this.PaymentSlipImage = file;
-  //   }
-  // },
+    async SetApprove() {
+      if (!this.IsValidate()) return;
 
+      const confirmed = await this.$showConfirm(
+        "Are you sure to Save this Payment?",
+        "warning"
+      );
 
-  async SetApprove() {
-    if (!this.IsValidate()) return;
+      if (!confirmed.isConfirmed) return;
 
-    const confirmed = await this.$showConfirm(
-      "Are you sure to Save this Payment?",
-      "warning"
-    );
+      const formData = new FormData();
+      formData.append("OrderId", this.orderId || "");
+      formData.append("Amount", this.Amount || "");
 
-    if (!confirmed.isConfirmed) return;
+      formData.append("Remarks", this.Remarks || "");
+      formData.append("ReferenceNo", this.ReferenceNo || "");
+      formData.append("ReceiptType", this.ReceiptType || "");
+      formData.append("BankName", this.BankName || "");
+      formData.append("OriginalAdvanceReceiptNo", this.OriginalAdvanceReceiptNo || "");
+      formData.append("OriginalAdvanceReceiptDate", this.OriginalAdvanceReceiptDate || "");
+      if (this.PaymentSlipImage) {
+        formData.append("PaymentSlipImage", this.PaymentSlipImage);
+      }
 
-    const formData = new FormData();
-    formData.append("OrderId", this.orderId || "");
-    formData.append("Amount", this.Amount || "");
+      // Do the payment
+      await this.orderStore.getDoPay(formData, this.showLoading);
 
-    formData.append("Remarks", this.Remarks || "");
-    formData.append("ReferenceNo", this.ReferenceNo || "");
-    formData.append("ReceiptType", this.ReceiptType || "");
-    formData.append("BankName", this.BankName || "");
-    formData.append("OriginalAdvanceReceiptNo", this.OriginalAdvanceReceiptNo || "");
-    formData.append("OriginalAdvanceReceiptDate", this.OriginalAdvanceReceiptDate || "");
-    if (this.PaymentSlipImage) {
-      formData.append("PaymentSlipImage", this.PaymentSlipImage);
-    }
+      // refresh list after add
+      await this.orderStore.GettPaymentDetails(this.orderId, this.showLoading);
 
-    // Do the payment
-    await this.orderStore.getDoPay(formData, this.showLoading);
-
-     // refresh list after add
-    await this.orderStore.GettPaymentDetails(this.orderId, this.showLoading);
-
-    this.closeModal();
-    
-  },
-
-
- 
-
+      this.closeModal();
+      
+    },
 
     IsValidate() {
       let isSuccess = true;
@@ -405,7 +392,6 @@ export default {
     },
 
   },
-
   async beforeMount() {
     // if (this.loggeduser.granted.indexOf('workgroup') > -1 || this.loggeduser.usergroup == 'Supervisor' ) {
     // } else {
