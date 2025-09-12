@@ -106,12 +106,11 @@ export const useDashboardStore  = defineStore('dashboard', {
   actions: {
 
   async hrDashboard(showLoading) {
-    // const loadingAlert = showLoading('') 
+    const loadingAlert = showLoading('') 
 
     try {
       const response = await axios.get(
-        `${import.meta.env.VITE_API_URL}/hr/HRCommon/GetEmployeeDashBoardDetails`
-      );
+        `${import.meta.env.VITE_API_URL}/hr/HRCommon/GetEmployeeDashBoardDetails`);
 
       console.log('response:', response);
 
@@ -135,12 +134,14 @@ export const useDashboardStore  = defineStore('dashboard', {
           monthTotalWorkedHours: hrData.monthTotalWorkedHours,
         };
       } else {
+        console.log("error:",error);
+        
         this.showToast(response.data.message, "error");
       }
     } catch (error) {
       this.showToast("Failed to load Employee data", "error");
-      loadingAlert.close();
     }
+     loadingAlert.close();
   },
 
 

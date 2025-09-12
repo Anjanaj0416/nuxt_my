@@ -127,6 +127,7 @@ export default defineNuxtPlugin(nuxtApp => {
   nuxtApp.provide('showLoading', (message = 'Loading...') => {
     return Swal.fire({
       title: '',
+      // ${lodingGif}
       html: `
         <div style="
           padding: 30px 40px;
@@ -138,7 +139,7 @@ export default defineNuxtPlugin(nuxtApp => {
           gap: 20px;
           min-width: 200px;
         ">
-          <img src="${lodingGif}" alt="Loading..." style="width: 100px; height: 100px;" />
+          <img src="" alt="Loading..." style="width: 100px; height: 100px;" />
         </div>
       `,
       background: 'transparent', // So Swal's background is transparent; your container sets bg

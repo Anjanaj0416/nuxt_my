@@ -177,7 +177,7 @@ export const useEmployeeStore = defineStore("employeeStore", {
         if (response.data.isSuccess) {
           this.alempdetails =
             response.data.data.data.alpagedetails[0].alempdetails || [];
-          this.showToast("Loading successful!", "success");
+          // this.showToast("Loading successful!", "success");
         } else {
           console.error("Loading error:", response.data.message);
           this.showToast(response.data.message, "error");
