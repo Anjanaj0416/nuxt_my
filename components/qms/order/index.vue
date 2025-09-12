@@ -200,38 +200,48 @@
             <!-- Proposal Tab Buttons -->
             <div class="sm:flex sm:justify-end sm:gap-4">
               <div class="grid grid-cols-3 gap-2 sm:flex sm:gap-4 text-sm font-medium text-gray-500">
+              <!-- Installments -->
+              <button  
+                v-if="activeInstallmentId !== order.id && order.orderStatus !== 'Active'"
+                @click="
+                  activeInstallmentId = order.id; 
+                  activeOrderInvoiceId = null; 
+                "
+                :class="[
+                  'p-4 border-b-2 rounded-t-lg text-center',
+                  'border-transparent text-blue-600 hover:text-gray-600 hover:border-gray-300'
+                ]"
+              >
+                View Installment
+              </button>
+              <button 
+                v-else-if="activeInstallmentId === order.id && order.orderStatus !== 'Active'"
+                @click="activeInstallmentId = null"
+                class="p-4 border-b-2 rounded-t-lg text-center text-red-600 border-transparent">
+                Close Installment
+              </button>
+              <!-- Payments -->
+              <button  
+                v-if="activeOrderInvoiceId !== order.id && order.orderStatus !== 'Active'"
+                @click="
+                  activeOrderInvoiceId = order.id; 
+                  activeInstallmentId = null; 
+                "
+                :class="[
+                  'p-4 border-b-2 rounded-t-lg text-center',
+                  'border-transparent text-blue-600 hover:text-gray-600 hover:border-gray-300'
+                ]"
+              >
+                View Payments
+              </button>
 
-                <button  v-if="activeInstallmentId !== order.id && order.orderStatus !== 'Active'"
-                  @click="activeInstallmentId = order.id"
-                  :class="[
-                    'p-4 border-b-2 rounded-t-lg text-center',
-                    'border-transparent text-blue-600 hover:text-gray-600 hover:border-gray-300'
-                  ]">
-                  View Installment
-                </button>
+              <button 
+                v-else-if="activeOrderInvoiceId === order.id && order.orderStatus !== 'Active'"
+                @click="activeOrderInvoiceId = null"
+                class="p-4 border-b-2 rounded-t-lg text-center text-red-600 border-transparent">
+                Close Payments
+              </button>
 
-                <button 
-                  v-else-if="activeInstallmentId === order.id && order.orderStatus !== 'Active'"
-                  @click="activeInstallmentId = null"
-                  class="p-4 border-b-2 rounded-t-lg text-center text-red-600 border-transparent">
-                  Close Installment
-                </button>
-
-                <button  v-if="activeOrderInvoiceId !== order.id && order.orderStatus !== 'Active'"
-                  @click="activeOrderInvoiceId = order.id"
-                  :class="[
-                    'p-4 border-b-2 rounded-t-lg text-center',
-                    'border-transparent text-blue-600 hover:text-gray-600 hover:border-gray-300'
-                  ]">
-                  View Payments
-                </button>
-
-                <button 
-                  v-else-if="activeOrderInvoiceId === order.id && order.orderStatus !== 'Active'"
-                  @click="activeOrderInvoiceId = null"
-                  class="p-4 border-b-2 rounded-t-lg text-center text-red-600 border-transparent">
-                  Close Payments
-                </button>
 
                 <button
                   v-if="order.orderStatus === 'Active'"
@@ -275,7 +285,7 @@
                 <WorkFlow  />
               </div>
               <div v-if="activeInstallmentId === order.id">
-                <Installment  />
+                <Installment :orderId="order.id" />
               </div>
             </div>
           </div>

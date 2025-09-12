@@ -1,7 +1,7 @@
 <template>
   <section>
     <div
-      class="flex items-center justify-center p-1 font-bold text-center border text-black border-white rounded cursor-pointer gap-x-2 hover:bg-blue-500 hover:text-white"
+      class="flex items-center justify-center p-1 font-bold text-center border text-black border-white rounded cursor-pointer gap-x-2 hover:bg-blue-800 hover:text-white"
       @click="clickLoad">
       <div class="flex-shrink-0"> <!-- Prevents icon from shrinking -->
         <svg xmlns="http://www.w3.org/2000/svg" class="w-6 h-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">

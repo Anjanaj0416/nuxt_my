@@ -31,7 +31,7 @@
       <nav class="p-4">
         <crm v-if="userStore.loggedUser.granted.includes('su') || userStore.loggedUser.granted.includes('flo') || userStore.loggedUser.granted.includes('sso')" />
         <hrsystem v-if="userStore.loggedUser.granted.includes('su') || userStore.loggedUser.granted.includes('hradmin')"/>
-        <settings />
+        <settings v-if="userStore.loggedUser.granted.includes('su') || userStore.loggedUser.granted.includes('flo') || userStore.loggedUser.granted.includes('hradmin')"/>
         <document_registry />
       </nav>
     </aside>

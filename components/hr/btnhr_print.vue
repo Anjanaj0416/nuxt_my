@@ -1,7 +1,7 @@
 <template>
   <section>
     <div
-      class="flex items-center justify-center p-1 font-bold border w-auto border-white rounded-md cursor-pointer gap-x-1 hover:bg-blue-500 hover:text-white md:border-0"
+      class="flex items-center justify-center p-1 font-bold border w-auto border-white rounded-md cursor-pointer gap-x-1 hover:bg-blue-800 hover:text-white md:border-0"
       @click="click"
     >
       <div class="flex-shrink-0">

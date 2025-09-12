@@ -24,6 +24,7 @@
             <div v-show="isSubmenuOpen['Settings']" class="pl-4 mt-1 space-y-1">
                 <div>
                     <div @click="toggleSubmenu('QMS')"
+                        v-if="userStore.loggedUser.granted.includes('su') || userStore.loggedUser.granted.includes('sso')"
                         class="flex items-center justify-between px-3 py-2 text-gray-300 rounded cursor-pointer hover:bg-blue-800">
                         <span>QMS</span>
                         <svg :class="{ 'rotate-90': isSubmenuOpen['QMS'] }"
@@ -49,6 +50,7 @@
                 </div>
                 <div>
                     <div @click="toggleSubmenu('HR')"
+                    v-if="userStore.loggedUser.granted.includes('su') || userStore.loggedUser.granted.includes('hradmin')"
                         class="flex items-center justify-between px-3 py-2 text-gray-300 rounded cursor-pointer hover:bg-blue-800">
                         <span>HR</span>
                         <svg :class="{ 'rotate-90': isSubmenuOpen['HR'] }"
@@ -100,14 +102,19 @@ export default {
             };
         };
 
+        
+
         return {
             isSubmenuOpen,
             toggleSubmenu,
         };
     },
 
-    async created() {
-        const userStore = useUserStore();
+    
+
+     async created() {
+        this.userStore = useUserStore();
+
     },
 }
 
