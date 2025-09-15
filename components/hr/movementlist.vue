@@ -3,9 +3,8 @@
     <div class="relative min-h-screen px-4 pt-4 text-sm">
       <div class="flex flex-col justify-between lg:flex-row">
         <div class="flex mb-4 gap-x-4 lg:mb-0">
-          <div class="p-1 px-4 text-sm font-semibold uppercase bg-blue-600 rounded-md text-SID-blue">
-            Movement Details
-          </div>
+
+          <div class="text-2xl uppercase">Movement Details</div>
 
           <div v-show="userStore.loggedUser.userName === empno || userStore.loggedUser.granted.includes('hradmin')">
             <btnapplyleave name="Apply" title="Apply Movement" @click="applymovement" />
@@ -43,7 +42,7 @@
         </div>
       </div>
 
-      <div v-if="movementStore.movement.arrmovements.length === 0" class="text-center text-white">
+      <div v-if="movementStore.movement.arrmovements.length === 0" class="text-center text-gray-800">
         <p>No movements available.</p>
       </div>
 

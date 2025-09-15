@@ -200,21 +200,48 @@
             <!-- Proposal Tab Buttons -->
             <div class="sm:flex sm:justify-end sm:gap-4">
               <div class="grid grid-cols-3 gap-2 sm:flex sm:gap-4 text-sm font-medium text-gray-500">
-                <button  v-if="activeOrderInvoiceId !== order.id && order.orderStatus !== 'Active'"
-                  @click="activeOrderInvoiceId = order.id"
-                  :class="[
-                    'p-4 border-b-2 rounded-t-lg text-center',
-                    'border-transparent text-blue-600 hover:text-gray-600 hover:border-gray-300'
-                  ]">
-                  View Payments
-                </button>
+              <!-- Installments -->
+              <button  
+                v-if="activeInstallmentId !== order.id && order.orderStatus !== 'Active'"
+                @click="
+                  activeInstallmentId = order.id; 
+                  activeOrderInvoiceId = null; 
+                "
+                :class="[
+                  'p-4 border-b-2 rounded-t-lg text-center',
+                  'border-transparent text-blue-600 hover:text-gray-600 hover:border-gray-300'
+                ]"
+              >
+                View Installment
+              </button>
+              <button 
+                v-else-if="activeInstallmentId === order.id && order.orderStatus !== 'Active'"
+                @click="activeInstallmentId = null"
+                class="p-4 border-b-2 rounded-t-lg text-center text-red-600 border-transparent">
+                Close Installment
+              </button>
+              <!-- Payments -->
+              <button  
+                v-if="activeOrderInvoiceId !== order.id && order.orderStatus !== 'Active'"
+                @click="
+                  activeOrderInvoiceId = order.id; 
+                  activeInstallmentId = null; 
+                "
+                :class="[
+                  'p-4 border-b-2 rounded-t-lg text-center',
+                  'border-transparent text-blue-600 hover:text-gray-600 hover:border-gray-300'
+                ]"
+              >
+                View Payments
+              </button>
 
-                <button 
-                  v-else-if="activeOrderInvoiceId === order.id && order.orderStatus !== 'Active'"
-                  @click="activeOrderInvoiceId = null"
-                  class="p-4 border-b-2 rounded-t-lg text-center text-red-600 border-transparent">
-                  Close Payments
-                </button>
+              <button 
+                v-else-if="activeOrderInvoiceId === order.id && order.orderStatus !== 'Active'"
+                @click="activeOrderInvoiceId = null"
+                class="p-4 border-b-2 rounded-t-lg text-center text-red-600 border-transparent">
+                Close Payments
+              </button>
+
 
                 <button
                   v-if="order.orderStatus === 'Active'"
@@ -257,6 +284,9 @@
               <div v-if="activeOrderWorkFloweId === order.id">
                 <WorkFlow  />
               </div>
+              <div v-if="activeInstallmentId === order.id">
+                <Installment :orderId="order.id" />
+              </div>
             </div>
           </div>
 
@@ -289,7 +319,7 @@
   import WorkFlow from "~/components/qms/workFlow/index.vue";
   import SignedPIUpload from './signUpload.vue';
   import ProposalUpload from './proposalUpload.vue';
-import Close from '~/components/customcontrol/close.vue';
+  import Installment from '../invoice/installment.vue';
 
 
  definePageMeta({
@@ -299,7 +329,7 @@ import Close from '~/components/customcontrol/close.vue';
    
   export default {
     
-    components: {LinkBtn,Button,selectinput2,Invoice,WorkFlow,AddOrder,SignedPIUpload,ProposalUpload},
+    components: {LinkBtn,Button,selectinput2,Invoice,WorkFlow,AddOrder,SignedPIUpload,ProposalUpload,Installment},
     props: ['id', 'customerRef'],
     data() {
       return {
@@ -310,6 +340,7 @@ import Close from '~/components/customcontrol/close.vue';
         showInvoice: false,
         showWorkFlow:false,
         activeOrderInvoiceId: null, 
+        activeInstallmentId: null, 
         activeOrderWorkFloweId: null,
         selectedOrderId: null,
         selectedOrderNo: null,

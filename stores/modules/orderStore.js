@@ -13,6 +13,7 @@ export const useOrderStore = defineStore("orderStore", {
     PaymentDetails: [],
     piSigned : [],
     listProposal : {},
+    InstalllmentDetails: []
   }),
   persist: true,
 
@@ -327,7 +328,7 @@ actions: {
     // },
 
     async GettPaymentDetails(orderId, showLoading) {
-       console.log('API-CancelOrder')
+       console.log('API-GetPaymentDetails')
       console.log('getPayment,',JSON.stringify(orderId));
 
       const loadingAlert = showLoading("");
@@ -403,6 +404,31 @@ actions: {
         this.showToast("Failed to load Employee data", "error");
       } finally {
         loading?.close();
+      }
+    },
+
+    //Installment
+    async GetInstallmentDetails(orderId, showLoading) {
+       console.log('API-CancelOrder')
+      console.log('getPayment,',JSON.stringify(orderId));
+
+      const loadingAlert = showLoading("");
+    
+      try {
+        const response = await axios.get(
+          `${import.meta.env.VITE_API_URL}/qms/Order/GetInstallmentDetails?orderId=${orderId}`
+        );
+        console.log(response);
+        
+        loadingAlert.close();
+        if (response.data.isSuccess) {
+           this.InstalllmentDetails = response.data.data.data;
+          // this.showToast(response.data.message, "success");
+        } else {
+          this.showToast(response.data.message, "error");
+        }
+      } catch (error) {
+        this.showToast("Error while deleting order", "error");
       }
     },
 

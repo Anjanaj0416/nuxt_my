@@ -3,10 +3,10 @@
     <div class="relative min-h-screen px-4 pt-2 text-sm">
       <div class="flex flex-col gap-4 mb-4 sm:flex-row sm:justify-between">
         <div class="flex flex-wrap justify-between gap-2">
-          <div class="p-2 text-xs font-semibold uppercase bg-blue-600 rounded-md sm:text-sm text-SID-blue">
+          <!-- <div class="p-2 text-xs font-semibold uppercase bg-blue-600 rounded-md sm:text-sm text-white">
             Attendence
-          </div>
-
+          </div> -->
+          <div class="text-2xl uppercase">Attendence </div>
           <!-- <div class="p-2 text-xs font-semibold uppercase bg-blue-600 rounded-md sm:text-sm text-SID-blue">
             <a :href="imageroot + '/Resource/HR/Attendence_Rectify_Form.docx'" target="_blank" class="hover:text-white">
               Rectify Form
@@ -18,11 +18,11 @@
 
         <div class="flex flex-wrap items-center justify-between gap-4 rounded-md sm:justify-start">
           <div
-            class="w-full p-2 font-bold text-center text-gray-700 border border-white rounded-md sm:w-auto hover:text-white">
+            class="w-full p-2 font-bold text-center text-gray-700 border bg-white border-white rounded-md sm:w-auto ">
             Normal OT Hrs - {{ attendanceStore.attendence.tot_normal_overtime }}
           </div>
           <div
-            class="w-full p-2 font-bold text-center text-gray-700 border border-white rounded-md sm:w-auto hover:text-white">
+            class="w-full p-2 font-bold text-center text-gray-700 border bg-white border-white rounded-md sm:w-auto">
             Sunday OT Hrs - {{ attendanceStore.attendence.tot_sunday_overtime }}
           </div>
 

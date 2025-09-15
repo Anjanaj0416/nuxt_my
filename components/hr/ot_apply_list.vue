@@ -4,9 +4,11 @@
       <!-- Header Section -->
       <div class="flex flex-col items-start justify-between md:flex-row md:items-center">
         <div class="flex gap-x-4">
-          <div class="px-4 py-1 text-sm font-semibold uppercase bg-blue-600 rounded-md text-SID-blue">
+          <!-- <div class="px-4 py-1 text-sm font-semibold uppercase bg-blue-600 rounded-md text-SID-blue">
             Over Time Pre-Approvals
-          </div>
+          </div> -->
+          <div class="text-2xl uppercase">Over Time Pre-Approvals </div>
+
         </div>
 
         <div class="flex mt-4 gap-x-4 md:mt-0">
@@ -28,20 +30,20 @@
         v-show="userStore.loggedUser.userName == empno || userStore.loggedUser.granted.indexOf('hradmin') > -1">
         <div>
           <span class="pr-4">Date</span>
-          <input v-model="oTPreApprovalRequest.date" type="date" />
+          <input class="border border-gray" v-model="oTPreApprovalRequest.date" type="date" />
         </div>
         <div>
           <span class="pr-4">From</span>
-          <input v-model="oTPreApprovalRequest.OTFrom" @blur="calcOTHours" type="time" />
+          <input class="border border-gray" v-model="oTPreApprovalRequest.OTFrom" @blur="calcOTHours" type="time" />
         </div>
         <div>
           <span class="pr-4">To</span>
-          <input v-model="oTPreApprovalRequest.OTTo" @blur="calcOTHours" type="time" />
+          <input class="border border-gray" v-model="oTPreApprovalRequest.OTTo" @blur="calcOTHours" type="time" />
         </div>
         <div class="pt-1">OT Hrs: {{ attendanceStore.OTApllyDetails.ot_hours }}</div>
         <div>
           <span class="pr-4">Nature Of Works</span>
-          <input v-model="oTPreApprovalRequest.Reason" type="text" />
+          <input class="border border-gray" v-model="oTPreApprovalRequest.Reason" type="text" />
         </div>
         <div>
           <btnhr name="Apply" @click="setApplyOT" />
@@ -65,7 +67,7 @@
 
           {{ attendanceStore.OTApllyDetails.otRecords }}
 
-          <div v-if="attendanceStore.OTApllyDetails.arrOTApply.length === 0" class="mt-5 text-center text-white">
+          <div v-if="attendanceStore.OTApllyDetails.arrOTApply.length === 0" class="mt-5 text-center text-gray-700">
             <p>No Apply OT available.</p>
           </div>
 

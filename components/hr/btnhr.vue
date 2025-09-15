@@ -2,23 +2,31 @@
   <section>
     <div
       class="
-        p-1
-        border-gray-500 rounded p-2
+        flex items-center gap-1
+        px-2 py-1
+        text-xs
+        font-semibold
+        text-gray-700
+        bg-white
+        border border-gray-300
         rounded-md
-        text-center
+        shadow-sm
         cursor-pointer
-        font-bold
-        flex
-        gap-x-1
-        hover:bg-blue-500 hover:text-white
+        select-none
+        transition
+        duration-200
+        hover:bg-blue-800
+        hover:text-white
+        hover:shadow
       "
       :title="name"
       @click="click"
     >
-      <div>
+      <!-- Icon -->
+      <div class="flex-shrink-0">
         <svg
           xmlns="http://www.w3.org/2000/svg"
-          class="h-6 w-6"
+          class="h-4 w-4"
           fill="none"
           viewBox="0 0 24 24"
           stroke="currentColor"
@@ -31,6 +39,7 @@
           />
         </svg>
       </div>
+      <!-- Label -->
       <div>{{ name }}</div>
     </div>
   </section>
@@ -40,10 +49,9 @@
 export default {
   props: ['name'],
   methods: {
-    click() {this.$emit('click')},
+    click() {
+      this.$emit('click');
+    },
   },
 }
 </script>
-
-<style>
-</style>

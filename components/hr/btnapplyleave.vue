@@ -1,16 +1,23 @@
 <template>
   <section>
     <div class="
-        p-1
-        border-gray-500 rounded p-2
+        flex items-center gap-1
+        px-2 py-1
+        text-xs
+        font-semibold
+        text-gray-700
+        bg-white
+        border border-gray-300
         rounded-md
-        text-center
+        shadow-sm
         cursor-pointer
-        font-bold
-        flex
-        gap-x-1
-        hover:bg-blue-500 hover:text-white
-      " @click="click">
+        select-none
+        transition
+        duration-200
+        hover:bg-blue-800
+        hover:text-white
+        hover:shadow
+        "@click="click">
 
       <div>
         <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">

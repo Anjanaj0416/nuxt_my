@@ -20,7 +20,7 @@
       <div class="space-y-12">
 
 
-        <div class="p-6 mt-4 bg-white rounded-lg shadow-md">
+        <div class="p-6 mt-4 bg-white rounded-lg shadow-md mb-4">
           <div>
             <h2 class=" text-base font-semibold leading-7 text-gray-900">Employee Details</h2>
             <div class="flex -space-x-1 overflow-hidden">

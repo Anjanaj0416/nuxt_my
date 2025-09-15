@@ -49,7 +49,7 @@
             </div>
             <div>
               <p class="text-sm text-gray-500">Identification Code</p>
-              <p class="font-medium text-gray-800">{{ profile.identificationCode }}</p>
+              <p class="font-medium text-gray-800 ">{{ profile.identificationCode }}</p>
             </div>
           </div>
         </div>
@@ -84,17 +84,24 @@
             <div>
               <label class="block text-sm font-medium text-gray-700">Identification Code</label>
               <input v-model="profile.identificationCode" type="text"
-                class="w-full p-2 mt-1 bg-white border border-gray-300 rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500" />
+                class="w-full p-2 mt-1 bg-white border border-gray-300 rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500" disabled/>
               <p v-if="err.identificationCode" class="mt-1 text-sm text-red-600">{{ err.identificationCode }}</p>
             </div>
             <div class="">
               <label class="block mb-2 text-sm font-medium text-gray-700">Upload Image</label>
-              <imagecomp :existing_image_path="imageroot + profile.image" @deleteExistingImage="profile.image = ''"
-                @GetSelectedImage="GetSelectedImage" ref="refImage" />
+              <!-- <imagecomp :existing_image_path="imageroot + profile.image" @deleteExistingImage="profile.image = ''"
+                @GetSelectedImage="GetSelectedImage" ref="refImage" /> -->
+                <imagepicker1
+                  :existingImagePath="imageroot + profile.image"
+                  @GetSelectedImage="image"
+                  @deleteExistingImage="profile.image = ''"
+                  ref="refimage"
+                />
             </div>
           </div>
         </div>
       </div>
+      <!-- {{ profile }} -->
 
       <!-- Modal Footer -->
       <div class="flex items-center justify-between px-6 py-4 border-t bg-gray-50">
@@ -118,12 +125,14 @@ import serach_Input from "~/components/customcontrol/SearchInput";
 import imagepicker from "~/components/customcontrol/imagepicker.vue";
 import { useUserStore } from "~/stores/modules/userStore";
 import imagecomp from "~/components/customcontrol/imagepicker";
+import imagepicker1 from "~/components/customcontrol/imagepicker1.vue";
+
 
 
 definePageMeta({ layout: 'default' });
 
 export default {
-  components: { closebtn, serach_Input, imagepicker, imagecomp },
+  components: { closebtn, serach_Input, imagepicker, imagecomp, imagepicker1},
   data() {
     return {
       imageroot: '',
