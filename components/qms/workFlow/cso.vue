@@ -1,6 +1,6 @@
 <template>
   <section class="justify-center min-h-screen px-4 mt-24 mb-20 lg:px-[60px] md:px-[82px]">
-    <div class="text-2xl uppercase">Merchant Leads</div>
+    <div class="text-2xl uppercase">Work Flow</div>
     <div
       class="flex flex-col items-center justify-between mt-2 mb-2 md:flex-row"
     >
@@ -28,7 +28,7 @@
       <p>No leads available...</p>
     </div>
     <div
-      class="flex flex-col gap-2 p-4 mt-3 bg-white border rounded-xl shadow-sm hover:shadow-md "
+      class="flex flex-col gap-2 p-1 mt-1 bg-white border-2 rounded-md shadow-md sm:p-3"
       v-for="(lead, index) in leadStore.listLeads"
       :key="index"
     >
@@ -36,48 +36,57 @@
 
       <div class="flex justify-start">
         <span
-          class="inline-block px-2 py-1 text-[12px] font-medium text-blue-800 bg-blue-100 rounded-full"
+          class="inline-block px-1 py-0.5 text-[9px] font-medium text-blue-800 bg-blue-100 rounded-full"
         >
-          ⏳ {{ lead.noofDaysPending }} Days Pending
+          {{ lead.noofDaysPending }} Days Pending
         </span>
       </div>
 
       <div
-        class="grid grid-cols-2 gap-4 sm:flex sm:flex-row sm:justify-between"
+        class="grid grid-cols-2 gap-4 sm:flex sm:flex-row sm:justify-between px-4"
       >
-        <div
-          class="flex flex-col text-center sm:text-left"
-          v-for="(field, idx) in vendorFields"
-          :key="idx"
-        >
-          <h1 class="text-[12px] font-semibold text-gray-600">
-            {{ field.label }}
-          </h1>
-
-          <!-- Conditional rendering -->
-          <template v-if="field.key === 'status'">
-            <span
-              :class="{
-                'bg-green-100 text-green-700 ': lead.status === 'CSOAssigned',
-                'bg-yellow-100 text-yellow-800 ': lead.status === 'Pending',
-                'bg-red-100 text-red-800 ': lead.status === 'Cancelled',
-                'bg-orange-100 text-orange-800 ': lead.status === 'Hold',
-                'bg-teal-100 text-teal-800 ': lead.status === 'Completed',
-                // 'bg-pink-100 text-pink-800 dark:bg-pink-900 dark:text-pink-300': lead.status === 'Rejected'
-              }"
-              class="text-xs font-medium me-2 px-2.5 py-0.5 rounded-full"
-            >
-              {{ lead.status  }}
-            </span>
-          </template>
-          <template v-else>
-            <p class="text-sm text-gray-500 mt-0.5" v-if="lead[field.key] || field.secondKey && lead[field.secondKey]">
-              {{ lead[field.key] || '—' }}
-              {{ field.secondKey ? lead[field.secondKey] || '' : '' }}
-            </p>
-            <p v-else class="text-sm text-gray-500 mt-0.5 italic">No Data</p>
-          </template>
+        <div class="flex flex-col text-center sm:text-left">
+        <h1 class="text-xs font-medium text-gray-600">Company Name</h1>
+        <p class="text-xs text-gray-500 mt-0.5">
+            {{ lead.companyName || 'No Data' }}
+        </p>
         </div>
+
+        <div class="flex flex-col text-center sm:text-left">
+        <h1 class="text-xs font-medium text-gray-600">Address</h1>
+        <p class="text-xs text-gray-500 mt-0.5">
+            {{ lead.address || 'No Data' }}
+        </p>
+        </div>
+
+        <div class="flex flex-col text-center sm:text-left">
+        <h1 class="text-xs font-medium text-gray-600">Company Contact Number</h1>
+        <p class="text-xs text-gray-500 mt-0.5">
+            {{ lead.companyPhone || 'No Data' }}
+        </p>
+        </div>
+
+        <div class="flex flex-col text-center sm:text-left">
+        <h1 class="text-xs font-medium text-gray-600">Reporte By</h1>
+            <span
+            :class="{
+                'bg-green-100 text-green-800': lead.reportedBy === 'Office',
+                'bg-blue-100 text-blue-800': lead.reportedBy === 'ME',
+                'bg-gray-100 text-gray-800': lead.reportedBy !== 'Office' && lead.reportedBy !== 'ME',
+            }"
+            class="text-xs font-medium me-2 px-2.5 py-0.5 rounded-full mt-0.5"
+            >
+                {{ lead.reportedBy }}
+            </span>
+        </div>
+
+        <div class="flex flex-col text-center sm:text-left">
+        <h1 class="text-xs font-medium text-gray-600">Status</h1>
+        <p class="text-xs text-gray-800 mt-0.5">
+            {{ lead.status || 'No Data' }}
+        </p>
+        </div>
+
 
         <hr class="block w-full mt-2 border-gray-300 sm:hidden" />
       </div>
@@ -109,37 +118,55 @@
 
         <section class="flex flex-col gap-5 p-4 mt-0 bg-white sm:p-6">
           <div class="grid grid-cols-1 gap-4 sm:grid-cols-3">
-            <div
-              class="text-center sm:text-left"
-              v-for="(field, idx) in showAllFields"
-              :key="idx"
-            >
-              <h2 class="block text-xs font-medium text-gray-700">
-                {{ field.label }}
-              </h2>
-
-              <template v-if="field.key === 'isActive'">
-                <span
-                  :class="{
-                    'bg-green-100 text-green-800 ': lead.isActive === true,
-                    'bg-red-100 text-red-800 ': lead.isActive === false,
-                    'bg-gray-100 text-gray-800': lead.isActive === undefined,
-                  }"
-                  class="inline-block px-3 py-1 mt-1 text-xs font-medium rounded-full"
-                >
-                  {{
-                    lead.isActive === true ? "Active" : "InActive" || "Unknown"
-                  }}
-                </span>
-              </template>
-              <template v-else>
-                <p
-                  v-if="field.key"
-                  v-html="formatComment(lead[field.key])"
-                  :class="['mt-1 text-xs text-gray-700', field.class]"
-                ></p>
-              </template>
+            <div class="text-center sm:text-left">
+            <h2 class="text-xs font-medium text-gray-800">Contact Person Number</h2>
+            <p class="mt-1 text-xs text-gray-700">
+                {{ lead.contactPhoneNo || 'No Data' }}
+            </p>
             </div>
+
+            <div class="text-center sm:text-left">
+            <h2 class="text-xs font-medium text-gray-800">Reported By</h2>
+            <p class="mt-1 text-xs text-gray-700">
+                {{ lead.reportedBy || 'No Data' }}
+            </p>
+            </div>
+
+            <div class="text-center sm:text-left">
+            <h2 class="text-xs font-medium text-gray-800">Created Date</h2>
+            <p class="mt-1 text-xs text-gray-700">
+                {{ lead.createdDate || 'No Data' }}
+            </p>
+            </div>
+
+            <div class="text-center sm:text-left">
+            <h2 class="text-xs font-medium text-gray-800">Status</h2>
+            <span
+                :class="{
+                'bg-green-100 text-green-800': lead.isActive === true,
+                'bg-red-100 text-red-800': lead.isActive === false,
+                'bg-gray-100 text-gray-800': lead.isActive === undefined,
+                }"
+                class="inline-block px-3 py-1 mt-1 text-xs font-medium rounded-full"
+            >
+                {{
+                lead.isActive === true
+                    ? 'Active'
+                    : lead.isActive === false
+                    ? 'Inactive'
+                    : 'Unknown'
+                }}
+            </span>
+            </div>
+
+            <div class="text-center sm:text-left">
+            <h2 class="text-xs font-medium text-gray-800">Comment</h2>
+            <p
+                class="mt-1 text-xs text-gray-700 max-h-[150px] overflow-auto whitespace-pre-wrap break-words"
+                v-html="formatComment(lead.comment || 'No Data')"
+            ></p>
+            </div>
+
           </div>
 
           <!-- Editable Fields -->
@@ -149,34 +176,19 @@
             class="grid grid-cols-1 gap-4 sm:grid-cols-1"
           >
             <div class="w-full sm:w-1/2">
-              <!-- <selectinput2
+              <selectinput2
                 v-model="lead.tempStatus"
                 :cur_item="lead.tempStatus"
                 :selections="leadStore.InitLeads.listStatus"
                 :err="err.status"
                 label="Lead Status"
-              /> -->
-              <label class="block text-xs font-medium text-gray-700">Job Status</label>
-                  <select
-                    v-model="lead.tempStatus"
-                    class="mt-1 w-full p-2 text-xs border rounded-md bg-white focus:ring-2 focus:ring-indigo-400"
-                  >
-                    <option disabled value="">-- Select Status --</option>
-                    <option
-                      v-for="status in leadStore.InitLeads.listStatus"
-                      :key="status"
-                      :value="status"
-                    >
-                      {{ status }}
-                    </option>
-                  </select>
+              />
             </div>
-            
             <div class="w-full sm:w-1/2">
-              <h2 class="block text-xs font-medium text-gray-700">Comment</h2>
+              <h2 class="text-sm font-semibold text-gray-700">Comment</h2>
               <textarea
                 v-model="lead.newComment"
-                class="w-full p-2 text-xs border rounded-md bg-white mt-1 focus:ring-2 focus:ring-indigo-400 resize-none"
+                class="w-full p-2 border rounded-md resize-none"
                 rows="3"
                 placeholder="Add a comment..."
               />
@@ -193,7 +205,7 @@
             class="flex justify-end pt-2"
           >
             <LinkBtn
-              class="px-5 py-2 text-xs font-semibold transition bg-indigo-600 text-white rounded-md shadow hover:bg-indigo-700 focus:ring-2 focus:ring-indigo-400"
+              class="px-5 py-2 text-sm font-medium transition bg-white border-2 rounded-lg shadow text-blue-950 border-blue-950 hover:bg-blue-900 hover:text-white focus:outline-none focus:ring-2 focus:ring-blue-400"
               variant="primary"
               label="Update"
               @click="SetUpdateVendorLead(lead)"
