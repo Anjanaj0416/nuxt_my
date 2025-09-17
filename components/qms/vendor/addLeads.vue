@@ -70,7 +70,7 @@
 
       <div class=" modal-footer">
         <button @click="cancel" class="cancel-button">Cancel</button>
-        <button @click="SetVendorLead()" class="confirm-button">
+        <button @click="SetVendorLead()"  class="px-5 py-2 text-xs font-semibold transition bg-indigo-600 text-white rounded-md shadow hover:bg-indigo-700 focus:ring-2 focus:ring-indigo-400">
           Save Lead Details
         </button>
       </div>
@@ -325,7 +325,8 @@ export default {
 }
 
 .modal-header {
-  background: #0b2145;
+  background: linear-gradient(to right, #1048c2, #0b2c88, #08236b); /* from-blue-600, via-blue-700, to-blue-900 */
+  backdrop-filter: blur(12px); /* backdrop-blur-md */
   padding: 15px;
   display: flex;
   justify-content: space-between;
