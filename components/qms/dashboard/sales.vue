@@ -1,9 +1,209 @@
 <template>
-  <section class="p-6 min-h-screen">
-    <!-- <h1 class="text-2xl font-bold text-gray-800 mb-8">Sales Dashboard</h1> -->
+  <section class="min-h-screen">
+    <div class="flex justify-between items-center p-2">
+      <h1 class="text-2xl font-bold text-gray-800">
+        Sales Dashboard
+      </h1>
+      <div class="flex flex-row-reverse gap-4 items-start">
+        <div
+          v-if="userStore.loggedUser.granted.includes('')"
+          class="inline-flex rounded-md shadow-xs relative"
+          role="group"
+          ref="dropdownWrapper"
+        >
+          <button
+            type="button"
+            class="px-4 py-2 text-sm font-medium text-gray-900 bg-white border border-gray-200 rounded-s-lg hover:bg-gray-100 hover:text-blue-700 focus:z-10 focus:ring-2 focus:ring-blue-700 focus:text-blue-700"
+            @click="hideDropdown"
+          >
+            All
+          </button>
 
-    <div class="grid grid-cols-1 lg:grid-cols-3 gap-6 mb-10">
-      <!-- Today Sales Summary -->
+          <button
+            type="button"
+            class="px-4 py-2 text-sm font-medium rounded-r-lg text-gray-900 bg-white border-t border-b border-gray-200 hover:bg-gray-100 hover:text-blue-700 focus:z-10 focus:ring-2 focus:ring-blue-700 focus:text-blue-700"
+            @click="toggleDropdown"
+          >
+            CSO
+          </button>
+
+          <!-- Dropdown Toggle -->
+          <button
+            v-if="showDropdown"
+            @click="toggleMenu"
+            class="w-36 p-2 text-xs border rounded-r-lg bg-white focus:ring-2 focus:ring-indigo-400 flex justify-between items-center"
+          >
+            {{ selectedOption || "Select CSO" }}
+            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                d="M19 9l-7 7-7-7" />
+            </svg>
+          </button>
+
+          <!-- Dropdown Menu -->
+          <ul
+            v-if="menuOpen"
+            class="absolute top-full mt-1 w-full border rounded-lg bg-white shadow-lg z-10"
+          >
+            <li
+              v-for="option in options"
+              :key="option"
+              @click="selectOption(option)"
+              class="px-3 py-2 text-sm cursor-pointer hover:bg-gray-100"
+            >
+              {{ option }}
+            </li>
+          </ul>
+        </div>
+
+        <!-- Period Dropdown -->
+        <div class="relative w-36">
+          <button
+            v-if="userStore.loggedUser.granted.includes('su')"
+            @click="togglePeriodMenu"
+            class="w-full p-2 text-xs border rounded-lg bg-white focus:ring-2 focus:ring-indigo-400 flex justify-between items-center"
+          >
+            {{ periodSelectedOption || "Select Period" }}
+            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                d="M19 9l-7 7-7-7" />
+            </svg>
+          </button>
+
+          <ul
+            v-if="periodMenuOpen"
+            class="absolute left-0 top-full mt-1 w-36 border rounded-lg bg-white shadow-lg z-10"
+          >
+            <li
+              v-for="option in periodOptions"
+              :key="option"
+              @click="selectPeriod(option)"
+              class="px-3 py-2 text-sm cursor-pointer hover:bg-gray-100"
+            >
+              {{ option }}
+            </li>
+          </ul>
+        </div>
+      </div>
+    </div>
+
+    <div class="lg:col-span-2 py-4">
+      <div class="bg-white border border-gray-200 p-6 rounded-2xl shadow-md hover:shadow-lg transition-all duration-300">
+        <div class="flex items-center justify-between mb-6">
+          <h2 class="text-xl font-bold text-gray-800 flex items-center gap-2">
+            📊 Sales Summary
+          </h2>
+        </div>
+
+        <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
+          <div
+            class="p-5 rounded-xl text-center shadow-sm hover:shadow-md transition bg-gradient-to-r from-blue-50 to-blue-100"
+          >
+            <div class="flex justify-center mb-2">
+              <span class="p-2 bg-blue-200 text-blue-800 rounded-full">🎯</span>
+            </div>
+            <h3 class="text-sm font-semibold text-gray-600 mb-1">Target Visit</h3>
+            <p class="text-3xl font-extrabold text-blue-800">
+              {{ dashboardStore.monthlySalesSummary.totalSales }}
+            </p>
+          </div>
+
+          <!-- Visit Gap -->
+          <div
+            class="p-5 rounded-xl text-center shadow-sm hover:shadow-md transition bg-gradient-to-r from-red-50 to-red-100"
+          >
+            <div class="flex justify-center mb-2">
+              <span class="p-2 bg-red-200 text-red-800 rounded-full">⏳</span>
+            </div>
+            <h3 class="text-sm font-semibold text-gray-600 mb-1">Visit Gap</h3>
+            <p class="text-3xl font-extrabold text-red-800">
+              {{ dashboardStore.monthlySalesSummary.pendingSales }}
+            </p>
+          </div>
+
+          <!-- Visited -->
+          <div
+            class="p-5 rounded-xl text-center shadow-sm hover:shadow-md transition bg-gradient-to-r from-green-50 to-green-100"
+          >
+            <div class="flex justify-center mb-2">
+              <span class="p-2 bg-green-200 text-green-800 rounded-full">✅</span>
+            </div>
+            <h3 class="text-sm font-semibold text-gray-600 mb-1">Visited</h3>
+            <p class="text-3xl font-extrabold text-green-800">
+              {{ dashboardStore.monthlySalesSummary.pendingSales }}
+            </p>
+          </div>
+
+          <!-- Cancelled -->
+          <div
+            class="p-5 rounded-xl text-center shadow-sm hover:shadow-md transition bg-gradient-to-r from-gray-50 to-gray-100"
+          >
+            <div class="flex justify-center mb-2">
+              <span class="p-2 bg-gray-300 text-gray-700 rounded-full">❌</span>
+            </div>
+            <h3 class="text-sm font-semibold text-gray-600 mb-1">Cancelled</h3>
+            <p class="text-3xl font-extrabold text-gray-800">
+              {{ dashboardStore.monthlySalesSummary.completedSales }}
+            </p>
+          </div>
+
+          <!-- Cash Target -->
+          <div
+            class="p-5 rounded-xl text-center shadow-sm hover:shadow-md transition bg-gradient-to-r from-yellow-50 to-yellow-100"
+          >
+            <div class="flex justify-center mb-2">
+              <span class="p-2 bg-yellow-200 text-yellow-800 rounded-full">💰</span>
+            </div>
+            <h3 class="text-sm font-semibold text-gray-600 mb-1">Cash Target</h3>
+            <p class="text-3xl font-extrabold text-yellow-800">
+              {{ dashboardStore.monthlySalesSummary.rejectedSales }}
+            </p>
+          </div>
+
+          <!-- Cash Gap -->
+          <div
+            class="p-5 rounded-xl text-center shadow-sm hover:shadow-md transition bg-gradient-to-r from-pink-50 to-pink-100"
+          >
+            <div class="flex justify-center mb-2">
+              <span class="p-2 bg-pink-200 text-pink-800 rounded-full">📉</span>
+            </div>
+            <h3 class="text-sm font-semibold text-gray-600 mb-1">Cash Gap</h3>
+            <p class="text-3xl font-extrabold text-pink-800">
+              {{ dashboardStore.monthlySalesSummary.refundedSales }}
+            </p>
+          </div>
+
+          <!-- Cash Collect -->
+          <div
+            class="p-5 rounded-xl text-center shadow-sm hover:shadow-md transition bg-gradient-to-r from-indigo-50 to-indigo-100"
+          >
+            <div class="flex justify-center mb-2">
+              <span class="p-2 bg-indigo-200 text-indigo-800 rounded-full">📦</span>
+            </div>
+            <h3 class="text-sm font-semibold text-gray-600 mb-1">Cash Collect</h3>
+            <p class="text-3xl font-extrabold text-indigo-800">
+              {{ dashboardStore.monthlySalesSummary.refundedSales }}
+            </p>
+          </div>
+
+          <!-- Assigned -->
+          <div
+            class="p-5 rounded-xl text-center shadow-sm hover:shadow-md transition bg-gradient-to-r from-purple-50 to-purple-100"
+          >
+            <div class="flex justify-center mb-2">
+              <span class="p-2 bg-purple-200 text-purple-800 rounded-full">📌</span>
+            </div>
+            <h3 class="text-sm font-semibold text-gray-600 mb-1">Assigned</h3>
+            <p class="text-3xl font-extrabold text-purple-800">
+              {{ dashboardStore.monthlySalesSummary.inProgress }}
+            </p>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- <div class="grid grid-cols-1 lg:grid-cols-3 gap-6 mb-10">
+      
       <div class="lg:col-span-1">
         <div class="bg-white border border-gray-200 p-6 rounded-2xl shadow-md hover:shadow-lg transition-all duration-300">
           <div class="flex items-center justify-between mb-6">
@@ -30,7 +230,6 @@
         </div>
       </div>
 
-      <!-- Monthly Sales Summary -->
       <div class="lg:col-span-2">
         <div class="bg-white border border-gray-200 p-6 rounded-2xl shadow-md hover:shadow-lg transition-all duration-300">
           <div class="flex items-center justify-between mb-6">
@@ -72,7 +271,7 @@
           </div>
         </div>
       </div>
-    </div>
+    </div> -->
 
     <!-- Future Section: Add Charts, Tables, or Sales by Category -->
     <div class="mt-10">
@@ -85,27 +284,25 @@
 
 
   
-  <script>
-  //import textInput from '~/components/customcontrol/textinput'
-  //// import * as Global from '@/assets/js/Global'
-  ////import * as myfilter from '@/plugins/myfilter'
- //import Swal from 'sweetalert2';
- //import { useSampleStore  } from '~/stores/modules/sampleStore';
- import { useRoute } from 'vue-router'
+<script>
 
+  import { useRoute } from 'vue-router'
 
- //import { useQuotationStore } from "~/stores/modules/qms/quotationStore";
+  import { ref, onMounted, onBeforeUnmount } from "vue";
+  //import { useQuotationStore } from "~/stores/modules/qms/quotationStore";
  
- import LinkBtn from "~/components/customcontrol/Link";
+  import LinkBtn from "~/components/customcontrol/Link";
   import Button from "~/components/customcontrol/Button";
   import selectinput2 from "~/components/customcontrol/selectinput2";
-   import { useDashboardStore  } from "~/stores/modules/dashboardStore";
-import { useUserStore } from "~/stores/modules/userStore";
+  import { useDashboardStore  } from "~/stores/modules/dashboardStore";
+  import { useUserStore } from "~/stores/modules/userStore";
 
  definePageMeta({
     layout: 'default',   
     middleware: 'auth',
    });
+
+
    
   export default {
     
@@ -115,9 +312,17 @@ import { useUserStore } from "~/stores/modules/userStore";
       return {
         imageroot: "",
         showLoading: null,
-       
+        showDropdown: false,
+        menuOpen: false, 
+        selectedOption: null,
+        options: ["Tania", "Amar", "Dinushika", "Sandari"],
+        // period
+        periodMenuOpen: false,
+        periodSelectedOption: null,
+        periodOptions: ["Daily", "Weekly", "Monthly", "Yearly"],
       }
     },
+
     async mounted() {
      
     },
@@ -131,44 +336,32 @@ import { useUserStore } from "~/stores/modules/userStore";
     computed: {
   
     },
-    methods: {
-     
-     
-      // async copyContent(value) {
-      //   try {
-      //      await navigator.clipboard.writeText(value)
-      //      this.show_msg('Content copied to clipboard')
-  
-      //   } catch (err) {
-      //     this.show_msg('Failed to copy :'+err)
-      //   }
-      // },
-      //     async copyContent(value) {
-      //   try {
-      //      await navigator.clipboard.writeText(value)
-      //      this.show_msg('Content copied to clipboard')
-  
-      //   } catch (err) {
-      //     this.show_msg('Failed to copy :'+err)
-      //   }
-      // },
-      //  async downloadReportKotukole(){
-      //   if(confirm('Do you want to Download?')){
-      //      await this.get_DownloadKotukole({book:this.book});
-      //      window.open(this.csv_root+'/reports/'+this.csv_name, '_blank');
-      //   }
-      // },
-
-      //this.$showToast('Login successful!', 'success'); //success ,error ,warning,info
+     methods: {
+      toggleDropdown() {
+        this.showDropdown = !this.showDropdown;
+        this.menuOpen = false;
+      },
+      hideDropdown() {
+        this.showDropdown = false;
+        this.menuOpen = false;
+        this.selectedOption = null;
+      },
+      toggleMenu() {
+        this.menuOpen = !this.menuOpen;
+      },
+      selectOption(option) {
+        this.selectedOption = option;
+        this.menuOpen = false;
+      },
+togglePeriodMenu() {
+    this.periodMenuOpen = !this.periodMenuOpen;
+  },
+  selectPeriod(option) {
+    this.periodSelectedOption = option;
+    this.periodMenuOpen = false;
+  }
     },
-    async beforeMount() {
-      // if (this.loggeduser.granted.indexOf('workgroup') > -1 || this.loggeduser.usergroup == 'Supervisor' ) {
-      // } else {
-      //   this.show_error('Not Allowed to access this page')
-      //   this.$router.push('/')
-      // }
-  
-    },
+    async beforeMount() {},
     head() {
       return {
         title: 'Intranet - Digital Tech Labs',
@@ -176,102 +369,11 @@ import { useUserStore } from "~/stores/modules/userStore";
     },
   }
 
-      //Message Usecases
-    //this.$showAlert("Test Login Failed!", "error");
 
-    //     this.$showConfirm('Are you sure you want to delete this item?', 'warning').then((result) => {
-    //   if (result) {
-    //     console.log('Item deleted');
-    //   } else {
-    //     console.log('Action canceled');
-    //   }
-    // });
-
-  //    this.$showInput('Please enter your name:').then((input) => {
-  //   if (input) {
-  //     console.log('User input:', input);
-  //   } else {
-  //     console.log('No input or canceled');
-  //   }
-  // });
-
-  // const htmlMessage = `
-  //       <h2 style="color: #007bff;">Hello, Welcome to the Custom HTML Alert!</h2>
-  //       <p>This is a <strong>custom HTML</strong> message with <a href="https://www.example.com" target="_blank" style="color: #007bff;">links</a>.</p>
-  //       <img src="https://via.placeholder.com/150" alt="Sample Image" style="display: block; margin-top: 10px;" />
-  //       <p><em>Note: This is a custom alert with rich HTML content.</em></p>
-  //     `;
-      
-  //     this.$showHtmlAlert(htmlMessage);
-
-  
-  //const loadingAlert = this.$showLoading('Loading...');
-  //loadingAlert.close();
-
-  // const imageUrl = 'https://intranet.sltds.lk/SLTDS/Resource/rainbow/news/GroupPhotoMeetingTheSecretarytotheTreasury.jpg'; 
-  // this.$showImageAlert('Here is your custom image!', imageUrl);
-
-  // this.$showCustomButtons('Are you sure you want to proceed?', 'warning').then((result) => {
-  //   if (result === 'Proceed') {
-  //     console.log('User confirmed to proceed');
-  //   } else {
-  //     console.log('User canceled the action');
-  //   }
-  // });
-
- //End Message Usecases
-  
-  //Validation
-  //-------------------------------------------------
-  // async cmdSearchOrg(){
-  //       if(this.isAtleasetOneExisitsForSearch()){
-  //      await this.getOrganizationData(this.organizationSearch);
-  //       }
-  //     },
-  
-  // 	-------------------
-  
-  
-  //  isAtleasetOneExisitsForSearch(){
-  //  let isAtleasetOneExisitsForSearch = false;
-  
-  
-  //  if(this.organizationSearch.person.trim()!='' ){
-  //         if( this.organizationSearch.person.trim().length  <= 3 ){
-  //             this.show_error('Invalid person , More than three Letters Requied for search');
-  //         }
-  //         else{ isAtleasetOneExisitsForSearch = true;}
-  
-  //       }
-  // 	  return isAtleasetOneExisitsForSearch;
-  // 	  }
-
-     // GetCityById() {
-    //   return (id) => {
-    //     try {
-    //       let objCity = this.vendorStore.initVendor.listCities.filter((city) => {
-    //         return city.id == id
-    //       })[0]
-    //       return objCity.value
-    //     } catch {
-    //       return ''
-    //     }
-    //   }
-    // },
   </script>
   
   <style scoped>
-  .csscmd{
-    @apply p-2 text-center bg-blue-200 rounded;
-  }
-  .csscmd:hover{
-    @apply bg-blue-200 cursor-pointer;
-  }
-  
-  .cssBox {
-    border: 1px solid;
-    @apply border-gray-500 rounded p-2;
-  }
+
   </style>
   
   

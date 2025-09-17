@@ -26,7 +26,7 @@
           </div>
           <div class="grid grid-cols-1 gap-4 mt-4 sm:grid-cols-1 md:grid-cols-3 lg:grid-cols-3">
             <div class="">
-              <label class="block text-sm font-bold text-gray-600">
+              <label class="block text-[13px] font-bold text-gray-600">
                 Company Name <span class="text-red-500">*</span>
               </label>
               <input type="text" v-model="curLead.CompanyName" placeholder="Enter company Name" required @input="clearErrorOnInput('CompanyName')"
@@ -36,7 +36,7 @@
               </p>
             </div>
             <div class="">
-              <label class="block text-sm font-bold text-gray-600">
+              <label class="block text-[13px] font-bold text-gray-600">
                 Address <span class="text-red-500">*</span>
               </label>
               <input type="text" v-model="curLead.Address" placeholder="Enter Address Line 1" required @input="clearErrorOnInput('Address')"
@@ -46,17 +46,17 @@
               </p>
             </div>
             <div class="">
-              <label class="block text-sm font-bold text-gray-600">
+              <label class="block text-[13px] font-bold text-gray-600">
                 Contact Number <span class="text-red-500">*</span>
               </label>
               <input type="tel" v-model="curLead.CompanyPhone" placeholder="Enter Contact Number" maxlength="10" @input="clearErrorOnInput('CompanyPhone')"
-                class="w-full p-2 mt-2 text-sm border rounded-md focus:ring-indigo-500 focus:border-indigo-500" />
+                class="w-full p-2 mt-2 text-[13px] border rounded-md focus:ring-indigo-500 focus:border-indigo-500" />
               <p v-if="err.CompanyPhone" class="mt-2 text-sm text-red-600">
                 {{ err.CompanyPhone }}
               </p>
             </div>
             <div class="">
-              <label class="block text-sm font-bold text-gray-600">Contact Person Number <span class="text-red-500">*</span></label>
+              <label class="block text-[13px] font-bold text-gray-600">Contact Person Number <span class="text-red-500">*</span></label>
               <input type="text" v-model="curLead.ContactPhoneNo" :maxlength="10" placeholder="Enter Contact Number" @input="clearErrorOnInput('ContactPhoneNo')"
                 required
                 class="w-full p-2 mt-2 text-sm border rounded-md focus:ring-indigo-500 focus:border-indigo-500" />
