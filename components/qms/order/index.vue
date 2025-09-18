@@ -38,8 +38,6 @@
               'border-red-300': order.orderStatus === 'Canceled'
             }"
           >
-          <!-- {{ order}} -->
-
             <!-- Top section: Details -->
             <div class="flex flex-col sm:flex-row sm:justify-between sm:items-center gap-2">
               <div class="flex flex-col text-center sm:text-left">
@@ -113,7 +111,6 @@
                 </button>
               </div>
 
-
               <div class="hidden sm:block w-px bg-gray-300 h-8"></div>
 
               <div class="flex flex-col text-center sm:text-left">
@@ -130,15 +127,10 @@
                   ]"
                 >
                   view
-                </a>
-
-
-                
+                </a>       
               </div>
 
-
               <div class="hidden sm:block w-px bg-gray-300 h-8"></div>
-
 
               <div class="flex flex-col text-center sm:text-left">
                 <h1 class="text-xs font-medium text-gray-600">Pi Signed Scan</h1>
@@ -162,7 +154,6 @@
                   upload signed PI
                 </button>
               </div>
-
 
               <div class="hidden sm:block w-px bg-gray-300 h-8"></div>
 
@@ -200,49 +191,50 @@
             <!-- Proposal Tab Buttons -->
             <div class="sm:flex sm:justify-end sm:gap-4">
               <div class="grid grid-cols-3 gap-2 sm:flex sm:gap-4 text-sm font-medium text-gray-500">
+              <!-- Commision -->
+              <button
+                v-if="order.orderStatus !== 'Active'"
+                @click="toggleTab('commission', order.id)"
+                :class="[
+                  'p-4 border-b-2 rounded-t-lg text-center',
+                  activeTab.type === 'commission' && activeTab.orderId === order.id
+                    ? 'text-red-600 border-transparent'
+                    : 'text-blue-600 border-transparent hover:text-gray-600 hover:border-gray-300 '
+                ]"
+              >
+                {{ activeTab.type === 'commission' && activeTab.orderId === order.id ? 'Close Commision' : 'View Commision' }}
+              </button>
+
               <!-- Installments -->
-              <button  
-                v-if="activeInstallmentId !== order.id && order.orderStatus !== 'Active'"
-                @click="
-                  activeInstallmentId = order.id; 
-                  activeOrderInvoiceId = null; 
-                "
+              <button
+                v-if="order.orderStatus !== 'Active'"
+                @click="toggleTab('Installment', order.id)"
                 :class="[
                   'p-4 border-b-2 rounded-t-lg text-center',
-                  'border-transparent text-blue-600 hover:text-gray-600 hover:border-gray-300'
+                  activeTab.type === 'Installment' && activeTab.orderId === order.id
+                    ? 'text-red-600 border-transparent'
+                    : 'text-blue-600 border-transparent hover:text-gray-600 hover:border-gray-300 '
                 ]"
               >
-                View Installment
+                {{ activeTab.type === 'Installment' && activeTab.orderId === order.id ? 'Close Installment' : 'View Installment' }}
               </button>
-              <button 
-                v-else-if="activeInstallmentId === order.id && order.orderStatus !== 'Active'"
-                @click="activeInstallmentId = null"
-                class="p-4 border-b-2 rounded-t-lg text-center text-red-600 border-transparent">
-                Close Installment
-              </button>
+
+           
               <!-- Payments -->
-              <button  
-                v-if="activeOrderInvoiceId !== order.id && order.orderStatus !== 'Active'"
-                @click="
-                  activeOrderInvoiceId = order.id; 
-                  activeInstallmentId = null; 
-                "
+               <button
+                v-if="order.orderStatus !== 'Active'"
+                @click="toggleTab('Invoice', order.id)"
                 :class="[
                   'p-4 border-b-2 rounded-t-lg text-center',
-                  'border-transparent text-blue-600 hover:text-gray-600 hover:border-gray-300'
+                  activeTab.type === 'Invoice' && activeTab.orderId === order.id
+                    ? 'text-red-600 border-transparent'
+                    : 'text-blue-600 border-transparent hover:text-gray-600 hover:border-gray-300 '
                 ]"
               >
-                View Payments
+                {{ activeTab.type === 'Invoice' && activeTab.orderId === order.id ? 'Close Payments' : 'View Payments' }}
               </button>
 
-              <button 
-                v-else-if="activeOrderInvoiceId === order.id && order.orderStatus !== 'Active'"
-                @click="activeOrderInvoiceId = null"
-                class="p-4 border-b-2 rounded-t-lg text-center text-red-600 border-transparent">
-                Close Payments
-              </button>
-
-
+              <!-- creteOrder -->
                 <button
                   v-if="order.orderStatus === 'Active'"
                   @click="createOrder(order.orderNo)"
@@ -278,14 +270,17 @@
 
             <!-- Button group -->
             <div class="p-0 dark:border-gray-700">
-              <div v-if="activeOrderInvoiceId === order.id">
-                <Invoice :orderId="order.id" :status="order.orderStatus" :orderNo="order.orderNo"/>
+              <div v-if="activeTab.type === 'Invoice' && activeTab.orderId === order.id">
+                <Invoice :orderId="order.id" :status="order.orderStatus" :orderNo="order.orderNo" />
               </div>
               <div v-if="activeOrderWorkFloweId === order.id">
                 <WorkFlow  />
               </div>
-              <div v-if="activeInstallmentId === order.id">
+              <div v-if="activeTab.type === 'Installment' && activeTab.orderId === order.id">
                 <Installment :orderId="order.id" />
+              </div>
+               <div v-if="activeTab.type === 'commission' && activeTab.orderId === order.id">
+                <commision :orderId="order.id" />
               </div>
             </div>
           </div>
@@ -320,6 +315,7 @@
   import SignedPIUpload from './signUpload.vue';
   import ProposalUpload from './proposalUpload.vue';
   import Installment from '../invoice/installment.vue';
+  import commision from './commision.vue';
 
 
  definePageMeta({
@@ -329,7 +325,7 @@
    
   export default {
     
-    components: {LinkBtn,Button,selectinput2,Invoice,WorkFlow,AddOrder,SignedPIUpload,ProposalUpload,Installment},
+    components: {LinkBtn,Button,selectinput2,Invoice,WorkFlow,AddOrder,SignedPIUpload,ProposalUpload,Installment,commision},
     props: ['id', 'customerRef'],
     data() {
       return {
@@ -339,9 +335,7 @@
         isScanedProposalUploaded: false,
         showInvoice: false,
         showWorkFlow:false,
-        activeOrderInvoiceId: null, 
-        activeInstallmentId: null, 
-        activeOrderWorkFloweId: null,
+        activeTab: { type: null, orderId: null },
         selectedOrderId: null,
         selectedOrderNo: null,
         listOrder: [] ,
@@ -373,6 +367,14 @@
 
     
     methods: {
+
+      toggleTab(type, orderId) {
+        if (this.activeTab.type === type && this.activeTab.orderId === orderId) {
+          this.activeTab = { type: null, orderId: null } // close if same tab clicked
+        } else {
+          this.activeTab = { type, orderId } // open selected tab
+        }
+      },
 
       formatStatus(status) {
         const map = {

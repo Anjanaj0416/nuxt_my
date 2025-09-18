@@ -13,7 +13,8 @@ export const useOrderStore = defineStore("orderStore", {
     PaymentDetails: [],
     piSigned : [],
     listProposal : {},
-    InstalllmentDetails: []
+    InstalllmentDetails: [],
+    CommisionDetails: [],
   }),
   persist: true,
 
@@ -352,30 +353,21 @@ actions: {
     },
 
     //GetPayment
-
     async getDoPay(formData, showLoading) {
       console.log('API-DoPayment');
-      for (let [key, value] of formData.entries()) {
-        console.log(`${key}:`, value);
-      }
-
+      // for (let [key, value] of formData.entries()) {
+      //   console.log(`${key}:`, value);
+      // }
       const loadingAlert = showLoading("");
       try {
         const response = await axios.post(
           `${import.meta.env.VITE_API_URL}/qms/Order/DoPayment`,
           formData
         );
-
-        console.log(response);
-        
-
         loadingAlert.close();
-
         if (response.data.isSuccess) {
           this.showToast(response.data.message, "success");
-          
-           this.PaymentDetails = response.data.data.data;
-
+          this.PaymentDetails = response.data.data.data;
         } else {
           this.showToast(response.data.message, "error");
         }
@@ -409,17 +401,14 @@ actions: {
 
     //Installment
     async GetInstallmentDetails(orderId, showLoading) {
-       console.log('API-CancelOrder')
+      console.log('API-CancelOrder')
       console.log('getPayment,',JSON.stringify(orderId));
-
       const loadingAlert = showLoading("");
-    
       try {
         const response = await axios.get(
           `${import.meta.env.VITE_API_URL}/qms/Order/GetInstallmentDetails?orderId=${orderId}`
         );
         console.log(response);
-        
         loadingAlert.close();
         if (response.data.isSuccess) {
            this.InstalllmentDetails = response.data.data.data;
@@ -429,6 +418,55 @@ actions: {
         }
       } catch (error) {
         this.showToast("Error while deleting order", "error");
+      }
+    },
+
+    //CommisionList
+    async GetCommisionList(orderId, showLoading) {
+      console.log('API-CommisionPaymentDetails')
+      const loadingAlert = showLoading("");
+      try {
+        const response = await axios.get(
+          `${import.meta.env.VITE_API_URL}/qms/Order/GetCommisionPaymentDetails?orderId=${orderId}`
+        );
+        // console.log(response);      
+        loadingAlert.close();
+        if (response.data.isSuccess) {
+           this.CommisionDetails = response.data.data.data;
+          // this.showToast(response.data.message, "success");
+        } else {
+          this.showToast(response.data.message, "error");
+        }
+      } catch (error) {
+        this.showToast("Error while deleting order", "error");
+      }
+    },
+
+    
+    //GetDoCommisionPay
+    async getDoCommisionPay(formData, showLoading) {
+      console.log('API-DoCommisionPayment');
+      for (let [key, value] of formData.entries()) {
+        console.log(`${key}:`, value);
+      }
+      return
+      const loadingAlert = showLoading("");
+      try {
+        const response = await axios.post(
+          `${import.meta.env.VITE_API_URL}/qms/Order/DoCommisionPayment`,
+          formData
+        );
+        console.log(response);
+        loadingAlert.close();
+        if (response.data.isSuccess) {
+          this.showToast(response.data.message, "success");
+          this.CommisionDetails = response.data.data.data;
+        } else {
+          this.showToast(response.data.message, "error");
+        }
+      } catch (error) {
+        loadingAlert.close();
+        this.showToast(error.message || "Error during payment", "error");
       }
     },
 
