@@ -518,15 +518,8 @@ export default {
     await this.init();
   },
 
-  async mounted() {
-    this.dtfrom = '';
-    this.dtto = '';
-  },
-
-
-
   methods: {
-    init() {
+    async init() {
       var date = new Date();
       this.dtfrom = this.$myUtility.toInputTypeDate(
         new Date(date.getFullYear(), date.getMonth(), 1)
@@ -534,6 +527,7 @@ export default {
       this.dtto = this.$myUtility.toInputTypeDate(
         new Date(date.getFullYear(), date.getMonth() + 1, 0)
       );
+
     },
 
     setRectifing(rowid) {
@@ -889,8 +883,9 @@ export default {
     },
 
     async getPrint() {
+      console.log("dtfrom:", this.dtfrom, this.dtto);
 
-      if (this.dtfrom == '' || this.dtto == '') {
+      if (this.dtfrom === '' || this.dtto === '') {
 
         this.$showCustomToast(
           "Select the Dates!",

@@ -507,6 +507,13 @@ export default {
       this.cur_sec = 'attendence';
       this.selectedrow = rowId;
       this.isSecClose = false;
+
+      let req = {
+        EmpNo: empId,
+        FromDate: this.dtfrom,
+        ToDate: this.dtto
+      }
+      await this.attendanceStore.getAttendenceByEmp(req, this.showLoading);
     },
 
     async init_movement(empId, rowId) {

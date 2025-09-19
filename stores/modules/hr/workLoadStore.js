@@ -46,11 +46,11 @@ export const useWorkLoadStore = defineStore("workLoadStore", {
     async getWorkLoadDetails(showLoading) {
       const loadingAlert = showLoading("");
       try {
-        const response = await axios.get(
+        const response = await axios.get( 
           `${import.meta.env.VITE_API_URL}/hr/WorkLoad/GetWorkLoadDetails`
         );
 
-        console.log("response:",response.data.data.data);
+        console.log("response:",response);
         // console.log("response:",response.data.data.data.assignedUser.jobArr);
 
         if (response.data.isSuccess) {

@@ -240,12 +240,10 @@ export const useLeaveStore = defineStore("leaveStore", {
     },
 
     async setLeave(req, showLoading) {
-      console.log('API-setLeave');
-      console.log(JSON.stringify(req));
+      console.log('API-setLeave:',req);
 
       const loadingAlert = showLoading("");
       try {
-        console.log("req:", req, showLoading);
         const response = await axios.post(
           `${import.meta.env.VITE_API_URL}/hr/Absence/SetLeave`,
           req

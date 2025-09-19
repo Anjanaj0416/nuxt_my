@@ -211,8 +211,7 @@ export const useAttendanceStore = defineStore("attendanceStore", {
     },
 
     async getAttendenceByEmp(req, showLoading) {
-      console.log('API-getAttendenceByEmp');
-      console.log(JSON.stringify(req));
+      console.log('API-getAttendenceByEmp:',req);
 
       const loadingAlert = showLoading("");
       try {
