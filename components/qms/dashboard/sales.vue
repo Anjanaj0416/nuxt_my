@@ -4,6 +4,7 @@
       <h1 class="text-2xl font-bold text-gray-800">
         Sales Dashboard
       </h1>
+
       <div class="flex flex-row-reverse gap-4 items-start">
         <div
           v-if="userStore.loggedUser.granted.includes('')"
@@ -13,7 +14,12 @@
         >
           <button
             type="button"
-            class="px-4 py-2 text-sm font-medium text-gray-900 bg-white border border-gray-200 rounded-s-lg hover:bg-gray-100 hover:text-blue-700 focus:z-10 focus:ring-2 focus:ring-blue-700 focus:text-blue-700"
+            :class="[
+              'px-4 py-2 text-sm font-medium border border-gray-200 rounded-s-lg focus:z-10 focus:ring-2',
+              selectedOption === 'All'
+                ? 'bg-blue-600 text-white border-blue-600'
+                : 'bg-white text-gray-900 hover:bg-gray-100 hover:text-blue-700'
+            ]"
             @click="hideDropdown"
           >
             All
@@ -21,7 +27,12 @@
 
           <button
             type="button"
-            class="px-4 py-2 text-sm font-medium rounded-r-lg text-gray-900 bg-white border-t border-b border-gray-200 hover:bg-gray-100 hover:text-blue-700 focus:z-10 focus:ring-2 focus:ring-blue-700 focus:text-blue-700"
+            :class="[
+              'px-4 py-2 text-sm font-medium rounded-r-lg border-t border-b border-gray-200 focus:z-10 focus:ring-2',
+              selectedOption !== 'All'
+                ? 'bg-blue-600 text-white border-blue-600'
+                : 'bg-white text-gray-900 hover:bg-gray-100 hover:text-blue-700'
+            ]"
             @click="toggleDropdown"
           >
             CSO
@@ -46,12 +57,12 @@
             class="absolute top-full mt-1 w-full border rounded-lg bg-white shadow-lg z-10"
           >
             <li
-              v-for="option in options"
-              :key="option"
-              @click="selectOption(option)"
+              v-for="option in dashboardStore.initDashboard.listRSOs"
+              :key="option.id"
+              @click="selectOption(option)" 
               class="px-3 py-2 text-sm cursor-pointer hover:bg-gray-100"
             >
-              {{ option }}
+              {{ option.value }}
             </li>
           </ul>
         </div>
@@ -59,7 +70,7 @@
         <!-- Period Dropdown -->
         <div class="relative w-36">
           <button
-            v-if="userStore.loggedUser.granted.includes('su')"
+            v-if="userStore.loggedUser.granted.includes('cso')"
             @click="togglePeriodMenu"
             class="w-full p-2 text-xs border rounded-lg bg-white focus:ring-2 focus:ring-indigo-400 flex justify-between items-center"
           >
@@ -70,19 +81,22 @@
             </svg>
           </button>
 
+
+          <!-- Period Dropdown -->
           <ul
             v-if="periodMenuOpen"
             class="absolute left-0 top-full mt-1 w-36 border rounded-lg bg-white shadow-lg z-10"
           >
             <li
-              v-for="option in periodOptions"
-              :key="option"
-              @click="selectPeriod(option)"
+              v-for="value in dashboardStore.initDashboard.periods"
+              :key="value"
+              @click="selectPeriod(value)"
               class="px-3 py-2 text-sm cursor-pointer hover:bg-gray-100"
             >
-              {{ option }}
+              {{ value }}
             </li>
           </ul>
+
         </div>
       </div>
     </div>
@@ -104,7 +118,7 @@
             </div>
             <h3 class="text-sm font-semibold text-gray-600 mb-1">Target Visit</h3>
             <p class="text-3xl font-extrabold text-blue-800">
-              {{ dashboardStore.monthlySalesSummary.totalSales }}
+              {{ dashboardStore.salesDashboardList?.visitTarget}}
             </p>
           </div>
 
@@ -117,7 +131,7 @@
             </div>
             <h3 class="text-sm font-semibold text-gray-600 mb-1">Visit Gap</h3>
             <p class="text-3xl font-extrabold text-red-800">
-              {{ dashboardStore.monthlySalesSummary.pendingSales }}
+              {{ dashboardStore.salesDashboardList?.visitGap}}
             </p>
           </div>
 
@@ -130,7 +144,7 @@
             </div>
             <h3 class="text-sm font-semibold text-gray-600 mb-1">Visited</h3>
             <p class="text-3xl font-extrabold text-green-800">
-              {{ dashboardStore.monthlySalesSummary.pendingSales }}
+              {{ dashboardStore.salesDashboardList?.noOfVisited}}
             </p>
           </div>
 
@@ -143,7 +157,7 @@
             </div>
             <h3 class="text-sm font-semibold text-gray-600 mb-1">Cancelled</h3>
             <p class="text-3xl font-extrabold text-gray-800">
-              {{ dashboardStore.monthlySalesSummary.completedSales }}
+              {{ dashboardStore.salesDashboardList?.cancelled}}
             </p>
           </div>
 
@@ -156,7 +170,7 @@
             </div>
             <h3 class="text-sm font-semibold text-gray-600 mb-1">Cash Target</h3>
             <p class="text-3xl font-extrabold text-yellow-800">
-              {{ dashboardStore.monthlySalesSummary.rejectedSales }}
+              {{ Number(dashboardStore.salesDashboardList?.cashTarget).toFixed(1)}}
             </p>
           </div>
 
@@ -169,7 +183,7 @@
             </div>
             <h3 class="text-sm font-semibold text-gray-600 mb-1">Cash Gap</h3>
             <p class="text-3xl font-extrabold text-pink-800">
-              {{ dashboardStore.monthlySalesSummary.refundedSales }}
+              {{ dashboardStore.salesDashboardList?.cashGap}}
             </p>
           </div>
 
@@ -182,7 +196,7 @@
             </div>
             <h3 class="text-sm font-semibold text-gray-600 mb-1">Cash Collect</h3>
             <p class="text-3xl font-extrabold text-indigo-800">
-              {{ dashboardStore.monthlySalesSummary.refundedSales }}
+              {{  Number(dashboardStore.salesDashboardList?.cashCollected).toFixed(1)}}
             </p>
           </div>
 
@@ -195,12 +209,15 @@
             </div>
             <h3 class="text-sm font-semibold text-gray-600 mb-1">Assigned</h3>
             <p class="text-3xl font-extrabold text-purple-800">
-              {{ dashboardStore.monthlySalesSummary.inProgress }}
+              {{ dashboardStore.salesDashboardList?.assigned}}
             </p>
           </div>
         </div>
       </div>
     </div>
+
+
+
 
     <!-- <div class="grid grid-cols-1 lg:grid-cols-3 gap-6 mb-10">
       
@@ -301,8 +318,6 @@
     layout: 'default',   
     middleware: 'auth',
    });
-
-
    
   export default {
     
@@ -315,11 +330,8 @@
         showDropdown: false,
         menuOpen: false, 
         selectedOption: null,
-        options: ["Tania", "Amar", "Dinushika", "Sandari"],
-        // period
         periodMenuOpen: false,
         periodSelectedOption: null,
-        periodOptions: ["Daily", "Weekly", "Monthly", "Yearly"],
       }
     },
 
@@ -331,36 +343,73 @@
       this.userStore = useUserStore();
       this.showLoading = this.$showLoading;
       this.imageroot = this.userStore.loggedUser.resourceURLRoot;
+
+      await this.dashboardStore.loadInitDashboard(this.showLoading);
+      await this.dashboardStore.salesDashboard(this.showLoading);
+
+
+
+      // Auto-select defaults
+      this.periodSelectedOption = this.dashboardStore.initDashboard.periods?.[0] || "Today";
+      this.selectedOption = "All";
+      this.selectedCSOId = "All"; 
+
+      // Send initial request
+      this.refreshDashboard();
+
     },
     watch: {},
     computed: {
   
     },
-     methods: {
+    methods: {
       toggleDropdown() {
         this.showDropdown = !this.showDropdown;
         this.menuOpen = false;
       },
+
       hideDropdown() {
+        this.selectedOption = "All";
+        this.selectedCSOId = "All"; 
         this.showDropdown = false;
         this.menuOpen = false;
-        this.selectedOption = null;
+
+        this.refreshDashboard();
       },
+
       toggleMenu() {
         this.menuOpen = !this.menuOpen;
       },
+
       selectOption(option) {
-        this.selectedOption = option;
+        this.selectedOption = option.value; 
+        this.selectedCSOId = option.id;
         this.menuOpen = false;
+
+        this.refreshDashboard();
       },
-togglePeriodMenu() {
-    this.periodMenuOpen = !this.periodMenuOpen;
-  },
-  selectPeriod(option) {
-    this.periodSelectedOption = option;
-    this.periodMenuOpen = false;
-  }
+
+      togglePeriodMenu() {
+        this.periodMenuOpen = !this.periodMenuOpen;
+      },
+
+      selectPeriod(option) {
+        this.periodSelectedOption = option;
+        this.periodMenuOpen = false;
+
+        this.refreshDashboard();
+      },
+
+      refreshDashboard() {
+        const req = {
+          period: this.periodSelectedOption,
+          csoNo: this.selectedCSOId || "All",
+        };
+        console.log("Request sent:", req);
+        this.dashboardStore.salesDashboard(req, this.showLoading);
+      },
     },
+
     async beforeMount() {},
     head() {
       return {

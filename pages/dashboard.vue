@@ -167,7 +167,7 @@
         <div class="mt-6" v-if="userStore.loggedUser.userGroup === 'Finance'">
           <financeDash />
         </div>
-        <div class="mt-6" v-if="userStore.loggedUser.userGroup === 'Employee'">
+        <div class="mt-6" v-if="userStore.loggedUser.userGroup === 'Sales'">
           <saleDash/>
         </div>
 

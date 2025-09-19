@@ -45,7 +45,7 @@
                 <!-- Image / Video Banner -->
                 <div class="mt-8 md:mt-0">
                 <!-- Large Image or Video -->
-                <img class="w-full rounded-lg shadow-lg" src="https://img.freepik.com/free-photo/business-team-discussing-project_1150-7337.jpg?w=740&t=st=1743160714~exp=1743164314~hmac=example" alt="BtoB.LK Project Banner">
+                <img class="w-full rounded-lg shadow-lg" src="/assets/img/digitalTechLabs/project.png" alt="BtoB.LK Project Banner">
                 <!-- Optionally, replace the image with a video -->
                 <!--
                 <video class="w-full rounded-lg shadow-lg" autoplay muted loop>
@@ -69,6 +69,7 @@
   import { ref } from "vue";
   import Header from "~/components/DigitalTechLabs/header.vue";
   import Footer from "~/components/DigitalTechLabs/footer.vue";
+  import projectImge from "~/assets/img/digitalTechLabs/project.png"
 
   import "swiper/css";
   import "swiper/css/pagination";
