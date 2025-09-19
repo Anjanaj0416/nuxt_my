@@ -100,12 +100,28 @@
 
               <!-- Employee Info -->
               <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-5 gap-3 px-4 mt-1 text-sm text-gray-700">
-                <div><strong>📞</strong> {{ emp.contact }}</div>
-                <div><strong>📧</strong> {{ emp.email }}</div>
-                <div><strong>🎓</strong> {{ emp.designation }}</div>
-                <div><strong>👔</strong> {{ emp.supervisor }}</div>
-                <div><strong>🏢</strong> {{ emp.department }}</div>
+                <div class="flex flex-col">
+                  <span class="font-semibold text-gray-500">Contact</span>
+                  <span>{{ emp.contact }}</span>
+                </div>
+                <div class="flex flex-col">
+                  <span class="font-semibold text-gray-500">Email</span>
+                  <span>{{ emp.email }}</span>
+                </div>
+                <div class="flex flex-col">
+                  <span class="font-semibold text-gray-500">Designation</span>
+                  <span>{{ emp.designation }}</span>
+                </div>
+                <div class="flex flex-col">
+                  <span class="font-semibold text-gray-500">Supervisor</span>
+                  <span>{{ emp.supervisor }}</span>
+                </div>
+                <div class="flex flex-col">
+                  <span class="font-semibold text-gray-500">Department</span>
+                  <span>{{ emp.department }}</span>
+                </div>
               </div>
+
               <!-- {{userStore.loggedUser}} -->
               <div class="flex flex-wrap justify-end gap-4 px-4 pb-2 mt-2">
                 <!-- Employee Details -->
