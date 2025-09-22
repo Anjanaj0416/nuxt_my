@@ -89,7 +89,7 @@
               <label class="block text-sm font-bold text-gray-600">
                 Email 2
               </label>
-              <input type="Email" v-model="employeeStore.empdetails.Email2" placeholder="Enter Email 2"
+              <input type="Email" v-model="employeeStore.empdetails.email2" placeholder="Enter Email 2"
                 class="w-full p-2 mt-2 text-sm border rounded-md focus:ring-indigo-500 focus:border-indigo-500"
                 required />
               <p v-if="err.Email2" class="mt-2 text-sm text-red-600">
@@ -99,7 +99,7 @@
             <div class="">
               <label class="block text-sm font-bold text-gray-600">Emergency Contact Number</label>
 
-              <input type="text" v-model="employeeStore.empdetails.EmergencyContact" :maxlength="10"
+              <input type="text" v-model="employeeStore.empdetails.emergencyContact" :maxlength="10"
                 placeholder="Enter Emergency Contact Number" required
                 class="w-full p-2 mt-2 text-sm border rounded-md focus:ring-indigo-500 focus:border-indigo-500" />
               <p v-if="err.EmergencyContact" class="mt-2 text-sm text-red-600">
@@ -599,15 +599,25 @@ export default {
         this.$showConfirm("Sure to add this new employee?", "warning")
           .then(async (result) => {
             if (result.isConfirmed) {
+              console.log("employeeStore.empdetails:", this.employeeStore.empdetails);
+
               const formData = this.convertToFormData(this.employeeStore.empdetails);
+
+              // / Log FormData contents
+              // console.log("FormData contents in SaveEmployee:");
+              // for (const [key, value] of formData.entries()) {
+              //   console.log(`${key}: ${value}`);
+              // }
+
               await this.employeeStore.AddEdiEmployee(formData, this.showLoading);
-              // await this.closeModal();
+              await this.closeModal();
             }
           });
       }
     },
 
     convertToFormData(formObject) {
+      console.log("formObject:", formObject);
       const formData = new FormData();
 
       // Append basic fields
@@ -638,8 +648,6 @@ export default {
       formData.append("Gender", formObject.gender || "");
       formData.append("EpfNo", formObject.epfNo || "");
       formData.append("Granted", formObject.granted || "");
-      formData.append("Nic", formObject.nic || "");
-
 
       // Files
       if (formObject.image) {
