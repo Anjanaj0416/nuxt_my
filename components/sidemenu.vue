@@ -29,9 +29,9 @@
 
       <!-- {{ userStore.loggedUser.granted }} -->
       <nav class="p-4">
-        <crm v-if="userStore.loggedUser.granted.includes('su') || userStore.loggedUser.granted.includes('flo') || userStore.loggedUser.granted.includes('sso')"  @close-sidebar="$emit('close-sidebar')"/>
-        <hrsystem v-if="userStore.loggedUser.granted.includes('su') || userStore.loggedUser.granted.includes('hradmin')" @close-sidebar="$emit('close-sidebar')"/>
-        <settings v-if="userStore.loggedUser.granted.includes('su') || userStore.loggedUser.granted.includes('flo') || userStore.loggedUser.granted.includes('hradmin')" @close-sidebar="$emit('close-sidebar')"/>
+        <crm v-if="granted.includes('su') || granted.includes('flo') || granted.includes('sso') || granted.includes('accdept')" />
+        <hrsystem v-if="granted.includes('su') || granted.includes('hradmin')" />
+        <settings v-if="granted.includes('su') || granted.includes('flo') || granted.includes('hradmin')" />
         <document_registry />
       </nav>
     </aside>
@@ -61,6 +61,14 @@ export default {
     hrsystem,
     settings,
     document_registry,
+  },
+
+  setup() {
+    const userStore = useUserStore();
+
+    const granted = computed(() => userStore?.loggedUser?.granted || []);
+
+    return { userStore, granted };
   },
 
   async created() {
