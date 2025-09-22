@@ -1,7 +1,7 @@
 <template>
   <section class="empdetails">
 
-    <div class="relative min-h-screen px-4 pt-2 text-sm" v-show="employeeStore.empdetails.id">
+    <div class="relative min-h-screen px-4 pt-2 text-sm" v-show="employeeStore?.empdetails?.id">
       <div class="absolute top-0 right-0 flex mt-8 mr-8 gap-x-4">
         <div v-show="userStore.loggedUser.granted.includes('hradmin') || userStore.loggedUser.granted.includes('su')"
           class="btn" @click="setEdit">Edit</div>
@@ -24,64 +24,64 @@
           <div>
             <h2 class=" text-base font-semibold leading-7 text-gray-900">Employee Details</h2>
             <div class="flex -space-x-1 overflow-hidden">
-              <div v-if="employeeStore.empdetails.imageUr">
-                <a :href="userStore.assetsBaseUrl + employeeStore.empdetails.imageUrl" target="_blank">
-                  <!-- :href="imageroot + '/user/' + employeeStore.empdetails.image" -->
+              <div v-if="employeeStore?.empdetails?.imageUr">
+                <a :href="userStore.assetsBaseUrl + employeeStore?.empdetails?.imageUrl" target="_blank">
+                  <!-- :href="imageroot + '/user/' + employeeStore?.empdetails?.image" -->
                   <img class="w-16 h-16 border-2 border-white rounded"
-                    :src="userStore.assetsBaseUrl + employeeStore.empdetails.imageUrl" alt="" />
+                    :src="userStore.assetsBaseUrl + employeeStore?.empdetails?.imageUrl" alt="" />
                 </a>
               </div>
             </div>
           </div>
           <div class="grid grid-cols-1 mt-2 sm:grid-cols-5 sm:gap-x-6">
             <div class="col-span-1">
-              <hr_item item="Emp. Number" :value="employeeStore.empdetails.empNo" />
+              <hr_item item="Emp. Number" :value="employeeStore?.empdetails?.empNo" />
             </div>
 
             <div class="col-span-1">
-              <hr_item item="Emp. Name" :value="employeeStore.empdetails.empName" />
+              <hr_item item="Emp. Name" :value="employeeStore?.empdetails?.empName" />
             </div>
 
             <div class="col-span-1">
-              <hr_item item="EPF Number" :value="employeeStore.empdetails.epfNo" />
+              <hr_item item="EPF Number" :value="employeeStore?.empdetails?.epfNo" />
             </div>
 
             <div class="col-span-1">
-              <hr_item item="Calling Name" :value="employeeStore.empdetails.callingName" />
+              <hr_item item="Calling Name" :value="employeeStore?.empdetails?.callingName" />
             </div>
 
             <div class="col-span-1">
-              <hr_item item="CSO No" :value="employeeStore.empdetails.csoNo" />
+              <hr_item item="CSO No" :value="employeeStore?.empdetails?.csoNo" />
             </div>
 
             <div class="col-span-1">
-              <hr_item item="Address" :value="employeeStore.empdetails.address" />
+              <hr_item item="Address" :value="employeeStore?.empdetails?.address" />
             </div>
 
             <div class="col-span-1">
               <hr_item item="Contact"
-                :value="employeeStore.empdetails.contact1 + ',' + employeeStore.empdetails.contact2" />
+                :value="employeeStore?.empdetails?.contact1 + ',' + employeeStore?.empdetails?.contact2" />
             </div>
 
             <div class="col-span-1">
-              <hr_item item="Email 1" :value="employeeStore.empdetails.email1" />
+              <hr_item item="Email 1" :value="employeeStore?.empdetails?.email1" />
             </div>
 
             <div class="col-span-1">
-              <hr_item item="Email 2" :value="employeeStore.empdetails.email2" />
+              <hr_item item="Email 2" :value="employeeStore?.empdetails?.email2" />
             </div>
 
             <div class="col-span-1">
-              <hr_item item="Emergency Contact" :value="employeeStore.empdetails.emergencyContact" />
+              <hr_item item="Emergency Contact" :value="employeeStore?.empdetails?.emergencyContact" />
             </div>
 
             <div class="col-span-1">
-              <hr_item item="Gender" :value="employeeStore.empdetails.gender" />
+              <hr_item item="Gender" :value="employeeStore?.empdetails?.gender" />
             </div>
 
             <div class="col-span-1">
-              <hr_item item="Date Of Birth" :value="employeeStore.empdetails.dob" />
-              <!-- <hr_item item="Date Of Birth" :value="$options.filters.toShortDate(employeeStore.empdetails.dob)" /> -->
+              <hr_item item="Date Of Birth" :value="employeeStore?.empdetails?.dob" />
+              <!-- <hr_item item="Date Of Birth" :value="$options.filters.toShortDate(employeeStore?.empdetails?.dob)" /> -->
             </div>
           </div>
 
@@ -89,55 +89,29 @@
 
           <div class="grid grid-cols-1 mt-2 sm:grid-cols-5 sm:gap-x-6">
             <div class="col-span-1">
-              <hr_item item="Department" :value="employeeStore.empdetails.department.value" />
+              <hr_item item="Department" :value="employeeStore?.empdetails?.department.value" />
             </div>
             <div class="col-span-1">
-              <hr_item item="Staff Type" :value="employeeStore.empdetails.staffType.value" />
+              <hr_item item="Staff Type" :value="employeeStore?.empdetails?.staffType.value" />
             </div>
             <div class="col-span-1">
-              <hr_item item="Designation" :value="employeeStore.empdetails.designation" />
+              <hr_item item="Designation" :value="employeeStore?.empdetails?.designation" />
             </div>
             <div class="col-span-1">
-              <hr_item item="Employee Type" :value="employeeStore.empdetails.empType.value" />
+              <hr_item item="Employee Type" :value="employeeStore?.empdetails?.empType.value" />
             </div>
             <div class="col-span-1">
-              <hr_item item="Date Of Join" :value="employeeStore.empdetails.dateOfJoinDisplay" />
-              <!-- <hr_item item="Date Of Join" :value="$options.filters.toShortDate(employeeStore.empdetails.dateOfJoin)" /> -->
+              <hr_item item="Date Of Join" :value="employeeStore?.empdetails?.dateOfJoinDisplay" />
+              <!-- <hr_item item="Date Of Join" :value="$options.filters.toShortDate(employeeStore?.empdetails?.dateOfJoin)" /> -->
             </div>
             <div class="col-span-1">
-              <hr_item item="Category" :value="employeeStore.empdetails.category.value" />
+              <hr_item item="Category" :value="employeeStore?.empdetails?.category.value" />
             </div>
             <div class="col-span-1">
-              <hr_item item="Is Executive" :value="(employeeStore.empdetails.isExecutive) ? 'Yes' : 'No'" />
+              <hr_item item="Is Executive" :value="(employeeStore?.empdetails?.isExecutive) ? 'Yes' : 'No'" />
             </div>
             <div class="col-span-1">
-              <hr_item item="His/Her Supervisor" :value="employeeStore.empdetails.managerEmployee.value" />
-            </div>
-          </div>
-
-          <hr>
-
-          <div class="grid grid-cols-1 mt-2 sm:grid-cols-5 sm:gap-x-6">
-            <div class="col-span-1">
-              <hr_item item="Annual Leave" :value="employeeStore.empdetails.annualLeave" />
-            </div>
-            <div class="col-span-1">
-              <hr_item item="Casual Leave" :value="employeeStore.empdetails.casualLeave" />
-            </div>
-            <div class="col-span-1">
-              <hr_item item="Sick Leave" :value="employeeStore.empdetails.sickLeave" />
-            </div>
-            <div class="col-span-1">
-              <hr_item item="Other Leave" :value="employeeStore.empdetails.otherLeave" />
-            </div>
-            <div class="col-span-1">
-              <hr_item item="Over Time" :value="employeeStore.empdetails.isOtAllow ? 'Yes' : 'No'" />
-            </div>
-            <div class="col-span-1">
-              <hr_item item="Regular OnTime" :value="employeeStore.empdetails.onTimeDisplay" />
-            </div>
-            <div class="col-span-1">
-              <hr_item item="Regular OFF Time" :value="employeeStore.empdetails.offTimeDisplay" />
+              <hr_item item="His/Her Supervisor" :value="employeeStore?.empdetails?.managerEmployee?.value" />
             </div>
           </div>
 
@@ -145,20 +119,46 @@
 
           <div class="grid grid-cols-1 mt-2 sm:grid-cols-5 sm:gap-x-6">
             <div class="col-span-1">
-              <hr_item item="User Name" :value="employeeStore.empdetails.callingName" />
+              <hr_item item="Annual Leave" :value="employeeStore?.empdetails?.annualLeave" />
             </div>
             <div class="col-span-1">
-              <hr_item item="Has Resigned" :value="employeeStore.empdetails.isResign ? 'Yes' : 'No'" />
+              <hr_item item="Casual Leave" :value="employeeStore?.empdetails?.casualLeave" />
             </div>
             <div class="col-span-1">
-              <hr_item item="Date Of Resigned" :value="employeeStore.empdetails.dateOfResignDisplay" />
-              <!-- <hr_item item="Date Of Resigned" :value="$options.filters.toShortDate(employeeStore.empdetails.dateOfResign)" /> -->
+              <hr_item item="Sick Leave" :value="employeeStore?.empdetails?.sickLeave" />
             </div>
             <div class="col-span-1">
-              <hr_item item="Reson For Resign" :value="employeeStore.empdetails.reasonForResign" />
+              <hr_item item="Other Leave" :value="employeeStore?.empdetails?.otherLeave" />
             </div>
             <div class="col-span-1">
-              <hr_item item="Activation" :value="employeeStore.empdetails.isActive ? 'Active' : 'In active'" />
+              <hr_item item="Over Time" :value="employeeStore?.empdetails?.isOtAllow ? 'Yes' : 'No'" />
+            </div>
+            <div class="col-span-1">
+              <hr_item item="Regular OnTime" :value="employeeStore?.empdetails?.onTimeDisplay" />
+            </div>
+            <div class="col-span-1">
+              <hr_item item="Regular OFF Time" :value="employeeStore?.empdetails?.offTimeDisplay" />
+            </div>
+          </div>
+
+          <hr>
+
+          <div class="grid grid-cols-1 mt-2 sm:grid-cols-5 sm:gap-x-6">
+            <div class="col-span-1">
+              <hr_item item="User Name" :value="employeeStore?.empdetails?.callingName" />
+            </div>
+            <div class="col-span-1">
+              <hr_item item="Has Resigned" :value="employeeStore?.empdetails?.isResign ? 'Yes' : 'No'" />
+            </div>
+            <div class="col-span-1">
+              <hr_item item="Date Of Resigned" :value="employeeStore?.empdetails?.dateOfResignDisplay" />
+              <!-- <hr_item item="Date Of Resigned" :value="$options.filters.toShortDate(employeeStore?.empdetails?.dateOfResign)" /> -->
+            </div>
+            <div class="col-span-1">
+              <hr_item item="Reson For Resign" :value="employeeStore?.empdetails?.reasonForResign" />
+            </div>
+            <div class="col-span-1">
+              <hr_item item="Activation" :value="employeeStore?.empdetails?.isActive ? 'Active' : 'In active'" />
             </div>
           </div>
 
@@ -166,37 +166,37 @@
 
 
             <!-- <div class="col-span-1">
-              <hr_item item="Status"   :value="employeeStore.empdetails.employeeStatus" />
+              <hr_item item="Status"   :value="employeeStore?.empdetails?.employeeStatus" />
             </div> -->
             <div class="col-span-1">
-              <hr_item item="Feature  Granting" :value="employeeStore.empdetails.granted" />
+              <hr_item item="Feature  Granting" :value="employeeStore?.empdetails?.granted" />
             </div>
             <div class="col-span-1">
-              <hr_item item="Morning OT Allowed" :value="employeeStore.empdetails.isMorningOtAllowed" />
+              <hr_item item="Morning OT Allowed" :value="employeeStore?.empdetails?.isMorningOtAllowed" />
             </div>
             <div class="col-span-1">
-              <hr_item item="Role" :value="employeeStore.empdetails.role.value" />
+              <hr_item item="Role" :value="employeeStore?.empdetails?.role.value" />
             </div>
           </div>
 
           <div class="grid grid-cols-1 mt-2 gap-y-4 sm:grid-cols-5 sm:gap-x-6">
             <div class="col-span-1">
-              <hr_item item="Secret Code" :value="employeeStore.empdetails.secretCode" />
+              <hr_item item="Secret Code" :value="employeeStore?.empdetails?.secretCode" />
             </div>
 
             <div class="col-span-1">
-              <hr_item item="UserCode" :value="employeeStore.empdetails.userCode" />
+              <hr_item item="UserCode" :value="employeeStore?.empdetails?.userCode" />
             </div>
 
             <div class="col-span-1">
-              <hr_item item="User Group" :value="employeeStore.empdetails.userGroup" />
+              <hr_item item="User Group" :value="employeeStore?.empdetails?.userGroup" />
             </div>
 
             <div class="col-span-1">
-              <hr_item item="User Name" :value="employeeStore.empdetails.username" />
+              <hr_item item="User Name" :value="employeeStore?.empdetails?.username" />
             </div>
             <div class="col-span-1">
-              <hr_item item="Gender" :value="employeeStore.empdetails.gender" />
+              <hr_item item="Gender" :value="employeeStore?.empdetails?.gender" />
             </div>
 
           </div>
@@ -206,28 +206,28 @@
 
 
             <div class="col-span-1">
-              <hr_item item="NIC" :value="employeeStore.empdetails.nic" />
+              <hr_item item="NIC" :value="employeeStore?.empdetails?.nic" />
             </div>
-            <div v-if="employeeStore.empdetails.nicUrl" class="pt-4">
+            <div v-if="employeeStore?.empdetails?.nicUrl" class="pt-4">
               <label for="price" class="block text-sm font-medium leading-6 text-gray-900">NIC Image</label>
               <div class="mt-2">
-                <a :href="userStore.assetsBaseUrl + employeeStore.empdetails.nicUrl" target="_blank">
+                <a :href="userStore.assetsBaseUrl + employeeStore?.empdetails?.nicUrl" target="_blank">
                   <img class="w-16 h-16 border-2 border-white rounded"
-                    :src="userStore.assetsBaseUrl + employeeStore.empdetails.nicUrl" alt="" />
+                    :src="userStore.assetsBaseUrl + employeeStore?.empdetails?.nicUrl" alt="" />
                 </a>
               </div>
             </div>
-            <div v-if="employeeStore.empdetails.signatureUrl" class="pt-4">
+            <div v-if="employeeStore?.empdetails?.signatureUrl" class="pt-4">
               <label for="price" class="block text-sm font-medium leading-6 text-gray-900">Signature</label>
               <div class="mt-2">
-                <!-- <a :href="imageroot + '/Resource/HR/signature/' + employeeStore.empdetails.signature + '.png'"
+                <!-- <a :href="imageroot + '/Resource/HR/signature/' + employeeStore?.empdetails?.signature + '.png'"
                   target="_blank">
                   <img class="w-16 h-16 border-2 border-white rounded"
-                    :src="imageroot + '/Resource/HR/signature/' + employeeStore.empdetails.signature + '.png'" alt="" />
+                    :src="imageroot + '/Resource/HR/signature/' + employeeStore?.empdetails?.signature + '.png'" alt="" />
                 </a> -->
-                <a :href="userStore.assetsBaseUrl + employeeStore.empdetails.signatureUrl" target="_blank">
+                <a :href="userStore.assetsBaseUrl + employeeStore?.empdetails?.signatureUrl" target="_blank">
                   <img class="w-16 h-16 border-2 border-white rounded"
-                    :src="userStore.assetsBaseUrl + employeeStore.empdetails.signatureUrl" alt="" />
+                    :src="userStore.assetsBaseUrl + employeeStore?.empdetails?.signatureUrl" alt="" />
                 </a>
               </div>
             </div>
@@ -293,7 +293,7 @@ export default {
       this.$emit('setDeleteEmployee')
     },
     setEdit() {
-      this.employeeStore.empdetails = this.employeeStore.curEmployee;
+      this.employeeStore?.empdetails = this.employeeStore.curEmployee;
       this.$emit('setEmployee')
     },
   },
