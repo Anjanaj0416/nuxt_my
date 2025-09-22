@@ -15,18 +15,18 @@
       </div>
       <div class="w-full md:w-auto flex items-center gap-2">
         <!-- Dropdown -->
-       <select
-        v-model="searchBy"
-        @change="SetSelectedFilter"
-        class="w-44 border border-gray-300 rounded-full focus:outline-none 
-               focus:ring-2 focus:ring-blue-500 px-4 py-3 text-gray-700"
-      >
-        <option disabled value="" class="bg-blue-900">Filter By</option>
-        <option value="orderno">Order No</option>
-        <option value="customerRef">Customer Ref</option>
-        <option value="shopName">Shop Name</option>
-      </select>
-<!-- 
+        <select
+          v-model="searchBy"
+          @change="SetSelectedFilter"
+          class="w-44 border border-gray-300 rounded-full focus:outline-none 
+                focus:ring-2 focus:ring-blue-500 px-4 py-3 text-gray-700"
+        >
+          <option disabled value="" class="bg-blue-900 text-white">Filter By</option>
+          <option value="orderno">Order No</option>
+          <option value="customerRef">Customer Ref</option>
+          <option value="shopName">Shop Name</option>
+        </select>
+        <!-- 
          class="absolute top-1/2 right-2 -translate-y-1/2 flex items-center justify-center 
                  w-10 h-10 bg-yellow-400 rounded-full hover:bg-yellow-500 transition duration-200" -->
 
