@@ -40,10 +40,7 @@
                   }}]
                 </div>
                 <div class="w-32 p-1 text-sm text-white bg-blue-600 rounded font-italic" @click="
-                  getViewMore(
-                    aprovalCardDetail.empNo,
-                    aprovalCardDetail.name
-                  )
+                  getViewMore(aprovalCardDetail.empNo)
                   ">
                   View Attendence
                 </div>
@@ -92,6 +89,7 @@ import { useUserStore } from '~/stores/modules/userStore'
 import { useWorkLoadStore } from '~/stores/modules/hr/workLoadStore'
 
 import * as Global from '@/assets/js/Global'
+import { useAttendanceStore } from '~/stores/modules/hr/attendanceStore'
 
 export default {
   components: { Approvalcard },
@@ -113,6 +111,7 @@ export default {
 
   async created() {
     this.userStore = useUserStore();
+    this.attendanceStore = useAttendanceStore();
     this.workLoadStore = useWorkLoadStore();
     this.showLoading = this.$showLoading;
   },
@@ -217,7 +216,8 @@ export default {
       this.cur_approvalTypeName = this.getJobTypeName(jobtype)
       this.cur_JobType = jobtype
     },
-    getViewMore(emp_no, empname) {
+
+    async getViewMore(emp_no) {
       var today = new Date()
 
       var firstDayOfLastMonth = this.$myUtility.toInputTypeDate(
@@ -229,20 +229,13 @@ export default {
       )
 
       let req = {
-        from_date: firstDayOfLastMonth,
-        to_date: lastDayOfCurrentMonth,
-        empno: emp_no,
-        empname: empname,
-        granted: this.userStore.loggedUser.granted,
-      }
+        dateFrom: firstDayOfLastMonth,
+        dateTo: lastDayOfCurrentMonth,
+        empNo: emp_no
+      };
 
-      const encodedData = Global.atob(JSON.stringify(req))
+      await this.attendanceStore.GetPrintAttendanceSheet(req, this.showLoading);
 
-      window.open(
-        'http://officeapps.sltds.lk:2021/HR/attendence_printview?hr=' +
-        encodedData,
-        '_blank'
-      )
     },
 
     showMessage({ type, message }) {

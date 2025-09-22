@@ -3,22 +3,22 @@
     <span class="font-medium">News Update: </span> New articles are available. Check out the latest headlines now !
   </div> -->
 
-    <div class="flex flex-wrap justify-center px-4 py-2 space-x-3 text-sm font-medium text-white bg-purple-700 sticky">
-      <div class="inline-block align-middle">
-        <div id="newsTicker" class="whitespace-nowrap animate-slide text-sm">
-          <span class="mr-8 ">📰 Breaking: New product launch today!</span>
-          <span class="mr-8">📰Update: Website maintenance at midnight</span>
-          <span class="mr-8">📰Alert: Special discounts available now!</span>
-          <span class="mr-8">📰Reminder: Subscribe to our newsletter</span>
-          <span class="mr-8">📰Update: Website maintenance at midnight</span>
+  <div class="flex flex-wrap justify-center px-4 py-2 space-x-3 text-sm font-medium text-white bg-purple-700 sticky">
+    <div class="inline-block align-middle">
+      <div id="newsTicker" class="whitespace-nowrap animate-slide text-sm">
+        <span class="mr-8 ">📰 Breaking: New product launch today!</span>
+        <span class="mr-8">📰Update: Website maintenance at midnight</span>
+        <span class="mr-8">📰Alert: Special discounts available now!</span>
+        <span class="mr-8">📰Reminder: Subscribe to our newsletter</span>
+        <span class="mr-8">📰Update: Website maintenance at midnight</span>
 
-        </div>
       </div>
     </div>
+  </div>
 
 
 
-  <NewsHeader/>
+  <NewsHeader />
 
   <!-- {{ listNews.otherNews }} -->
 
@@ -28,10 +28,9 @@
       <!-- Top Story -->
       <div>
         <h2 class="text-xl font-bold text-red-800 mb-2">Top Story</h2>
-        <h3 
-          class="font-semibold leading-snug text-gray-800 hover:underline hover:text-blue-600 cursor-pointer"
+        <h3 class="font-semibold leading-snug text-gray-800 hover:underline hover:text-blue-600 cursor-pointer"
           @click="goToDetails(listNews.topNews)">
-            {{ listNews.topNews.title || "No Title Available" }}
+          {{ listNews.topNews.title || "No Title Available" }}
         </h3>
         <!-- <nuxt-link to="/News/newsDetails">
           <button class="px-4 py-2 bg-blue-600 text-white rounded">
@@ -46,7 +45,7 @@
           <span>14</span>
         </div>
         <div class="flex mt-2">
-        <img :src="listNews.topNews.image" class="w-24 h-16 object-cover mr-3" />
+          <img :src="listNews.topNews.image" class="w-24 h-16 object-cover mr-3" />
 
           <p class="text-sm text-gray-700">
             {{ listNews.topNews.shortContent }}...
@@ -57,10 +56,9 @@
       <!-- Breaking News -->
       <div>
         <h2 class="text-xl font-bold text-red-800 mb-2">Breaking News</h2>
-        <h3 
-          class="font-semibold leading-snug text-gray-800 hover:underline hover:text-blue-600 cursor-pointer"
-          @click="goToDetails(listNews.breakingNews )">
-            {{ listNews.breakingNews.title || "No Title Available" }}
+        <h3 class="font-semibold leading-snug text-gray-800 hover:underline hover:text-blue-600 cursor-pointer"
+          @click="goToDetails(listNews.breakingNews)">
+          {{ listNews.breakingNews.title || "No Title Available" }}
         </h3>
         <!-- <nuxt-link to="/News/newsDetails">
           <button class="px-4 py-2 bg-blue-600 text-white rounded">
@@ -75,7 +73,7 @@
           <span>14</span>
         </div>
         <div class="flex mt-2">
-        <img :src="listNews.breakingNews.image" class="w-24 h-16 object-cover mr-3" />
+          <img :src="listNews.breakingNews.image" class="w-24 h-16 object-cover mr-3" />
 
           <p class="text-sm text-gray-700">
             {{ listNews.breakingNews.shortContent }}
@@ -87,15 +85,10 @@
     <!-- Center Column -->
     <div class="md:col-span-2">
       <h4 class="uppercase text-sm text-gray-500 font-medium mb-1">Picture Story</h4>
-      <img
-        :src="listNews.mainNews.image"
-        alt="Feature Story"
-        class="w-full rounded-md mb-3"
-      />
+      <img :src="listNews.mainNews.image" alt="Feature Story" class="w-full rounded-md mb-3" />
       <h1 class="font-semibold leading-snug text-gray-800 hover:underline hover:text-blue-600 cursor-pointer"
-        @click="goToDetails(listNews.mainNews)"
-      >
-        {{ listNews.mainNews.title || "No Title Available"}}
+        @click="goToDetails(listNews.mainNews)">
+        {{ listNews.mainNews.title || "No Title Available" }}
       </h1>
 
       <div class="flex text-xs text-gray-500 space-x-4 mt-4">
@@ -113,22 +106,22 @@
       <div class="max-w-xs bg-white rounded-xl shadow-md p-4 space-y-4 border border-gray-200 text-sm">
         <!-- Weather Section -->
         <div class="flex items-center justify-between">
-        <div>
-          <h2 class="font-semibold text-gray-800">{{ weather?.name || 'Colombo, LK' }}</h2>
-          <p class="text-gray-500 text-xs">
-            {{ weather?.main?.temp ?? '30' }}°C | {{ weather?.weather?.[0]?.description ?? 'Clear' }}
-          </p>
-        </div>
-        <div>
-          <!-- <img 
+          <div>
+            <h2 class="font-semibold text-gray-800">{{ weather?.name || 'Colombo, LK' }}</h2>
+            <p class="text-gray-500 text-xs">
+              {{ weather?.main?.temp ?? '30' }}°C | {{ weather?.weather?.[0]?.description ?? 'Clear' }}
+            </p>
+          </div>
+          <div>
+            <!-- <img 
             :src="weather?.weather?.[0]?.icon 
               ? `http://openweathermap.org/img/wn/${weather.weather[0].icon}@2x.png` 
               : 'https://via.placeholder.com/50'" 
             alt="weather" 
             class="w-8 h-8" 
           /> -->
+          </div>
         </div>
-      </div>
 
 
         <hr class="border-gray-300" />
@@ -181,18 +174,14 @@
         <div class="bg-white rounded-lg shadow p-4 space-y-3">
           <h2 class="text-xl font-bold text-red-800 border-b border-gray-200 pb-2"></h2>
           <div class="w-full max-w-md mx-auto aspect-video rounded-lg overflow-hidden shadow-lg">
-            <iframe
-              class="w-full h-full"
-              src="https://www.youtube.com/embed/IixmFT6wenE"
-              title="Mirror Business"
+            <iframe class="w-full h-full" src="https://www.youtube.com/embed/IixmFT6wenE" title="Mirror Business"
               frameborder="0"
               allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
-              allowfullscreen
-            ></iframe>
+              allowfullscreen></iframe>
           </div>
         </div>
       </div>
-      
+
     </div>
   </section>
 
@@ -201,8 +190,7 @@
       <div v-for="newsItem in listNews.otherNews" :key="newsItem.id">
         <h2 class="text-xl font-bold text-red-800 mb-2">Story</h2>
         <h3 class="font-semibold leading-snug text-gray-800 hover:underline hover:text-blue-600 cursor-pointer"
-          @click="goToDetails(newsItem)"
-        >
+          @click="goToDetails(newsItem)">
           {{ newsItem.title || "No Title Available" }}
         </h3>
         <div class="flex items-center text-xs text-gray-500 space-x-2 mt-2">
@@ -213,10 +201,7 @@
           <span>15</span>
         </div>
         <div class="flex mt-2">
-          <img
-            :src="newsItem.image || 'https://via.placeholder.com/100x80'"
-            class="w-24 h-16 object-cover mr-3"
-          />
+          <img :src="newsItem.image || 'https://via.placeholder.com/100x80'" class="w-24 h-16 object-cover mr-3" />
           <p class="text-sm text-gray-700">
             {{ newsItem.shortContent.slice(0, 76) || "No summary available." }}
           </p>
@@ -240,7 +225,7 @@
     </div>
   </section>
 
-  <NewsFooter/>
+  <NewsFooter />
 
 
 </template>
@@ -251,7 +236,7 @@ import NewsHeader from '~/components/News/header.vue';
 import NewsFooter from '~/components/News/footer.vue';
 
 import { useUserStore } from '~/stores/modules/userStore';
-import { useStandpageStore } from '~/stores/modules/dtlStore';
+import { useDtlStore } from '~/stores/modules/dtlStore';
 
 
 definePageMeta({
@@ -259,7 +244,7 @@ definePageMeta({
 });
 
 export default {
-  components: {NewsHeader,NewsFooter},
+  components: { NewsHeader, NewsFooter },
   data() {
     return {
       listNews: {
@@ -280,7 +265,7 @@ export default {
   },
 
   async created() {
-    this.dtlStore = useStandpageStore();
+    this.dtlStore = useDtlStore();
     this.userStore = useUserStore();
     this.showLoading = this.$showLoading;
 
@@ -407,12 +392,19 @@ nav a {
 nav a:hover {
   @apply bg-white text-black;
 }
-  @keyframes slide {
-    0% { transform: translateX(100%); }
-    100% { transform: translateX(-100%); }
+
+@keyframes slide {
+  0% {
+    transform: translateX(100%);
   }
-  .animate-slide {
-    display: inline-block;
-    animation: slide 20s linear infinite;
+
+  100% {
+    transform: translateX(-100%);
   }
+}
+
+.animate-slide {
+  display: inline-block;
+  animation: slide 20s linear infinite;
+}
 </style>

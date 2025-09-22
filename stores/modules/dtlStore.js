@@ -15,7 +15,7 @@ import productImg4 from '../../assets/img/digitalTechLabs/standard/s6.png'
 import aboutImg from '../../assets/img/digitalTechLabs/standard/About.jpg'
 import OurServicesImg from '../../assets/img/digitalTechLabs/standard/girlimage.jpg'
 
-export const useStandpageStore = defineStore("standpage", {
+export const useDtlStore = defineStore("dtlStore", {
   state: () => ({
     newsList: {
       breakingNews: {},

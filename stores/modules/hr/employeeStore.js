@@ -91,8 +91,11 @@ export const useEmployeeStore = defineStore("employeeStore", {
     //Employee//
 
     async AddEdiEmployee(formData, showLoading) {
-      console.log('API-AddEdiEmployee');
-      console.log(JSON.stringify(formData));
+      console.log('API-AddEdiEmployee:',formData);
+  //     console.log("AddEdiEmployee received FormData:");
+  // for (const [key, value] of formData.entries()) {
+  //   console.log(`${key}: ${value}`);
+  // }
 
       const loadingAlert = showLoading("");
       try {
@@ -177,7 +180,7 @@ export const useEmployeeStore = defineStore("employeeStore", {
         if (response.data.isSuccess) {
           this.alempdetails =
             response.data.data.data.alpagedetails[0].alempdetails || [];
-          this.showToast("Loading successful!", "success");
+          // this.showToast("Loading successful!", "success");
         } else {
           console.error("Loading error:", response.data.message);
           this.showToast(response.data.message, "error");

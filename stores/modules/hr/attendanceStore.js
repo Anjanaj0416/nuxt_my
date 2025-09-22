@@ -211,8 +211,7 @@ export const useAttendanceStore = defineStore("attendanceStore", {
     },
 
     async getAttendenceByEmp(req, showLoading) {
-      console.log('API-getAttendenceByEmp');
-      console.log(JSON.stringify(req));
+      console.log('API-getAttendenceByEmp:',req);
 
       const loadingAlert = showLoading("");
       try {
@@ -287,7 +286,7 @@ export const useAttendanceStore = defineStore("attendanceStore", {
       
         if (response.data.isSuccess) {
           this.OTApllyDetails.arrOTApply = response.data.data.data || [];
-          this.showToast("Loading successful!", "success");
+          // this.showToast("Loading successful!", "success");
         } else {
           console.error("Loading error:", response.data.message);
           // this.showToast(response.data.message, 'error');
@@ -501,7 +500,7 @@ export const useAttendanceStore = defineStore("attendanceStore", {
           await this.getAttendenceByEmp(attendenceReq, showLoading);
         } else {
           console.error("Loading error:", response.data.message);
-          // this.showToast(response.data.message, 'error');
+          this.showToast(response.data.message, 'error');
         }
       } catch (error) {
         console.error("Loading error:", error);

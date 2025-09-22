@@ -7,11 +7,8 @@
         <div class="flex items-center">
           <NuxtLink to="/" class="flex items-center text-2xl font-bold transition duration-300 hover:opacity-90">
             <!-- hide Img -->
-            <img
-                  src="/assets/img/digitalTechLabs/DigitalTechLabsLogo.jpg"
-                  alt="Digital Tech Labs Logo"
-                  class="px-2 rounded-full w-44"
-              />
+            <img src="/assets/img/digitalTechLabs/DigitalTechLabsLogo.jpg" alt="Digital Tech Labs Logo"
+              class="px-2 rounded-full w-44" />
           </NuxtLink>
         </div>
 
@@ -31,7 +28,8 @@
             <div v-if="showDropdown" class="absolute left-0 z-50 w-40 mt-2 text-blue-900 bg-white rounded shadow-md">
               <NuxtLink @click="closeDropdown" to="/portfoliotemplates/standard"
                 class="block px-4 py-2 hover:bg-blue-100">Standard</NuxtLink>
-              <NuxtLink @click="closeDropdown" to="/portfoliotemplates/premium" class="block px-4 py-2 hover:bg-blue-100">
+              <NuxtLink @click="closeDropdown" to="/portfoliotemplates/premium"
+                class="block px-4 py-2 hover:bg-blue-100">
                 Premium</NuxtLink>
               <NuxtLink @click="closeDropdown" to="/portfoliotemplates/enterprise"
                 class="block px-4 py-2 hover:bg-blue-100">Enterprise</NuxtLink>
@@ -52,57 +50,57 @@
         </button>
       </nav>
 
-    <!-- Mobile Sidebar -->
-    <transition name="slide">
-      <div v-if="menuOpen" class="fixed inset-0 z-50 bg-black bg-opacity-50 md:hidden" @click="toggleMenu">
-        <div class="fixed top-0 left-0 w-64 h-full p-6 overflow-y-auto text-white bg-blue-900 shadow-lg" @click.stop>
-          <!-- Header Row with Logo Left and Close Button Right -->
-          <div class="flex items-center justify-between mb-6">
-            <!-- Logo on the Left -->
-            <NuxtLink to="/" class="flex items-center text-2xl font-bold transition duration-300 hover:opacity-90">
-              <img src="/assets/img/digitalTechLabs/DigitalTechLabsLogo.jpg" alt="Digital Tech Labs Logo"
-                class="w-24 px-2 rounded-full" />
-            </NuxtLink>
+      <!-- Mobile Sidebar -->
+      <transition name="slide">
+        <div v-if="menuOpen" class="fixed inset-0 z-50 bg-black bg-opacity-50 md:hidden" @click="toggleMenu">
+          <div class="fixed top-0 left-0 w-64 h-full p-6 overflow-y-auto text-white bg-blue-900 shadow-lg" @click.stop>
+            <!-- Header Row with Logo Left and Close Button Right -->
+            <div class="flex items-center justify-between mb-6">
+              <!-- Logo on the Left -->
+              <NuxtLink to="/" class="flex items-center text-2xl font-bold transition duration-300 hover:opacity-90">
+                <img src="/assets/img/digitalTechLabs/DigitalTechLabsLogo.jpg" alt="Digital Tech Labs Logo"
+                  class="w-24 px-2 rounded-full" />
+              </NuxtLink>
 
-            <!-- Close Button on the Right -->
-            <button class="text-xl font-bold text-white transition hover:text-gray-300" @click="toggleMenu">
-              ✕
-            </button>
-          </div>
-
-
-          <!-- Navigation Links -->
-          <nav class="flex flex-col mt-6 space-y-4">
-            <a href="/service" class="hover:text-gray-300">Service</a>
-            <a href="/project" class="hover:text-gray-300">Projects</a>
-            <NuxtLink to="/aboutUs" class="hover:text-gray-300">About us</NuxtLink>
-            <NuxtLink to="/contactUs" class="hover:text-gray-300">Contact</NuxtLink>
-            <NuxtLink to="/user/login" class="hover:text-gray-300">Intranet</NuxtLink>
-
-            <!-- Dropdown in Sidebar -->
-            <div class="relative pl-3">
-              <button @click="toggleDropdown" class="w-full text-left transition hover:text-gray-300">
-                Packages
+              <!-- Close Button on the Right -->
+              <button class="text-xl font-bold text-white transition hover:text-gray-300" @click="toggleMenu">
+                ✕
               </button>
-              <div v-if="showDropdown" class="p-2 mt-2 ml-2 space-y-1 text-blue-900 bg-white rounded shadow">
-                <NuxtLink @click="closeDropdown" to="/portfoliotemplates/standard"
-                  class="block px-2 py-1 rounded hover:bg-blue-100">Standard</NuxtLink>
-                <NuxtLink @click="closeDropdown" to="/portfoliotemplates/premium"
-                  class="block px-2 py-1 rounded hover:bg-blue-100">Premium</NuxtLink>
-                <NuxtLink @click="closeDropdown" to="/portfoliotemplates/enterprise"
-                  class="block px-2 py-1 rounded hover:bg-blue-100">Enterprise</NuxtLink>
-              </div>
             </div>
-            <NuxtLink to="/careers" class="transition duration-300 hover:text-gray-300">Careers</NuxtLink>
-            <!-- CTA Button -->
-            <a href="tel:+011 222 3 222"
-              class="px-4 py-2 mt-6 font-semibold text-center text-blue-900 bg-white rounded-full shadow-md hover:bg-blue-100">
-              Talk to Us
-            </a>
-          </nav>
+
+
+            <!-- Navigation Links -->
+            <nav class="flex flex-col mt-6 space-y-4">
+              <a href="/service" class="hover:text-gray-300">Service</a>
+              <a href="/project" class="hover:text-gray-300">Projects</a>
+              <NuxtLink to="/aboutUs" class="hover:text-gray-300">About us</NuxtLink>
+              <NuxtLink to="/contactUs" class="hover:text-gray-300">Contact</NuxtLink>
+              <NuxtLink to="/user/login" class="hover:text-gray-300">Intranet</NuxtLink>
+
+              <!-- Dropdown in Sidebar -->
+              <div class="relative pl-3">
+                <button @click="toggleDropdown" class="w-full text-left transition hover:text-gray-300">
+                  Packages
+                </button>
+                <div v-if="showDropdown" class="p-2 mt-2 ml-2 space-y-1 text-blue-900 bg-white rounded shadow">
+                  <NuxtLink @click="closeDropdown" to="/portfoliotemplates/standard"
+                    class="block px-2 py-1 rounded hover:bg-blue-100">Standard</NuxtLink>
+                  <NuxtLink @click="closeDropdown" to="/portfoliotemplates/premium"
+                    class="block px-2 py-1 rounded hover:bg-blue-100">Premium</NuxtLink>
+                  <NuxtLink @click="closeDropdown" to="/portfoliotemplates/enterprise"
+                    class="block px-2 py-1 rounded hover:bg-blue-100">Enterprise</NuxtLink>
+                </div>
+              </div>
+              <NuxtLink to="/careers" class="transition duration-300 hover:text-gray-300">Careers</NuxtLink>
+              <!-- CTA Button -->
+              <a href="tel:+011 222 3 222"
+                class="px-4 py-2 mt-6 font-semibold text-center text-blue-900 bg-white rounded-full shadow-md hover:bg-blue-100">
+                Talk to Us
+              </a>
+            </nav>
+          </div>
         </div>
-      </div>
-    </transition>
+      </transition>
 
     </header>
     <!-- section 1 -->
@@ -117,8 +115,10 @@
                 We’d love to hear from you! Reach out for inquiries, quotes, or support.
               </p>
               <div class="text-gray-700 space-y-2">
-                <p><strong>Email:</strong> <a href="mailto:digitaltechlabs@dtl.lk" class="text-blue-600 hover:underline">digitaltechlabs@dtl.lk</a></p>
-                <p><strong>Phone:</strong> <a href="tel:0112223222" class="text-blue-600 hover:underline">011 222 3 222</a></p>
+                <p><strong>Email:</strong> <a href="mailto:digitaltechlabs@dtl.lk"
+                    class="text-blue-600 hover:underline">digitaltechlabs@dtl.lk</a></p>
+                <p><strong>Phone:</strong> <a href="tel:0112223222" class="text-blue-600 hover:underline">011 222 3
+                    222</a></p>
                 <p><strong>Address:</strong> No.35/2, Joseph’s Lane, Colombo 4.</p>
               </div>
               <div class="mt-6">
@@ -126,26 +126,28 @@
                 <div class="flex items-center gap-3">
 
                   <!-- LinkedIn -->
-                  <a href="https://www.linkedin.com/company/digitaltechlabs2025/" target="_blank" 
+                  <a href="https://www.linkedin.com/company/digitaltechlabs2025/" target="_blank"
                     class="p-2 rounded-full bg-gray-100 hover:bg-blue-800 hover:text-white shadow-sm hover:shadow-lg transition duration-300">
                     <svg xmlns="http://www.w3.org/2000/svg" class="w-4 h-4" fill="currentColor" viewBox="0 0 24 24">
-                      <path d="M4.98 3.5C4.98 4.88 3.88 6 2.5 6S0 4.88 0 3.5 1.12 1 2.5 1 4.98 2.12 4.98 3.5zM.5 23h4V7h-4v16zM8.5 7v16h4v-8.4c0-2.2 3-2.4 3 0V23h4V14c0-6.1-7-5.9-7-2.8V7h-4z"/>
+                      <path
+                        d="M4.98 3.5C4.98 4.88 3.88 6 2.5 6S0 4.88 0 3.5 1.12 1 2.5 1 4.98 2.12 4.98 3.5zM.5 23h4V7h-4v16zM8.5 7v16h4v-8.4c0-2.2 3-2.4 3 0V23h4V14c0-6.1-7-5.9-7-2.8V7h-4z" />
                     </svg>
                   </a>
 
                   <!-- Facebook -->
-                  <a href="https://www.facebook.com/profile.php?id=61577660262893" target="_blank" 
+                  <a href="https://www.facebook.com/profile.php?id=61577660262893" target="_blank"
                     class="p-2 rounded-full bg-gray-100 hover:bg-blue-800 hover:text-white shadow-sm hover:shadow-lg transition duration-300">
                     <svg xmlns="http://www.w3.org/2000/svg" class="w-4 h-4" fill="currentColor" viewBox="0 0 24 24">
-                      <path d="M13 3h4V0h-4c-3.3 0-6 2.7-6 6v3H4v4h3v11h4V13h3l1-4h-4V6c0-1.1.9-2 2-2z"/>
+                      <path d="M13 3h4V0h-4c-3.3 0-6 2.7-6 6v3H4v4h3v11h4V13h3l1-4h-4V6c0-1.1.9-2 2-2z" />
                     </svg>
                   </a>
 
                   <!-- Instagram -->
-                  <a href="https://www.instagram.com/digitaltechlabs/" target="_blank" 
+                  <a href="https://www.instagram.com/digitaltechlabs/" target="_blank"
                     class="p-2 rounded-full bg-gray-100 hover:bg-blue-800 hover:text-white shadow-sm hover:shadow-lg transition duration-300">
                     <svg xmlns="http://www.w3.org/2000/svg" class="w-4 h-4" fill="currentColor" viewBox="0 0 24 24">
-                      <path d="M7 2C4.2 2 2 4.2 2 7v10c0 2.8 2.2 5 5 5h10c2.8 0 5-2.2 5-5V7c0-2.8-2.2-5-5-5H7zm10 2c1.7 0 3 1.3 3 3v10c0 1.7-1.3 3-3 3H7c-1.7 0-3-1.3-3-3V7c0-1.7 1.3-3 3-3h10zm-5 3a5 5 0 100 10 5 5 0 000-10zm0 2a3 3 0 110 6 3 3 0 010-6zm4.5-2a1.5 1.5 0 100 3 1.5 1.5 0 000-3z"/>
+                      <path
+                        d="M7 2C4.2 2 2 4.2 2 7v10c0 2.8 2.2 5 5 5h10c2.8 0 5-2.2 5-5V7c0-2.8-2.2-5-5-5H7zm10 2c1.7 0 3 1.3 3 3v10c0 1.7-1.3 3-3 3H7c-1.7 0-3-1.3-3-3V7c0-1.7 1.3-3 3-3h10zm-5 3a5 5 0 100 10 5 5 0 000-10zm0 2a3 3 0 110 6 3 3 0 010-6zm4.5-2a1.5 1.5 0 100 3 1.5 1.5 0 000-3z" />
                     </svg>
                   </a>
 
@@ -162,7 +164,8 @@
                     class="block py-2.5 px-0 w-full text-base text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none focus:outline-none focus:ring-0 focus:border-blue-600 peer"
                     placeholder=" " />
                   <label for="FullName"
-                    class="peer-focus:font-medium absolute text-base text-gray-500 duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-[0] peer-focus:text-blue-600 peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0">Full Name</label>
+                    class="peer-focus:font-medium absolute text-base text-gray-500 duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-[0] peer-focus:text-blue-600 peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0">Full
+                    Name</label>
                   <p v-if="err.FullName" class="text-sm text-red-500">{{ err.FullName }}</p>
                 </div>
 
@@ -172,7 +175,8 @@
                     class="block py-2.5 px-0 w-full text-base text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none focus:outline-none focus:ring-0 focus:border-blue-600 peer"
                     placeholder=" " />
                   <label for="WebSite"
-                    class="peer-focus:font-medium absolute text-base text-gray-500 duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-[0] peer-focus:text-blue-600 peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0">Your Company Website</label>
+                    class="peer-focus:font-medium absolute text-base text-gray-500 duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-[0] peer-focus:text-blue-600 peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0">Your
+                    Company Website</label>
                 </div>
               </div>
 
@@ -193,7 +197,8 @@
                     class="block py-2.5 px-0 w-full text-base text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none focus:outline-none focus:ring-0 focus:border-blue-600 peer"
                     placeholder=" " />
                   <label for="Phone"
-                    class="peer-focus:font-medium absolute text-base text-gray-500 duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-[0] peer-focus:text-blue-600 peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0">Phone number (Optional)</label>
+                    class="peer-focus:font-medium absolute text-base text-gray-500 duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-[0] peer-focus:text-blue-600 peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0">Phone
+                    number (Optional)</label>
                 </div>
               </div>
 
@@ -203,7 +208,8 @@
                   class="block py-2.5 px-0 w-full text-lg text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none focus:outline-none focus:ring-0 focus:border-blue-600 peer"
                   placeholder=" " />
                 <label for="message"
-                  class="peer-focus:font-medium absolute text-base text-gray-500 duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-[0] peer-focus:text-blue-600 peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0">What are you planning to build?</label>
+                  class="peer-focus:font-medium absolute text-base text-gray-500 duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-[0] peer-focus:text-blue-600 peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0">What
+                  are you planning to build?</label>
               </div>
 
               <!-- Submit Button -->
@@ -224,14 +230,8 @@
       <div class="bg-white shadow-lg rounded-2xl overflow-hidden hover:shadow-xl transition duration-300">
         <!-- Google Map -->
         <div class="relative">
-          <iframe
-            src="https://www.google.com/maps?q=No.35/2,+Joseph’s+Lane,+Colombo+4&output=embed"
-            width="100%"
-            height="300"
-            style="border:0;"
-            allowfullscreen=""
-            loading="lazy"
-            class="w-full rounded-b-2xl"
+          <iframe src="https://www.google.com/maps?q=No.35/2,+Joseph’s+Lane,+Colombo+4&output=embed" width="100%"
+            height="300" style="border:0;" allowfullscreen="" loading="lazy" class="w-full rounded-b-2xl"
             referrerpolicy="no-referrer-when-downgrade">
           </iframe>
         </div>
@@ -307,8 +307,7 @@
 </template>
 
 <script>
-// import { useDtlStore } from "~/stores/modules/dtlStore";
-import { useStandpageStore } from '~/stores/modules/dtlStore';
+import { useDtlStore } from '~/stores/modules/dtlStore';
 import { useUserStore } from '~/stores/modules/userStore';
 
 
@@ -341,7 +340,7 @@ export default {
   },
 
   async created() {
-    this.dtlStore = useStandpageStore();
+    this.dtlStore = useDtlStore();
     this.userStore = useUserStore();
     this.showLoading = this.$showLoading;
   },
@@ -381,61 +380,61 @@ export default {
     //   }
     // },
 
-    
+
 
     async AddContact() {
-          if (this.validateForm()) {
+      if (this.validateForm()) {
+        this.$swal.fire({
+          title: "Confirm Submission",
+          text: "Are you sure you want to submit this contact?",
+          icon: "question",
+          showCancelButton: true,
+          confirmButtonColor: "#2563eb", // Tailwind blue-600
+          cancelButtonColor: "#6b7280",  // Tailwind gray-500
+          confirmButtonText: "Submit",
+          cancelButtonText: "Cancel",
+          focusConfirm: true,
+          reverseButtons: false,
+          customClass: {
+            popup: "rounded-xl shadow-lg",
+            title: "text-xl font-semibold text-gray-800",
+            htmlContainer: "text-gray-600",
+            confirmButton: "px-6 py-2 font-medium rounded-lg",
+            cancelButton: "px-6 py-2 font-medium rounded-lg",
+          },
+        }).then(async (result) => {
+          if (result.isConfirmed) {
+            const req = {
+              fullName: this.formData.fullName,
+              email: this.formData.email,
+              phone: this.formData.phone,
+              webSite: this.formData.webSite,
+              comment: this.formData.comment,
+            };
+            console.log("Submitted:", req);
+
+            const secretCode = "w5jzxd02";
+            const formData = new FormData();
+            formData.append("secretCode", secretCode);
+            await this.userStore.AppLogin(formData, this.showLoading);
+
+            await this.dtlStore.SetContactUs(req, this.showLoading);
+
             this.$swal.fire({
-              title: "Confirm Submission",
-              text: "Are you sure you want to submit this contact?",
-              icon: "question",
-              showCancelButton: true,
-              confirmButtonColor: "#2563eb", // Tailwind blue-600
-              cancelButtonColor: "#6b7280",  // Tailwind gray-500
-              confirmButtonText: "Submit",
-              cancelButtonText: "Cancel",
-              focusConfirm: true,
-              reverseButtons: false,
-              customClass: {
-                popup: "rounded-xl shadow-lg",
-                title: "text-xl font-semibold text-gray-800",
-                htmlContainer: "text-gray-600",
-                confirmButton: "px-6 py-2 font-medium rounded-lg",
-                cancelButton: "px-6 py-2 font-medium rounded-lg",
-              },
-            }).then(async (result) => {
-              if (result.isConfirmed) {
-                const req = {
-                  fullName: this.formData.fullName,
-                  email: this.formData.email,
-                  phone: this.formData.phone,
-                  webSite: this.formData.webSite,
-                  comment: this.formData.comment,
-                };
-                console.log("Submitted:", req);
-
-                const secretCode = "w5jzxd02";
-                const formData = new FormData();
-                formData.append("secretCode", secretCode);
-                await this.userStore.AppLogin(formData, this.showLoading);
-
-                await this.dtlStore.SetContactUs(req, this.showLoading);
-
-                this.$swal.fire({
-                  title: "Submitted Successfully",
-                  text: "Your contact details have been sent.",
-                  icon: "success",
-                  confirmButtonColor: "#2563eb",
-                });
-              } else {
-                console.log("Action canceled");
-              }
-              this.resetForm();
+              title: "Submitted Successfully",
+              text: "Your contact details have been sent.",
+              icon: "success",
+              confirmButtonColor: "#2563eb",
             });
+          } else {
+            console.log("Action canceled");
           }
+          this.resetForm();
+        });
+      }
     },
 
-   
+
     validateForm() {
       this.err = {};
       let isValid = true;

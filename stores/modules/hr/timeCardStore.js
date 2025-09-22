@@ -173,7 +173,7 @@ export const useTimeCardStore = defineStore("timeCardStore", {
         console.log("response:", response);
         if (response.data.isSuccess) {
           this.timecard.arrtimecard = response.data.data.data || [];
-          this.showToast(response.data.message, "success");
+          // this.showToast(response.data.message, "success");
         } else {
           console.error("Loading error:", response.data.message);
           this.showToast(response.data.message, "error");
@@ -189,8 +189,7 @@ export const useTimeCardStore = defineStore("timeCardStore", {
     },
 
     async setTimeCardWorkLoad(req, showLoading) {
-      console.log('API-setTimeCardWorkLoad');
-      console.log(JSON.stringify(req));
+      console.log('API-setTimeCardWorkLoad',req);
 
       const loadingAlert = showLoading("");
       try {
@@ -201,10 +200,10 @@ export const useTimeCardStore = defineStore("timeCardStore", {
         );
         console.log("response:", response);
         if (response.data.isSuccess) {
-          // this.showToast(response.data.message, 'success');
+          this.showToast(response.data.message, 'success');
         } else {
           console.error("Loading error:", response.data.message);
-          // this.showToast(response.data.message, 'error');
+          this.showToast(response.data.message, 'error');
         }
       } catch (error) {
         console.error("Loading error:", error);

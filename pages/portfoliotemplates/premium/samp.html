@@ -982,7 +982,7 @@
     import "swiper/css/pagination";
     import "swiper/css/autoplay";
     import { Pagination, Autoplay } from "swiper/modules";
-    import { useStandpageStore } from '~/stores/modules/dtlStore';
+    import { useDtlStore } from '~/stores/modules/dtlStore';
     import whatsappChats from '../chat/whatsappChat.vue';
 
 
@@ -1074,7 +1074,7 @@
     },
     async mounted() {},
     async created() {
-      this.store = useStandpageStore();
+      this.store = useDtlStore();
     },
     watch: {},
     computed: {
@@ -1107,7 +1107,7 @@
     },
     head() {
       return {
-        title: 'Intranet - Digital Tech Labs',
+        title: "Intranet - Digital Tech Labs",
       };
     },
   };

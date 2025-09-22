@@ -3,10 +3,7 @@
     <fheader />
 
     <!-- News Section -->
-    <section
-      v-if="newsItem"
-      class="bg-white max-w-screen-xl mx-auto px-4 py-6 grid grid-cols-1"
-    >
+    <section v-if="newsItem" class="bg-white max-w-screen-xl mx-auto px-4 py-6 grid grid-cols-1">
       <!-- News Title -->
       <h1 class="text-2xl font-bold mb-6">{{ newsItem.title }}</h1>
 
@@ -14,11 +11,7 @@
         <!-- Text Content -->
         <div class="flex-1 mb-4 md:mb-0">
           <template v-if="hasFullContent">
-            <p
-              v-for="(paragraph, idx) in fullContentArray"
-              :key="idx"
-              class="text-gray-700 mt-2"
-            >
+            <p v-for="(paragraph, idx) in fullContentArray" :key="idx" class="text-gray-700 mt-2">
               {{ paragraph }}
             </p>
           </template>
@@ -29,11 +22,8 @@
 
         <!-- Image on the right -->
         <div class="flex-shrink-0 w-full md:w-48">
-          <img
-            :src="newsItem.image || 'https://via.placeholder.com/200x150'"
-            class="w-full h-36 object-cover rounded"
-            alt="News Image"
-          />
+          <img :src="newsItem.image || 'https://via.placeholder.com/200x150'" class="w-full h-36 object-cover rounded"
+            alt="News Image" />
         </div>
       </div>
     </section>
@@ -51,7 +41,7 @@
 <script>
 import fheader from '~/components/News/header.vue'
 import NewsFooter from '~/components/News/footer.vue'
-import { useStandpageStore } from '~/stores/modules/dtlStore'
+import { useDtlStore } from '~/stores/modules/dtlStore'
 
 definePageMeta({
   layout: 'contactus',
@@ -84,7 +74,7 @@ export default {
   },
 
   mounted() {
-    const dtlStore = useStandpageStore()
+    const dtlStore = useDtlStore()
 
     // Get selected news from store
     if (dtlStore.selectedNews) {

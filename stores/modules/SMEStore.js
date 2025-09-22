@@ -8,7 +8,7 @@ import productImg4 from '../../assets/img/digitalTechLabs/s6.png'
 import aboutImg from '../../assets/img/digitalTechLabs/About.jpg'
 import OurServicesImg from '../../assets/img/digitalTechLabs/girlimage.jpg'
 
-export const useStandpageStore = defineStore("standpage", {
+export const useDtlStore = defineStore("standpage", {
   state: () => ({
     pageData: {
       section1:"ddd",
