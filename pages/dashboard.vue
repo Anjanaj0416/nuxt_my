@@ -4,9 +4,25 @@
     <div class="flex-1 flex flex-col">
       <!-- <Navbar /> -->
 
-      <section class="px-4 py-8 mt-20 lg:px-24">
+      <section class="px-4 py-8 mt-14 lg:px-24">
         <!-- <h1 class="text-2xl font-bold mb-4">Dashboard</h1> -->
-        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 lg:gap-4">
+        <div v-if="userStore.loggedUser.granted.includes('hradmin')" class="flex flex-row-reverse p-2">
+          <router-link
+            to="hr/workgroup"
+            class="relative flex items-center gap-2 px-3 py-2 sm:px-4 sm:py-2 bg-white rounded-lg shadow-md"
+          >
+            <h2 class="text-sm  font-semibold text-gray-700">
+              Work Group
+            </h2>
+            <span
+              class="absolute -top-1 -right-1 sm:-top-2 sm:-right-2 flex items-center justify-center w-5 h-5 sm:w-6 sm:h-6 text-[10px] sm:text-xs font-bold text-white bg-red-500 border-2 border-white rounded-full animate-bounce"
+            >
+              20
+            </span>
+          </router-link>
+        </div>
+
+        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 lg:gap-4 mt-2">
           <div class="relative overflow-hidden rounded-2xl p-6 text-white shadow-lg bg-gradient-to-r from-indigo-600 to-blue-500">
             <img
               :src="backgroundImage"
@@ -155,8 +171,8 @@
           <saleDash/>
         </div>
 
-      <!-- {{ userStore.loggedUser.userGroup }} -->
-<!-- {{ dashboardStore.hrDashboardList }} -->
+      <!-- {{ userStore.loggedUser }} -->
+      <!-- {{ dashboardStore.hrDashboardList }} -->
       </section>
     </div>
   </div>

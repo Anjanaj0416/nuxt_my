@@ -74,6 +74,13 @@
                         </router-link>
                     </div>
                 </div>
+
+                 <router-link to="/qms/workFlow"
+                    v-if="userStore.loggedUser.granted.includes('su') || userStore.loggedUser.granted.includes('flo') || userStore.loggedUser.granted.includes('sso')"
+                    class="block px-3 py-2 text-gray-300 rounded hover:text-white hover:bg-blue-800"
+                    @click="$emit('close-sidebar')">
+                    <span>Work Flow</span>
+                </router-link>
             </div>
         </div>
     </section>

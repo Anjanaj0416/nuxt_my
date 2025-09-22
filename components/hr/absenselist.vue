@@ -3,9 +3,11 @@
     <div class="relative min-h-screen px-4 pt-4 text-sm">
       <div class="flex flex-wrap justify-between">
         <div class="flex gap-x-4">
-          <div class="p-1 px-4 mb-3 text-sm font-semibold uppercase bg-blue-600 rounded-md text-SID-blue">
+          <!-- <div class="p-1 px-4 mb-3 text-sm font-semibold uppercase bg-blue-600 rounded-md text-SID-blue">
             Absence Details
-          </div>
+          </div> -->
+          <div class="text-2xl uppercase">Absence Details </div>
+
 
           <div
             v-show="userStore?.loggedUser?.userName === empno || userStore?.loggedUser?.granted.indexOf('hradmin') > 0">
@@ -43,7 +45,7 @@
         </div>
       </div>
 
-      <div v-if="leaveStore.absense.arrabsences.length === 0" class="text-center text-white">
+      <div v-if="leaveStore.absense.arrabsences.length === 0" class="text-center text-gray-800">
         <p>No Leave available.</p>
       </div>
 

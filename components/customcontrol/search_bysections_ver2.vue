@@ -37,9 +37,9 @@ export default {
 <template>
   <article>
     <div class="relative">
-      <div class="flex p-2 bg-white border-gray-500 rounded" title="Search">
+      <div class="flex p-2 bg-white rounded-full text-gray-700 placeholder-gray-400 border border-gray-200" title="Search">
         <div class="w-full px-2 ">
-          <input :placeholder="placeholder" type="text" class="text-sm text-black focus:outline-none"
+          <input :placeholder="placeholder" type="text" class="text-sm text-gray-700 focus:outline-none "
             v-model="search_val" @keyup="isopened = true" />
           <!-- @keydown.enter="search_begin" -->
         </div>
@@ -48,24 +48,24 @@ export default {
             @click="search_begin"
         > -->
         <button type="submit"
-          class="px-4 py-2 ml-2 text-sm text-white bg-blue-800 rounded-lg hover:bg-blue-900 focus:outline-none focus:ring-4 focus:ring-blue-300 dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800"
+          class="px-4 py-2 ml-2 text-sm text-white bg-blue-800 rounded-full hover:bg-blue-900 focus:outline-none focus:ring-4 focus:ring-blue-300 dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800"
           @click="search_begin">
           Search
         </button>
         <button type="submit"
-          class="px-4 py-2 ml-2 text-sm text-white bg-blue-800 rounded-lg hover:bg-blue-900 focus:outline-none focus:ring-4 focus:ring-blue-300 dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800"
+          class="px-4 py-2 ml-2 text-sm text-white bg-blue-800 rounded-full hover:bg-blue-900 focus:outline-none focus:ring-4 focus:ring-blue-300 dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800"
           @click="goToAddNew">
           New
         </button>
         <button v-if="search_val" type="submit"
-          class="px-4 py-2 ml-2 text-sm text-white bg-blue-800 rounded-lg hover:bg-blue-900 focus:outline-none focus:ring-4 focus:ring-blue-300 dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800"
+          class="px-4 py-2 ml-2 text-sm text-white bg-blue-800 rounded-full hover:bg-blue-900 focus:outline-none focus:ring-4 focus:ring-blue-300 dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800"
           @click="goToClear">
           Clear
         </button>
         <!-- </div> -->
       </div>
 
-      <div class="absolute z-50 w-full p-2 py-2 text-sm text-gray-600 bg-white border-gray-500 rounded"
+      <div class="absolute z-50 w-full p-2 py-2 text-sm text-gray-600 bg-white border-gray-500 rounded-xl border border-gray-100"
         v-show="isopened && search_val != ''">
         <div class="absolute top-0 right-0 flex gap-2 mt-2 mr-1">
           <roundedbtn_refresh class="w-6" title="Refresh Options" @onclick="clear" />

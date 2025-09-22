@@ -374,7 +374,7 @@ export default {
         customerRef: "",
         mainDistrictId: "",
       },
-      piIssued: '',
+      piIssued: false,
       piNumber: '',
       selectedPackages: [],
       showLoading: null, 
@@ -382,7 +382,7 @@ export default {
       curProductCategory: '',
       localOrderNo: this.orderNo, 
       listInstallmentDetails: [],  
-    today: new Date().toISOString().split("T")[0],
+      today: new Date().toISOString().split("T")[0],
 
       order: {
         customerRef: "",
@@ -404,7 +404,6 @@ export default {
   },
   
  computed: {
-
     finalProductCategoryList() {
         const categories = this.orderStore.initOrder.listProductCategory || [];
         console.log("cat:",categories);
@@ -415,8 +414,6 @@ export default {
         );
         return uniqueCategories;
     },
-
-
   },
 
   async created() {
@@ -424,28 +421,20 @@ export default {
     this.orderStore = useOrderStore();
 
     await this.orderStore.loadInitOrderPlace(this.showLoading);
-
-
   },
 
-
-
-
   methods: {
-
     handleCategoryChange() {
         const id = this.curProductCategory;
         console.log('Selected Category ID:', id);
-
         this.showLoading("");  
-
         this.orderStore.setSelectedCategoryId(id, this.showLoading)
             .then(() => {
             this.listoPackagesDetails = this.orderStore.listoPackagesDetails;
             });
     },
 
-    
+  
     // updateUnitPrice(index) {
     //   const item = this.quotation.listOrderItem[index];
     //   const qty = Number(item.qty) || 0;
@@ -463,8 +452,6 @@ export default {
     updateUnitPrice(index) {
       this.updateTotalPrice(index);
     },
-
-
 
     GetAddPkg(pkg) {
       // Make sure listOrderItem is an array
@@ -555,7 +542,6 @@ export default {
       const ssclAmount = baseTotal * (ssclRate / 100);
       const afterSSCL = baseTotal + ssclAmount;
 
-     
       const vatAmount = afterSSCL * (vatRate / 100);
       const finalTotal = afterSSCL + vatAmount;
 
@@ -612,15 +598,15 @@ export default {
                   NoOfBanners: item.NoOfBanners,
                   NoOfLinks: item.NoOfLinks
                 }),
-                // Installments: this.listInstallmentDetails.map((inst) => ({
-                //   Fee: Number(inst.fee) || 0,
-                //   Date: inst.date
-                // }))
+                Installments: this.listInstallmentDetails.map((inst) => ({
+                  InstallmentAmount: Number(inst.fee) || 0,
+                  InstallmentDate: inst.date
+                }))
               }))
             };
 
             console.log("Payload to send:", JSON.stringify(payload, null, 2));
-           
+        
             await this.orderStore.GetAddorder(payload, this.showLoading);
 
             // ✅ reset form after submit

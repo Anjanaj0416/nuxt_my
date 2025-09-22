@@ -713,7 +713,8 @@ export default {
 }
 
 .modal-header {
-  background: #0b2145;
+  background: linear-gradient(to right, #2563eb, #1d4ed8, #1e3a8a); /* from-blue-600, via-blue-700, to-blue-900 */
+  backdrop-filter: blur(12px); /* backdrop-blur-md */
   padding: 15px;
   display: flex;
   justify-content: space-between;

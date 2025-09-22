@@ -105,20 +105,25 @@ export default {
 
 
 <template>
-  <article class="w-full">
-    <label v-if="label" class="block mb-1 text-sm font-medium text-gray-700 ">
-      {{ label }}
+  <article class="w-full flex items-center gap-2">
+    <!-- Label on the left -->
+    <label v-if="label" class="whitespace-nowrap text-sm font-medium text-gray-700">
+      {{ label }}:
     </label>
-    <div class="relative">
-      <select :class="[
-        cssclass,
-        'appearance-none border border-gray-300 rounded-md w-full px-3 py-2 pr-10 bg-white text-gray-700 shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition duration-150 ease-in-out'
-      ]" :value="modelValue" @change="onChange" @click.stop>
+
+    <!-- Select Input -->
+    <div class="relative flex-1">
+      <select 
+        :class="[
+          cssclass,
+          'appearance-none border border-gray-300 rounded-md w-full px-4 py-1 pr-10 bg-white text-gray-700 shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition duration-150 ease-in-out'
+        ]" 
+        :value="modelValue" 
+        @change="onChange" 
+        @click.stop
+      >
         <option disabled value="" v-if="!modelValue">Please select</option>
-        <!-- <option disabled value="{{cur_item}}" v-if="!modelValue && cur_item">{{ cur_item }}</option> -->
-        <!-- <option  v-for="sitem in selections" :key="sitem" :value="sitem" class="uppercase">
-          {{ sitem }}
-        </option> -->
+
         <template v-if="isDistrict">
           <option v-for="item in selections" :key="item.id" :value="item.id">
             {{ item.name }}
@@ -136,19 +141,11 @@ export default {
             {{ item }}
           </option>
         </template>
-
-
       </select>
-
-      <!-- Custom dropdown icon -->
-      <!-- <div class="absolute inset-y-0 right-0 flex items-center px-2 pointer-events-none">
-        <svg class="w-4 h-4 text-gray-500 dark:text-gray-300" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7" />
-        </svg>
-      </div> -->
     </div>
 
-    <p v-if="err" class="mt-2 text-sm text-red-600">
+    <!-- Error message -->
+    <p v-if="err" class="text-sm text-red-600 ml-2">
       {{ err }}
     </p>
   </article>

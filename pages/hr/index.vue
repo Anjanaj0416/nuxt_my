@@ -3,7 +3,7 @@
     <!-- Start Top Header -->
 
     <div
-      class="flex flex-col items-center justify-between h-24 px-4 pt-6 my-10 bg-gray-300 cssTop lg:flex-row md:flex-row">
+      class="flex flex-col items-center justify-between h-24 px-4 pt-6 my-10 bg-gray-100 cssTop lg:flex-row md:flex-row">
       <div class="my-2 text-lg font-bold capitalize lg:text-xl lg:my-0">
         <div class="flex gap-x-4 lg:gap-x-8">
           <div class="relative cssmenu_sec" v-show="userStore.loggedUser.granted.indexOf('hradmin') > -1 ||
@@ -43,45 +43,8 @@
 
       <div class="csscontent">
         <div
-          class="grid grid-cols-1 gap-2 py-1 font-bold text-center text-white border border-gray-300 bg-blue-950 cssheader lg:grid-cols-8 rounded-t-md">
-          <div class="hidden cursor-pointer lg:block hover:text-white" title="Sort - Employee Name">
-            Employee Name
-          </div>
-          <div class="hidden cursor-pointer hover:text-white lg:block" title="Sort - Emp. No">
-            Emp. No
-          </div>
-
-          <div class="hidden cursor-pointer hover:text-white lg:block" title="Sort - Contact">
-            Contact
-          </div>
-
-          <div class="hidden cursor-pointer hover:text-white lg:block" title="Sort - Email">
-            Email
-          </div>
-
-          <div class="hidden cursor-pointer hover:text-white lg:block" title="Sort - Designation">
-            Designation
-          </div>
-
-          <div class="hidden cursor-pointer hover:text-white lg:block" title="Sort - Supervisor">
-            Supervisor
-          </div>
-
-          <div class="hidden cursor-pointer hover:text-white lg:block" title="Sort - Department">
-            Department
-          </div>
-
-          <!-- <div class="flex flex-col sm:flex-row sm:justify-end sm:px-4 sm:items-center gap-x-1 lg:justify-end lg:pr-6"
-            v-show="dashboard.entireresultset.totalpages > 0">
-            <div class="flex items-center">
-              <selectinput2 class="w-12 text-white" v-model="cur_page" :cur_item="cur_page"
-                :selections="dashboard.entireresultset.alpages" label="" cssclass="cssPages" @changed="pagechanged" />
-            </div>
-
-            <div class="hidden sm:block"> 
-              / {{ dashboard.entireresultset.totalpages }}
-            </div>
-          </div> -->
+          class="grid grid-cols-1 gap-2  font-bold text-center text-gray-700 border border-gray-300 bg-white cssheader lg:hidden lg:grid-cols-8 rounded-t-md">
+          
           <div class="flex flex-col items-center md:pt-4 md:flex-row sm:gap-y-0 lg:hidden sm:justify-start">
             <div v-show="userStore.loggedUser.userGroup === 'Supervisor'">
               <btnwgstatus name="workgroup" :wgjobcount="workLoadStore.dashboard.workgroupjobcount"
@@ -90,131 +53,109 @@
           </div>
         </div>
 
+        <div class="flex items-center justify-between mb-4">
+          <!-- Title -->
+          <h2 class="text-2xl font-bold uppercase text-gray-800">
+            Employees List
+          </h2>
+
+          <!-- Optional: Add a small subtitle or count -->
+          <span class="text-sm text-gray-500">
+            {{ employeeStore.alempdetails.length }} Employees
+          </span>
+        </div>
+
 
         <!-- Employees List  -->
-        <div class="cssemplist" v-for="(emp, index) in employeeStore.alempdetails" :key="emp">
-
-          <div class="mt-1 text-sm rounded-md cursor-pointer hover:text-white text-white-300 hover:bg-gray-500"
-            :class="emp.isresigned ? 'bg-red-500' : 'bg-gray-400'">
+        <div class="mb-4" >
+          <div
+            class="mt-1 text-sm rounded-md cursor-pointer hover:text-gray-700 hover:bg-gray-100 border-2"
+            :class="emp.isresigned ? 'border-red-500' : 'border-gray-300'"
+            v-for="(emp, index) in employeeStore.alempdetails" :key="emp"
+          >
 
             <div class="rounded-md">
-              <div class="grid grid-cols-1 text-center cssdatarow lg:grid-cols-8">
-                <div class="cssdatarowitem lg:border-0">
-                  <span class="lg:hidden ">Employee Name</span>
-                  <div class="flex gap-x-2">
-
-                    <img class="w-16 h-16 transform rounded hover:scale-125"
-                      :src="userStore.loggedUser.resourceURLRoot + emp.image" alt="" />
-                    {{ emp.empName }}
-                  </div>
+              <!-- Employee Header -->
+              <div class="flex items-center justify-between px-4 mt-2">
+                <!-- Left: Name & Emp No -->
+                <div>
+                  <h2 class="text-normal font-semibold text-gray-800">{{ emp.empName }}</h2>
+                  <p class="text-sm text-gray-500">#{{ emp.empNo }}</p>
+                  <span
+                    v-if="emp.isresigned"
+                    class="absolute top-2 left-2 bg-red-500 text-white text-xs px-2 py-1 rounded-full"
+                  >
+                    Resigned
+                  </span>
                 </div>
 
-                <div class="cssdatarowitem lg:border-0">
-                  <span class="lg:hidden">Emp No</span>
-
-                  {{ emp.empNo }}
-                </div>
-                <div class="cssdatarowitem lg:border-0">
-                  <span class="lg:hidden">Contact</span>
-                  {{ emp.contact }}
-                </div>
-
-                <div class="cssdatarowitem lg:border-0">
-                  <span class="lg:hidden">Email</span>
-                  {{ emp.email }}
-                </div>
-
-                <div class="cssdatarowitem lg:border-0">
-                  <span class="lg:hidden">Designation</span>
-                  {{ emp.designation }}
-                </div>
-
-                <div class="cssdatarowitem lg:border-0">
-                  <span class="lg:hidden">Supervisor</span>
-                  {{ emp.supervisor }}
-                </div>
-                <div class="cssdatarowitem lg:border-0">
-                  <span class="lg:hidden">Department</span>
-                  {{ emp.department }}
-                </div>
-                <!-- <div class="flex gap-2 cursor-pointer cssdatarowitem lg:border-0" @click="gotoUserguide">
-                  <div>
-                    <svg xmlns="http://www.w3.org/2000/svg" class="w-6 h-6" fill="none" viewBox="0 0 24 24"
-                      stroke="currentColor">
-                      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                        d="M8.228 9c.549-1.165 2.03-2 3.772-2 2.21 0 4 1.343 4 3 0 1.4-1.278 2.575-3.006 2.907-.542.104-.994.54-.994 1.093m0 3h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
-                    </svg>
-                  </div>
-                  <div>User Guide</div>
-                </div> -->
+                <!-- Right: Small Image -->
+                <img
+                  class="w-12 h-12 rounded-full object-cover border hover:scale-105 transition"
+                  :src="userStore.loggedUser.resourceURLRoot + emp.image"
+                  alt="Employee"
+                />
               </div>
+
+
+              <!-- Employee Info -->
+              <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-5 gap-3 px-4 mt-1 text-sm text-gray-700">
+                <div class="flex flex-col">
+                  <span class="font-semibold text-gray-500">Contact</span>
+                  <span>{{ emp.contact }}</span>
+                </div>
+                <div class="flex flex-col">
+                  <span class="font-semibold text-gray-500">Email</span>
+                  <span>{{ emp.email }}</span>
+                </div>
+                <div class="flex flex-col">
+                  <span class="font-semibold text-gray-500">Designation</span>
+                  <span>{{ emp.designation }}</span>
+                </div>
+                <div class="flex flex-col">
+                  <span class="font-semibold text-gray-500">Supervisor</span>
+                  <span>{{ emp.supervisor }}</span>
+                </div>
+                <div class="flex flex-col">
+                  <span class="font-semibold text-gray-500">Department</span>
+                  <span>{{ emp.department }}</span>
+                </div>
+              </div>
+
               <!-- {{userStore.loggedUser}} -->
-              <div class="flex flex-wrap justify-end gap-4 px-4 pb-2">
+              <div class="flex flex-wrap justify-end gap-4 px-4 pb-2 mt-2">
                 <!-- Employee Details -->
-                <div @click="init_employee(emp.id)" class="p-2 border-2 rounded-lg cursor-pointer hover:text-blue-200">
-                  Emp. Details
-                </div>
-
-                <!-- Attendance -->
-                <div @click.stop="init_attendence(emp.empNo, emp.id);//, FromDate: $refs.atten.$refs.datediffRef.dtfrom, ToDate: $refs.atten.$refs.datediffRef.dtto
-                " class="p-2 border-2 rounded-lg cursor-pointer hover:text-blue-200">
-                  Attendance
-                </div>
-
-                <!-- Apply OT -->
-                <div
+                 <button @click="init_employee(emp.id)" class="px-3 py-1 rounded-lg bg-blue-100 hover:bg-blue-200 text-blue-600 text-sm">
+                  👤 Details
+                </button>
+                <button @click.stop="init_attendence(emp.empNo, emp.id)" class="px-3 py-1 rounded-lg bg-green-100 hover:bg-green-200 text-green-600 text-sm">
+                  🕒 Attendance
+                </button>
+                <button
                   v-show="!emp.isOTAllow && (userStore.loggedUser.userName === emp.empNo || userStore.loggedUser.granted.includes('hradmin'))"
-                  title="OT Apply"
-                  @click="init_otapply(index, emp.empNo); cur_sec = 'otapply'; selectedrow = emp.id; isSecClose = false;"
-                  class="p-2 border-2 rounded-lg cursor-pointer hover:text-blue-200">
-
-                  Apply OT
-                </div>
-
-                <!-- Leave Details -->
-                <div v-show="userStore.loggedUser.userName === emp.empNo || userStore.loggedUser.granted.includes('hradmin')
-                  " title="Leave Details" @click="
-                    init_absense(emp.empNo, emp.id);
-                  cur_sec = 'absense';
-                  selectedrow = emp.id;
-                  isSecClose = false;
-                  " class="p-2 border-2 rounded-lg cursor-pointer hover:text-blue-200">
-                  Leave
-                </div>
-
-                <!-- Rectify Details -->
-                <!-- <div v-show="userStore.loggedUser.userName === emp.empNo || userStore.loggedUser.userGroup === 'hradmin' || userStore.loggedUser.granted.includes('hradmin') ||
-                  userStore.loggedUser.userGroup?.toLowerCase() === 'admin'
-                  " title="Leave Details" @click="
-                    init_rectify(emp.empNo, emp.id);
-                  cur_sec = 'rectify';
-                  selectedrow = emp.id;
-                  isSecClose = false;
-                  " class="p-2 border-2 rounded-lg cursor-pointer hover:text-blue-200">
-                  Rectify
-                </div> -->
-
-                <!-- Movement Details -->
-                <div v-show="userStore.loggedUser.userName === emp.empNo || userStore.loggedUser.granted.includes('hradmin')
-                  " title="Movement Details" @click="
-                    init_movement(emp.empNo, emp.id);//index
-                  cur_sec = 'movement';
-                  selectedrow = emp.id;
-                  isSecClose = false;
-                  " class="p-2 border-2 rounded-lg cursor-pointer hover:text-blue-200">
-                  Movement
-                </div>
-
-                <!-- Time Card Details -->
-                <div title="Time Card Details" v-show="userStore.loggedUser.userName === emp.empNo || userStore.loggedUser.granted.includes('hradmin')
-                  " @click="
-                    init_timecard(emp.empNo, index);
-                  cur_sec = 'timecard';
-                  selectedrow = emp.id;
-                  isSecClose = false;
-                  " class="p-2 border-2 rounded-lg cursor-pointer hover:text-blue-200">
-                  Time Card
-                </div>
+                  @click="init_otapply(index, emp.empNo); cur_sec='otapply'; selectedrow=emp.id; isSecClose=false;"
+                  class="px-3 py-1 rounded-lg bg-purple-100 hover:bg-purple-200 text-purple-600 text-sm"
+                >
+                  ➕ Apply OT
+                </button>
+                <button v-show="userStore.loggedUser.userName === emp.empNo || userStore.loggedUser.granted.includes('hradmin')"
+                  @click="init_absense(emp.empNo, emp.id); cur_sec='absense'; selectedrow=emp.id; isSecClose=false;"
+                  class="px-3 py-1 rounded-lg bg-yellow-100 hover:bg-yellow-200 text-yellow-600 text-sm"
+                >
+                  📅 Leave
+                </button>
+                <button v-show="userStore.loggedUser.userName === emp.empNo || userStore.loggedUser.granted.includes('hradmin')"
+                  @click="init_movement(emp.empNo, emp.id); cur_sec='movement'; selectedrow=emp.id; isSecClose=false;"
+                  class="px-3 py-1 rounded-lg bg-pink-100 hover:bg-pink-200 text-pink-600 text-sm"
+                >
+                  🚶 Movement
+                </button>
+                <button v-show="userStore.loggedUser.userName === emp.empNo || userStore.loggedUser.granted.includes('hradmin')"
+                  @click="init_timecard(emp.empNo, index); cur_sec='timecard'; selectedrow=emp.id; isSecClose=false;"
+                  class="px-3 py-1 rounded-lg bg-gray-100 hover:bg-gray-200 text-gray-700 text-sm"
+                >
+                  ⏱️ Time Card
+                </button>
               </div>
 
 
