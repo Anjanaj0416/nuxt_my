@@ -133,63 +133,39 @@ export const useDashboardStore  = defineStore('dashboard', {
     },
 
     async hrDashboard(showLoading) {
-      const loadingAlert = showLoading('') 
+      // const loadingAlert = showLoading('') 
 
       try {
         const response = await axios.get(
-          `${import.meta.env.VITE_API_URL}/hr/HRCommon/GetEmployeeDashBoardDetails`
-        );
-    try {
-      const response = await axios.get(
-        `${import.meta.env.VITE_API_URL}/hr/HRCommon/GetEmployeeDashBoardDetails`);
+          `${import.meta.env.VITE_API_URL}/hr/HRCommon/GetEmployeeDashBoardDetails`);
 
-        // console.log('response:', response);
+          // console.log('response:', response);
 
-        if (response.data.isSuccess) {
-          const hrData = response.data.data.data;
+          if (response.data.isSuccess) {
+            const hrData = response.data.data.data;
 
 
-        this.hrDashboardList = {
-          loggedUserName: hrData.loggedUserName,
-          todayAttendance: hrData.todayAttendance,
-          leaveBalance: hrData.leaveBalance,
-          todayEmployeeSummary: hrData.todayEmployeeSummary,
-          todayManagers: hrData.todayManagers,
-          upcommingBirthdays: hrData.upcommingBirthdays, 
-          approvalStatus: hrData.approvalStatus,
-          monthNoOfNoPays: hrData.monthNoOfNoPays,
-          monthTotalOverTimes: hrData.monthTotalOverTimes,
-          monthTotalLeave: hrData.monthTotalLeave,
-          monthTotalMovement: hrData.monthTotalMovement,
-          monthTotalRectification: hrData.monthTotalRectification,
-          monthTotalWorkedHours: hrData.monthTotalWorkedHours,
-        };
-      } else {
-        this.showToast(response.data.message, "error");
-      }
-    } catch (error) {
-      this.showToast("Failed to load Employee data", "error");
-      loadingAlert.close();
-    }
-  },
-
-    async salesDashboard(req , showLoading) {
-      // console.log('API-GetQMSDashboardDetails')
-      const loadingAlert = showLoading?.('');
-      try {
-        const response = await axios.get(
-          `${import.meta.env.VITE_API_URL}/QMS/Common/GetQMSDashboardDetails?period=${req.period}&csoNo=${req.csoNo}`
-        );
-        console.log(response);
-        loadingAlert.close();
-        if (response.data.isSuccess) {
-           this.salesDashboardList = response.data.data.data;
-          // this.showToast(response.data.message, "success");
+          this.hrDashboardList = {
+            loggedUserName: hrData.loggedUserName,
+            todayAttendance: hrData.todayAttendance,
+            leaveBalance: hrData.leaveBalance,
+            todayEmployeeSummary: hrData.todayEmployeeSummary,
+            todayManagers: hrData.todayManagers,
+            upcommingBirthdays: hrData.upcommingBirthdays, 
+            approvalStatus: hrData.approvalStatus,
+            monthNoOfNoPays: hrData.monthNoOfNoPays,
+            monthTotalOverTimes: hrData.monthTotalOverTimes,
+            monthTotalLeave: hrData.monthTotalLeave,
+            monthTotalMovement: hrData.monthTotalMovement,
+            monthTotalRectification: hrData.monthTotalRectification,
+            monthTotalWorkedHours: hrData.monthTotalWorkedHours,
+          };
         } else {
           this.showToast(response.data.message, "error");
         }
       } catch (error) {
-        // this.showToast("Error while deleting order", "error");
+        this.showToast("Failed to load Employee data", "error");
+        loadingAlert.close();
       }
     },
 
@@ -253,12 +229,25 @@ export const useDashboardStore  = defineStore('dashboard', {
       }
     },
 
-
-   
-  
-
-  
-
+    async salesDashboard(req , showLoading) {
+      // console.log('API-GetQMSDashboardDetails')
+      const loadingAlert = showLoading?.('');
+      try {
+        const response = await axios.get(
+          `${import.meta.env.VITE_API_URL}/QMS/Common/GetQMSDashboardDetails?period=${req.period}&csoNo=${req.csoNo}`
+        );
+        console.log(response);
+        loadingAlert.close();
+        if (response.data.isSuccess) {
+           this.salesDashboardList = response.data.data.data;
+          // this.showToast(response.data.message, "success");
+        } else {
+          this.showToast(response.data.message, "error");
+        }
+      } catch (error) {
+        // this.showToast("Error while deleting order", "error");
+      }
+    },
 
     async showToast(message, type) {
       const Swal = (await import("sweetalert2")).default;
