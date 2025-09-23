@@ -131,6 +131,9 @@
               <hr_item item="Other Leave" :value="employeeStore?.empdetails?.otherLeave" />
             </div>
             <div class="col-span-1">
+              <hr_item item="Short Leave" :value="employeeStore?.empdetails?.noOfShortLeavePerMonth" />
+            </div>
+            <div class="col-span-1">
               <hr_item item="Over Time" :value="employeeStore?.empdetails?.isOtAllow ? 'Yes' : 'No'" />
             </div>
             <div class="col-span-1">
