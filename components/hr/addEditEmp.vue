@@ -387,6 +387,17 @@
                 {{ err.OtherLeave }}
               </p>
             </div>
+            <div class="">
+              <label class="block text-sm font-bold text-gray-600">
+                Short Leave <span class="text-red-500">*</span>
+              </label>
+              <input type="number" v-model="employeeStore.empdetails.noOfShortLeavePerMonth"
+                placeholder="Enter Short Leave" required
+                class="w-full p-2 mt-2 text-sm border rounded-md focus:ring-indigo-500 focus:border-indigo-500" />
+              <p v-if="err.NoOfShortLeavePerMonth" class="mt-2 text-sm text-red-600">
+                {{ err.NoOfShortLeavePerMonth }}
+              </p>
+            </div>
           </div>
 
           <!-- OT Details -->
@@ -536,6 +547,7 @@ export default {
         CasualLeave: 0,
         SickLeave: 0,
         OtherLeave: 0,
+        NoOfShortLeavePerMonth: 0,
         IsOTAllow: false,
         callingName: "",
         signature: "",
@@ -673,6 +685,7 @@ export default {
       formData.append("OffTime", formObject.offTime); // Expected format: "HH:mm:ss"
       formData.append("OnTime", formObject.onTime); // Expected format: "HH:mm:ss"
       formData.append("OtherLeave", formObject.otherLeave || 0);
+      formData.append("NoOfShortLeavePerMonth", formObject.noOfShortLeavePerMonth || 0);
       formData.append("PrivilegeLevel", formObject.privilegeLevel || "");
       formData.append("ReasonForResign", formObject.reasonForResign || "");
       formData.append("RoleId", formObject.role.id);
@@ -835,27 +848,30 @@ export default {
         IsValidate = false;
       }
 
-      if (!this.employeeStore.empdetails.annualLeave) {
+      if (!this.employeeStore.empdetails.annualLeave && this.employeeStore.empdetails.annualLeave !== 0) {
         this.err.AnnualLeave = "Please Enter Annual Leave!";
         IsValidate = false;
       }
 
-      if (!this.employeeStore.empdetails.casualLeave) {
+      if (!this.employeeStore.empdetails.casualLeave && this.employeeStore.empdetails.casualLeave !== 0) {
         this.err.CasualLeave = "Please Enter Casual Leave !";
         IsValidate = false;
       }
 
-      if (!this.employeeStore.empdetails.sickLeave) {
+      if (!this.employeeStore.empdetails.sickLeave && this.employeeStore.empdetails.sickLeave !== 0) {
         this.err.SickLeave = "Please Enter Sick Leave!";
         IsValidate = false;
       }
 
-      if (!this.employeeStore.empdetails.otherLeave) {
+      if (!this.employeeStore.empdetails.otherLeave && this.employeeStore.empdetails.otherLeave !== 0) {
         this.err.OtherLeave = "Please Enter Other Leave!";
         IsValidate = false;
       }
 
-
+      if (!this.employeeStore.empdetails.noOfShortLeavePerMonth && this.employeeStore.empdetails.noOfShortLeavePerMonth !== 0) {
+        this.err.NoOfShortLeavePerMonth = "Please Enter Short Leave!";
+        IsValidate = false;
+      }
 
       if (!this.employeeStore.empdetails.dateOfJoin) {
         this.err.DateOfJoin = "Please Enter Date Of Join!";

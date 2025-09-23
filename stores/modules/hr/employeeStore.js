@@ -48,6 +48,7 @@ export const useEmployeeStore = defineStore("employeeStore", {
       casualLeave: 0,
       sickLeave: 0,
       otherLeave: 0,
+      noOfShortLeavePerMonth:0,
       isOtAllow: false,
       homePhoneNo: "",
       signatureUrl: "",
