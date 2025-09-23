@@ -658,10 +658,10 @@ export default {
         isValidated = false;
       }
       // Installment validation
-      // if (!this.listInstallmentDetails || this.listInstallmentDetails.length === 0) {
-      //   this.err.installmentError = "Please add at least one installment!";
-      //   isValidated = false;
-      // }
+      if (!this.listInstallmentDetails || this.listInstallmentDetails.length === 0) {
+        this.err.installmentError = "Please add at least one installment!";
+        isValidated = false;
+      }
       return isValidated;
     },
 

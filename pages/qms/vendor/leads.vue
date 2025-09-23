@@ -50,7 +50,7 @@
           v-for="(field, idx) in vendorFields"
           :key="idx"
         >
-          <h1 class="text-[12px] font-semibold text-gray-600">
+          <h1 class="text-xs font-semibold text-gray-600">
             {{ field.label }}
           </h1>
 
@@ -71,7 +71,7 @@
             </span>
           </template>
           <template v-else>
-            <p class="text-sm text-gray-500 mt-0.5" v-if="lead[field.key] || field.secondKey && lead[field.secondKey]">
+            <p class="text-xs text-gray-500 mt-0.5" v-if="lead[field.key] || field.secondKey && lead[field.secondKey]">
               {{ lead[field.key] || '—' }}
               {{ field.secondKey ? lead[field.secondKey] || '' : '' }}
             </p>

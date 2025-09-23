@@ -80,7 +80,7 @@
                 <!-- Left: Name & Emp No -->
                 <div>
                   <h2 class="text-normal font-semibold text-gray-800">{{ emp.empName }}</h2>
-                  <p class="text-sm text-gray-500">#{{ emp.empNo }}</p>
+                  <p class="text-sm text-gray-500">{{ emp.empNo }}</p>
                   <span
                     v-if="emp.isresigned"
                     class="absolute top-2 left-2 bg-red-500 text-white text-xs px-2 py-1 rounded-full"

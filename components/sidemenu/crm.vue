@@ -65,12 +65,17 @@
                         <router-link to="/qms/reports?p=R904"
                             class="block px-3 py-1 text-sm text-gray-400 rounded hover:text-white hover:bg-blue-700"
                             @click="$emit('close-sidebar')">
-                            Debtor OS report
+                            Debtor OS Report
                         </router-link>
                         <router-link to="/qms/reports?p=R905"
                             class="block px-3 py-1 text-sm text-gray-400 rounded hover:text-white hover:bg-blue-700"
                             @click="$emit('close-sidebar')">
-                            Commission Calculation report
+                            Commission Calculation Report
+                        </router-link>
+                        <router-link to="/qms/reports?p=R906"
+                            class="block px-3 py-1 text-sm text-gray-400 rounded hover:text-white hover:bg-blue-700"
+                            @click="$emit('close-sidebar')">
+                            Collection Sheet Report
                         </router-link>
                     </div>
                 </div>
