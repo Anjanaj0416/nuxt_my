@@ -24,7 +24,7 @@
           <div>
             <h2 class=" text-base font-semibold leading-7 text-gray-900">Employee Details</h2>
             <div class="flex -space-x-1 overflow-hidden">
-              <div v-if="employeeStore?.empdetails?.imageUr">
+              <div v-if="employeeStore?.empdetails?.imageUrl">
                 <a :href="userStore.assetsBaseUrl + employeeStore?.empdetails?.imageUrl" target="_blank">
                   <!-- :href="imageroot + '/user/' + employeeStore?.empdetails?.image" -->
                   <img class="w-16 h-16 border-2 border-white rounded"
@@ -293,7 +293,7 @@ export default {
       this.$emit('setDeleteEmployee')
     },
     setEdit() {
-      this.employeeStore?.empdetails = this.employeeStore.curEmployee;
+      this.employeeStore.empdetails = this.employeeStore.curEmployee;
       this.$emit('setEmployee')
     },
   },

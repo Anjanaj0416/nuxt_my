@@ -133,17 +133,15 @@ export const useDashboardStore  = defineStore('dashboard', {
     },
 
     async hrDashboard(showLoading) {
+      console.log("hrDashboard");
+      
       const loadingAlert = showLoading('') 
 
-      try {
-        const response = await axios.get(
-          `${import.meta.env.VITE_API_URL}/hr/HRCommon/GetEmployeeDashBoardDetails`
-        );
     try {
       const response = await axios.get(
         `${import.meta.env.VITE_API_URL}/hr/HRCommon/GetEmployeeDashBoardDetails`);
 
-        // console.log('response:', response);
+        console.log('response:', response);
 
         if (response.data.isSuccess) {
           const hrData = response.data.data.data;
@@ -169,8 +167,8 @@ export const useDashboardStore  = defineStore('dashboard', {
       }
     } catch (error) {
       this.showToast("Failed to load Employee data", "error");
-      loadingAlert.close();
     }
+    loadingAlert.close();
   },
 
     async salesDashboard(req , showLoading) {
@@ -252,14 +250,6 @@ export const useDashboardStore  = defineStore('dashboard', {
         // this.showToast("Error while deleting order", "error");
       }
     },
-
-
-   
-  
-
-  
-
-
     async showToast(message, type) {
       const Swal = (await import("sweetalert2")).default;
       Swal.fire({
