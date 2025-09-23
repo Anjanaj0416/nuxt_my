@@ -293,7 +293,7 @@ export default {
       this.$emit('setDeleteEmployee')
     },
     setEdit() {
-      this.employeeStore?.empdetails = this.employeeStore.curEmployee;
+      this.employeeStore.empdetails = this.employeeStore.curEmployee;
       this.$emit('setEmployee')
     },
   },
