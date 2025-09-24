@@ -17,7 +17,7 @@
             <span
               class="absolute -top-1 -right-1 sm:-top-2 sm:-right-2 flex items-center justify-center w-5 h-5 sm:w-6 sm:h-6 text-[10px] sm:text-xs font-bold text-white bg-red-500 border-2 border-white rounded-full animate-bounce"
             >
-              20
+              {{ workLoadStore.dashboard.workgroupjobcount || 0 }}
             </span>
           </router-link>
         </div>
@@ -193,6 +193,7 @@ import supervisor from '~/components/qms/dashboard/supervisor.vue'
 import freelance from '~/components/qms/dashboard/freelance.vue'
 import { useUserStore } from '~/stores/modules/userStore';
 import { useDashboardStore  } from "~/stores/modules/dashboardStore";
+import { useWorkLoadStore } from "~/stores/modules/hr/workLoadStore";
 
 import { ref, computed, onMounted } from 'vue'
 
@@ -239,6 +240,7 @@ export default {
   async created() {
     this.dashboardStore  = useDashboardStore();
     this.userStore = useUserStore();
+    this.workLoadStore = useWorkLoadStore();
     this.showLoading = this.$showLoading;
 
     await this.dashboardStore.hrDashboard(this.showLoading);

@@ -128,6 +128,30 @@ export const useQmsReportsStore = defineStore("qmsReportsStore", {
         }
       },
     },
+    
+    async GetCollectionSheetReports(req, showLoading) {
+      const loading = showLoading?.('');
+
+      try {
+        const { data } = await axios.get(
+          `${import.meta.env.VITE_API_URL}/qms/Report/GetCollectionSheetReport?from=${req.from}&to=${req.to}`,
+          { responseType: 'blob' }
+        );
+
+        const url = URL.createObjectURL(new Blob([data], { type: "application/xml" }));
+        const link = Object.assign(document.createElement('a'), {
+          href: url,
+          download: `Invoice_Summary_${req.from}_to_${req.to}.xml`
+        });
+        link.click();
+        URL.revokeObjectURL(url);
+      } catch (err) {
+        console.error(err);
+        Swal.fire("Error", "Failed to load Invoice Summary Report", "error");
+      } finally {
+        loading?.close();
+      }
+    },
 
     showToast(message, type) {
       Swal.fire({

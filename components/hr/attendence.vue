@@ -165,10 +165,10 @@
 
             <div>
               <div class="font-bold text-center text-xs cursor-pointer p-1 p-2 gap-x-1 text-sm hover:text-blue-500"
-                @click="changeView(dayatt.id); getDayAppliedRecords(dayatt.date)">View more>>></div>
+                @click="changeView(dayatt.id); getDayAppliedRecords(dayatt.date)">View More →</div>
               <div v-if="dayatt.comment"
                 class="font-bold text-center text-xs cursor-pointer p-1 p-2 gap-x-1 text-sm hover:text-blue-500"
-                @click="changeCommentView(dayatt.id)">Comments>>></div>
+                @click="changeCommentView(dayatt.id)">Comments →</div>
             </div>
 
           </div>

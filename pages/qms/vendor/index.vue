@@ -57,52 +57,92 @@
       }">
         <div class="flex flex-col gap-4 sm:flex-row sm:justify-between sm:items-start">
           <div class="grid w-full grid-cols-2 gap-2 lg:grid-cols-8 sm:grid-cols-7 md:grid-cols-8">
-            <div class="flex flex-col text-center sm:text-left" v-for="(field, idx) in vendorFields" :key="idx">
-              <h1 class="text-xs font-medium text-gray-600">
-                {{ field.label }}
-              </h1>
-
-              <!-- Shop Logo -->
-              <p v-if="field.key === 'shopLogo'" class="flex items-center justify-center h-16 text-center">
-                <ImageLable v-if="vd[field.key]" :imageUrl="imageroot + '/' + vd[field.key]" alt="Shop Logo" />
+            <!-- Shop Logo -->
+            <div class="flex flex-col text-center sm:text-left">
+              <h1 class="text-xs font-medium text-gray-600"></h1>
+              <p class="flex items-center justify-center h-16 text-center">
+                <ImageLable v-if="vd.shopLogo" :imageUrl="imageroot + '/' + vd.shopLogo" alt="Shop Logo" />
                 <ImageLable v-else :imageUrl="defaultShopImage" alt="Default Shop Logo" />
               </p>
+            </div>
 
-              <!-- QR Code Image -->
-              <p v-else-if="field.key === 'qrImageUrl'" class="flex items-center justify-center text-center">
+            <!-- Customer Ref -->
+            <div class="flex flex-col text-center sm:text-left">
+              <h1 class="text-xs font-semibold text-gray-600">Customer Ref</h1>
+              <p class="text-xs text-gray-500 mt-0.5">
+                <span v-if="vd.customerRef">{{ vd.customerRef }}</span>
+                <span v-else class="italic text-gray-400">no data</span>
+              </p>
+            </div>
+
+            <!-- Shop Name -->
+            <div class="flex flex-col text-center sm:text-left">
+              <h1 class="text-xs font-semibold  text-gray-600">Shop Name</h1>
+              <p class="text-xs text-gray-500 mt-0.5">
+                <span v-if="vd.shopName">{{ vd.shopName }}</span>
+                <span v-else class="italic text-gray-400">no data</span>
+              </p>
+            </div>
+
+            <!-- Shop Contact -->
+            <div class="flex flex-col text-center sm:text-left">
+              <h1 class="text-xs font-semibold text-gray-600">Shop Contact</h1>
+              <p class="text-xs text-gray-500 mt-0.5">
+                <span v-if="vd.shopContactNo">{{ vd.shopContactNo }}</span>
+                <span v-else class="italic text-gray-400">no data</span>
+              </p>
+            </div>
+
+            <!-- Email -->
+            <div class="flex flex-col text-center sm:text-left">
+              <h1 class="text-xs font-semibold text-gray-600">Email</h1>
+              <p class="text-xs text-gray-500 mt-0.5">
+                <span v-if="vd.shopEmail">{{ vd.shopEmail }}</span>
+                <span v-else class="italic text-gray-400">no data</span>
+              </p>
+            </div>
+
+            <!-- CSONo -->
+            <div class="flex flex-col text-center sm:text-left">
+              <h1 class="text-xs font-semibold text-gray-600">CSONo</h1>
+              <p class="text-xs text-gray-500 mt-0.5">
+                <span v-if="vd.csoNo">{{ vd.csoNo }}</span>
+                <span v-else class="italic text-gray-400">no data</span>
+              </p>
+            </div>
+
+            <!-- Status -->
+            <div class="flex flex-col text-center sm:text-left">
+              <h1 class="text-xs font-semibold text-gray-600">Status</h1>
+              <span :class="{
+                  'bg-green-100 text-green-700': vd.isActive === true,
+                  'bg-red-100 text-red-700': vd.isActive === false,
+                  'bg-gray-100 text-gray-700': vd.isActive === undefined,
+                }" class="text-xs font-medium px-2.5 py-0.5 rounded-full inline-block mt-1">
+                {{ vd.isActive ? "Active" : "Inactive" }}
+              </span>
+            </div>
+
+            <!-- QR Code -->
+            <div class="flex flex-col text-center sm:text-left">
+              <h1 class="text-xs font-medium text-gray-600"></h1>
+              <p class="flex items-center justify-center text-center">
                 <span
                   class="cursor-pointer"
                   @click="handleQrClick(vd)"
                   title="Click to open store and PDF"
-                >              
-                  
-                   <img 
-                        :src="imageroot + '/' + vd.qrImageUrl"   v-if="vd.qrImageUrl"                      
-                        class="object-cover w-16 h-16 rounded-md"
-                        title="Store QR"
-                      />
+                >
+                  <img
+                    v-if="vd.qrImageUrl"
+                    :src="imageroot + '/' + vd.qrImageUrl"
+                    class="object-cover w-16 h-16 rounded-md"
+                    title="Store QR"
+                  />
                 </span>
-              </p>
-
-              <!-- Active Status -->
-              <span v-else-if="field.key === 'isActive'" :class="{
-                'bg-green-100 text-green-700': vd.isActive === true,
-                'bg-red-100 text-red-700': vd.isActive === false,
-                'bg-gray-100 text-gray-700': vd.isActive === undefined,
-              }" class="text-xs font-medium px-2.5 py-0.5 rounded-full inline-block mt-1">
-                {{ vd.isActive ? "Active" : "Inactive" }}
-              </span>
-
-              <!-- Generic Text Values -->
-              <p v-else class="text-xs text-gray-500 mt-0.5">
-                <!-- {{ vd[field.key] }} {{ field.secondKey ? vd[field.secondKey] : ""  }} -->
-                  <span v-if="vd[field.key] || field.secondKey && vd[field.secondKey]">
-                    {{ vd[field.key] }} {{ field.secondKey ? vd[field.secondKey] : "" }}
-                  </span>
-                  <span v-else class="italic text-gray-400">no data</span>
               </p>
             </div>
           </div>
+
         </div>
 
         <!-- Expandable More Section -->
@@ -342,17 +382,6 @@ export default {
       curIndex: -1,
       searchBy: "",
       searchVal: "",
-      vendorFields: [
-        { label: "", key: "shopLogo" },
-        { label: "Customer Ref", key: "customerRef" },
-        { label: "Shop Name", key: "shopName" },
-        { label: "Shop Contact", key: "shopContactNo" },
-        { label: "Email", key: "shopEmail" },
-        // { label: "City", key: "cityId" },
-        { label: "CSONo", key: "csoNo" },
-        { label: "Status", key: "isActive" },
-        { label: "", key: "qrImageUrl" }, 
-      ],
       imageroot: "",
       showLoading: null,
       vendorTabs: {},
