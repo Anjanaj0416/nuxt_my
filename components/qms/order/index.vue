@@ -192,7 +192,7 @@
             <div class="sm:flex sm:justify-end sm:gap-4">
               <div class="grid grid-cols-3 gap-2 sm:flex sm:gap-4 text-sm font-medium text-gray-500">
               <!-- Time Line -->
-              <button
+              <!-- <button
                 v-if="order.orderStatus !== 'Active'"
                 @click="toggleTab('TimeLine', order.id)"
                 :class="[
@@ -203,7 +203,7 @@
                 ]"
               >
                 {{ activeTab.type === 'TimeLine' && activeTab.orderId === order.id ? 'Close Time Line' : 'View Time Line' }}
-              </button>
+              </button> -->
               <!-- Commision -->
               <button
                 v-if="order.orderStatus !== 'Active'"
