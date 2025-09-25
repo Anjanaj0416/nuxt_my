@@ -42,16 +42,24 @@
           </div>
 
           <!-- Payment History Section -->
-          <div class="relative  border-gray-200  space-y-6">
+          <div class="relative  border-gray-200 overflow-auto max-h-80 space-y-6">
             <div class="relative">
               <div class="p-4 rounded-lg shadow-md border transition border-gray-500">
                 <div class="flex justify-between items-center flex-wrap gap-1 border-b pb-1">
                   <div class="flex items-center gap-1 text-gray-600">
-                    <span class="text-lg font-semibold text-gray-600">Installments</span>
+                    <span class="text-lg font-semibold text-gray-600">Installment 1</span>
                   </div>
-                  <span class="px-2 py-1 rounded text-xs font-medium bg-red-100 text-red-700">
-                    Due
-                  </span>
+                  <span 
+                  :class="{
+                    'bg-green-100 text-green-700': FullPaid === 'FullPaid',
+                    'bg-yellow-100 text-yellow-700': Pending === 'Pending',
+                    'bg-yellow-600 text-white': Active === 'Active',
+                    'bg-red-100 text-red-700': Canceled === 'Canceled'
+                  }"
+                  class="text-xs font-semibold px-2 py-0.5 rounded-full"
+                >
+                    Pending
+                </span>
                 </div>
                 <div class="grid grid-cols-3 gap-x-2 gap-y-1 mt-2 text-xs">
                   <div>
@@ -72,7 +80,7 @@
                   </div>
                 </div>
 
-                <div class="mt-4 overflow-auto max-h-80 max-w-full">
+                <div class="mt-4  max-w-full">
                   <div v-if="orderStore.PaymentDetails && orderStore.PaymentDetails.length > 0" class="space-y-2">
                     <div
                       v-for="(item, index) in orderStore.PaymentDetails"
@@ -136,7 +144,7 @@
                           class="text-blue-600 hover:underline flex items-center gap-1 cursor-pointer"
                           @click="handleInvoice(item)"
                         >
-                          🧾 Invoice
+                          🧾 Create Invoice
                         </a>
                       </div>
                     </div>

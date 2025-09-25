@@ -25,8 +25,61 @@
             <!-- <img src="/assets/img/LogoDigitalTechLab.png" alt="Digital Tech Labs Logo" class="h-auto rounded-full w-28" /> -->
           </NuxtLink>
 
+
+
           <!-- User Profile -->
           <div class="relative flex items-center ml-3 space-x-3">
+
+            <div class="relative mr-4">
+              <button @click="isNotificationOpen = !isNotificationOpen"
+                class="relative flex items-center justify-center w-12 h-12 
+                      hover:scale-110 transition-all duration-300">
+                <!-- Bell Icon -->
+                <svg xmlns="http://www.w3.org/2000/svg" fill="none"
+                  viewBox="0 0 24 24" stroke-width="2" stroke="currentColor"
+                  class="w-7 h-7 text-white">
+                  <path stroke-linecap="round" stroke-linejoin="round"
+                    d="M15 17h5l-1.405-1.405A2.032 2.032 0 0118 14.158V11
+                      a6.002 6.002 0 00-4-5.659V5a2 2 0 10-4 0v.341
+                      C7.67 6.165 6 8.388 6 11v3.159
+                      c0 .538-.214 1.055-.595 1.436L4 17h5m6 0
+                      a3 3 0 11-6 0h6z" />
+                </svg>
+
+                <!-- Notification Badge -->
+                <span v-if="notifications.length"
+                  class="absolute -top-0 -right-1 flex items-center justify-center 
+                        w-5 h-5 text-[10px] font-bold text-white bg-red-500 
+                        rounded-full shadow-md ">
+                  {{ notifications.length }}
+                </span>
+              </button>
+
+              <!-- Dropdown -->
+              <transition >
+                <div v-if="isNotificationOpen"
+                  class="absolute right-0 mt-3 w-72 bg-white 
+                        rounded-2xl shadow-2xl overflow-hidden z-50">
+                  <div class="p-4 border-b ">
+                    <h3 class="text-sm font-semibold text-gray-700 ">Notifications</h3>
+                  </div>
+                  <ul class="max-h-60 overflow-y-auto">
+                    <li v-for="(note, index) in notifications" :key="index"
+                      class="px-4 py-3 hover:bg-gray-100 
+                            transition flex items-start gap-3">
+                      <div class="w-2 h-2 rounded-full bg-blue-500 mt-2"></div>
+                      <p class="text-sm text-gray-600 ">{{ note }}</p>
+                    </li>
+                  </ul>
+                  <!-- <div class="p-3 text-center">
+                    <button class="w-full py-2 text-sm font-medium text-indigo-600 hover:text-indigo-800 
+                                  dark:text-indigo-400 dark:hover:text-indigo-300 transition">
+                      View All
+                    </button>
+                  </div> -->
+                </div>
+              </transition>
+            </div>
             <div class="text-white text-sm">
               <p class="font-semibold">Hi, {{ userStore.loggedUser.name }}</p>
               <p class="text-xs opacity-80">{{ userStore.loggedUser.userName }}</p>
@@ -83,6 +136,8 @@ export default {
       isDropdownOpen: false,
       isProfile: false,
       profileData: null,
+      isNotificationOpen: false,
+      notifications: ["ABS companu visit 2.30pm", "ABS companu visit 2.30pm", "Meeting at 3 PM"],
     };
   },
   methods: {

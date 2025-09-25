@@ -148,28 +148,46 @@
               && (lead.status === 'Pending' || lead.status === 'Hold' || lead.status === 'Cancelled' || lead.status == 'Completed')"
             class="grid grid-cols-1 gap-4 sm:grid-cols-1"
           >
-            <div class="w-full sm:w-1/2">
-              <!-- <selectinput2
-                v-model="lead.tempStatus"
-                :cur_item="lead.tempStatus"
-                :selections="leadStore.InitLeads.listStatus"
-                :err="err.status"
-                label="Lead Status"
-              /> -->
-              <label class="block text-xs font-medium text-gray-700">Job Status</label>
-                  <select
-                    v-model="lead.tempStatus"
-                    class="mt-1 w-full p-2 text-xs border rounded-md bg-white focus:ring-2 focus:ring-indigo-400"
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+              <!-- Job Status -->
+              <div>
+                <label class="block text-xs font-medium text-gray-700">Job Status</label>
+                <select
+                  v-model="lead.tempStatus"
+                  class="mt-1 w-full p-2 text-xs border rounded-md bg-white focus:ring-2 focus:ring-indigo-400"
+                >
+                  <option disabled value="">Select Status</option>
+                  <option
+                    v-for="status in leadStore.InitLeads.listStatus"
+                    :key="status"
+                    :value="status"
                   >
-                    <option disabled value="">-- Select Status --</option>
-                    <option
-                      v-for="status in leadStore.InitLeads.listStatus"
-                      :key="status"
-                      :value="status"
-                    >
-                      {{ status }}
-                    </option>
-                  </select>
+                    {{ status }}
+                  </option>
+                </select>
+              </div>
+
+              <!-- Visit Date + Time -->
+              <div  class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                <div v-if="lead.tempStatus === 'Hold'">
+                  <label class="block text-xs font-medium text-gray-700">Visit Date</label>
+                  <input
+                    type="date"
+                    v-model="lead.visitDate"
+                    class="w-full p-2 text-xs border rounded-md bg-white mt-1 
+                          focus:ring-2 focus:ring-indigo-400 resize-none"
+                  />
+                </div>
+                <div v-if="lead.tempStatus === 'Hold'">
+                  <label class="block text-xs font-medium text-gray-700">Visit Time</label>
+                  <input
+                    type="time"
+                    v-model="lead.visitTime"
+                    class="w-full p-2 text-xs border rounded-md bg-white mt-1 
+                          focus:ring-2 focus:ring-indigo-400 resize-none"
+                  />
+                </div>
+              </div>
             </div>
             
             <div class="w-full sm:w-1/2">

@@ -1,256 +1,139 @@
 <template>
   <section class="justify-center">
-    <div class="flex flex-col-reverse items-start justify-between gap-4 mb-4 md:flex-row md:items-center">
-      <div class="text-2xl uppercase">Work Flow</div>
-      <button
-        class="flex items-center gap-2 px-4 py-2 text-sm font-medium text-gray-500 transition-all duration-300 bg-white border-1 rounded-full shadow hover:bg-blue-700 hover:text-white hover:shadow-md"
-        @click="$emit('close')"
-      >
-        <svg xmlns="http://www.w3.org/2000/svg" class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7" />
-        </svg>
-        Back to Proposals
-      </button>
-    </div>
-    {{ orderStore.loadWorkFLow.data }}
-    {{ vendorId }}
-    <div class="overflow-x-auto rounded-xl border border-gray-200 shadow">
-      <table class="min-w-full divide-y divide-gray-200 text-sm">
-        <thead class="bg-blue-950 text-white">
-          <tr>
-            <th class="px-4 py-2 text-left">Discription</th>
-            
-            <th class="px-4 py-2 text-left">Assigned To</th>
-            <th class="px-4 py-2 text-left">Assigned Date</th>
-            <th class="px-4 py-2 text-left">Completed Date</th>
-            <th class="px-4 py-2 text-left">Status</th>
-            <th class="px-4 py-2 text-left">Days Taken</th>
-            <th class="px-4 py-2 text-left">Comment</th>
-          </tr>
-        </thead>
-        <tbody class="divide-y divide-gray-100 bg-white">
-          <tr class="hover:bg-gray-50">
-            <td class="px-4 py-2 font-medium">Lorem ipsum dolor sit amet consectetur adipisicing elit.</td>
-            <td class="px-4 py-2 font-medium">Nimal <span class="text-xs text-gray-500">[0772784123]</span></td>
-            <td class="px-4 py-2">2025-06-15</td>
-            <td class="px-4 py-2 text-gray-500">—</td>
-            <td class="px-4 py-2">
-              <span class="inline-block rounded-full bg-yellow-100 text-yellow-800 px-2 py-0.5 text-xs">Pending</span>
-            </td>
-            <td class="px-4 py-2 text-center">130</td>
-            <td class="px-4 py-2 text-gray-600 italic">—</td>
-          </tr>
-          <tr class="hover:bg-gray-50">
-            <td class="px-4 py-2 font-medium">Lorem ipsum dolor sit amet consectetur adipisicing elit.</td>
-            <td class="px-4 py-2 font-medium">Kamal <span class="text-xs text-gray-500">[0718738129]</span></td>
-            <td class="px-4 py-2">2025-01-16</td>
-            <td class="px-4 py-2">2025-02-05</td>
-            <td class="px-4 py-2">
-              <span class="inline-block rounded-full bg-green-100 text-green-800 px-2 py-0.5 text-xs">Completed</span>
-            </td>
-            <td class="px-4 py-2 text-center">19</td>
-            <td class="px-4 py-2 text-gray-600 italic">—</td>
-          </tr>
-          <tr class="hover:bg-gray-50">
-            <td class="px-4 py-2 font-medium">Lorem ipsum dolor sit amet consectetur adipisicing elit.</td>
-            <td class="px-4 py-2 font-medium">Dumindu <span class="text-xs text-gray-500">[0778626741]</span></td>
-            <td class="px-4 py-2">2025-06-16</td>
-            <td class="px-4 py-2">2025-01-16</td>
-            <td class="px-4 py-2">
-              <span class="inline-block rounded-full bg-green-100 text-green-800 px-2 py-0.5 text-xs">Completed</span>
-            </td>
-            <td class="px-4 py-2 text-center">0</td>
-            <td class="px-4 py-2 text-gray-600">Recall the WorkOrder By FLO</td>
-          </tr>
-          <!-- Repeat for others -->
-        </tbody>
-      </table>
+    <div class="bg-white border rounded-lg shadow-md p-6 text-sm text-gray-800">
+        <div class="mb-6">
+        <div class="flex justify-between items-center mb-2">
+            <h2 class="text-2xl uppercase">Work flow </h2>
+        </div>
+        <div class="">
+            <span class="text-sm text-gray-500">{{ progress }}% complete</span>
+        </div>
+        </div>
+
+        <!-- Timeline -->
+        <ol class="items-center sm:flex">
+          <li
+              v-for="(step, index) in workflow"
+              :key="index"
+              class="relative mb-6 sm:mb-0 flex-1"
+          >
+              <div class="flex items-center">
+              <!-- Circle -->
+              <div
+                  class=" flex items-center justify-center w-6 h-6 rounded-full ring-0 ring-white sm:ring-8 shrink-0"
+                  :class="{
+                  'bg-green-500 text-white': step.status === 'Done',
+                  'bg-blue-500 text-white': step.status === 'In Progress',
+                  'bg-gray-300 text-gray-500': step.status === 'Pending'
+                  }"
+              >
+                  <svg
+                    v-if="step.status === 'Done'"
+                    class="w-3 h-3"
+                    fill="currentColor"
+                    viewBox="0 0 20 20"
+                  >
+                  <path
+                    fill-rule="evenodd"
+                    d="M16.707 5.293a1 1 0 010 1.414l-8.364 8.364a1 1 0 01-1.414 0L3.293 11.05a1 1 0 111.414-1.414L7.636 12.56l7.95-7.95a1 1 0 011.414 0z"
+                    clip-rule="evenodd"
+                  />
+                  </svg>
+                  <svg
+                    v-else
+                    class="w-2.5 h-2.5"
+                    fill="currentColor"
+                    viewBox="0 0 20 20"
+                  >
+                  <circle cx="10" cy="10" r="10" />
+                  </svg>
+              </div>
+
+              <!-- Connector -->
+              <div
+                  v-if="index < workflow.length - 1"
+                  class="hidden sm:flex w-full h-0.5"
+                  :class="{
+                  'bg-green-500': step.status === 'Done',
+                  'bg-blue-500': step.status === 'In Progress',
+                  'bg-gray-300': step.status === 'Pending'
+                  }"
+              ></div>
+              </div>
+
+              <!-- Step Info -->
+              <div class="mt-3 sm:pe-8">
+                <h3 class="text-lg font-semibold text-gray-900">{{ step.title }}</h3>
+                <time class="block mb-1 text-sm font-normal text-gray-500">{{ step.date }}</time>
+              </div>
+              <span
+                :class="{
+                  'bg-green-100 text-green-700': step.status === 'Done',
+                  'bg-orange-100 text-orange-800': step.status === 'In Progress',
+                  'bg-yellow-100 text-bolt text-yellow-800 ': step.status === 'Pending',
+                }"
+                class="text-xs font-medium me-2 px-2.5 py-0.5 rounded-full"
+              >
+                {{ step.status }}
+              </span>
+          </li>
+        </ol>
     </div>
   </section>
-    <!-- <input type="text" oninput="this.value = this.value.replace(/[^0-9.]/g, '').replace(/(\..*?)\..*/g, '$1');" > -->
 </template>
-  
+
+
+
 <script>
-  import { useRoute } from 'vue-router'
-  import { useOrderStore } from '~/stores/modules/orderStore';
-  
-  
-  import LinkBtn from "~/components/customcontrol/Link";
-  import Button from "~/components/customcontrol/Button";
-  import selectinput2 from "~/components/customcontrol/selectinput2";
+import { useOrderStore } from "~/stores/modules/orderStore";
 
- definePageMeta({
-    layout: 'default',   
-    middleware: 'auth',
-   });
-   
-  export default {
-    
-    components: {LinkBtn,Button,selectinput2},
-    props:['vendorId'],
-    data() {
-      return {
-        imageroot: "",
-        showLoading: null,
-       
-      }
-    },
-    async mounted() {
-     
-    },
-    async created() {
-      this.orderStore = useOrderStore(); 
-      this.showLoading = this.$showLoading;
+export default {
+  props: ["orderId", "orderNo"],
+  data() {
+    return {
+      workflow: [
+        { title: "Allocate", date: "Dec 2, 2024", status: "Done" },
+        { title: "Visit", date: "Dec 2, 2024", status: "Done" },
+        { title: "Proposal", date: "Dec 23, 2024", status: "Done" },
+        { title: "PI", date: "Jan 5, 2022", status: "In Progress" },
+        { title: "Payment", date: "Jan 15, 2025", status: "Pending" },
+        { title: "Vendor Create", date: "Jan 25, 2026", status: "Pending" }
+      ],
+    };
+  },
+  computed: {
+    progress() {
+        const total = this.workflow.length;
+        const completed = this.workflow.filter(s => s.status === "Done").length;
+        return Math.round((completed / total) * 100);
+    }
+  },
+  async created() {
+    this.showLoading = this.$showLoading;
+    this.orderStore = useOrderStore();
+    await this.orderStore.GetInstallmentDetails(
+      this.orderId,
+      this.showLoading
+    );
+    this.InstalllmentDetails = this.orderStore.InstalllmentDetails;
+  },
+};
+</script>
 
-      await this.orderStore.loadWorkFLow(this.vendorId, this.showLoading);
-
-    },
-    watch: {},
-    computed: {
-  
-    },
-    methods: {
-     
-     
-      // async copyContent(value) {
-      //   try {
-      //      await navigator.clipboard.writeText(value)
-      //      this.show_msg('Content copied to clipboard')
-  
-      //   } catch (err) {
-      //     this.show_msg('Failed to copy :'+err)
-      //   }
-      // },
-      //     async copyContent(value) {
-      //   try {
-      //      await navigator.clipboard.writeText(value)
-      //      this.show_msg('Content copied to clipboard')
-  
-      //   } catch (err) {
-      //     this.show_msg('Failed to copy :'+err)
-      //   }
-      // },
-      //  async downloadReportKotukole(){
-      //   if(confirm('Do you want to Download?')){
-      //      await this.get_DownloadKotukole({book:this.book});
-      //      window.open(this.csv_root+'/reports/'+this.csv_name, '_blank');
-      //   }
-      // },
-
-      //this.$showToast('Login successful!', 'success'); //success ,error ,warning,info
-    },
-    async beforeMount() {
-      // if (this.loggeduser.granted.indexOf('workgroup') > -1 || this.loggeduser.usergroup == 'Supervisor' ) {
-      // } else {
-      //   this.show_error('Not Allowed to access this page')
-      //   this.$router.push('/')
-      // }
-  
-    },
-    head() {
-      return {
-        title: 'Intranet - Digital Tech Labs',
-      }
-    },
+<style scoped>
+@keyframes glow {
+  0% {
+    box-shadow: 0 0 5px rgba(255, 0, 0, 0.5);
   }
-
-      //Message Usecases
-    //this.$showAlert("Test Login Failed!", "error");
-
-    //     this.$showConfirm('Are you sure you want to delete this item?', 'warning').then((result) => {
-    //   if (result) {
-    //     console.log('Item deleted');
-    //   } else {
-    //     console.log('Action canceled');
-    //   }
-    // });
-
-  //    this.$showInput('Please enter your name:').then((input) => {
-  //   if (input) {
-  //     console.log('User input:', input);
-  //   } else {
-  //     console.log('No input or canceled');
-  //   }
-  // });
-
-  // const htmlMessage = `
-  //       <h2 style="color: #007bff;">Hello, Welcome to the Custom HTML Alert!</h2>
-  //       <p>This is a <strong>custom HTML</strong> message with <a href="https://www.example.com" target="_blank" style="color: #007bff;">links</a>.</p>
-  //       <img src="https://via.placeholder.com/150" alt="Sample Image" style="display: block; margin-top: 10px;" />
-  //       <p><em>Note: This is a custom alert with rich HTML content.</em></p>
-  //     `;
-      
-  //     this.$showHtmlAlert(htmlMessage);
-
-  
-  //const loadingAlert = this.$showLoading('Loading...');
-  //loadingAlert.close();
-
-  // const imageUrl = 'https://intranet.sltds.lk/SLTDS/Resource/rainbow/news/GroupPhotoMeetingTheSecretarytotheTreasury.jpg'; 
-  // this.$showImageAlert('Here is your custom image!', imageUrl);
-
-  // this.$showCustomButtons('Are you sure you want to proceed?', 'warning').then((result) => {
-  //   if (result === 'Proceed') {
-  //     console.log('User confirmed to proceed');
-  //   } else {
-  //     console.log('User canceled the action');
-  //   }
-  // });
-
- //End Message Usecases
-  
-  //Validation
-  //-------------------------------------------------
-  // async cmdSearchOrg(){
-  //       if(this.isAtleasetOneExisitsForSearch()){
-  //      await this.getOrganizationData(this.organizationSearch);
-  //       }
-  //     },
-  
-  // 	-------------------
-  
-  
-  //  isAtleasetOneExisitsForSearch(){
-  //  let isAtleasetOneExisitsForSearch = false;
-  
-  
-  //  if(this.organizationSearch.person.trim()!='' ){
-  //         if( this.organizationSearch.person.trim().length  <= 3 ){
-  //             this.show_error('Invalid person , More than three Letters Requied for search');
-  //         }
-  //         else{ isAtleasetOneExisitsForSearch = true;}
-  
-  //       }
-  // 	  return isAtleasetOneExisitsForSearch;
-  // 	  }
-
-     // GetCityById() {
-    //   return (id) => {
-    //     try {
-    //       let objCity = this.vendorStore.initVendor.listCities.filter((city) => {
-    //         return city.id == id
-    //       })[0]
-    //       return objCity.value
-    //     } catch {
-    //       return ''
-    //     }
-    //   }
-    // },
-  </script>
-  
-  <style scoped>
-  .csscmd{
-    @apply p-2 text-center bg-blue-200 rounded;
+  50% {
+    box-shadow: 0 0 15px rgba(255, 0, 0, 0.9);
   }
-  .csscmd:hover{
-    @apply bg-blue-200 cursor-pointer;
+  100% {
+    box-shadow: 0 0 5px rgba(255, 0, 0, 0.5);
   }
-  
-  .cssBox {
-    border: 1px solid;
-    @apply border-gray-500 rounded p-2;
-  }
-  </style>
-  
-  
-  
+}
+
+.animate-glow {
+  animation: glow 1.5s infinite ease-in-out;
+}
+</style>

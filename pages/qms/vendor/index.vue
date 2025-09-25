@@ -269,17 +269,29 @@
               Close Edit
             </button>
 
-            <!-- <button
-              @click="vendorTabs[vd.id] = 'workFlow'; quotationStore.curVendorId = vd.id"
-              :class="[
+            <button v-if=" 
+                (userStore.loggedUser.granted.includes('su') ||
+                userStore.loggedUser.granted.includes('sso')) &&
+                vendorTabs[vd.id] !== 'workFlow'
+              "
+              @click="vendorTabs[vd.id] = 'workFlow'; quotationStore.curVendorId = vd.id; GoToAddEdit(vd.id)" :class="[
                 'p-4 border-b-2 rounded-t-lg text-center',
                 vendorTabs[vd.id] === 'workFlow'
-                  ? 'text-blue-600 border-blue-600 dark:text-blue-500 dark:border-blue-500'
-                  : 'border-transparent hover:text-gray-600 hover:border-gray-300 dark:hover:text-gray-300'
-              ]"
-            >
+                  ? 'text-blue-600 border-blue-600 dark:text-blue-500 '
+                  : 'border-transparent hover:text-gray-600 hover:border-gray-300 '
+              ]">
               Work Flow
-            </button> -->
+            </button>
+            <!-- Show this only when in 'proposal' mode -->
+            <button v-if="
+                (userStore.loggedUser.granted.includes('su') ||
+                userStore.loggedUser.granted.includes('sso')) &&
+                vendorTabs[vd.id] === 'workFlow'
+              "
+              @click="vendorTabs[vd.id] = ''; quotationStore.curVendorId = null"
+              class="p-4 border-b-2 rounded-t-lg text-center text-red-600 border-transparent ">
+              Close Work Flow
+            </button>
           </div>
         </div>
 
