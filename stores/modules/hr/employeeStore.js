@@ -193,17 +193,16 @@ export const useEmployeeStore = defineStore("employeeStore", {
       loadingAlert.close();
     },
 
-    async getEmployeeByID(id, showLoading) {
-      console.log('API-getEmployeeByID');
-      console.log(JSON.stringify(id));
+    async getEmployeeByID(req, showLoading) {
+      console.log('API-getEmployeeByID:',req);
+      console.log(JSON.stringify(req));
 
       const loadingAlert = showLoading("");
       try {
         const response = await axios.get(
-          `${import.meta.env.VITE_API_URL}/hr/Employee/GetEmployeeByID`,
-          { params: { id: id.empid } }
-        );
+          `${import.meta.env.VITE_API_URL}/hr/Employee/GetEmployeeByID`,{ params: { id: req.empid } });
         console.log("response:",response.data.data.data);
+        
         if (response.data.isSuccess) {
           this.curEmployee = response.data.data.data || {};
           this.empdetails = this.curEmployee;
