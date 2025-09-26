@@ -30,7 +30,7 @@
       <div
         class="flex-col items-center hidden -my-4 lg:pt-4 lg:flex-row gap-y-4 lg:gap-y-0 gap-x-4 lg:gap-x-8 md:pt-4 md:flex-row lg:flex">
         <!-- Hide on mobile -->
-        <div class="mr-8" v-show="userStore.loggedUser.userGroup === 'Supervisor'">
+        <div class="mr-8" v-show="userStore.loggedUser.granted.includes('hradmin')">
           <!-- HRAdmin -->
           <btnwgstatus name="workgroup" :wgjobcount="workLoadStore.dashboard.workgroupjobcount" @click="getviewwg" />
         </div>

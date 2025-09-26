@@ -152,7 +152,7 @@
         <div class="mt-6" v-if="userStore.loggedUser.userGroup === 'HRAdmin'">
           <hrDash />
         </div>
-        <div class="mt-6" v-if="userStore.loggedUser.userGroup === 'Supervisor'">
+        <div class="mt-6" v-if="userStore.loggedUser.userGroup === 'su'">
           <supervisor/>
         </div>
         <div class="mt-6" v-if="userStore.loggedUser.userGroup === 'Freelance'">
