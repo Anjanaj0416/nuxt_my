@@ -92,8 +92,8 @@
               <!-- <imagecomp :existing_image_path="imageroot + profile.image" @deleteExistingImage="profile.image = ''"
                 @GetSelectedImage="GetSelectedImage" ref="refImage" /> -->
                 <imagepicker1
-                  :existingImagePath="imageroot + profile.image"
-                  @GetSelectedImage="image"
+                  :existingImagePath=" profile.image"
+                  @GetSelectedImage="GetprofileImage"
                   @deleteExistingImage="profile.image = ''"
                   ref="refimage"
                 />
