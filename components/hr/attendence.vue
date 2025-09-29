@@ -21,8 +21,7 @@
             class="w-full p-2 font-bold text-center text-gray-700 border bg-white border-white rounded-md sm:w-auto ">
             Normal OT Hrs - {{ attendanceStore.attendence.tot_normal_overtime }}
           </div>
-          <div
-            class="w-full p-2 font-bold text-center text-gray-700 border bg-white border-white rounded-md sm:w-auto">
+          <div class="w-full p-2 font-bold text-center text-gray-700 border bg-white border-white rounded-md sm:w-auto">
             Sunday OT Hrs - {{ attendanceStore.attendence.tot_sunday_overtime }}
           </div>
 
@@ -163,12 +162,30 @@
               </div>
             </div>
 
-            <div>
-              <div class="font-bold text-center text-xs cursor-pointer p-1 p-2 gap-x-1 text-sm hover:text-blue-500"
+            <div class="flex">
+              <svg v-show="!isView" width="16" height="16" viewBox="0 0 16 16" fill="none" class="mr-3"
+                xmlns="http://www.w3.org/2000/svg" @click="changeView(dayatt.id); getDayAppliedRecords(dayatt.date)">
+                <path class="down-arrow" d="M2 5L8 11L14 5" stroke="currentColor" stroke-width="2"
+                  stroke-linecap="round" stroke-linejoin="round" />
+              </svg>
+
+              <svg v-show="isView && viewRow == dayatt.id" width="16" height="16" viewBox="0 0 16 16" fill="none"
+                class="mr-3" xmlns="http://www.w3.org/2000/svg" @click="getClose()">
+                <path class="up-arrow" d="M2 11L8 5L14 11" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                  stroke-linejoin="round" />
+              </svg>
+
+              <svg v-if="dayatt.comment" width="16" height="16" viewBox="0 0 16 16" fill="none"
+                xmlns="http://www.w3.org/2000/svg" @click="changeCommentView(dayatt.id)">
+                <path
+                  d="M2 4C2 2.89543 2.89543 2 4 2H12C13.1046 2 14 2.89543 14 4V10C14 11.1046 13.1046 12 12 12H6L2 14V4Z"
+                  stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
+              </svg>
+              <!-- <div class="font-bold text-center text-xs cursor-pointer p-1 p-2 gap-x-1 text-sm hover:text-blue-500"
                 @click="changeView(dayatt.id); getDayAppliedRecords(dayatt.date)">View more>>></div>
               <div v-if="dayatt.comment"
                 class="font-bold text-center text-xs cursor-pointer p-1 p-2 gap-x-1 text-sm hover:text-blue-500"
-                @click="changeCommentView(dayatt.id)">Comments>>></div>
+                @click="changeCommentView(dayatt.id)">Comments>>></div> -->
             </div>
 
           </div>
