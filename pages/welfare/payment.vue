@@ -1,7 +1,7 @@
 <!-- https://flowbite.com/docs/components/avatar/ -->
 
 <template>
-  <section class="mt-20 mx-4">
+  <section class="px-4 py-8 mt-14 lg:px-24">
   
     <div class="text-2xl font-bold text-teal-800 mb-6">Membership Payments</div>
 

@@ -1,5 +1,64 @@
 <template>
     <div class="m-4 mt-20 lg:m-12 lg:mt-20">
+      <section class="px-4 py-8 mt-14 lg:px-24">
+        <!-- Add Members Button -->
+        <div class="flex flex-row-reverse p-2">
+          <router-link
+            to="/welfare/member"
+            class="relative flex items-center gap-2 px-4 py-2 bg-[#232B37]
+                  text-white rounded-xl shadow-md hover:shadow-lg hover:scale-105 
+                  transition-all duration-300 ease-in-out"
+          >
+            <!-- Icon -->
+            <svg xmlns="http://www.w3.org/2000/svg" 
+                fill="none" viewBox="0 0 24 24" stroke-width="2" 
+                stroke="currentColor" class="w-5 h-5">
+              <path stroke-linecap="round" stroke-linejoin="round" d="M12 4.5v15m7.5-7.5h-15" />
+            </svg>
+
+            <!-- Text -->
+            <span class="text-sm sm:text-base font-semibold tracking-wide">
+              Add Members
+            </span>
+          </router-link>
+        </div>
+
+        <!-- Dashboard Cards -->
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-4 p-6">
+          <!-- Total Members -->
+          <div class="relative overflow-hidden rounded-2xl p-6 text-white shadow-lg 
+            bg-gradient-to-r from-gray-700 via-gray-800 to-black">
+            <!-- Decorative circle -->
+            <div class="absolute -top-8 -right-8 w-24 h-24 bg-white opacity-10 rounded-full"></div>
+
+            <!-- Content -->
+            <h2 class="text-sm font-medium opacity-90">Total Members</h2>
+            <p class="text-3xl font-bold mt-2">120</p>
+            <p class="text-sm opacity-80 mt-1">Active: 110 | Inactive: 10</p>
+          </div>
+
+
+          <!-- Pending Payments -->
+          <div class="relative overflow-hidden rounded-2xl p-6 text-black shadow-lg 
+            bg-gradient-to-r from-gray-100 via-gray-200 to-gray-300">
+            <div class="absolute -top-8 -right-8 w-24 h-24 bg-black opacity-10 rounded-full"></div>
+            <h2 class="text-sm font-medium text-gray-600">Pending Payments</h2>
+            <p class="text-3xl font-bold mt-2">15</p>
+            <p class="text-sm text-gray-700 mt-1">Due this month</p>
+          </div>
+
+
+          <!-- Upcoming Events -->
+          <div class="relative overflow-hidden rounded-2xl p-6 text-white shadow-lg 
+            bg-gradient-to-r from-gray-500 via-gray-600 to-gray-700">
+            <div class="absolute -bottom-8 -left-8 w-24 h-24 bg-white opacity-10 rounded-full"></div>
+            <h2 class="text-sm font-medium opacity-90">Upcoming Events</h2>
+            <p class="text-3xl font-bold mt-2">3</p>
+            <p class="text-sm opacity-80 mt-1">Next: Welfare Meetup</p>
+          </div>
+
+        </div>
+      </section>
 
      
     </div>

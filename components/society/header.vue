@@ -2,29 +2,29 @@
   <section class="fixed top-0 z-10 w-full">
     <div class="flex bg-gray-100">
       <!-- Sidebar -->
-      <!-- <Sidebar :isOpen="isSidebarOpen" :loggedUser="userStore.loggedUser" @close-sidebar="isSidebarOpen = false" /> -->
+      <Sidebar :isOpen="isSidebarOpen" :loggedUser="userStore.loggedUser" @close-sidebar="isSidebarOpen = false" />
 
       <!-- Main Content -->
       <div class="flex flex-col flex-1">
         <!-- Header -->
-        <header class="flex items-center justify-between h-16 p-4 shadow bg-teal-800">
-          <button @click="isSidebarOpen = !isSidebarOpen" class="absolute z-50 p-2 mr-4 text-white rounded-md top-4 left-4 ">
-            
-            <svg v-if="!isSidebarOpen" class="w-6 h-6 " fill="none" stroke="currentColor" stroke-width="2"
-              viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+        <header class="flex items-center justify-between h-16 p-4 shadow bg-[#232B37]">
+           <button @click="isSidebarOpen = !isSidebarOpen" class="absolute  p-2 rounded-full bg-white/20 hover:bg-white/30 
+            transition-all duration-300 top-4 left-4">
+            <svg v-if="!isSidebarOpen" class="w-6 h-6 text-white" fill="none" stroke="currentColor" stroke-width="2"
+              viewBox="0 0 24 24">
               <path stroke-linecap="round" stroke-linejoin="round" d="M4 6h16M4 12h16M4 18h16"></path>
             </svg>
           </button>
-          <NuxtLink to="/welfare">
+          <NuxtLink to="/welfare" class="flex items-center space-x-2 ml-14">
             <!-- Logo and Name -->
                
             <div class="flex items-center space-x-2 mx-8">
               <!-- hide Img -->
            
-              <img src="/assets/img/society/societyLogo.png" alt="Digital Tech Labs Logo"
-                class="h-auto  w-12" />
+              <img src="/assets/img/society/societyLogo.png" alt="welfare"
+                class="h-auto  w-20" />
                 
-              <span class="text-sm lg:text-xl font-bold text-white">{{ userStore.loggedUser.userCompanyDetails.name }} - {{ userStore.loggedUser.userCompanyDetails.address1 }}  {{ userStore.loggedUser.userCompanyDetails.address3 }}</span>
+              <!-- <span class="text-sm lg:text-normal font-bold text-white">{{ userStore.loggedUser.userCompanyDetails.name }} - {{ userStore.loggedUser.userCompanyDetails.address1 }}  {{ userStore.loggedUser.userCompanyDetails.address3 }}</span> -->
             </div>
           </NuxtLink>
 
@@ -73,7 +73,7 @@
 </template>
 
 <script>
-import Sidebar from "../sidemenu.vue";
+import Sidebar from './sidemenu.vue';
 import { useUserStore } from '~/stores/modules/userStore';
 import profile from "~/pages/user/profile.vue";
 
