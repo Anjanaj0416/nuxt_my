@@ -2,7 +2,7 @@
   <section>
     <section class="px-4 py-8 mt-14 lg:px-24">
       <div class="flex flex-col-reverse items-start justify-between gap-4 mb-4 md:flex-row md:items-center">
-          <div class="text-2xl uppercase">Members </div>
+          <div class="text-2xl uppercase">   {{ t('members') }} </div>
             <div class="w-full md:w-auto">
               <div class="mr-2">
                 <router-link
@@ -18,7 +18,7 @@
                     <path stroke-linecap="round" stroke-linejoin="round" d="M12 4.5v15m7.5-7.5h-15" />
                   </svg>
                   <span class="text-sm sm:text-sm font-semibold tracking-wide">
-                    Add Members
+                      {{ t('AddMembersbtn') }}
                   </span>
                 </router-link>
               </div>
@@ -31,100 +31,106 @@
           <div class="relative overflow-hidden rounded-2xl p-4 text-white shadow-lg 
             bg-gradient-to-r from-gray-700 via-gray-800 to-black flex items-center justify-between">
             <div class="absolute -top-8 -right-8 w-24 h-24 bg-white opacity-10 rounded-full"></div>
-            <h2 class="text-sm font-medium opacity-90 mr-4">Total Members:</h2>
+            <h2 class="text-sm font-medium opacity-90 mr-4">{{ t('AddMembersbtn') }}:</h2>
             <p class="text-2xl font-bold mr-4">120</p>
-            <p class="text-sm opacity-80">Active: 110 | Inactive: 10</p>
+            <p class="text-sm opacity-80 mt-1">{{ t('activeM') }}: 110 | {{ t('inactiveM') }}: 10</p>
           </div>
         </div>
 
         <div class=" mt-2">
-
           <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-1 gap-6">
-              <div class="grid grid-cols-1 gap-4">
-  <div 
-    v-for="(member, index) in members"
-    :key="index" 
-    class="relative overflow-hidden rounded-2xl p-6 bg-gradient-to-r from-gray-700 via-gray-800 to-black text-white shadow-lg hover:shadow-xl transition-all"
-  >
-    <div class="flex flex-col sm:flex-row sm:justify-between sm:items-center gap-2">
-      <div class="flex justify-center items-center">
-        
-        <ImageLable 
-          v-if="member.image" 
-          :imageUrl="member.image" 
-          alt="Member Avatar" 
-          class="h-12 w-12 rounded-full object-cover"
-        />
-      </div>
-      <div class="flex flex-col">
-        <span class="text-xs font-semibold text-gray-300">Name</span>
-        <span class="text-sm font-bold truncate">{{ member.name }}</span>
-      </div>
-      <div class="flex flex-col">
-        <span class="text-xs font-semibold text-gray-300">ID</span>
-        <span class="text-sm font-bold truncate">{{ member.id }}</span>
-      </div>
-      <div class="flex flex-col">
-        <span class="text-xs font-semibold text-gray-300">Join Date</span>
-        <span class="text-sm font-bold truncate">{{ member.joinDate }}</span>
-      </div>
-      <div class="flex flex-col">
-        <span class="text-xs font-semibold text-gray-300">Phone</span>
-        <span class="text-sm font-bold truncate">{{ member.phone }}</span>
-      </div>
-      <div class="flex flex-col">
-        <span class="text-xs font-semibold text-gray-300">Status</span>
-        <span 
-          :class="{
-            'bg-green-100 text-green-800 px-2 py-0.5 rounded-full': member.isActive,
-            'bg-red-100 text-red-800 px-2 py-0.5 rounded-full': !member.isActive
-          }"
-          class="text-sm"
-        >
-          {{ member.isActive ? 'Active' : 'Inactive' }}
-        </span>
-      </div>
-    </div>
+            <div class="grid grid-cols-1 gap-4">
+              <div 
+                v-for="(member, index) in members"
+                :key="index" 
+                class="relative overflow-hidden rounded-2xl p-6 bg-gradient-to-r from-gray-700 via-gray-800 to-black text-white shadow-lg hover:shadow-xl transition-all"
+              >
+                <div class="flex flex-col sm:flex-row sm:justify-between sm:items-center gap-2">
+                  <div class="flex justify-center items-center">
+                    
+                    <ImageLable 
+                      v-if="member.image" 
+                      :imageUrl="member.image" 
+                      alt="Member Avatar" 
+                      class="h-12 w-12 rounded-full object-cover"
+                    />
+                  </div>
+                  <div class="flex flex-col">
+                    <span class="text-xs font-semibold text-gray-300">{{ t('name') }}</span>
+                    <span class="text-sm font-bold truncate">{{ member.name }}</span>
+                  </div>
+                  <div class="flex flex-col">
+                    <span class="text-xs font-semibold text-gray-300">{{ t('id') }}</span>
+                    <span class="text-sm font-bold truncate">{{ member.id }}</span>
+                  </div>
+                  <div class="flex flex-col">
+                    <span class="text-xs font-semibold text-gray-300">{{ t('joinDate') }}</span>
+                    <span class="text-sm font-bold truncate">{{ member.joinDate }}</span>
+                  </div>
+                  <div class="flex flex-col">
+                    <span class="text-xs font-semibold text-gray-300">{{ t('phone') }}</span>
+                    <span class="text-sm font-bold truncate">{{ member.phone }}</span>
+                  </div>
+                  <div class="flex flex-col">
+                    <span class="text-xs font-semibold text-gray-300">{{ t('status') }}</span>
+                    <span 
+                      :class="{
+                        'bg-green-100 text-green-800 px-2 py-0.5 rounded-full': member.isActive,
+                        'bg-red-100 text-red-800 px-2 py-0.5 rounded-full': !member.isActive
+                      }"
+                      class="text-sm"
+                    >
+                      {{ member.isActive ? 'Active' : 'Inactive' }}
+                    </span>
+                  </div>
+                </div>
 
-    <div class="sm:flex sm:justify-end sm:gap-4 mt-2">
-      <div class="grid grid-cols-3 gap-2 sm:flex sm:gap-4 text-sm font-medium text-gray-500">
-        <button
-          @click="toggleTab('details', member.id)"
-          :class="[
-            'p-2 border-b-2 rounded-t-lg text-center',
-            activeTab.type === 'details' && activeTab.memberId === member.id
-              ? 'text-red-600 border-transparent'
-              : 'text-white border-transparent hover:text-gray-600 hover:border-gray-300'
-          ]"
-        >
-          {{ activeTab.type === 'details' && activeTab.memberId === member.id ? 'Close Details' : 'Details' }}
-        </button>
-      </div>
-    </div>
+                <div class="sm:flex sm:justify-end sm:gap-4 mt-2">
+                  <div class="grid grid-cols-3 gap-2 sm:flex sm:gap-4 text-sm font-medium text-gray-500">
+                    <button
+                      @click="toggleTab('details', member.id)"
+                      :class="[
+                        'p-2 border-b-2 rounded-t-lg text-center',
+                        activeTab.type === 'details' && activeTab.memberId === member.id
+                          ? 'text-red-600 border-transparent'
+                          : 'text-white border-transparent hover:text-gray-600 hover:border-gray-300'
+                      ]"
+                    >
+                      <!-- {{ activeTab.type === 'details' && activeTab.memberId === member.id ? 'Close Details' : 'Details' }} -->
+                        {{ activeTab.type === 'details' && activeTab.memberId === member.id ? t('closeDetails') : t('details') }}
 
-    <!-- Tab Contents -->
-    <div class="p-0 dark:border-gray-700">
-      <div 
-        v-if="activeTab.type === 'details' && activeTab.memberId === member.id" 
-        class="col-span-7 p-4 bg-gradient-to-r from-gray-700 via-gray-800 to-black text-white rounded-b-xl mt-2"
-      >
-        <h1>details</h1>
-      </div>
-    </div>
-  </div>
-</div>
+                    </button>
+                  </div>
+                </div>
 
-
+                <!-- Tab Contents -->
+                <div class="p-0 dark:border-gray-700">
+                  <div 
+                    v-if="activeTab.type === 'details' && activeTab.memberId === member.id" 
+                    class="col-span-7 p-4 bg-gradient-to-r from-gray-700 via-gray-800 to-black text-white rounded-b-xl mt-2"
+                  >
+                    <h1>details</h1>
+                  </div>
+                </div>
+              </div>
+            </div>
           </div>
-
         </div>
-
-
-
       </section>
       <addMember v-if="isAddLeads" @close="isAddLeads = false" />
   </section>
 </template>
+
+<script setup>
+  import { useI18n } from 'vue-i18n'
+  const { locale } = useI18n()
+
+  const { t } = useI18n()
+
+  function switchLang(lang) {
+    locale.value = lang
+  }
+</script>
 
 <script>
 import addMember from './addMember.vue';

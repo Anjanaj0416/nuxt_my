@@ -3,8 +3,6 @@
     <div class="flex bg-gray-100">
       <!-- Sidebar -->
       <Sidebar :isOpen="isSidebarOpen" :loggedUser="userStore.loggedUser" @close-sidebar="isSidebarOpen = false" />
-
-      <!-- Main Content -->
       <div class="flex flex-col flex-1">
         <!-- Header -->
         <header class="flex items-center justify-between h-16 p-4 shadow bg-[#232B37]">
@@ -16,23 +14,20 @@
             </svg>
           </button>
           <NuxtLink to="/welfare" class="flex items-center space-x-2 ml-14">
-            <!-- Logo and Name -->
-               
             <div class="flex items-center space-x-2 mx-8">
-              <!-- hide Img -->
-           
               <img src="/assets/img/society/societyLogo.png" alt="welfare"
                 class="h-auto  w-20" />
-                
               <!-- <span class="text-sm lg:text-normal font-bold text-white">{{ userStore.loggedUser.userCompanyDetails.name }} - {{ userStore.loggedUser.userCompanyDetails.address1 }}  {{ userStore.loggedUser.userCompanyDetails.address3 }}</span> -->
             </div>
           </NuxtLink>
-
+          <div class="flex flex-wrap text-white gap-2 text-sm md:text-base justify-center md:justify-start">
+            <button @click="switchLang('si')">සිංහල</button>
+            <button @click="switchLang('en')">| English |</button>
+            <button @click="switchLang('ta')">தமிழ்</button>
+          </div>
           <div class="relative flex items-center ml-3">
-
-            <span class="ml-2 text-white uppercase">{{ userStore.loggedUser.name }}<br><span class="text-xs">
-                {{ userStore.loggedUser.userName }}</span></span>
-
+            <span class="ml-2 text-white uppercase">{{ userStore.loggedUser.name }}<br>
+            <span class="text-xs">{{ userStore.loggedUser.userName }}</span></span>
             <!-- Profile Image Button -->
             <div>
               <button @click="isDropdownOpen = !isDropdownOpen"
@@ -56,21 +51,26 @@
                 </a>
               </div>
             </div>
-
-
           </div>
-
-
         </header>
       </div>
     </div>
 
     <profile v-if="isProfile" :profile="profileData" @close="isProfile = !isProfile" />
 
-
-
   </section>
 </template>
+
+<script setup>
+  import { useI18n } from 'vue-i18n'
+  const { locale } = useI18n()
+
+  const { t } = useI18n()
+
+  function switchLang(lang) {
+    locale.value = lang
+  }
+</script>
 
 <script>
 import Sidebar from './sidemenu.vue';

@@ -4,14 +4,14 @@
       <!-- Modal Header -->
       <div class="modal-header">
         <h2 class="modal-title">
-          Add Members Details
+          {{ t('addMembersDetails') }}
         </h2>
         <closebtn @close="closeModal" />
       </div>
       <!-- Modal Content (scrollable) -->
       <div class="modal-content">
         <div class="form-content">
-          <h3 class="font-bold">General Information</h3>
+          <!-- <h3 class="font-bold">General Information</h3> -->
           <!-- <div class="grid grid-cols-2 gap-4 mt-4 sm:grid-cols-2 md:grid-cols-2">
             <div class="">
               <label class="block text-sm font-bold text-gray-600">
@@ -76,6 +76,17 @@
     </div>
   </div>
 </template>
+
+<script setup>
+  import { useI18n } from 'vue-i18n'
+  const { locale } = useI18n()
+
+  const { t } = useI18n()
+
+  function switchLang(lang) {
+    locale.value = lang
+  }
+</script>
 
 <script>
 import { reactive, computed } from "vue";

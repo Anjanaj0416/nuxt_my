@@ -22,5 +22,42 @@
     "wait": " min wait",
     "view": "View",
     "book": "Book",
-    "contact": "Contact Us"
+    "contact": "Contact Us",
+
+    "AddMembersbtn" : "AddMembers",
+    "totalMembers" : "Total Members",
+    "activeM" : "Active",
+    "inactiveM" : "InActive",
+    "pendingPayment" : "Pending Paymentsive",
+    "monthlyStatus" : "Monthly Status",
+    "selectYear" : "Select Year",
+    "expanees" : "Expanees",
+    "deuttfs" : "Deuttfs",
+    "attendence" : "Attendence",
+    "members" : "Members",
+    "name" : "Name",
+    "id" : "ID",
+    "joinDate" : "Join Date",
+    "phone" : "Phone",
+    "status" : "Status",
+    "details" : "Details",
+    "closeDetails" : "Close Details"
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
 }

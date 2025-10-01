@@ -1,7 +1,6 @@
 <template>
     <div class="m-4 mt-20 lg:m-12 lg:mt-20">
       <section class="px-4 py-8 mt-14 lg:px-24">
-        <!-- Add Members Button -->
         <div class="flex flex-row-reverse p-2">
           <router-link
             to="/welfare/member"
@@ -9,16 +8,14 @@
                   text-white rounded-xl shadow-md hover:shadow-lg hover:scale-105 
                   transition-all duration-300 ease-in-out"
           >
-            <!-- Icon -->
+
             <svg xmlns="http://www.w3.org/2000/svg" 
                 fill="none" viewBox="0 0 24 24" stroke-width="2" 
                 stroke="currentColor" class="w-5 h-5">
               <path stroke-linecap="round" stroke-linejoin="round" d="M12 4.5v15m7.5-7.5h-15" />
             </svg>
-
-            <!-- Text -->
             <span class="text-sm sm:text-base font-semibold tracking-wide">
-              Add Members
+              {{ t('AddMembersbtn') }}
             </span>
           </router-link>
         </div>
@@ -32,9 +29,9 @@
             <div class="absolute -top-8 -right-8 w-24 h-24 bg-white opacity-10 rounded-full"></div>
 
             <!-- Content -->
-            <h2 class="text-sm font-medium opacity-90">Total Members</h2>
+            <h2 class="text-sm font-medium opacity-90">{{ t('totalMembers') }}</h2>
             <p class="text-3xl font-bold mt-2">120</p>
-            <p class="text-sm opacity-80 mt-1">Active: 110 | Inactive: 10</p>
+            <p class="text-sm opacity-80 mt-1">{{ t('activeM') }}: 110 | {{ t('inactiveM') }}: 10</p>
           </div>
 
 
@@ -42,7 +39,7 @@
           <div class="relative overflow-hidden rounded-2xl p-6 text-black shadow-lg 
             bg-gradient-to-r from-gray-100 via-gray-200 to-gray-300">
             <div class="absolute -top-8 -right-8 w-24 h-24 bg-black opacity-10 rounded-full"></div>
-            <h2 class="text-sm font-medium text-gray-600">Pending Payments</h2>
+            <h2 class="text-sm font-medium text-gray-600">{{ t('pendingPayment') }}</h2>
             <p class="text-3xl font-bold mt-2">15</p>
             <p class="text-sm text-gray-700 mt-1">Due this month</p>
           </div>
@@ -56,7 +53,59 @@
             <p class="text-3xl font-bold mt-2">3</p>
             <p class="text-sm opacity-80 mt-1">Next: Welfare Meetup</p>
           </div>
+        </div>
+      </section>
 
+      <section class="px-4 py-8 lg:px-24">
+        <div class="border-2 rounded-2xl">
+          <div class="flex flex-col-reverse items-start justify-between gap-4 mb-4 md:flex-row md:items-center m-8">
+          <div class="text-2xl uppercase">{{ t('monthlyStatus') }}</div>
+            <div class="w-full md:w-auto">
+              <div class="mr-2">
+                <select
+                  v-model="selectedYear"
+                  class="mt-1 w-full p-2 text-xs border rounded-md bg-white focus:ring-2 focus:ring-indigo-400 overflow"
+                >
+                  <option disabled value="">{{ t('selectYear') }}</option>
+                  <option
+                    v-for="list in yearList"
+                    :key="list.id"
+                    :value="list.value"
+                  >
+                    {{ list.value }}
+                  </option>
+                </select>
+              </div>
+            </div>
+        </div>
+          <ol class="relative border-s border-gray-200 dark:border-gray-700 m-8 h-64 overflow-y-auto">                  
+              <li v-for="(item, index) in monthlyData" class="mb-10 ms-4">
+                <div class="absolute w-3 h-3 bg-gray-200 rounded-full mt-1.5 -start-1.5 border border-white dark:border-gray-900 dark:bg-gray-700"></div>
+                <time class="mb-1 text-sm font-normal leading-none text-gray-400 dark:text-gray-500"> {{ item.month }}</time>
+                <div class="grid grid-cols-1 md:grid-cols-6 gap-4 ">
+                  <div>
+                    <h3 class="text-lg font-semibold text-gray-900 ">{{ t('expanees') }}</h3>
+                    <span>{{ item.expenses }}</span>
+                  </div>
+                  <div>
+                    <h3 class="text-lg font-semibold text-gray-900 ">{{ t('deuttfs') }}</h3>
+                     <span>{{ item.debts }}</span>
+                  </div>
+                  <div>
+                    <h3 class="text-lg font-semibold text-gray-900 ">{{ t('attendence') }}</h3>
+                    <span>{{ item.attendance }}</span>
+                  </div>
+                  <div class="flex items-end">
+                    <button
+                      @click="handleView(item)"
+                      class="text-blue-500 hover:underline font-medium"
+                    >
+                      {{ t('view') }}
+                    </button>
+                  </div>
+                </div>
+              </li>
+          </ol>
         </div>
       </section>
 
@@ -64,78 +113,158 @@
     </div>
   </template>
   
-  <script>
- // import headercomp from '~/components/header';
- // import footercomp from '~/components/footer';
- // import viewInvoice from '~/pages/Invoicing/viewInvoice.vue'
-import { useUserStore } from '~/stores/modules/userStore';
+  <script setup>
+    import { useI18n } from 'vue-i18n'
 
- definePageMeta({
-  layout: "society",
-  middleware: "",
-});
-  
-  export default {
-    components: {  },//headercomp, footercomp
-    data() {
-      return {
-        searchQuery: '',
-        bankData: [
-          { label: 'Bank Name', value: 'ABC Bank' },
-          { label: 'Bank Branch', value: 'Kottawa' },
-          { label: 'Bank Branch Code', value: 'ABC12345' },
-          { label: 'Bank Account No', value: '58741269' },
-          { label: 'Bank Swift Code', value: 'ABC12345' },
-          { label: 'Sales officer No', value: 'rso21' }
-        ],
-        personalData: [
-          { label: 'Contact Person Name', value: 'Perera' },
-          { label: 'Contact Person Mobile', value: '074158769' },
-          { label: 'Owner First Name', value: 'Nimal' },
-          { label: 'Owner Contact', value: '072587459' },
-          { label: 'Owner Birth Date', value: '1988.05.28' }
-        ],
-        departmentData: [
-          { label: 'Nimal', phone: '074 845267', NIC: '9874525477', Reg: '25/01/025',showDependent: true   },
-          { label: 'Rusiru', phone: '074 845267', NIC: '9874525477', Reg: '25/01/025',showDependent: false    },
-          { label: 'Kaml', phone: '074 845267', NIC: '9874525477', Reg: '25/01/025',showDependent: false    },
+  const { t } = useI18n()
+  </script>
 
-        ],
-      };
+  <script >
+
+  import { useUserStore } from '~/stores/modules/userStore';
+
+
+
+  definePageMeta({
+    layout: "society",
+    middleware: "",
+  });
+    
+    export default {
+      components: {  },//headercomp, footercomp
+      data() {
+        return {
+          selectedYear: "",
+          yearList: [
+            { id: '1', value: '2020' },
+            { id: '2', value: '2021' },
+            { id: '3', value: '2022' },
+            { id: '4', value: '2023' },
+            { id: '5', value: '2024' },
+            { id: '6', value: '2025' },
+          ],
+          monthlyData: [
+            {
+              month: "January 2025",
+              expenses: "LKR 1,000,000.00",
+              debts: "LKR 500,000.00",
+              attendance: 45,
+              view: "View"
+            },
+            {
+              month: "February 2025",
+              expenses: "LKR 1,200,000.00",
+              debts: "LKR 600,000.00",
+              attendance: 50,
+              view: "View"
+            },
+            {
+              month: "March 2025",
+              expenses: "LKR 1,300,000.00",
+              debts: "LKR 550,000.00",
+              attendance: 55,
+              view: "View"
+            },
+            {
+              month: "April 2025",
+              expenses: "LKR 1,150,000.00",
+              debts: "LKR 400,000.00",
+              attendance: 52,
+              view: "View"
+            },
+            {
+              month: "May 2025",
+              expenses: "LKR 1,250,000.00",
+              debts: "LKR 480,000.00",
+              attendance: 57,
+              view: "View"
+            },
+            {
+              month: "June 2025",
+              expenses: "LKR 1,100,000.00",
+              debts: "LKR 450,000.00",
+              attendance: 53,
+              view: "View"
+            },
+            {
+              month: "July 2025",
+              expenses: "LKR 1,300,000.00",
+              debts: "LKR 470,000.00",
+              attendance: 60,
+              view: "View"
+            },
+            {
+              month: "August 2025",
+              expenses: "LKR 1,400,000.00",
+              debts: "LKR 500,000.00",
+              attendance: 58,
+              view: "View"
+            },
+            {
+              month: "September 2025",
+              expenses: "LKR 1,350,000.00",
+              debts: "LKR 520,000.00",
+              attendance: 62,
+              view: "View"
+            },
+            {
+              month: "October 2025",
+              expenses: "LKR 1,450,000.00",
+              debts: "LKR 530,000.00",
+              attendance: 65,
+              view: "View"
+            },
+            {
+              month: "November 2025",
+              expenses: "LKR 1,600,000.00",
+              debts: "LKR 550,000.00",
+              attendance: 70,
+              view: "View"
+            },
+            {
+              month: "December 2025",
+              expenses: "LKR 1,700,000.00",
+              debts: "LKR 600,000.00",
+              attendance: 75,
+              view: "View"
+            }
+          ],
+
+        };
+      },
+      async created() {
+      try {
+        this.userStore = useUserStore();
+      }
+      catch { }
     },
-     async created() {
-    try {
-      this.userStore = useUserStore();
-    }
-    catch { }
-  },
-    computed: {
-      // filteredBankData() {
-      //   return this.bankData.filter(item =>
-      //     item.label.toLowerCase().includes(this.searchQuery.toLowerCase()) ||
-      //     item.value.toLowerCase().includes(this.searchQuery.toLowerCase())
-      //   );
-      // },
-      // filteredPersonalData() {
-      //   return this.personalData.filter(item =>
-      //     item.label.toLowerCase().includes(this.searchQuery.toLowerCase()) ||
-      //     item.value.toLowerCase().includes(this.searchQuery.toLowerCase())
-      //   );
-      // },
-      // filteredDepartmentDataData() {
-      //   return this.departmentData.filter(item =>
-      //     item.label.toLowerCase().includes(this.searchQuery.toLowerCase()) ||
-      //     item.value.toLowerCase().includes(this.searchQuery.toLowerCase())
-      //   );
-      // }
-    },
-    methods: {
-      // handleSearch() {
-      //   // You can further handle the search action if needed.
-      //   console.log('Searching for:', this.searchQuery);
-      // }
-    }
-  };
+      computed: {
+        // filteredBankData() {
+        //   return this.bankData.filter(item =>
+        //     item.label.toLowerCase().includes(this.searchQuery.toLowerCase()) ||
+        //     item.value.toLowerCase().includes(this.searchQuery.toLowerCase())
+        //   );
+        // },
+        // filteredPersonalData() {
+        //   return this.personalData.filter(item =>
+        //     item.label.toLowerCase().includes(this.searchQuery.toLowerCase()) ||
+        //     item.value.toLowerCase().includes(this.searchQuery.toLowerCase())
+        //   );
+        // },
+        // filteredDepartmentDataData() {
+        //   return this.departmentData.filter(item =>
+        //     item.label.toLowerCase().includes(this.searchQuery.toLowerCase()) ||
+        //     item.value.toLowerCase().includes(this.searchQuery.toLowerCase())
+        //   );
+        // }
+      },
+      methods: {
+        // handleSearch() {
+        //   // You can further handle the search action if needed.
+        //   console.log('Searching for:', this.searchQuery);
+        // }
+      }
+    };
   </script>
   
   <style scoped>
