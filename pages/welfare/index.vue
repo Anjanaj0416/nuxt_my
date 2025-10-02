@@ -20,19 +20,29 @@
           </router-link>
         </div>
 
+        {{ dashbordStore.salesDashboardList.totalMembers}}
+
         <!-- Dashboard Cards -->
         <div class="grid grid-cols-1 md:grid-cols-3 gap-4 p-6">
           <!-- Total Members -->
           <div class="relative overflow-hidden rounded-2xl p-6 text-white shadow-lg 
             bg-gradient-to-r from-gray-700 via-gray-800 to-black">
-            <!-- Decorative circle -->
-            <div class="absolute -top-8 -right-8 w-24 h-24 bg-white opacity-10 rounded-full"></div>
+  <!-- Decorative circle -->
+  <div class="absolute -top-8 -right-8 w-24 h-24 bg-white opacity-10 rounded-full"></div>
 
-            <!-- Content -->
-            <h2 class="text-sm font-medium opacity-90">{{ t('totalMembers') }}</h2>
-            <p class="text-3xl font-bold mt-2">120</p>
-            <p class="text-sm opacity-80 mt-1">{{ t('activeM') }}: 110 | {{ t('inactiveM') }}: 10</p>
-          </div>
+  <!-- Content -->
+  <h2 class="text-sm font-medium opacity-90">{{ t('totalMembers') }}</h2>
+  <p class="text-3xl font-bold mt-2">{{ dashbordStore.salesDashboardList.totalMembers }}</p>
+  <p class="text-sm opacity-80 mt-1">
+    {{ t('activeM') }}: {{ dashbordStore.salesDashboardList.suspendedMemberships }} 
+    ({{ dashbordStore.salesDashboardList.dSuspendedMemberships_Percentage}})
+    
+    |
+    {{ t('inactiveM') }}: {{ dashbordStore.salesDashboardList.inactiveMembers }}
+    ({{ ((dashbordStore.salesDashboardList.inactiveMembers / dashbordStore.salesDashboardList.totalMembers) * 100).toFixed(1) }}%)
+  </p>
+</div>
+
 
 
           <!-- Pending Payments -->
@@ -64,15 +74,16 @@
               <div class="mr-2">
                 <select
                   v-model="selectedYear"
+                  @change="setYearInStore"
                   class="mt-1 w-full p-2 text-xs border rounded-md bg-white focus:ring-2 focus:ring-indigo-400 overflow"
                 >
                   <option disabled value="">{{ t('selectYear') }}</option>
                   <option
-                    v-for="list in yearList"
-                    :key="list.id"
-                    :value="list.value"
+                    v-for="list in dashbordStore.dashBoardInitDetails.listYears"
+                    :key="list"
+                    :value="list"
                   >
-                    {{ list.value }}
+                    {{ list }}
                   </option>
                 </select>
               </div>
@@ -82,26 +93,45 @@
               <li v-for="(item, index) in monthlyData" class="mb-10 ms-4">
                 <div class="absolute w-3 h-3 bg-gray-200 rounded-full mt-1.5 -start-1.5 border border-white dark:border-gray-900 dark:bg-gray-700"></div>
                 <time class="mb-1 text-sm font-normal leading-none text-gray-400 dark:text-gray-500"> {{ item.month }}</time>
-                <div class="grid grid-cols-1 md:grid-cols-6 gap-4 ">
-                  <div>
-                    <h3 class="text-lg font-semibold text-gray-900 ">{{ t('expanees') }}</h3>
-                    <span>{{ item.expenses }}</span>
-                  </div>
-                  <div>
-                    <h3 class="text-lg font-semibold text-gray-900 ">{{ t('deuttfs') }}</h3>
-                     <span>{{ item.debts }}</span>
-                  </div>
-                  <div>
-                    <h3 class="text-lg font-semibold text-gray-900 ">{{ t('attendence') }}</h3>
-                    <span>{{ item.attendance }}</span>
-                  </div>
-                  <div class="flex items-end">
-                    <button
-                      @click="handleView(item)"
-                      class="text-blue-500 hover:underline font-medium"
-                    >
-                      {{ t('view') }}
-                    </button>
+                <div class="overflow-x-auto p-4">
+                  <div class="bg-white dark:bg-gray-900 shadow-2xl rounded-2xl border border-gray-200 dark:border-gray-700 overflow-hidden">
+                    <!-- Table -->
+                    <table class="w-full text-sm text-left text-gray-600 dark:text-gray-300 rounded-2xl overflow-hidden">
+                      <thead>
+                        <tr class="bg-gradient-to-r from-indigo-50 via-purple-50 to-pink-50 dark:from-gray-800 dark:via-gray-900 dark:to-gray-800 text-gray-700 dark:text-gray-400 uppercase text-xs">
+                          <th class="px-6 py-3">Type</th>
+                          <th class="px-6 py-3">Color</th>
+                          <th class="px-6 py-3">Category</th>
+                          <th class="px-6 py-3 text-right">Price</th>
+                        </tr>
+                      </thead>
+                      <tbody class="divide-y divide-gray-100 dark:divide-gray-800">
+
+                        <!-- Debit Row -->
+                        <tr class="hover:bg-gradient-to-r hover:from-red-50 hover:to-orange-50 dark:hover:from-red-900 dark:hover:to-orange-900 transition-all">
+                          <td class="px-6 py-4 font-semibold text-red-600 dark:text-red-400 flex items-center gap-2">
+                            <span class="w-2.5 h-2.5 rounded-full bg-red-500"></span> Debit
+                          </td>
+                          <td class="px-6 py-4">
+                            <span class="px-3 py-1 rounded-full text-xs font-medium bg-gray-100 dark:bg-gray-800">Silver</span>
+                          </td>
+                          <td class="px-6 py-4">Laptop</td>
+                          <td class="px-6 py-4 font-bold text-right">$2999</td>
+                        </tr>
+
+                        <!-- Credit Row -->
+                        <tr class="hover:bg-gradient-to-r hover:from-green-50 hover:to-teal-50 dark:hover:from-green-900 dark:hover:to-teal-900 transition-all">
+                          <td class="px-6 py-4 font-semibold text-green-600 dark:text-green-400 flex items-center gap-2">
+                            <span class="w-2.5 h-2.5 rounded-full bg-green-500"></span> Credit
+                          </td>
+                          <td class="px-6 py-4">
+                            <span class="px-3 py-1 rounded-full text-xs font-medium bg-gray-100 dark:bg-gray-800">White</span>
+                          </td>
+                          <td class="px-6 py-4">Laptop PC</td>
+                          <td class="px-6 py-4 font-bold text-right">$1999</td>
+                        </tr>
+                      </tbody>
+                    </table>
                   </div>
                 </div>
               </li>
@@ -122,7 +152,7 @@
   <script >
 
   import { useUserStore } from '~/stores/modules/userStore';
-
+  import { useDashboardStore } from '~/stores/modules/welfare/dashboardStore';
 
 
   definePageMeta({
@@ -135,14 +165,6 @@
       data() {
         return {
           selectedYear: "",
-          yearList: [
-            { id: '1', value: '2020' },
-            { id: '2', value: '2021' },
-            { id: '3', value: '2022' },
-            { id: '4', value: '2023' },
-            { id: '5', value: '2024' },
-            { id: '6', value: '2025' },
-          ],
           monthlyData: [
             {
               month: "January 2025",
@@ -235,35 +257,39 @@
       async created() {
       try {
         this.userStore = useUserStore();
+        this.dashbordStore = useDashboardStore();
+
+        await this.dashbordStore.GetInitDashBoard(this.showLoading);
+
+        await this.dashbordStore.welfaredashBoard(this.showLoading);
+
+        
+        if(this.dashbordStore.dashBoardInitDetails?.listYears?.length){
+          this.selectedYear = this.dashbordStore.dashBoardInitDetails.listYears[0] ;
+          this.setYearInStore();
+        }
+
       }
       catch { }
     },
-      computed: {
-        // filteredBankData() {
-        //   return this.bankData.filter(item =>
-        //     item.label.toLowerCase().includes(this.searchQuery.toLowerCase()) ||
-        //     item.value.toLowerCase().includes(this.searchQuery.toLowerCase())
-        //   );
-        // },
-        // filteredPersonalData() {
-        //   return this.personalData.filter(item =>
-        //     item.label.toLowerCase().includes(this.searchQuery.toLowerCase()) ||
-        //     item.value.toLowerCase().includes(this.searchQuery.toLowerCase())
-        //   );
-        // },
-        // filteredDepartmentDataData() {
-        //   return this.departmentData.filter(item =>
-        //     item.label.toLowerCase().includes(this.searchQuery.toLowerCase()) ||
-        //     item.value.toLowerCase().includes(this.searchQuery.toLowerCase())
-        //   );
-        // }
+    computed: {
+
+    },
+    methods: {
+      setYearInStore() {
+        // update store's selectedYear
+        this.dashbordStore.selectedYear = this.selectedYear;
+
+        // call the action with selectedYear
+        this.dashbordStore.welfaredashBoard(this.selectedYear, this.showLoading);
+
+        console.log(
+          "Selected year updated in store:",
+          this.dashbordStore.selectedYear
+        );
       },
-      methods: {
-        // handleSearch() {
-        //   // You can further handle the search action if needed.
-        //   console.log('Searching for:', this.searchQuery);
-        // }
-      }
+    }
+
     };
   </script>
   
