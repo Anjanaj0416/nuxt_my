@@ -32,53 +32,56 @@
         <router-link to="/welfare"    
           class="block px-3 py-2 text-gray-300 rounded hover:text-gray-800 hover:bg-white"
           @click="$emit('close-sidebar')">
-          <span>Dash</span>
+          <span> {{ t('dashboard') }}</span>
         </router-link>
         <router-link to="/welfare/payment"    
           class="block px-3 py-2 text-gray-300 rounded hover:text-gray-800 hover:bg-white"
           @click="$emit('close-sidebar')">
-          <span>Payment</span>
+          <span>{{ t('payments') }}</span>
         </router-link>
         <router-link to="/welfare/member"    
           class="block px-3 py-2 text-gray-300 rounded hover:text-gray-800 hover:bg-white"
           @click="$emit('close-sidebar')">
-          <span>Member</span>
+          <span>{{ t('members') }}</span>
+        </router-link>
+        <router-link to="/welfare/payments/collactionDetails"    
+          class="block px-3 py-2 text-gray-300 rounded hover:text-gray-800 hover:bg-white"
+          @click="$emit('close-sidebar')">
+          <span>{{ t('collactionDetails') }}</span>
+        </router-link>
+        <router-link to=""    
+          class="block px-3 py-2 text-gray-300 rounded hover:text-gray-800 hover:bg-white"
+          @click="$emit('close-sidebar')">
+          <span>{{ t('profile') }}</span>
         </router-link>
       </nav>
     </aside>
   </div>
 </template>
 
-<style scoped>
-.rotate-90 {
-  transform: rotate(90deg);
-}
-</style>
+<script setup>
+  import { useI18n } from 'vue-i18n'
+  const { t } = useI18n()
+</script>
 
 <script>
-// import { ref, computed, onMounted } from "vue";
-import { useUserStore } from '~/stores/modules/userStore';
-
-
-export default {
-  props: ['isOpen'],
-
-  components: {
-
-  },
-
-  setup() {
-    const userStore = useUserStore();
-
-    const granted = computed(() => userStore?.loggedUser?.granted || []);
-
-    return { userStore, granted };
-  },
-
-  async created() {
-    this.userStore = useUserStore();
-
-  },
-}
-
+  import { useUserStore } from '~/stores/modules/userStore';
+  export default {
+    props: ['isOpen'],
+    components: {},
+    setup() {
+      const userStore = useUserStore();
+      const granted = computed(() => userStore?.loggedUser?.granted || []);
+      return { userStore, granted };
+    },
+    async created() {
+      this.userStore = useUserStore();
+    },
+  }
 </script>
+
+<style scoped>
+  .rotate-90 {
+    transform: rotate(90deg);
+  }
+</style>

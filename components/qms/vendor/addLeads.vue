@@ -12,8 +12,8 @@
       <!-- Modal Content (scrollable) -->
       <div class="modal-content">
         <div class="form-content">
-          <h3 class="font-bold">General Information</h3>
-          <div class="grid grid-cols-2 gap-4 mt-4 sm:grid-cols-2 md:grid-cols-2">
+          <!-- <h3 class="font-bold">General Information</h3> -->
+          <div class="grid grid-cols-2 gap-4 mt-2 sm:grid-cols-2 md:grid-cols-2">
             <div class="">
               <label class="block text-sm font-bold text-gray-600">
                 Company Search <span class="text-red-500">*</span>
@@ -55,8 +55,59 @@
                 {{ err.CompanyPhone }}
               </p>
             </div>
+          </div>
+          <div class="mt-4 block text-[13px] font-bold text-gray-800">Contact Person 1</div>
+          <div class="grid grid-cols-1 gap-4 mt-2 sm:grid-cols-1 md:grid-cols-3 lg:grid-cols-3">
             <div class="">
-              <label class="block text-[13px] font-bold text-gray-600">Contact Person Number <span class="text-red-500">*</span></label>
+              <label class="block text-[13px] font-bold text-gray-600">Name <span class="text-red-500">*</span></label>
+              <input type="text" v-model="curLead.ContactPhoneNo" placeholder="Enter Contact Number" @input="clearErrorOnInput('ContactPhoneNo')"
+                required
+                class="w-full p-2 mt-2 text-sm border rounded-md focus:ring-indigo-500 focus:border-indigo-500" />
+              <!-- <p v-if="err.ContactPhoneNo" class="mt-2 text-sm text-red-600">
+                {{ err.ContactPhoneNo }}
+              </p> -->
+            </div>
+            <div class="">
+              <label class="block text-[13px] font-bold text-gray-600">Designation <span class="text-red-500">*</span></label>
+              <input type="text" v-model="curLead.ContactPhoneNo" placeholder="Enter Contact Number" @input="clearErrorOnInput('ContactPhoneNo')"
+                required
+                class="w-full p-2 mt-2 text-sm border rounded-md focus:ring-indigo-500 focus:border-indigo-500" />
+              <!-- <p v-if="err.ContactPhoneNo" class="mt-2 text-sm text-red-600">
+                {{ err.ContactPhoneNo }}
+              </p> -->
+            </div>
+            <div class="">
+              <label class="block text-[13px] font-bold text-gray-600">Contact Number<span class="text-red-500">*</span></label>
+              <input type="text" v-model="curLead.ContactPhoneNo" :maxlength="10" placeholder="Enter Contact Number" @input="clearErrorOnInput('ContactPhoneNo')"
+                required
+                class="w-full p-2 mt-2 text-sm border rounded-md focus:ring-indigo-500 focus:border-indigo-500" />
+              <p v-if="err.ContactPhoneNo" class="mt-2 text-sm text-red-600">
+                {{ err.ContactPhoneNo }}
+              </p>
+            </div>
+          </div>
+          <div class="mt-4 block text-[13px] font-bold text-gray-800">Contact Person 2</div>
+          <div class="grid grid-cols-1 gap-4 mt-2 sm:grid-cols-1 md:grid-cols-3 lg:grid-cols-3">
+            <div class="">
+              <label class="block text-[13px] font-bold text-gray-600">Name</label>
+              <input type="text" v-model="curLead.ContactPhoneNo" placeholder="Enter Contact Number" @input="clearErrorOnInput('ContactPhoneNo')"
+                required
+                class="w-full p-2 mt-2 text-sm border rounded-md focus:ring-indigo-500 focus:border-indigo-500" />
+              <!-- <p v-if="err.ContactPhoneNo" class="mt-2 text-sm text-red-600">
+                {{ err.ContactPhoneNo }}
+              </p> -->
+            </div>
+            <div class="">
+              <label class="block text-[13px] font-bold text-gray-600">Designation</label>
+              <input type="text" v-model="curLead.ContactPhoneNo" placeholder="Enter Contact Number" @input="clearErrorOnInput('ContactPhoneNo')"
+                required
+                class="w-full p-2 mt-2 text-sm border rounded-md focus:ring-indigo-500 focus:border-indigo-500" />
+              <!-- <p v-if="err.ContactPhoneNo" class="mt-2 text-sm text-red-600">
+                {{ err.ContactPhoneNo }}
+              </p> -->
+            </div>
+            <div class="">
+              <label class="block text-[13px] font-bold text-gray-600">Contact Number</label>
               <input type="text" v-model="curLead.ContactPhoneNo" :maxlength="10" placeholder="Enter Contact Number" @input="clearErrorOnInput('ContactPhoneNo')"
                 required
                 class="w-full p-2 mt-2 text-sm border rounded-md focus:ring-indigo-500 focus:border-indigo-500" />
@@ -70,7 +121,7 @@
 
       <div class=" modal-footer">
         <button @click="cancel" class="cancel-button">Cancel</button>
-        <button @click="SetVendorLead()"  class="px-5 py-2 text-xs font-semibold transition bg-indigo-600 text-white rounded-md shadow hover:bg-indigo-700 focus:ring-2 focus:ring-indigo-400">
+        <button @click="SetVendorLead()"  class="px-5 py-2 text-xs font-semibold transition bg-blue-600 text-white rounded-md shadow hover:bg-indigo-700 focus:ring-2 focus:ring-indigo-400">
           Save Lead Details
         </button>
       </div>

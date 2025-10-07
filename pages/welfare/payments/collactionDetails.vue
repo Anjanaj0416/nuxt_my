@@ -1,85 +1,64 @@
-<!-- https://flowbite.com/docs/components/avatar/ -->
-
 <template>
   <section class="px-4 py-8 mt-14 lg:px-24">
-    <div class="text-2xl uppercase mb-6">{{ t('membershipPayments') }} </div>
+    <div class="text-2xl uppercase mb-6">Collaction Details </div>
+    <div class="flex flex-col sm:flex-row sm:items-center sm:flex-wrap gap-3 sm:gap-4 mb-8">
+      <div class="flex flex-col w-full sm:w-56">
+        <label class="font-medium text-gray-700 mb-1 sm:mb-0">Collaction Date</label>
+        <input
+          type="date"
+          placeholder="Search"
+          class="border border-gray-300 rounded-md px-3 py-2 w-full sm:w-56 focus:ring-2 focus:ring-gray-800 focus:outline-none"
+        />
+      </div>
 
-    <div
-      class="flex flex-col sm:flex-row sm:items-center sm:flex-wrap gap-3 sm:gap-4 mb-8"
-    >
-       <div class="flex flex-col w-full sm:w-72">
-        <label class="font-medium text-gray-700 mb-1 sm:mb-0">Search Member</label>
-          <serach_Input
-               
-                label=""
-          />
+      <div class="flex gap-2">
+        <button
+          type="button"
+          class="mt-4 px-3 py-2 relative flex items-center gap-2 px-4 py-2 bg-[#232B37] text-white rounded-xl shadow-md hover:shadow-lg hover:scale-105 transition-all duration-300 ease-in-out"
+        >
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            class="w-5 h-5"
+            fill="none"
+            viewBox="0 0 24 24"
+            stroke="currentColor"
+            stroke-width="1.8"
+          >
+            <path stroke-linecap="round" stroke-linejoin="round" d="M6 9V2h12v7M6 18H4a2 2 0 01-2-2v-5a2 2 0 012-2h16a2 2 0 012 2v5a2 2 0 01-2 2h-2m-2 0v4H8v-4m8 0H8" />
+          </svg>
+          Print
+        </button>
       </div>
     </div>
 
 
-    <div class="grid grid-cols-1 lg:grid-cols-2 gap-6">
+
+    <div class="grid grid-cols-1 lg:grid-cols-1 gap-6">
       <div class="p-6 rounded-2xl shadow-xl bg-gradient-to-br from-white via-gray-50 to-gray-100 border border-gray-200 hover:shadow-2xl transition-all duration-300">
-        <div class="flex justify-between items-center mb-5 border-b border-gray-200 pb-3">
-          <h2 class="text-xl font-semibold flex items-center gap-2">
-            <span>Payment Details</span>
-          </h2>
-          <!-- <span class="text-xs bg-teal-100 text-teal-700 px-3 py-1 rounded-full font-medium">Active</span> -->
-        </div>
-        <div class="grid grid-cols-2 text-center text-sm font-semibold text-gray-700  py-2 rounded-md mb-2">
-          <div>Paid Date</div>
+
+        <div class="grid grid-cols-5 text-center text-sm font-semibold text-gray-700  py-2 rounded-md mb-2">
+          <div></div>
+          <div>Book Number</div>
+          <div>Member Name</div>
           <div>Amount Paid</div>
+          <div>Due</div>
         </div>
         <div class="space-y-2 text-center text-sm text-gray-700">
           <div
-            class="grid grid-cols-2 py-2 rounded-lg bg-white shadow-sm hover:bg-gray-500 transition"
+            class="grid grid-cols-5 py-2 rounded-lg bg-white shadow-sm hover:bg-gray-500 transition"
             v-for="n in 4"
             :key="n"
           >
+            <div>
+               <img
+                src="https://randomuser.me/api/portraits/men/1.jpg"
+                alt="Avatar"
+                class="w-12 h-12 rounded-full border-4 border-teal-600 shadow-lg object-cover transition-transform duration-300 group-hover:scale-105"
+              />
+            </div>
             <div>2025-06-25</div>
             <div class="font-semibold text-teal-700">4,000</div>
-          </div>
-        </div>
-      </div>
-
-      <!-- 👤 My Details Card -->
-      <div class="p-6 rounded-2xl shadow-xl bg-gradient-to-br from-white via-gray-50 to-gray-100 border border-gray-200 hover:shadow-2xl transition-all duration-300">
-        <div class="flex justify-between items-center mb-5 border-b border-gray-200 pb-3">
-          <h2 class="text-xl font-semibold  flex items-center gap-2">
-            <span>My Details</span>
-          </h2>
-        </div>
-
-        <div class="space-y-3 text-sm text-gray-700">
-          <div class="flex justify-between border-b border-gray-100 pb-1">
-            <span class="font-medium text-gray-600">Employee Name:</span>
-            <span class="font-semibold ">Ajith Weeramon</span>
-          </div>
-          <div class="flex justify-between border-b border-gray-100 pb-1">
-            <span class="font-medium text-gray-600">Book No:</span>
-            <span class="font-semibold ">125</span>
-          </div>
-          <div class="flex justify-between border-b border-gray-100 pb-1">
-            <span class="font-medium text-gray-600">Address:</span>
-            <span class="font-semibold  text-right">No 51, W/Palliyapitiya, Dunagaha</span>
-          </div>
-          <div class="flex justify-between border-b border-gray-100 pb-1">
-            <span class="font-medium text-gray-600">Contact:</span>
-            <span class="font-semibold ">0715321168</span>
-          </div>
-        </div>
-
-        <div class="mt-6 flex justify-center">
-          <div class="relative group">
-            <img
-              src="https://randomuser.me/api/portraits/men/1.jpg"
-              alt="Avatar"
-              class="w-28 h-28 rounded-full border-4 border-teal-600 shadow-lg object-cover transition-transform duration-300 group-hover:scale-105"
-            />
-            <div
-              class="absolute inset-0 bg-black/20 rounded-full opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-center justify-center text-white text-xs font-medium"
-            >
-              Edit
-            </div>
+            <div>2025-06-25</div>
           </div>
         </div>
       </div>
@@ -94,18 +73,14 @@
 </script>
 
 <script>
-import { useRoute } from "vue-router";
 import { useUserStore } from "~/stores/modules/userStore";
-import serach_Input from "~/components/customcontrol/SearchInput";
-
 
 definePageMeta({
   layout: "society",
-  middleware: "auth",
 });
 
 export default {
-  components: { serach_Input },
+  components: {  },
   props: [""],
   data() {
     return {
@@ -119,20 +94,7 @@ export default {
     this.userStore = useUserStore();
     this.showLoading = this.$showLoading;
     this.imageroot = this.userStore.loggedUser.resourceURLRoot;
-  
-    
 
-    //const encode = btoa('facebook'); //console.log(encode) // "SGVsbG8gV29ybGQ="
-    //const decode = atob(encode);console.log(decode); // "Hello World"
-
-    //linkedin - p=bGlua2VkaW4=
-    // facebook  - p=ZmFjZWJvb2s=
-    //  const route = useRoute();
-    //let val = route.query.p;
-    //if (val !== undefined)
-    //{
-    // this.medium = atob(val);
-    // }
   },
   watch: {},
   computed: {},
