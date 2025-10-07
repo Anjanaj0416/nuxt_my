@@ -6,15 +6,15 @@
 
       <section class="px-4 py-8 mt-14 lg:px-24">
         <!-- <h1 class="text-2xl font-bold mb-4">Dashboard</h1> -->
-        <div v-if="userStore.loggedUser.granted.includes('hradmin')" class="flex flex-row-reverse p-2">
-          <router-link
-            to="hr/workgroup"
-            class="relative flex items-center gap-2 px-3 py-2 sm:px-4 sm:py-2 bg-white rounded-lg shadow-md"
-          >
+        <div v-if="userStore.loggedUser.userGroup === 'Supervisor'" class="flex flex-row-reverse p-2">
+          <router-link to="hr/workgroup"
+            class="relative flex items-center gap-2 px-3 py-2 sm:px-4 sm:py-2 bg-white rounded-lg shadow-md">
             <h2 class="text-sm  font-semibold text-gray-700">
               Work Group
             </h2>
             <span
+              class="absolute -top-1 -right-1 sm:-top-2 sm:-right-2 flex items-center justify-center w-5 h-5 sm:w-6 sm:h-6 text-[10px] sm:text-xs font-bold text-white bg-red-500 border-2 border-white rounded-full animate-bounce">
+              {{ workLoadStore.dashboard.workgroupjobcount }}
               class="absolute -top-1 -right-1 sm:-top-2 sm:-right-2 flex items-center justify-center w-5 h-5 sm:w-6 sm:h-6 text-[10px] sm:text-xs font-bold text-white bg-red-500 border-2 border-white rounded-full animate-bounce"
             >
               {{ workLoadStore.dashboard.workgroupjobcount || 0 }}
@@ -23,16 +23,15 @@
         </div>
 
         <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 lg:gap-4 mt-2">
-          <div class="relative overflow-hidden rounded-2xl p-6 text-white shadow-lg bg-gradient-to-r from-indigo-600 to-blue-500">
-            <img
-              :src="backgroundImage"
-              class="absolute inset-0 object-cover w-full h-full opacity-20"
-              alt="Greeting Background"
-            />
+          <div
+            class="relative overflow-hidden rounded-2xl p-6 text-white shadow-lg bg-gradient-to-r from-indigo-600 to-blue-500">
+            <img :src="backgroundImage" class="absolute inset-0 object-cover w-full h-full opacity-20"
+              alt="Greeting Background" />
             <div class="">
               <h1 class="text-3xl font-bold mb-2">Hi, {{ userStore.loggedUser.name }}</h1>
               <h2 class="text-lg">{{ greetingMessage }} </h2>
-              <div v-if="weatherInfo" class="mt-4 bg-white/10 backdrop-blur-sm p-4 rounded-lg text-sm text-white/90 shadow ring-1 ring-white/10">
+              <div v-if="weatherInfo"
+                class="mt-4 bg-white/10 backdrop-blur-sm p-4 rounded-lg text-sm text-white/90 shadow ring-1 ring-white/10">
                 📍 <strong>{{ weatherInfo.locationName }}</strong><br>
                 🌡️ {{ weatherInfo.temp }}°C — {{ weatherInfo.description }}
               </div>
@@ -43,18 +42,15 @@
           </div>
           <!-- Attendance Card -->
           <div
-            class="bg-gradient-to-br from-blue-50 to-white border border-blue-200 p-6 rounded-2xl shadow-md hover:shadow-lg transition-all duration-300 w-full max-w-md mx-auto"
-          >
+            class="bg-gradient-to-br from-blue-50 to-white border border-blue-200 p-6 rounded-2xl shadow-md hover:shadow-lg transition-all duration-300 w-full max-w-md mx-auto">
             <div class="flex items-center justify-between mb-4">
               <h2 class="text-xl font-bold text-gray-800">Today's Attendance</h2>
-              <span
-                :class="[
-                  'px-3 py-1 text-xs font-semibold rounded-full',
-                  status === 'Present'
-                    ? 'text-green-700 bg-green-100'
-                    : 'text-red-600 bg-red-100',
-                ]"
-              >
+              <span :class="[
+                'px-3 py-1 text-xs font-semibold rounded-full',
+                status === 'Present'
+                  ? 'text-green-700 bg-green-100'
+                  : 'text-red-600 bg-red-100',
+              ]">
                 {{ status }}
               </span>
             </div>
@@ -68,12 +64,10 @@
               </div>
               <div>
                 <p class="mb-1">⏳ <span class="font-semibold">Out Time:</span></p>
-                <p
-                  :class="[
-                    outTime ? 'text-gray-800' : 'text-yellow-600',
-                    'font-medium',
-                  ]"
-                >
+                <p :class="[
+                  outTime ? 'text-gray-800' : 'text-yellow-600',
+                  'font-medium',
+                ]">
                   {{ outTime ? formatTime(outTime) : 'Pending' }}
                 </p>
               </div>
@@ -94,23 +88,20 @@
             </div>
 
             <div class="mt-4">
-              <p
-                v-if="status === 'Absent'"
-                class="text-sm font-semibold text-red-600"
-              >
+              <p v-if="status === 'Absent'" class="text-sm font-semibold text-red-600">
                 Absent Today
               </p>
-              
+
               <p v-else-if="isHalfDay" class="text-sm font-semibold text-red-600">
-                Half Day 
+                Half Day
               </p>
-     
+
               <p v-else>
                 <span v-if="isMorningShortLeave" class="block text-sm font-semibold text-orange-600">
-                  Morning Short Leave (In after 9:00 AM - before 10.00 AM) 
+                  Morning Short Leave (In after 9:00 AM - before 10.00 AM)
                 </span>
                 <span v-if="isEveningShortLeave" class="block text-sm font-semibold text-orange-600">
-                  Evening Short Leave (Left  after 3:30 PM - before 5:00 PM)
+                  Evening Short Leave (Left after 3:30 PM - before 5:00 PM)
                 </span>
                 <span v-if="!isMorningShortLeave && !isEveningShortLeave" class="text-sm text-gray-500">
                   Full Day Attendance
@@ -125,54 +116,63 @@
             </div>
             <div class="grid grid-cols-2 sm:grid-cols-3 gap-3">
               <!-- Annual Leave -->
-              <div class="p-3 bg-white border border-gray-200 rounded-xl shadow-sm text-center hover:shadow-md transition">
+              <div
+                class="p-3 bg-white border border-gray-200 rounded-xl shadow-sm text-center hover:shadow-md transition">
                 <h3 class="font-semibold text-gray-600 mb-1">Annual</h3>
-                <p class="text-2xl font-extrabold text-blue-800">{{ dashboardStore.hrDashboardList.leaveBalance.annualBalance }}</p>
-                <p class="text-[15px] text-gray-500">of {{ dashboardStore.hrDashboardList.leaveBalance.annualEntitle }}</p>
+                <p class="text-2xl font-extrabold text-blue-800">{{
+                  dashboardStore.hrDashboardList.leaveBalance.annualBalance }}</p>
+                <p class="text-[15px] text-gray-500">of {{ dashboardStore.hrDashboardList.leaveBalance.annualEntitle }}
+                </p>
               </div>
               <!-- Casual Leave -->
-              <div class="p-3 bg-white border border-gray-200 rounded-xl shadow-sm text-center hover:shadow-md transition">
+              <div
+                class="p-3 bg-white border border-gray-200 rounded-xl shadow-sm text-center hover:shadow-md transition">
                 <h3 class="font-semibold text-gray-600 mb-1">Casual</h3>
-                <p class="text-2xl font-extrabold text-blue-800">{{ dashboardStore.hrDashboardList.leaveBalance.casualBalance }}</p>
-                <p class="text-[15px] text-gray-500">of {{ dashboardStore.hrDashboardList.leaveBalance.casualEntitle }}</p>
+                <p class="text-2xl font-extrabold text-blue-800">{{
+                  dashboardStore.hrDashboardList.leaveBalance.casualBalance }}</p>
+                <p class="text-[15px] text-gray-500">of {{ dashboardStore.hrDashboardList.leaveBalance.casualEntitle }}
+                </p>
               </div>
               <!-- Medical Leave -->
-              <div class="p-3 bg-white border border-gray-200 rounded-xl shadow-sm text-center hover:shadow-md transition">
+              <div
+                class="p-3 bg-white border border-gray-200 rounded-xl shadow-sm text-center hover:shadow-md transition">
                 <h3 class="font-semibold text-gray-600 mb-1">Sick</h3>
-                <p class="text-2xl font-extrabold text-blue-800">{{ dashboardStore.hrDashboardList.leaveBalance.sickBalance }}</p>
-                <p class="text-[15px] text-gray-500">of {{ dashboardStore.hrDashboardList.leaveBalance.sickEntitle }}</p>
+                <p class="text-2xl font-extrabold text-blue-800">{{
+                  dashboardStore.hrDashboardList.leaveBalance.sickBalance }}</p>
+                <p class="text-[15px] text-gray-500">of {{ dashboardStore.hrDashboardList.leaveBalance.sickEntitle }}
+                </p>
               </div>
             </div>
           </div>
         </div>
 
-<!-- {{ dashboardStore.hrDashboardList }} -->
+        <!-- {{ dashboardStore.hrDashboardList }} -->
 
-        
+
         <div class="mt-6" v-if="userStore.loggedUser.userGroup === 'HRAdmin'">
           <hrDash />
         </div>
         <div class="mt-6" v-if="userStore.loggedUser.userGroup === 'Supervisor'">
-          <supervisor/>
+          <supervisor />
         </div>
         <div class="mt-6" v-if="userStore.loggedUser.userGroup === 'Freelance'">
-          <freelance/>
+          <freelance />
         </div>
         <div class="mt-6" v-if="userStore.loggedUser.userGroup === 'INTERN'">
-          
+
         </div>
         <div class="mt-6" v-if="userStore.loggedUser.userGroup === 'executive'">
-          
+
         </div>
         <div class="mt-6" v-if="userStore.loggedUser.userGroup === 'Finance'">
           <financeDash />
         </div>
         <div class="mt-6" v-if="userStore.loggedUser.userGroup === 'Sales'">
-          <saleDash/>
+          <saleDash />
         </div>
 
-      <!-- {{ userStore.loggedUser }} -->
-      <!-- {{ dashboardStore.hrDashboardList }} -->
+        <!-- {{ userStore.loggedUser }} -->
+        <!-- {{ dashboardStore.hrDashboardList }} -->
       </section>
     </div>
   </div>
@@ -192,10 +192,10 @@ import saleDash from '~/components/qms/dashboard/sales.vue'
 import supervisor from '~/components/qms/dashboard/supervisor.vue'
 import freelance from '~/components/qms/dashboard/freelance.vue'
 import { useUserStore } from '~/stores/modules/userStore';
-import { useDashboardStore  } from "~/stores/modules/dashboardStore";
-import { useWorkLoadStore } from "~/stores/modules/hr/workLoadStore";
+import { useDashboardStore } from "~/stores/modules/dashboardStore";
 
 import { ref, computed, onMounted } from 'vue'
+import { useWorkLoadStore } from '~/stores/modules/hr/workLoadStore'
 
 
 
@@ -203,9 +203,9 @@ import { ref, computed, onMounted } from 'vue'
 //import { mapState, mapGetters, mapActions, mapMutations } from 'pinia'
 //import { useSampleControllerStore } from '~/store/index';
 definePageMeta({
-    layout: 'default',
-    middleware: 'auth',
-   });
+  layout: 'default',
+  middleware: 'auth',
+});
 
 export default {
   components: {
@@ -218,10 +218,10 @@ export default {
     supervisor,
     freelance,
   },
-  props:[''],
+  props: [''],
   data() {
     return {
-      loggedUser:{},
+      loggedUser: {},
       email: "",
       accountName: "",
       currentHour: new Date().getHours(),
@@ -232,17 +232,19 @@ export default {
       },
       weatherInfo: null,
       locationError: '',
-      inTime: null, 
+      inTime: null,
       // outTime: new Date('2025-06-25T17:30:00') ,
-      outTime: null  
+      outTime: null
     };
   },
   async created() {
-    this.dashboardStore  = useDashboardStore();
+    this.dashboardStore = useDashboardStore();
     this.userStore = useUserStore();
     this.workLoadStore = useWorkLoadStore();
     this.showLoading = this.$showLoading;
 
+    //get workgroup count
+    await this.workLoadStore.getWorkLoadCount(this.showLoading);
     await this.dashboardStore.hrDashboard(this.showLoading);
     this.dashboardList = this.dashboardStore.hrDashboardList;
 
@@ -400,7 +402,7 @@ export default {
         });
     }
   },
-  
+
   head() {
     return {
       title: "Dashboard-Intranet",
@@ -410,7 +412,7 @@ export default {
 </script>
 
 <style scoped>
-  /* .btn{
+/* .btn{
     background-color: #ed9135; 
   } */
 </style>
