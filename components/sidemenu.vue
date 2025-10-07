@@ -30,7 +30,7 @@
       <!-- {{ userStore.loggedUser.granted }} -->
       <nav class="p-4">
         <crm v-if="granted.includes('su') || granted.includes('flo') || granted.includes('sso') || granted.includes('accdept')"  @close-sidebar="$emit('close-sidebar')"/>
-        <hrsystem v-if="granted.includes('su') || granted.includes('hradmin')"  @close-sidebar="$emit('close-sidebar')"/>
+        <hrsystem v-if="granted.includes('su') || granted.includes('hradmin') || granted.includes('user')"  @close-sidebar="$emit('close-sidebar')"/>
         <settings v-if="granted.includes('su') || granted.includes('flo') || granted.includes('hradmin')" @close-sidebar="$emit('close-sidebar')"/>
         <document_registry @close-sidebar="$emit('close-sidebar')"/>
       </nav>
