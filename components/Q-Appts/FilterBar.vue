@@ -125,11 +125,13 @@
 import { useI18n } from 'vue-i18n'
 import { computed } from 'vue'
 import { useShopStore } from '~/stores/modules/Q-Appts/shops'
+import { useApptStore } from '~/stores/modules/Q-Appts/appt'
 
+const apptStore = useApptStore()
 const shopStore = useShopStore()
 const { t } = useI18n()
 
-const districtsCities = {
+/* const districtsCities = {
   Colombo: ['Colombo', 'Dehiwala', 'Nugegoda', 'Mount Lavinia'],
   Gampaha: ['Negombo', 'Wattala', 'Katunayake'],
   Kalutara: ['Kalutara', 'Panadura', 'Beruwala'],
@@ -139,8 +141,16 @@ const districtsCities = {
   Galle: ['Galle', 'Hikkaduwa', 'Unawatuna'],
   Matara: ['Matara', 'Weligama', 'Dickwella'],
   Hambantota: ['Hambantota', 'Tangalle', 'Tissamaharama'],
-}
-const districts = Object.keys(districtsCities)
+} */
+//const districts = Object.keys(districtsCities)
+const districts = computed(() => {
+  const uniqueDistricts = new Set()
+  apptStore.initData.listDistrictCities.forEach(item => {
+    uniqueDistricts.add(item.districtName)
+  })
+  return Array.from(uniqueDistricts)
+})
+
 
 const selectedDistrict = computed({
   get: () => shopStore.selectedDistrict,
@@ -152,9 +162,16 @@ const selectedCity = computed({
   set: (val) => shopStore.setSelectedCity(val),
 })
 
-const citiesForSelectedDistrict = computed(() => {
+/* const citiesForSelectedDistrict = computed(() => {
   return selectedDistrict.value ? districtsCities[selectedDistrict.value] || [] : []
+}) */
+const citiesForSelectedDistrict = computed(() => {
+  if (!selectedDistrict.value) return []
+  return apptStore.initData.listDistrictCities
+    .filter(item => item.districtName === selectedDistrict.value)
+    .map(item => item.cityName)
 })
+
 
 function onDistrictChange(event) {
   shopStore.setSelectedDistrict(event.target.value)
