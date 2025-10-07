@@ -25,6 +25,7 @@
             <!-- <img src="/assets/img/LogoDigitalTechLab.png" alt="Digital Tech Labs Logo" class="h-auto rounded-full w-28" /> -->
           </NuxtLink>
 
+              <!-- {{ userStore.loggedUser.resourceURLRoot + userStore.loggedUser.image }} -->
 
 
           <!-- User Profile -->
@@ -54,6 +55,7 @@
                   {{ notifications.length }}
                 </span>
               </button>
+
 
               <!-- Dropdown -->
               <transition >

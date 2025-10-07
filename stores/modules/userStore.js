@@ -102,6 +102,7 @@ export const useUserStore = defineStore('userStore', {
     },
 
     async profileUpdate(formData, showLoading) {
+      console.log('FormData in AppLogin:', Object.fromEntries(formData));
       const loadingAlert = showLoading('');
       try {
         const response = await axios.post(
