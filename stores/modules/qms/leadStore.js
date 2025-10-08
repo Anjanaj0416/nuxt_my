@@ -90,13 +90,12 @@ actions: {
     },
 
     //Add Lead
-    async SetVendorLead(curLead, showLoading,showAlert) {
+    async SetVendorLead(request, showLoading,showAlert) {
        console.log('API-SetVendorLead');
-      console.log(JSON.stringify(curLead));
-    
+      console.log(JSON.stringify(request));
       try {
         const response = await axios.post(
-          `${import.meta.env.VITE_API_URL}/qms/Leads/SetClientLead`,curLead,    
+          `${import.meta.env.VITE_API_URL}/qms/Leads/SetClientLead`,request,    
         );
       
         if (response.data.isSuccess) {                   

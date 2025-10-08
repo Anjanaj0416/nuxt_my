@@ -1,19 +1,26 @@
 <template>
   <div class="modal-overlay" v-if="isOpen">
     <div class="modal">
-      <!-- Modal Header -->
       <div class="modal-header">
         <h2 class="modal-title">
           Add Leads Details
         </h2>
         <closebtn @close="closeModal" />
       </div>
-<!-- {{quotationStore.initQuotation.listVendors}} -->
-      <!-- Modal Content (scrollable) -->
+      <!-- {{quotationStore.initQuotation.listVendors}} -->
       <div class="modal-content">
         <div class="form-content">
           <!-- <h3 class="font-bold">General Information</h3> -->
-          <div class="grid grid-cols-2 gap-4 mt-2 sm:grid-cols-2 md:grid-cols-2">
+          <div class="grid grid-cols-1 gap-4 my-4 sm:grid-cols-2 md:grid-cols-2">
+            <div class="flex items-center gap-3 p-3 border rounded-lg shadow-sm bg-gray-40 hover:bg-gray-100 transition-all duration-200">
+              <input id="blindVisit" type="checkbox" v-model="curLead.IsBlindVisit" class="w-5 h-5 accent-blue-600 rounded focus:ring-2 focus:ring-blue-400 focus:ring-offset-1"/>
+              <label class="text-[14px] font-semibold text-gray-600 select-none">
+                Is the Lead you include a Blind Visit? 
+              </label>
+            </div>
+          </div>
+
+          <div class="grid grid-cols-1 gap-4 my-4 sm:grid-cols-2 md:grid-cols-2">
             <div class="">
               <label class="block text-sm font-bold text-gray-600">
                 Company Search <span class="text-red-500">*</span>
@@ -24,7 +31,7 @@
               />
             </div>
           </div>
-          <div class="grid grid-cols-1 gap-4 mt-4 sm:grid-cols-1 md:grid-cols-3 lg:grid-cols-3">
+          <div class="grid grid-cols-1 gap-4 my-4 sm:grid-cols-1 md:grid-cols-3 lg:grid-cols-3">
             <div class="">
               <label class="block text-[13px] font-bold text-gray-600">
                 Company Name <span class="text-red-500">*</span>
@@ -60,29 +67,29 @@
           <div class="grid grid-cols-1 gap-4 mt-2 sm:grid-cols-1 md:grid-cols-3 lg:grid-cols-3">
             <div class="">
               <label class="block text-[13px] font-bold text-gray-600">Name <span class="text-red-500">*</span></label>
-              <input type="text" v-model="curLead.ContactPhoneNo" placeholder="Enter Contact Number" @input="clearErrorOnInput('ContactPhoneNo')"
+              <input type="text" v-model="curLead.ContactPerson1Name" placeholder="Enter Contact Number" @input="clearErrorOnInput('ContactPerson1Number')"
                 required
                 class="w-full p-2 mt-2 text-sm border rounded-md focus:ring-indigo-500 focus:border-indigo-500" />
-              <!-- <p v-if="err.ContactPhoneNo" class="mt-2 text-sm text-red-600">
-                {{ err.ContactPhoneNo }}
+              <!-- <p v-if="err.ContactPerson1Number" class="mt-2 text-sm text-red-600">
+                {{ err.ContactPerson1Number }}
               </p> -->
             </div>
             <div class="">
               <label class="block text-[13px] font-bold text-gray-600">Designation <span class="text-red-500">*</span></label>
-              <input type="text" v-model="curLead.ContactPhoneNo" placeholder="Enter Contact Number" @input="clearErrorOnInput('ContactPhoneNo')"
+              <input type="text" v-model="curLead.ContactPerson1Designation" placeholder="Enter Contact Number" 
                 required
                 class="w-full p-2 mt-2 text-sm border rounded-md focus:ring-indigo-500 focus:border-indigo-500" />
-              <!-- <p v-if="err.ContactPhoneNo" class="mt-2 text-sm text-red-600">
-                {{ err.ContactPhoneNo }}
+              <!-- <p v-if="err.ContactPerson1Number" class="mt-2 text-sm text-red-600">
+                {{ err.ContactPerson1Number }}
               </p> -->
             </div>
             <div class="">
               <label class="block text-[13px] font-bold text-gray-600">Contact Number<span class="text-red-500">*</span></label>
-              <input type="text" v-model="curLead.ContactPhoneNo" :maxlength="10" placeholder="Enter Contact Number" @input="clearErrorOnInput('ContactPhoneNo')"
+              <input type="text" v-model="curLead.ContactPerson1Number" :maxlength="10" placeholder="Enter Contact Number" @input="clearErrorOnInput('ContactPerson1Number')"
                 required
                 class="w-full p-2 mt-2 text-sm border rounded-md focus:ring-indigo-500 focus:border-indigo-500" />
-              <p v-if="err.ContactPhoneNo" class="mt-2 text-sm text-red-600">
-                {{ err.ContactPhoneNo }}
+              <p v-if="err.ContactPerson1Number" class="mt-2 text-sm text-red-600">
+                {{ err.ContactPerson1Number }}
               </p>
             </div>
           </div>
@@ -90,30 +97,27 @@
           <div class="grid grid-cols-1 gap-4 mt-2 sm:grid-cols-1 md:grid-cols-3 lg:grid-cols-3">
             <div class="">
               <label class="block text-[13px] font-bold text-gray-600">Name</label>
-              <input type="text" v-model="curLead.ContactPhoneNo" placeholder="Enter Contact Number" @input="clearErrorOnInput('ContactPhoneNo')"
+              <input type="text" v-model="curLead.ContactPerson2Name" placeholder="Enter Contact Number"
                 required
                 class="w-full p-2 mt-2 text-sm border rounded-md focus:ring-indigo-500 focus:border-indigo-500" />
-              <!-- <p v-if="err.ContactPhoneNo" class="mt-2 text-sm text-red-600">
-                {{ err.ContactPhoneNo }}
+              <!-- <p v-if="err.ContactPerson1Number" class="mt-2 text-sm text-red-600">
+                {{ err.ContactPerson1Number }}
               </p> -->
             </div>
             <div class="">
               <label class="block text-[13px] font-bold text-gray-600">Designation</label>
-              <input type="text" v-model="curLead.ContactPhoneNo" placeholder="Enter Contact Number" @input="clearErrorOnInput('ContactPhoneNo')"
+              <input type="text" v-model="curLead.ContactPerson2Designation" placeholder="Enter Contact Number" @input="clearErrorOnInput('ContactPerson1Number')"
                 required
                 class="w-full p-2 mt-2 text-sm border rounded-md focus:ring-indigo-500 focus:border-indigo-500" />
-              <!-- <p v-if="err.ContactPhoneNo" class="mt-2 text-sm text-red-600">
-                {{ err.ContactPhoneNo }}
+              <!-- <p v-if="err.ContactPerson1Number" class="mt-2 text-sm text-red-600">
+                {{ err.ContactPerson1Number }}
               </p> -->
             </div>
             <div class="">
               <label class="block text-[13px] font-bold text-gray-600">Contact Number</label>
-              <input type="text" v-model="curLead.ContactPhoneNo" :maxlength="10" placeholder="Enter Contact Number" @input="clearErrorOnInput('ContactPhoneNo')"
+              <input type="text" v-model="curLead.ContactPerson2Number" :maxlength="10" placeholder="Enter Contact Number" @input="clearErrorOnInput('ContactPerson1Number')"
                 required
                 class="w-full p-2 mt-2 text-sm border rounded-md focus:ring-indigo-500 focus:border-indigo-500" />
-              <p v-if="err.ContactPhoneNo" class="mt-2 text-sm text-red-600">
-                {{ err.ContactPhoneNo }}
-              </p>
             </div>
           </div>
         </div>
@@ -121,7 +125,7 @@
 
       <div class=" modal-footer">
         <button @click="cancel" class="cancel-button">Cancel</button>
-        <button @click="SetVendorLead()"  class="px-5 py-2 text-xs font-semibold transition bg-blue-600 text-white rounded-md shadow hover:bg-indigo-700 focus:ring-2 focus:ring-indigo-400">
+        <button @click="SetVendorLead()"  class="px-5 py-2 text-xs font-semibold transition bg-blue-600 text-white rounded-md shadow hover:bg-blue-700 focus:ring-2 focus:ring-blue-400">
           Save Lead Details
         </button>
       </div>
@@ -150,17 +154,25 @@ export default {
     return {
       isOpen: true,
       curLead: {
+        id: "00000000-0000-0000-0000-000000000000",
         CompanyName: "",
         Address: "",
         CompanyPhone: "",
-        ContactPhoneNo: "",
-
+        ContactPerson1Name: "",
+        ContactPerson1Designation: "",
+        ContactPerson1Number: "",
+        ContactPerson1Email: "",
+        ContactPerson2Name: "",
+        ContactPerson2Designation: "",
+        ContactPerson2Number: "",
+        ContactPerson2Email: "",
+        IsBlindVisit: false
       },
       err: {
         CompanyName: "",
         Address: "",
         CompanyPhone: "",
-        ContactPhoneNo: "",
+        ContactPerson1Number: "",
       },
       imageroot: "",
       showLoading: null,
@@ -241,12 +253,22 @@ export default {
 
     clearCurLead() {
       this.curLead = {
+        id: "00000000-0000-0000-0000-000000000000",
         CompanyName: "",
         Address: "",
         CompanyPhone: "",
-        ContactPhoneNo: "",
+        ContactPerson1Name: "",
+        ContactPerson1Designation: "",
+        ContactPerson1Number: "",
+        ContactPerson1Email: "",
+        ContactPerson2Name: "",
+        ContactPerson2Designation: "",
+        ContactPerson2Number: "",
+        ContactPerson2Email: "",
+        IsBlindVisit: false
       };
     },
+
 
     cancel() {
       this.clearErr();
@@ -261,30 +283,47 @@ export default {
 
 
     SetVendorLead() {
-     
-      if (this.IsValidate()) {
-       
-        this.$showConfirm(
-          "Are you sure to Save this Lead?",
-          "warning"
-        ).then(async (result) => {
+      if (!this.IsValidate()) return;
+
+      this.$showConfirm("Are you sure to Save this Lead?", "warning")
+        .then(async (result) => {
           if (result.isConfirmed) {
-            if (this.curLead.Medium === undefined) {
-              this.curLead.Medium = "Office";
-            }
-            console.log(JSON.stringify(this.curLead));
-            await this.leadStore.SetVendorLead(this.curLead, this.showLoading, this.showAlert)
-           
+
+            // Build request in your existing style
+            let request = {
+              id: "00000000-0000-0000-0000-000000000000",
+              CompanyName: this.curLead.CompanyName || "",
+              Address: this.curLead.Address || "",
+              CompanyPhone: this.curLead.CompanyPhone || "",
+              ContactPhoneNo: this.curLead.ContactPhoneNo  || "",
+              ContactPerson1Name: this.curLead.ContactPerson1Name || "",
+              ContactPerson1Designation: this.curLead.ContactPerson1Designation || "",
+              ContactPerson1Number: this.curLead.ContactPerson1Number || "",
+              ContactPerson1Email: this.curLead.ContactPerson1Email || "",
+              ContactPerson2Name : this.curLead.ContactPerson2Name || "",
+              ContactPerson2Designation: this.curLead.ContactPerson2Designation || "",
+              ContactPerson2Number: this.curLead.ContactPerson2Number || "",
+              ContactPerson2Email: this.curLead.ContactPerson2Email || "",
+              IsBlindVisit: this.curLead.IsBlindVisit || false,
+              IsBlindNewVisit: false,
+              IsNewVisit:false,
+              IsExisitngVisit:false,
+              Medium: "office"
+            };
+
+            // Send to backend
+            console.log(request);
+            await this.leadStore.SetVendorLead(request, this.showLoading, this.showAlert);
+
+            this.leadStore.clearCurLead();
+            this.closeModal();
+            this.clearErr();
           } else {
             console.log("Action canceled");
           }
-          this.leadStore.clearCurLead();
-          this.closeModal();
-          this.clearErr();
         });
-       
-      }
     },
+
 
     IsValidate() {
       this.clearErr();
@@ -324,13 +363,13 @@ export default {
         IsValidate = false;
       }
 
-      if (!this.curLead.ContactPhoneNo) {
-        this.err.ContactPhoneNo = "Please Enter Contact Person Number!";
+      if (!this.curLead.ContactPerson1Number) {
+        this.err.ContactPerson1Number = "Please Enter Contact Person Number!";
         IsValidate = false;
       } else {
         const contactNoRegex1 = /^[0-9]{10}$/;
-        if (!contactNoRegex1.test(this.curLead.ContactPhoneNo)) {
-          this.err.ContactPhoneNo = "Please Enter a valid 10-digit Contact Person Number!";
+        if (!contactNoRegex1.test(this.curLead.ContactPerson1Number)) {
+          this.err.ContactPerson1Number = "Please Enter a valid 10-digit Contact Person Number!";
           IsValidate = false;
         }
       }
@@ -371,7 +410,7 @@ export default {
   overflow: hidden;
   display: flex;
   flex-direction: column;
-  height: 70%;
+  height: 80%;
   position: relative;
 }
 
@@ -447,6 +486,8 @@ button:hover {
   }
 
   .modal-footer {
+    position: sticky;
+    bottom: 0;
     padding: 10px;
   }
 }

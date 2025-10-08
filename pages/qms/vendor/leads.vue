@@ -32,7 +32,7 @@
       v-for="(lead, index) in leadStore.listLeads"
       :key="index"
     >
-
+{{ leadStore.listLeads }}
 
       <div class="flex justify-start">
         <span
@@ -108,40 +108,113 @@
         <!-- <pre>{{ JSON.stringify(lead, null, 2) }}</pre> -->
 
         <section class="flex flex-col gap-5 p-4 mt-0 bg-white sm:p-6">
-          <div class="grid grid-cols-1 gap-4 sm:grid-cols-3">
-            <div
-              class="text-center sm:text-left"
-              v-for="(field, idx) in showAllFields"
-              :key="idx"
-            >
-              <h2 class="block text-xs font-medium text-gray-700">
-                {{ field.label }}
-              </h2>
+          <div class="grid grid-cols-1 gap-4 sm:grid-cols-7">
+            <div class="text-center sm:text-left">
+              <h2 class="block text-xs font-medium text-gray-700">Contact Person Number</h2>
+              <p class="mt-1 text-xs text-gray-700">
+                {{ lead.contactPhoneNo || "—" }}
+              </p>
+            </div>
 
-              <template v-if="field.key === 'isActive'">
-                <span
-                  :class="{
-                    'bg-green-100 text-green-800 ': lead.isActive === true,
-                    'bg-red-100 text-red-800 ': lead.isActive === false,
-                    'bg-gray-100 text-gray-800': lead.isActive === undefined,
-                  }"
-                  class="inline-block px-3 py-1 mt-1 text-xs font-medium rounded-full"
-                >
-                  {{
-                    lead.isActive === true ? "Active" : "InActive" || "Unknown"
-                  }}
-                </span>
-              </template>
-              <template v-else>
-                <p
-                  v-if="field.key"
-                  v-html="formatComment(lead[field.key])"
-                  :class="['mt-1 text-xs text-gray-700', field.class]"
-                ></p>
-              </template>
+            <div class="text-center sm:text-left">
+              <h2 class="block text-xs font-medium text-gray-700">Reported By</h2>
+              <p class="mt-1 text-xs text-gray-700">
+                {{ lead.reportedBy || "—" }}
+              </p>
+            </div>
+
+            <div class="text-center sm:text-left">
+              <h2 class="block text-xs font-medium text-gray-700">Created Date</h2>
+              <p class="mt-1 text-xs text-gray-700">
+                {{ lead.createdDate || "—" }}
+              </p>
+            </div>
+
+            <div class="text-center sm:text-left">
+              <h2 class="block text-xs font-medium text-gray-700">Visit Type</h2>
+              <p class="mt-1 text-xs text-gray-700">
+                 {{ lead.isBlindVisit === true ? "Blind Visit" : lead.isNewVisit === true ? "Office Visit" : "_" }}
+              </p>
+            </div>
+
+            <!-- <div v-if="lead.isNewVisit === false" class="text-center sm:text-left">
+              <h2 class="block text-xs font-medium text-gray-700">Did you go to a new arrival? </h2>
+              <p v-if="lead.isNewVisit === true" class="mt-1 text-xs text-gray-700">
+                {{ lead.blindNewVisit_Time }}
+              </p>
+              <div v-if="lead.isBlindNewVisit === false" class="mt-1 text-xs text-gray-700 flex items-center gap-2">
+                <input
+                  id="blindVisit"
+                  type="checkbox"
+                  class="w-3.5 h-3.5 accent-blue-600 rounded border-gray-400 focus:ring-1 focus:ring-blue-400"
+                />
+                <label for="blindVisit" class="text-xs font-medium text-gray-600 select-none">
+                  Yes
+                </label>
+              </div>
+
+            </div> -->
+
+            <div v-if="lead.isBlindVisit === true" class="text-center sm:text-left">
+              <h2 class="block text-xs font-medium text-gray-700">Blind New Visit</h2>
+              <p v-if="lead.isBlindNewVisit === true" class="mt-1 text-xs text-gray-700">
+                {{ lead.blindNewVisit_Time }}
+              </p>
+              <div v-if="lead.isBlindNewVisit === false" class="mt-1 text-xs text-gray-700 flex items-center gap-2">
+                <input
+                  id="blindNewVisit"
+                  type="checkbox"
+                  class="w-3.5 h-3.5 accent-blue-600 rounded border-gray-400 focus:ring-1 focus:ring-blue-400"
+                />
+                <label for="blindVisit" class="text-xs font-medium text-gray-600 select-none">
+                  yes 
+                </label>
+              </div>
+            </div>
+
+            <div v-if="lead.isBlindNewVisit === true || lead.isNewVisit === false" class="text-center sm:text-left">
+              <h2 class="block text-xs font-medium text-gray-700">Exisitng Visit</h2>
+              <p v-if="lead.isExisitngVisit === true" class="mt-1 text-xs text-gray-700">
+                {{ lead.exisitngVisit_Time || "-" }}
+              </p>
+              <div v-if="lead.isBlindNewVisit === false" class="mt-1 text-xs text-gray-700 flex items-center gap-2">
+                <input
+                  id="blindVisit"
+                  type="checkbox"
+                  class="w-3.5 h-3.5 accent-blue-600 rounded border-gray-400 focus:ring-1 focus:ring-blue-400"
+                />
+                <label class="text-xs font-medium  text-gray-600 ">
+                  Yes
+                </label>
+              </div>
+            </div>
+
+            <div class="text-center sm:text-left">
+              <h2 class="block text-xs font-medium text-gray-700">Status</h2>
+              <span
+                :class="{
+                  'bg-green-100 text-green-800': lead.isActive === true,
+                  'bg-red-100 text-red-800': lead.isActive === false,
+                  'bg-gray-100 text-gray-800': lead.isActive === undefined,
+                }"
+                class="inline-block px-3 py-1 mt-1 text-xs font-medium rounded-full"
+              >
+                {{ lead.isActive === true ? "Active" : lead.isActive === false ? "Inactive" : "Unknown" }}
+              </span>
+            </div>
+
+            
+          </div>
+          <div class="grid grid-cols-1 gap-4 sm:grid-cols-1">
+            <div class="text-center sm:text-left">
+              <!-- Comment -->
+              <h2 class="block text-xs font-medium text-gray-700">Comment</h2>
+              <p
+                v-html="formatComment(lead.comment)"
+                class="mt-1 text-xs text-gray-700 max-h-[150px] overflow-auto whitespace-pre-wrap break-words"
+              ></p>
             </div>
           </div>
-
           <!-- Editable Fields -->
           <div
             v-if="(userStore.loggedUser.granted?.includes('flo') || userStore.loggedUser.granted?.includes('su') || userStore.loggedUser.granted?.includes('sso')) 

@@ -25,6 +25,8 @@
           <option value="orderno">Order No</option>
           <option value="customerRef">Customer Ref</option>
           <option value="shopName">Shop Name</option>
+          <option value="CSONo">CSO No</option>
+
         </select>
         <!-- 
          class="absolute top-1/2 right-2 -translate-y-1/2 flex items-center justify-center 
