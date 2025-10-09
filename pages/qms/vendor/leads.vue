@@ -32,7 +32,7 @@
       v-for="(lead, index) in leadStore.listLeads"
       :key="index"
     >
-{{ leadStore.listLeads }}
+<!-- {{ leadStore.listLeads }} -->
 
       <div class="flex justify-start">
         <span
@@ -110,59 +110,41 @@
         <section class="flex flex-col gap-5 p-4 mt-0 bg-white sm:p-6">
           <div class="grid grid-cols-1 gap-4 sm:grid-cols-7">
             <div class="text-center sm:text-left">
-              <h2 class="block text-xs font-medium text-gray-700">Contact Person Number</h2>
+              <h2 class="block text-xs font-semibold text-gray-600">Contact Person Number</h2>
               <p class="mt-1 text-xs text-gray-700">
-                {{ lead.contactPhoneNo || "—" }}
+                {{ lead.contactPhoneNo || "No Data" }}
               </p>
             </div>
 
             <div class="text-center sm:text-left">
-              <h2 class="block text-xs font-medium text-gray-700">Reported By</h2>
+              <h2 class="block text-xs font-semibold text-gray-600">Reported By</h2>
               <p class="mt-1 text-xs text-gray-700">
-                {{ lead.reportedBy || "—" }}
+                {{ lead.reportedBy || "No Data" }}
               </p>
             </div>
 
             <div class="text-center sm:text-left">
-              <h2 class="block text-xs font-medium text-gray-700">Created Date</h2>
+              <h2 class="block text-xs font-semibold text-gray-600">Created Date</h2>
               <p class="mt-1 text-xs text-gray-700">
-                {{ lead.createdDate || "—" }}
+                {{ lead.createdDate || "No Data" }}
               </p>
             </div>
 
             <div class="text-center sm:text-left">
-              <h2 class="block text-xs font-medium text-gray-700">Visit Type</h2>
+              <h2 class="block text-xs font-semibold text-gray-600">Visit Type</h2>
               <p class="mt-1 text-xs text-gray-700">
-                 {{ lead.isBlindVisit === true ? "Blind Visit" : lead.isNewVisit === true ? "Office Visit" : "_" }}
+                 {{ lead.isBlindVisit === true ? "Blind Visit" : lead.isNewVisit === true ? "Office Visit" : "No Data" }}
               </p>
             </div>
-
-            <!-- <div v-if="lead.isNewVisit === false" class="text-center sm:text-left">
-              <h2 class="block text-xs font-medium text-gray-700">Did you go to a new arrival? </h2>
-              <p v-if="lead.isNewVisit === true" class="mt-1 text-xs text-gray-700">
-                {{ lead.blindNewVisit_Time }}
-              </p>
-              <div v-if="lead.isBlindNewVisit === false" class="mt-1 text-xs text-gray-700 flex items-center gap-2">
-                <input
-                  id="blindVisit"
-                  type="checkbox"
-                  class="w-3.5 h-3.5 accent-blue-600 rounded border-gray-400 focus:ring-1 focus:ring-blue-400"
-                />
-                <label for="blindVisit" class="text-xs font-medium text-gray-600 select-none">
-                  Yes
-                </label>
-              </div>
-
-            </div> -->
 
             <div v-if="lead.isBlindVisit === true" class="text-center sm:text-left">
-              <h2 class="block text-xs font-medium text-gray-700">Blind New Visit</h2>
+              <h2 class="block text-xs font-semibold text-gray-600">Blind New Visit</h2>
               <p v-if="lead.isBlindNewVisit === true" class="mt-1 text-xs text-gray-700">
                 {{ lead.blindNewVisit_Time }}
               </p>
               <div v-if="lead.isBlindNewVisit === false" class="mt-1 text-xs text-gray-700 flex items-center gap-2">
                 <input
-                  id="blindNewVisit"
+                  v-model="lead.blindNewVisit"
                   type="checkbox"
                   class="w-3.5 h-3.5 accent-blue-600 rounded border-gray-400 focus:ring-1 focus:ring-blue-400"
                 />
@@ -172,14 +154,14 @@
               </div>
             </div>
 
-            <div v-if="lead.isBlindNewVisit === true || lead.isNewVisit === false" class="text-center sm:text-left">
-              <h2 class="block text-xs font-medium text-gray-700">Exisitng Visit</h2>
+            <div v-if="lead.isBlindNewVisit === true || lead.isNewVisit === true" class="text-center sm:text-left">
+              <h2 class="block text-xs font-semibold text-gray-600">Exisitng Visit</h2>
               <p v-if="lead.isExisitngVisit === true" class="mt-1 text-xs text-gray-700">
                 {{ lead.exisitngVisit_Time || "-" }}
               </p>
               <div v-if="lead.isBlindNewVisit === false" class="mt-1 text-xs text-gray-700 flex items-center gap-2">
                 <input
-                  id="blindVisit"
+                  v-model="lead.exisitngVisit"
                   type="checkbox"
                   class="w-3.5 h-3.5 accent-blue-600 rounded border-gray-400 focus:ring-1 focus:ring-blue-400"
                 />
@@ -190,7 +172,7 @@
             </div>
 
             <div class="text-center sm:text-left">
-              <h2 class="block text-xs font-medium text-gray-700">Status</h2>
+              <h2 class="block text-xs font-semibold text-gray-600">Status</h2>
               <span
                 :class="{
                   'bg-green-100 text-green-800': lead.isActive === true,
@@ -205,26 +187,35 @@
 
             
           </div>
-          <div class="grid grid-cols-1 gap-4 sm:grid-cols-1">
+          <div class="grid grid-cols-1 gap-4 sm:grid-cols-4">
             <div class="text-center sm:text-left">
               <!-- Comment -->
-              <h2 class="block text-xs font-medium text-gray-700">Comment</h2>
+              <h2 class="block text-xs font-semibold text-gray-600">Comment</h2>
               <p
                 v-html="formatComment(lead.comment)"
                 class="mt-1 text-xs text-gray-700 max-h-[150px] overflow-auto whitespace-pre-wrap break-words"
               ></p>
             </div>
+            <div>
+              <h2 class="block text-xs font-semibold text-gray-600 mb-1">
+                Date and Time
+              </h2>
+              <input
+                type="datetime-local"
+                v-model="lead.appointmentDateTime"
+                class="border border-gray-300 rounded-md px-2 py-1 text-xs focus:ring-1 focus:ring-blue-400 focus:border-blue-400 w-48 sm:w-60"
+              />
+            </div>
           </div>
           <!-- Editable Fields -->
-          <div
-            v-if="(userStore.loggedUser.granted?.includes('flo') || userStore.loggedUser.granted?.includes('su') || userStore.loggedUser.granted?.includes('sso')) 
-              && (lead.status === 'Pending' || lead.status === 'Hold' || lead.status === 'Cancelled' || lead.status == 'Completed')"
-            class="grid grid-cols-1 gap-4 sm:grid-cols-1"
-          >
-            <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+          <div class="grid grid-cols-1 gap-4 sm:grid-cols-1">
+            <div v-if="(userStore.loggedUser.granted?.includes('flo') || userStore.loggedUser.granted?.includes('su') ) 
+              && (lead.status === 'Pending' || lead.status === 'Hold' || lead.status === 'Cancelled' || lead.status == 'Completed' || lead.status == 'CSOAssigned')"
+              class="grid grid-cols-1 md:grid-cols-2 gap-4"
+            >
               <!-- Job Status -->
               <div>
-                <label class="block text-xs font-medium text-gray-700">Job Status</label>
+                <label class="block text-xs font-semibold text-gray-600">Job Status</label>
                 <select
                   v-model="lead.tempStatus"
                   class="mt-1 w-full p-2 text-xs border rounded-md bg-white focus:ring-2 focus:ring-indigo-400"
@@ -239,32 +230,13 @@
                   </option>
                 </select>
               </div>
-
-              <!-- Visit Date + Time -->
-              <div  class="grid grid-cols-1 sm:grid-cols-2 gap-4">
-                <div v-if="lead.tempStatus === 'Hold'">
-                  <label class="block text-xs font-medium text-gray-700">Visit Date</label>
-                  <input
-                    type="date"
-                    v-model="lead.visitDate"
-                    class="w-full p-2 text-xs border rounded-md bg-white mt-1 
-                          focus:ring-2 focus:ring-indigo-400 resize-none"
-                  />
-                </div>
-                <div v-if="lead.tempStatus === 'Hold'">
-                  <label class="block text-xs font-medium text-gray-700">Visit Time</label>
-                  <input
-                    type="time"
-                    v-model="lead.visitTime"
-                    class="w-full p-2 text-xs border rounded-md bg-white mt-1 
-                          focus:ring-2 focus:ring-indigo-400 resize-none"
-                  />
-                </div>
-              </div>
             </div>
             
-            <div class="w-full sm:w-1/2">
-              <h2 class="block text-xs font-medium text-gray-700">Comment</h2>
+            <div v-if="(userStore.loggedUser.granted?.includes('flo') || userStore.loggedUser.granted?.includes('su') || userStore.loggedUser.granted?.includes('sso')) 
+              && (lead.status === 'Pending' || lead.status === 'Hold' || lead.status === 'Cancelled' || lead.status == 'Completed' || lead.status == 'CSOAssigned')"
+              class="w-full sm:w-1/2"
+            >
+              <h2 class="block text-xs font-semibold text-gray-600">Comment</h2>
               <textarea
                 v-model="lead.newComment"
                 class="w-full p-2 text-xs border rounded-md bg-white mt-1 focus:ring-2 focus:ring-indigo-400 resize-none"
@@ -280,7 +252,7 @@
           <!-- Action Buttons -->
           <div
             v-if="(userStore.loggedUser.granted?.includes('flo') || userStore.loggedUser.granted?.includes('su') || userStore.loggedUser.granted?.includes('sso')) 
-              && (lead.status === 'Pending' || lead.status === 'Hold' || lead.status === 'Cancelled' || lead.status == 'Completed')"
+              && (lead.status === 'Pending' || lead.status === 'Hold' || lead.status === 'Cancelled' || lead.status == 'Completed' || lead.status == 'CSOAssigned')"
             class="flex justify-end pt-2"
           >
             <LinkBtn
@@ -354,17 +326,6 @@ export default {
         { label: "CSO Number", key: "csoNo" },
         // { label: "City", key: "city" },
         { label: "Status", key: "status" },
-      ],
-      showAllFields: [
-        { label: "Contact Person Number", key: "contactPhoneNo" },
-        { label: "Reported By", key: "reportedBy" },
-        { label: "Created Date", key: "createdDate" },
-        { label: "Status", key: "isActive" },
-        {
-          label: "Comment",
-          key: "comment",
-          class: "max-h-[150px] overflow-auto whitespace-pre-wrap break-words",
-        },
       ],
     };
   },
@@ -441,6 +402,9 @@ export default {
         Id: lead.id,
         Comment: lead.newComment || '' ,
         Status: lead.tempStatus,
+        AppointmentDateTime: lead.appointmentDateTime || '',
+        isExisitngVisit: lead.blindNewVisit === true || 'false',
+        isBlindNewVisit: lead.exisitngVisit === true || 'false',
       };
       this.newComment = lead.newComment;
 
@@ -451,7 +415,7 @@ export default {
           // console.log(this.selectedLeadId);
           return;
         }
-
+        console.log(request);
         this.$showConfirm(
           "Are you sure to update this lead?",
           "warning"

@@ -121,7 +121,7 @@ actions: {
      
       try {
         const response = await axios.post(
-          `${import.meta.env.VITE_API_URL}/qms/Leads/SetUpdateVendorLead`,req,    
+          `${import.meta.env.VITE_API_URL}/qms/Leads/SetUpdateClientLead`,req,    
         );
       
         if (response.data.isSuccess) {  

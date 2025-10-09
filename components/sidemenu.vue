@@ -27,7 +27,7 @@
         <h1 class="text-xl font-semibold tracking-wide">INTRANET</h1>
       </div>
 
-      <!-- {{ userStore.loggedUser.granted }} -->
+      <p>granted: {{ userStore.loggedUser.granted }}</p>
       <nav class="p-4">
         <crm v-if="granted.includes('su') || granted.includes('flo') || granted.includes('sso') || granted.includes('accdept')"  @close-sidebar="$emit('close-sidebar')"/>
         <hrsystem v-if="granted.includes('su') || granted.includes('hradmin')"  @close-sidebar="$emit('close-sidebar')"/>

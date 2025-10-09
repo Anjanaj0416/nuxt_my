@@ -2,18 +2,17 @@
   <section class="justify-center">
     <div class="bg-white border rounded-lg shadow-md p-6 text-sm text-gray-800">
         <div class="mb-6">
-        <div class="flex justify-between items-center mb-2">
-            <h2 class="text-2xl uppercase">Work flow </h2>
+          <div class="flex justify-between items-center mb-2">
+              <h2 class="text-2xl uppercase">Work flow </h2>
+          </div>
+          <div class="">
+              <span class="text-sm text-gray-500">{{ progress }}% complete</span>
+          </div>
         </div>
-        <div class="">
-            <span class="text-sm text-gray-500">{{ progress }}% complete</span>
-        </div>
-        </div>
-
         <!-- Timeline -->
         <ol class="items-center sm:flex">
           <li
-              v-for="(step, index) in workflow"
+              v-for="(step, index) in listVendorOnboadingWF"
               :key="index"
               class="relative mb-6 sm:mb-0 flex-1"
           >
@@ -22,13 +21,13 @@
               <div
                   class=" flex items-center justify-center w-6 h-6 rounded-full ring-0 ring-white sm:ring-8 shrink-0"
                   :class="{
-                  'bg-green-500 text-white': step.status === 'Done',
+                  'bg-green-500 text-white': step.status === 'Completed',
                   'bg-blue-500 text-white': step.status === 'In Progress',
                   'bg-gray-300 text-gray-500': step.status === 'Pending'
                   }"
               >
                   <svg
-                    v-if="step.status === 'Done'"
+                    v-if="step.status === 'Completed'"
                     class="w-3 h-3"
                     fill="currentColor"
                     viewBox="0 0 20 20"
@@ -51,24 +50,25 @@
 
               <!-- Connector -->
               <div
-                  v-if="index < workflow.length - 1"
-                  class="hidden sm:flex w-full h-0.5"
-                  :class="{
-                  'bg-green-500': step.status === 'Done',
+                class="hidden sm:flex w-full h-0.5"
+                :class="{
+                  'bg-green-500': step.status === 'Completed',
                   'bg-blue-500': step.status === 'In Progress',
                   'bg-gray-300': step.status === 'Pending'
-                  }"
+                }"
+
               ></div>
+
               </div>
 
               <!-- Step Info -->
               <div class="mt-3 sm:pe-8">
-                <h3 class="text-lg font-semibold text-gray-900">{{ step.title }}</h3>
-                <time class="block mb-1 text-sm font-normal text-gray-500">{{ step.date }}</time>
+                <h3 class="text-lg font-semibold text-gray-900">{{ step.nodeName }}</h3>
+                <time class="block mb-1 text-sm font-normal text-gray-500">{{ step.completedDate || "No date"}}</time>
               </div>
               <span
                 :class="{
-                  'bg-green-100 text-green-700': step.status === 'Done',
+                  'bg-green-100 text-green-700': step.status === 'Completed',
                   'bg-orange-100 text-orange-800': step.status === 'In Progress',
                   'bg-yellow-100 text-bolt text-yellow-800 ': step.status === 'Pending',
                 }"
@@ -78,6 +78,10 @@
               </span>
           </li>
         </ol>
+
+        <div v-if="listVendorOnboadingWF.length === 0" class="text-center text-gray-900 mt-5 text-sm font-medium">
+          <p>No Work flow available...</p>
+        </div>
     </div>
   </section>
 </template>
@@ -85,37 +89,32 @@
 
 
 <script>
-import { useOrderStore } from "~/stores/modules/orderStore";
+import { useVendorStore } from "~/stores/modules/qms/vendorStore";
 
 export default {
-  props: ["orderId", "orderNo"],
+  props: ["vendorId"],
   data() {
     return {
-      workflow: [
-        { title: "Allocate", date: "Dec 2, 2024", status: "Done" },
-        { title: "Visit", date: "Dec 2, 2024", status: "Done" },
-        { title: "Proposal", date: "Dec 23, 2024", status: "Done" },
-        { title: "PI", date: "Jan 5, 2022", status: "In Progress" },
-        { title: "Payment", date: "Jan 15, 2025", status: "Pending" },
-        { title: "Vendor Create", date: "Jan 25, 2026", status: "Pending" }
-      ],
+      listVendorOnboadingWF:"",
     };
   },
   computed: {
+    workflowArray() {
+      return Object.values(this.listVendorOnboadingWF).map(node => ({
+      }));
+    },
+
     progress() {
-        const total = this.workflow.length;
-        const completed = this.workflow.filter(s => s.status === "Done").length;
-        return Math.round((completed / total) * 100);
+      const total = this.workflowArray.length;
+      const completed = this.workflowArray.filter(s => s.status === "Completed").length;
+      return Math.round((completed / total) * 100);
     }
   },
   async created() {
     this.showLoading = this.$showLoading;
-    this.orderStore = useOrderStore();
-    await this.orderStore.GetInstallmentDetails(
-      this.orderId,
-      this.showLoading
-    );
-    this.InstalllmentDetails = this.orderStore.InstalllmentDetails;
+    this.vendorStore = useVendorStore();
+    await this.vendorStore.GetVendorOnboadingWorkflow(this.vendorId,this.showLoading);
+    this.listVendorOnboadingWF = this.vendorStore.listVendorOnboadingWF;
   },
 };
 </script>

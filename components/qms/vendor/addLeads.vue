@@ -10,15 +10,6 @@
       <!-- {{quotationStore.initQuotation.listVendors}} -->
       <div class="modal-content">
         <div class="form-content">
-          <!-- <h3 class="font-bold">General Information</h3> -->
-          <div class="grid grid-cols-1 gap-4 my-4 sm:grid-cols-2 md:grid-cols-2">
-            <div class="flex items-center gap-3 p-3 border rounded-lg shadow-sm bg-gray-40 hover:bg-gray-100 transition-all duration-200">
-              <input id="blindVisit" type="checkbox" v-model="curLead.IsBlindVisit" class="w-5 h-5 accent-blue-600 rounded focus:ring-2 focus:ring-blue-400 focus:ring-offset-1"/>
-              <label class="text-[14px] font-semibold text-gray-600 select-none">
-                Is the Lead you include a Blind Visit? 
-              </label>
-            </div>
-          </div>
 
           <div class="grid grid-cols-1 gap-4 my-4 sm:grid-cols-2 md:grid-cols-2">
             <div class="">
@@ -125,7 +116,7 @@
 
       <div class=" modal-footer">
         <button @click="cancel" class="cancel-button">Cancel</button>
-        <button @click="SetVendorLead()"  class="px-5 py-2 text-xs font-semibold transition bg-blue-600 text-white rounded-md shadow hover:bg-blue-700 focus:ring-2 focus:ring-blue-400">
+        <button @click="SetVendorLead()"  class="px-5 py-2 text-xs font-semibold transition bg-blue-800 text-white rounded-md shadow hover:bg-blue-700 focus:ring-2 focus:ring-blue-400">
           Save Lead Details
         </button>
       </div>
@@ -304,10 +295,6 @@ export default {
               ContactPerson2Designation: this.curLead.ContactPerson2Designation || "",
               ContactPerson2Number: this.curLead.ContactPerson2Number || "",
               ContactPerson2Email: this.curLead.ContactPerson2Email || "",
-              IsBlindVisit: this.curLead.IsBlindVisit || false,
-              IsBlindNewVisit: false,
-              IsNewVisit:false,
-              IsExisitngVisit:false,
               Medium: "office"
             };
 
