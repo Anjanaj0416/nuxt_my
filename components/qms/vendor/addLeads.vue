@@ -115,8 +115,9 @@
       </div>
 
       <div class=" modal-footer">
-        <button @click="cancel" class="cancel-button">Cancel</button>
-        <button @click="SetVendorLead()"  class="px-5 py-2 text-xs font-semibold transition bg-blue-800 text-white rounded-md shadow hover:bg-blue-700 focus:ring-2 focus:ring-blue-400">
+        <button @click="cancel" class="px-12 py-2 text-xs  font-semibold transition bg-white text-gray-600 rounded-full shadow">Cancel</button>
+        <button @click="SetVendorLead()"  class="px-12 py-2 text-xs  bg-gradient-to-r from-blue-500 via-blue-600 to-blue-700 
+                font-semibold transition text-white rounded-full shadow  focus:ring-2 focus:ring-blue-400">
           Save Lead Details
         </button>
       </div>
@@ -434,14 +435,6 @@ export default {
   width: 100%;
 }
 
-button {
-  padding: 10px 20px;
-  border: none;
-  cursor: pointer;
-  font-size: 14px;
-  border-radius: 5px;
-}
-
 .cancel-button {
   background: #e4e4e4;
   color: #333;
@@ -450,10 +443,6 @@ button {
 .confirm-button {
   background: #0b2145;
   color: white;
-}
-
-button:hover {
-  opaCity: 0.8;
 }
 
 @media (max-width: 768px) {

@@ -22,7 +22,7 @@
                     <div class="mr-2" >
                         <Button
                             class="w-26 px-4 py-1.5 mt-2 rounded-full text-xs transition"
-                            label="Add Payment"
+                            label="Add Commision"
                             variant="primary"
                             v-if="
                                 (status !== 'Canceled' && status !== 'FullPaid') &&

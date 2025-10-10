@@ -17,12 +17,12 @@
             <span
               class="absolute -top-1 -right-1 sm:-top-2 sm:-right-2 flex items-center justify-center w-5 h-5 sm:w-6 sm:h-6 text-[10px] sm:text-xs font-bold text-white bg-red-500 border-2 border-white rounded-full animate-bounce"
             >
-              {{ workLoadStore.dashboard.workgroupjobcount || 0 }}
+              {{ workLoadStore.dashboard.workgroupjobcount || 0}}
             </span>
           </router-link>
         </div>
 
-        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 lg:gap-4 mt-2">
+        <div class="grid grid-cols-1 md:grid-cols-3 lg:grid-cols-3 gap-1 mt-2">
           <div class="relative overflow-hidden rounded-2xl p-6 text-white shadow-lg bg-gradient-to-r from-indigo-600 to-blue-500">
             <img
               :src="backgroundImage"

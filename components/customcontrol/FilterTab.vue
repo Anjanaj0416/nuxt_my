@@ -40,7 +40,9 @@
 
 <template>
   <section class="mt-4">
-    <div class="flex flex-wrap items-center gap-3">
+    <div class="flex flex-row gap-2 overflow-x-auto items-center scrollbar-thin scrollbar-thumb-gray-400 scrollbar-track-gray-200  gap-3">
+          <!-- <div class="flex flex-row gap-2 overflow-x-auto py-4 px-2 mt-16 scrollbar-thin scrollbar-thumb-gray-400 scrollbar-track-gray-200 "> -->
+
     
       <div v-for="(filter, index) in arrFilter" :key="index" class="relative flex items-center gap-1">
         <!-- Hidden radio input -->

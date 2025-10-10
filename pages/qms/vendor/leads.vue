@@ -19,7 +19,7 @@
       </div>
     </div>
 
-    <FilterTab @selected="SetSelectedFilter" :arrFilter="leadStore.InitLeads.leadViewItemCount" />
+    <FilterTab  @selected="SetSelectedFilter" :arrFilter="leadStore.InitLeads.leadViewItemCount" />
      
     <div
       v-if="leadStore.listLeads.length === 0"
@@ -32,11 +32,11 @@
       v-for="(lead, index) in leadStore.listLeads"
       :key="index"
     >
-<!-- {{ leadStore.listLeads }} -->
+      <!-- {{ leadStore.listLeads }} -->
 
       <div class="flex justify-start">
         <span
-          class="inline-block px-2 py-1 text-[12px] font-medium text-blue-800 bg-blue-100 rounded-full"
+          class="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-blue-50 text-blue-800 text-xs font-semibold"
         >
           ⏳ {{ lead.noofDaysPending }} Days Pending
         </span>
@@ -207,12 +207,13 @@
               && (lead.status === 'Pending' || lead.status === 'Hold' || lead.status === 'Cancelled' || lead.status == 'Completed' || lead.status == 'CSOAssigned' || lead.status == 'CallLater' || lead.status == 'Called' || lead.status == 'Visited')"
             class="flex justify-end pt-2"
           >
-            <LinkBtn
-              class="px-5 py-2 text-xs font-semibold transition bg-indigo-600 text-white rounded-md shadow hover:bg-indigo-700 focus:ring-2 focus:ring-indigo-400"
-              variant="primary"
-              label="Update"
+            <button
+              class="px-12 py-2 text-xs  bg-gradient-to-r from-blue-500 via-blue-600 to-blue-700 
+                font-semibold transition text-white rounded-full shadow  focus:ring-2 focus:ring-indigo-400"
               @click="SetUpdateVendorLead(lead)"
-            />
+            >
+              Update
+            </button>
           </div>
         </section>
       </div>

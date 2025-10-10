@@ -82,9 +82,10 @@
                 </div>
               </transition>
             </div>
-            <div class="text-white text-sm">
-              <p class="font-semibold">Hi, {{ userStore.loggedUser.name }}</p>
-              <p class="text-xs opacity-80">{{ userStore.loggedUser.userName }}</p>
+            <div class="flex flex-col text-white text-xs sm:text-sm">
+              <p class="font-semibold truncate">Hi, {{ userStore.loggedUser.name }}</p>
+              <p class="text-[10px] sm:text-xs opacity-80 truncate">{{ userStore.loggedUser.userName }}</p>
+              <!-- <p class="text-[10px] sm:text-xs opacity-80 truncate">Role: {{ userStore.loggedUser.role || 'N/A' }}</p> -->
             </div>
 
             <!-- Profile Button -->
