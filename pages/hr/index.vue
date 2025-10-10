@@ -381,7 +381,7 @@ export default {
       this.attendanceStore = useAttendanceStore();
       this.showLoading = this.$showLoading;
 
-      await this.employeeStore.loadInitEmployee(this.showLoading);
+      await this.employeeStore.getInitEmployee();
 
     } catch (error) {
       console.error("error:", error)

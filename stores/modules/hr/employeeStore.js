@@ -127,31 +127,16 @@ export const useEmployeeStore = defineStore("employeeStore", {
       }
     },
 
-    async loadInitEmployee(showLoading) {
-      try {
-        const response = await axios.get(
-          `${import.meta.env.VITE_API_URL}/hr/Employee/GetInitEmployee`
-        );
-
-        if (response.data.isSuccess) {
-          // Assign the nested data object here:
-          this.initEmployee = response.data.data.data;
-        } else {
-          this.showToast(response.data.message, "error");
-        }
-      } catch (error) {
-        this.showToast("Failed to load Employee data", "error");
-      }
-    },
-
     async getInitEmployee() {
       try {
         const response = await axios.get(
           `${import.meta.env.VITE_API_URL}/hr/Employee/GetInitEmployee`
         );
+      console.log('response-getInitEmployee:',response);
+
 
         if (response.data.isSuccess) {
-          this.initData.initEmployee = response.data.data.data || [];
+          this.initEmployee = response.data.data.data || [];
           this.showToast("Loading successful!", "success");
         } else {
           console.error("Loading error:", response.data.message);

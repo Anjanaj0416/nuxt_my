@@ -56,24 +56,13 @@
 
 <template>
   <div>
-    <label
-      v-if="label"
-      :for="modal ? 'txtSearch' : 'txtItem'"
-      class="block text-sm font-medium text-gray-700"
-    >
+    <label v-if="label" :for="modal ? 'txtSearch' : 'txtItem'" class="block text-sm font-medium text-gray-700">
       {{ label }}
     </label>
-
     <div v-show="!modal">
-      <input
-        type="text"
+      <input type="text"
         class="w-full p-2 mt-2 text-sm text-gray-700 border rounded-md focus:ring-indigo-500 focus:border-indigo-500"
-        id="txtItem"
-        :title="Item.value || ''"
-        v-model="Item.value"
-        @focus="setfocus"
-        placeholder="Search...."
-      />
+        id="txtItem" :title="Item.value || ''" v-model="Item.value" @focus="setfocus" placeholder="Search...." />
       <!-- {{ filtered }}
     zz  {{ Item.value }} -->
       <p class="ml-1 text-xs italic text-red-700">{{ err }}</p>
@@ -81,47 +70,23 @@
 
     <div v-show="modal" class="cssSerach">
       <div>
-        <input
-          type="text"
+        <input type="text"
           class="w-full p-2 mt-2 text-sm text-gray-700 border rounded-md focus:ring-indigo-500 focus:border-indigo-500"
-          id="txtSearch"
-          v-model="item_serach"
-          ref="comp_search"
-          placeholder="Search...."
-          @keydown="control($event)"
-        />
+          id="txtSearch" v-model="item_serach" ref="comp_search" placeholder="Search...." @keydown="control($event)" />
         <!-- pp  {{ Item.value }} -->
         <!-- Search Icon -->
-        <div
-          class="absolute inset-y-0 right-0 flex items-center pr-3 pointer-events-none"
-        >
-          <svg
-            xmlns="http://www.w3.org/2000/svg"
-            class="w-5 h-5 mt-2 text-gray-400"
-            fill="none"
-            viewBox="0 0 24 24"
-            stroke="currentColor"
-            stroke-width="2"
-          >
-            <path
-              stroke-linecap="round"
-              stroke-linejoin="round"
-              d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"
-            />
+        <div class="absolute inset-y-0 right-0 flex items-center pr-3 pointer-events-none">
+          <svg xmlns="http://www.w3.org/2000/svg" class="w-5 h-5 mt-2 text-gray-400" fill="none" viewBox="0 0 24 24"
+            stroke="currentColor" stroke-width="2">
+            <path stroke-linecap="round" stroke-linejoin="round" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
           </svg>
         </div>
       </div>
 
       <div class="z-40 cssSerachedList">
-        <div
-          v-for="item in filtered"
-          :key="item.id"
-          v-bind:class="{ cssItemHover: selecteditem == item.id }"
-          :title="item.value"
-          @mouseover="mouseover(item)"
-          @click="selectItem(item)"
-          class="h-auto p-2 text-sm overflow-hidden hover:bg-blue-900 hover:text-white cursor-pointer transition-colors duration-200 ease-in-out"
-        >
+        <div v-for="item in filtered" :key="item.id" v-bind:class="{ cssItemHover: selecteditem == item.id }"
+          :title="item.value" @mouseover="mouseover(item)" @click="selectItem(item)"
+          class="h-auto p-2 text-sm overflow-hidden hover:bg-blue-900 hover:text-white cursor-pointer transition-colors duration-200 ease-in-out">
           {{ item.value }}
         </div>
       </div>
@@ -282,7 +247,8 @@ export default {
 }
 
 .cssSerachedList {
-  background-color: #d1d5db; /* Tailwind bg-gray-300 equivalent */
+  background-color: #d1d5db;
+  /* Tailwind bg-gray-300 equivalent */
 
   max-height: 200px;
   overflow: scroll;
@@ -292,19 +258,21 @@ export default {
   width: 100%;
 }
 
-.cssSerachedList > div {
+.cssSerachedList>div {
   list-style: none;
   text-align: left;
   padding-left: 0.5rem;
   border-bottom: 2px solid white;
-  background-color: #f3f4f6; /* Tailwind bg-gray-100 */
+  background-color: #f3f4f6;
+  /* Tailwind bg-gray-100 */
   color: black;
 }
 
-.cssSerachedList > div:hover {
+.cssSerachedList>div:hover {
   cursor: pointer;
   color: white;
-  background-color: #3b82f6; /* Tailwind bg-btn, assuming blue */
+  background-color: #3b82f6;
+  /* Tailwind bg-btn, assuming blue */
 }
 
 .cssItemHover {
@@ -312,4 +280,3 @@ export default {
   background-color: #3b82f6;
 }
 </style>
-
