@@ -224,8 +224,8 @@
             </div>
             <div class="">
               <label class="block text-sm font-bold text-gray-600">Granted</label>
-              <input type="text" v-model="employeeStore.empdetails.granted" placeholder="Enter Granted" required
-                class="w-full p-2 mt-2 text-sm border rounded-md focus:ring-indigo-500 focus:border-indigo-500" />
+              <inputtags_search class="w-full" :arrItems="employeeStore.initEmployee.arrRoles"
+                @GetSelectedIds="GetSelectedGrants" ref="compits" />
               <p v-if="err.Granted" class="mt-2 text-sm text-red-600">
                 {{ err.Granted }}
               </p>
@@ -239,7 +239,7 @@
                 {{ err.UserGroup }}
               </p>
             </div>
-            <div class="">
+            <!-- <div class="">
               <label class="block text-sm font-bold text-gray-600">Role<span class="text-red-500">*</span></label>
               <serach_Input :arrItems="employeeStore.initEmployee.arrRoles" ref="refRoles" label=""
                 @selectItem="GetSelectRole" />
@@ -247,7 +247,7 @@
               <p v-if="err.Role" class="mt-2 text-sm text-red-600">
                 {{ err.Role }}
               </p>
-            </div>
+            </div> -->
             <div class="">
               <label class="block text-sm font-bold text-gray-600">User Type<span class="text-red-500">*</span></label>
               <input type="text" v-model="employeeStore.empdetails.userType" placeholder="Enter User Type" required
@@ -497,6 +497,7 @@ import toggleoption from "~/components/customcontrol/toggleoption";
 import imagepicker1 from "~/components/customcontrol/imagepicker1";
 import serach_Input from "~/components/customcontrol/SearchInput.vue";
 import selectinput from "../customcontrol/selectinput2.vue";
+import inputtags_search from '~/components/hr/inputtags_search'
 
 definePageMeta({
   layout: "default",
@@ -510,11 +511,13 @@ export default {
     toggleoption,
     imagepicker1,
     selectinput,
+    inputtags_search,
   },
   data() {
     return {
       isOpen: true,
       imageroot: "",
+      listGrants: [],
       err: {
         EmpNo: "",
         EPFNo: "",
@@ -581,6 +584,8 @@ export default {
     this.showLoading = this.$showLoading;
     this.imageroot = this.userStore.loggedUser.resourceURLRoot;
 
+    await this.employeeStore.getInitEmployee();
+
     if (!this.employeeStore.isModalOpen) {
       this.employeeStore.closeModal();
     }
@@ -593,6 +598,7 @@ export default {
     this.$refs.refManager.initItem(this.employeeStore.empdetails.managerEmployee.id);
     this.$refs.refRoles.initItem(this.employeeStore.empdetails.role.id);
     this.$refs.refEmpCategory.initItem(this.employeeStore.empdetails.category.id);
+    // this.$refs.compits.initItem(this.employeeStore.empdetails.category.id);
   },
   methods: {
     closeModal() {
@@ -603,6 +609,13 @@ export default {
     cancel() {
       this.clearErr();
       this.closeModal();
+    },
+
+    GetSelectedGrants(list) {
+      console.log("GetSelectedGrants:", list);
+
+      let listGrants = list
+      employeeStore.empdetails.granted = listGrants
     },
 
     async SaveEmployee() {
