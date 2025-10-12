@@ -11,6 +11,7 @@ export const useVendorStore = defineStore("vendorStore", {
     listLeads:[],
     InitLeads:{},
     curLead:{},
+    listVendorOnboadingWF: {},
     regVendorAdmin:{
       suAdmin:{
         fullName:'',
@@ -62,20 +63,19 @@ export const useVendorStore = defineStore("vendorStore", {
     },
 
    //Update vendor
-
    async GetVendorById(id, showLoading) { 
-     console.log('API-GetVendorById');
+    console.log('API-GetVendorById');
     console.log(JSON.stringify(id));
     const loadingAlert = showLoading("");
        
     try {
       const response = await axios.get(`${import.meta.env.VITE_API_URL}/qms/Client/GetClientById?id=`+id );
-      console.log(response);
+      // console.log(response);
       
       loadingAlert.close();
       if (response.data.isSuccess) {
         this.curVendor = response.data.data.data;
-        console.log('response:',response);
+        // console.log('response:',response);
 
         this.showToast(response.data.message);
       } else {
@@ -141,9 +141,8 @@ export const useVendorStore = defineStore("vendorStore", {
 
     //loadListVendors
     async loadListVendors(req, showLoading) {
-       console.log('API-VendorList');
+      console.log('API-VendorList');
       console.log(JSON.stringify(req));
-
      
       const loadingAlert = showLoading("");
       try {
@@ -180,8 +179,34 @@ export const useVendorStore = defineStore("vendorStore", {
         loadingAlert.close();
        
         if (response.data.isSuccess) {
-          await this.loadListVendors();
-            // this.showToast(response.data.message, "error");
+          // await this.loadListVendors();
+          this.listVendor = response.data.data.data;   
+          // this.showToast(response.data.message, "success");
+        } else {
+          this.showToast(response.data.message, "error");
+        }
+      } catch (error) {
+        this.showToast(error.message, "error");
+      }
+    },
+
+    //Vendor Onboading Workflow
+    async GetVendorOnboadingWorkflow(vendorId, showLoading) {
+      console.log('API-VendorOnboadingWorkflow');
+      console.log(JSON.stringify(vendorId));
+
+      const loadingAlert = showLoading("");
+      try {
+        const response = await axios.get(
+         `${import.meta.env.VITE_API_URL}/qms/Client/GetVendorOnboadingWF?vendorId=${vendorId}`
+
+        );
+        loadingAlert.close();
+       console.log(response);
+       
+        if (response.data.isSuccess) {
+          this.showToast(response.data.data.message, "success");
+          this.listVendorOnboadingWF = response.data.data.data;   
         } else {
           this.showToast(response.data.message, "error");
         }

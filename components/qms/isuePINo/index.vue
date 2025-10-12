@@ -12,8 +12,9 @@
               </div>
               <div>
               <button
-                  @click="issueNo"
-                  class="inline-flex items-center justify-center gap-2 px-6 py-3 px-24 text-sm font-semibold text-white bg-gradient-to-r from-blue-900 to-blue-700 rounded-full shadow-lg hover:from-blue-800 hover:to-blue-600 transition-all duration-300"
+                @click="issueNo"
+                class="px-12 py-2 text-md  bg-gradient-to-r from-blue-500 via-blue-600 to-blue-700 
+                font-semibold transition text-white rounded-full shadow  focus:ring-2 focus:ring-indigo-400"
               >
                   Issue PI
               </button>

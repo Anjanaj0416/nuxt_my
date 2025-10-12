@@ -19,7 +19,7 @@
       </div>
     </div>
 
-    <FilterTab @selected="SetSelectedFilter" :arrFilter="leadStore.InitLeads.leadViewItemCount" />
+    <FilterTab  @selected="SetSelectedFilter" :arrFilter="leadStore.InitLeads.leadViewItemCount" />
      
     <div
       v-if="leadStore.listLeads.length === 0"
@@ -32,19 +32,16 @@
       v-for="(lead, index) in leadStore.listLeads"
       :key="index"
     >
-
+      <!-- {{ leadStore.listLeads }} -->
 
       <div class="flex justify-start">
         <span
-          class="inline-block px-2 py-1 text-[12px] font-medium text-blue-800 bg-blue-100 rounded-full"
+          class="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-blue-50 text-blue-800 text-xs font-semibold"
         >
           ⏳ {{ lead.noofDaysPending }} Days Pending
         </span>
       </div>
-
-      <div
-        class="grid grid-cols-2 gap-4 sm:flex sm:flex-row sm:justify-between"
-      >
+      <div class="grid grid-cols-2 gap-4 sm:flex sm:flex-row sm:justify-between">
         <div
           class="flex flex-col text-center sm:text-left"
           v-for="(field, idx) in vendorFields"
@@ -58,12 +55,15 @@
           <template v-if="field.key === 'status'">
             <span
               :class="{
-                'bg-green-100 text-green-700 ': lead.status === 'CSOAssigned',
-                'bg-yellow-100 text-yellow-800 ': lead.status === 'Pending',
-                'bg-red-100 text-red-800 ': lead.status === 'Cancelled',
-                'bg-orange-100 text-orange-800 ': lead.status === 'Hold',
-                'bg-teal-100 text-teal-800 ': lead.status === 'Completed',
-                // 'bg-pink-100 text-pink-800 dark:bg-pink-900 dark:text-pink-300': lead.status === 'Rejected'
+                'bg-blue-500 text-white font-semibold': lead.status === 'CSOAssigned',
+                'bg-amber-500 text-white font-semibold': lead.status === 'Pending',
+                'bg-rose-500 text-white font-semibold': lead.status === 'Cancelled',
+                'bg-orange-500 text-white font-semibold': lead.status === 'Hold',
+                'bg-emerald-500 text-white font-semibold': lead.status === 'Completed',
+                'bg-sky-500 text-white font-semibold': lead.status === 'CallLater',
+                'bg-violet-500 text-white font-semibold': lead.status === 'Called',
+                'bg-lime-600 text-white font-semibold': lead.status === 'Visited',
+                'bg-fuchsia-500 text-white font-semibold': lead.status === 'QuotaionSubmited'
               }"
               class="text-xs font-medium me-2 px-2.5 py-0.5 rounded-full"
             >
@@ -78,21 +78,16 @@
             <p v-else class="text-sm text-gray-500 mt-0.5 italic">No Data</p>
           </template>
         </div>
-
         <hr class="block w-full mt-2 border-gray-300 sm:hidden" />
       </div>
-
-      <!-- Expandable More Section -->
       <div
         class="flex flex-col items-center gap-1 mt-1 mb-2 sm:flex-row sm:justify-end sm:mb-0 sm:mt-0 sm:-my-3"
       >
-     
        <LinkBtn  v-if=" lead.csoNo!=''"
           label="View Order"
           class="text-black dark:bg-transparent text-xs font-medium dark:text-blue-900"
           @click="GoToOrder(lead.vendorId)"
         />
-       
         <LinkBtn
           :label="isMore && rowIndex === index ? 'Less' : 'More'"
           class="text-black dark:bg-transparent text-xs font-medium dark:text-blue-900"
@@ -102,56 +97,77 @@
           "
         />
       </div>
-
-      <!-- Expanded Fields -->
       <div v-if="isMore && rowIndex === index">
         <!-- <pre>{{ JSON.stringify(lead, null, 2) }}</pre> -->
-
         <section class="flex flex-col gap-5 p-4 mt-0 bg-white sm:p-6">
-          <div class="grid grid-cols-1 gap-4 sm:grid-cols-3">
-            <div
-              class="text-center sm:text-left"
-              v-for="(field, idx) in showAllFields"
-              :key="idx"
-            >
-              <h2 class="block text-xs font-medium text-gray-700">
-                {{ field.label }}
-              </h2>
-
-              <template v-if="field.key === 'isActive'">
-                <span
-                  :class="{
-                    'bg-green-100 text-green-800 ': lead.isActive === true,
-                    'bg-red-100 text-red-800 ': lead.isActive === false,
-                    'bg-gray-100 text-gray-800': lead.isActive === undefined,
-                  }"
-                  class="inline-block px-3 py-1 mt-1 text-xs font-medium rounded-full"
-                >
-                  {{
-                    lead.isActive === true ? "Active" : "InActive" || "Unknown"
-                  }}
-                </span>
-              </template>
-              <template v-else>
-                <p
-                  v-if="field.key"
-                  v-html="formatComment(lead[field.key])"
-                  :class="['mt-1 text-xs text-gray-700', field.class]"
-                ></p>
-              </template>
+          <div class="grid grid-cols-1 gap-4 sm:grid-cols-5">
+            <div class="text-center sm:text-left">
+              <h2 class="block text-xs font-semibold text-gray-600">Contact Person Number</h2>
+              <p class="mt-1 text-xs text-gray-700">
+                {{ lead.contactPhoneNo || "No Data" }}
+              </p>
+            </div>
+            <div class="text-center sm:text-left">
+              <h2 class="block text-xs font-semibold text-gray-600">Reported By</h2>
+              <p class="mt-1 text-xs text-gray-700">
+                {{ lead.reportedBy || "No Data" }}
+              </p>
+            </div>
+            <div class="text-center sm:text-left">
+              <h2 class="block text-xs font-semibold text-gray-600">Created Date</h2>
+              <p class="mt-1 text-xs text-gray-700">
+                {{ lead.createdDate || "No Data" }}
+              </p>
+            </div>
+            <div class="text-center sm:text-left">
+              <h2 class="block text-xs font-semibold text-gray-600">Visit Type</h2>
+              <p class="mt-1 text-xs text-gray-700">
+                 {{ lead.isBlindVisit === true ? "Blind Visit" : lead.isNewVisit === true ? "Office Visit" : "No Data" }}
+              </p>
+            </div>
+            <div class="text-center sm:text-left">
+              <h2 class="block text-xs font-semibold text-gray-600">Status</h2>
+              <span
+                :class="{
+                  'bg-green-100 text-green-800': lead.isActive === true,
+                  'bg-red-100 text-red-800': lead.isActive === false,
+                  'bg-gray-100 text-gray-800': lead.isActive === undefined,
+                }"
+                class="inline-block px-3 py-1 mt-1 text-xs font-medium rounded-full"
+              >
+                {{ lead.isActive === true ? "Active" : lead.isActive === false ? "Inactive" : "Unknown" }}
+              </span>
             </div>
           </div>
-
+          <div class="grid grid-cols-1 gap-4 sm:grid-cols-4">
+            <div class="text-center sm:text-left">
+              <!-- Comment -->
+              <h2 class="block text-xs font-semibold text-gray-600">Comment</h2>
+              <p
+                v-html="formatComment(lead.comment)"
+                class="mt-1 text-xs text-gray-700 max-h-[150px] overflow-auto whitespace-pre-wrap break-words"
+              ></p>
+            </div>
+            <div>
+              <h2 class="block text-xs font-semibold text-gray-600 mb-1">
+                Date and Time
+              </h2>
+              <input
+                type="datetime-local"
+                v-model="lead.appointmentDateTime"
+                class="border border-gray-300 rounded-md px-2 py-1 text-xs focus:ring-1 focus:ring-blue-400 focus:border-blue-400 w-48 sm:w-60"
+              />
+            </div>
+          </div>
           <!-- Editable Fields -->
-          <div
-            v-if="(userStore.loggedUser.granted?.includes('flo') || userStore.loggedUser.granted?.includes('su') || userStore.loggedUser.granted?.includes('sso')) 
-              && (lead.status === 'Pending' || lead.status === 'Hold' || lead.status === 'Cancelled' || lead.status == 'Completed')"
-            class="grid grid-cols-1 gap-4 sm:grid-cols-1"
-          >
-            <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+          <div class="grid grid-cols-1 gap-4 sm:grid-cols-1">
+            <div v-if="(userStore.loggedUser.granted?.includes('sso') || userStore.loggedUser.granted?.includes('su') ) 
+              && (lead.status === 'Pending' || lead.status === 'Hold' || lead.status === 'Cancelled' || lead.status == 'Completed' || lead.status == 'CSOAssigned' || lead.status == 'CallLater' || lead.status == 'Called' || lead.status == 'Visited')"
+              class="grid grid-cols-1 md:grid-cols-2 gap-4"
+            >
               <!-- Job Status -->
               <div>
-                <label class="block text-xs font-medium text-gray-700">Job Status</label>
+                <label class="block text-xs font-semibold text-gray-600">Job Status</label>
                 <select
                   v-model="lead.tempStatus"
                   class="mt-1 w-full p-2 text-xs border rounded-md bg-white focus:ring-2 focus:ring-indigo-400"
@@ -166,32 +182,13 @@
                   </option>
                 </select>
               </div>
-
-              <!-- Visit Date + Time -->
-              <div  class="grid grid-cols-1 sm:grid-cols-2 gap-4">
-                <div v-if="lead.tempStatus === 'Hold'">
-                  <label class="block text-xs font-medium text-gray-700">Visit Date</label>
-                  <input
-                    type="date"
-                    v-model="lead.visitDate"
-                    class="w-full p-2 text-xs border rounded-md bg-white mt-1 
-                          focus:ring-2 focus:ring-indigo-400 resize-none"
-                  />
-                </div>
-                <div v-if="lead.tempStatus === 'Hold'">
-                  <label class="block text-xs font-medium text-gray-700">Visit Time</label>
-                  <input
-                    type="time"
-                    v-model="lead.visitTime"
-                    class="w-full p-2 text-xs border rounded-md bg-white mt-1 
-                          focus:ring-2 focus:ring-indigo-400 resize-none"
-                  />
-                </div>
-              </div>
             </div>
             
-            <div class="w-full sm:w-1/2">
-              <h2 class="block text-xs font-medium text-gray-700">Comment</h2>
+            <div v-if="(userStore.loggedUser.granted?.includes('flo') || userStore.loggedUser.granted?.includes('su') || userStore.loggedUser.granted?.includes('sso')) 
+              && (lead.status === 'Pending' || lead.status === 'Hold' || lead.status === 'Cancelled' || lead.status == 'Completed' || lead.status == 'CSOAssigned' || lead.status == 'CallLater' || lead.status == 'Called' || lead.status == 'Visited')"
+              class="w-full sm:w-1/2"
+            >
+              <h2 class="block text-xs font-semibold text-gray-600">Comment</h2>
               <textarea
                 v-model="lead.newComment"
                 class="w-full p-2 text-xs border rounded-md bg-white mt-1 focus:ring-2 focus:ring-indigo-400 resize-none"
@@ -207,15 +204,16 @@
           <!-- Action Buttons -->
           <div
             v-if="(userStore.loggedUser.granted?.includes('flo') || userStore.loggedUser.granted?.includes('su') || userStore.loggedUser.granted?.includes('sso')) 
-              && (lead.status === 'Pending' || lead.status === 'Hold' || lead.status === 'Cancelled' || lead.status == 'Completed')"
+              && (lead.status === 'Pending' || lead.status === 'Hold' || lead.status === 'Cancelled' || lead.status == 'Completed' || lead.status == 'CSOAssigned' || lead.status == 'CallLater' || lead.status == 'Called' || lead.status == 'Visited')"
             class="flex justify-end pt-2"
           >
-            <LinkBtn
-              class="px-5 py-2 text-xs font-semibold transition bg-indigo-600 text-white rounded-md shadow hover:bg-indigo-700 focus:ring-2 focus:ring-indigo-400"
-              variant="primary"
-              label="Update"
+            <button
+              class="px-12 py-2 text-xs  bg-gradient-to-r from-blue-500 via-blue-600 to-blue-700 
+                font-semibold transition text-white rounded-full shadow  focus:ring-2 focus:ring-indigo-400"
               @click="SetUpdateVendorLead(lead)"
-            />
+            >
+              Update
+            </button>
           </div>
         </section>
       </div>
@@ -281,17 +279,6 @@ export default {
         { label: "CSO Number", key: "csoNo" },
         // { label: "City", key: "city" },
         { label: "Status", key: "status" },
-      ],
-      showAllFields: [
-        { label: "Contact Person Number", key: "contactPhoneNo" },
-        { label: "Reported By", key: "reportedBy" },
-        { label: "Created Date", key: "createdDate" },
-        { label: "Status", key: "isActive" },
-        {
-          label: "Comment",
-          key: "comment",
-          class: "max-h-[150px] overflow-auto whitespace-pre-wrap break-words",
-        },
       ],
     };
   },
@@ -368,8 +355,12 @@ export default {
         Id: lead.id,
         Comment: lead.newComment || '' ,
         Status: lead.tempStatus,
+        AppointmentDateTime: lead.appointmentDateTime || '',
+        isExisitngVisit: lead.blindNewVisit === true || 'false',
+        isBlindNewVisit: lead.exisitngVisit === true || 'false',
       };
       this.newComment = lead.newComment;
+
 
       if (this.IsValidate(lead.status)) {
         if (lead.tempStatus === "CSOAssigned") {
@@ -378,7 +369,7 @@ export default {
           // console.log(this.selectedLeadId);
           return;
         }
-
+        console.log(request);
         this.$showConfirm(
           "Are you sure to update this lead?",
           "warning"

@@ -25,6 +25,8 @@
           <option value="orderno">Order No</option>
           <option value="customerRef">Customer Ref</option>
           <option value="shopName">Shop Name</option>
+          <option value="CSONo">CSO No</option>
+
         </select>
         <!-- 
          class="absolute top-1/2 right-2 -translate-y-1/2 flex items-center justify-center 
@@ -274,7 +276,7 @@
                 userStore.loggedUser.granted.includes('sso')) &&
                 vendorTabs[vd.id] !== 'workFlow'
               "
-              @click="vendorTabs[vd.id] = 'workFlow'; quotationStore.curVendorId = vd.id; GoToAddEdit(vd.id)" :class="[
+              @click="vendorTabs[vd.id] = 'workFlow'; quotationStore.curVendorId = vd.id " :class="[
                 'p-4 border-b-2 rounded-t-lg text-center',
                 vendorTabs[vd.id] === 'workFlow'
                   ? 'text-blue-600 border-blue-600 dark:text-blue-500 '
@@ -314,8 +316,7 @@
             <MoreVendor :vendorId="vd.id"/>
           </div>
           <div v-if="vendorTabs[vd.id] === 'edit'">
-            <AddEdit :key="vd.id" :Id="vd.id" @close="vendorTabs[vd.id] = ''; quotationStore.curVendorId = null" />
-            <!-- <AddEdit v-if="isAddEdit" @close="isAddEdit = !isAddEdit" /> -->
+            <AddEdit :key="vd.id" :Id="vd.id" @close="vendorTabs[vd.id] = ''" />
           </div>
           <div v-if="vendorTabs[vd.id] === 'workFlow'">
             <WorkFlow :vendorId="vd.id" />
@@ -430,21 +431,18 @@ export default {
 
   methods: {
 
-
-  handleQrClick(vd) {
-    const pdfUrl = this.imageroot + vd.qrPdfUrl;
-    const storeUrl =  vd.storeUrl;
-    // Open storeUrl in new tab
-      console.log(storeUrl)
-    window.open(storeUrl, '_blank');
-    // Open pdfUrl in current tab
-  
-    window.open(pdfUrl, '_blank');
+    handleQrClick(vd) {
+      const pdfUrl = this.imageroot + vd.qrPdfUrl;
+      const storeUrl =  vd.storeUrl;
+      // Open storeUrl in new tab
+        console.log(storeUrl)
+      window.open(storeUrl, '_blank');
+      // Open pdfUrl in current tab
     
-    // If you want qrImageUrl, consider opening it from that page or via a link
-  }
-,
-
+      window.open(pdfUrl, '_blank');
+      
+      // If you want qrImageUrl, consider opening it from that page or via a link
+    },
 
     async SetSelectedFilter(event) {
       this.searchBy = event.target.value;
@@ -509,7 +507,6 @@ export default {
 
     async GoToAddEdit(id) {
       await this.vendorStore.GetVendorById(id, this.showLoading);
-    
     },
 
     async GoToAssignSalesEx(id) {
@@ -536,25 +533,25 @@ export default {
 </script>
 
 <style scoped>
-.csscmd {
-  @apply p-2 text-center bg-blue-200 rounded;
-}
+  .csscmd {
+    @apply p-2 text-center bg-blue-200 rounded;
+  }
 
-.csscmd:hover {
-  @apply bg-blue-200 cursor-pointer;
-}
+  .csscmd:hover {
+    @apply bg-blue-200 cursor-pointer;
+  }
 
-.cssBox {
-  border: 1px solid;
-  @apply border-blue-600 rounded p-2;
-}
+  .cssBox {
+    border: 1px solid;
+    @apply border-blue-600 rounded p-2;
+  }
 
-.cssDataSec {
-  max-height: 400px;
-  /* Limit height */
-  @apply overflow-y-auto;
-  /* Enable vertical scrolling */
-  margin-top: 20px;
-  /* Spacing for the scrollable section */
-}
+  .cssDataSec {
+    max-height: 400px;
+    /* Limit height */
+    @apply overflow-y-auto;
+    /* Enable vertical scrolling */
+    margin-top: 20px;
+    /* Spacing for the scrollable section */
+  }
 </style>

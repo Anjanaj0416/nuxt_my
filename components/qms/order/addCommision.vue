@@ -32,8 +32,11 @@
 
         <!-- Modal Footer -->
         <div class="modal-footer">
-            <button @click="closeModal" class="cancel-button">Cancel</button>
-            <button @click="SetApprove" class="confirm-button">Add</button>
+          <button @click="closeModal" class="px-12 py-2 text-xs  font-semibold transition bg-white text-gray-600 rounded-full shadow">Cancel</button>
+          <button @click="SetApprove" class="px-12 py-2 text-xs  bg-gradient-to-r from-blue-500 via-blue-600 to-blue-700 
+              font-semibold transition text-white rounded-full shadow  focus:ring-2 focus:ring-blue-400">
+            Add
+          </button>
         </div>
         </div>
     </div>
@@ -230,7 +233,8 @@ export default {
 }
 
 .modal-header {
-  background: #0b2145;
+  background: linear-gradient(to right, #1048c2, #0b2c88, #08236b); /* from-blue-600, via-blue-700, to-blue-900 */
+  backdrop-filter: blur(12px); /* backdrop-blur-md */
   padding: 15px;
   display: flex;
   justify-content: space-between;
@@ -261,14 +265,6 @@ export default {
   width: 100%;
 }
 
-button {
-  padding: 10px 20px;
-  border: none;
-  cursor: pointer;
-  font-size: 14px;
-  border-radius: 5px;
-}
-
 .cancel-button {
   background: #e4e4e4;
   color: #333;
@@ -277,10 +273,6 @@ button {
 .confirm-button {
   background: #0b2145;
   color: white;
-}
-
-button:hover {
-  opaCity: 0.8;
 }
 
 @media (max-width: 768px) {
@@ -300,6 +292,8 @@ button:hover {
   }
 
   .modal-footer {
+    position: sticky;
+    bottom: 0;
     padding: 10px;
   }
 }

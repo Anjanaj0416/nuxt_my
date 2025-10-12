@@ -22,7 +22,7 @@ methods: {
         :type="type"
         :class="[
             'inline-flex items-center justify-center px-5 py-2 text-xs  font-medium transition-all duration-300',
-            'rounded-lg focus:outline-none focus:ring-2 focus:ring-offset-2',
+            'focus:outline-none focus:ring-2 focus:ring-offset-2',
             buttonStyles
         ]"
     >
@@ -52,7 +52,7 @@ export default {
         buttonStyles() {
             switch (this.variant) {
                 case 'primary':
-                    return 'px-4 py-2 font-semibold transition duration-300 ease-in-out border-2 rounded-lg text-btn border-btn hover:bg-blue-800 hover:text-white focus:ring-2 focus:ring-blue-600 focus:outline-none';
+                  return 'px-4 py-2 font-semibold transition duration-300 ease-in-out border-2 rounded-full text-black border-blue-900 hover:bg-gradient-to-r hover:from-blue-500 hover:via-blue-600 hover:to-blue-700 hover:border-blue-700 hover:text-white focus:ring-2 focus:ring-blue-600 focus:outline-none';
                 case 'secondary':
                     return 'px-4 py-2 font-semibold transition duration-300 ease-in-out border-2 rounded-lg text-btn border-btn hover:bg-blue-900 hover:text-white focus:ring-2 focus:ring-green-600 focus:outline-none';
                 case 'danger':

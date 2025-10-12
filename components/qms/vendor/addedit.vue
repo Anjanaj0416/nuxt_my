@@ -242,6 +242,15 @@
               <input type="text" v-model="curVendor.holderName" placeholder="Enter Card Colder Name" required
                 class="w-full p-2 mt-2 text-sm border rounded-md focus:ring-indigo-500 focus:border-indigo-500" />
             </div>
+            <div class="">
+              <label class="block text-sm font-bold text-gray-600">upload the bank book image</label>
+                <imagepicker1
+                  :existingImagePath="imageroot + curVendor.bankBookImage"
+                  @GetSelectedImage="GetSelectedBankBookImage"
+                  @deleteExistingImage="curVendor.bankBookImage = ''"
+                  ref="refBankBookImage"
+                />
+            </div>
           </div>
 
           <hr class="my-4" />
@@ -525,6 +534,10 @@ export default {
       this.curVendor.brCopyImage = file;
       console.log(file);
     },
+    GetSelectedBankBookImage(file) {
+      this.curVendor.bankBookImage = file;
+      console.log(file);
+    },
 
     onSelectRSO(selectedId) {
       console.log("Selected RSO from native select:", selectedId);
@@ -572,6 +585,7 @@ export default {
         branch: "",
         accountNumber: "",
         holderName: "",
+        bankBookImage: "",
         isActive: true,
       };
     },
@@ -677,6 +691,8 @@ export default {
       formData.append("Branch", this.curVendor.branch || "");
       formData.append("AccountNumber", this.curVendor.accountNumber || "");
       formData.append("HolderName", this.curVendor.holderName || "");
+      formData.append("BankBookFile", this.curVendor.bankBookImage || "");
+
 
       // Boolean fields should be converted to string
       formData.append("IsActive", String(this.curVendor.isActive ?? true) || "");

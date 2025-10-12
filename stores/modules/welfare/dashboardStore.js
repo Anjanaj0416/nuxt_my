@@ -7,6 +7,13 @@ export const useDashboardStore  = defineStore('dashboard', {
   state: () => ({
     dashBoardInitDetails: {},
     salesDashboardList: {},
+    test:{
+      name:"navod",
+      age: "28",
+      adrees:"335/4, Rajayuna, Makandura,Matara",
+      subject: "English",
+      district: "Matara"
+    },
 
   }),
 

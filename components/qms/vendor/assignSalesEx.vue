@@ -74,13 +74,13 @@
       <!-- Main Modal Footer -->
       <div class="modal-footer" v-if="!showCityForm">
         <button @click="closeModal" class="cancel-button">Cancel</button>
-        <button @click="GetAssignSalesRef" class="confirm-button">Save</button>
+        <button @click="GetAssignSalesRef" class="px-5 py-2 text-xs font-semibold transition bg-blue-800 text-white rounded-md shadow hover:bg-blue-700 focus:ring-2 focus:ring-blue-400">Save</button>
       </div>
 
       <!-- CITY SECTION Footer -->
       <div class="modal-footer" v-else>
         <button @click="cancelAddCity" class="cancel-button">Cancel</button>
-        <button @click="SetNewCity" class="confirm-button">Save City</button>
+        <button @click="SetNewCity"  class="px-5 py-2 text-xs font-semibold transition bg-blue-800 text-white rounded-md shadow hover:bg-blue-700 focus:ring-2 focus:ring-blue-400">Save City</button>
       </div>
 
     </div>
@@ -287,18 +287,31 @@ export default {
   background: white;
   width: 600px;
   height: 450px;
-  border-radius: 8px;
+  border-radius: 1rem;
   box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
   overflow: hidden;
+  display: flex;
+  flex-direction: column;
   font-size: 14px;
 }
 
-.modal-header,
-.modal-footer {
-  padding: 10px 15px;
+.modal-header {
+  background: linear-gradient(to right, #1048c2, #0b2c88, #08236b); /* from-blue-600, via-blue-700, to-blue-900 */
+  backdrop-filter: blur(12px); /* backdrop-blur-md */
+  padding: 15px;
   display: flex;
   justify-content: space-between;
   align-items: center;
+  color: white;
+}
+.modal-footer {
+  background: #f1f1f1;
+  padding: 15px;
+  display: flex;
+  justify-content: space-between;
+  position: absolute;
+  bottom: 0;
+  width: 100%;
 }
 
 .modal-title {
