@@ -42,6 +42,7 @@
                 {{ err.empName }}
               </p>
             </div>
+
             <div class="">
               <label class="block text-sm font-bold text-gray-600">
                 Address <span class="text-red-500">*</span>
@@ -222,14 +223,6 @@
                 {{ err.offtime }}
               </p>
             </div>
-            <div class="">
-              <label class="block text-sm font-bold text-gray-600">Granted</label>
-              <inputtags_search class="w-full" :arrItems="employeeStore.initEmployee.arrRoles"
-                @GetSelectedIds="GetSelectedGrants" ref="compits" />
-              <p v-if="err.Granted" class="mt-2 text-sm text-red-600">
-                {{ err.Granted }}
-              </p>
-            </div>
 
             <div class="">
               <label class="block text-sm font-bold text-gray-600">User Group</label>
@@ -291,6 +284,17 @@
               </p>
             </div>
 
+            <div class="">
+              <label class="block text-sm font-bold text-gray-600">
+                NIC Number <span class="text-red-500">*</span>
+              </label>
+              <input type="text" v-model="employeeStore.empdetails.nic" placeholder="Enter Nic Number" required
+                class="w-full p-2 mt-2 text-sm border rounded-md focus:ring-indigo-500 focus:border-indigo-500" />
+              <p v-if="err.nic" class="mt-2 text-sm text-red-600">
+                {{ err.nic }}
+              </p>
+            </div>
+
             <div>
               <label class="block text-sm font-bold text-gray-600">Transport</label>
               <toggleoption v-model="employeeStore.empdetails.isTransport" />
@@ -318,7 +322,7 @@
             </div>
           </div> -->
 
-          <div class="grid grid-cols-2 gap-4 mt-4 sm:grid-cols-1 md:grid-cols-3">
+          <div class="grid grid-cols-2 gap-4 mt-4 sm:grid-cols-1 md:grid-cols-2">
             <div class="">
               <label class="block text-sm font-bold text-gray-600">
                 NIC Number <span class="text-red-500">*</span>
@@ -338,6 +342,14 @@
                 {{ err.NIC }}
               </p>
             </div> -->
+            <div class="">
+              <label class="block text-sm font-bold text-gray-600">Granted</label>
+              <inputtags_search class="" :arrItems="employeeStore.initEmployee.arrRoles"
+                @GetSelectedIds="GetSelectedGrants" ref="compits" />
+              <p v-if="err.Granted" class="mt-2 text-sm text-red-600">
+                {{ err.Granted }}
+              </p>
+            </div>
           </div>
 
           <!-- Resingnation Details -->
@@ -592,12 +604,12 @@ export default {
 
   },
   mounted() {
-    this.$refs.refDepartment.initItem(this.employeeStore.empdetails.department.id);
-    this.$refs.refStaffType.initItem(this.employeeStore.empdetails.staffType.id);
-    this.$refs.refEmpType.initItem(this.employeeStore.empdetails.empType.id);
-    this.$refs.refManager.initItem(this.employeeStore.empdetails.managerEmployee.id);
-    this.$refs.refRoles.initItem(this.employeeStore.empdetails.role.id);
-    this.$refs.refEmpCategory.initItem(this.employeeStore.empdetails.category.id);
+    // this.$refs.refDepartment.initItem(this.employeeStore.empdetails.department.id);
+    // this.$refs.refStaffType.initItem(this.employeeStore.empdetails.staffType.id);
+    // this.$refs.refEmpType.initItem(this.employeeStore.empdetails.empType.id);
+    // this.$refs.refManager.initItem(this.employeeStore.empdetails.managerEmployee.id);
+    // this.$refs.refRoles.initItem(this.employeeStore.empdetails.role.id);
+    // this.$refs.refEmpCategory.initItem(this.employeeStore.empdetails.category.id);
     // this.$refs.compits.initItem(this.employeeStore.empdetails.category.id);
   },
   methods: {
@@ -612,10 +624,7 @@ export default {
     },
 
     GetSelectedGrants(list) {
-      console.log("GetSelectedGrants:", list);
-
-      let listGrants = list
-      employeeStore.empdetails.granted = listGrants
+      this.listGrants = list
     },
 
     async SaveEmployee() {
@@ -672,7 +681,7 @@ export default {
       formData.append("EmergencyContact", formObject.emergencyContact || "");
       formData.append("Gender", formObject.gender || "");
       formData.append("EpfNo", formObject.epfNo || "");
-      formData.append("Granted", formObject.granted || "");
+      formData.append("Granted", this.listGrants.length > 0 ? this.listGrants : formObject.granted || "");
 
       // Files
       if (formObject.image) {

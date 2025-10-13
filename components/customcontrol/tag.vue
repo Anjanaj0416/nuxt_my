@@ -24,28 +24,19 @@ import tag from '~/components/customcontrol/tag'
 
 
 <template>
-  <section >
-    <div class="csstag relative">
- <div class="cssbtn absolute top-0 right-0 border-gray-500 rounded p-2 text-blue-700 hover:bg-red-600 hover:text-white  -mr-2  -mt-2 cursor-pointer" @click="del_tag">
-        <svg
-          xmlns="http://www.w3.org/2000/svg"
-          class="h-3 w-3"
-          fill="none"
-          viewBox="0 0 24 24"
-          stroke="currentColor"
-        >
-          <path
-            stroke-linecap="round"
-            stroke-linejoin="round"
-            stroke-width="2"
-            d="M6 18L18 6M6 6l12 12"
-          />
+  <section>
+    <div class=" csstag relative">
+      <div
+        class="cssbtn absolute top-0 right-0 border-gray-500 rounded p-0.5 text-blue-700 hover:bg-red-600 hover:text-white  -mr-2  -mt-2 cursor-pointer"
+        @click="del_tag">
+        <svg xmlns="http://www.w3.org/2000/svg" class="h-3 w-3" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
         </svg>
       </div>
 
-    <div class="truncate text-red w-32" title="">
-        {{item.value}}
-    </div>
+      <div class="truncate text-red w-32" title="">
+        {{ item.value }}
+      </div>
 
     </div>
   </section>
@@ -55,15 +46,15 @@ import tag from '~/components/customcontrol/tag'
 export default {
   props: ['item'],
   components: {},
-   data() {
+  data() {
     return {
-   
+
     }
   },
   methods: {
-   
-    del_tag(){   
-       this.$emit('deletetag', this.item.id)
+
+    del_tag() {
+      this.$emit('deletetag', this.item.id)
     }
 
   },
@@ -72,10 +63,11 @@ export default {
 
 <style>
 .cssbtn:hover {
-  @apply transform  scale-125 duration-500;
+  @apply transform scale-125 duration-500;
 }
+
 .csstag {
-  @apply  rounded px-2 h-6 bg-white ;
+  @apply rounded px-2 h-6 bg-gray-300;
   min-width: 100px;
 }
 </style>
