@@ -232,15 +232,6 @@
                 {{ err.UserGroup }}
               </p>
             </div>
-            <!-- <div class="">
-              <label class="block text-sm font-bold text-gray-600">Role<span class="text-red-500">*</span></label>
-              <serach_Input :arrItems="employeeStore.initEmployee.arrRoles" ref="refRoles" label=""
-                @selectItem="GetSelectRole" />
-
-              <p v-if="err.Role" class="mt-2 text-sm text-red-600">
-                {{ err.Role }}
-              </p>
-            </div> -->
             <div class="">
               <label class="block text-sm font-bold text-gray-600">User Type<span class="text-red-500">*</span></label>
               <input type="text" v-model="employeeStore.empdetails.userType" placeholder="Enter User Type" required
@@ -345,7 +336,7 @@
             <div class="">
               <label class="block text-sm font-bold text-gray-600">Granted</label>
               <inputtags_search class="" :arrItems="employeeStore.initEmployee.arrRoles"
-                @GetSelectedIds="GetSelectedGrants" ref="compits" />
+                @GetSelectedIds="GetSelectedGrants" ref="refGrant" />
               <p v-if="err.Granted" class="mt-2 text-sm text-red-600">
                 {{ err.Granted }}
               </p>
@@ -573,7 +564,6 @@ export default {
         IsActive: true,
         Granted: "",
         UserGroup: "",
-        Role: "",
         UserType: "",
 
         CSONo: "",
@@ -604,13 +594,12 @@ export default {
 
   },
   mounted() {
-    // this.$refs.refDepartment.initItem(this.employeeStore.empdetails.department.id);
-    // this.$refs.refStaffType.initItem(this.employeeStore.empdetails.staffType.id);
-    // this.$refs.refEmpType.initItem(this.employeeStore.empdetails.empType.id);
-    // this.$refs.refManager.initItem(this.employeeStore.empdetails.managerEmployee.id);
-    // this.$refs.refRoles.initItem(this.employeeStore.empdetails.role.id);
-    // this.$refs.refEmpCategory.initItem(this.employeeStore.empdetails.category.id);
-    // this.$refs.compits.initItem(this.employeeStore.empdetails.category.id);
+    this.$refs.refDepartment.initItem(this.employeeStore.empdetails.department.id);
+    this.$refs.refStaffType.initItem(this.employeeStore.empdetails.staffType.id);
+    this.$refs.refEmpType.initItem(this.employeeStore.empdetails.empType.id);
+    this.$refs.refManager.initItem(this.employeeStore.empdetails.managerEmployee.id);
+    this.$refs.refEmpCategory.initItem(this.employeeStore.empdetails.category.id);
+    // this.$refs.refGrant.initItem(this.employeeStore.empdetails.category.id);
   },
   methods: {
     closeModal() {
@@ -710,7 +699,6 @@ export default {
       formData.append("NoOfShortLeavePerMonth", formObject.noOfShortLeavePerMonth || 0);
       formData.append("PrivilegeLevel", formObject.privilegeLevel || "");
       formData.append("ReasonForResign", formObject.reasonForResign || "");
-      formData.append("RoleId", formObject.role.id);
       formData.append("SickLeave", formObject.sickLeave || 0);
 
       if (formObject.signature) {
@@ -733,10 +721,6 @@ export default {
 
     GetSelectManager(item) {
       this.employeeStore.empdetails.managerEmployee = item;
-    },
-
-    GetSelectRole(item) {
-      this.employeeStore.empdetails.role = item;
     },
 
     GetSelectEmpCategories(item) {
@@ -771,11 +755,6 @@ export default {
 
       if (!this.employeeStore.empdetails.category || !this.employeeStore.empdetails.category.id) {
         this.err.empCategory = "Please Enter Employee Catagory!";
-        IsValidate = false;
-      }
-
-      if (!this.employeeStore.empdetails.role || !this.employeeStore.empdetails.role.id) {
-        this.err.Role = "Please Enter Enter Role!!";
         IsValidate = false;
       }
 
