@@ -301,6 +301,30 @@ actions: {
       }
     },
 
+    //GetInitPayment
+    async GetInitPayment(orderId, showLoading) {
+       console.log('API-PaymentInit')
+      console.log('PaymentInit,',JSON.stringify(orderId));
+
+      const loadingAlert = showLoading("");
+    
+      try {
+        const response = await axios.get(
+          `${import.meta.env.VITE_API_URL}/qms/Order/PaymentInit?orderId=${orderId}`
+        );
+        console.log(response);
+        
+        loadingAlert.close();
+        if (response.data.isSuccess) {
+           this.initPaymentDetails = response.data.data.data;
+        } else {
+          this.showToast(response.data.message, "error");
+        }
+      } catch (error) {
+        this.showToast("Error while deleting order", "error");
+      }
+    },
+
     // async GetPraposalDocument(formData) {
     //   try {
     //     const response = await axios.post(
