@@ -24,18 +24,16 @@ data() {
 
 <template>
     <section>
-        <div class="flex flex-wrap h-auto gap-3 p-2 rounded cursor-pointer">
-            <div v-for="item in arrSelectedItems" :key="item">
-                <tag :item="item" @deletetag="GetDeleteTag" />
-            </div>
+        <div class=" flex flex-wrap h-auto gap-3 p-2 rounded cursor-pointer">
 
             <div class="-mt-4 cursor-pointer">
                 <serachInput :arrItems="arrItems" ref="compSelect" label="" @selectItem="addItem"
-                    class="w-48 p-2 border-gray-500 rounded" />
+                    class="w-full p-2 border-gray-500 rounded" />
+            </div>
+            <div v-for="item in arrSelectedItems" :key="item.id">
+                <tag :item="item" @deletetag="GetDeleteTag" />
             </div>
         </div>
-
-
     </section>
 </template>
 
@@ -44,7 +42,12 @@ import tag from "~/components/customcontrol/tag";
 import serachInput from "~/components/customcontrol/SearchInput";
 
 export default {
-    props: ["arrItems"],
+    props: {
+        arrItems: {
+            type: Array,
+            default: () => [],
+        },
+    },
     components: {
         tag,
         serachInput,
@@ -55,60 +58,34 @@ export default {
             arrSelectedIDs: [],
         };
     },
-    async created() {
-        console.log("arrItems:", this.arrItems);
-    },
-
+    // created() {
+    //     console.log("arrItems in inputtags_search:", this.arrItems);
+    // },
     methods: {
-
         resetItems() {
-
+            this.arrSelectedItems = [];
+            this.arrSelectedIDs = [];
+            this.$emit("GetSelectedIds", this.arrSelectedIDs);
         },
-        addItem(id) {
+        addItem(item) {
+            if (!item || !item.id) return;
 
-            var index = this.arrSelectedItems.findIndex((o) => o.id === id);
-
-            if (index == -1) {
-                let selected_item = this.arrItems.filter((item) => {
-                    return item.id == id;
-                })[0];
-
-                this.arrSelectedItems.push(selected_item);
-                this.arrSelectedIDs.push(selected_item.id);
-
-                this.$emit("GetSelectedIds", this.arrSelectedIDs.slice());
+            const index = this.arrSelectedItems.findIndex((o) => o.id === item.id);
+            if (index === -1) {
+                this.arrSelectedItems.push(item);
+                this.arrSelectedIDs.push(item.id);
+                this.$emit("GetSelectedIds", [...this.arrSelectedIDs]);
             } else {
-
-                this.$showAlert("Item Already Exisits!", "error");
+                this.$showAlert("Item already exists!", "error");
             }
         },
-        // addItem(id) {
-        //     if (this.arrSelectedItems.length >= 4) {
-        //         this.$showAlert("Maximum 4 districts can be selected!", "error");
-        //         return;
-        //     }
-
-        //     var index = this.arrSelectedItems.findIndex((o) => o.id === id);
-        //     if (index == -1) {
-        //         let selected_item = this.arrItems.find((item) => item.id == id);
-        //         this.arrSelectedItems.push(selected_item);
-        //         this.arrSelectedIDs.push(selected_item.id);
-        //         this.$emit("GetSelectedIds", this.arrSelectedIDs.slice());
-        //     } else {
-        //         this.$showAlert("Oops! You’ve already selected this district.", "error");
-
-        //     }
-        // },
         GetDeleteTag(id) {
-            try {
-
-                var index = this.arrSelectedItems.findIndex((o) => o.id === id);
+            const index = this.arrSelectedItems.findIndex((o) => o.id === id);
+            if (index !== -1) {
                 this.arrSelectedItems.splice(index, 1);
                 this.arrSelectedIDs.splice(index, 1);
-                this.$emit("GetSelectedIds", this.arrSelectedIDs.slice());
-
-            } catch (e) { }
-
+                this.$emit("GetSelectedIds", [...this.arrSelectedIDs]);
+            }
         },
     },
 };

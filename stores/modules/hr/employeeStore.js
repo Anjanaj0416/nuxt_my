@@ -92,11 +92,10 @@ export const useEmployeeStore = defineStore("employeeStore", {
     //Employee//
 
     async AddEdiEmployee(formData, showLoading) {
-      console.log('API-AddEdiEmployee:',formData);
-  //     console.log("AddEdiEmployee received FormData:");
-  // for (const [key, value] of formData.entries()) {
-  //   console.log(`${key}: ${value}`);
-  // }
+      console.log("AddEdiEmployee received FormData:");
+        for (const [key, value] of formData.entries()) {
+          console.log(`${key}: ${value}`);
+        }
 
       const loadingAlert = showLoading("");
       try {
