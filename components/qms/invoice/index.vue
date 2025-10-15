@@ -8,14 +8,9 @@
           {{ id }} -->
 
           <!-- {{ quotationStore.PaymentDetails}} -->
-
           <!-- {{ orderStore.PaymentDetails }} -->
-
           <!-- {{ orderId }}<br></br> -->
-
           <!-- {{ orderNo }} -->
-
-
 
         <div class="bg-white border rounded-lg shadow-md p-6 text-sm text-gray-800">
           <div class="flex items-center justify-between mb-6">
