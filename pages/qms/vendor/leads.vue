@@ -32,7 +32,7 @@
       v-for="(lead, index) in leadStore.listLeads"
       :key="index"
     >
-          <!-- {{ leadStore.listLeads }} -->
+          {{ leadStore.listLeads.status}}
           <div class="flex justify-between">
       <span
         class="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-blue-50 text-blue-800 text-xs font-semibold"
@@ -100,8 +100,10 @@
               'bg-orange-500 text-white font-semibold': lead.status === 'Hold',
               'bg-emerald-500 text-white font-semibold': lead.status === 'Completed',
               'bg-sky-500 text-white font-semibold': lead.status === 'CallLater',
-              'bg-violet-500 text-white font-semibold': lead.status === 'Called',
+              'bg-violet-800 text-white font-semibold': lead.status === 'Called',
+              'bg-red-500 text-white font-semibold': lead.status === 'VisitLater',
               'bg-lime-600 text-white font-semibold': lead.status === 'Visited',
+              'bg-indigo-700 text-white font-semibold': lead.status === 'Presented',
               'bg-fuchsia-500 text-white font-semibold': lead.status === 'QuotaionSubmited'
             }"
             class="text-xs font-medium me-2 px-2.5 py-0.5 rounded-full"
@@ -179,7 +181,7 @@
                 class="mt-1 text-xs text-gray-700 max-h-[150px] overflow-auto whitespace-pre-wrap break-words"
               ></p>
             </div>
-            <div v-if="( lead.status == 'CallLater' || lead.status == 'Called' || lead.status == 'Visited' || lead.status == 'Presented' || lead.status == 'ProposalSubmited')">
+            <div v-if="( lead.status == 'CallLater' || lead.status == 'Called' || lead.status == 'Visited' || lead.status == 'Presented' || lead.status == 'ProposalSubmited' || lead.status == 'VisitLater' || lead.status == 'Presented')">
               <h2 class="block text-xs font-semibold text-gray-600 mb-1">
                 Date and Time
               </h2>
@@ -193,7 +195,7 @@
           <!-- Editable Fields -->
           <div class="grid grid-cols-1 gap-4 sm:grid-cols-1">
             <div v-if="(userStore.loggedUser.granted?.includes('sso') || userStore.loggedUser.granted?.includes('su') ) 
-              && (lead.status === 'Pending' || lead.status === 'Hold' || lead.status === 'Cancelled' || lead.status == 'Completed' || lead.status == 'CSOAssigned' || lead.status == 'CallLater' || lead.status == 'Called' || lead.status == 'Visited')"
+              && (lead.status === 'Pending' || lead.status === 'Hold' || lead.status === 'Cancelled' || lead.status == 'Completed' || lead.status == 'CSOAssigned' || lead.status == 'CallLater' || lead.status == 'Called' || lead.status == 'Visited' || lead.status == 'VisitLater' || lead.status == 'Presented')"
               class="grid grid-cols-1 md:grid-cols-2 gap-4"
             >
               <!-- Job Status -->
@@ -216,7 +218,7 @@
             </div>
             
             <div v-if="(userStore.loggedUser.granted?.includes('flo') || userStore.loggedUser.granted?.includes('su') || userStore.loggedUser.granted?.includes('sso')) 
-              && (lead.status === 'Pending' || lead.status === 'Hold' || lead.status === 'Cancelled' || lead.status == 'Completed' || lead.status == 'CSOAssigned' || lead.status == 'CallLater' || lead.status == 'Called' || lead.status == 'Visited')"
+              && (lead.status === 'Pending' || lead.status === 'Hold' || lead.status === 'Cancelled' || lead.status == 'Completed' || lead.status == 'CSOAssigned' || lead.status == 'CallLater' || lead.status == 'Called' || lead.status == 'Visited' || lead.status == 'VisitLater' || lead.status == 'Presented')"
               class="w-full sm:w-1/2"
             >
               <h2 class="block text-xs font-semibold text-gray-600">Comment</h2>
@@ -235,7 +237,7 @@
           <!-- Action Buttons -->
           <div
             v-if="(userStore.loggedUser.granted?.includes('flo') || userStore.loggedUser.granted?.includes('su') || userStore.loggedUser.granted?.includes('sso')) 
-              && (lead.status === 'Pending' || lead.status === 'Hold' || lead.status === 'Cancelled' || lead.status == 'Completed' || lead.status == 'CSOAssigned' || lead.status == 'CallLater' || lead.status == 'Called' || lead.status == 'Visited')"
+              && (lead.status === 'Pending' || lead.status === 'Hold' || lead.status === 'Cancelled' || lead.status == 'Completed' || lead.status == 'CSOAssigned' || lead.status == 'CallLater' || lead.status == 'Called' || lead.status == 'Visited' || lead.status == 'VisitLater' || lead.status == 'Presented')"
             class="flex justify-end pt-2"
           >
             <button

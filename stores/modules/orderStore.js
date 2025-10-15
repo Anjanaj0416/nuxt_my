@@ -379,9 +379,7 @@ actions: {
     //GetPayment
     async getDoPay(formData, showLoading) {
       console.log('API-DoPayment');
-      // for (let [key, value] of formData.entries()) {
-      //   console.log(`${key}:`, value);
-      // }
+
       const loadingAlert = showLoading("");
       try {
         const response = await axios.post(
@@ -441,55 +439,76 @@ actions: {
           this.showToast(response.data.message, "error");
         }
       } catch (error) {
-        this.showToast("Error while deleting order", "error");
+        this.showToast("Error while Installment Details", "error");
       }
     },
 
     //CommisionList
     async GetCommisionList(orderId, showLoading) {
-      console.log('API-CommisionPaymentDetails')
+      console.log('API-CommisionPaymentDetails', orderId);
       const loadingAlert = showLoading("");
+
       try {
         const response = await axios.get(
           `${import.meta.env.VITE_API_URL}/qms/Order/GetCommisionPaymentDetails?orderId=${orderId}`
         );
-        // console.log(response);      
         loadingAlert.close();
+
         if (response.data.isSuccess) {
-           this.CommisionDetails = response.data.data.data;
-          // this.showToast(response.data.message, "success");
+          const result = response.data.data.data;
+
+          this.CommisionDetails = result.listCommisionPayment || [];
+          this.PaybleAmount = result.paybleAmount || "0.00";
+          this.PaidAmount = result.paidAmount || "0.00";
+          console.log();
+          
         } else {
           this.showToast(response.data.message, "error");
         }
       } catch (error) {
-        this.showToast("Error while deleting order", "error");
+        this.showToast("Error while Commision Details", "error");
       }
     },
 
+
     
     //GetDoCommisionPay
-    async getDoCommisionPay(formData, showLoading) {
+    async getDoCommisionPay(request, showLoading) {
       console.log('API-DoCommisionPayment');
-      for (let [key, value] of formData.entries()) {
-        console.log(`${key}:`, value);
+      for (let [key, value] of request.entries()) {
+        console.log(`${key}: ${value}`);
       }
-      return
-      const loadingAlert = showLoading("");
+      const loadingAlert = showLoading();
+
       try {
-        const response = await axios.post(
+        const response = await axios.get(
           `${import.meta.env.VITE_API_URL}/qms/Order/DoCommisionPayment`,
-          formData
+          {
+            params: {
+              orderId: request.OrderId,
+              PaymentAmount: request.PaymentAmount,
+            },
+          }
         );
-        console.log(response);
+
+        console.log("DoCommisionPayment Response:", response);
+
         loadingAlert.close();
+
         if (response.data.isSuccess) {
           this.showToast(response.data.message, "success");
-          this.CommisionDetails = response.data.data.data;
+
+          const result = response.data.data?.data || {};
+
+          this.CommisionDetails = result.listCommisionPayment || [];
+          this.PaybleAmount = result.paybleAmount || "0.00";
+          this.PaidAmount = result.paidAmount || "0.00";
         } else {
           this.showToast(response.data.message, "error");
         }
       } catch (error) {
         loadingAlert.close();
+        console.error("DoCommisionPayment Error:", error);
         this.showToast(error.message || "Error during payment", "error");
       }
     },
