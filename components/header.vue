@@ -22,7 +22,7 @@
           <!-- Logo -->
           <NuxtLink to="/dashboard" class="flex items-center space-x-2 ml-14">
             <!-- hide Img -->
-            <img src="/assets/img/LogoDigitalTechLab.png" alt="Digital Tech Labs Logo" class="h-auto rounded-full w-28" />
+            <!-- <img src="/assets/img/LogoDigitalTechLab.png" alt="Digital Tech Labs Logo" class="h-auto rounded-full w-28" /> -->
           </NuxtLink>
 
               <!-- {{ userStore.loggedUser.resourceURLRoot + userStore.loggedUser.image }} -->

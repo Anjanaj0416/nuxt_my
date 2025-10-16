@@ -6,12 +6,14 @@
         <!-- Left Side -->
         <div class="flex flex-wrap items-center justify-between gap-4">
 
-          <div class="text-2xl uppercase font-bold">Time Card Details</div>
+          <div class="text-2xl uppercase">Time Card Details</div>
 
           <div class="flex flex-wrap items-center gap-2">
             <div v-show="userStore.loggedUser.granted.includes('hradmin')" class="flex items-center gap-2">
-              <selectinput2 class="w-24" v-model="month" :cur_item="month" :selections="month_names" :err="err.month" label="Month" />
-              <selectinput2 class="w-20" v-model="year" :cur_item="year" :selections="years" :err="err.year" label="Year" />
+              <selectinput2 class="w-24" v-model="month" :cur_item="month" :selections="month_names" :err="err.month"
+                label="Month" />
+              <selectinput2 class="w-20" v-model="year" :cur_item="year" :selections="years" :err="err.year"
+                label="Year" />
               <div class="pt-2">
                 <btnapplyleave name="Create Time Card" class="w-40" title="Create Time Card" @click="applyTimeCard" />
               </div>
@@ -24,7 +26,8 @@
 
             <!-- Close Button -->
             <div class="cursor-pointer hover:text-SID-blue pt-2" title="Exit Absence" @click="getclose">
-              <svg xmlns="http://www.w3.org/2000/svg" class="w-8 h-8" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+              <svg xmlns="http://www.w3.org/2000/svg" class="w-8 h-8" fill="none" viewBox="0 0 24 24"
+                stroke="currentColor">
                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
                   d="M10 14l2-2m0 0l2-2m-2 2l-2-2m2 2l2 2m7-2a9 9 0 11-18 0 9 9 0 0118 0z" />
               </svg>

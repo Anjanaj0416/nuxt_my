@@ -133,41 +133,43 @@ export const useDashboardStore  = defineStore('dashboard', {
     },
 
     async hrDashboard(showLoading) {
-      // const loadingAlert = showLoading('') 
+      console.log("hrDashboard");
+      
+      const loadingAlert = showLoading('') 
 
-      try {
-        const response = await axios.get(
-          `${import.meta.env.VITE_API_URL}/hr/HRCommon/GetEmployeeDashBoardDetails`);
+    try {
+      const response = await axios.get(
+        `${import.meta.env.VITE_API_URL}/hr/HRCommon/GetEmployeeDashBoardDetails`);
 
-          // console.log('response:', response);
+        console.log('response:', response);
 
           if (response.data.isSuccess) {
             const hrData = response.data.data.data;
 
 
-          this.hrDashboardList = {
-            loggedUserName: hrData.loggedUserName,
-            todayAttendance: hrData.todayAttendance,
-            leaveBalance: hrData.leaveBalance,
-            todayEmployeeSummary: hrData.todayEmployeeSummary,
-            todayManagers: hrData.todayManagers,
-            upcommingBirthdays: hrData.upcommingBirthdays, 
-            approvalStatus: hrData.approvalStatus,
-            monthNoOfNoPays: hrData.monthNoOfNoPays,
-            monthTotalOverTimes: hrData.monthTotalOverTimes,
-            monthTotalLeave: hrData.monthTotalLeave,
-            monthTotalMovement: hrData.monthTotalMovement,
-            monthTotalRectification: hrData.monthTotalRectification,
-            monthTotalWorkedHours: hrData.monthTotalWorkedHours,
-          };
-        } else {
-          this.showToast(response.data.message, "error");
-        }
-      } catch (error) {
-        this.showToast("Failed to load Employee data", "error");
-        loadingAlert.close();
+        this.hrDashboardList = {
+          loggedUserName: hrData.loggedUserName,
+          todayAttendance: hrData.todayAttendance,
+          leaveBalance: hrData.leaveBalance,
+          todayEmployeeSummary: hrData.todayEmployeeSummary,
+          todayManagers: hrData.todayManagers,
+          upcommingBirthdays: hrData.upcommingBirthdays, 
+          approvalStatus: hrData.approvalStatus,
+          monthNoOfNoPays: hrData.monthNoOfNoPays,
+          monthTotalOverTimes: hrData.monthTotalOverTimes,
+          monthTotalLeave: hrData.monthTotalLeave,
+          monthTotalMovement: hrData.monthTotalMovement,
+          monthTotalRectification: hrData.monthTotalRectification,
+          monthTotalWorkedHours: hrData.monthTotalWorkedHours,
+        };
+      } else {
+        this.showToast(response.data.message, "error");
       }
-    },
+    } catch (error) {
+      this.showToast("Failed to load Employee data", "error");
+    }
+    loadingAlert.close();
+  },
 
     async salesDashboard(req , showLoading) {
       // console.log('API-GetQMSDashboardDetails')
@@ -248,7 +250,6 @@ export const useDashboardStore  = defineStore('dashboard', {
         // this.showToast("Error while deleting order", "error");
       }
     },
-
     async showToast(message, type) {
       const Swal = (await import("sweetalert2")).default;
       Swal.fire({

@@ -44,7 +44,7 @@
       <div class="csscontent">
         <div
           class="grid grid-cols-1 gap-2  font-bold text-center text-gray-700 border border-gray-300 bg-white cssheader lg:hidden lg:grid-cols-8 rounded-t-md">
-          
+
           <div class="flex flex-col items-center md:pt-4 md:flex-row sm:gap-y-0 lg:hidden sm:justify-start">
             <div v-show="userStore.loggedUser.userGroup === 'Supervisor'">
               <btnwgstatus name="workgroup" :wgjobcount="workLoadStore.dashboard.workgroupjobcount"
@@ -67,12 +67,10 @@
 
 
         <!-- Employees List  -->
-        <div class="mb-4" >
-          <div
-            class="mt-1 text-sm rounded-md cursor-pointer hover:text-gray-700 hover:bg-gray-100 border-2"
+        <div class="mb-4">
+          <div class="mt-1 text-sm rounded-md cursor-pointer hover:text-gray-700 hover:bg-gray-100 border-2"
             :class="emp.isresigned ? 'border-red-500' : 'border-gray-300'"
-            v-for="(emp, index) in employeeStore.alempdetails" :key="emp"
-          >
+            v-for="(emp, index) in employeeStore.alempdetails" :key="emp">
 
             <div class="rounded-md">
               <!-- Employee Header -->
@@ -80,21 +78,16 @@
                 <!-- Left: Name & Emp No -->
                 <div>
                   <h2 class="text-normal font-semibold text-gray-800">{{ emp.empName }}</h2>
-                  <p class="text-sm text-gray-500">{{ emp.empNo }}</p>
-                  <span
-                    v-if="emp.isresigned"
-                    class="absolute top-2 left-2 bg-red-500 text-white text-xs px-2 py-1 rounded-full"
-                  >
+                  <p class="text-sm text-gray-500">#{{ emp.empNo }}</p>
+                  <span v-if="emp.isresigned"
+                    class="absolute top-2 left-2 bg-red-500 text-white text-xs px-2 py-1 rounded-full">
                     Resigned
                   </span>
                 </div>
 
                 <!-- Right: Small Image -->
-                <img
-                  class="w-12 h-12 rounded-full object-cover border hover:scale-105 transition"
-                  :src="userStore.loggedUser.resourceURLRoot + emp.image"
-                  alt="Employee"
-                />
+                <img class="w-12 h-12 rounded-full object-cover border hover:scale-105 transition"
+                  :src="userStore.loggedUser.resourceURLRoot + emp.image" alt="Employee" />
               </div>
 
 
@@ -125,35 +118,36 @@
               <!-- {{userStore.loggedUser}} -->
               <div class="flex flex-wrap justify-end gap-4 px-4 pb-2 mt-2">
                 <!-- Employee Details -->
-                 <button @click="init_employee(emp.id)" class="px-3 py-1 rounded-lg bg-blue-100 hover:bg-blue-200 text-blue-600 text-sm">
+                <button @click="init_employee(emp.id)"
+                  class="px-3 py-1 rounded-lg bg-blue-100 hover:bg-blue-200 text-blue-600 text-sm">
                   👤 Details
                 </button>
-                <button @click.stop="init_attendence(emp.empNo, emp.id)" class="px-3 py-1 rounded-lg bg-green-100 hover:bg-green-200 text-green-600 text-sm">
+                <button @click.stop="init_attendence(emp.empNo, emp.id)"
+                  class="px-3 py-1 rounded-lg bg-green-100 hover:bg-green-200 text-green-600 text-sm">
                   🕒 Attendance
                 </button>
                 <button
                   v-show="!emp.isOTAllow && (userStore.loggedUser.userName === emp.empNo || userStore.loggedUser.granted.includes('hradmin'))"
-                  @click="init_otapply(index, emp.empNo); cur_sec='otapply'; selectedrow=emp.id; isSecClose=false;"
-                  class="px-3 py-1 rounded-lg bg-purple-100 hover:bg-purple-200 text-purple-600 text-sm"
-                >
+                  @click="init_otapply(index, emp.empNo); cur_sec = 'otapply'; selectedrow = emp.id; isSecClose = false;"
+                  class="px-3 py-1 rounded-lg bg-purple-100 hover:bg-purple-200 text-purple-600 text-sm">
                   ➕ Apply OT
                 </button>
-                <button v-show="userStore.loggedUser.userName === emp.empNo || userStore.loggedUser.granted.includes('hradmin')"
-                  @click="init_absense(emp.empNo, emp.id); cur_sec='absense'; selectedrow=emp.id; isSecClose=false;"
-                  class="px-3 py-1 rounded-lg bg-yellow-100 hover:bg-yellow-200 text-yellow-600 text-sm"
-                >
+                <button
+                  v-show="userStore.loggedUser.userName === emp.empNo || userStore.loggedUser.granted.includes('hradmin')"
+                  @click="init_absense(emp.empNo, emp.id); cur_sec = 'absense'; selectedrow = emp.id; isSecClose = false;"
+                  class="px-3 py-1 rounded-lg bg-yellow-100 hover:bg-yellow-200 text-yellow-600 text-sm">
                   📅 Leave
                 </button>
-                <button v-show="userStore.loggedUser.userName === emp.empNo || userStore.loggedUser.granted.includes('hradmin')"
-                  @click="init_movement(emp.empNo, emp.id); cur_sec='movement'; selectedrow=emp.id; isSecClose=false;"
-                  class="px-3 py-1 rounded-lg bg-pink-100 hover:bg-pink-200 text-pink-600 text-sm"
-                >
+                <button
+                  v-show="userStore.loggedUser.userName === emp.empNo || userStore.loggedUser.granted.includes('hradmin')"
+                  @click="init_movement(emp.empNo, emp.id); cur_sec = 'movement'; selectedrow = emp.id; isSecClose = false;"
+                  class="px-3 py-1 rounded-lg bg-pink-100 hover:bg-pink-200 text-pink-600 text-sm">
                   🚶 Movement
                 </button>
-                <button v-show="userStore.loggedUser.userName === emp.empNo || userStore.loggedUser.granted.includes('hradmin')"
-                  @click="init_timecard(emp.empNo, index); cur_sec='timecard'; selectedrow=emp.id; isSecClose=false;"
-                  class="px-3 py-1 rounded-lg bg-gray-100 hover:bg-gray-200 text-gray-700 text-sm"
-                >
+                <button
+                  v-show="userStore.loggedUser.userName === emp.empNo || userStore.loggedUser.granted.includes('hradmin')"
+                  @click="init_timecard(emp.empNo, index); cur_sec = 'timecard'; selectedrow = emp.id; isSecClose = false;"
+                  class="px-3 py-1 rounded-lg bg-gray-100 hover:bg-gray-200 text-gray-700 text-sm">
                   ⏱️ Time Card
                 </button>
               </div>
@@ -387,7 +381,7 @@ export default {
       this.attendanceStore = useAttendanceStore();
       this.showLoading = this.$showLoading;
 
-      await this.employeeStore.loadInitEmployee(this.showLoading);
+      await this.employeeStore.getInitEmployee();
 
     } catch (error) {
       console.error("error:", error)
@@ -486,10 +480,7 @@ export default {
     },
 
     async setEmployee() {
-
       this.isAddEdit = true;
-
-
     },
 
     async empSaveCompletion(empNo) {
@@ -504,6 +495,7 @@ export default {
 
     async init_attendence(empId, rowId) {
       console.log(`init_attendence called for empId: ${empId}, rowId: ${rowId}`);
+      this.isSecClose = true
       this.cur_sec = 'attendence';
       this.selectedrow = rowId;
       this.isSecClose = false;
@@ -581,7 +573,11 @@ export default {
       this.cur_sec = 'absenseapply'
     },
 
-    async init_otapply(row_no, empno) {
+    async init_otapply(rowId, empno) {
+      this.isSecClose = true
+      this.selectedrow = rowId
+      this.isSecClose = false
+
       let req = {
         empNo: empno,
         fromDate: this.dtfrom,

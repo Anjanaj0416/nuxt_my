@@ -48,6 +48,7 @@ export const useEmployeeStore = defineStore("employeeStore", {
       casualLeave: 0,
       sickLeave: 0,
       otherLeave: 0,
+      noOfShortLeavePerMonth:0,
       isOtAllow: false,
       homePhoneNo: "",
       signatureUrl: "",
@@ -91,11 +92,10 @@ export const useEmployeeStore = defineStore("employeeStore", {
     //Employee//
 
     async AddEdiEmployee(formData, showLoading) {
-      console.log('API-AddEdiEmployee:',formData);
-  //     console.log("AddEdiEmployee received FormData:");
-  // for (const [key, value] of formData.entries()) {
-  //   console.log(`${key}: ${value}`);
-  // }
+      console.log("AddEdiEmployee received FormData:");
+        for (const [key, value] of formData.entries()) {
+          console.log(`${key}: ${value}`);
+        }
 
       const loadingAlert = showLoading("");
       try {
@@ -126,31 +126,16 @@ export const useEmployeeStore = defineStore("employeeStore", {
       }
     },
 
-    async loadInitEmployee(showLoading) {
-      try {
-        const response = await axios.get(
-          `${import.meta.env.VITE_API_URL}/hr/Employee/GetInitEmployee`
-        );
-
-        if (response.data.isSuccess) {
-          // Assign the nested data object here:
-          this.initEmployee = response.data.data.data;
-        } else {
-          this.showToast(response.data.message, "error");
-        }
-      } catch (error) {
-        this.showToast("Failed to load Employee data", "error");
-      }
-    },
-
     async getInitEmployee() {
       try {
         const response = await axios.get(
           `${import.meta.env.VITE_API_URL}/hr/Employee/GetInitEmployee`
         );
+      console.log('response-getInitEmployee:',response);
+
 
         if (response.data.isSuccess) {
-          this.initData.initEmployee = response.data.data.data || [];
+          this.initEmployee = response.data.data.data || [];
           this.showToast("Loading successful!", "success");
         } else {
           console.error("Loading error:", response.data.message);
@@ -192,17 +177,16 @@ export const useEmployeeStore = defineStore("employeeStore", {
       loadingAlert.close();
     },
 
-    async getEmployeeByID(id, showLoading) {
-      console.log('API-getEmployeeByID');
-      console.log(JSON.stringify(id));
+    async getEmployeeByID(req, showLoading) {
+      console.log('API-getEmployeeByID:',req);
+      console.log(JSON.stringify(req));
 
       const loadingAlert = showLoading("");
       try {
         const response = await axios.get(
-          `${import.meta.env.VITE_API_URL}/hr/Employee/GetEmployeeByID`,
-          { params: { id: id.empid } }
-        );
+          `${import.meta.env.VITE_API_URL}/hr/Employee/GetEmployeeByID`,{ params: { id: req.empid } });
         console.log("response:",response.data.data.data);
+        
         if (response.data.isSuccess) {
           this.curEmployee = response.data.data.data || {};
           this.empdetails = this.curEmployee;
