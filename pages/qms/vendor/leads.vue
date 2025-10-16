@@ -104,7 +104,7 @@
               'bg-red-500 text-white font-semibold': lead.status === 'VisitLater',
               'bg-lime-600 text-white font-semibold': lead.status === 'Visited',
               'bg-indigo-700 text-white font-semibold': lead.status === 'Presented',
-              'bg-fuchsia-500 text-white font-semibold': lead.status === 'QuotaionSubmited'
+              'bg-fuchsia-500 text-white font-semibold': lead.status === 'ProposalSubmited'
             }"
             class="text-xs font-medium me-2 px-2.5 py-0.5 rounded-full"
           >
@@ -181,7 +181,7 @@
                 class="mt-1 text-xs text-gray-700 max-h-[150px] overflow-auto whitespace-pre-wrap break-words"
               ></p>
             </div>
-            <div v-if="( lead.status == 'CallLater' || lead.status == 'Called' || lead.status == 'Visited' || lead.status == 'Presented' || lead.status == 'ProposalSubmited' || lead.status == 'VisitLater' || lead.status == 'Presented')">
+            <div v-if="(lead.status === 'Pending' || lead.status === 'Hold' || lead.status === 'Cancelled' || lead.status == 'Completed' || lead.status == 'CSOAssigned' || lead.status == 'CallLater' || lead.status == 'Called' || lead.status == 'Visited' || lead.status == 'VisitLater' || lead.status == 'Presented')">
               <h2 class="block text-xs font-semibold text-gray-600 mb-1">
                 Date and Time
               </h2>
@@ -407,10 +407,11 @@ export default {
           "Are you sure to update this lead?",
           "warning"
         ).then(async (result) => {
-          if (result) {
+          if (result.isConfirmed) {
             await this.leadStore.SetUpdateVendorLead(request, this.showLoading);
+            this.$emit("close");
           } else {
-            // console.log("Action canceled");
+            console.log("Action canceled");
           }
         });
       }
@@ -441,19 +442,6 @@ export default {
 
   },
 
-  
-
-  // async beforeMount() {
-  //   const granted = this.userStore.loggeduser?.granted || [];
-
-  //   if (granted.includes('su')) {
-  //     this.$router.push('/user/login');
-  //     this.$showToast('Not allowed to access this page');
-  //   }
-  // },
-
-
-  
  	
   async beforeMount() {
     const granted = this.userStore.loggedUser?.granted || [];

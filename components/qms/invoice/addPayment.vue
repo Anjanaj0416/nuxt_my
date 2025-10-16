@@ -269,14 +269,14 @@ export default {
       formData.append("BankName", this.BankName || "");
       formData.append("OriginalAdvanceReceiptNo", this.OriginalAdvanceReceiptNo || "");
       formData.append("OriginalAdvanceReceiptDate", this.OriginalAdvanceReceiptDate || "");
-      formData.append("SlipImage", this.PaymentSlipImage);
+      formData.append("PaymentSlipImage", this.PaymentSlipImage);
 
 
 
-      for (let [key, value] of formData.entries()) {
-        console.log(`${key}: ${value}`);
-      }
-      console.log("File Name:", this.PaymentSlipImage);
+      // for (let [key, value] of formData.entries()) {
+      //   console.log(`${key}: ${value}`);
+      // }
+      // console.log("File Name:", this.PaymentSlipImage);
 
 
       // Do the payment

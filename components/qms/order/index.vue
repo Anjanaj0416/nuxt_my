@@ -162,7 +162,7 @@
                 <span 
                   :class="{
                     'bg-green-100 text-green-700': order.orderStatus === 'FullPaid',
-                    'bg-yellow-100 text-yellow-700': order.orderStatus === 'pending',
+                    'bg-yellow-100 text-yellow-700': order.orderStatus === 'Pending',
                     'bg-yellow-600 text-white': order.orderStatus === 'Active',
                     'bg-red-100 text-red-700': order.orderStatus === 'Canceled'
                   }"
@@ -219,7 +219,7 @@
               </button>
 
               <!-- Installments -->
-              <button
+              <!-- <button
                 v-if="order.orderStatus !== 'Active'"
                 @click="toggleTab('Installment', order.id)"
                 :class="[
@@ -230,7 +230,7 @@
                 ]"
               >
                 {{ activeTab.type === 'Installment' && activeTab.orderId === order.id ? 'Close Installment' : 'View Installment' }}
-              </button>
+              </button> -->
 
            
               <!-- Payments -->

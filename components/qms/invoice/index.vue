@@ -6,7 +6,6 @@
 
         <!-- <pre>{{ JSON.stringify(orderStore.PaymentDetails, null, 2) }}</pre> -->
 
-
         <div class="bg-white border rounded-lg shadow-md p-6 text-sm text-gray-800">
           <div class="flex items-center justify-between mb-6">
             <div>
@@ -31,8 +30,9 @@
             </div>
           </div>
 
+
           <!-- Payment History Section -->
-          <div class="relative  border-gray-200 overflow-auto max-h-80 space-y-6">
+          <div class="relative  border-gray-200 overflow-auto max-h-660 space-y-6">
             <div v-if="orderStore.PaymentDetails.listInstallment && orderStore.PaymentDetails.listInstallment.length > 0" class="relative">
               <div 
                 v-for="(inst, iIndex) in orderStore.PaymentDetails.listInstallment"
@@ -165,8 +165,8 @@
                             🧾 Create Invoice
                           </a>
                           <a
-                            v-else-if="item.isInvoicePrinted && item.InvoiceURL"
-                            :href="imageroot + item.InvoiceURL"
+                            v-else-if="item.isInvoicePrinted && item.invoiceURL"
+                            :href="imageroot + item.invoiceURL"
                             target="_blank"
                             class="text-blue-600 hover:underline flex items-center gap-1"
                           >
@@ -217,75 +217,6 @@
         showLoading: null,
         isAddPayment: false,
         receiptFiles: {},
-        listInstallment: [
-          {
-            Term: "Installment 1",
-            InstallmentAmount: 12000,
-            PaidAmount: 10000,
-            Balance: 2000,
-            PaymentDate: "2025-Sep-01",
-            PaymentDueDate: "2025-Sep-01",
-            listPayment: [
-              {
-                PaidDate: "2025-Dec-12",
-                PaidAmount: 8000,
-                ReceiptNo: "CUST005",
-                ReceiptType: "Adv-Receipt",
-                Remarks: "balance will pay next week",
-                Reference: "",
-                Bank: "Sampath Bank",
-                IsSlipUploaded: true,
-                SlipUrl: "",
-                IsTaxInvoicePrinted: false,
-                TaxInvoiceURL: "",
-                IsInvoicePrinted: false,
-                InvoiceURL: ""
-              },
-              {
-                PaidDate: "2025-Sep-24",
-                PaidAmount: 10000,
-                ReceiptNo: "CUST005",
-                ReceiptType: "Adv-Receipt",
-                Remarks: "balance will pay next week",
-                Reference: "",
-                Bank: "Sampath Bank",
-                IsSlipUploaded: true,
-                SlipUrl: "",
-                IsTaxInvoicePrinted: false,
-                TaxInvoiceURL: "",
-                IsInvoicePrinted: false,
-                InvoiceURL: ""
-              }
-            ]
-          },
-          {
-            Term: "Installment 2",
-            InstallmentAmount: 24000,
-            PaidAmount: 10000,
-            Balance: 2000,
-            PaymentDate: "2025-Sep-01",
-            PaymentDueDate: "2025-Sep-01",
-            listPayment: [
-              {
-                PaidDate: "2025-Sep-24",
-                PaidAmount: 10000,
-                ReceiptNo: "CUST005",
-                ReceiptType: "Adv-Receipt",
-                Remarks: "balance will pay next week",
-                Reference: "",
-                Bank: "Sampath Bank",
-                IsSlipUploaded: true,
-                SlipUrl: "",
-                IsTaxInvoicePrinted: false,
-                TaxInvoiceURL: "",
-                IsInvoicePrinted: false,
-                InvoiceURL: ""
-              }
-            ]
-          }
-        ]
-        
-        
       }
     },
     async mounted() {
@@ -312,11 +243,12 @@
         this.isAddPayment = true;
       },
       async handleInvoice(item) {
+        const amountPaid = Number(String(item.paidAmount).replace(/,/g, ''));
         const req = {
           orderNo: this.orderNo,
           receiptNo: item.receiptNo,
-          amountPaid : item.amount,
-          isTax : item.taxRegisteredClient,
+          amountPaid: amountPaid,
+          isTax: item.isTaxInvoicePrinted,
         };
         console.log(req);
         this.orderStore.PrintInvoice(req, this.$showLoading);

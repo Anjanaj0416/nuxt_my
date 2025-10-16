@@ -386,6 +386,8 @@ actions: {
           `${import.meta.env.VITE_API_URL}/qms/Order/DoPayment`,
           formData
         );
+        console.log(response);
+        
         loadingAlert.close();
         if (response.data.isSuccess) {
           this.showToast(response.data.message, "success");
