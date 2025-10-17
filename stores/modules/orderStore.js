@@ -513,31 +513,29 @@ actions: {
 
 
     //GetNotifications
-    async GetNotifications(userName, showLoading) {
-      console.log('GetNotifications', userName);
-      const loadingAlert = showLoading("");
+   async GetNotifications(userName, showLoading) {
+    console.log(GetNotifications);
+    
+  const loadingAlert = showLoading("Fetching notifications...");
+  try {
+    const response = await axios.get(
+      `${import.meta.env.VITE_API_URL}/qms/WorkFlowNotification/GetNotifications?empNo=${userName}`
+    );
+    loadingAlert.close();
 
-      try {
-        const response = await axios.get(
-          `${import.meta.env.VITE_API_URL}/qms/WorkFlowNotification/GetNotifications?empNo=${userName}`
-        );
-        loadingAlert.close();
+    if (response.data.isSuccess) {
+      // Update notifications array
+      this.notifications = response.data.data.data || [];
+    } else {
+      this.showToast(response.data.message, "error");
+    }
+  } catch (error) {
+    loadingAlert.close();
+    this.showToast("Error while fetching notifications", "error");
+    console.error(error);
+  }
+},
 
-        if (response.data.isSuccess) {
-          const result = response.data.data.data;
-
-          this.CommisionDetails = result.listCommisionPayment || [];
-          this.PaybleAmount = result.paybleAmount || "0.00";
-          this.PaidAmount = result.paidAmount || "0.00";
-          console.log();
-          
-        } else {
-          this.showToast(response.data.message, "error");
-        }
-      } catch (error) {
-        this.showToast("Error while Commision Details", "error");
-      }
-    },
 
 
   showToast(message, type) {

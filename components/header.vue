@@ -198,13 +198,30 @@ export default {
       ],
     };
   },
-  async created() {
+async created() {
+    try {
+      // Initialize stores
       this.userStore = useUserStore();
       this.orderStore = useOrderStore();
-      this.imageroot = this.userStore.loggedUser.resourceURLRoot;
-      this.showLoading = this.$showLoading;
 
-      await this.orderStore.GetNotifications(this.userName, this.showLoading);
+      // Extract username from logged user
+      const userName = this.userStore.loggedUser?.userName;
+
+      // Validate and call API
+      if (userName) {
+        this.showLoading = this.$showLoading;
+        await this.orderStore.GetNotifications(userName, this.showLoading);
+
+        // Optionally update local notifications if returned from API
+        if (this.orderStore.notifications) {
+          this.notifications = this.orderStore.notifications;
+        }
+      } else {
+        console.warn("No logged user found — cannot fetch notifications.");
+      }
+    } catch (error) {
+      console.error("Error in created() while fetching notifications:", error);
+    }
   },
   methods: {
     async GoToProfile() {
@@ -219,7 +236,7 @@ export default {
       } catch (err) {
         console.error("Error in GoToProfile:", err);
       }
-    }
+    },
   },
   async created() {
     try {
