@@ -22,10 +22,10 @@
           <!-- Logo -->
           <NuxtLink to="/dashboard" class="flex items-center space-x-2 ml-14">
             <!-- hide Img -->
-            <!-- <img src="/assets/img/LogoDigitalTechLab.png" alt="Digital Tech Labs Logo" class="h-auto rounded-full w-28" /> -->
+            <img src="/assets/img/LogoDigitalTechLab.png" alt="Digital Tech Labs Logo" class="h-auto rounded-full w-28" />
           </NuxtLink>
 
-              <!-- {{ userStore.loggedUser.resourceURLRoot + userStore.loggedUser.image }} -->
+          <!-- {{ userStore.loggedUser.resourceURLRoot + userStore.loggedUser.image }} -->
 
 
           <!-- User Profile -->
@@ -60,19 +60,43 @@
               <!-- Dropdown -->
               <transition >
                 <div v-if="isNotificationOpen"
-                  class="absolute right-0 mt-3 w-72 bg-white 
+                  class="absolute right-0 mt-3 w-96 bg-white 
                         rounded-2xl shadow-2xl overflow-hidden z-50">
                   <div class="p-4 border-b ">
                     <h3 class="text-sm font-semibold text-gray-700 ">Notifications</h3>
                   </div>
                   <ul class="max-h-60 overflow-y-auto">
-                    <li v-for="(note, index) in notifications" :key="index"
-                      class="px-4 py-3 hover:bg-gray-100 
-                            transition flex items-start gap-3">
+                    <li 
+                      v-for="(note, index) in notifications" 
+                      :key="note.Id"
+                      class="px-4 py-3 hover:bg-gray-100 transition flex items-start gap-3 border-b last:border-none"
+                    >
                       <div class="w-2 h-2 rounded-full bg-blue-500 mt-2"></div>
-                      <p class="text-sm text-gray-600 ">{{ note }}</p>
+                      <div>
+                        <p class="text-sm font-semibold text-gray-800">
+                          {{ note.NotificationType }}
+                        </p>
+                        <p class="text-sm text-gray-600">
+                          {{ note.Message }}
+                        </p>
+                        <p v-if="note.Comment" class="text-xs text-gray-500 italic">
+                          {{ note.Comment }}
+                        </p>
+                        <p v-if="note.DayPending" class="text-xs text-gray-700">
+                          Pending: 
+                          <span 
+                            :class="[
+                              'ml-1 px-2 py-0.5 rounded-full font-semibold',
+                              note.DayPending > 3 ? 'bg-red-500 text-white' : 'bg-yellow-200 text-yellow-900'
+                            ]"
+                          >
+                            {{ note.DayPending }} day<span v-if="note.DayPending > 1">s</span>
+                          </span>
+                        </p>
+                      </div>
                     </li>
                   </ul>
+
                   <!-- <div class="p-3 text-center">
                     <button class="w-full py-2 text-sm font-medium text-indigo-600 hover:text-indigo-800 
                                   dark:text-indigo-400 dark:hover:text-indigo-300 transition">
@@ -129,6 +153,8 @@
 import Sidebar from "./sidemenu.vue";
 import { useUserStore } from '~/stores/modules/userStore';
 import profile from "~/pages/user/profile.vue";
+import { useOrderStore } from '~/stores/modules/orderStore';
+
 
 export default {
   components: { Sidebar, profile },
@@ -140,8 +166,45 @@ export default {
       isProfile: false,
       profileData: null,
       isNotificationOpen: false,
-      notifications: ["ABS companu visit 2.30pm", "ABS companu visit 2.30pm", "Meeting at 3 PM"],
+      notifications: [
+        {
+          "Id": "c1f9a7b4-1e6b-4b2f-8e76-2f84c72b1c12",
+          "NotificationType": "Leave Request",
+          "Message": "Your leave request is pending approval.",
+          "Comment": "Waiting for manager review.",
+          "DayPending": 2
+        },
+        {
+          "Id": "8a4e3c6d-2d3b-4b8b-9e2a-0b2e4b38f521",
+          "NotificationType": "Attendance Alert",
+          "Message": "You have not marked attendance for today.",
+          "Comment": "Please mark attendance before 9:00 AM.",
+          "DayPending": 1
+        },
+        {
+          "Id": "1a6f2b4c-5d8e-4a2b-9f6c-4b7d9c2a712e",
+          "NotificationType": "Task Reminder",
+          "Message": "The monthly report submission is due soon.",
+          "Comment": "Submit before Friday 5 PM.",
+          "DayPending": 3
+        },
+          {
+          "Id": "1a6f2b4c-5d8e-4a2b-9f6c-4b7d9c2a712e",
+          "NotificationType": "Task Reminder",
+          "Message": "The monthly report submission is due soon.",
+          "Comment": "Submit before Friday 5 PM.",
+          "DayPending": 4
+        }
+      ],
     };
+  },
+  async created() {
+      this.userStore = useUserStore();
+      this.orderStore = useOrderStore();
+      this.imageroot = this.userStore.loggedUser.resourceURLRoot;
+      this.showLoading = this.$showLoading;
+
+      await this.orderStore.GetNotifications(this.userName, this.showLoading);
   },
   methods: {
     async GoToProfile() {

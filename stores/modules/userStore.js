@@ -10,6 +10,9 @@ export const useUserStore = defineStore('userStore', {
     assetsBaseUrl: '',
     updateProfile:{},
     redirectTo:'',
+    loggedUser: {
+      granted: [] 
+    }
   }),
 
   persist: true,

@@ -112,6 +112,7 @@
         };
 
         await this.qmsReportsStore.GetCollectionSheetReports(req, this.$showLoading);
+
       }
     },
     async beforeMount() {
