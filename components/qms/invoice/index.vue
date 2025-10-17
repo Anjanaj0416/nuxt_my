@@ -2,20 +2,9 @@
     <section class="justify-center">
         <div class="flex flex-col-reverse items-start justify-between gap-4 mb-4 md:flex-row md:items-center">
           <!-- <div class="text-2xl uppercase">Invoice</div> -->
-
         </div>
-        <!-- {{ quotationStore.invoiceDetails }}<br><br>
-          {{ id }} -->
 
-          <!-- {{ quotationStore.PaymentDetails}} -->
-
-          <!-- {{ orderStore.PaymentDetails }} -->
-
-          <!-- {{ orderId }}<br></br> -->
-
-          <!-- {{ orderNo }} -->
-
-
+        <!-- <pre>{{ JSON.stringify(orderStore.PaymentDetails, null, 2) }}</pre> -->
 
         <div class="bg-white border rounded-lg shadow-md p-6 text-sm text-gray-800">
           <div class="flex items-center justify-between mb-6">
@@ -41,69 +30,69 @@
             </div>
           </div>
 
+
           <!-- Payment History Section -->
-          <div class="relative  border-gray-200 overflow-auto max-h-80 space-y-6">
-            <div class="relative">
-              <!-- v-if="orderStore.PaymentDetails && orderStore.PaymentDetails.length > 0" -->
+          <div class="relative  border-gray-200 overflow-auto max-h-660 space-y-6">
+            <div v-if="orderStore.PaymentDetails.listInstallment && orderStore.PaymentDetails.listInstallment.length > 0" class="relative">
               <div 
-                v-for="(installment, iIndex) in listInstallment"
+                v-for="(inst, iIndex) in orderStore.PaymentDetails.listInstallment"
                 :key="iIndex"
                 class="p-4 rounded-lg shadow-md border transition border-gray-500 my-3"
               >
                 <!-- Header -->
                 <div class="flex justify-between items-center flex-wrap gap-1 border-b pb-1">
                   <div class="flex items-center gap-1 text-gray-600">
-                    <span class="text-lg font-semibold text-gray-600">{{ installment.Term }}</span>
+                    <span class="text-lg font-semibold text-gray-600">{{ inst.term }}</span>
                   </div>
-                  <span 
+                  <!-- <span 
                     class="text-xs font-semibold px-2 py-0.5 rounded-full bg-yellow-100 text-yellow-700"
                   >
                     Pending
-                  </span>
+                  </span> -->
                 </div>
 
                 <!-- Installment details -->
                 <div class="grid grid-cols-3 gap-x-2 gap-y-1 mt-2 text-xs">
                   <div>
                     <span class="font-semibold text-gray-500">Installment Amount :</span>
-                    <span class="ml-1 text-gray-700">{{ installment.InstallmentAmount }}</span>
+                    <span class="ml-1 text-gray-700">{{ inst.installmentAmount }}</span>
                   </div>
                   <div>
                     <span class="font-semibold text-gray-500">Paid Amount :</span>
-                    <span class="ml-1 text-gray-700">{{ installment.PaidAmount }}</span>
+                    <span class="ml-1 text-gray-700">{{ inst.paidAmount }}</span>
                   </div>
                   <div>
                     <span class="font-semibold text-gray-500">Balance :</span>
-                    <span class="ml-1 text-gray-700">{{ installment.Balance }}</span>
+                    <span class="ml-1 text-gray-700">{{ inst.balance }}</span>
                   </div>
                   <div>
                     <span class="font-semibold text-gray-500">Payment Date :</span>
-                    <span class="ml-1 text-gray-700">{{ installment.PaymentDate }}</span>
+                    <span class="ml-1 text-gray-700">{{ inst.installmentDate }}</span>
                   </div>
                   <div>
                     <span class="font-semibold text-gray-500">Payment Due Date :</span>
-                    <span class="ml-1 text-gray-700">{{ installment.PaymentDueDate }}</span>
+                    <span class="ml-1 text-gray-700">{{ inst.installmentDueDate }}</span>
                   </div>
                 </div>
 
                 <!-- Payment History -->
                 <div class="mt-4 max-w-full overflow-auto max-h-80 ">
                   <div 
-                    v-if="installment.listPayment && installment.listPayment.length > 0"
+                    v-if="inst.listPayment && inst.listPayment.length  > 0"
                     class="space-y-2"
                   >
                     <div
-                      v-for="(item, pIndex) in installment.listPayment"
+                      v-for="(item, pIndex) in inst.listPayment"
                       :key="pIndex"
                       class="bg-white shadow-sm border border-gray-200 rounded-lg p-3 hover:shadow-md transition-all duration-200 text-xs"
                     >
                       <!-- Top row -->
                       <div class="flex justify-between items-center flex-wrap gap-1 border-b pb-1">
                         <div class="flex items-center gap-1 text-gray-600">
-                          📅 <span class="font-medium">{{ item.PaidDate }}</span>
+                          📅 <span class="font-medium">{{ item.paidDate }}</span>
                         </div>
                         <div class="text-green-600 font-bold">
-                          LKR {{ item.PaidAmount }}
+                          LKR {{ item.paidAmount }}
                         </div>
                       </div>
 
@@ -111,23 +100,23 @@
                       <div class="grid grid-cols-2 gap-x-2 gap-y-1 mt-2">
                         <div>
                           <span class="font-semibold text-gray-500">Receipt No:</span>
-                          <span class="ml-1 text-gray-700">{{ item.ReceiptNo }}</span>
+                          <span class="ml-1 text-gray-700">{{ item.receiptNo }}</span>
                         </div>
                         <div>
                           <span class="font-semibold text-gray-500">Receipt Type:</span>
-                          <span class="ml-1 text-gray-700">{{ item.ReceiptType }}</span>
+                          <span class="ml-1 text-gray-700">{{ item.receiptType }}</span>
                         </div>
                         <div>
                           <span class="font-semibold text-gray-500">Reference:</span>
-                          <span class="ml-1 text-gray-700">{{ item.Reference || '—' }}</span>
+                          <span class="ml-1 text-gray-700">{{ item.reference || '—' }}</span>
                         </div>
                         <div>
                           <span class="font-semibold text-gray-500">Bank:</span>
-                          <span class="ml-1 text-gray-700">{{ item.Bank }}</span>
+                          <span class="ml-1 text-gray-700">{{ item.bank }}</span>
                         </div>
                         <div class="col-span-2">
                           <span class="font-semibold text-gray-500">Remarks:</span>
-                          <span class="ml-1 italic text-gray-500">{{ item.Remarks || "—" }}</span>
+                          <span class="ml-1 italic text-gray-500">{{ item.remarks || "—" }}</span>
                         </div>
                       </div>
 
@@ -136,8 +125,8 @@
                         <!-- Slip -->
                         <div>
                           <a
-                            v-if="item.IsSlipUploaded && item.SlipUrl"
-                            :href="imageroot + item.SlipUrl"
+                            v-if="item.isSlipUploaded && item.slipUrl"
+                            :href="imageroot + item.slipUrl"
                             target="_blank"
                             class="text-blue-600 hover:underline flex items-center gap-1"
                           >
@@ -149,14 +138,14 @@
                         <!-- Tax Invoice -->
                         <div>
                           <a
-                            v-if="!item.IsTaxInvoicePrinted"
+                            v-if="!item.isTaxInvoicePrinted"
                             class="text-blue-600 hover:underline flex items-center gap-1 cursor-pointer"
                             @click="handleInvoice(item)"
                           >
                             🧾 Create Tax Invoice
                           </a>
                           <a
-                            v-else-if="item.IsTaxInvoicePrinted && item.TaxInvoiceURL"
+                            v-else-if="item.isTaxInvoicePrinted && item.TaxInvoiceURL"
                             :href="imageroot + item.TaxInvoiceURL"
                             target="_blank"
                             class="text-blue-600 hover:underline flex items-center gap-1"
@@ -169,15 +158,15 @@
                         <!-- Regular Invoice -->
                         <div>
                           <a
-                            v-if="!item.IsInvoicePrinted"
+                            v-if="!item.isInvoicePrinted"
                             class="text-blue-600 hover:underline flex items-center gap-1 cursor-pointer"
                             @click="handleInvoice(item)"
                           >
                             🧾 Create Invoice
                           </a>
                           <a
-                            v-else-if="item.IsInvoicePrinted && item.InvoiceURL"
-                            :href="imageroot + item.InvoiceURL"
+                            v-else-if="item.isInvoicePrinted && item.invoiceURL"
+                            :href="imageroot + item.invoiceURL"
                             target="_blank"
                             class="text-blue-600 hover:underline flex items-center gap-1"
                           >
@@ -228,75 +217,6 @@
         showLoading: null,
         isAddPayment: false,
         receiptFiles: {},
-        listInstallment: [
-          {
-            Term: "Installment 1",
-            InstallmentAmount: 12000,
-            PaidAmount: 10000,
-            Balance: 2000,
-            PaymentDate: "2025-Sep-01",
-            PaymentDueDate: "2025-Sep-01",
-            listPayment: [
-              {
-                PaidDate: "2025-Dec-12",
-                PaidAmount: 8000,
-                ReceiptNo: "CUST005",
-                ReceiptType: "Adv-Receipt",
-                Remarks: "balance will pay next week",
-                Reference: "",
-                Bank: "Sampath Bank",
-                IsSlipUploaded: true,
-                SlipUrl: "",
-                IsTaxInvoicePrinted: false,
-                TaxInvoiceURL: "",
-                IsInvoicePrinted: false,
-                InvoiceURL: ""
-              },
-              {
-                PaidDate: "2025-Sep-24",
-                PaidAmount: 10000,
-                ReceiptNo: "CUST005",
-                ReceiptType: "Adv-Receipt",
-                Remarks: "balance will pay next week",
-                Reference: "",
-                Bank: "Sampath Bank",
-                IsSlipUploaded: true,
-                SlipUrl: "",
-                IsTaxInvoicePrinted: false,
-                TaxInvoiceURL: "",
-                IsInvoicePrinted: false,
-                InvoiceURL: ""
-              }
-            ]
-          },
-          {
-            Term: "Installment 2",
-            InstallmentAmount: 24000,
-            PaidAmount: 10000,
-            Balance: 2000,
-            PaymentDate: "2025-Sep-01",
-            PaymentDueDate: "2025-Sep-01",
-            listPayment: [
-              {
-                PaidDate: "2025-Sep-24",
-                PaidAmount: 10000,
-                ReceiptNo: "CUST005",
-                ReceiptType: "Adv-Receipt",
-                Remarks: "balance will pay next week",
-                Reference: "",
-                Bank: "Sampath Bank",
-                IsSlipUploaded: true,
-                SlipUrl: "",
-                IsTaxInvoicePrinted: false,
-                TaxInvoiceURL: "",
-                IsInvoicePrinted: false,
-                InvoiceURL: ""
-              }
-            ]
-          }
-        ]
-        
-        
       }
     },
     async mounted() {
@@ -318,34 +238,23 @@
   
     },
     methods: {
-
       GoToPayment() {
         this.selectedOrderId = this.orderId;
         this.isAddPayment = true;
       },
-
       async handleInvoice(item) {
+        const amountPaid = Number(String(item.paidAmount).replace(/,/g, ''));
         const req = {
           orderNo: this.orderNo,
           receiptNo: item.receiptNo,
-          amountPaid : item.amount,
-          isTax : item.taxRegisteredClient,
+          amountPaid: amountPaid,
+          isTax: item.isTaxInvoicePrinted,
         };
-
         console.log(req);
-        
         this.orderStore.PrintInvoice(req, this.$showLoading);
       },
-
-
     },
     async beforeMount() {
-      // if (this.loggeduser.granted.indexOf('workgroup') > -1 || this.loggeduser.usergroup == 'Supervisor' ) {
-      // } else {
-      //   this.show_error('Not Allowed to access this page')
-      //   this.$router.push('/')
-      // }
-  
     },
     head() {
       return {

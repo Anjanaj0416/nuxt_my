@@ -7,12 +7,12 @@
                     <div>
                         <div class="text-2xl uppercase">Commision</div>
                         <h1 class="mt-1">
-                            Payble Amount:
-                        <span class="text-xl font-semibold text-blue-600">LKR: </span>
+                            Payble Amount:   
+                        <span class="text-xl font-semibold text-blue-600">LKR: {{ orderStore.PaidAmount  }}</span>
                         </h1>
                         <h1 class="mt-1">
                             Paid Amount:
-                        <span class="text-normal font-semibold text-blue-600">LKR: </span>
+                        <span class="text-normal font-semibold text-blue-600">LKR:{{ orderStore.PaidAmount }} </span>
                         </h1>
                     </div>
                     </div>
@@ -45,10 +45,10 @@
                     >
                         <div class="flex justify-between items-center flex-wrap gap-1 border-b pb-1">
                             <div class="flex items-center gap-1 text-gray-600">
-                            📅 <span class="font-medium">{{ item.paymentDate }}</span>
+                            📅 <span class="font-medium">{{ item.commsionPaidDate }}</span>
                             </div>
                             <div class="text-green-600 font-bold">
-                            LKR {{ item.amount }}
+                            LKR {{ item.commsionPaidAmount }}
                             </div>
                         </div>
 
@@ -56,12 +56,12 @@
                         <div class="grid grid-cols-2 gap-x-2 gap-y- mt-2">
                             <div>
                                 <span class="font-semibold text-gray-500">Officer Name</span>
-                                <span class="ml-1 text-gray-700">{{ item.receiptNo}}</span>
+                                <span class="ml-1 text-gray-700">{{ item.officerName}}</span>
                             </div>
-                            <div>
+                            <!-- <div>
                                 <span class="font-semibold text-gray-500">Ref:</span>
                                 <span class="ml-1 text-gray-700"></span>
-                            </div>
+                            </div> -->
                         </div>
                     </div>
                 </div>
@@ -116,7 +116,6 @@
 
       await this.orderStore.GetCommisionList(this.orderId, this.showLoading);
 
-      this.CommisionDetails = this.orderStore.CommisionDetails;
 
     },
     watch: {},

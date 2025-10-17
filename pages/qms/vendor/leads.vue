@@ -32,56 +32,89 @@
       v-for="(lead, index) in leadStore.listLeads"
       :key="index"
     >
-      <!-- {{ leadStore.listLeads }} -->
+          {{ leadStore.listLeads.status}}
+          <div class="flex justify-between">
+      <span
+        class="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-blue-50 text-blue-800 text-xs font-semibold"
+      >
+        ⏳ {{ lead.noofDaysPending }} Days Pending
+      </span>
+      <span
+        :class="{
+          'bg-blue-500 text-white font-semibold': lead.status === 'CSOAssigned',
+          'bg-amber-500 text-white font-semibold': lead.status === 'Pending',
+          'bg-rose-500 text-white font-semibold': lead.status === 'Cancelled',
+          'bg-orange-500 text-white font-semibold': lead.status === 'Hold',
+          'bg-emerald-500 text-white font-semibold': lead.status === 'Completed',
+          'bg-sky-500 text-white font-semibold': lead.status === 'CallLater',
+          'bg-violet-500 text-white font-semibold': lead.status === 'Called',
+          'bg-lime-600 text-white font-semibold': lead.status === 'Visited',
+          'bg-fuchsia-500 text-white font-semibold': lead.status === 'QuotaionSubmited'
+        }"
+        class="inline-flex items-center text-xs font-medium me-2 px-2.5 py-0.5 rounded-full md:hidden"
+      >
+        {{ lead.status || '—' }}
+      </span>
+    </div>
 
-      <div class="flex justify-start">
-        <span
-          class="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-blue-50 text-blue-800 text-xs font-semibold"
-        >
-          ⏳ {{ lead.noofDaysPending }} Days Pending
-        </span>
-      </div>
+
       <div class="grid grid-cols-2 gap-4 sm:flex sm:flex-row sm:justify-between">
-        <div
-          class="flex flex-col text-center sm:text-left"
-          v-for="(field, idx) in vendorFields"
-          :key="idx"
-        >
-          <h1 class="text-xs font-semibold text-gray-600">
-            {{ field.label }}
-          </h1>
-
-          <!-- Conditional rendering -->
-          <template v-if="field.key === 'status'">
-            <span
-              :class="{
-                'bg-blue-500 text-white font-semibold': lead.status === 'CSOAssigned',
-                'bg-amber-500 text-white font-semibold': lead.status === 'Pending',
-                'bg-rose-500 text-white font-semibold': lead.status === 'Cancelled',
-                'bg-orange-500 text-white font-semibold': lead.status === 'Hold',
-                'bg-emerald-500 text-white font-semibold': lead.status === 'Completed',
-                'bg-sky-500 text-white font-semibold': lead.status === 'CallLater',
-                'bg-violet-500 text-white font-semibold': lead.status === 'Called',
-                'bg-lime-600 text-white font-semibold': lead.status === 'Visited',
-                'bg-fuchsia-500 text-white font-semibold': lead.status === 'QuotaionSubmited'
-              }"
-              class="text-xs font-medium me-2 px-2.5 py-0.5 rounded-full"
-            >
-              {{ lead.status  }}
-            </span>
-          </template>
-          <template v-else>
-            <p class="text-xs text-gray-500 mt-0.5" v-if="lead[field.key] || field.secondKey && lead[field.secondKey]">
-              {{ lead[field.key] || '—' }}
-              {{ field.secondKey ? lead[field.secondKey] || '' : '' }}
-            </p>
-            <p v-else class="text-sm text-gray-500 mt-0.5 italic">No Data</p>
-          </template>
+        <!-- Vendor Name -->
+        <div class="flex flex-col text-center sm:text-left">
+          <h1 class="text-xs font-semibold text-gray-600">Vendor Name</h1>
+          <p class="text-xs text-gray-500 mt-0.5">
+            <span v-if="lead.companyName">{{ lead.companyName }}</span>
+            <span v-else class="flex items-center text-sm text-gray-400">No Data Available</span>
+          </p>
         </div>
-        <hr class="block w-full mt-2 border-gray-300 sm:hidden" />
+        <div class="flex flex-col text-center sm:text-left">
+          <h1 class="text-xs font-semibold text-gray-600">Address</h1>
+          <p class="text-xs text-gray-500 mt-0.5">
+            <span v-if="lead.address">{{ lead.address }}</span>
+            <span v-else class="flex items-center text-sm text-gray-400">No Data Available</span>
+          </p>
+        </div>
+        <div class="flex flex-col text-center sm:text-left">
+          <h1 class="text-xs font-semibold text-gray-600">Contact Number</h1>
+          <p class="text-xs text-gray-500 mt-0.5">
+            <span v-if="lead.companyPhone">{{ lead.companyPhone }}</span>
+            <span v-else class="flex items-center text-sm text-gray-400 ">No Data Available</span>
+          </p>
+        </div>
+        <div class="flex flex-col text-center sm:text-left">
+          <h1 class="text-xs font-semibold text-gray-600">CSO Number</h1>
+          <p class="text-xs text-gray-500 mt-0.5">
+            <span v-if="lead.csoNo">{{ lead.csoNo }}</span>
+            <span v-else class="flex items-center text-sm text-gray-400">No Data Available</span>
+          </p>
+
+        </div>
+        <!-- Status -->
+       <div class="flex flex-col text-center sm:text-left hidden sm:flex">
+          <h1 class="text-xs font-semibold text-gray-600">Status</h1>
+          <span
+            :class="{
+              'bg-blue-500 text-white font-semibold': lead.status === 'CSOAssigned',
+              'bg-amber-500 text-white font-semibold': lead.status === 'Pending',
+              'bg-rose-500 text-white font-semibold': lead.status === 'Cancelled',
+              'bg-orange-500 text-white font-semibold': lead.status === 'Hold',
+              'bg-emerald-500 text-white font-semibold': lead.status === 'Completed',
+              'bg-sky-500 text-white font-semibold': lead.status === 'CallLater',
+              'bg-violet-800 text-white font-semibold': lead.status === 'Called',
+              'bg-red-500 text-white font-semibold': lead.status === 'VisitLater',
+              'bg-lime-600 text-white font-semibold': lead.status === 'Visited',
+              'bg-indigo-700 text-white font-semibold': lead.status === 'Presented',
+              'bg-fuchsia-500 text-white font-semibold': lead.status === 'ProposalSubmited'
+            }"
+            class="text-xs font-medium me-2 px-2.5 py-0.5 rounded-full"
+          >
+            {{ lead.status || '—' }}
+          </span>
+        </div>
       </div>
+
       <div
-        class="flex flex-col items-center gap-1 mt-1 mb-2 sm:flex-row sm:justify-end sm:mb-0 sm:mt-0 sm:-my-3"
+        class="flex flex-row items-center gap-1 mt-1 mb-2 sm:flex-row sm:justify-end sm:mb-0 sm:mt-0 sm:-my-3"
       >
        <LinkBtn  v-if=" lead.csoNo!=''"
           label="View Order"
@@ -100,7 +133,7 @@
       <div v-if="isMore && rowIndex === index">
         <!-- <pre>{{ JSON.stringify(lead, null, 2) }}</pre> -->
         <section class="flex flex-col gap-5 p-4 mt-0 bg-white sm:p-6">
-          <div class="grid grid-cols-1 gap-4 sm:grid-cols-5">
+          <div class="grid grid-cols-2 gap-4 sm:grid-cols-5">
             <div class="text-center sm:text-left">
               <h2 class="block text-xs font-semibold text-gray-600">Contact Person Number</h2>
               <p class="mt-1 text-xs text-gray-700">
@@ -140,7 +173,7 @@
             </div>
           </div>
           <div class="grid grid-cols-1 gap-4 sm:grid-cols-4">
-            <div class="text-center sm:text-left">
+            <div class="">
               <!-- Comment -->
               <h2 class="block text-xs font-semibold text-gray-600">Comment</h2>
               <p
@@ -148,7 +181,7 @@
                 class="mt-1 text-xs text-gray-700 max-h-[150px] overflow-auto whitespace-pre-wrap break-words"
               ></p>
             </div>
-            <div>
+            <div v-if="(lead.status === 'Pending' || lead.status === 'Hold' || lead.status === 'Cancelled' || lead.status == 'Completed' || lead.status == 'CSOAssigned' || lead.status == 'CallLater' || lead.status == 'Called' || lead.status == 'Visited' || lead.status == 'VisitLater' || lead.status == 'Presented')">
               <h2 class="block text-xs font-semibold text-gray-600 mb-1">
                 Date and Time
               </h2>
@@ -162,7 +195,7 @@
           <!-- Editable Fields -->
           <div class="grid grid-cols-1 gap-4 sm:grid-cols-1">
             <div v-if="(userStore.loggedUser.granted?.includes('sso') || userStore.loggedUser.granted?.includes('su') ) 
-              && (lead.status === 'Pending' || lead.status === 'Hold' || lead.status === 'Cancelled' || lead.status == 'Completed' || lead.status == 'CSOAssigned' || lead.status == 'CallLater' || lead.status == 'Called' || lead.status == 'Visited')"
+              && (lead.status === 'Pending' || lead.status === 'Hold' || lead.status === 'Cancelled' || lead.status == 'Completed' || lead.status == 'CSOAssigned' || lead.status == 'CallLater' || lead.status == 'Called' || lead.status == 'Visited' || lead.status == 'VisitLater' || lead.status == 'Presented')"
               class="grid grid-cols-1 md:grid-cols-2 gap-4"
             >
               <!-- Job Status -->
@@ -185,7 +218,7 @@
             </div>
             
             <div v-if="(userStore.loggedUser.granted?.includes('flo') || userStore.loggedUser.granted?.includes('su') || userStore.loggedUser.granted?.includes('sso')) 
-              && (lead.status === 'Pending' || lead.status === 'Hold' || lead.status === 'Cancelled' || lead.status == 'Completed' || lead.status == 'CSOAssigned' || lead.status == 'CallLater' || lead.status == 'Called' || lead.status == 'Visited')"
+              && (lead.status === 'Pending' || lead.status === 'Hold' || lead.status === 'Cancelled' || lead.status == 'Completed' || lead.status == 'CSOAssigned' || lead.status == 'CallLater' || lead.status == 'Called' || lead.status == 'Visited' || lead.status == 'VisitLater' || lead.status == 'Presented')"
               class="w-full sm:w-1/2"
             >
               <h2 class="block text-xs font-semibold text-gray-600">Comment</h2>
@@ -204,7 +237,7 @@
           <!-- Action Buttons -->
           <div
             v-if="(userStore.loggedUser.granted?.includes('flo') || userStore.loggedUser.granted?.includes('su') || userStore.loggedUser.granted?.includes('sso')) 
-              && (lead.status === 'Pending' || lead.status === 'Hold' || lead.status === 'Cancelled' || lead.status == 'Completed' || lead.status == 'CSOAssigned' || lead.status == 'CallLater' || lead.status == 'Called' || lead.status == 'Visited')"
+              && (lead.status === 'Pending' || lead.status === 'Hold' || lead.status === 'Cancelled' || lead.status == 'Completed' || lead.status == 'CSOAssigned' || lead.status == 'CallLater' || lead.status == 'Called' || lead.status == 'Visited' || lead.status == 'VisitLater' || lead.status == 'Presented')"
             class="flex justify-end pt-2"
           >
             <button
@@ -374,10 +407,11 @@ export default {
           "Are you sure to update this lead?",
           "warning"
         ).then(async (result) => {
-          if (result) {
+          if (result.isConfirmed) {
             await this.leadStore.SetUpdateVendorLead(request, this.showLoading);
+            this.$emit("close");
           } else {
-            // console.log("Action canceled");
+            console.log("Action canceled");
           }
         });
       }
@@ -408,19 +442,6 @@ export default {
 
   },
 
-  
-
-  // async beforeMount() {
-  //   const granted = this.userStore.loggeduser?.granted || [];
-
-  //   if (granted.includes('su')) {
-  //     this.$router.push('/user/login');
-  //     this.$showToast('Not allowed to access this page');
-  //   }
-  // },
-
-
-  
  	
   async beforeMount() {
     const granted = this.userStore.loggedUser?.granted || [];

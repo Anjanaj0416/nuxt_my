@@ -6,7 +6,7 @@
             <h2 class="modal-title">Add Commision</h2>
             <closebtn @close="closeModal()" />
         </div>
-        <!-- Modal Content (scrollable) -->
+  
         <div class="modal-content">
             <div class="form-content">
                 <div class="grid grid-cols-1 gap-4 mt-1 sm:grid-cols-1 md:grid-cols-2">
@@ -14,13 +14,13 @@
                         <label class="block text-sm font-bold text-gray-600">Paid Amount</label>
                         <input 
                             type="text"
-                            v-model="formattedAmount"
+                            v-model="PaymentAmount"
                             @input="formatAmount"
                             placeholder="Enter pay amount"
                             class="w-full p-2 mt-2 text-sm border rounded-md" 
                         />
-                        <p v-if="err.packageError" class="mt-2 text-sm text-red-600">
-                            {{ err.packageError }}
+                        <p v-if="err.paymentError" class="mt-2 text-sm text-red-600">
+                            {{ err.paymentError }}
                             </p>
                     </div>
                 </div>
@@ -43,7 +43,6 @@
 </template>
 
 <script>
-import { useQuotationStore } from "~/stores/modules/qms/quotationStore";
 import { useOrderStore } from "~/stores/modules/orderStore";
 
 import closebtn from "~/components/customcontrol/modal_close_button";
@@ -69,7 +68,7 @@ export default {
   data() {
     return {
       imageroot: "",
-      PayAmount: "",
+      PaymentAmount: "",
       isOpen: true,
       err: { PaymentSlipImage: "" },
       formattedAmount: '', 
@@ -78,11 +77,7 @@ export default {
   },
   async created() {
     this.showLoading = this.$showLoading;
-    this.quotationStore = useQuotationStore();
     this.orderStore = useOrderStore();
-
-    await this.quotationStore.loadInitPayment(this.showLoading);
-    this.initPaymentDetails = this.quotationStore.initPaymentDetails;
 
   },
   async mounted() {
@@ -98,19 +93,16 @@ export default {
     },
 
     formatAmount() {
-      // Remove anything except numbers and dot
-      let numericValue = this.formattedAmount.replace(/[^0-9.]/g, '');
+    let numericValue = this.PaymentAmount.replace(/[^0-9.]/g, '');
 
-      // Split by dot to handle decimals
-      let parts = numericValue.split('.');
-      let integerPart = parts[0].replace(/\B(?=(\d{3})+(?!\d))/g, ','); // Add comma for thousands
-      let decimalPart = parts[1] ? parts[1].slice(0, 2) : '00'; // Keep max 2 decimal digits
+    let parts = numericValue.split('.');
+    let integerPart = parts[0].replace(/\B(?=(\d{3})+(?!\d))/g, ',');
+    let decimalPart = parts[1] ? parts[1].slice(0, 2) : '';
+    
+    this.PaymentAmount = decimalPart ? `${integerPart}.${decimalPart}` : integerPart;
 
-      this.formattedAmount = decimalPart ? `${integerPart}.${decimalPart}` : `${integerPart}.00`;
-
-      // Store numeric value for backend
-      this.Amount = parseFloat(this.formattedAmount.replace(/,/g, '')) || 0;
-    },
+    this.Amount = parseFloat(numericValue) || 0;
+  },
 
     async SetApprove() {
       if (!this.IsValidate()) return;
@@ -122,16 +114,18 @@ export default {
 
       if (!confirmed.isConfirmed) return;
 
-      const formData = new FormData();
-      formData.append("OrderId", this.orderId || "");
-      formData.append("PaymentAmount", this.Amount || "");
+      const request = new FormData();
+      request.append("OrderId", this.orderId || "");
+      request.append("PaymentAmount", this.Amount.toString() || "");
+
+      // for (let [key, value] of formData.entries()) {
+      //   console.log(`${key}: ${value}`);
+      // }
+
+      await this.orderStore.getDoCommisionPay(request, this.showLoading);
 
       // Do the payment
-      await this.orderStore.getDoCommisionPay(formData, this.showLoading);
 
-
-      // refresh list after add
-      await this.orderStore.GetCommisionList(this.orderId, this.showLoading);
 
       this.closeModal();
       
@@ -141,11 +135,11 @@ export default {
       let isSuccess = true;
 
 
-       if (!this.Amount) {
-            this.err.packageError = "Please enter amount.";
+       if (!this.PaymentAmount) {
+            this.err.paymentError = "Please enter amount.";
             isSuccess = false;
         } else {
-            this.err.packageError = "";
+            this.err.paymentError = "";
         }
 
        

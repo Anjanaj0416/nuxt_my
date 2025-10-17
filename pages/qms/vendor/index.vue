@@ -1,20 +1,10 @@
 <template>
-  <!-- <section class="justify-center min-h-screen px-4 mt-24 mb-20 lg:px-80"> -->
   <section class="justify-center min-h-screen px-4 mt-24 mb-20 lg:px-[60px] md:px-[82px]">
     <div class="flex flex-col items-center justify-between mt-2 mb-2 md:flex-row">
       <div class="w-full mb-4 md:mb-0">
         <div class="text-2xl uppercase">Vendors</div>
-        <!-- <div class="mr-2">
-          <Button
-            class="w-24"
-            label="New"
-            variant="primary"
-            @click="GoToAddNew"
-          />
-        </div> -->
       </div>
       <div class="w-full md:w-auto flex items-center gap-2">
-        <!-- Dropdown -->
         <select
           v-model="searchBy"
           @change="SetSelectedFilter"
@@ -28,11 +18,6 @@
           <option value="CSONo">CSO No</option>
 
         </select>
-        <!-- 
-         class="absolute top-1/2 right-2 -translate-y-1/2 flex items-center justify-center 
-                 w-10 h-10 bg-yellow-400 rounded-full hover:bg-yellow-500 transition duration-200" -->
-
-
         <!-- Search -->
         <div class="w-full md:w-96">
           <SearchComp @DoSearch="GetSearch" />
@@ -52,7 +37,7 @@
     </div>
     <!-- {{ vendorStore.listVendor }} -->
     <div v-for="vd in vendorStore.listVendor" :key="vd.id">
-      <div class="flex flex-col gap-0 p-4 mt-2  border-2 rounded-md shadow-md sm:p-4" :class="{
+      <div class="flex flex-col gap-0 p-4 mt-2  border-2 rounded-md shadow-md sm:p-4 shadow-sm hover:shadow-md " :class="{
         'bg-red-50': vd.isActive === false,
         'bg-white': vd.isActive === true,
         'bg-white': vd.isActive === undefined

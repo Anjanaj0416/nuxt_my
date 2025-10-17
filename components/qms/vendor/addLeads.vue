@@ -27,7 +27,7 @@
               <label class="block text-[13px] font-bold text-gray-600">
                 Company Name <span class="text-red-500">*</span>
               </label>
-              <input type="text" v-model="curLead.CompanyName" placeholder="Enter company Name" required @input="clearErrorOnInput('CompanyName')"
+              <input type="text" v-model="curLead.CompanyName" placeholder="Enter Company Name" required @input="clearErrorOnInput('CompanyName')"
                 class="w-full p-2 mt-2 text-sm border rounded-md focus:ring-indigo-500 focus:border-indigo-500" />
               <p v-if="err.CompanyName" class="mt-2 text-sm text-red-600">
                 {{ err.CompanyName }}
@@ -37,7 +37,7 @@
               <label class="block text-[13px] font-bold text-gray-600">
                 Address <span class="text-red-500">*</span>
               </label>
-              <input type="text" v-model="curLead.Address" placeholder="Enter Address Line 1" required @input="clearErrorOnInput('Address')"
+              <input type="text" v-model="curLead.Address" placeholder="Enter Address" required @input="clearErrorOnInput('Address')"
                 class="w-full p-2 mt-2 text-sm border rounded-md focus:ring-indigo-500 focus:border-indigo-500" />
               <p v-if="err.Address" class="mt-2 text-sm text-red-600">
                 {{ err.Address }}
@@ -47,7 +47,7 @@
               <label class="block text-[13px] font-bold text-gray-600">
                 Contact Number <span class="text-red-500">*</span>
               </label>
-              <input type="tel" v-model="curLead.CompanyPhone" placeholder="Enter Contact Number" maxlength="10" @input="clearErrorOnInput('CompanyPhone')"
+              <input type="tel" v-model="curLead.CompanyPhone" placeholder="Enter Company Contact Number" maxlength="10" @input="clearErrorOnInput('CompanyPhone')"
                 class="w-full p-2 mt-2 text-[13px] border rounded-md focus:ring-indigo-500 focus:border-indigo-500" />
               <p v-if="err.CompanyPhone" class="mt-2 text-sm text-red-600">
                 {{ err.CompanyPhone }}
@@ -58,7 +58,7 @@
           <div class="grid grid-cols-1 gap-4 mt-2 sm:grid-cols-1 md:grid-cols-3 lg:grid-cols-3">
             <div class="">
               <label class="block text-[13px] font-bold text-gray-600">Name <span class="text-red-500">*</span></label>
-              <input type="text" v-model="curLead.ContactPerson1Name" placeholder="Enter Contact Number" @input="clearErrorOnInput('ContactPerson1Number')"
+              <input type="text" v-model="curLead.ContactPerson1Name" placeholder="Enter Name" @input="clearErrorOnInput('ContactPerson1Number')"
                 required
                 class="w-full p-2 mt-2 text-sm border rounded-md focus:ring-indigo-500 focus:border-indigo-500" />
               <!-- <p v-if="err.ContactPerson1Number" class="mt-2 text-sm text-red-600">
@@ -67,7 +67,7 @@
             </div>
             <div class="">
               <label class="block text-[13px] font-bold text-gray-600">Designation <span class="text-red-500">*</span></label>
-              <input type="text" v-model="curLead.ContactPerson1Designation" placeholder="Enter Contact Number" 
+              <input type="text" v-model="curLead.ContactPerson1Designation" placeholder="Enter Designation" 
                 required
                 class="w-full p-2 mt-2 text-sm border rounded-md focus:ring-indigo-500 focus:border-indigo-500" />
               <!-- <p v-if="err.ContactPerson1Number" class="mt-2 text-sm text-red-600">
@@ -88,7 +88,7 @@
           <div class="grid grid-cols-1 gap-4 mt-2 sm:grid-cols-1 md:grid-cols-3 lg:grid-cols-3">
             <div class="">
               <label class="block text-[13px] font-bold text-gray-600">Name</label>
-              <input type="text" v-model="curLead.ContactPerson2Name" placeholder="Enter Contact Number"
+              <input type="text" v-model="curLead.ContactPerson2Name" placeholder="Enter Name"
                 required
                 class="w-full p-2 mt-2 text-sm border rounded-md focus:ring-indigo-500 focus:border-indigo-500" />
               <!-- <p v-if="err.ContactPerson1Number" class="mt-2 text-sm text-red-600">
@@ -97,7 +97,7 @@
             </div>
             <div class="">
               <label class="block text-[13px] font-bold text-gray-600">Designation</label>
-              <input type="text" v-model="curLead.ContactPerson2Designation" placeholder="Enter Contact Number" @input="clearErrorOnInput('ContactPerson1Number')"
+              <input type="text" v-model="curLead.ContactPerson2Designation" placeholder="Enter Designation" @input="clearErrorOnInput('ContactPerson1Number')"
                 required
                 class="w-full p-2 mt-2 text-sm border rounded-md focus:ring-indigo-500 focus:border-indigo-500" />
               <!-- <p v-if="err.ContactPerson1Number" class="mt-2 text-sm text-red-600">

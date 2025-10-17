@@ -602,16 +602,15 @@ export default {
                 Data: JSON.stringify({
                   NoOfBanners: item.NoOfBanners,
                   NoOfLinks: item.NoOfLinks
-                }),
-                Installments: this.listInstallmentDetails.map((inst) => ({
+                })
+                
+              })),
+              Installments: this.listInstallmentDetails.map((inst) => ({
                   InstallmentAmount: Number(inst.fee) || 0,
                   InstallmentDate: inst.date
                 }))
-              }))
             };
-
             console.log("Payload to send:", JSON.stringify(payload, null, 2));
-        
             await this.orderStore.GetAddorder(payload, this.showLoading);
 
             // ✅ reset form after submit

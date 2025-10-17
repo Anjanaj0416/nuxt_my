@@ -82,7 +82,7 @@
                 </div>
               </transition>
             </div>
-            <div class="flex flex-col text-white text-xs sm:text-sm">
+            <div class="flex flex-col text-white text-xs sm:text-sm hidden sm:inline md:inline lg:inline">
               <p class="font-semibold truncate">Hi, {{ userStore.loggedUser.name }}</p>
               <p class="text-[10px] sm:text-xs opacity-80 truncate">{{ userStore.loggedUser.userName }}</p>
               <!-- <p class="text-[10px] sm:text-xs opacity-80 truncate">Role: {{ userStore.loggedUser.role || 'N/A' }}</p> -->

@@ -4,15 +4,11 @@
       <!-- Modal Header -->
       <div class="modal-header">
         <h2 class="modal-title">Payment Add</h2>
-        <!-- <button @click="closeModal" class="absolute z-50 p-2 text-white rounded-md  close-button">&times;</button> -->
         <closebtn @close="closeModal()" />
       </div>
-      <!-- Modal Content (scrollable) -->
       <div class="modal-content">
         <div class="form-content">
           <div class="grid grid-cols-1 gap-4 mt-1 sm:grid-cols-1 md:grid-cols-2">
-            <!-- {{ orderStore.initPaymentDetails.listReceiptType }} -->
-            <!-- {{ orderId }} -->
             <div>
               <label class="block text-sm font-bold text-gray-600">Select Installment</label>
               <div class="relative">
@@ -24,9 +20,9 @@
                   <option
                     v-for="(cat, index) in orderStore.initPaymentDetails.listInstallment"
                     :key="index"
-                    :value="cat"
+                    :value="cat.id"
                   >
-                    {{ cat }}
+                    {{ cat.value }}
                   </option>
                 </select>
               </div>
@@ -137,6 +133,8 @@
                 accept=""
               />
 
+        
+
               <!-- <input type="file" @change="handleFileUpload" /> -->
 
 
@@ -235,23 +233,19 @@ export default {
   },
   methods: {
     GetAttachedImage(file) {
+      console.log("Selected File:", file);
       if (file) {
         this.PaymentSlipImage = file;
       }
     },
 
     formatAmount() {
-      // Remove anything except numbers and dot
       let numericValue = this.formattedAmount.replace(/[^0-9.]/g, '');
-
-      // Split by dot to handle decimals
       let parts = numericValue.split('.');
-      let integerPart = parts[0].replace(/\B(?=(\d{3})+(?!\d))/g, ','); // Add comma for thousands
-      let decimalPart = parts[1] ? parts[1].slice(0, 2) : '00'; // Keep max 2 decimal digits
+      let integerPart = parts[0].replace(/\B(?=(\d{3})+(?!\d))/g, ','); 
+      let decimalPart = parts[1] ? parts[1].slice(0, 2) : '00';
 
       this.formattedAmount = decimalPart ? `${integerPart}.${decimalPart}` : `${integerPart}.00`;
-
-      // Store numeric value for backend
       this.Amount = parseFloat(this.formattedAmount.replace(/,/g, '')) || 0;
     },
 
@@ -275,15 +269,19 @@ export default {
       formData.append("BankName", this.BankName || "");
       formData.append("OriginalAdvanceReceiptNo", this.OriginalAdvanceReceiptNo || "");
       formData.append("OriginalAdvanceReceiptDate", this.OriginalAdvanceReceiptDate || "");
-      if (this.PaymentSlipImage) {
-        formData.append("PaymentSlipImage", this.PaymentSlipImage);
-      }
+      formData.append("PaymentSlipImage", this.PaymentSlipImage);
+
+
+
+      // for (let [key, value] of formData.entries()) {
+      //   console.log(`${key}: ${value}`);
+      // }
+      // console.log("File Name:", this.PaymentSlipImage);
+
 
       // Do the payment
       await this.orderStore.getDoPay(formData, this.showLoading);
 
-      // refresh list after add
-      await this.orderStore.GettPaymentDetails(this.orderId, this.showLoading);
 
       this.closeModal();
       
