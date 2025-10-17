@@ -128,8 +128,7 @@
       
       await this.qmsReportsStore.GetCommissionCalculationReport(req , this.$showLoading); 
     }
-  }
-,
+  },
     async beforeMount() {
       // if (this.loggeduser.granted.indexOf('workgroup') > -1 || this.loggeduser.usergroup == 'Supervisor' ) {
       // } else {
