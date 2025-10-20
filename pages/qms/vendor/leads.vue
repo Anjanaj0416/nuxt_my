@@ -116,7 +116,7 @@
       <div
         class="flex flex-row items-center gap-1 mt-1 mb-2 sm:flex-row sm:justify-end sm:mb-0 sm:mt-0 sm:-my-3"
       >
-       <LinkBtn  v-if=" lead.csoNo!=''"
+       <LinkBtn  v-if=" (lead.status === 'ProposalSubmited')"
           label="View Order"
           class="text-black dark:bg-transparent text-xs font-medium dark:text-blue-900"
           @click="GoToOrder(lead.vendorId)"

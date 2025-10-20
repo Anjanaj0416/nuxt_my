@@ -6,6 +6,7 @@
     <DebtorOSReport v-if="reportNo === 'R904'" />
     <CommissionCalculationReport v-if="reportNo === 'R905'" />
     <CollectionSheetReport v-if="reportNo === 'R906'"/>
+    <SalesKPIReport v-if="reportNo === 'R907'"/>
   </section>
 </template>
 
@@ -19,6 +20,7 @@ import UnsettledAdvancesReport from "~/components/qms/reports/UnsettledAdvancesR
 import DebtorOSReport from "~/components/qms/reports/DebtorOSReport.vue";
 import CommissionCalculationReport from "~/components/qms/reports/CommissionCalculationReport.vue";
 import CollectionSheetReport from '~/components/qms/reports/CollectionSheetReport.vue';
+import SalesKPIReport from '~/components/qms/reports/SalesKPIReport.vue';
 
 // get current route
 const route = useRoute();

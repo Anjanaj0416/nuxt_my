@@ -20,7 +20,7 @@ export const useWorkLoadStore = defineStore("workLoadStore", {
         const response = await axios.get(
           `${import.meta.env.VITE_API_URL}/hr/WorkLoad/GetWorkLoadCount`
         );
-        console.log("getWorkLoadCount response:",response);
+        // console.log("getWorkLoadCount response:",response);
 
         if (response.data.isSuccess) {
           if (response.data.data.data.length > 0) {

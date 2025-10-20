@@ -242,17 +242,32 @@
         this.selectedOrderId = this.orderId;
         this.isAddPayment = true;
       },
-      async handleInvoice(item) {
-        const amountPaid = Number(String(item.paidAmount).replace(/,/g, ''));
-        const req = {
-          orderNo: this.orderNo,
-          receiptNo: item.receiptNo,
-          amountPaid: amountPaid,
-          isTax: item.isTaxInvoicePrinted,
-        };
-        console.log(req);
-        this.orderStore.PrintInvoice(req, this.$showLoading);
-      },
+    async handleInvoice(item) {
+      const amountPaid = Number(String(item.paidAmount).replace(/,/g, ''));
+      const req = {
+        orderNo: this.orderNo,
+        receiptNo: item.receiptNo,
+        amountPaid: amountPaid,
+        isTax: item.isTaxInvoicePrinted,
+      };
+
+      const loading = this.$showLoading?.('');
+
+      try {
+        const response = await this.orderStore.PrintInvoice(req, this.$showLoading);
+
+        // Force Vue to detect deep changes (optional)
+        this.orderStore.PaymentDetails.listInstallment = [
+          ...this.orderStore.PaymentDetails.listInstallment
+        ];
+
+      } catch (error) {
+        console.error(error);
+        this.$toast?.('Failed to generate invoice', 'error');
+      } finally {
+        loading?.close();
+      }
+    },
     },
     async beforeMount() {
     },

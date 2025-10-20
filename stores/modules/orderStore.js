@@ -403,7 +403,7 @@ actions: {
 
 
     async PrintInvoice(req, showLoading) {
-      console.log('API-GetGenerateInvoicePdf')
+      console.log('API-GetGenerateInvoicePdf');
       console.log(JSON.stringify(req));
 
       const loading = showLoading?.('');
@@ -412,16 +412,34 @@ actions: {
           `${import.meta.env.VITE_API_URL}/qms/Order/GetGenerateInvoicePdf?orderNo=${req.orderNo}&receiptNo=${req.receiptNo}&amountPaid=${req.amountPaid}&isTax=${req.isTax}`,
           { responseType: 'blob' }
         );
+
+        // Open PDF in new tab
         const blob = new Blob([response.data], { type: "application/pdf" });
         const url = window.URL.createObjectURL(blob);
         window.open(url, "_blank");
+
+        // ✅ Update reactive UI (like you did in GetQuotationApprove)
+        const orderNo = req.orderNo;
+        const receiptNo = req.receiptNo;
+
+        // Find related payment item
+        for (const inst of this.PaymentDetails.listInstallment) {
+          const payment = inst.listPayment.find(p => p.receiptNo === receiptNo);
+          if (payment) {
+            payment.isInvoicePrinted = true;
+            payment.invoiceURL = `/qms/Order/Invoices/${receiptNo}.pdf`;
+          }
+        }
+
+        this.showToast?.('Invoice generated successfully', 'success');
       } catch (error) {
-        console.error(error);
-        this.showToast("Failed to load Employee data", "error");
+        console.error('PrintInvoice error:', error);
+        this.showToast('Failed to generate invoice', 'error');
       } finally {
         loading?.close();
       }
     },
+
 
     //Installment
     async GetInstallmentDetails(orderId, showLoading) {
@@ -513,28 +531,28 @@ actions: {
 
 
     //GetNotifications
-   async GetNotifications(userName, showLoading) {
-    console.log(GetNotifications);
-    
-  const loadingAlert = showLoading("Fetching notifications...");
-  try {
-    const response = await axios.get(
-      `${import.meta.env.VITE_API_URL}/qms/WorkFlowNotification/GetNotifications?empNo=${userName}`
-    );
-    loadingAlert.close();
+    async GetNotifications(userName, showLoading) {
+      // console.log( userName);
+      const loadingAlert = showLoading("");
+      try {
+        const response = await axios.get(
+          `https://mcleapi.dtl.lk/api/WorkFlowNotification/GetNotifications?empNo=${userName}`
+        );
+        loadingAlert.close();
+        console.log(response);
 
-    if (response.data.isSuccess) {
-      // Update notifications array
-      this.notifications = response.data.data.data || [];
-    } else {
-      this.showToast(response.data.message, "error");
-    }
-  } catch (error) {
-    loadingAlert.close();
-    this.showToast("Error while fetching notifications", "error");
-    console.error(error);
-  }
-},
+        if (response.data.isSuccess) {
+          // Update notifications array
+          this.notifications = response.data.data.data || [];
+        } else {
+          this.showToast(response.data.message, "error");
+        }
+      } catch (error) {
+        loadingAlert.close();
+        this.showToast("Error while fetching notifications", "error");
+        // console.error(error);
+      }
+    },
 
 
 

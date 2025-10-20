@@ -77,6 +77,11 @@
                             @click="$emit('close-sidebar')">
                             Collection Sheet Report
                         </router-link>
+                        <router-link to="/qms/reports?p=R907"
+                            class="block px-3 py-1 text-sm text-gray-400 rounded hover:text-white hover:bg-blue-700"
+                            @click="$emit('close-sidebar')">
+                            Sales KPI Report
+                        </router-link>
                     </div>
                 </div>
 
