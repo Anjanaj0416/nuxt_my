@@ -36,7 +36,10 @@
           <h3 class="text-sm font-semibold text-gray-700">Notifications</h3>
         </div>
 
-        {{ userName }}
+        <!-- {{ userName }} -->
+
+        <!-- <a class="underline" href="/qms/vendor/leads?id=cb5eaaa8-1113-4699-4de2-08de0ad24517">Lead Link</a><br></br> -->
+        <a class="underline" href="/workFlow?id=wf001">KPI Link</a>
 
         <ul class="max-h-60 overflow-y-auto">
           <li 

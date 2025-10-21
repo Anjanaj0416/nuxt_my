@@ -76,7 +76,7 @@
                 {{ err.receiptTypeError }}
                 </p>
             </div>
-            <div>
+            <div v-if="ReceiptType !== 'CASH-Cash Receipt'">
               <label class="block text-sm mb-2 font-bold text-gray-600">Bank Name</label>
               <div class="relative">
                 <select
@@ -93,9 +93,9 @@
                   </option>
                 </select>
               </div>
-               <p v-if="err.bankNameError" class="mt-2 text-sm text-red-600">
-                {{ err.bankNameError }}
-                </p>
+              <p v-if="err.bankNameError" class="mt-2 text-sm text-red-600">
+              {{ err.bankNameError }}
+              </p>
               
             </div>
             <div>
@@ -332,11 +332,15 @@ export default {
             this.err.receiptTypeError = "";
         }
 
-        if (!this.BankName) {
-            this.err.bankNameError = "Please enter Bank Name.";
+        if (this.ReceiptType !== 'CASH-Cash Receipt') {
+          if (!this.BankName) {
+            this.err.bankNameError = "Please select Bank Name.";
             isSuccess = false;
-        } else {
+          } else {
             this.err.bankNameError = "";
+          }
+        } else {
+          this.err.bankNameError = "";
         }
 
         if (!this.OriginalAdvanceReceiptNo) {

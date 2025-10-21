@@ -1,5 +1,3 @@
-<!-- https://flowbite.com/docs/components/avatar/ -->
-
 <template>
   <section class="justify-center min-h-screen px-4 mt-24 mb-20 lg:px-80">
     <div class="text-2xl uppercase">System Data</div>
@@ -130,19 +128,41 @@
         />
       </div>
     </div>
-
     <div class="cssCities" v-if="sectionId == 802">Add New Cities</div>
-    <!-- End QMS System Data -->
+    <div class="cssCities" v-if="sectionId == 803">
+      <p class="text-lg">Add Commission Rate</p>
+      <div class="grid grid-cols-1 md:grid-cols-2 gap-4 mb-4 mt-4">
+        <div>
+          <label class="block mb-1 text-sm font-medium text-gray-800">Service Type</label>
+          <input
+            v-model="serviceType"
+            type="text"
+            placeholder="Enter service type"
+            class="w-full border rounded-lg px-3 py-2 focus:ring-2 focus:ring-blue-500"
+          />
+        </div>
+
+        <div>
+          <label class="block mb-1 text-sm font-medium text-gray-800">Commission (%)</label>
+          <input
+            v-model="commissionRate"
+            type="number"
+            step="0.01"
+            placeholder="Enter rate"
+            class="w-full border rounded-lg px-3 py-2 focus:ring-2 focus:ring-blue-500"
+          />
+        </div>
+      </div>
+
+      <div class="flex justify-end">
+        <Button label="Add Rate" variant="primary" class="w-32 h-9" @click="AddCommissionRate" />
+      </div>
+    </div>
+
   </section>
-  <!-- <input type="text" oninput="this.value = this.value.replace(/[^0-9.]/g, '').replace(/(\..*?)\..*/g, '$1');" > -->
 </template>
 
 <script>
-//import textInput from '~/components/customcontrol/textinput'
-//// import * as Global from '@/assets/js/Global'
-////import * as myfilter from '@/plugins/myfilter'
-//import Swal from 'sweetalert2';
-//import { useSampleStore  } from '~/stores/modules/sampleStore';
 import fileuploader from "~/components/customcontrol/fileupload";
 import Button from "~/components/customcontrol/Button";
 
@@ -180,7 +200,12 @@ export default {
     const route = useRoute();
     this.sectionId = route.query.ps;
   },
-  watch: {},
+  watch: {
+    '$route.query.ps'(newVal) {
+      this.sectionId = newVal;
+    }
+  },
+
   computed: {
     // ...mapState({
     //   //loggeduser: (state) => state.loggeduser,

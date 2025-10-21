@@ -57,7 +57,7 @@
           <div class="mt-4 block text-[13px] font-bold text-gray-800">Contact Person 1</div>
           <div class="grid grid-cols-1 gap-4 mt-2 sm:grid-cols-1 md:grid-cols-3 lg:grid-cols-3">
             <div class="">
-              <label class="block text-[13px] font-bold text-gray-600">Name <span class="text-red-500">*</span></label>
+              <label class="block text-[13px] font-bold text-gray-600">Name </label>
               <input type="text" v-model="curLead.ContactPerson1Name" placeholder="Enter Name" @input="clearErrorOnInput('ContactPerson1Number')"
                 required
                 class="w-full p-2 mt-2 text-sm border rounded-md focus:ring-indigo-500 focus:border-indigo-500" />
@@ -66,7 +66,7 @@
               </p> -->
             </div>
             <div class="">
-              <label class="block text-[13px] font-bold text-gray-600">Designation <span class="text-red-500">*</span></label>
+              <label class="block text-[13px] font-bold text-gray-600">Designation</label>
               <input type="text" v-model="curLead.ContactPerson1Designation" placeholder="Enter Designation" 
                 required
                 class="w-full p-2 mt-2 text-sm border rounded-md focus:ring-indigo-500 focus:border-indigo-500" />
