@@ -64,7 +64,7 @@
       v-if="!dateFrom || !dateTo || !cso" 
       class="text-sm text-gray-500 italic text-center"
     >
-      Please select date range and Receipt Type.
+      Please Download Button Click.
     </p>
   </section>
 </template>
