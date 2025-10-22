@@ -152,7 +152,7 @@
         </div>
 
         <div v-else class="text-center text-gray-500 py-6 text-sm">
-            No payment history found.
+            Please Search
         </div>
     </div>
 
