@@ -168,6 +168,29 @@ export const useQmsReportsStore = defineStore("qmsReportsStore", {
       }
     },
 
+    async GetCommisionPaymentReport(req, showLoading) {
+      const loading = showLoading?.("");
+      try {
+        const { data } = await axios.get(
+          `${import.meta.env.VITE_API_URL}/qms/Report/GetCommisionPaymentReport?dtFrom=${req.dtFrom}&to=${req.dtTo}&keyword=${req.keyword}&csoNo=${req.csoNo}`,
+          { responseType: "blob" }
+        );
+
+        const url = URL.createObjectURL(new Blob([data], { type: "application/pdf" }));
+        const link = Object.assign(document.createElement("a"), {
+          href: url,
+          download: `Commision_Payment_Report_${req.dtFrom}_to_${req.dtTo}.pdf`,
+        });
+        link.click();
+        URL.revokeObjectURL(url);
+      } catch (err) {
+        console.error(err);
+        Swal.fire("Error", "Failed to load Collection Sheet Report", "error");
+      } finally {
+        loading?.close();
+      }
+    },
+
     showToast(message, type) {
       Swal.fire({
         icon: type,

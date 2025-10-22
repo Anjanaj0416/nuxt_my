@@ -82,15 +82,20 @@
                             @click="$emit('close-sidebar')">
                             Sales KPI Report
                         </router-link>
+                        <router-link to="/qms/reports?p=R908"
+                            class="block px-3 py-1 text-sm text-gray-400 rounded hover:text-white hover:bg-blue-700"
+                            @click="$emit('close-sidebar')">
+                            All Commision Payment Report
+                        </router-link>
                     </div>
                 </div>
 
-                 <!-- <router-link to="/qms/workFlow"
+                 <router-link to="/qms/commission"
                     v-if="userStore.loggedUser.granted.includes('su') || userStore.loggedUser.granted.includes('flo') || userStore.loggedUser.granted.includes('sso')"
                     class="block px-3 py-2 text-gray-300 rounded hover:text-white hover:bg-blue-800"
                     @click="$emit('close-sidebar')">
-                    <span>Work Flow</span>
-                </router-link> -->
+                    <span>Commission</span>
+                </router-link>
             </div>
         </div>
     </section>

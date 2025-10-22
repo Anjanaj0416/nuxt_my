@@ -15,6 +15,7 @@ export const useOrderStore = defineStore("orderStore", {
     listProposal : {},
     InstalllmentDetails: [],
     CommisionDetails: [],
+    RatesDetailsList: {},
   }),
   persist: true,
 
@@ -380,6 +381,10 @@ actions: {
     async getDoPay(formData, showLoading) {
       console.log('API-DoPayment');
 
+      //   for (let [key, value] of formData.entries()) {
+      //   console.log(`${key}: ${value}`);
+      // }
+
       const loadingAlert = showLoading("");
       try {
         const response = await axios.post(
@@ -539,7 +544,7 @@ actions: {
           `https://mcleapi.dtl.lk/api/WorkFlowNotification/GetNotifications?empNo=${userName}`
         );
         loadingAlert.close();
-        console.log(response);
+        // console.log(response);
 
         if (response.data.isSuccess) {
           // Update notifications array
@@ -553,6 +558,132 @@ actions: {
         // console.error(error);
       }
     },
+
+    //AddCommissionRate
+    async AddCommissionRate(request, showLoading) {
+      // console.log('API-SetCommissionRates');
+      // console.log(JSON.stringify(request, null, 2));
+      const loadingAlert = showLoading("");
+
+      try {
+        const response = await axios.post(
+          `${import.meta.env.VITE_API_URL}/qms/Admin/SetCommissionRates`,
+          request,
+        );
+
+        loadingAlert.close();
+
+        console.log(response);
+        if (response.data.isSuccess) {
+          this.showToast(response.data.message, 'success');
+          this.RatesDetailsList = response.data.data.data;
+          
+        } else {
+          console.error('Backend error:', response.data.message);
+          this.showToast(response.data.message || 'Unknown error', 'error');
+        }
+      } catch (error) {
+        loadingAlert.close();
+        console.error('API call failed:', error);
+        this.showToast('Error in server call', 'error');
+      }
+    },
+
+    //GetCommissionRateDetails
+    async GetCommissionRatesDetails(showLoading) {
+      console.log('API-GetCommissionRates')
+
+      const loadingAlert = showLoading("");
+      try {
+        const response = await axios.get(
+          `${import.meta.env.VITE_API_URL}/qms/Admin/GetCommissionRates`
+        );
+        console.log(response);
+        loadingAlert.close();
+        if (response.data.isSuccess) {
+           this.RatesDetailsList = response.data.data.data;
+          // this.showToast(response.data.message, "success");
+        } else {
+          this.showToast(response.data.message, "error");
+        }
+      } catch (error) {
+        this.showToast("Error while Installment Details", "error");
+      }
+    },
+
+    //AllCommisionPaymentDetails
+    async GetAllCommisionPaymentDetails(req,showLoading) {
+      console.log('API-GetCommissionRates')
+      const loadingAlert = showLoading("");
+
+      try {
+        const response = await axios.get(
+          `${import.meta.env.VITE_API_URL}/qms/Order/GetAllCommisionPaymentDetails?dtFrom=${req.dtFrom}&dtTo=${req.dtTo}&keyword=${req.keyword}&isTax=${req.csoNo}`,
+        );
+        console.log("EE,:",response);
+        loadingAlert.close();
+        if (response.data.isSuccess) {
+           this.CommisionPaymentDetails = response.data.data.data;
+          this.showToast(response.data.message, "success");
+        } else {
+          this.showToast(response.data.message, "error");
+        }
+      } catch (error) {
+        this.showToast("Error while Installment Details", "error");
+      }
+    },
+
+    
+    //InitCommisionPaid
+    async GetCommissionRatesDetails(showLoading) {
+      console.log('API-GetCommissionRates')
+
+      const loadingAlert = showLoading("");
+      try {
+        const response = await axios.get(
+          `${import.meta.env.VITE_API_URL}/qms/Order/InitCommisionPaid`
+        );
+        console.log(response);
+        loadingAlert.close();
+        if (response.data.isSuccess) {
+           this.InitCommision = response.data.data.data;
+          // this.showToast(response.data.message, "success");
+        } else {
+          this.showToast(response.data.message, "error");
+        }
+      } catch (error) {
+        this.showToast("Error while Installment Details", "error");
+      }
+    },
+
+    //UpdateAsCommisionPaid
+    async AddCommissionPayment(formData, showLoading) {
+      console.log('API-updateAsCommisionPaid');
+        for (let [key, value] of formData.entries()) {
+        console.log(`${key}: ${value}`);
+      }
+
+      const loadingAlert = showLoading("");
+      try {
+        const response = await axios.post(
+          `${import.meta.env.VITE_API_URL}/qms/Order/updateAsCommisionPaid`,
+          formData
+        );
+        console.log(response);
+        
+        loadingAlert.close();
+        if (response.data.isSuccess) {
+          this.showToast(response.data.message, "success");
+          this.PaymentDetails = response.data.data.data;
+        } else {
+          this.showToast(response.data.message, "error");
+        }
+      } catch (error) {
+        loadingAlert.close();
+        this.showToast(error.message || "Error during payment", "error");
+      }
+    },
+
 
 
 

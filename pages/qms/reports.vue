@@ -7,6 +7,8 @@
     <CommissionCalculationReport v-if="reportNo === 'R905'" />
     <CollectionSheetReport v-if="reportNo === 'R906'"/>
     <SalesKPIReport v-if="reportNo === 'R907'"/>
+    <AllCommisionPaymentReport v-if="reportNo === 'R908'"/>
+    
   </section>
 </template>
 
@@ -21,6 +23,7 @@ import DebtorOSReport from "~/components/qms/reports/DebtorOSReport.vue";
 import CommissionCalculationReport from "~/components/qms/reports/CommissionCalculationReport.vue";
 import CollectionSheetReport from '~/components/qms/reports/CollectionSheetReport.vue';
 import SalesKPIReport from '~/components/qms/reports/SalesKPIReport.vue';
+import AllCommisionPaymentReport from '~/components/qms/reports/AllCommisionPaymentReport.vue';
 
 // get current route
 const route = useRoute();
