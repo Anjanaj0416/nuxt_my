@@ -130,14 +130,8 @@
                 @GetSelectedImage="GetAttachedImage"
                 :image_file="imageroot"
                 ref="refApprovedImg"
-                accept=""
+                accept="image/*,application/pdf"
               />
-
-        
-
-              <!-- <input type="file" @change="handleFileUpload" /> -->
-
-
               <!-- accept="image/*,application/pdf"
                 accept="application/pdf"
                  accept="image/*" -->

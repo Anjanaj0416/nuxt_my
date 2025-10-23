@@ -35,7 +35,8 @@
                       <selectinput2 v-model="city" :cur_item="city" :selections="filteredCities" label="City"
                         :isDistrict="true" />
                     </div>
-                    <button @click="showAddCity" class="self-end confirm-button h-9">
+                    <button @click="showAddCity"  class="px-12 py-2 text-xs  bg-gradient-to-r from-blue-500 via-blue-600 to-blue-700 
+                        font-semibold transition text-white rounded-full shadow  focus:ring-2 focus:ring-blue-400 h-8">
                       Add City
                     </button>
                   </div>

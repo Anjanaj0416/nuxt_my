@@ -478,10 +478,17 @@
           </div>
         </div>
       </div>
-
+<!-- 
       <div class="modal-footer">
         <button @click="cancel" class="cancel-button">Cancel</button>
         <button @click="SaveEmployee" class="confirm-button">
+          Save Details
+        </button>
+      </div> -->
+      <div class=" modal-footer">
+        <button @click="cancel" class="px-12 py-2 text-xs  font-semibold transition bg-white text-gray-600 rounded-full shadow">Cancel</button>
+        <button @click="SaveEmployee"  class="px-12 py-2 text-xs  bg-gradient-to-r from-blue-500 via-blue-600 to-blue-700 
+                font-semibold transition text-white rounded-full shadow  focus:ring-2 focus:ring-blue-400">
           Save Details
         </button>
       </div>
@@ -1016,7 +1023,8 @@ export default {
   background: white;
   width: 80%;
   max-width: 800px;
-  border-radius: 8px;
+  border-radius: 1rem;
+   overflow: hidden;
   display: flex;
   flex-direction: column;
   height: 90%;
@@ -1024,7 +1032,8 @@ export default {
 }
 
 .modal-header {
-  background: #0b2145;
+  background: linear-gradient(to right, #1048c2, #0b2c88, #08236b); /* from-blue-600, via-blue-700, to-blue-900 */
+  backdrop-filter: blur(12px); /* backdrop-blur-md */
   padding: 15px;
   display: flex;
   justify-content: space-between;

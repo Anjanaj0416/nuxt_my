@@ -19,7 +19,7 @@
                     @GetSelectedImage="GetAttachedImage"
                     :image_file="imageroot"
                     ref="refApprovedImg"
-                    accept=""
+                    accept="image/*,application/pdf"
                   />
                 </div>
               </div>
@@ -100,7 +100,9 @@ export default {
       formData.append("PaymentSlipImage", this.slipImageFile);
 
 
-     console.log(formData);
+     for (let [key, value] of formData.entries()) {
+        console.log(`${key}: ${value}`);
+      }
      
       await this.orderStore.AddCommissionPayment(formData, this.showLoading);
 
