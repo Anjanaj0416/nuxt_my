@@ -116,7 +116,7 @@
       <div
         class="flex flex-row items-center gap-1 mt-1 mb-2 sm:flex-row sm:justify-end sm:mb-0 sm:mt-0 sm:-my-3"
       >
-       <LinkBtn  v-if=" lead.csoNo!=''"
+       <LinkBtn  v-if=" (lead.status === 'ProposalSubmited')"
           label="View Order"
           class="text-black dark:bg-transparent text-xs font-medium dark:text-blue-900"
           @click="GoToOrder(lead.vendorId)"
@@ -181,7 +181,7 @@
                 class="mt-1 text-xs text-gray-700 max-h-[150px] overflow-auto whitespace-pre-wrap break-words"
               ></p>
             </div>
-            <div v-if="(lead.status === 'Pending' || lead.status === 'Hold' || lead.status === 'Cancelled' || lead.status == 'Completed' || lead.status == 'CSOAssigned' || lead.status == 'CallLater' || lead.status == 'Called' || lead.status == 'Visited' || lead.status == 'VisitLater' || lead.status == 'Presented')">
+            <div v-if="(lead.tempStatus == 'CallLater'|| lead.tempStatus == 'VisitLater')">
               <h2 class="block text-xs font-semibold text-gray-600 mb-1">
                 Date and Time
               </h2>
@@ -388,9 +388,9 @@ export default {
         Id: lead.id,
         Comment: lead.newComment || '' ,
         Status: lead.tempStatus,
-        AppointmentDateTime: lead.appointmentDateTime || '',
-        isExisitngVisit: lead.blindNewVisit === true || 'false',
-        isBlindNewVisit: lead.exisitngVisit === true || 'false',
+        DateTime: lead.appointmentDateTime || '',
+        // isExisitngVisit: lead.blindNewVisit === true || 'false',
+        // isBlindNewVisit: lead.exisitngVisit === true || 'false',
       };
       this.newComment = lead.newComment;
 

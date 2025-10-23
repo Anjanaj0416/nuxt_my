@@ -18,7 +18,7 @@
                     </div>
                 </div>
                 <!-- Button Section (Right) -->
-                <div class="w-full md:w-auto">
+                <!-- <div class="w-full md:w-auto">
                     <div class="mr-2" >
                         <Button
                             class="w-26 px-4 py-1.5 mt-2 rounded-full text-xs transition"
@@ -32,7 +32,7 @@
                             @click="GoToPayment"
                         />
                     </div>
-                </div>
+                </div> -->
             </div>
 
           <!-- Payment History Section -->

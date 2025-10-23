@@ -1,31 +1,28 @@
 <template>
     <div class="modal-overlay" v-if="isOpen">
-        <div class="modal">
+      <div class="modal">
         <!-- Modal Header -->
         <div class="modal-header">
-            <h2 class="modal-title">Add Commision</h2>
+            <h2 class="modal-title">Add Commision Payement</h2>
             <closebtn @close="closeModal()" />
         </div>
   
         <div class="modal-content">
             <div class="form-content">
-                <div class="grid grid-cols-1 gap-4 mt-1 sm:grid-cols-1 md:grid-cols-2">
-                    <div>
-                        <label class="block text-sm font-bold text-gray-600">Paid Amount</label>
-                        <input 
-                            type="text"
-                            v-model="PaymentAmount"
-                            @input="formatAmount"
-                            placeholder="Enter pay amount"
-                            class="w-full p-2 mt-2 text-sm border rounded-md" 
-                        />
-                        <p v-if="err.paymentError" class="mt-2 text-sm text-red-600">
-                            {{ err.paymentError }}
-                            </p>
-                    </div>
+              <div class="grid grid-cols-1  gap-4 mt-1">
+                <div>
+                  <label class="block text-sm font-bold text-gray-600">Commision ID : {{ commisionID }}</label>
                 </div>
                 <div>
-            </div>
+                  <label class="block text-sm font-bold text-gray-600 mb-4">Upload Payement Slip</label>
+                  <imagepicker1
+                    @GetSelectedImage="GetAttachedImage"
+                    :image_file="imageroot"
+                    ref="refApprovedImg"
+                    accept="image/*,application/pdf"
+                  />
+                </div>
+              </div>
             </div>
         </div>
         <!-- End Modal Content -->
@@ -38,41 +35,34 @@
             Add
           </button>
         </div>
-        </div>
+      </div>
     </div>
 </template>
 
 <script>
 import { useOrderStore } from "~/stores/modules/orderStore";
-
 import closebtn from "~/components/customcontrol/modal_close_button";
-import Lable from "~/components/customcontrol/Lable";
-import Button from "~/components/customcontrol/Button";
-import LinkBtn from "~/components/customcontrol/Link";
+import imagepicker1 from "~/components/customcontrol/imagepicker1.vue";
 
 import Swal from "sweetalert2";
 
 export default {
-  components: { closebtn, LinkBtn, Lable, Button },
+  components: { closebtn, imagepicker1 },
   props: {
-    orderId: {
+    commisionID: {
       type: [String, Number],
       required: true,
     },
-     status: {  
-      type: String,
-      required: false,
-      default: ''
-    },
   },
+
   data() {
     return {
       imageroot: "",
-      PaymentAmount: "",
       isOpen: true,
-      err: { PaymentSlipImage: "" },
-      formattedAmount: '', 
-      Amount: 0, 
+      err: { slipImageFile: "" },
+
+      isPaid: true,
+      slipImageFile:"",
     };
   },
   async created() {
@@ -86,43 +76,35 @@ export default {
   computed: {
   },
   methods: {
+
+
     GetAttachedImage(file) {
+      console.log("Selected File:", file);
       if (file) {
-        this.PaymentSlipImage = file;
+        this.slipImageFile = file;
       }
     },
 
-    formatAmount() {
-    let numericValue = this.PaymentAmount.replace(/[^0-9.]/g, '');
-
-    let parts = numericValue.split('.');
-    let integerPart = parts[0].replace(/\B(?=(\d{3})+(?!\d))/g, ',');
-    let decimalPart = parts[1] ? parts[1].slice(0, 2) : '';
-    
-    this.PaymentAmount = decimalPart ? `${integerPart}.${decimalPart}` : integerPart;
-
-    this.Amount = parseFloat(numericValue) || 0;
-  },
 
     async SetApprove() {
-      if (!this.IsValidate()) return;
-
+ 
       const confirmed = await this.$showConfirm(
         "Are you sure to Save this Commision Payment?",
         "warning"
       );
 
       if (!confirmed.isConfirmed) return;
+      let formData = new FormData();
+      formData.append("commisionID", this.commisionID);
+      formData.append("isPaid", true);
+      formData.append("PaymentSlipImage", this.slipImageFile);
 
-      const request = new FormData();
-      request.append("OrderId", this.orderId || "");
-      request.append("PaymentAmount", this.Amount.toString() || "");
 
-      // for (let [key, value] of formData.entries()) {
-      //   console.log(`${key}: ${value}`);
-      // }
-
-      await this.orderStore.getDoCommisionPay(request, this.showLoading);
+     for (let [key, value] of formData.entries()) {
+        console.log(`${key}: ${value}`);
+      }
+     
+      await this.orderStore.AddCommissionPayment(formData, this.showLoading);
 
       // Do the payment
 
@@ -152,36 +134,7 @@ export default {
       this.$emit("close");
     },
 
-    async showConfirmAlert_ApproveQuotation(message, type) {
-      try {
-        const result = await Swal.fire({
-          icon: type,
-          title: message,
-          showConfirmButton: true,
-          toast: false,
-          customClass: {
-            popup: "custom-swal-popup",
-          },
-        });
-
-        if (result.isConfirmed) {
-          await this.quotationStore.GetAprrovingTheQuotation(
-            this.quotationStore.curQuotation.id,
-            this.PaymentSlipImage
-          );
-          await Swal.fire({
-            icon: "success",
-            title: "Saved!",
-            text: "Quotation Approved",
-            customClass: {
-              popup: "swal-custom-zindex",
-            },
-          });
-        }
-      } catch (error) {
-        console.error("Error displaying alert:", error);
-      }
-    },
+   
 
   },
   async beforeMount() {

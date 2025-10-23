@@ -24,9 +24,6 @@
             </div>
           </div>
 
-          
-          <!-- {{ orderStore.listOrder }} -->
-
         <div class="max-h-[660px] overflow-y-auto space-y-4">
           <div
             v-for="(order, index) in orderStore.listOrder"
@@ -38,6 +35,7 @@
               'border-red-300': order.orderStatus === 'Canceled'
             }"
           >
+          <!-- {{ order }} -->
             <!-- Top section: Details -->
             <div class="flex flex-col sm:flex-row sm:justify-between sm:items-center gap-2">
               <div class="flex flex-col text-center sm:text-left">
@@ -164,7 +162,7 @@
                     'bg-green-100 text-green-700': order.orderStatus === 'FullPaid',
                     'bg-yellow-100 text-yellow-700': order.orderStatus === 'Pending',
                     'bg-yellow-600 text-white': order.orderStatus === 'Active',
-                    'bg-red-100 text-red-700': order.orderStatus === 'Canceled'
+                    'bg-red-100 text-red-700': order.orderStatus === 'Cancelled'
                   }"
                   class="text-xs font-semibold px-2 py-0.5 rounded-full"
                 >

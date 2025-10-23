@@ -1,5 +1,3 @@
-<!-- https://flowbite.com/docs/components/avatar/ -->
-
 <template>
   <section class="justify-center min-h-screen px-4 mt-24 mb-20 lg:px-80">
     <div class="text-2xl uppercase">System Data</div>
@@ -130,24 +128,54 @@
         />
       </div>
     </div>
-
     <div class="cssCities" v-if="sectionId == 802">Add New Cities</div>
-    <!-- End QMS System Data -->
+    <div class="cssCities" v-if="sectionId == 803">
+      <p class="text-lg">Add Commission Rate</p>
+      <div class="grid grid-cols-1 md:grid-cols-2 gap-4 mb-4 mt-4">
+        <!-- Freelance -->
+        <div>
+          <label class="block mb-1 text-sm font-medium text-gray-800">
+            Freelance Commission (%)
+          </label>
+          <input
+            v-model="RatesDetailsList.commisonRateFreelance"
+            type="number"
+            step="0.01"
+            placeholder="Enter freelance rate"
+            class="w-full border rounded-lg px-3 py-2 focus:ring-2 focus:ring-blue-500"
+          />
+        </div>
+
+        <!-- Permanent -->
+        <div>
+          <label class="block mb-1 text-sm font-medium text-gray-800">
+            Permanent Commission (%)
+          </label>
+          <input
+            v-model="RatesDetailsList.commisonRatePermanent"
+            type="number"
+            step="0.01"
+            placeholder="Enter permanent rate"
+            class="w-full border rounded-lg px-3 py-2 focus:ring-2 focus:ring-blue-500"
+          />
+        </div>
+      </div>
+
+      <div class="flex justify-end">
+        <Button label="Add Rate" variant="primary" class="w-32 h-9"  @click="submitCommissionRate" />
+      </div>
+    </div>
+<!-- {{ orderStore.RatesDetailsList }} -->
   </section>
-  <!-- <input type="text" oninput="this.value = this.value.replace(/[^0-9.]/g, '').replace(/(\..*?)\..*/g, '$1');" > -->
 </template>
 
 <script>
-//import textInput from '~/components/customcontrol/textinput'
-//// import * as Global from '@/assets/js/Global'
-////import * as myfilter from '@/plugins/myfilter'
-//import Swal from 'sweetalert2';
-//import { useSampleStore  } from '~/stores/modules/sampleStore';
 import fileuploader from "~/components/customcontrol/fileupload";
 import Button from "~/components/customcontrol/Button";
 
 import { useUserStore } from "~/stores/modules/userStore";
 import { useQuotationStore } from "~/stores/modules/qms/quotationStore";
+import { useOrderStore } from "~/stores/modules/orderStore";
 
 definePageMeta({
   layout: "default",
@@ -166,21 +194,35 @@ export default {
       fileHybridLinks: "",
       fileBundleLinks: "",
       showLoading: null,
+      RatesDetailsList: {
+        commisonRateFreelance: '',
+        commisonRatePermanent: ''
+      }
     };
   },
   async mounted() {},
   async created() {
     this.showLoading = this.$showLoading;
     this.userStore = useUserStore();
+    this.orderStore = useOrderStore();
     this.quotationStore = useQuotationStore();
     await this.quotationStore.loadInitPackages(this.showLoading);
+
+    await this.orderStore.GetCommissionRatesDetails(this.showLoading);
+    this.RatesDetailsList = this.orderStore.RatesDetailsList;
+
 
     this.fileroot = this.userStore.loggedUser.resourceURLRoot;
 
     const route = useRoute();
     this.sectionId = route.query.ps;
   },
-  watch: {},
+  watch: {
+    '$route.query.ps'(newVal) {
+      this.sectionId = newVal;
+    }
+  },
+
   computed: {
     // ...mapState({
     //   //loggeduser: (state) => state.loggeduser,
@@ -305,6 +347,24 @@ export default {
           console.log("Action canceled");
         }
       });
+    },
+
+    async submitCommissionRate () {
+      const confirmed = await this.$showConfirm(
+        "Are you sure to Save this Payment?",
+        "warning"
+      );
+
+      if (!confirmed.isConfirmed) return;
+        let request = {
+          commisonRateFreelance: this.RatesDetailsList.commisonRateFreelance || "",
+          commisonRatePermanent: this.RatesDetailsList.commisonRatePermanent  || "",
+        }
+
+      // Do the payment
+      await this.orderStore.AddCommissionRate(request, this.showLoading);
+
+      
     },
 
     // async copyContent(value) {
