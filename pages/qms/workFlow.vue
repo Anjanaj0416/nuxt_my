@@ -1,7 +1,16 @@
 <template>
     <section >
-    <!-- <cso /> -->
-     <dtp/>
+        <div class="mt-6" v-if="userStore.loggedUser.granted === 'hradmin,,,'">
+          <dtp/>
+        </div>
+        <div class="mt-6" v-if="userStore.loggedUser.userGroup === 'Supervisor'">
+        </div>
+        <div class="mt-6" v-if="userStore.loggedUser.userGroup === 'Freelance'">
+          
+        </div>
+        <div class="mt-6" v-if="userStore.loggedUser.granted === 'sso'">
+
+        </div>
     </section>
     
 </template>

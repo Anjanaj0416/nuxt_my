@@ -5,10 +5,7 @@
         <div class="border border-gray-200 p-6 rounded-2xl shadow-md hover:shadow-lg transition-all duration-300 flex-1">
           <div class="flex items-center justify-between mb-6">
             <h2 class="text-2xl font-bold text-gray-800 flex items-center gap-2">
-              <svg class="w-6 h-6 text-blue-600" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
-                  <path stroke-linecap="round" stroke-linejoin="round" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" />
-              </svg>
-              Today Attendance Overview
+              🧑‍🤝‍🧑 Today Attendance Overview
             </h2>
           </div>
 
@@ -17,18 +14,20 @@
               <span class="font-bold text-blue-700">{{ dashboardStore.hrDashboardList.todayEmployeeSummary.totalEmployees }}</span>
           </p> -->
 
+          <!-- {{ dashboardStore.hrDashboardList }} -->
+
           <div class="grid grid-cols-1 sm:grid-cols-3 gap-4">
-            <div class="p-4 bg-white border border-gray-200 rounded-xl shadow-sm text-center">
+            <div class="p-4 bg-blue-50 border border-gray-200 rounded-xl shadow-sm text-center ">
               <h3 class="text-sm font-semibold text-gray-600 mb-1"> Overall Count Employees</h3>
-              <p class="text-4xl font-extrabold text-blue-800">{{ dashboardStore.hrDashboardList.todayEmployeeSummary.totalEmployees }}</p>
+              <p class="text-4xl font-extrabold  text-blue-800">{{ dashboardStore.hrDashboardList.todayEmployeeSummary.totalEmployees }}</p>
             </div>
             <!-- Present -->
-            <div class="p-4 bg-white border border-gray-200 rounded-xl shadow-sm text-center">
+            <div class="p-4 bg-blue-50 border border-gray-200 rounded-xl shadow-sm text-center">
               <h3 class="text-sm font-semibold text-gray-600 mb-1">Today Present Count</h3>
               <p class="text-4xl font-extrabold text-blue-800">{{ dashboardStore.hrDashboardList.todayEmployeeSummary.todayPresent }}</p>
             </div>
             <!-- Absent -->
-            <div class="p-4 bg-white border border-gray-200 rounded-xl shadow-sm text-center">
+            <div class="p-4 bg-blue-50 border border-gray-200 rounded-xl shadow-sm text-center">
               <h3 class="text-sm font-semibold text-gray-600 mb-1">Today Absent Count</h3>
               <p class="text-4xl font-extrabold text-blue-800">{{ dashboardStore.hrDashboardList.todayEmployeeSummary.todayAbsent }}</p>
             </div>
@@ -139,7 +138,12 @@
 
             <div class="p-4 bg-white border border-gray-200 rounded-xl shadow-sm text-center">
               <h3 class="text-sm font-semibold text-gray-600 mb-1">Total Worked Hours</h3>
-              <p class="text-4xl font-extrabold text-blue-800">{{ dashboardStore.hrDashboardList.monthTotalWorkedHours }}</p>
+              <p
+                class="text-4xl font-extrabold text-blue-800 w-full overflow-hidden text-ellipsis whitespace-nowrap"
+                title="Total Worked Hours"
+              >
+                {{ dashboardStore.hrDashboardList.monthTotalWorkedHours }}
+              </p>
             </div>
 
           </div>

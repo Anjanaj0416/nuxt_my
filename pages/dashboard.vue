@@ -6,15 +6,13 @@
 
       <section class="px-4 py-8 mt-14 lg:px-24">
         <!-- <h1 class="text-2xl font-bold mb-4">Dashboard</h1> -->
-        <div v-if="userStore.loggedUser.userGroup === 'Supervisor'" class="flex flex-row-reverse p-2">
+        <div v-if="userStore.loggedUser.granted === 'hradmin,,,'" class="flex flex-row-reverse p-2">
           <router-link to="hr/workgroup"
             class="relative flex items-center gap-2 px-3 py-2 sm:px-4 sm:py-2 bg-white rounded-lg shadow-md">
             <h2 class="text-sm  font-semibold text-gray-700">
               Work Group
             </h2>
             <span
-              class="absolute -top-1 -right-1 sm:-top-2 sm:-right-2 flex items-center justify-center w-5 h-5 sm:w-6 sm:h-6 text-[10px] sm:text-xs font-bold text-white bg-red-500 border-2 border-white rounded-full animate-bounce">
-              {{ workLoadStore.dashboard.workgroupjobcount }}
               class="absolute -top-1 -right-1 sm:-top-2 sm:-right-2 flex items-center justify-center w-5 h-5 sm:w-6 sm:h-6 text-[10px] sm:text-xs font-bold text-white bg-red-500 border-2 border-white rounded-full animate-bounce"
             >
               {{ workLoadStore.dashboard.workgroupjobcount || 0}}
@@ -147,11 +145,11 @@
             </div>
           </div>
         </div>
+        <!-- <hrDash /> -->
 
         <!-- {{ dashboardStore.hrDashboardList }} -->
 
-
-        <div class="mt-6" v-if="userStore.loggedUser.userGroup === 'HRAdmin'">
+        <div class="mt-6" v-if="userStore.loggedUser.granted === 'hradmin,,,'">
           <hrDash />
         </div>
         <div class="mt-6" v-if="userStore.loggedUser.userGroup === 'Supervisor'">
@@ -160,16 +158,16 @@
         <div class="mt-6" v-if="userStore.loggedUser.userGroup === 'Freelance'">
           <freelance />
         </div>
-        <div class="mt-6" v-if="userStore.loggedUser.userGroup === 'INTERN'">
+        <div class="mt-6" v-if="userStore.loggedUser.granted === 'sso'">
 
         </div>
-        <div class="mt-6" v-if="userStore.loggedUser.userGroup === 'executive'">
+        <div class="mt-6" v-if="userStore.loggedUser.granted === 'su'">
 
         </div>
         <div class="mt-6" v-if="userStore.loggedUser.userGroup === 'Finance'">
           <financeDash />
         </div>
-        <div class="mt-6" v-if="userStore.loggedUser.userGroup === 'Sales'">
+        <div class="mt-6" v-if="userStore.loggedUser.granted === 'cso'">
           <saleDash />
         </div>
 
