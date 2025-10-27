@@ -335,7 +335,7 @@
             </div> -->
             <div class="">
               <label class="block text-sm font-bold text-gray-600">Granted</label>
-              <inputtags_search class="" :arrItems="employeeStore.initEmployee.arrRoles"
+              <inputtags_search class="" :arrItems="employeeStore.initEmployee.arrGrantRoles"
                 @GetSelectedIds="GetSelectedGrants" ref="refGrant" />
               <p v-if="err.Granted" class="mt-2 text-sm text-red-600">
                 {{ err.Granted }}
