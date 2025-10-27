@@ -22,7 +22,7 @@
             </div>
         </div>
 
-        <p v-if="!selectedFromDate || !selectedToDate" class="text-sm text-gray-500 italic text-center">
+        <p v-if="!selectedDate" class="text-sm text-gray-500 italic text-center">
             Please select a date..
         </p>
     </section>
