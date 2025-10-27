@@ -349,11 +349,11 @@ export default {
       if (this.expandedRow === index) {
         this.expandedRow = null;
         this.filteredKpiId = null;
-        // this.$router.replace({ path: this.$route.path, query: {} });
+        this.$router.replace({ path: this.$route.path, query: {} });
       } else {
         this.expandedRow = index;
         this.filteredKpiId = id;
-        // this.$router.replace({ path: this.$route.path, query: { id } });
+        this.$router.replace({ path: this.$route.path, query: { id } });
       }
     }
 

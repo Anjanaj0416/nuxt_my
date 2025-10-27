@@ -4,7 +4,7 @@
       <!-- Modal Header -->
       <div class="modal-header">
         <h2 class="modal-title">
-          Crete KPI
+          Create KPI
         </h2>
         <closebtn @close="closeModal" />
       </div>
@@ -113,36 +113,70 @@
                     />
                 </div>
             </div>
-            <div v-if="selectedClient && selectedOption !== 'store'" class="mt-4 mb-16">
-                <h1 class="text-normal font-semibold text-gray-600">Banner and Product Box</h1>
+            <div v-if="selectedClient && selectedOption !== ''" class="mt-4 mb-4">
+                <h1 class="text-normal font-semibold text-gray-600"></h1>
                 <div class="grid grid-cols-1 gap-4 mt-4 sm:grid-cols-1 md:grid-cols-3 lg:grid-cols-3">
-                    <div>
-                        <h1 class="text-[13px] font-semibold text-gray-600">Category </h1>
-                        <input
-                            type="text"
-                            placeholder="Enter Category"
-                            class="mt-1 w-full p-2 text-sm border rounded-md bg-white focus:ring-2 focus:ring-indigo-400 focus:outline-none"
-                        />
-                    </div>
-                    <div>
-                        <h1 class="text-[13px] font-semibold text-gray-600">Web</h1>
-                        <p v-if="selectedClient?.id" class="text-sm text-gray-500 mt-0.5">{{ selectedClient?.id || 'None' }}</p>
-                        <input
-                            v-else
-                            type="text"
-                            placeholder="Enter Link"
-                            class="mt-1 w-full p-2 text-sm border rounded-md bg-white focus:ring-2 focus:ring-indigo-400 focus:outline-none"
-                        />
-                    </div>
+                  <div>
+                      <h1 class="text-[13px] font-semibold text-gray-600">Category </h1>
+                      <input
+                          type="text"
+                          placeholder="Enter Category"
+                          class="mt-1 w-full p-2 text-sm border rounded-md bg-white focus:ring-2 focus:ring-indigo-400 focus:outline-none"
+                      />
+                  </div>
+                  <div>
+                      <h1 class="text-[13px] font-semibold text-gray-600">Sub Category </h1>
+                      <input
+                          type="text"
+                          placeholder="Enter Category"
+                          class="mt-1 w-full p-2 text-sm border rounded-md bg-white focus:ring-2 focus:ring-indigo-400 focus:outline-none"
+                      />
+                  </div>
+                  <div>
+                      <h1 class="text-[13px] font-semibold text-gray-600">Sub SubCategory </h1>
+                      <input
+                          type="text"
+                          placeholder="Enter Category"
+                          class="mt-1 w-full p-2 text-sm border rounded-md bg-white focus:ring-2 focus:ring-indigo-400 focus:outline-none"
+                      />
+                  </div>
+                </div>
+            </div>
+            <div v-if="selectedClient && selectedOption !== ''" class="mt-4 mb-4">
+                <h1 class="text-normal font-semibold text-gray-600">Product Box</h1>
+                <div class="grid grid-cols-1 gap-4 mt-4 sm:grid-cols-1 md:grid-cols-3 lg:grid-cols-3">
+                  <div>
+                      <h1 class="text-[13px] font-semibold text-gray-600">Catalog </h1>
+                      <input
+                          type="text"
+                          placeholder="Enter Category"
+                          class="mt-1 w-full p-2 text-sm border rounded-md bg-white focus:ring-2 focus:ring-indigo-400 focus:outline-none"
+                      />
+                  </div>
+                </div>
+            </div>
+            <div v-if="selectedClient && selectedOption !== ''" class="mt-4 mb-16">
+                <h1 class="text-normal font-semibold text-gray-600">Banner</h1>
+                <div class="grid grid-cols-1 gap-4 mt-4 sm:grid-cols-1 md:grid-cols-3 lg:grid-cols-3">
+                  <div>
+                      <h1 class="text-[13px] font-semibold text-gray-600">Catalog </h1>
+                      <input
+                          type="text"
+                          placeholder="Enter Category"
+                          class="mt-1 w-full p-2 text-sm border rounded-md bg-white focus:ring-2 focus:ring-indigo-400 focus:outline-none"
+                      />
+                  </div>
+
                 </div>
             </div>
         </div>
       </div>
 
       <div class=" modal-footer">
-        <button @click="cancel" class="cancel-button">Cancel</button>
-        <button @click="SetVendorLead()" class="confirm-button">
-          Create
+        <button @click="cancel" class="px-12 py-2 text-xs  font-semibold transition bg-white text-gray-600 rounded-full shadow">Cancel</button>
+        <button @click="SetVendorLead()"  class="px-12 py-2 text-xs  bg-gradient-to-r from-blue-500 via-blue-600 to-blue-700 
+                font-semibold transition text-white rounded-full shadow  focus:ring-2 focus:ring-blue-400">
+          Save Lead Details
         </button>
       </div>
     </div>
@@ -155,10 +189,10 @@ import closebtn from "~/components/customcontrol/modal_close_button";
 import imagecomp from "~/components/customcontrol/imagepicker";
 import ImageLable from "~/components/customcontrol/ImageLable";
 import serach_Input from "~/components/customcontrol/SearchInput";
-import { useUserStore } from "~/stores/modules/userStore";
 import toggleoption from "~/components/customcontrol/toggleoption";
+
+import { useUserStore } from "~/stores/modules/userStore";
 import { useLeadStore } from "~/stores/modules/qms/leadStore";
-import { useQuotationStore } from "~/stores/modules/qms/quotationStore";
 
 
 definePageMeta({
@@ -180,29 +214,23 @@ export default {
         { label: "Only Banner", value: "banner" },
       ],
       err: {
-      job: "",
-      CompanyPhone: "",
-      Address: "",
-      ContactPhoneNo: "",
-    },
+        job: "",
+        CompanyPhone: "",
+        Address: "",
+        ContactPhoneNo: "",
+      },
     };
   },
-  computed: {
-
-    },
-
+  computed: {},
 
   async created() {
     this.userStore = useUserStore();
     this.leadStore = useLeadStore();
     this.curLead = this.leadStore.curLead;
 
-
     this.imageroot = this.userStore.loggedUser.resourceURLRoot;
     this.showLoading = this.$showLoading;
     this.showAlert = this.$showAlert;
-
-
   },
   mounted() {
 
@@ -327,17 +355,19 @@ export default {
 .modal {
   background: white;
   width: 80%;
-  max-width: 800px;
+  max-width: 900px;
   border-radius: 1rem;
   overflow: hidden;
   display: flex;
   flex-direction: column;
-  height: 80%;
+  height: 90%;
   position: relative;
 }
 
+
 .modal-header {
-  background: #0b2145;
+  background: linear-gradient(to right, #1048c2, #0b2c88, #08236b); 
+  backdrop-filter: blur(12px);
   padding: 15px;
   display: flex;
   justify-content: space-between;

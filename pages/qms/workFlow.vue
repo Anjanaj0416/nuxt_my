@@ -1,6 +1,7 @@
 <template>
     <section >
-        <div class="mt-6" v-if="userStore.loggedUser.granted === 'hradmin,,,'">
+      
+        <div class="mt-6" v-if="userStore.loggedUser.granted === 'hradmin,,,','sso'">
           <dtp/>
         </div>
         <div class="mt-6" v-if="userStore.loggedUser.userGroup === 'Supervisor'">
