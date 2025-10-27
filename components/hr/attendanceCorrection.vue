@@ -457,6 +457,7 @@ export default {
         },
 
         async getRefreshAttendance() {
+           
             const req = {
                 dtFrom: this.dtfrom,
                 dtTo: this.dtto,

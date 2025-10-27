@@ -22,6 +22,47 @@
     "wait": " මිනිත්තු රැදි සිටින්න",
     "view": "පෙන්වන්න",
     "book": "වෙන්කරන්න",
-    "contact": "සම්බන්ධ වන්න"
+    "contact": "සම්බන්ධ වන්න",
+
+    "collectionDetails": "ගැණුම් විස්තර",
+    "members": "සාමාජිකයින්",
+    "payments": "ගෙවීම්",
+    "dashboard": "ප්‍රධාන පුවරුව",
+    "collactionDetails": "ගැණුම් විස්තර",
+    "profile": "පැතිකඩ",
+    "AddMembersbtn" : "නව සාමාජිකයින් එකතු කරන්න",
+    "totalMembers" : "මුළු සාමාජිකයින්",
+    "activeM" : "ක්‍රියාකාරී",
+    "inactiveM" : "අක්‍රියයි",
+    "bankBalance" : "ගෙවීමට නියමිතයි",
+    "benefitsGiven": "පිරිනැමූ ප්‍රතිලාභ",
+    "monthlyStatus" : "මාසික තත්ත්වය",
+    "selectYear" : "වර්ෂය තෝරන්න",
+    "debit": "බැරෑකම",
+    "credit": "ණය",
+    "openingBankBalance": "ආරම්භික බැංකු ශේෂය",
+    "monthlyMemberShipFeePerMember": "සාමාජිකයෙකුට මාසික සාමාජික ගාස්තුව",
+    "totalMemberShipFeeCollection": "සාමාජික ගාස්තු එකතුව",
+    "benifitsPerDeath": "මරණයකට අදාළ ප්‍රතිලාභ",
+    "totalDeaths": "සම්පූර්ණ මරණ සංඛ්‍යාව",
+    "totalBenifitsGiven": "පිරිනැමූ සම්පූර්ණ ප්‍රතිලාභ",
+    "totalIncomeByGoodIssuing": "භාණ්ඩ නිකුතුවෙන් ලැබූ මුළු ආදායම",
+    "expenses": "වැය",
+    "closingBankBalance": "අවසන් බැංකු ශේෂය",
+    "expanees" : "ව්යදම්",
+    "deuttfs" : "ඩොයිෂ්ට්ස්",
+
+    "membershipPayments": "සාමාජික ගෙවීම්",
+
+
+    "attendence" : "පැමිණීම",
+    "name" : "නම",
+    "id" : "සාමාජික අංකය",
+    "joinDate" : "සම්බන්ධ වූ දිනය",
+    "phone" : "දුරකථන අංකය",
+    "status" : "තත්ත්වය",
+    "details" : "තොරතුරු",
+    "closeDetails" : "තොරතුරු ලුහුඩු කිරීම",
+    "addMembersDetails" : "නව සාමජික තොරතුරු "
 
 }

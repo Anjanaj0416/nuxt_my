@@ -46,6 +46,11 @@
                             @click="$emit('close-sidebar')">
                             Add Cities
                         </router-link>
+                        <router-link to="/qms/system?ps=803"
+                            class="block px-3 py-1 text-sm text-gray-400 rounded hover:text-white hover:bg-blue-700"
+                            @click="$emit('close-sidebar')">
+                            Add Commision Rate
+                        </router-link>
                     </div>
                 </div>
                 <div>

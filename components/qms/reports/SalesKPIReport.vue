@@ -1,9 +1,9 @@
 <template>
   <section class="justify-center min-h-screen px-4 mt-24 mb-20 lg:px-60">
-    <div class="text-2xl uppercase">Commission Calculation Report</div>
+    <div class="text-2xl uppercase">Sales KPI Report</div>
 
     <div class="bg-gradient-to-r from-blue-900 via-indigo-700 to-blue-600 shadow-md rounded-lg p-6 mt-10 mb-10 border text-white">
-      <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+      <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
         <div>
           <label class="block mb-1 font-medium">From</label>
           <input 
@@ -22,20 +22,6 @@
             class="w-full p-2 mt-2 text-sm border text-gray-900 rounded-md focus:ring-indigo-500 focus:border-indigo-500" 
           />
         </div>
-        <div>
-          <label class="block mb-1 font-medium">CSO No</label>
-          <select 
-            v-model="cso"
-            required
-            class="w-full p-2 mt-2 text-sm border text-gray-900 rounded-md focus:ring-indigo-500 focus:border-indigo-500"
-          >
-            <option disabled value="">Select a receipt type</option>
-            <option value="CSO001">Raveena</option>
-            <option value="CSO002">Indeepa</option>
-            <option value="CSO003">CSO003</option>
-            <option value="CSO004">CSO004</option>
-          </select>
-        </div>
       </div>
 
       <!-- Submit Button -->
@@ -51,10 +37,10 @@
     </div>
 
     <p 
-      v-if="!dateFrom || !dateTo || !cso" 
+      v-if="!dateFrom || !dateTo" 
       class="text-sm text-gray-500 italic text-center"
     >
-      Please select date range and Receipt Type.
+      Please select date range.
     </p>
   </section>
 </template>
@@ -94,7 +80,6 @@
         showLoading: null,
         dateFrom: '',
         dateTo: '',
-        cso: '',
        
       }
     },
@@ -113,29 +98,24 @@
     computed: {
   
     },
-  methods: {
-    async downloadReport() {
-      if (!this.dateFrom || !this.dateTo || !this.cso) {
-        this.$showToast('Please select both From and To dates and cso', 'warning');
-        return;
-      }
 
-      const req = {
-        from: this.dateFrom,
-        to: this.dateTo,
-        csoNo: this.cso
-      };
-      
-      await this.qmsReportsStore.GetCommissionCalculationReport(req , this.$showLoading); 
-    }
-  },
+    methods: {
+      async downloadReport() {
+        if (!this.dateFrom || !this.dateTo) {
+          this.$showToast('Please select both From and To dates', 'warning');
+          return;
+        }
+
+        const req = {
+          from: this.dateFrom,
+          to: this.dateTo,
+        };
+
+        await this.qmsReportsStore.GetSalesKPIReport(req, this.$showLoading);
+      }
+    },
     async beforeMount() {
-      // if (this.loggeduser.granted.indexOf('workgroup') > -1 || this.loggeduser.usergroup == 'Supervisor' ) {
-      // } else {
-      //   this.show_error('Not Allowed to access this page')
-      //   this.$router.push('/')
-      // }
-  
+
     },
     head() {
       return {

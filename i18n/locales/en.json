@@ -22,5 +22,62 @@
     "wait": " min wait",
     "view": "View",
     "book": "Book",
-    "contact": "Contact Us"
+    "contact": "Contact Us",
+
+    "collectionDetails": "Collection Details",
+    "members": "Members",
+    "payments": "Payments",
+    "dashboard": "Dashboard",
+    "collactionDetails": "Collaction Details",
+    "profile": "Profile",
+    "AddMembersbtn" : "AddMembers",
+    "totalMembers" : "Total Members",
+    "activeM" : "Active",
+    "inactiveM" : "InActive",
+    "bankBalance" : "Bank Balance",
+    "beneFitsGiven" : "Bene Fits Given",
+    "monthlyStatus" : "Monthly Status",
+    "selectYear" : "Select Year",
+    "debit": "Debit",
+    "credit": "Credit",
+    "expanees" : "Expanees",
+    "totalDeaths" : "Total Deaths",
+    "benefitsGiven" : "Bene Fits Given",
+    "openingBankBalance": "Opening Bank Balance",
+    "monthlyMemberShipFeePerMember": "Monthly Membership Fee Per Member",
+    "totalMemberShipFeeCollection": "Total Membership Fee Collection",
+    "benifitsPerDeath": "Benefits Per Death",
+    "totalBenifitsGiven": "Total Benefits Given",
+    "totalIncomeByGoodIssuing": "Total Income by Goods Issuing",
+    "expenses": "Expenses",
+    "closingBankBalance": "Closing Bank Balance",
+    "membershipPayments" : "Membership Payments",
+
+    "deuttfs" : "Deuttfs",
+    "attendence" : "Attendence",
+    "name" : "Name",
+    "id" : "ID",
+    "joinDate" : "Join Date",
+    "phone" : "Phone",
+    "status" : "Status",
+    "details" : "Details",
+    "closeDetails" : "Close Details"
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
 }

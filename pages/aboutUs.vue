@@ -46,12 +46,8 @@
 
                 <!-- Image / Illustration -->
                 <div class="mt-8 md:mt-0">
-                <img class="w-full dark:hidden rounded-lg shadow-lg"
-                    src="https://img.freepik.com/free-photo/medium-shot-colleagues-standing-together_23-2149345239.jpg?w=740&t=st=1743160714~exp=1743164314~hmac=f1bcc85bff38ffab31f80526fd55508e44741149a29b890c4ebf2061104d11ef"
-                    alt="Team collaborating image">
-                <img class="hidden w-full dark:block rounded-lg shadow-lg"
-                    src="https://flowbite.s3.amazonaws.com/blocks/marketing-ui/cta/cta-dashboard-mockup-dark.svg"
-                    alt="Dark mode dashboard image">
+                <img class="w-full rounded-lg shadow-lg" src="/assets/img/digitalTechLabs/aboutUs.jpg" alt="BtoB.LK Project Banner">
+                
                 </div>
 
             </div>

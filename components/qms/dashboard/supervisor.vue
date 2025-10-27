@@ -24,7 +24,7 @@
                 Present Today
               </h3>
               <p class="text-3xl font-extrabold text-blue-800">
-                {{ dashboardStore.attendance.present }}
+                {{ dashboardStore.hrDashboardList.todayEmployeeSummary.totalEmployees }}
               </p>
             </div>
             <div
@@ -32,7 +32,7 @@
             >
               <h3 class="text-sm font-semibold text-gray-600 mb-1">Absent</h3>
               <p class="text-3xl font-extrabold text-blue-800">
-                {{ dashboardStore.attendance.absent }}
+                {{ dashboardStore.hrDashboardList.todayEmployeeSummary.todayPresent }}
               </p>
             </div>
 
@@ -41,7 +41,7 @@
             >
               <h3 class="text-sm font-semibold text-gray-600 mb-1">On Leave</h3>
               <p class="text-3xl font-extrabold text-blue-800">
-                {{ dashboardStore.attendance.onLeave }}
+                {{ dashboardStore.hrDashboardList.todayEmployeeSummary.todayAbsent}}
               </p>
             </div>
           </div>
@@ -49,7 +49,7 @@
       </div>
 
       <!-- Project Status Summary -->
-      <div class="lg:col-span-2">
+      <!-- <div class="lg:col-span-2">
         <div
           class="bg-white border border-gray-200 p-6 rounded-2xl shadow-md hover:shadow-lg transition-all duration-300"
         >
@@ -117,7 +117,7 @@
             </div>
           </div>
         </div>
-      </div>
+      </div> -->
     </div>
 
     <!-- Team Performance & Pending Tasks -->

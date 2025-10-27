@@ -24,9 +24,6 @@
             </div>
           </div>
 
-          
-          <!-- {{ orderStore.listOrder }} -->
-
         <div class="max-h-[660px] overflow-y-auto space-y-4">
           <div
             v-for="(order, index) in orderStore.listOrder"
@@ -38,6 +35,7 @@
               'border-red-300': order.orderStatus === 'Canceled'
             }"
           >
+          <!-- {{ order }} -->
             <!-- Top section: Details -->
             <div class="flex flex-col sm:flex-row sm:justify-between sm:items-center gap-2">
               <div class="flex flex-col text-center sm:text-left">
@@ -162,9 +160,9 @@
                 <span 
                   :class="{
                     'bg-green-100 text-green-700': order.orderStatus === 'FullPaid',
-                    'bg-yellow-100 text-yellow-700': order.orderStatus === 'pending',
+                    'bg-yellow-100 text-yellow-700': order.orderStatus === 'Pending',
                     'bg-yellow-600 text-white': order.orderStatus === 'Active',
-                    'bg-red-100 text-red-700': order.orderStatus === 'Canceled'
+                    'bg-red-100 text-red-700': order.orderStatus === 'Cancelled'
                   }"
                   class="text-xs font-semibold px-2 py-0.5 rounded-full"
                 >
@@ -191,6 +189,19 @@
             <!-- Proposal Tab Buttons -->
             <div class="sm:flex sm:justify-end sm:gap-4">
               <div class="grid grid-cols-3 gap-2 sm:flex sm:gap-4 text-sm font-medium text-gray-500">
+              <!-- Time Line -->
+              <!-- <button
+                v-if="order.orderStatus !== 'Active'"
+                @click="toggleTab('TimeLine', order.id)"
+                :class="[
+                  'p-4 border-b-2 rounded-t-lg text-center',
+                  activeTab.type === 'TimeLine' && activeTab.orderId === order.id
+                    ? 'text-red-600 border-transparent'
+                    : 'text-blue-600 border-transparent hover:text-gray-600 hover:border-gray-300 '
+                ]"
+              >
+                {{ activeTab.type === 'TimeLine' && activeTab.orderId === order.id ? 'Close Time Line' : 'View Time Line' }}
+              </button> -->
               <!-- Commision -->
               <button
                 v-if="order.orderStatus !== 'Active'"
@@ -206,7 +217,7 @@
               </button>
 
               <!-- Installments -->
-              <button
+              <!-- <button
                 v-if="order.orderStatus !== 'Active'"
                 @click="toggleTab('Installment', order.id)"
                 :class="[
@@ -217,7 +228,7 @@
                 ]"
               >
                 {{ activeTab.type === 'Installment' && activeTab.orderId === order.id ? 'Close Installment' : 'View Installment' }}
-              </button>
+              </button> -->
 
            
               <!-- Payments -->
@@ -279,8 +290,11 @@
               <div v-if="activeTab.type === 'Installment' && activeTab.orderId === order.id">
                 <Installment :orderId="order.id" />
               </div>
-               <div v-if="activeTab.type === 'commission' && activeTab.orderId === order.id">
+              <div v-if="activeTab.type === 'commission' && activeTab.orderId === order.id">
                 <commision :orderId="order.id" />
+              </div>
+              <div v-if="activeTab.type === 'TimeLine' && activeTab.orderId === order.id">
+                <TimeLine :orderId="order.id" />
               </div>
             </div>
           </div>
@@ -316,6 +330,7 @@
   import ProposalUpload from './proposalUpload.vue';
   import Installment from '../invoice/installment.vue';
   import commision from './commision.vue';
+  import TimeLine from './timeLine.vue';
 
 
  definePageMeta({
@@ -325,7 +340,7 @@
    
   export default {
     
-    components: {LinkBtn,Button,selectinput2,Invoice,WorkFlow,AddOrder,SignedPIUpload,ProposalUpload,Installment,commision},
+    components: {LinkBtn,Button,selectinput2,Invoice,WorkFlow,AddOrder,SignedPIUpload,ProposalUpload,Installment,commision,TimeLine},
     props: ['id', 'customerRef'],
     data() {
       return {

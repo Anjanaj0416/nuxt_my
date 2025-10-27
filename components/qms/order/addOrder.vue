@@ -337,12 +337,17 @@
 
     <div class="flex justify-between items-center mt-6">
       <button
-        class="mt-4 px-4 py-2 bg-gray-200 hover:bg-gray-300 text-sm rounded"
+        class="px-12 py-2 text-xs border font-semibold transition bg-white text-gray-600 rounded-full shadow"
         @click="$emit('close')"
       >
         Back
       </button>
-      <button @click="GetPrint" class="confirm-button"> {{ isEditing ? "Update" : "Print" }}</button>
+      <button 
+        @click="GetPrint" 
+        class="px-12 py-2 text-xs bg-gradient-to-r from-blue-500 via-blue-600 to-blue-700 font-semibold transition text-white rounded-full shadow  focus:ring-2 focus:ring-indigo-400"
+      > 
+        {{ isEditing ? "Update" : "Print" }}
+      </button>
     </div>
 
   </section>
@@ -597,16 +602,15 @@ export default {
                 Data: JSON.stringify({
                   NoOfBanners: item.NoOfBanners,
                   NoOfLinks: item.NoOfLinks
-                }),
-                Installments: this.listInstallmentDetails.map((inst) => ({
+                })
+                
+              })),
+              Installments: this.listInstallmentDetails.map((inst) => ({
                   InstallmentAmount: Number(inst.fee) || 0,
                   InstallmentDate: inst.date
                 }))
-              }))
             };
-
             console.log("Payload to send:", JSON.stringify(payload, null, 2));
-        
             await this.orderStore.GetAddorder(payload, this.showLoading);
 
             // ✅ reset form after submit
@@ -658,10 +662,10 @@ export default {
         isValidated = false;
       }
       // Installment validation
-      // if (!this.listInstallmentDetails || this.listInstallmentDetails.length === 0) {
-      //   this.err.installmentError = "Please add at least one installment!";
-      //   isValidated = false;
-      // }
+      if (!this.listInstallmentDetails || this.listInstallmentDetails.length === 0) {
+        this.err.installmentError = "Please add at least one installment!";
+        isValidated = false;
+      }
       return isValidated;
     },
 
@@ -740,28 +744,6 @@ export default {
   position: absolute;
   bottom: 0;
   width: 100%;
-}
-
-button {
-  padding: 10px 20px;
-  border: none;
-  cursor: pointer;
-  font-size: 14px;
-  border-radius: 5px;
-}
-
-.cancel-button {
-  background: #e4e4e4;
-  color: #333;
-}
-
-.confirm-button {
-  background: #0b2145;
-  color: white;
-}
-
-button:hover {
-  opacity: 0.8;
 }
 
 @media (max-width: 768px) {

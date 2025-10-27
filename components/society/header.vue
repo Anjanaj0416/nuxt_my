@@ -2,37 +2,32 @@
   <section class="fixed top-0 z-10 w-full">
     <div class="flex bg-gray-100">
       <!-- Sidebar -->
-      <!-- <Sidebar :isOpen="isSidebarOpen" :loggedUser="userStore.loggedUser" @close-sidebar="isSidebarOpen = false" /> -->
-
-      <!-- Main Content -->
+      <Sidebar :isOpen="isSidebarOpen" :loggedUser="userStore.loggedUser" @close-sidebar="isSidebarOpen = false" />
       <div class="flex flex-col flex-1">
         <!-- Header -->
-        <header class="flex items-center justify-between h-16 p-4 shadow bg-teal-800">
-          <button @click="isSidebarOpen = !isSidebarOpen" class="absolute z-50 p-2 mr-4 text-white rounded-md top-4 left-4 ">
-            
-            <svg v-if="!isSidebarOpen" class="w-6 h-6 " fill="none" stroke="currentColor" stroke-width="2"
-              viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+        <header class="flex items-center justify-between h-16 p-4 shadow bg-[#232B37]">
+           <button @click="isSidebarOpen = !isSidebarOpen" class="absolute  p-2 rounded-full bg-white/20 hover:bg-white/30 
+            transition-all duration-300 top-4 left-4">
+            <svg v-if="!isSidebarOpen" class="w-6 h-6 text-white" fill="none" stroke="currentColor" stroke-width="2"
+              viewBox="0 0 24 24">
               <path stroke-linecap="round" stroke-linejoin="round" d="M4 6h16M4 12h16M4 18h16"></path>
             </svg>
           </button>
-          <NuxtLink to="/welfare">
-            <!-- Logo and Name -->
-               
+          <NuxtLink to="/welfare" class="flex items-center space-x-2 ml-14">
             <div class="flex items-center space-x-2 mx-8">
-              <!-- hide Img -->
-           
-              <img src="/assets/img/society/societyLogo.png" alt="Digital Tech Labs Logo"
-                class="h-auto  w-12" />
-                
-              <span class="text-sm lg:text-xl font-bold text-white">{{ userStore.loggedUser.userCompanyDetails.name }} - {{ userStore.loggedUser.userCompanyDetails.address1 }}  {{ userStore.loggedUser.userCompanyDetails.address3 }}</span>
+              <img src="/assets/img/society/societyLogo.png" alt="welfare"
+                class="h-auto  w-20" />
+              <!-- <span class="text-sm lg:text-normal font-bold text-white">{{ userStore.loggedUser.userCompanyDetails.name }} - {{ userStore.loggedUser.userCompanyDetails.address1 }}  {{ userStore.loggedUser.userCompanyDetails.address3 }}</span> -->
             </div>
           </NuxtLink>
-
+          <div class="flex flex-wrap text-white gap-2 text-sm md:text-base justify-center md:justify-start">
+            <button @click="switchLang('si')">සිංහල</button>
+            <button @click="switchLang('en')">| English |</button>
+            <button @click="switchLang('ta')">தமிழ்</button>
+          </div>
           <div class="relative flex items-center ml-3">
-
-            <span class="ml-2 text-white uppercase">{{ userStore.loggedUser.name }}<br><span class="text-xs">
-                {{ userStore.loggedUser.userName }}</span></span>
-
+            <span class="ml-2 text-white uppercase">{{ userStore.loggedUser.name }}<br>
+            <span class="text-xs">{{ userStore.loggedUser.userName }}</span></span>
             <!-- Profile Image Button -->
             <div>
               <button @click="isDropdownOpen = !isDropdownOpen"
@@ -56,24 +51,29 @@
                 </a>
               </div>
             </div>
-
-
           </div>
-
-
         </header>
       </div>
     </div>
 
     <profile v-if="isProfile" :profile="profileData" @close="isProfile = !isProfile" />
 
-
-
   </section>
 </template>
 
+<script setup>
+  import { useI18n } from 'vue-i18n'
+  const { locale } = useI18n()
+
+  const { t } = useI18n()
+
+  function switchLang(lang) {
+    locale.value = lang
+  }
+</script>
+
 <script>
-import Sidebar from "../sidemenu.vue";
+import Sidebar from './sidemenu.vue';
 import { useUserStore } from '~/stores/modules/userStore';
 import profile from "~/pages/user/profile.vue";
 

@@ -133,7 +133,7 @@ export const useDashboardStore  = defineStore('dashboard', {
     },
 
     async hrDashboard(showLoading) {
-      console.log("hrDashboard");
+      // console.log("hrDashboard");
       
       const loadingAlert = showLoading('') 
 
@@ -141,11 +141,13 @@ export const useDashboardStore  = defineStore('dashboard', {
       const response = await axios.get(
         `${import.meta.env.VITE_API_URL}/hr/HRCommon/GetEmployeeDashBoardDetails`);
 
-        console.log('response:', response);
+        // console.log('response:', response);
 
-        if (response.data.isSuccess) {
-          const hrData = response.data.data.data;
+          if (response.data.isSuccess) {
+           
+            const hrData = response.data.data.data;
 
+          
 
         this.hrDashboardList = {
           loggedUserName: hrData.loggedUserName,
@@ -178,7 +180,7 @@ export const useDashboardStore  = defineStore('dashboard', {
         const response = await axios.get(
           `${import.meta.env.VITE_API_URL}/QMS/Common/GetQMSDashboardDetails?period=${req.period}&csoNo=${req.csoNo}`
         );
-        console.log(response);
+        // console.log(response);
         loadingAlert.close();
         if (response.data.isSuccess) {
            this.salesDashboardList = response.data.data.data;
@@ -198,7 +200,7 @@ export const useDashboardStore  = defineStore('dashboard', {
         const response = await axios.get(
           `${import.meta.env.VITE_API_URL}/QMS/Common/GetQMSDashboardDetails?period=${req.period}&csoNo=${req.csoNo}`
         );
-        console.log(response);
+        // console.log(response);
         loadingAlert.close();
         if (response.data.isSuccess) {
            this.salesDashboardList = response.data.data.data;
@@ -218,7 +220,7 @@ export const useDashboardStore  = defineStore('dashboard', {
         const response = await axios.get(
           `${import.meta.env.VITE_API_URL}/QMS/Common/GetQMSDashboardDetails?period=${req.period}&csoNo=${req.csoNo}`
         );
-        console.log(response);
+        // console.log(response);
         loadingAlert.close();
         if (response.data.isSuccess) {
            this.salesDashboardList = response.data.data.data;
@@ -238,7 +240,7 @@ export const useDashboardStore  = defineStore('dashboard', {
         const response = await axios.get(
           `${import.meta.env.VITE_API_URL}/QMS/Common/GetQMSDashboardDetails?period=${req.period}&csoNo=${req.csoNo}`
         );
-        console.log(response);
+        // console.log(response);
         loadingAlert.close();
         if (response.data.isSuccess) {
            this.salesDashboardList = response.data.data.data;

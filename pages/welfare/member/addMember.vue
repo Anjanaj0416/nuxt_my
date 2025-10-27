@@ -1,17 +1,18 @@
 <template>
   <div class="modal-overlay" v-if="isOpen">
     <div class="modal">
+      <!-- Modal Header -->
       <div class="modal-header">
         <h2 class="modal-title">
-          Add Leads Details
+          {{ t('addMembersDetails') }}
         </h2>
         <closebtn @close="closeModal" />
       </div>
-      <!-- {{quotationStore.initQuotation.listVendors}} -->
+      <!-- Modal Content (scrollable) -->
       <div class="modal-content">
         <div class="form-content">
-
-          <div class="grid grid-cols-1 gap-4 my-4 sm:grid-cols-2 md:grid-cols-2">
+          <!-- <h3 class="font-bold">General Information</h3> -->
+          <!-- <div class="grid grid-cols-2 gap-4 mt-4 sm:grid-cols-2 md:grid-cols-2">
             <div class="">
               <label class="block text-sm font-bold text-gray-600">
                 Company Search <span class="text-red-500">*</span>
@@ -21,23 +22,23 @@
                 label=""
               />
             </div>
-          </div>
-          <div class="grid grid-cols-1 gap-4 my-4 sm:grid-cols-1 md:grid-cols-3 lg:grid-cols-3">
+          </div> -->
+          <div class="grid grid-cols-1 gap-4 mt-4 sm:grid-cols-1 md:grid-cols-3 lg:grid-cols-3">
             <div class="">
               <label class="block text-[13px] font-bold text-gray-600">
-                Company Name <span class="text-red-500">*</span>
+                Member Name <span class="text-red-500">*</span>
               </label>
-              <input type="text" v-model="curLead.CompanyName" placeholder="Enter Company Name" required @input="clearErrorOnInput('CompanyName')"
+              <input type="text" v-model="curLead.MemberName" placeholder="Enter company Name" required @input="clearErrorOnInput('MemberName')"
                 class="w-full p-2 mt-2 text-sm border rounded-md focus:ring-indigo-500 focus:border-indigo-500" />
-              <p v-if="err.CompanyName" class="mt-2 text-sm text-red-600">
-                {{ err.CompanyName }}
+              <p v-if="err.MemberName" class="mt-2 text-sm text-red-600">
+                {{ err.MemberName }}
               </p>
             </div>
             <div class="">
               <label class="block text-[13px] font-bold text-gray-600">
-                Address <span class="text-red-500">*</span>
+                Member Address <span class="text-red-500">*</span>
               </label>
-              <input type="text" v-model="curLead.Address" placeholder="Enter Address" required @input="clearErrorOnInput('Address')"
+              <input type="text" v-model="curLead.Address" placeholder="Enter Address Line 1" required @input="clearErrorOnInput('Address')"
                 class="w-full p-2 mt-2 text-sm border rounded-md focus:ring-indigo-500 focus:border-indigo-500" />
               <p v-if="err.Address" class="mt-2 text-sm text-red-600">
                 {{ err.Address }}
@@ -45,85 +46,47 @@
             </div>
             <div class="">
               <label class="block text-[13px] font-bold text-gray-600">
-                Contact Number <span class="text-red-500">*</span>
+                Member Contact Number <span class="text-red-500">*</span>
               </label>
-              <input type="tel" v-model="curLead.CompanyPhone" placeholder="Enter Company Contact Number" maxlength="10" @input="clearErrorOnInput('CompanyPhone')"
+              <input type="tel" v-model="curLead.CompanyPhone" placeholder="Enter Contact Number" maxlength="10" @input="clearErrorOnInput('CompanyPhone')"
                 class="w-full p-2 mt-2 text-[13px] border rounded-md focus:ring-indigo-500 focus:border-indigo-500" />
               <p v-if="err.CompanyPhone" class="mt-2 text-sm text-red-600">
                 {{ err.CompanyPhone }}
               </p>
             </div>
-          </div>
-          <div class="mt-4 block text-[13px] font-bold text-gray-800">Contact Person 1</div>
-          <div class="grid grid-cols-1 gap-4 mt-2 sm:grid-cols-1 md:grid-cols-3 lg:grid-cols-3">
             <div class="">
-              <label class="block text-[13px] font-bold text-gray-600">Name </label>
-              <input type="text" v-model="curLead.ContactPerson1Name" placeholder="Enter Name" @input="clearErrorOnInput('ContactPerson1Number')"
+              <label class="block text-[13px] font-bold text-gray-600">Date Of Birth <span class="text-red-500">*</span></label>
+              <input type="text" v-model="curLead.ContactPhoneNo" :maxlength="10" placeholder="Enter Contact Number" @input="clearErrorOnInput('ContactPhoneNo')"
                 required
                 class="w-full p-2 mt-2 text-sm border rounded-md focus:ring-indigo-500 focus:border-indigo-500" />
-              <!-- <p v-if="err.ContactPerson1Number" class="mt-2 text-sm text-red-600">
-                {{ err.ContactPerson1Number }}
-              </p> -->
-            </div>
-            <div class="">
-              <label class="block text-[13px] font-bold text-gray-600">Designation</label>
-              <input type="text" v-model="curLead.ContactPerson1Designation" placeholder="Enter Designation" 
-                required
-                class="w-full p-2 mt-2 text-sm border rounded-md focus:ring-indigo-500 focus:border-indigo-500" />
-              <!-- <p v-if="err.ContactPerson1Number" class="mt-2 text-sm text-red-600">
-                {{ err.ContactPerson1Number }}
-              </p> -->
-            </div>
-            <div class="">
-              <label class="block text-[13px] font-bold text-gray-600">Contact Number<span class="text-red-500">*</span></label>
-              <input type="text" v-model="curLead.ContactPerson1Number" :maxlength="10" placeholder="Enter Contact Number" @input="clearErrorOnInput('ContactPerson1Number')"
-                required
-                class="w-full p-2 mt-2 text-sm border rounded-md focus:ring-indigo-500 focus:border-indigo-500" />
-              <p v-if="err.ContactPerson1Number" class="mt-2 text-sm text-red-600">
-                {{ err.ContactPerson1Number }}
+              <p v-if="err.ContactPhoneNo" class="mt-2 text-sm text-red-600">
+                {{ err.ContactPhoneNo }}
               </p>
-            </div>
-          </div>
-          <div class="mt-4 block text-[13px] font-bold text-gray-800">Contact Person 2</div>
-          <div class="grid grid-cols-1 gap-4 mt-2 sm:grid-cols-1 md:grid-cols-3 lg:grid-cols-3">
-            <div class="">
-              <label class="block text-[13px] font-bold text-gray-600">Name</label>
-              <input type="text" v-model="curLead.ContactPerson2Name" placeholder="Enter Name"
-                required
-                class="w-full p-2 mt-2 text-sm border rounded-md focus:ring-indigo-500 focus:border-indigo-500" />
-              <!-- <p v-if="err.ContactPerson1Number" class="mt-2 text-sm text-red-600">
-                {{ err.ContactPerson1Number }}
-              </p> -->
-            </div>
-            <div class="">
-              <label class="block text-[13px] font-bold text-gray-600">Designation</label>
-              <input type="text" v-model="curLead.ContactPerson2Designation" placeholder="Enter Designation" @input="clearErrorOnInput('ContactPerson1Number')"
-                required
-                class="w-full p-2 mt-2 text-sm border rounded-md focus:ring-indigo-500 focus:border-indigo-500" />
-              <!-- <p v-if="err.ContactPerson1Number" class="mt-2 text-sm text-red-600">
-                {{ err.ContactPerson1Number }}
-              </p> -->
-            </div>
-            <div class="">
-              <label class="block text-[13px] font-bold text-gray-600">Contact Number</label>
-              <input type="text" v-model="curLead.ContactPerson2Number" :maxlength="10" placeholder="Enter Contact Number" @input="clearErrorOnInput('ContactPerson1Number')"
-                required
-                class="w-full p-2 mt-2 text-sm border rounded-md focus:ring-indigo-500 focus:border-indigo-500" />
             </div>
           </div>
         </div>
       </div>
 
       <div class=" modal-footer">
-        <button @click="cancel" class="px-12 py-2 text-xs  font-semibold transition bg-white text-gray-600 rounded-full shadow">Cancel</button>
-        <button @click="SetVendorLead()"  class="px-12 py-2 text-xs  bg-gradient-to-r from-blue-500 via-blue-600 to-blue-700 
-                font-semibold transition text-white rounded-full shadow  focus:ring-2 focus:ring-blue-400">
+        <button @click="cancel" class="cancel-button">Cancel</button>
+        <button @click="SetVendorLead()"  class="px-5 py-2 text-xs font-semibold transition bg-[#232B37] text-white rounded-md shadow hover:gray-400 focus:ring-2 focus:ring-indigo-400">
           Save Lead Details
         </button>
       </div>
     </div>
   </div>
 </template>
+
+<script setup>
+  import { useI18n } from 'vue-i18n'
+  const { locale } = useI18n()
+
+  const { t } = useI18n()
+
+  function switchLang(lang) {
+    locale.value = lang
+  }
+</script>
 
 <script>
 import { reactive, computed } from "vue";
@@ -146,25 +109,17 @@ export default {
     return {
       isOpen: true,
       curLead: {
-        id: "00000000-0000-0000-0000-000000000000",
-        CompanyName: "",
+        MemberName: "",
         Address: "",
         CompanyPhone: "",
-        ContactPerson1Name: "",
-        ContactPerson1Designation: "",
-        ContactPerson1Number: "",
-        ContactPerson1Email: "",
-        ContactPerson2Name: "",
-        ContactPerson2Designation: "",
-        ContactPerson2Number: "",
-        ContactPerson2Email: "",
-        IsBlindVisit: false
+        ContactPhoneNo: "",
+
       },
       err: {
-        CompanyName: "",
+        MemberName: "",
         Address: "",
         CompanyPhone: "",
-        ContactPerson1Number: "",
+        ContactPhoneNo: "",
       },
       imageroot: "",
       showLoading: null,
@@ -245,22 +200,12 @@ export default {
 
     clearCurLead() {
       this.curLead = {
-        id: "00000000-0000-0000-0000-000000000000",
-        CompanyName: "",
+        MemberName: "",
         Address: "",
         CompanyPhone: "",
-        ContactPerson1Name: "",
-        ContactPerson1Designation: "",
-        ContactPerson1Number: "",
-        ContactPerson1Email: "",
-        ContactPerson2Name: "",
-        ContactPerson2Designation: "",
-        ContactPerson2Number: "",
-        ContactPerson2Email: "",
-        IsBlindVisit: false
+        ContactPhoneNo: "",
       };
     },
-
 
     cancel() {
       this.clearErr();
@@ -275,43 +220,30 @@ export default {
 
 
     SetVendorLead() {
-      if (!this.IsValidate()) return;
-
-      this.$showConfirm("Are you sure to Save this Lead?", "warning")
-        .then(async (result) => {
+     
+      if (this.IsValidate()) {
+       
+        this.$showConfirm(
+          "Are you sure to Save this Lead?",
+          "warning"
+        ).then(async (result) => {
           if (result.isConfirmed) {
-
-            // Build request in your existing style
-            let request = {
-              id: "00000000-0000-0000-0000-000000000000",
-              CompanyName: this.curLead.CompanyName || "",
-              Address: this.curLead.Address || "",
-              CompanyPhone: this.curLead.CompanyPhone || "",
-              ContactPhoneNo: this.curLead.ContactPhoneNo  || "",
-              ContactPerson1Name: this.curLead.ContactPerson1Name || "",
-              ContactPerson1Designation: this.curLead.ContactPerson1Designation || "",
-              ContactPerson1Number: this.curLead.ContactPerson1Number || "",
-              ContactPerson1Email: this.curLead.ContactPerson1Email || "",
-              ContactPerson2Name : this.curLead.ContactPerson2Name || "",
-              ContactPerson2Designation: this.curLead.ContactPerson2Designation || "",
-              ContactPerson2Number: this.curLead.ContactPerson2Number || "",
-              ContactPerson2Email: this.curLead.ContactPerson2Email || "",
-              Medium: "office"
-            };
-
-            // Send to backend
-            console.log(request);
-            await this.leadStore.SetVendorLead(request, this.showLoading, this.showAlert);
-
-            this.leadStore.clearCurLead();
-            this.closeModal();
-            this.clearErr();
+            if (this.curLead.Medium === undefined) {
+              this.curLead.Medium = "Office";
+            }
+            console.log(JSON.stringify(this.curLead));
+            await this.leadStore.SetVendorLead(this.curLead, this.showLoading, this.showAlert)
+           
           } else {
             console.log("Action canceled");
           }
+          this.leadStore.clearCurLead();
+          this.closeModal();
+          this.clearErr();
         });
+       
+      }
     },
-
 
     IsValidate() {
       this.clearErr();
@@ -329,8 +261,8 @@ export default {
       //   }
       // }
 
-      if (!this.curLead.CompanyName) {
-        this.err.CompanyName = "Please Enter Company Name!";
+      if (!this.curLead.MemberName) {
+        this.err.MemberName = "Please Enter Company Name!";
         IsValidate = false;
       }
 
@@ -351,13 +283,13 @@ export default {
         IsValidate = false;
       }
 
-      if (!this.curLead.ContactPerson1Number) {
-        this.err.ContactPerson1Number = "Please Enter Contact Person Number!";
+      if (!this.curLead.ContactPhoneNo) {
+        this.err.ContactPhoneNo = "Please Enter Contact Person Number!";
         IsValidate = false;
       } else {
         const contactNoRegex1 = /^[0-9]{10}$/;
-        if (!contactNoRegex1.test(this.curLead.ContactPerson1Number)) {
-          this.err.ContactPerson1Number = "Please Enter a valid 10-digit Contact Person Number!";
+        if (!contactNoRegex1.test(this.curLead.ContactPhoneNo)) {
+          this.err.ContactPhoneNo = "Please Enter a valid 10-digit Contact Person Number!";
           IsValidate = false;
         }
       }
@@ -398,12 +330,12 @@ export default {
   overflow: hidden;
   display: flex;
   flex-direction: column;
-  height: 80%;
+  height: 70%;
   position: relative;
 }
 
 .modal-header {
-  background: linear-gradient(to right, #1048c2, #0b2c88, #08236b); /* from-blue-600, via-blue-700, to-blue-900 */
+  background: #232B37; /* from-blue-600, via-blue-700, to-blue-900 */
   backdrop-filter: blur(12px); /* backdrop-blur-md */
   padding: 15px;
   display: flex;
@@ -435,6 +367,14 @@ export default {
   width: 100%;
 }
 
+button {
+  padding: 10px 20px;
+  border: none;
+  cursor: pointer;
+  font-size: 14px;
+  border-radius: 5px;
+}
+
 .cancel-button {
   background: #e4e4e4;
   color: #333;
@@ -443,6 +383,10 @@ export default {
 .confirm-button {
   background: #0b2145;
   color: white;
+}
+
+button:hover {
+  opaCity: 0.8;
 }
 
 @media (max-width: 768px) {
@@ -462,8 +406,6 @@ export default {
   }
 
   .modal-footer {
-    position: sticky;
-    bottom: 0;
     padding: 10px;
   }
 }

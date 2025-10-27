@@ -1,9 +1,8 @@
 <template>
   <section class="justify-center min-h-screen px-4 mt-24 mb-20 lg:px-60">
-    <div class="text-2xl uppercase">Commission Calculation Report</div>
-
+    <div class="text-2xl uppercase">All Commision Payment Report</div>
     <div class="bg-gradient-to-r from-blue-900 via-indigo-700 to-blue-600 shadow-md rounded-lg p-6 mt-10 mb-10 border text-white">
-      <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+      <div class="grid grid-cols-1 md:grid-cols-4 gap-4">
         <div>
           <label class="block mb-1 font-medium">From</label>
           <input 
@@ -23,18 +22,29 @@
           />
         </div>
         <div>
-          <label class="block mb-1 font-medium">CSO No</label>
-          <select 
-            v-model="cso"
+          <label class="block mb-1 font-medium">Keyword</label>
+          <input 
+            type="data" 
+            v-model="keyword"
             required
-            class="w-full p-2 mt-2 text-sm border text-gray-900 rounded-md focus:ring-indigo-500 focus:border-indigo-500"
-          >
-            <option disabled value="">Select a receipt type</option>
-            <option value="CSO001">Raveena</option>
-            <option value="CSO002">Indeepa</option>
-            <option value="CSO003">CSO003</option>
-            <option value="CSO004">CSO004</option>
-          </select>
+            class="w-full p-2 mt-2 text-sm border text-gray-900 rounded-md focus:ring-indigo-500 focus:border-indigo-500" 
+          />
+        </div>
+        <div>
+          <label class="block mb-1 font-medium">CSO No</label>
+          <select
+                v-model="csoNo"
+                class="w-full border border-gray-300 text-black text-sm rounded px-3 py-2 mt-2"
+            >
+                <option disabled selected value="">Select cso</option>
+                <option
+                    v-for="cat in orderStore.InitCommision"
+                    :key="cat.id"
+                    :value="cat.id"
+                >
+                    {{ cat.value }}
+                </option>
+            </select>
         </div>
       </div>
 
@@ -54,7 +64,7 @@
       v-if="!dateFrom || !dateTo || !cso" 
       class="text-sm text-gray-500 italic text-center"
     >
-      Please select date range and Receipt Type.
+      Please Download Button Click.
     </p>
   </section>
 </template>
@@ -66,13 +76,10 @@
 
  import { useRoute } from 'vue-router'
  import { useUserStore } from "~/stores/modules/userStore";
-//  import { useQuotationStore } from '~/stores/modules/qms/quotationStore';
+
  import { useQmsReportsStore } from '~/stores/modules/qms/qmsReportsStore';
- 
- import LinkBtn from "~/components/customcontrol/Link";
-  import Button from "~/components/customcontrol/Button";
-  import selectinput2 from "~/components/customcontrol/selectinput2";
-  import SearchInput from '~/components/customcontrol/SearchInput.vue';
+ import { useOrderStore } from '~/stores/modules/orderStore';
+
 
  definePageMeta({
     layout: 'default',   
@@ -82,19 +89,17 @@
   export default {
     
     components: {
-      LinkBtn,
-      Button,
-      selectinput2,
-      SearchInput
+
     },
     props:[''],
     data() {
       return {
         imageroot: "",
         showLoading: null,
-        dateFrom: '',
-        dateTo: '',
-        cso: '',
+         dtFrom: "",
+            dtTo: "",
+            keyword: "",
+            csoNo: "",
        
       }
     },
@@ -102,12 +107,16 @@
      
     },
     async created() {
-      // this.quotationStore = useQuotationStore();
       this.qmsReportsStore = useQmsReportsStore();
+      this.orderStore = useOrderStore();
 
       this.userStore = useUserStore();
       this.showLoading = this.$showLoading;
       this.imageroot = this.userStore.loggedUser.resourceURLRoot;
+
+      await this.orderStore.GetCommissionRatesDetails(this.showLoading);
+      this.InitCommision = this.orderStore.InitCommision;
+  
     },
     watch: {},
     computed: {
@@ -115,18 +124,14 @@
     },
   methods: {
     async downloadReport() {
-      if (!this.dateFrom || !this.dateTo || !this.cso) {
-        this.$showToast('Please select both From and To dates and cso', 'warning');
-        return;
-      }
-
       const req = {
-        from: this.dateFrom,
-        to: this.dateTo,
-        csoNo: this.cso
+        dtFrom: this.dateFrom || '',
+        dtTo: this.dateTo || '',
+        keyword: this.keyword || '',
+        csoNo: this.csoNo || '',
       };
       
-      await this.qmsReportsStore.GetCommissionCalculationReport(req , this.$showLoading); 
+      await this.qmsReportsStore.GetCommisionPaymentReport(req , this.$showLoading); 
     }
   },
     async beforeMount() {

@@ -44,26 +44,28 @@ export default defineNuxtPlugin(nuxtApp => {
   nuxtApp.provide('showConfirm', (message, icon = 'warning') => {
     return Swal.fire({
       title: message,
-      customClass: {
-        popup: 'custom-zindex'
-      },
       icon: icon,  // 'warning', 'info', 'question', etc.
-      customClass: {
-        popup: 'custom-zindex'
-      },
-      showCancelButton: true, // Shows the Cancel button
+      showCancelButton: true,
       confirmButtonText: 'Yes',
       cancelButtonText: 'No',
       reverseButtons: true, // Reverses the order of the buttons (No, Yes)
+
+      // Custom button colors
+      confirmButtonColor: '#3B82F6', // Tailwind blue-500 gradient start
+      cancelButtonColor: '#F3F4F6',  // Tailwind gray-200 for "Back"
+      
+      customClass: {
+        popup: 'custom-zindex rounded-xl p-4 sm:p-6 shadow-lg max-w-xs sm:max-w-sm text-center',
+        title: 'text-sm sm:text-lg font-semibold text-gray-600 mb-2',
+        htmlContainer: 'mt-2 mb-3 sm:mb-4 text-xs sm:text-sm', 
+        confirmButton: 'px-10 py-2 text-xs sm:text-sm font-semibold rounded-full shadow text-white hover:scale-[1.03] transition-all bg-gradient-to-r from-blue-500 via-blue-600 to-blue-700',
+        cancelButton: 'px-10 py-2 text-xs sm:text-sm font-semibold rounded-full shadow text-gray-600 bg-gray-200 hover:bg-gray-300 hover:scale-[1.03] transition-all',
+      },
+      background: '#ffffff', // white popup
+      backdrop: 'rgba(0,0,0,0.4)', // semi-transparent overlay
     });
-    // .then((result) => {
-    //   if (result.isConfirmed) {
-    //     return true; // User clicked 'Yes'
-    //   } else {
-    //     return false; // User clicked 'No'
-    //   }
-    // });
   });
+
 
   //UseCase
   // this.$showInput('Please enter your name:').then((input) => {
@@ -127,7 +129,6 @@ export default defineNuxtPlugin(nuxtApp => {
   nuxtApp.provide('showLoading', (message = 'Loading...') => {
     return Swal.fire({
       title: '',
-      // ${lodingGif}
       html: `
         <div style="
           padding: 30px 40px;
@@ -139,7 +140,7 @@ export default defineNuxtPlugin(nuxtApp => {
           gap: 20px;
           min-width: 200px;
         ">
-          <img src="" alt="Loading..." style="width: 100px; height: 100px;" />
+          <img src="${lodingGif}" alt="Loading..." style="width: 100px; height: 100px;" />
         </div>
       `,
       background: 'transparent', // So Swal's background is transparent; your container sets bg

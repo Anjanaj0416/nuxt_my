@@ -359,6 +359,16 @@
                 NO data
               </span>
             </div>
+            <div>
+              <label class="block text-sm font-bold text-gray-600 mb-1">Bank book image</label>
+              <div class="relative mt-2">
+                <img
+                    :src="imageroot + curVendor.shopLogo"
+                    alt="Bank book image"
+                    class="w-32 h-32 object-cover border border-gray-300 rounded-lg shadow-md"
+                />
+              </div>
+            </div>
           </div>
 
           <hr class="my-4" />

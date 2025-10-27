@@ -174,7 +174,7 @@ export default {
     },
   },
   async beforeMount() {
-    if (this.userStore.loggedUser.userGroup === 'Supervisor') {
+    if (userStore.loggedUser.granted.includes('hradmin')) {
       await this.workLoadStore.getWorkLoadDetails(this.showLoading);
     } else {
       this.showMessage({

@@ -1,36 +1,23 @@
 <template>
-  <!-- <section class="justify-center min-h-screen px-4 mt-24 mb-20 lg:px-80"> -->
   <section class="justify-center min-h-screen px-4 mt-24 mb-20 lg:px-[60px] md:px-[82px]">
     <div class="flex flex-col items-center justify-between mt-2 mb-2 md:flex-row">
       <div class="w-full mb-4 md:mb-0">
         <div class="text-2xl uppercase">Vendors</div>
-        <!-- <div class="mr-2">
-          <Button
-            class="w-24"
-            label="New"
-            variant="primary"
-            @click="GoToAddNew"
-          />
-        </div> -->
       </div>
       <div class="w-full md:w-auto flex items-center gap-2">
-        <!-- Dropdown -->
-       <select
-        v-model="searchBy"
-        @change="SetSelectedFilter"
-        class="w-44 border border-gray-300 rounded-full focus:outline-none 
-               focus:ring-2 focus:ring-blue-500 px-4 py-3 text-gray-700"
-      >
-        <option disabled value="" class="bg-blue-900">Filter By</option>
-        <option value="orderno">Order No</option>
-        <option value="customerRef">Customer Ref</option>
-        <option value="shopName">Shop Name</option>
-      </select>
-<!-- 
-         class="absolute top-1/2 right-2 -translate-y-1/2 flex items-center justify-center 
-                 w-10 h-10 bg-yellow-400 rounded-full hover:bg-yellow-500 transition duration-200" -->
+        <select
+          v-model="searchBy"
+          @change="SetSelectedFilter"
+          class="w-44 border border-gray-300 rounded-full focus:outline-none 
+                focus:ring-2 focus:ring-blue-500 px-4 py-3 text-gray-700"
+        >
+          <option disabled value="" class="bg-blue-900 text-white">Filter By</option>
+          <option value="orderno">Order No</option>
+          <option value="customerRef">Customer Ref</option>
+          <option value="shopName">Shop Name</option>
+          <option value="CSONo">CSO No</option>
 
-
+        </select>
         <!-- Search -->
         <div class="w-full md:w-96">
           <SearchComp @DoSearch="GetSearch" />
@@ -50,59 +37,99 @@
     </div>
     <!-- {{ vendorStore.listVendor }} -->
     <div v-for="vd in vendorStore.listVendor" :key="vd.id">
-      <div class="flex flex-col gap-0 p-4 mt-2  border-2 rounded-md shadow-md sm:p-4" :class="{
+      <div class="flex flex-col gap-0 p-4 mt-2  border-2 rounded-md shadow-md sm:p-4 shadow-sm hover:shadow-md " :class="{
         'bg-red-50': vd.isActive === false,
         'bg-white': vd.isActive === true,
         'bg-white': vd.isActive === undefined
       }">
         <div class="flex flex-col gap-4 sm:flex-row sm:justify-between sm:items-start">
           <div class="grid w-full grid-cols-2 gap-2 lg:grid-cols-8 sm:grid-cols-7 md:grid-cols-8">
-            <div class="flex flex-col text-center sm:text-left" v-for="(field, idx) in vendorFields" :key="idx">
-              <h1 class="text-xs font-medium text-gray-600">
-                {{ field.label }}
-              </h1>
-
-              <!-- Shop Logo -->
-              <p v-if="field.key === 'shopLogo'" class="flex items-center justify-center h-16 text-center">
-                <ImageLable v-if="vd[field.key]" :imageUrl="imageroot + '/' + vd[field.key]" alt="Shop Logo" />
+            <!-- Shop Logo -->
+            <div class="flex flex-col text-center sm:text-left">
+              <h1 class="text-xs font-medium text-gray-600"></h1>
+              <p class="flex items-center justify-center h-16 text-center">
+                <ImageLable v-if="vd.shopLogo" :imageUrl="imageroot + '/' + vd.shopLogo" alt="Shop Logo" />
                 <ImageLable v-else :imageUrl="defaultShopImage" alt="Default Shop Logo" />
               </p>
+            </div>
 
-              <!-- QR Code Image -->
-              <p v-else-if="field.key === 'qrImageUrl'" class="flex items-center justify-center text-center">
+            <!-- Customer Ref -->
+            <div class="flex flex-col text-center sm:text-left">
+              <h1 class="text-xs font-semibold text-gray-600">Customer Ref</h1>
+              <p class="text-xs text-gray-500 mt-0.5">
+                <span v-if="vd.customerRef">{{ vd.customerRef }}</span>
+                <span v-else class="italic text-gray-400">no data</span>
+              </p>
+            </div>
+
+            <!-- Shop Name -->
+            <div class="flex flex-col text-center sm:text-left">
+              <h1 class="text-xs font-semibold  text-gray-600">Shop Name</h1>
+              <p class="text-xs text-gray-500 mt-0.5">
+                <span v-if="vd.shopName">{{ vd.shopName }}</span>
+                <span v-else class="italic text-gray-400">no data</span>
+              </p>
+            </div>
+
+            <!-- Shop Contact -->
+            <div class="flex flex-col text-center sm:text-left">
+              <h1 class="text-xs font-semibold text-gray-600">Shop Contact</h1>
+              <p class="text-xs text-gray-500 mt-0.5">
+                <span v-if="vd.shopContactNo">{{ vd.shopContactNo }}</span>
+                <span v-else class="italic text-gray-400">no data</span>
+              </p>
+            </div>
+
+            <!-- Email -->
+            <div class="flex flex-col text-center sm:text-left">
+              <h1 class="text-xs font-semibold text-gray-600">Email</h1>
+              <p class="text-xs text-gray-500 mt-0.5">
+                <span v-if="vd.shopEmail">{{ vd.shopEmail }}</span>
+                <span v-else class="italic text-gray-400">no data</span>
+              </p>
+            </div>
+
+            <!-- CSONo -->
+            <div class="flex flex-col text-center sm:text-left">
+              <h1 class="text-xs font-semibold text-gray-600">CSONo</h1>
+              <p class="text-xs text-gray-500 mt-0.5">
+                <span v-if="vd.csoNo">{{ vd.csoNo }}</span>
+                <span v-else class="italic text-gray-400">no data</span>
+              </p>
+            </div>
+
+            <!-- Status -->
+            <div class="flex flex-col text-center sm:text-left">
+              <h1 class="text-xs font-semibold text-gray-600">Status</h1>
+              <span :class="{
+                  'bg-green-100 text-green-700': vd.isActive === true,
+                  'bg-red-100 text-red-700': vd.isActive === false,
+                  'bg-gray-100 text-gray-700': vd.isActive === undefined,
+                }" class="text-xs font-medium px-2.5 py-0.5 rounded-full inline-block mt-1">
+                {{ vd.isActive ? "Active" : "Inactive" }}
+              </span>
+            </div>
+
+            <!-- QR Code -->
+            <div class="flex flex-col text-center sm:text-left">
+              <h1 class="text-xs font-medium text-gray-600"></h1>
+              <p class="flex items-center justify-center text-center">
                 <span
                   class="cursor-pointer"
                   @click="handleQrClick(vd)"
                   title="Click to open store and PDF"
-                >              
-                  
-                   <img 
-                        :src="imageroot + '/' + vd.qrImageUrl"   v-if="vd.qrImageUrl"                      
-                        class="object-cover w-16 h-16 rounded-md"
-                        title="Store QR"
-                      />
+                >
+                  <img
+                    v-if="vd.qrImageUrl"
+                    :src="imageroot + '/' + vd.qrImageUrl"
+                    class="object-cover w-16 h-16 rounded-md"
+                    title="Store QR"
+                  />
                 </span>
-              </p>
-
-              <!-- Active Status -->
-              <span v-else-if="field.key === 'isActive'" :class="{
-                'bg-green-100 text-green-700': vd.isActive === true,
-                'bg-red-100 text-red-700': vd.isActive === false,
-                'bg-gray-100 text-gray-700': vd.isActive === undefined,
-              }" class="text-xs font-medium px-2.5 py-0.5 rounded-full inline-block mt-1">
-                {{ vd.isActive ? "Active" : "Inactive" }}
-              </span>
-
-              <!-- Generic Text Values -->
-              <p v-else class="text-xs text-gray-500 mt-0.5">
-                <!-- {{ vd[field.key] }} {{ field.secondKey ? vd[field.secondKey] : ""  }} -->
-                  <span v-if="vd[field.key] || field.secondKey && vd[field.secondKey]">
-                    {{ vd[field.key] }} {{ field.secondKey ? vd[field.secondKey] : "" }}
-                  </span>
-                  <span v-else class="italic text-gray-400">no data</span>
               </p>
             </div>
           </div>
+
         </div>
 
         <!-- Expandable More Section -->
@@ -229,17 +256,29 @@
               Close Edit
             </button>
 
-            <!-- <button
-              @click="vendorTabs[vd.id] = 'workFlow'; quotationStore.curVendorId = vd.id"
-              :class="[
+            <button v-if=" 
+                (userStore.loggedUser.granted.includes('su') ||
+                userStore.loggedUser.granted.includes('sso')) &&
+                vendorTabs[vd.id] !== 'workFlow'
+              "
+              @click="vendorTabs[vd.id] = 'workFlow'; quotationStore.curVendorId = vd.id " :class="[
                 'p-4 border-b-2 rounded-t-lg text-center',
                 vendorTabs[vd.id] === 'workFlow'
-                  ? 'text-blue-600 border-blue-600 dark:text-blue-500 dark:border-blue-500'
-                  : 'border-transparent hover:text-gray-600 hover:border-gray-300 dark:hover:text-gray-300'
-              ]"
-            >
+                  ? 'text-blue-600 border-blue-600 dark:text-blue-500 '
+                  : 'border-transparent hover:text-gray-600 hover:border-gray-300 '
+              ]">
               Work Flow
-            </button> -->
+            </button>
+            <!-- Show this only when in 'proposal' mode -->
+            <button v-if="
+                (userStore.loggedUser.granted.includes('su') ||
+                userStore.loggedUser.granted.includes('sso')) &&
+                vendorTabs[vd.id] === 'workFlow'
+              "
+              @click="vendorTabs[vd.id] = ''; quotationStore.curVendorId = null"
+              class="p-4 border-b-2 rounded-t-lg text-center text-red-600 border-transparent ">
+              Close Work Flow
+            </button>
           </div>
         </div>
 
@@ -262,8 +301,7 @@
             <MoreVendor :vendorId="vd.id"/>
           </div>
           <div v-if="vendorTabs[vd.id] === 'edit'">
-            <AddEdit :key="vd.id" :Id="vd.id" @close="vendorTabs[vd.id] = ''; quotationStore.curVendorId = null" />
-            <!-- <AddEdit v-if="isAddEdit" @close="isAddEdit = !isAddEdit" /> -->
+            <AddEdit :key="vd.id" :Id="vd.id" @close="vendorTabs[vd.id] = ''" />
           </div>
           <div v-if="vendorTabs[vd.id] === 'workFlow'">
             <WorkFlow :vendorId="vd.id" />
@@ -342,17 +380,6 @@ export default {
       curIndex: -1,
       searchBy: "",
       searchVal: "",
-      vendorFields: [
-        { label: "", key: "shopLogo" },
-        { label: "Customer Ref", key: "customerRef" },
-        { label: "Shop Name", key: "shopName" },
-        { label: "Shop Contact", key: "shopContactNo" },
-        { label: "Email", key: "shopEmail" },
-        // { label: "City", key: "cityId" },
-        { label: "CSONo", key: "csoNo" },
-        { label: "Status", key: "isActive" },
-        { label: "", key: "qrImageUrl" }, 
-      ],
       imageroot: "",
       showLoading: null,
       vendorTabs: {},
@@ -389,21 +416,18 @@ export default {
 
   methods: {
 
-
-  handleQrClick(vd) {
-    const pdfUrl = this.imageroot + vd.qrPdfUrl;
-    const storeUrl =  vd.storeUrl;
-    // Open storeUrl in new tab
-      console.log(storeUrl)
-    window.open(storeUrl, '_blank');
-    // Open pdfUrl in current tab
-  
-    window.open(pdfUrl, '_blank');
+    handleQrClick(vd) {
+      const pdfUrl = this.imageroot + vd.qrPdfUrl;
+      const storeUrl =  vd.storeUrl;
+      // Open storeUrl in new tab
+        console.log(storeUrl)
+      window.open(storeUrl, '_blank');
+      // Open pdfUrl in current tab
     
-    // If you want qrImageUrl, consider opening it from that page or via a link
-  }
-,
-
+      window.open(pdfUrl, '_blank');
+      
+      // If you want qrImageUrl, consider opening it from that page or via a link
+    },
 
     async SetSelectedFilter(event) {
       this.searchBy = event.target.value;
@@ -468,7 +492,6 @@ export default {
 
     async GoToAddEdit(id) {
       await this.vendorStore.GetVendorById(id, this.showLoading);
-    
     },
 
     async GoToAssignSalesEx(id) {
@@ -495,25 +518,25 @@ export default {
 </script>
 
 <style scoped>
-.csscmd {
-  @apply p-2 text-center bg-blue-200 rounded;
-}
+  .csscmd {
+    @apply p-2 text-center bg-blue-200 rounded;
+  }
 
-.csscmd:hover {
-  @apply bg-blue-200 cursor-pointer;
-}
+  .csscmd:hover {
+    @apply bg-blue-200 cursor-pointer;
+  }
 
-.cssBox {
-  border: 1px solid;
-  @apply border-blue-600 rounded p-2;
-}
+  .cssBox {
+    border: 1px solid;
+    @apply border-blue-600 rounded p-2;
+  }
 
-.cssDataSec {
-  max-height: 400px;
-  /* Limit height */
-  @apply overflow-y-auto;
-  /* Enable vertical scrolling */
-  margin-top: 20px;
-  /* Spacing for the scrollable section */
-}
+  .cssDataSec {
+    max-height: 400px;
+    /* Limit height */
+    @apply overflow-y-auto;
+    /* Enable vertical scrolling */
+    margin-top: 20px;
+    /* Spacing for the scrollable section */
+  }
 </style>

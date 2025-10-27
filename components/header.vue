@@ -22,14 +22,22 @@
           <!-- Logo -->
           <NuxtLink to="/dashboard" class="flex items-center space-x-2 ml-14">
             <!-- hide Img -->
-            <!-- <img src="/assets/img/LogoDigitalTechLab.png" alt="Digital Tech Labs Logo" class="h-auto rounded-full w-28" /> -->
+            <img src="/assets/img/LogoDigitalTechLab.png" alt="Digital Tech Labs Logo" class="h-auto rounded-full w-28" />
           </NuxtLink>
+
+          <!-- {{ userStore.loggedUser.resourceURLRoot + userStore.loggedUser.image }} -->
+
 
           <!-- User Profile -->
           <div class="relative flex items-center ml-3 space-x-3">
-            <div class="text-white text-sm">
-              <p class="font-semibold">Hi, {{ userStore.loggedUser.name }}</p>
-              <p class="text-xs opacity-80">{{ userStore.loggedUser.userName }}</p>
+
+            <div class="relative mr-4">
+              <Notifications :userName="userStore?.loggedUser?.userName"  />
+            </div>
+            <div class="flex flex-col text-white text-xs sm:text-sm hidden sm:inline md:inline lg:inline">
+              <p class="font-semibold truncate">Hi, {{ userStore.loggedUser.name }}</p>
+              <p class="text-[10px] sm:text-xs opacity-80 truncate">{{ userStore.loggedUser.userName }}</p>
+              <!-- <p class="text-[10px] sm:text-xs opacity-80 truncate">Role: {{ userStore.loggedUser.role || 'N/A' }}</p> -->
             </div>
 
             <!-- Profile Button -->
@@ -73,9 +81,12 @@
 import Sidebar from "./sidemenu.vue";
 import { useUserStore } from '~/stores/modules/userStore';
 import profile from "~/pages/user/profile.vue";
+import { useOrderStore } from '~/stores/modules/orderStore';
+import Notifications  from "./notifications/index.vue";
+
 
 export default {
-  components: { Sidebar, profile },
+  components: { Sidebar, profile,Notifications },
   data() {
     return {
       userStore: null,
@@ -83,8 +94,11 @@ export default {
       isDropdownOpen: false,
       isProfile: false,
       profileData: null,
+      isNotificationOpen: false,
+
     };
   },
+
   methods: {
     async GoToProfile() {
       try {
@@ -98,7 +112,7 @@ export default {
       } catch (err) {
         console.error("Error in GoToProfile:", err);
       }
-    }
+    },
   },
   async created() {
     try {
