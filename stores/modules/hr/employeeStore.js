@@ -109,6 +109,9 @@ export const useEmployeeStore = defineStore("employeeStore", {
           }
         );
 
+        console.log("AddEdiEmployee:",response);
+        
+
         loadingAlert.close();
 
         if (response.data.isSuccess) {
@@ -121,8 +124,9 @@ export const useEmployeeStore = defineStore("employeeStore", {
           this.showToast(response.data.message, "error");
         }
       } catch (error) {
+        console.error("error:", error);
         loadingAlert.close();
-        this.showToast("Error in server call", "error");
+        this.showToast("Error in server call", error);
       }
     },
 

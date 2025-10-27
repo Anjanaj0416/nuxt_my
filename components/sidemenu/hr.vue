@@ -73,7 +73,7 @@
                         <router-link to="/hr/reports?p=R1003"
                             class="block px-3 py-1 text-sm text-gray-400 rounded hover:text-white hover:bg-blue-700"
                             @click="$emit('close-sidebar')">
-                            Daily Presence Report
+                            Daily Attendance Report
                         </router-link>
                         <router-link to="/hr/reports?p=R1004"
                             class="block px-3 py-1 text-sm text-gray-400 rounded hover:text-white hover:bg-blue-700"
