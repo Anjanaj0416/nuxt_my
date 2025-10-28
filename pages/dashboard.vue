@@ -302,19 +302,25 @@ export default {
       return this.inTime ? 'Present' : 'Absent'
     },
     workedHours() {
-      if (!this.inTime) return '00:00:00'
+      if (!this.inTime) return '00:00:00';
 
-      const endTime = this.outTime ? this.outTime : this.currentTime
-      const ms = endTime - this.inTime
-      if (ms <= 0) return '00:00:00'
+      const inTime = new Date(this.inTime);
 
-      const totalSec = Math.floor(ms / 1000)
-      const hrs = String(Math.floor(totalSec / 3600)).padStart(2, '0')
-      const mins = String(Math.floor((totalSec % 3600) / 60)).padStart(2, '0')
-      const secs = String(totalSec % 60).padStart(2, '0')
+      // Use outTime if it exists; otherwise, use the current system time
+      const outTime = this.outTime ? new Date(this.currentTime) : new Date(this.currentTime);
 
-      return `${hrs}:${mins}:${secs}`
+      const ms = outTime.getTime() - inTime.getTime();
+      if (ms < 0) return '00:00:00';
+
+      const totalSec = Math.floor(ms / 1000);
+
+      const hrs = String(Math.floor(totalSec / 3600)).padStart(2, '0');
+      const mins = String(Math.floor((totalSec % 3600) / 60)).padStart(2, '0');
+      const secs = String(totalSec % 60).padStart(2, '0');
+
+      return `${hrs}:${mins}:${secs}`;
     },
+
     otHours() {
       if (!this.inTime) return '00:00:00'
 
@@ -380,6 +386,7 @@ export default {
       return new Intl.DateTimeFormat('en-GB', {
         hour: '2-digit',
         minute: '2-digit',
+        second: '2-digit',
         hour12: false
       }).format(date);
     },

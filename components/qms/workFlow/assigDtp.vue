@@ -38,20 +38,15 @@
             <p v-if="err.job" class="mt-2 text-sm text-red-600">
                 {{ err.job }}
             </p>
-            <div v-if=" selectedOption !== ''" class="grid grid-cols-2 gap-4 mt-4 sm:grid-cols-2 md:grid-cols-2">
+            <div class="grid grid-cols-2 gap-4 mt-4 sm:grid-cols-2 md:grid-cols-2">
                 <div class="">
                     <label class="text-[13px] font-semibold text-gray-600">
-                        Company Search <span class="text-red-500">*</span>
+                        Company  <span class="text-red-500">*</span>
                     </label>
-                    <serach_Input
-                        :arrItems="leadStore.InitLeads.listClients"
-                        label=""
-                        v-model="listClients"
-                        @selectItem="onClientSelected"
-                    />  
+                    
                 </div>
             </div>
-            <div v-if="selectedClient && selectedOption !== ''"  class="grid grid-cols-1 gap-4 mt-4 sm:grid-cols-1 md:grid-cols-3 lg:grid-cols-3">
+            <div v-if="selectedClient == ''"  class="grid grid-cols-1 gap-4 mt-4 sm:grid-cols-1 md:grid-cols-3 lg:grid-cols-3">
                 <div>
                     <h1 class="text-[13px] font-semibold text-gray-600">Company Name</h1>
                     <p v-if="selectedClient?.value" class="text-sm text-gray-500 mt-0.5">{{ selectedClient?.value || 'None' }}</p>
@@ -113,7 +108,7 @@
                     />
                 </div>
             </div>
-            <div v-if="selectedClient && selectedOption !== ''" class="mt-4 mb-4">
+            <div v-if="selectedClient  !== ''" class="mt-4 mb-4">
                 <h1 class="text-normal font-semibold text-gray-600"></h1>
                 <div class="grid grid-cols-1 gap-4 mt-4 sm:grid-cols-1 md:grid-cols-3 lg:grid-cols-3">
                   <div>
@@ -142,7 +137,7 @@
                   </div>
                 </div>
             </div>
-            <div v-if="selectedClient && selectedOption !== ''" class="mt-4 mb-4">
+            <div v-if="selectedClient  !== ''" class="mt-4 mb-4">
                 <h1 class="text-normal font-semibold text-gray-600">Product Box</h1>
                 <div class="grid grid-cols-1 gap-4 mt-4 sm:grid-cols-1 md:grid-cols-3 lg:grid-cols-3">
                   <div>
@@ -155,7 +150,7 @@
                   </div>
                 </div>
             </div>
-            <div v-if="selectedClient && selectedOption !== ''" class="mt-4 mb-16">
+            <div v-if="selectedClient  !== ''" class="mt-4 mb-16">
                 <h1 class="text-normal font-semibold text-gray-600">Banner</h1>
                 <div class="grid grid-cols-1 gap-4 mt-4 sm:grid-cols-1 md:grid-cols-3 lg:grid-cols-3">
                   <div>
@@ -237,9 +232,7 @@ export default {
   },
   methods: {
 
-    onClientSelected(item) {
-        this.selectedClient = item;
-    },
+
     closeModal() {            
       this.isOpen = false;
       this.$emit("close");
