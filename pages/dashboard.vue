@@ -305,9 +305,10 @@ export default {
       if (!this.inTime) return '00:00:00';
 
       const inTime = new Date(this.inTime);
+      const outTime = this.outTime ? new Date(this.outTime) : new Date(this.currentTime);
 
-      // Use outTime if it exists; otherwise, use the current system time
-      const outTime = this.outTime ? new Date(this.currentTime) : new Date(this.currentTime);
+      console.log('In Time:', inTime);
+      console.log('Out/Current Time:', outTime);
 
       const ms = outTime.getTime() - inTime.getTime();
       if (ms < 0) return '00:00:00';
@@ -318,6 +319,7 @@ export default {
       const mins = String(Math.floor((totalSec % 3600) / 60)).padStart(2, '0');
       const secs = String(totalSec % 60).padStart(2, '0');
 
+      console.log('Worked Hours:', `${hrs}:${mins}:${secs}`);
       return `${hrs}:${mins}:${secs}`;
     },
 
