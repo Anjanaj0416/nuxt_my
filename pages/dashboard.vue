@@ -267,6 +267,7 @@ export default {
   mounted() {
     this.timer = setInterval(() => {
       this.currentTime = new Date();
+       this.currentHour = this.currentTime.getHours();
     }, 1000);
     this.fetchWeather()
   },
@@ -301,20 +302,24 @@ export default {
     status() {
       return this.inTime ? 'Present' : 'Absent'
     },
+    
     workedHours() {
-      if (!this.inTime) return '00:00:00'
+      if (!this.inTime) return '00:00:00';
 
-      const endTime = this.outTime ? this.outTime : this.currentTime
-      const ms = endTime - this.inTime
-      if (ms <= 0) return '00:00:00'
+      const inTime = new Date(this.inTime);
+      const outTime = this.outTime ? new Date(this.outTime) : this.currentTime; // ✅ works now
 
-      const totalSec = Math.floor(ms / 1000)
-      const hrs = String(Math.floor(totalSec / 3600)).padStart(2, '0')
-      const mins = String(Math.floor((totalSec % 3600) / 60)).padStart(2, '0')
-      const secs = String(totalSec % 60).padStart(2, '0')
+      const ms = outTime - inTime;
+      if (isNaN(ms) || ms < 0) return '00:00:00';
 
-      return `${hrs}:${mins}:${secs}`
+      const totalSec = Math.floor(ms / 1000);
+      const hrs = String(Math.floor(totalSec / 3600)).padStart(2, '0');
+      const mins = String(Math.floor((totalSec % 3600) / 60)).padStart(2, '0');
+      const secs = String(totalSec % 60).padStart(2, '0');
+
+      return `${hrs}:${mins}:${secs}`;
     },
+
     otHours() {
       if (!this.inTime) return '00:00:00'
 
@@ -380,6 +385,7 @@ export default {
       return new Intl.DateTimeFormat('en-GB', {
         hour: '2-digit',
         minute: '2-digit',
+        second: '2-digit',
         hour12: false
       }).format(date);
     },
