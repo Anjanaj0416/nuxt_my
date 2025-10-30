@@ -42,57 +42,66 @@
           </div>
           <div class="grid grid-cols-1 md:grid-cols-4 gap-4">
             <div>
-              <label class="block text-sm font-medium text-gray-600 mb-1">Expire Date</label>
-              <input
-                v-model="expDate"
-                type="date"
-                class="w-full p-2 border rounded-md text-sm focus:ring-2 focus:ring-blue-400"
-              />
-            </div>
-            <div>
               <label class="block text-sm font-medium text-gray-600 mb-1">Requested Category Level</label>
-              <input
-                v-model="requestedCategoryLevel"
-                type="text"
-                placeholder="Enter Category Level"
-                class="w-full p-2 border rounded-md text-sm focus:ring-2 focus:ring-blue-400"
-              />
+                <select
+                    v-model="requestedCategoryLevel"
+                    @input="clearErrorOnInput('requestedCategoryLevel')"
+                    class="w-full p-2 border rounded-md text-sm bg-white focus:ring-2 focus:ring-blue-400"
+                  >
+                  <option disabled value="">Select Status</option>
+                  <option value="1">Main Category</option>
+                  <option value="2">Sub Category</option>
+                  <option value="3">Sub Sub Category</option>
+                  <option value="4">Sub Sub Sub Category</option>
+                </select>
+                <p v-if="err.requestedCategoryLevel" class="mt-2 text-sm text-red-600">
+                {{ err.requestedCategoryLevel }}
+              </p>
             </div>
             <div>
               <label class="block text-sm font-medium text-gray-600 mb-1">New Category Name</label>
               <input
                 v-model="newCategoryName"
+                @input="clearErrorOnInput('newCategoryName')"
                 type="text"
                 placeholder="Enter Category Name"
                 class="w-full p-2 border rounded-md text-sm focus:ring-2 focus:ring-blue-400"
               />
+              <p v-if="err.newCategoryName" class="mt-2 text-sm text-red-600">
+                {{ err.newCategoryName }}
+              </p>
             </div>
             <div>
               <label class="block text-sm font-medium text-gray-600 mb-1">KPI Days</label>
               <input
                 v-model="kpiDays"
+                @input="clearErrorOnInput('kpiDays')"
                 type="number"
                 placeholder="Enter KPI Days"
                 class="w-full p-2 border rounded-md text-sm focus:ring-2 focus:ring-blue-400"
               />
+              <p v-if="err.kpiDays" class="mt-2 text-sm text-red-600">
+                {{ err.newCategoryName }}
+              </p>
             </div>
           </div>
           <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
             <div>
               <label class="block text-sm font-medium text-gray-600 mb-1">Comment</label>
               <textarea
-                v-model="kpiDays"
+                v-model="comment"
                 type="date"
                 rows="4"
                 placeholder="Enter Comment"
                 class="w-full p-2 border rounded-md text-sm focus:ring-2 focus:ring-blue-400"
               />
+              
             </div>
           </div>
   </div>
   <div class=" modal-footer">
     <button   @click="cancel" class="px-12 py-2 text-xs  font-semibold transition bg-white text-gray-600 rounded-full shadow">Cancel</button>
-    <button @click="SetVendorLead()"  class="px-12 py-2 text-xs  bg-gradient-to-r from-blue-500 via-blue-600 to-blue-700 
+    <button @click="SetApprovalCategory()"  class="px-12 py-2 text-xs  bg-gradient-to-r from-blue-500 via-blue-600 to-blue-700 
             font-semibold transition text-white rounded-full shadow  focus:ring-2 focus:ring-blue-400">
         Create
     </button>
@@ -129,12 +138,18 @@ export default {
         { label: "Vendor Banner", value: "vendorBanner" },
 
       ],
-      mainId: null,
+      requestedCategoryLevel: "",
+      newCategoryName: "",
+      kpiDays: "",
+      comment: "",
+      mainCategoryId: null,
+      subCategoryID: null,
+      subSubCategoryID: null,
+      subSubSubCategoryID: null,
       err: {
-        job: "",
-        CompanyPhone: "",
-        Address: "",
-        ContactPhoneNo: "",
+        requestedCategoryLevel: "",
+        newCategoryName: "",
+        kpiDays: "",
       },
     };
   },
@@ -174,6 +189,11 @@ export default {
 
     async GetSelectMainCategory(item) {
       console.log("Selected Main Category ID:", item.id);
+      this.mainCategoryId = item.id; 
+
+      this.subCategoryID = "00000000-0000-0000-0000-000000000000";
+      this.subSubCategoryID = "00000000-0000-0000-0000-000000000000";
+      this.subSubSubCategoryID = "00000000-0000-0000-0000-000000000000";
 
       this.taskhubStore.listSubCategory = [];
       this.taskhubStore.listSubSubCategory = [];
@@ -184,6 +204,10 @@ export default {
 
     async GetSelectSubCategory(item) {
       console.log("Selected Sub Category ID:", item.id);
+      this.subCategoryID = item.id;
+
+      this.subSubCategoryID = "00000000-0000-0000-0000-000000000000";
+      this.subSubSubCategoryID = "00000000-0000-0000-0000-000000000000";
 
       this.taskhubStore.listSubSubCategory = [];
       this.taskhubStore.listSubSubSubCategory = [];
@@ -193,50 +217,74 @@ export default {
 
     async GetSelectSubSubCategory(item) {
       console.log("Selected SubSub Category ID:", item.id);
+      this.subSubCategoryID = item.id;
 
       // Clear dependent dropdowns first
+      this.subSubSubCategoryID = "00000000-0000-0000-0000-000000000000";
       this.taskhubStore.listSubSubSubCategory = [];
 
       await this.taskhubStore.GetSubCategory(item.id, this.showLoading);
     },
 
+    async GetSelectSubSubSubCategory(item) {
+      console.log("Selected SubSub Category ID:", item.id);
+      this.subSubSubCategoryID = item.id;
+
+      await this.taskhubStore.GetSubCategory(item.id, this.showLoading);
+    },
 
 
     SetApprovalCategory() {
-     
-      if (this.IsValidate()) {
-       return
-        this.$showConfirm(
-          "Are you sure to Save this Lead?",
-          "warning"
-        ).then(async (result) => {
+      if (!this.IsValidate()) return;
+
+      this.$showConfirm("Are you sure to this New Category Request?", "warning")
+        .then(async (result) => {
           if (result.isConfirmed) {
-            if (this.Medium === undefined) {
-              this.Medium = "Office";
-            }
-            console.log(JSON.stringify(this.curLead));
-           
+
+            // Build request in your existing style
+            let request = {
+                vendorId: this.vendorId,
+                mainCategoryId: this.mainCategoryId || null,
+                subCategoryID: this.subCategoryID || null,
+                subSubCategoryID: this.subSubCategoryID || null,
+                subSubSubCategoryID: this.subSubSubCategoryID || null,
+                requestedCategoryLevel: this.requestedCategoryLevel,
+                newCategoryName: this.newCategoryName,
+                kpiDays: this.kpiDays,
+                comment: this.comment,
+            };
+
+            // Send to backend
+            console.log(JSON.stringify(request));
+            await this.taskhubStore.AddNewCategoryApproval(request, this.showLoading);
+
+            this.closeModal();
+            this.clearErr();
           } else {
             console.log("Action canceled");
           }
-        
-          this.closeModal();
-          this.clearErr();
         });
-       
-      }
     },
+
 
     IsValidate() {
       this.clearErr();
-      let IsValidate = true;
+      let valid = true;
 
-      if (!this.selectedOption) {
-            this.err.job = "Please select an option before creating KPI!";
-            IsValidate = false;
-        }
+      if (!this.newCategoryName) {
+        this.err.newCategoryName = "Please enter a category name!";
+        valid = false;
+      }
+      if (!this.requestedCategoryLevel) {
+        this.err.requestedCategoryLevel = "Please select a category level!";
+        valid = false;
+      }
+      if (!this.kpiDays) {
+        this.err.kpiDays = "Please enter KPI days!";
+        valid = false;
+      }
 
-      return IsValidate;
+      return valid;
     },
 
     clearErr() {

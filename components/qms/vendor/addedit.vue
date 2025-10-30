@@ -110,7 +110,7 @@
             </div>
             <div class="">
               <label class="block text-sm font-bold text-gray-600">Postal Code<span class="text-red-500">*</span></label>
-              <input type="text" v-model="curVendor.yourTinNo" placeholder="Enter Postal Code" required
+              <input type="text" v-model="curVendor.postalCode" placeholder="Enter Postal Code" required
                 class="w-full p-2 mt-2 text-sm border rounded-md focus:ring-indigo-500 focus:border-indigo-500" />
             </div>
 
@@ -324,12 +324,13 @@
         </div>
 
         <div class="flex justify-between items-center mt-6">
-          <button @click="cancel" class="cancel-button">Cancel</button>
-          <button @click="AddEditVendor" class="confirm-button">
+          <button @click="cancel" class="px-12 py-2 text-xs  font-semibold transition bg-gray-100 text-gray-600 rounded-full shadow">Cancel</button>
+          <button @click="AddEditVendor" class="px-12 py-2 text-xs  bg-gradient-to-r from-blue-500 via-blue-600 to-blue-700 
+                font-semibold transition text-white rounded-full shadow  focus:ring-2 focus:ring-blue-400">
             {{ isEditing ? "Update Vendor" : "Save Vendor" }}
           </button>
       </div>
-      </div>
+    </div>
 
       
     </div>
@@ -592,6 +593,7 @@ export default {
         holderName: "",
         bankBookImage: "",
         isActive: true,
+        postalCode:"",
       };
     },
 
@@ -667,7 +669,7 @@ export default {
       formData.append("ShopContactNo", this.curVendor.shopContactNo || "");
       formData.append("ShopAddress1", this.curVendor.shopAddress1 || "");
       formData.append("ShopAddress2", this.curVendor.shopAddress2 || "");
-      // formData.append("DistrictId", this.curVendor.districtId);
+      formData.append("DistrictId", this.curVendor.districtId);
       formData.append("CityId", this.curVendor.cityId );
       formData.append("CSONo", this.curVendor.csoNo );;
       formData.append("ClientImageFile,", this.curVendor.vendorImageFile || "");
@@ -677,6 +679,8 @@ export default {
       formData.append("VATNo", this.curVendor.vatNo || "");
       formData.append("TINNo", this.curVendor.yourTinNo || "");
       formData.append("Description", this.curVendor.description || "");
+      formData.append("PostalCode", this.curVendor.postalCode || "");
+
 
       // Contact Person
       formData.append("ShopContactPersonName", this.curVendor.shopContactPersonName || "");

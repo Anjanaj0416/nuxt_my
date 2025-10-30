@@ -1,74 +1,100 @@
 <template>
   <div class="p-6 space-y-6 overflow-y">
-    <h2 class="text-lg font-semibold text-gray-700 border-b pb-2 mb-4">Create New Category</h2>
+    <h2 class="text-lg font-semibold text-gray-700 border-b pb-2 mb-4">Create Main Banner</h2>
     <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
-    <div>
+      <div>
         <label class="block text-sm font-medium text-gray-600 mb-1">Expire Date</label>
         <input
-        v-model="ExpireDate"
-        type="date"
-        class="w-full p-2 border rounded-md text-sm focus:ring-2 focus:ring-blue-400"
+          v-model="expDate"
+          @input="clearErrorOnInput('expDate')"
+          type="date"
+          class="w-full p-2 border rounded-md text-sm focus:ring-2 focus:ring-blue-400"
         />
-    </div>
-    <div>
+        <p v-if="err.expDate" class="mt-2 text-sm text-red-600">
+          {{ err.expDate }}
+        </p>
+      </div>
+      <div>
+        <label class="block text-sm font-medium text-gray-600 mb-1">Sort Order</label>
+        <input
+          v-model="sortOrder"
+          @input="clearErrorOnInput('sortOrder')"
+          type="number"
+          placeholder="Enter Sort Order"
+          class="w-full p-2 border rounded-md text-sm focus:ring-2 focus:ring-blue-400"
+        />
+        <p v-if="err.sortOrder" class="mt-2 text-sm text-red-600">
+          {{ err.sortOrder }}
+        </p>
+      </div>
+      <div>
         <label class="block text-sm font-medium text-gray-600 mb-1">Amount</label>
         <input
-        v-model="amount"
-        type="text"
-        placeholder="Enter Amount"
-        class="w-full p-2 border rounded-md text-sm focus:ring-2 focus:ring-blue-400"
+          v-model="amount"
+          @input="clearErrorOnInput('amount')"
+          type="number"
+          placeholder="Enter Amount"
+          class="w-full p-2 border rounded-md text-sm focus:ring-2 focus:ring-blue-400"
         />
-    </div>
-    <div>
+        <p v-if="err.amount" class="mt-2 text-sm text-red-600">
+          {{ err.amount }}
+        </p>
+      </div>
+      <div>
         <label class="block text-sm font-medium text-gray-600 mb-1">KPI Days</label>
         <input
-        v-model="ContactPhoneNo"
-        type="text"
-        placeholder="Enter KPI Days"
-        class="w-full p-2 border rounded-md text-sm focus:ring-2 focus:ring-blue-400"
+          v-model="kpiDays"
+          @input="clearErrorOnInput('kpiDays')"
+          type="number"
+          placeholder="Enter KPI Days"
+          class="w-full p-2 border rounded-md text-sm focus:ring-2 focus:ring-blue-400"
         />
+        <p v-if="err.kpiDays" class="mt-2 text-sm text-red-600">
+          {{ err.kpiDays }}
+        </p>
+      </div>
     </div>
-    </div>
+
     <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
       <div>
           <label class="block text-sm font-medium text-gray-600 mb-1">Select DTP</label>
           <select
-          v-model="curProductStatus"
-          class="w-full p-2 border rounded-md text-sm bg-white focus:ring-2 focus:ring-blue-400"
+            v-model="dtpId"
+            @input="clearErrorOnInput('dtpId')"
+            class="w-full p-2 border rounded-md text-sm bg-white focus:ring-2 focus:ring-blue-400"
           >
-          <option disabled value="">Select DTP</option>
-          <option value="complete">Complete</option>
-          <option value="not-complete">Not Complete</option>
+            <option disabled value="">Select DTP</option>
+            <option
+              v-for="item in taskhubStore.listDTP"
+              :key="item.id"
+              :value="item.id"
+            >
+              {{ item.value }}
+            </option>
           </select>
-      </div>
-      <div>
-          <label class="block text-sm font-medium text-gray-600 mb-1">Select Super Admin</label>
-          <select
-          v-model="curProductStatus"
-          class="w-full p-2 border rounded-md text-sm bg-white focus:ring-2 focus:ring-blue-400"
-          >
-          <option disabled value="">Select Status</option>
-          <option value="complete">Complete</option>
-          <option value="not-complete">Not Complete</option>
-          </select>
+          <p v-if="err.dtpId" class="mt-2 text-sm text-red-600">
+            {{ err.dtpId }}
+          </p>
       </div>
     </div>
+
     <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
       <div>
         <label class="block text-sm font-medium text-gray-600 mb-1">Material Upload</label>
-        <imagepicker1
-            :existingImagePaths="imageroots"
-            @GetSelectedImages="handleSelectedImages"
-            @deleteExistingImage="handleDeleteExistingImage"
-        />
+          <imagepicker1
+            @GetSelectedImage="handleSelectedImages"
+            :image_file="imageroot"
+            ref="refApprovedImg"
+            accept="image/*,application/pdf"
+          />
       </div>
     </div>
     <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
       <div>
         <label class="block text-sm font-medium text-gray-600 mb-1">Comment</label>
         <textarea
-          v-model="kpiDays"
-          type="date"
+          v-model="comment"
+          type="text"
           rows="4"
           placeholder="Enter Comment"
           class="w-full p-2 border rounded-md text-sm focus:ring-2 focus:ring-blue-400"
@@ -78,7 +104,7 @@
   </div>
   <div class=" modal-footer">
     <button   @click="cancel" class="px-12 py-2 text-xs  font-semibold transition bg-white text-gray-600 rounded-full shadow">Cancel</button>
-    <button @click="SetVendorLead()"  class="px-12 py-2 text-xs  bg-gradient-to-r from-blue-500 via-blue-600 to-blue-700 
+    <button @click="SetMainBanner()"  class="px-12 py-2 text-xs  bg-gradient-to-r from-blue-500 via-blue-600 to-blue-700 
             font-semibold transition text-white rounded-full shadow  focus:ring-2 focus:ring-blue-400">
         Create
     </button>
@@ -115,12 +141,21 @@ export default {
         { label: "Vendor Banner", value: "vendorBanner" },
 
       ],
-      mainId: null,
+      expDate: '',
+      sortOrder: '',
+      comment: '',
+      amount:'',
+      kpiDays: '',
+      dtpId : '',
+      listMaterialFiles: {},
       err: {
-        job: "",
-        CompanyPhone: "",
-        Address: "",
-        ContactPhoneNo: "",
+        expDate: '',
+        sortOrder: '',
+        comment: '',
+        amount:'',
+        kpiDays: '',
+        dtpId : '',
+        listMaterialFiles: '',
       },
     };
   },
@@ -158,71 +193,77 @@ export default {
       }
     },
 
-    async GetSelectMainCategory(item) {
-      console.log("Selected Main Category ID:", item.id);
-
-      this.taskhubStore.listSubCategory = [];
-      this.taskhubStore.listSubSubCategory = [];
-      this.taskhubStore.listSubSubSubCategory = [];
-
-      await this.taskhubStore.GetSubMainCategory(item.id, this.showLoading);
-    },
-
-    async GetSelectSubCategory(item) {
-      console.log("Selected Sub Category ID:", item.id);
-
-      this.taskhubStore.listSubSubCategory = [];
-      this.taskhubStore.listSubSubSubCategory = [];
-
-      await this.taskhubStore.GetSubCategory(item.id, this.showLoading);
-    },
-
-    async GetSelectSubSubCategory(item) {
-      console.log("Selected SubSub Category ID:", item.id);
-
-      // Clear dependent dropdowns first
-      this.taskhubStore.listSubSubSubCategory = [];
-
-      await this.taskhubStore.GetSubCategory(item.id, this.showLoading);
-    },
-
-
-
-    SetApprovalCategory() {
-     
-      if (this.IsValidate()) {
-       return
-        this.$showConfirm(
-          "Are you sure to Save this Lead?",
-          "warning"
-        ).then(async (result) => {
-          if (result.isConfirmed) {
-            if (this.Medium === undefined) {
-              this.Medium = "Office";
-            }
-            console.log(JSON.stringify(this.curLead));
-           
-          } else {
-            console.log("Action canceled");
-          }
-        
-          this.closeModal();
-          this.clearErr();
-        });
-       
+     handleSelectedImages(file) {
+      console.log("Selected File:", file);
+      if (file) {
+        this.listMaterialFiles = file;
       }
+    },
+
+    formatToEndOfDayISO(dateStr) {
+      if (!dateStr) return null;
+      return `${dateStr}T23:59:59`;
+    },
+
+    async SetMainBanner() {
+      if (!this.IsValidate()) return;
+
+      this.$showConfirm("Are you sure to this Main Banner?", "warning")
+        .then(async (result) => {
+          if (result.isConfirmed) {
+
+            const formData = new FormData();
+            formData.append("vendorId", this.vendorId);
+            formData.append("expDate", this.formatToEndOfDayISO(this.expDate));
+            formData.append("sortOrder", this.sortOrder);
+            formData.append("amount", this.amount);
+            formData.append("kpiDays", this.kpiDays);
+            formData.append("DtpId", this.dtpId);
+            formData.append("comment", this.comment || "");
+
+            if (this.listMaterialFiles) {
+              formData.append("listMaterialFiles", this.listMaterialFiles);
+            }
+
+
+            for (let [key, value] of formData.entries()) {
+              console.log(key, value);
+            }
+
+            await this.taskhubStore.AddMainBanner(formData, this.showLoading);
+
+            this.closeModal();
+            this.clearErr();
+          }
+        });
     },
 
     IsValidate() {
       this.clearErr();
-      let IsValidate = true;
+      let valid = true;
 
-      if (!this.selectedOption) {
-            this.err.job = "Please select an option before creating KPI!";
-            IsValidate = false;
-        }
+      if (!this.expDate) {
+        this.err.expDate = "Please enter a expire day!";
+        valid = false;
+      }
+      if (!this.sortOrder) {
+        this.err.sortOrder = "Please select a sort order!";
+        valid = false;
+      }
+      if (!this.amount) {
+        this.err.amount = "Please enter a amount!";
+        valid = false;
+      }
+      if (!this.dtpId) {
+        this.err.dtpId = "Please select a dtp!";
+        valid = false;
+      }
+      if (!this.kpiDays) {
+        this.err.kpiDays = "Please enter KPI days!";
+        valid = false;
+      }
 
-      return IsValidate;
+      return valid;
     },
 
     clearErr() {

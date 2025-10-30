@@ -45,11 +45,11 @@
             <mainBanner :vendorId="vendorId" @close="closeModal"/>
           </div>
 
-          <div v-else-if="selectedOption === 'categoryBanner'" class="mt-6 p-6 rounded-lg shadow-sm bg-white">
+          <div v-else-if="selectedOption === 'categoryBanner'" class="overflow-y-auto max-h-[55vh]">
             <categoryBanner :vendorId="vendorId" />
           </div>
 
-          <div v-else-if="selectedOption === 'vendorBanner'" class="mt-6 p-6 rounded-lg shadow-sm bg-white">
+          <div v-else-if="selectedOption === 'vendorBanner'" class="overflow-y-auto max-h-[55vh]">
             <input
               v-model="VendorBanner"
               type="text"
