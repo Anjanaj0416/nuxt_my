@@ -1,6 +1,5 @@
 <template>
   <div class="p-6 space-y-6">
-    {{ vendorId }}
     <h2 class="text-lg font-semibold text-gray-700 border-b pb-2 mb-4">Create New Category</h2>
           <div class="grid grid-cols-1 md:grid-cols-4 gap-4">
             <div>

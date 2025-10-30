@@ -171,13 +171,63 @@ export const useTaskhubStore = defineStore("taskhubStore", {
             }
         },
 
-        async AddCategoryBanner(formData, showLoading) {     
-            console.log('API-AddTaskCategoryBanner');
+        async AddCategoryBanner(formData, showLoading) {
+            const loadingAlert = showLoading("");
+            try {
+                const response = await axios.post(
+                `${import.meta.env.VITE_API_URL}/TaskHub/DTL/DTLBannerMgt/AddTaskCategoryBanner`,
+                formData,
+                {
+                    headers: {
+                    "Content-Type": "multipart/form-data",
+                    },
+                }
+                );
+                loadingAlert.close();
+                if (response.data.isSuccess) {
+                    this.showToast(response.data.message, "success");
+                } else {
+                this.showToast(response.data.message, "error");
+                }
+            } catch (error) {
+                loadingAlert.close();
+                console.error("API Error:", error);
+                this.showToast("Server error. Please try again.", "error");
+            }
+        },
+
+        
+        async SetVendorBanner(formData, showLoading) {     
+            console.log('API-AddtasknewCategoryApproval');
 
             const loadingAlert = showLoading("");
             try {
                 const response = await axios.post(
-                    `${import.meta.env.VITE_API_URL}/TaskHub/DTL/DTLBannerMgt/AddTaskCategoryBanner`,
+                    `${import.meta.env.VITE_API_URL}/TaskHub/DTL/DTLBannerMgt/AddTaskVendorBanner`,
+                    formData,
+                    { headers: { "Content-Type": "multipart/form-data" } }
+
+                );
+                console.log(response);
+                loadingAlert.close();
+                if (response.data.isSuccess) {
+                    this.showToast(response.data.message, "success");
+                } else {
+                    this.showToast(response.data.message, "error");
+                }
+            } catch (error) {
+                this.showToast(error.message || "Something went wrong!", "error");
+                loadingAlert.close();
+            }
+        },
+
+         async SetProduct(formData, showLoading) {     
+            console.log('API-AddtasknewCategoryApproval');
+
+            const loadingAlert = showLoading("");
+            try {
+                const response = await axios.post(
+                    `${import.meta.env.VITE_API_URL}/TaskHub/DTL/DTLBannerMgt/AddTaskProductCreation`,
                     formData,
                     { headers: { "Content-Type": "multipart/form-data" } }
 

@@ -50,18 +50,13 @@
           </div>
 
           <div v-else-if="selectedOption === 'vendorBanner'" class="overflow-y-auto max-h-[55vh]">
-            <input
-              v-model="VendorBanner"
-              type="text"
-              placeholder="Enter Vendor Banner"
-              class="w-full p-3 border rounded-md text-sm focus:ring-2 focus:ring-blue-400 focus:border-blue-400 transition-all"
-            />
+            <vendorBanner :vendorId="vendorId" />
+          </div>
+           <div v-else-if="selectedOption === 'store'" class="overflow-y-auto max-h-[55vh]">
+            <productCreation :vendorId="vendorId" />
           </div>
         </transition>
       </div>
-
-
-
     </div>
   </div>
 </template>
@@ -76,9 +71,11 @@ import imagepicker1 from "~/components/customcontrol/imagepicker1.vue";
 import createNewCategory from "../taskHub/bannerProduct/createNewCategory.vue";
 import mainBanner from "../taskHub/bannerProduct/mainBanner.vue";
 import categoryBanner from "../taskHub/bannerProduct/categoryBanner.vue";
+import vendorBanner from "../taskHub/bannerProduct/vendorBanner.vue";
+import productCreation from "../taskHub/bannerProduct/productCreation.vue";
 
 export default {
-  components: { serach_Input, imagepicker1, createNewCategory, mainBanner, categoryBanner, closebtn },
+  components: { serach_Input, imagepicker1, createNewCategory, mainBanner, categoryBanner, closebtn, vendorBanner, productCreation },
   props: ["id", "vendorId"],
   data() {
     return {
@@ -92,7 +89,7 @@ export default {
         { label: "Main Banner", value: "mainBanner" },
         { label: "Category Banner", value: "categoryBanner" },
         { label: "Only Vendor Banner", value: "vendorBanner" },
-        { label: "Product and Vendor Banner", value: "vendorBanner" },
+        { label: "Product and Vendor Banner", value: "store" },
       ],
       err: { job: "" },
     };
