@@ -267,6 +267,7 @@ export default {
   mounted() {
     this.timer = setInterval(() => {
       this.currentTime = new Date();
+       this.currentHour = this.currentTime.getHours();
     }, 1000);
     this.fetchWeather()
   },
@@ -301,25 +302,21 @@ export default {
     status() {
       return this.inTime ? 'Present' : 'Absent'
     },
+    
     workedHours() {
       if (!this.inTime) return '00:00:00';
 
       const inTime = new Date(this.inTime);
-      const outTime = this.outTime ? new Date(this.outTime) : new Date(this.currentTime);
+      const outTime = this.outTime ? new Date(this.outTime) : this.currentTime; // ✅ works now
 
-      console.log('In Time:', inTime);
-      console.log('Out/Current Time:', outTime);
-
-      const ms = outTime.getTime() - inTime.getTime();
-      if (ms < 0) return '00:00:00';
+      const ms = outTime - inTime;
+      if (isNaN(ms) || ms < 0) return '00:00:00';
 
       const totalSec = Math.floor(ms / 1000);
-
       const hrs = String(Math.floor(totalSec / 3600)).padStart(2, '0');
       const mins = String(Math.floor((totalSec % 3600) / 60)).padStart(2, '0');
       const secs = String(totalSec % 60).padStart(2, '0');
 
-      console.log('Worked Hours:', `${hrs}:${mins}:${secs}`);
       return `${hrs}:${mins}:${secs}`;
     },
 

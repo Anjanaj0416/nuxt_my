@@ -19,12 +19,13 @@
 
       <!-- Notification Badge -->
       <span
-        v-if="notifications.length"
+        v-if="orderStore.notifications && orderStore.notifications.length"
         class="absolute -top-0 -right-1 flex items-center justify-center 
-               w-5 h-5 text-[10px] font-bold text-white bg-red-500 
-               rounded-full shadow-md">
-        {{ notifications.length }}
+              w-5 h-5 text-[12px] font-bold text-white bg-red-500 
+              rounded-full shadow-md">
+        {{ orderStore.notifications.length }}
       </span>
+
     </button>
 
     <!-- Dropdown -->
@@ -39,7 +40,7 @@
         <!-- {{ userName }} -->
 
         <!-- <a class="underline" href="/qms/vendor/leads?id=cb5eaaa8-1113-4699-4de2-08de0ad24517">Lead Link</a><br></br> -->
-        <a class="underline" href="/workFlow?id=wf001">KPI Link</a>
+        <!-- <a class="underline" href="/workFlow?id=wf001">KPI Link</a> -->
 
         <ul class="max-h-60 overflow-y-auto">
           <li 
@@ -51,35 +52,41 @@
             <div class="w-2 h-2 rounded-full bg-blue-500 mt-2"></div>
             <div>
               <p class="text-sm font-semibold text-gray-800">
-                {{ note.NotificationType }}
+                {{ note.notificationType }}
               </p>
               <p class="text-sm text-gray-600">
-                {{ note.Message }}
+                {{ note.message }}
               </p>
-              <p v-if="note.Comment" class="text-xs text-gray-500 italic">
-                {{ note.Comment }}
+              <p v-if="note.comment" class="text-xs text-gray-500 italic">
+                {{ note.comment }}
               </p>
-              <p v-if="note.DayPending" class="text-xs text-gray-700">
+              <p v-if="note.dayPending" class="text-xs text-gray-700">
                 Pending:
                 <span 
                   :class="[ 
                     'ml-1 px-2 py-0.5 rounded-full font-semibold', 
-                    note.DayPending > 3 ? 'bg-red-500 text-white' : 'bg-yellow-200 text-yellow-900' 
+                    note.dayPending > 3 ? 'bg-red-500 text-white' : 'bg-yellow-200 text-yellow-900' 
                   ]">
-                  {{ note.DayPending }} day<span v-if="note.DayPending > 1">s</span>
+                  {{ note.dayPending }} day<span v-if="note.dayPending > 1">s</span>
                 </span>
               </p>
             </div>
           </li>
+          <li 
+            v-if="!orderStore.notifications.length"
+            class="px-4 py-5 text-center text-sm text-gray-500"
+          >
+            No notifications
+          </li>
         </ul>
 
-        <div class="p-3 text-center">
+        <!-- <div class="p-3 text-center">
           <button 
             @click="$emit('viewAll')"
             class="w-full py-2 text-sm font-medium text-indigo-600 hover:text-indigo-800 transition">
             View All
           </button>
-        </div>
+        </div> -->
       </div>
     </transition>
   </div>

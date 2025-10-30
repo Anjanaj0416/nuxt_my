@@ -294,7 +294,7 @@
                 <TimeLine :orderId="order.id" />
               </div>
               <div v-if="activeTab.type === 'Banner' && activeTab.orderId === order.id">
-                <Banner :orderId="order.id" />
+                <Banner :orderId="order.id" :vendorId="order.clientId" />
               </div>
             </div>
           </div>

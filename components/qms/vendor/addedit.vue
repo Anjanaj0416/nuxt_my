@@ -32,13 +32,13 @@
                 class="w-full p-2 mt-2 text-sm bg-gray-100 border rounded-md" />
             </div>
             <div class="">
-              <label class="block text-sm font-bold text-gray-600">Company Name</label>
+              <label class="block text-sm font-bold text-gray-600">Company Name <span class="text-red-500">*</span></label>
               <input type="text" v-model="curVendor.shopName" placeholder="Enter Company Name" required
                 class="w-full p-2 mt-2 text-sm border rounded-md focus:ring-indigo-500 focus:border-indigo-500" />
             </div>
 
             <div class="">
-              <label class="block text-sm font-bold text-gray-600">Phone</label>
+              <label class="block text-sm font-bold text-gray-600">Phone<span class="text-red-500">*</span></label>
 
               <input type="text" v-model="curVendor.shopContactNo" placeholder="Enter Phone"
                 class="w-full p-2 mt-2 text-sm border rounded-md focus:ring-indigo-500 focus:border-indigo-500"
@@ -46,7 +46,7 @@
             </div>
 
             <div class="">
-              <label class="block text-sm font-bold text-gray-600">Email</label>
+              <label class="block text-sm font-bold text-gray-600">Email<span class="text-red-500">*</span></label>
               <input type="Email" v-model="curVendor.shopEmail" placeholder="Enter Email"
                 class="w-full p-2 mt-2 text-sm border rounded-md focus:ring-indigo-500 focus:border-indigo-500"
                 required />
@@ -57,7 +57,7 @@
                 class="w-full p-2 mt-2 text-sm border rounded-md focus:ring-indigo-500 focus:border-indigo-500" />
             </div>
             <div class="">
-              <label class="block text-sm font-bold text-gray-600">Address Line 1</label>
+              <label class="block text-sm font-bold text-gray-600">Address Line 1<span class="text-red-500">*</span></label>
               <input type="text" v-model="curVendor.shopAddress1" placeholder="Enter Address Line 1" required
                 class="w-full p-2 mt-2 text-sm border rounded-md focus:ring-indigo-500 focus:border-indigo-500" />
             </div>
@@ -66,14 +66,14 @@
               <input type="text" v-model="curVendor.shopAddress2" placeholder="Enter Address Line 2" required
                 class="w-full p-2 mt-2 text-sm border rounded-md focus:ring-indigo-500 focus:border-indigo-500" />
             </div>
-            <!-- <div class="">
-              <label class="block text-sm font-bold text-gray-600">District</label>
+            <div class="">
+              <label class="block text-sm font-bold text-gray-600">District<span class="text-red-500">*</span></label>
 
               <serach_Input :arrItems="getDistinctDistricts" :isDistrict=true ref="refDistrict" label=""
                 v-model="curVendor.districtId" @selectItem="GetSelectDistrict" />
-            </div> -->
+            </div>
             <div class="">
-              <label class="block text-sm font-bold text-gray-600">City</label>
+              <label class="block text-sm font-bold text-gray-600">City<span class="text-red-500">*</span></label>
               <serach_Input :arrItems="filteredCities" ref="refCity" label="" v-model="curVendor.cityId"
                 @selectItem="GetSelectCity" />
 
@@ -108,12 +108,17 @@
                 @selectItem="GetSelectCso"
               />
             </div>
+            <div class="">
+              <label class="block text-sm font-bold text-gray-600">Postal Code<span class="text-red-500">*</span></label>
+              <input type="text" v-model="curVendor.yourTinNo" placeholder="Enter Postal Code" required
+                class="w-full p-2 mt-2 text-sm border rounded-md focus:ring-indigo-500 focus:border-indigo-500" />
+            </div>
 
           </div>
 
           <!-- description -->
-          <div class="mt-2">
-            <label class="block text-sm font-bold text-gray-600">Description</label>
+          <div class="mt-3">
+            <label class="block text-sm font-bold text-gray-600">Description<span class="text-red-500">*</span></label>
             <textarea type="text" v-model="curVendor.description" placeholder="Enter Description"
               class="w-full p-2 mt-2 text-sm border rounded-md focus:ring-indigo-500 focus:border-indigo-500" />
           </div>
@@ -130,7 +135,7 @@
             </div> -->
             <!-- ShopLogo Image -->
             <div>
-              <label class="block text-sm font-bold text-gray-600">shopLogo</label>
+              <label class="block text-sm font-bold text-gray-600">shopLogo<span class="text-red-500">*</span></label>
               <div class="relative mt-2">
                 <imagepicker1
                   :existingImagePath="imageroot + curVendor.shopLogo"
@@ -161,13 +166,13 @@
           <h3 class="mt-4 font-bold">Owner Information</h3>
           <div class="grid grid-cols-1 gap-4 mt-4 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-3">
             <div class="">
-              <label class="block text-sm font-bold text-gray-600">Name</label>
+              <label class="block text-sm font-bold text-gray-600">Name<span class="text-red-500">*</span></label>
               <input type="text" v-model="curVendor.authorisePersonName" placeholder="Enter Name" required
                 class="w-full p-2 mt-2 text-sm border rounded-md focus:ring-indigo-500 focus:border-indigo-500" />
 
             </div>
             <div class="">
-              <label class="block text-sm font-bold text-gray-600">Contact Number</label>
+              <label class="block text-sm font-bold text-gray-600">Contact Number<span class="text-red-500">*</span></label>
               <input type="text" v-model="curVendor.authorisePersonPhone" :maxlength="10"
                 placeholder="Enter Contact Number" required
                 class="w-full p-2 mt-2 text-sm border rounded-md focus:ring-indigo-500 focus:border-indigo-500" />

@@ -25,7 +25,7 @@
 
             <!-- Payment History Section -->
             <div v-if="listKpi.length === 0" class="text-center text-gray-900 mt-5 text-sm font-medium">
-            <p>No KPI available...</p>
+                <p>No KPI available...</p>
             </div>
 
             <!-- KPI Leads -->
@@ -80,7 +80,7 @@
                 </div>
             </div>
         </div>
-        <assigDtp :orderId="selectedOrderId" v-if="isaAssig" @close="isaAssig = false" />
+        <assigDtp :orderId="selectedOrderId" :vendorId="vendorId" v-if="isaAssig" @close="isaAssig = false" />
     </section>
 </template>
   
@@ -101,27 +101,29 @@
 
     export default {
         components:{imagepicker1,assigDtp,Button,LinkBtn,imagepicker1},
-    data() {
-        return {
-        isaAssig: false,
-        expandedRow: null, 
-        listKpi: [
-            {
-            id: "wf001",
-            job: "New Category",
-            assignDate: "2025.09.12",
-            completedDate: "2025.09.15",
-            kpiAssignTo: "Sandari",
-            status: "Pending",
-            noofDaysPending: 3,
-            contactPhoneNo: "077-1234567",
-            isActive: true,
-            },
-            
+        props: ['id', 'vendorId'],
 
-        ],
-        };
-    },
+        data() {
+            return {
+            isaAssig: false,
+            expandedRow: null, 
+            listKpi: [
+                {
+                id: "wf001",
+                job: "New Category",
+                assignDate: "2025.09.12",
+                completedDate: "2025.09.15",
+                kpiAssignTo: "Sandari",
+                status: "Pending",
+                noofDaysPending: 3,
+                contactPhoneNo: "077-1234567",
+                isActive: true,
+                },
+                
+
+            ],
+            };
+        },
 
     async created() {
         this.userStore = useUserStore();
