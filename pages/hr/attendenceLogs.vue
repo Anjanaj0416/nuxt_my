@@ -1,0 +1,203 @@
+<template>
+    <section class="justify-center min-h-screen px-4 mt-24 mb-20 lg:px-60">
+      <div class="text-2xl uppercase">Attendance Logs</div>
+      <div class="bg-gradient-to-r from-blue-900 via-indigo-700 to-blue-600 shadow-md rounded-lg p-6 mt-10 mb-10 border text-white">
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+          <div>
+            <label class="block mb-1 font-medium">Employee</label>
+            <selectinput2
+              v-model="selectedEmployee"
+              :selections="reportStore.initData.initReport.arrEmp"
+              :isReport=true
+              @change="logSelectedDates"
+              placeholder="Select Employee"
+              class=" text-gray-900 text-sm focus:ring-indigo-500 focus:border-indigo-500"
+            />
+          </div>
+          <div>
+            <label class="block mb-1 font-medium">Year</label>
+            <div class="relative">
+              <selectinput2
+                v-model="selectedYear"
+                :selections="reportStore.initData.initReport.listYears"
+                placeholder="Select Employee"
+                @change="logSelectedDates"
+                class=" text-gray-900 text-sm focus:ring-indigo-500 focus:border-indigo-500"
+              />
+            </div>
+          </div>
+          <div>
+            <label class="block mb-1 font-medium">Month</label>
+            <div class="relative">
+              <selectinput2
+                v-model="selectedMonth"
+                :selections="reportStore.initData.initReport.listMonths"
+                :isReport=true
+                placeholder="Select Employee"
+                @change="logSelectedDates"
+                class=" text-gray-900 text-sm focus:ring-indigo-500 focus:border-indigo-500"
+              />
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <p 
+        v-if="!selectedEmployee || !selectedYear || !selectedMonth" 
+        class="text-sm text-gray-500 italic text-center"
+      >
+        Please select an Employee, Year and Month..
+      </p>
+
+
+      <!-- <div class="bg-white p-6 rounded shadow border mt-6">
+        <p class="text-sm text-gray-500 italic text-center">Report preview will appear here after selection.</p>
+        <h2 class="text-lg font-semibold mb-4">Generated Reports</h2>
+        <ul class="space-y-4">
+          <li class="flex items-center justify-between border p-4 rounded hover:bg-gray-50 transition">
+            <div class="flex items-center space-x-3">
+              <i class="fas fa-file-alt text-blue-600 text-xl"></i>
+              <span class="text-gray-800 font-medium">January 2025 - Matara Arachchi</span>
+            </div>
+            <a
+              href="http://localhost:3000/hr/reports/overtime_individual_summery_report?user=JohnDoe&month=01&year=2025"
+              target="_blank"
+              class="text-blue-600 hover:underline text-sm"
+            >
+              View
+            </a>
+          </li>
+          <li class="flex items-center justify-between border p-4 rounded hover:bg-gray-50 transition">
+            <div class="flex items-center space-x-3">
+              <i class="fas fa-file-alt text-blue-600 text-xl"></i>
+              <span class="text-gray-800 font-medium">February 2025 - Nimal</span>
+            </div>
+            <a
+              href="http://localhost:3000/hr/reports/overtime_individual_summery_report?user=JaneSmith&month=02&year=2025"
+              target="_blank"
+              class="text-blue-600 hover:underline text-sm"
+            >
+              View
+            </a>
+          </li>
+        </ul>
+      </div> -->
+
+
+    </section>
+</template>
+
+
+  
+  <script>
+
+import { useUserStore } from "~/stores/modules/userStore";
+import { useReportStore } from "~/stores/modules/hr/reportStore";
+import { useAttendanceStore } from "~/stores/modules/hr/attendanceStore";
+
+import LinkBtn from "~/components/customcontrol/Link";
+import Button from "~/components/customcontrol/Button";
+import selectinput2 from "~/components/customcontrol/selectinput2";
+import SearchInput from '~/components/customcontrol/SearchInput.vue';
+
+ definePageMeta({
+    layout: 'default',   
+    middleware: 'auth',
+   });
+   
+  export default {
+    
+    components: {
+      LinkBtn,
+      Button,
+      selectinput2,
+      SearchInput
+    },
+    props:[''],
+    data() {
+      return {
+        imageroot: "",
+        showLoading: null,
+        isReport: false,
+        selectedEmployee: '',
+        selectedYear: '',
+        selectedMonth: '',
+        years: [
+          "2000",
+          "2001",
+          "2002",
+          "2003",
+          "2004",
+          "2005",
+          "2006",
+        ],
+        months: [1,2,3,4,5,6,7,8,9,10,11,12]
+       
+      }
+    },
+    async mounted() {
+     
+    },
+    async created() {
+      this.reportStore = useReportStore();
+      this.attendanceStore = useAttendanceStore();
+      this.userStore = useUserStore();
+      this.showLoading = this.$showLoading;
+      this.imageroot = this.userStore.loggedUser.resourceURLRoot;
+
+      await this.reportStore.getReportInitData();
+
+    },
+    watch: {},
+    computed: {},
+    methods: {
+
+      async logSelectedDates() {
+        if (!this.selectedEmployee || !this.selectedYear || !this.selectedMonth) {
+          this.$showToast('Please select an Employee, Year and Month', 'warning');
+          return;
+        }
+
+        const req = {
+          EmpNo: this.selectedEmployee,
+          Year: this.selectedYear,
+          Month: this.selectedMonth,
+        };
+        await this.attendanceStore.getProcessAttendenceLogs(req, this.$showLoading);
+      }
+   
+      //this.$showToast('Login successful!', 'success'); //success ,error ,warning,info
+    },
+    async beforeMount() {
+      // if (this.loggeduser.granted.indexOf('workgroup') > -1 || this.loggeduser.usergroup == 'Supervisor' ) {
+      // } else {
+      //   this.show_error('Not Allowed to access this page')
+      //   this.$router.push('/')
+      // }
+  
+    },
+    head() {
+      return {
+        title: 'Intranet - Digital Tech Labs',
+      }
+    },
+  }
+
+  </script>
+  
+  <style scoped>
+  .csscmd{
+    @apply p-2 text-center bg-blue-200 rounded;
+  }
+  .csscmd:hover{
+    @apply bg-blue-200 cursor-pointer;
+  }
+  
+  .cssBox {
+    border: 1px solid;
+    @apply border-gray-500 rounded p-2;
+  }
+  </style>
+  
+  
+  

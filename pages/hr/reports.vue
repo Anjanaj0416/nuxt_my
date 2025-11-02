@@ -10,6 +10,7 @@
       <employee_leave_annual_report v-if="reportNo=='R1005'"/>
       <timeCard_summery_report v-if="reportNo=='R1007'"/>
       <noPay_monthly_report v-if="reportNo=='R1009'"/>
+      <monthend_attendance_report v-if="reportNo=='R1012'"/>
     </section>
     <!-- <input type="text" oninput="this.value = this.value.replace(/[^0-9.]/g, '').replace(/(\..*?)\..*/g, '$1');" > -->
   </template>
@@ -32,6 +33,7 @@ import employee_rectification_report from "~/components/hr/reports/employee_rect
 import employee_leave_annual_report from "~/components/hr/reports/employee_leave_annual_report";
 import timeCard_summery_report from "~/components/hr/reports/timeCard_summery_report";
 import noPay_monthly_report from "~/components/hr/reports/noPay_monthly_report";
+import monthend_attendance_report from "~/components/hr/reports/monthend_attendance_report";
 import { useRoute } from 'vue-router'
 
  //import LinkBtn from "~/components/customcontrol/Link";
@@ -53,6 +55,7 @@ import { useRoute } from 'vue-router'
       employee_leave_annual_report,
       timeCard_summery_report,
       noPay_monthly_report,
+      monthend_attendance_report,
     },//LinkBtn,Button,selectinput2
 
     props:[''],
