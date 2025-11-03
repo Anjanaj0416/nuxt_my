@@ -3,7 +3,13 @@
     <div class="text-2xl uppercase">Month-End Attendance Report</div>
     <div
       class="bg-gradient-to-r from-blue-900 via-indigo-700 to-blue-600 shadow-md rounded-lg p-6 mt-10 mb-10 border text-white">
-      <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+      <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+        <div>
+          <label class="block mb-1 font-medium">Employee</label>
+          <selectinput2 v-model="selectedEmployee" :selections="reportStore.initData.initReport.arrEmp" :isReport=true
+            @change="logSelectedDates" placeholder="Select Employee"
+            class=" text-gray-900 text-sm focus:ring-indigo-500 focus:border-indigo-500" />
+        </div>
         <div>
           <label class="block mb-1 font-medium">Year</label>
           <div class="relative">
@@ -15,8 +21,8 @@
         <div>
           <label class="block mb-1 font-medium">Month</label>
           <div class="relative">
-            <selectinput2 v-model="selectedMonth" :selections="reportStore.initData.initReport.listMonths" :isReport=true
-              placeholder="Select Employee" @change="logSelectedDates"
+            <selectinput2 v-model="selectedMonth" :selections="reportStore.initData.initReport.listMonths"
+              :isReport=true placeholder="Select Employee" @change="logSelectedDates"
               class=" text-gray-900 text-sm focus:ring-indigo-500 focus:border-indigo-500" />
           </div>
         </div>
@@ -53,7 +59,8 @@ export default {
       showLoading: null,
       isReport: false,
       selectedYear: '',
-      selectedMonth: ''
+      selectedMonth: '',
+      selectedEmployee: '',
     }
   },
   async mounted() {
@@ -71,16 +78,24 @@ export default {
   methods: {
 
     async logSelectedDates() {
-      if (!this.selectedYear || !this.selectedMonth) {
-        this.$showToast('Please select a Year and Month', 'warning');
+      if (!this.selectedEmployee || !this.selectedYear || !this.selectedMonth) {
+        this.$showToast('Please select an Employee, Year and Month', 'warning');
         return;
       }
 
-      const req = {
-        Year: this.selectedYear,
-        Month: this.selectedMonth,
-      };
-      await this.reportStore.getMonthEndAttendanceSheet(req, this.$showLoading);
+      this.$showConfirm("Take some time to process..Do you wish to continue?", "warning")
+        .then(async (result) => {
+          if (result.isConfirmed) {
+            const req = {
+              EmpNo: this.selectedEmployee,
+              Year: this.selectedYear,
+              Month: this.selectedMonth,
+            };
+            await this.reportStore.getMonthEndAttendanceSheet(req, this.$showLoading);
+          }
+        });
+
+
     }
   },
 

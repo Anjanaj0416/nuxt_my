@@ -97,7 +97,7 @@ export const useEmployeeStore = defineStore("employeeStore", {
           console.log(`${key}: ${value}`);
         }
 
-      const loadingAlert = showLoading("");
+      const loadingAlert = showLoading(""); 
       try {
         const response = await axios.post(
           `${import.meta.env.VITE_API_URL}/hr/Employee/SetAddEdit`,
