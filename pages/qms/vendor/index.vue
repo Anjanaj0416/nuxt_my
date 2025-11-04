@@ -35,13 +35,14 @@
     <div v-if="vendorStore.listVendor.length === 0" class="text-center text-gray-900 mt-5 text-sm font-medium">
       <p>No vendors available...</p>
     </div>
-    <!-- {{ vendorStore.listVendor }} -->
+    
     <div v-for="vd in vendorStore.listVendor" :key="vd.id">
       <div class="flex flex-col gap-0 p-4 mt-2  border-2 rounded-md shadow-md sm:p-4 shadow-sm hover:shadow-md " :class="{
         'bg-red-50': vd.isActive === false,
         'bg-white': vd.isActive === true,
         'bg-white': vd.isActive === undefined
       }">
+      <!-- {{ vendorStore.listVendor }} -->
         <div class="flex flex-col gap-4 sm:flex-row sm:justify-between sm:items-start">
           <div class="grid w-full grid-cols-2 gap-2 lg:grid-cols-8 sm:grid-cols-7 md:grid-cols-8">
             <!-- Shop Logo -->

@@ -18,23 +18,6 @@
       </div>
     </div>
 
-    <div
-      class="flex flex-col items-center justify-between mt-2 mb-2 md:flex-row"
-    >
-      <div v-if="userStore.loggedUser.granted.includes('su') || userStore.loggedUser.granted.includes('flo') || userStore.loggedUser.granted.includes('sso')" class="w-full mb-4 md:mb-0">
-        <div class="mr-2">
-          <Button
-            class="w-24 px-5 py-2 text-sm"
-            label="New"
-            variant="primary"
-            @click="GoToAddNew"
-          />
-        </div>
-      </div>
-      <div class="w-full md:w-96">
-        <!-- <SearchComp @DoSearch="GetSearch" /> -->
-      </div>
-    </div>
 
     <!-- If no KPI -->
     <div v-if="listKpi.length === 0" class="text-center text-gray-900 mt-5 text-sm font-medium">

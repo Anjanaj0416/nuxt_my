@@ -1,6 +1,6 @@
 <template>
   <div class="p-6 space-y-6 overflow-y">
-    <h2 class="text-lg font-semibold text-gray-700 border-b pb-2 mb-4">Create Main Banner</h2>
+    <h2 class="text-lg font-semibold text-gray-700 border-b pb-2 mb-4">Product Creation and Vendor Banner</h2>
     <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
       <div>
         <label class="block text-sm font-medium text-gray-600 mb-1">Expire Date</label>
@@ -88,6 +88,7 @@
           />
       </div>
     </div>
+    
     <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
       <div>
         <label class="block text-sm font-medium text-gray-600 mb-1">Comment</label>
@@ -103,7 +104,7 @@
   </div>
   <div class=" modal-footer">
     <button   @click="cancel" class="px-12 py-2 text-xs  font-semibold transition bg-white text-gray-600 rounded-full shadow">Cancel</button>
-    <button @click="SetMainBanner()"  class="px-12 py-2 text-xs  bg-gradient-to-r from-blue-500 via-blue-600 to-blue-700 
+    <button @click="SetProductVBanner()"  class="px-12 py-2 text-xs  bg-gradient-to-r from-blue-500 via-blue-600 to-blue-700 
             font-semibold transition text-white rounded-full shadow  focus:ring-2 focus:ring-blue-400">
         Create
     </button>
@@ -113,7 +114,6 @@
 <script>
 import { reactive, computed } from "vue";
 import imagepickermultiple from "~/components/customcontrol/imagepickermultiple.vue";
-
 import { useUserStore } from "~/stores/modules/userStore";
 import { useTaskhubStore } from "~/stores/modules/taskHub/taskhubStore";
 
@@ -122,7 +122,7 @@ definePageMeta({
   layout: "default",
 });
 export default {
-  components: {imagepickermultiple},
+  components: { imagepickermultiple},
   props: ['id', 'vendorId'],
   data() {
     return {
@@ -131,14 +131,6 @@ export default {
       showLoading: null,
       selectedOption: "",
       selectedClient: null,
-      optionError: "",
-      options: [
-        { label: "New Category", value: "category" },
-        { label: "Main Banner", value: "mainBanner" },
-        { label: "Category Banner", value: "categoryBanner" },
-        { label: "Vendor Banner", value: "vendorBanner" },
-
-      ],
       expDate: '',
       sortOrder: '',
       comment: '',
@@ -196,15 +188,16 @@ export default {
       this.listMaterialFiles = files;
     },
 
+
     formatToEndOfDayISO(dateStr) {
       if (!dateStr) return null;
       return `${dateStr}T23:59:59`;
     },
 
-    async SetMainBanner() {
+    async SetProductVBanner() {
       if (!this.IsValidate()) return;
 
-      this.$showConfirm("Are you sure to this Main Banner?", "warning")
+      this.$showConfirm("Are you sure to this Vendor Banner?", "warning")
         .then(async (result) => {
           if (result.isConfirmed) {
 
@@ -217,16 +210,19 @@ export default {
             formData.append("DtpId", this.dtpId);
             formData.append("comment", this.comment || "");
 
-            if (this.listMaterialFiles) {
-              formData.append("listMaterialFiles", this.listMaterialFiles);
+            if (this.listMaterialFiles && this.listMaterialFiles.length > 0) {
+              this.listMaterialFiles.forEach((file) => {
+                formData.append("listMaterialFiles", file);
+              });
             }
+
 
 
             for (let [key, value] of formData.entries()) {
               console.log(key, value);
             }
 
-            await this.taskhubStore.AddMainBanner(formData, this.showLoading);
+            await this.taskhubStore.SetProduct(formData, this.showLoading);
 
             this.closeModal();
             this.clearErr();
