@@ -96,11 +96,19 @@ export default {
               Month: this.selectedMonth,
             };
             await this.reportStore.getMonthEndAttendanceSheet(req, this.$showLoading);
+
+            await this.clearAll();
           }
         });
 
 
-    }
+    },
+
+    async clearAll() {
+      this.selectedEmployee = ""
+      this.selectedYear = ""
+      this.selectedMonth = ""
+    },
   },
 
   async beforeMount() {
