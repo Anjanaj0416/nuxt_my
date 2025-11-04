@@ -252,7 +252,7 @@ export const useAttendanceStore = defineStore("attendanceStore", {
         );
         console.log("response:", response);
         if (response.data.isSuccess) {
-          // this.showToast('Loading successful!', 'success');
+          this.showToast(response.data.message, 'success');
         } else {
           console.error("Loading error:", response.data.message);
           // this.showToast(response.data.message, 'error');

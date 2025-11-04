@@ -407,7 +407,7 @@ export const useReportStore = defineStore("reportStore", {
 
             const link = document.createElement('a');
             link.href = url;
-            link.download = `DailyAttendance_${req.Year}_${req.Month}.rar`;
+            link.download = `DailyAttendance_${req.EmpNo}_${req.Year}_${req.Month}.rar`;
             document.body.appendChild(link);
             link.click();
 

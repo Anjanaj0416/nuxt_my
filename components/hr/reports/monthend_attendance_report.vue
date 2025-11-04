@@ -72,6 +72,10 @@ export default {
 
     await this.reportStore.getReportInitData();
 
+    this.reportStore.initData.initReport.arrEmp.unshift({ id: "0", value: "All" });
+
+
+
   },
   watch: {},
   computed: {},
