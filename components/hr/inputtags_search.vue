@@ -30,6 +30,11 @@ data() {
                 <serachInput :arrItems="arrItems" ref="compSelect" label="" @selectItem="addItem"
                     class="w-full p-2 border-gray-500 rounded" />
             </div>
+            <div v-if="arrConvertedExistingGrants.length > 0">
+                <div v-for="item in arrConvertedExistingGrants" :key="item">
+                    <tag :item="item" :existingGrant=true @deletetag="GetDeleteTag" />
+                </div>
+            </div>
             <div v-for="item in arrSelectedItems" :key="item.id">
                 <tag :item="item" @deletetag="GetDeleteTag" />
             </div>
@@ -47,6 +52,10 @@ export default {
             type: Array,
             default: () => [],
         },
+        arrExistingGrants: {
+            type: Array,
+            default: () => [],
+        }
     },
     components: {
         tag,
@@ -54,13 +63,22 @@ export default {
     },
     data() {
         return {
+            arrConvertedExistingGrants: [],
             arrSelectedItems: [],
             arrSelectedIDs: [],
         };
     },
-    // created() {
-    //     console.log("arrItems in inputtags_search:", this.arrItems);
-    // },
+    created() {
+        console.log("arrExistingGrants :", this.arrExistingGrants);
+        this.arrConvertedExistingGrants = this.arrExistingGrants
+            .split(',')
+            .map(item => item.trim())
+            .filter(item => item.length > 0)
+
+        console.log("arrConvertedExistingGrants:", this.arrConvertedExistingGrants);
+
+    },
+
     methods: {
         resetItems() {
             this.arrSelectedItems = [];

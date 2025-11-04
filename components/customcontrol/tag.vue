@@ -34,17 +34,21 @@ import tag from '~/components/customcontrol/tag'
         </svg>
       </div>
 
+      <div v-if="existingGrant">
+        <div class="truncate text-red w-32" title="">
+          {{ item }}
+        </div>
+      </div>
       <div class="truncate text-red w-32" title="">
         {{ item.value }}
       </div>
-
     </div>
   </section>
 </template>
 
 <script>
 export default {
-  props: ['item'],
+  props: ['item', 'existingGrant'],
   components: {},
   data() {
     return {
