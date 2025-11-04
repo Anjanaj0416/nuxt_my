@@ -133,11 +133,10 @@
     <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
       <div>
         <label class="block text-sm font-medium text-gray-600 mb-1">Material Upload</label>
-          <imagepicker1
-            @GetSelectedImage="handleSelectedImages"
-            :image_file="imageroot"
+          <imagepickermultiple
+            @GetSelectedImages="handleSelectedImages"
             ref="refApprovedImg"
-            accept="image/*,application/pdf"
+            accept="image/*,application/pdf,.doc,.docx,.xls,.xlsx"
           />
       </div>
     </div>
@@ -165,8 +164,7 @@
 
 <script>
 import { reactive, computed } from "vue";
-import serach_Input from "~/components/customcontrol/SearchInput";
-import imagepicker1 from "~/components/customcontrol/imagepicker1.vue";
+import imagepickermultiple from "~/components/customcontrol/imagepickermultiple.vue";
 
 import { useUserStore } from "~/stores/modules/userStore";
 import { useTaskhubStore } from "~/stores/modules/taskHub/taskhubStore";
@@ -176,7 +174,7 @@ definePageMeta({
   layout: "default",
 });
 export default {
-  components: { serach_Input, imagepicker1},
+  components: {imagepickermultiple},
   props: ['id', 'vendorId'],
   data() {
     return {
@@ -252,11 +250,9 @@ export default {
       }
     },
 
-     handleSelectedImages(file) {
-      console.log("Selected File:", file);
-      if (file) {
-        this.listMaterialFiles = file;
-      }
+    handleSelectedImages(files) {
+      console.log("Selected Files in Parent:", files);
+      this.listMaterialFiles = files;
     },
 
     formatToEndOfDayISO(dateStr) {
