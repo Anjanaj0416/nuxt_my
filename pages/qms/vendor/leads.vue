@@ -29,7 +29,7 @@
     </div>
     <div
       class="flex flex-col gap-2 p-4 mt-3 bg-white border rounded-xl shadow-sm hover:shadow-md "
-      v-for="(lead, index) in leadStore.listLeads"
+      v-for="(lead, index) in paginatedLeads"
       :key="index"
     >
           {{ leadStore.listLeads.status}}
@@ -194,7 +194,7 @@
           </div>
           <!-- Editable Fields -->
           <div class="grid grid-cols-1 gap-4 sm:grid-cols-1">
-            <div v-if="(userStore.loggedUser.granted?.includes('sso') || userStore.loggedUser.granted?.includes('su') ) 
+            <div v-if="(userStore.loggedUser.granted?.includes('sso') || userStore.loggedUser.granted?.includes('su') || userStore.loggedUser.granted?.includes('cso') ) 
               && (lead.status === 'Pending' || lead.status === 'Hold' || lead.status === 'Cancelled' || lead.status == 'Completed' || lead.status == 'CSOAssigned' || lead.status == 'CallLater' || lead.status == 'Called' || lead.status == 'Visited' || lead.status == 'VisitLater' || lead.status == 'Presented')"
               class="grid grid-cols-1 md:grid-cols-2 gap-4"
             >
@@ -217,7 +217,7 @@
               </div>
             </div>
             
-            <div v-if="(userStore.loggedUser.granted?.includes('flo') || userStore.loggedUser.granted?.includes('su') || userStore.loggedUser.granted?.includes('sso')) 
+            <div v-if="(userStore.loggedUser.granted?.includes('flo') || userStore.loggedUser.granted?.includes('su') || userStore.loggedUser.granted?.includes('sso') || userStore.loggedUser.granted?.includes('cso')) 
               && (lead.status === 'Pending' || lead.status === 'Hold' || lead.status === 'Cancelled' || lead.status == 'Completed' || lead.status == 'CSOAssigned' || lead.status == 'CallLater' || lead.status == 'Called' || lead.status == 'Visited' || lead.status == 'VisitLater' || lead.status == 'Presented')"
               class="w-full sm:w-1/2"
             >
@@ -236,7 +236,7 @@
        
           <!-- Action Buttons -->
           <div
-            v-if="(userStore.loggedUser.granted?.includes('flo') || userStore.loggedUser.granted?.includes('su') || userStore.loggedUser.granted?.includes('sso')) 
+            v-if="(userStore.loggedUser.granted?.includes('flo') || userStore.loggedUser.granted?.includes('su') || userStore.loggedUser.granted?.includes('sso') || userStore.loggedUser.granted?.includes('cso')) 
               && (lead.status === 'Pending' || lead.status === 'Hold' || lead.status === 'Cancelled' || lead.status == 'Completed' || lead.status == 'CSOAssigned' || lead.status == 'CallLater' || lead.status == 'Called' || lead.status == 'Visited' || lead.status == 'VisitLater' || lead.status == 'Presented')"
             class="flex justify-end pt-2"
           >
@@ -251,6 +251,15 @@
         </section>
       </div>
     </div>
+
+     <Pagination
+      :total-items="leadStore.listLeads.length"
+      :items-per-page="itemsPerPage"
+      :current-page="page"
+      @update:currentPage="page = $event"
+    />
+    
+
     <AddLeads v-if="isAddLeads" @close="isAddLeads = false" />
     <AddRso
       v-if="isAddRso"
@@ -274,6 +283,7 @@ import AddLeads from "~/components/qms/vendor/addLeads";
 import Button from "~/components/customcontrol/Button.vue";
 import AddRso from "~/components/qms/vendor/assignSalesEx.vue";
 import { useLeadStore } from "~/stores/modules/qms/leadStore";
+import Pagination from "~/components/customcontrol/Pagination.vue";
 
 definePageMeta({
   layout: "default",
@@ -289,6 +299,7 @@ export default {
     AddLeads,
     Button,
     AddRso,
+    Pagination
   },
   props: [""],
   data() {
@@ -304,15 +315,9 @@ export default {
       isMore: false,
       newComment: "",
       rowIndex: -1,
+      page: 1,
+      itemsPerPage: 5, 
       err: { status: "", newComment: "" },
-      vendorFields: [
-        { label: "Company Name", key: "companyName" },
-        { label: "Address ", key: "address" },
-        { label: "Company Contact Number", key: "companyPhone" },
-        { label: "CSO Number", key: "csoNo" },
-        // { label: "City", key: "city" },
-        { label: "Status", key: "status" },
-      ],
     };
   },
   async mounted() {},
@@ -340,18 +345,13 @@ export default {
   },
   watch: {},
   computed: {
-  //   arrFilter() {
-  //   const counts = this.leadStore.leadsCount || {};
-  //   return [
-  //     { itemName: "All", itemCount: counts || 0 },
-  //     { itemName: "Pending", itemCount: counts || 0 },
-  //     { itemName: "Completed", itemCount: counts || 0 },
-  //     { itemName: "Cancelled", itemCount: counts || 0 },
-  //     { itemName: "Hold", itemCount: counts || 0 },
-  //     { itemName: "CSO Assigned", itemCount: counts || 0 },
-  //   ];
-  // },
+    paginatedLeads() {
+      const start = (this.page - 1) * this.itemsPerPage;
+      const end = start + this.itemsPerPage;
+      return this.leadStore.listLeads.slice(start, end);
+    },
   },
+
   methods: {
       GoToOrder(vendorId){         
           this.$router.push('/qms/vendor?p='+vendorId)

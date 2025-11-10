@@ -88,8 +88,8 @@ export default {
         { label: "New Category", value: "category" },
         { label: "Main Banner", value: "mainBanner" },
         { label: "Category Banner", value: "categoryBanner" },
-        { label: "Only Vendor Banner", value: "vendorBanner" },
-        { label: "Product and Vendor Banner", value: "store" },
+        { label: "Vendor Banner", value: "vendorBanner" },
+        { label: "Product", value: "store" },
       ],
       err: { job: "" },
     };

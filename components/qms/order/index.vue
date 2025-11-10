@@ -17,7 +17,7 @@
               <div class="mr-2">
             
                 <Button class="w-24 px-4 py-1.5 mt-2 rounded-full text-xs transition" label="Create" variant="primary" 
-                  v-if="userStore.loggedUser.granted.includes('su') || userStore.loggedUser.granted.includes('flo') || userStore.loggedUser.granted.includes('sso')"
+                  v-if="userStore.loggedUser.granted.includes('su') || userStore.loggedUser.granted.includes('flo') || userStore.loggedUser.granted.includes('sso') || userStore.loggedUser.granted?.includes('cso')"
                   @click="handleCreateClick" 
                 />
               </div>
@@ -252,7 +252,7 @@
                 </button>
 
                 <button
-                  v-if="order.orderStatus !== 'Canceled'"
+                  v-if="(userStore.loggedUser.granted.includes('sso') || userStore.loggedUser.granted.includes('su')) && (order.orderStatus !== 'Canceled')"
                   @click="confirmDelete(order.id)"
                   class="text-sm  text-blue-600 hover:underline"
                 >

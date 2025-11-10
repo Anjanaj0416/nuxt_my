@@ -1,53 +1,111 @@
-<!-- Pagination.vue -->
 <template>
-    <div class="pagination">
-      <button 
-        @click="changePage(page)" 
-        v-for="page in pages" 
-        :key="page" 
-        class="page-button"
-      >
-        {{ page }}
-      </button>
-    </div>
-  </template>
-  
-  <script>
-  export default {
-    props: {
-      totalItems: Number, 
-      itemsPerPage: Number,
-      currentPage: Number,
+  <div v-if="totalPages > 0" class="pagination">
+    <!-- Previous Button -->
+    <button
+      class="nav-button"
+      :disabled="currentPage === 1"
+      @click="goToPage(currentPage - 1)"
+    >
+      Prev
+    </button>
+
+    <!-- Numbered Page Buttons -->
+    <button
+      v-for="page in visiblePages"
+      :key="page"
+      :class="['page-button', { active: page === currentPage }]"
+      @click="goToPage(page)"
+    >
+      {{ page }}
+    </button>
+
+    <!-- Next Button -->
+    <button
+      class="nav-button"
+      :disabled="currentPage === totalPages"
+      @click="goToPage(currentPage + 1)"
+    >
+      Next
+    </button>
+  </div>
+
+  <!-- Optional: message when no items -->
+
+</template>
+
+<script>
+export default {
+  props: {
+    totalItems: { type: Number, required: true },
+    itemsPerPage: { type: Number, required: true },
+    currentPage: { type: Number, required: true },
+  },
+  computed: {
+    totalPages() {
+      return Math.ceil(this.totalItems / this.itemsPerPage);
     },
-    computed: {
-      pages() {
-        const totalPages = Math.ceil(this.totalItems / this.itemsPerPage);
-        return Array.from({ length: totalPages }, (_, index) => index + 1);
-      }
+    visiblePages() {
+      if (this.totalPages === 0) return [];
+      const total = this.totalPages;
+      const current = this.currentPage;
+      const maxVisible = 4;
+      let start = Math.floor((current - 1) / maxVisible) * maxVisible + 1;
+      let end = Math.min(start + maxVisible - 1, total);
+
+      return Array.from({ length: end - start + 1 }, (_, i) => start + i);
     },
-    methods: {
-      changePage(page) {
+  },
+  methods: {
+    goToPage(page) {
+      if (page >= 1 && page <= this.totalPages) {
         this.$emit('update:currentPage', page);
       }
-    }
-  };
-  </script>
-  
-  <style scoped>
-  .pagination {
-    display: flex;
-    gap: 8px;
-  }
-  
-  .page-button {
-    padding: 8px;
-    background-color: #eee;
-    border: 1px solid #ddd;
-    cursor: pointer;
-  }
-  
-  .page-button:hover {
-    background-color: #ccc;
-  }
-  </style>
-  
+    },
+  },
+};
+</script>
+
+<style scoped>
+.pagination {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+  margin-top: 16px;
+}
+
+.page-button,
+.nav-button {
+  padding: 6px 10px;
+  border: 1px solid #d1d5db;
+  border-radius: 6px;
+  background-color: #f9fafb;
+  cursor: pointer;
+  font-size: 14px;
+  transition: 0.2s;
+}
+
+.page-button:hover,
+.nav-button:hover {
+  background-color: #e5e7eb;
+}
+
+.page-button.active {
+  background-color: #3b82f6;
+  color: white;
+  font-weight: bold;
+  border-color: #3b82f6;
+}
+
+.nav-button:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+.no-data {
+  text-align: center;
+  margin-top: 1rem;
+  color: #9ca3af;
+  font-size: 14px;
+}
+</style>

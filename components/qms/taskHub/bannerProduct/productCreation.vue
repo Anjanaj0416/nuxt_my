@@ -1,6 +1,6 @@
 <template>
   <div class="p-6 space-y-6 overflow-y">
-    <h2 class="text-lg font-semibold text-gray-700 border-b pb-2 mb-4">Product Creation and Vendor Banner</h2>
+    <h2 class="text-lg font-semibold text-gray-700 border-b pb-2 mb-4">Product Creation </h2>
     <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
       <div>
         <label class="block text-sm font-medium text-gray-600 mb-1">Expire Date</label>
@@ -59,15 +59,15 @@
       <div>
           <label class="block text-sm font-medium text-gray-600 mb-1">Select DTP</label>
           <select
-            v-model="dtpId"
-            @input="clearErrorOnInput('dtpId')"
+            v-model="selectedDtp"
+            @change="onDtpSelect"
             class="w-full p-2 border rounded-md text-sm bg-white focus:ring-2 focus:ring-blue-400"
           >
             <option disabled value="">Select DTP</option>
             <option
               v-for="item in taskhubStore.listDTP"
               :key="item.id"
-              :value="item.id"
+              :value="item"
             >
               {{ item.value }}
             </option>
@@ -75,6 +75,26 @@
           <p v-if="err.dtpId" class="mt-2 text-sm text-red-600">
             {{ err.dtpId }}
           </p>
+      </div>
+      <div>
+        <label class="block text-sm font-medium text-gray-600 mb-1">Select Admin</label>
+        <select
+          v-model="dtpId"
+          @input="clearErrorOnInput('dtpId')"
+          class="w-full p-2 border rounded-md text-sm bg-white focus:ring-2 focus:ring-blue-400"
+        >
+          <option disabled value="">Select Admin</option>
+          <option
+            v-for="item in taskhubStore.listDTP"
+            :key="item.id"
+            :value="item.id"
+          >
+            {{ item.value }}
+          </option>
+        </select>
+        <p v-if="err.dtpId" class="mt-2 text-sm text-red-600">
+          {{ err.dtpId }}
+        </p>
       </div>
     </div>
 
@@ -137,6 +157,7 @@ export default {
       amount:'',
       kpiDays: '',
       dtpId : '',
+      selectedDtp: null,
       listMaterialFiles: {},
       err: {
         expDate: '',
@@ -186,6 +207,13 @@ export default {
     handleSelectedImages(files) {
       console.log("Selected Files in Parent:", files);
       this.listMaterialFiles = files;
+    },
+
+    onDtpSelect() {
+      if(this.selectedDtp) {
+        this.dtpId = this.selectedDtp.id;
+        this.clearErrorOnInput("dtpId");
+      }
     },
 
 
