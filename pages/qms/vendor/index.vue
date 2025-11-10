@@ -36,7 +36,7 @@
       <p>No vendors available...</p>
     </div>
     
-    <div v-for="vd in vendorStore.listVendor" :key="vd.id">
+    <div v-for="vd in paginatedVendor" :key="vd.id">
       <div class="flex flex-col gap-0 p-4 mt-2  border-2 rounded-md shadow-md sm:p-4 shadow-sm hover:shadow-md " :class="{
         'bg-red-50': vd.isActive === false,
         'bg-white': vd.isActive === true,
@@ -159,6 +159,31 @@
               v-if="
                 (userStore.loggedUser.granted.includes('su') ||
                 userStore.loggedUser.granted.includes('sso')) &&
+                vendorTabs[vd.id] !== 'productSample'
+              "
+              @click="vendorTabs[vd.id] = 'productSample'; quotationStore.curVendorId = vd.id" :class="[
+                'p-4 border-b-2 rounded-t-lg text-center',
+                vendorTabs[vd.id] === 'productSample'
+                  ? 'text-blue-600 border-blue-600 dark:text-blue-500 '
+                  : 'border-transparent hover:text-gray-600 hover:border-gray-300 '
+              ]">
+              Product Sample
+            </button>
+            <button 
+              v-if="
+                (userStore.loggedUser.granted.includes('su') ||
+                userStore.loggedUser.granted.includes('sso')) &&
+                vendorTabs[vd.id] === 'productSample'
+              "
+              @click="vendorTabs[vd.id] = ''; quotationStore.curVendorId = null"
+              class="p-4 border-b-2 rounded-t-lg text-center text-red-600 border-transparent ">
+              Close Product Sample
+            </button>
+
+            <button  
+              v-if="
+                (userStore.loggedUser.granted.includes('su') ||
+                userStore.loggedUser.granted.includes('sso')) &&
                 vendorTabs[vd.id] !== 'isuePINo'
               "
               @click="vendorTabs[vd.id] = 'isuePINo'; quotationStore.curVendorId = vd.id" :class="[
@@ -169,7 +194,6 @@
               ]">
               Issue PI No.
             </button>
-
             <button 
               v-if="
                 (userStore.loggedUser.granted.includes('su') ||
@@ -182,7 +206,7 @@
             </button>
 
 
-            <button v-if="vendorTabs[vd.id] !== 'order' &&  vendorStore.initVendor.isOrdersFound"
+            <button v-if="vendorTabs[vd.id] !== 'order'"
               @click="vendorTabs[vd.id] = 'order'; quotationStore.curVendorId = vd.id" :class="[
                 'p-4 border-b-2 rounded-t-lg text-center',
                 vendorTabs[vd.id] === 'order'
@@ -196,25 +220,8 @@
               class="p-4 border-b-2 rounded-t-lg text-center text-red-600 border-transparent ">
               Close Orders
             </button>
-            
 
-            <button
-              v-if="vendorTabs[vd.id] === 'invoice'"
-              @click="vendorTabs[vd.id] = ''; quotationStore.curVendorId = null"
-              class="p-4 border-b-2 rounded-t-lg text-center text-red-600 border-transparent "
-            >
-              Close Invoices
-            </button>
-
-            <button v-if="vendorTabs[vd.id] !== 'order'"
-              @click="vendorTabs[vd.id] = 'order'; quotationStore.curVendorId = vd.id" :class="[
-                'p-4 border-b-2 rounded-t-lg text-center',
-                vendorTabs[vd.id] === 'order'
-                  ? 'text-blue-600 border-blue-600 dark:text-blue-500 dark:border-blue-500'
-                  : 'border-transparent hover:text-gray-600 hover:border-gray-300 '
-              ]">
-              Order
-            </button>
+           
 
 
             <button v-if="vendorTabs[vd.id] !== 'viewMore'"
@@ -289,9 +296,9 @@
           <div v-if="vendorTabs[vd.id] === 'proposal'">
             <Proposal :customerRef="vd.customerRef"/>
           </div>
-          <!-- <div v-if="vendorTabs[vd.id] === 'invoice'">
-            <Invoice />
-          </div> -->
+          <div v-if="vendorTabs[vd.id] === 'productSample'">
+            <productSample :customerRef="vd.customerRef" :id="vd.id" />
+          </div>
           <div v-if="vendorTabs[vd.id] === 'isuePINo'">
             <IsuePINo :vendorId="vd.id" @close="vendorTabs[vd.id] = ''; quotationStore.curVendorId = null"/>
           </div>
@@ -310,6 +317,13 @@
         </div>
       </div>
     </div>
+
+    <Pagination
+      :total-items="vendorStore.listVendor.length"
+      :items-per-page="itemsPerPage"
+      :current-page="page"
+      @update:currentPage="page = $event"
+    />
 
 
 
@@ -333,6 +347,9 @@ import Order from "~/components/qms/order/index";
 import IsuePINo from "~/components/qms/isuePINo/index.vue"
 import defaultShop from "~/assets/img/digitalTechLabs/defaultShopImage.png"
 import MoreVendor from "~/components/qms/vendor/moreVendor.vue";
+import Pagination from "~/components/customcontrol/Pagination.vue";
+import productSample from "~/components/qms/order/productSample.vue";
+
 
 
 import WorkFlow from "~/components/qms/workFlow/index.vue"
@@ -365,7 +382,9 @@ export default {
     WorkFlow,
     Order,
     IsuePINo,
-    MoreVendor
+    MoreVendor,
+    Pagination,
+    productSample
 
   },
   data() {
@@ -384,6 +403,8 @@ export default {
       imageroot: "",
       showLoading: null,
       vendorTabs: {},
+      page: 1,
+      itemsPerPage: 2, 
     };
   },
   async created() {
@@ -413,6 +434,14 @@ export default {
     } catch (error) {
       console.error("error:", error);
     }
+  },
+
+  computed: {
+    paginatedVendor() {
+      const start = (this.page - 1) * this.itemsPerPage;
+      const end = start + this.itemsPerPage;
+      return this.vendorStore.listVendor.slice(start, end);
+    },
   },
 
   methods: {

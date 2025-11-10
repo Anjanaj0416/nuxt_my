@@ -393,10 +393,13 @@ export default {
 }
 /* Header */
 .modal-header {
-  background: #0b2145;
+  background: linear-gradient(to right, #1048c2, #0b2c88, #08236b); /* from-blue-600, via-blue-700, to-blue-900 */
+  backdrop-filter: blur(12px); /* backdrop-blur-md */
+  padding: 15px;
+  display: flex;
+  justify-content: space-between;
+  align-items: cEnter;
   color: white;
-  padding: 1rem;
-  display: flex; justify-content: space-between; align-items: center;
 }
 .modal-title { font-size: 18px; font-weight: bold; }
 .close-btn {

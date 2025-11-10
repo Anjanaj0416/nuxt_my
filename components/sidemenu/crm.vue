@@ -23,12 +23,13 @@
             <!-- Level 2 submenu -->
             <div v-show="isSubmenuOpen['CRM']" class="pl-4 mt-1 space-y-1">
                 <router-link to="/qms/vendor/leads"
-                    v-if="userStore.loggedUser.granted.includes('su') || userStore.loggedUser.granted.includes('flo') || userStore.loggedUser.granted.includes('sso')"
+                    v-if="userStore.loggedUser.granted.includes('su') || userStore.loggedUser.granted.includes('flo') || userStore.loggedUser.granted.includes('sso') || userStore.loggedUser.granted.includes('cso')"
                     class="block px-3 py-2 text-gray-300 rounded hover:text-white hover:bg-blue-800"
                     @click="$emit('close-sidebar')">
                     <span>Leads</span>
                 </router-link>
                 <router-link to="/qms/vendor"
+                    v-if="userStore.loggedUser.granted.includes('su') || userStore.loggedUser.granted.includes('flo') || userStore.loggedUser.granted.includes('sso') || userStore.loggedUser.granted.includes('cso')"
                     class="block px-3 py-2 text-gray-300 rounded hover:text-white hover:bg-blue-800"
                     @click="$emit('close-sidebar')">
                     <span>Vendors</span>
@@ -36,6 +37,7 @@
 
                 <div>
                     <div @click="toggleSubmenu('Reports')"
+                        v-if="userStore.loggedUser.granted.includes('su') || userStore.loggedUser.granted.includes('flo') || userStore.loggedUser.granted.includes('sso')"
                         class="flex items-center justify-between px-3 py-2 text-gray-300 rounded cursor-pointer hover:bg-blue-800">
                         <span>Reports</span>
                         <svg :class="{ 'rotate-90': isSubmenuOpen['Reports'] }"

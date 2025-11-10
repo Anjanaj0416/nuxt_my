@@ -238,11 +238,12 @@ export default {
 
 /* Modal Header */
 .modal-header {
-  background: #0b2145;
+  background: linear-gradient(to right, #1048c2, #0b2c88, #08236b); /* from-blue-600, via-blue-700, to-blue-900 */
+  backdrop-filter: blur(12px); /* backdrop-blur-md */
   padding: 15px;
   display: flex;
   justify-content: space-between;
-  align-items: center;
+  align-items: cEnter;
   color: white;
 }
 
