@@ -480,7 +480,11 @@ export default {
     },
 
     async setEmployee() {
+      console.log("setEmployee:", this.isAddEdit);
+
       this.isAddEdit = true;
+
+      console.log("after setEmployee:", this.isAddEdit);
     },
 
     async empSaveCompletion(empNo) {
