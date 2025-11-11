@@ -14,7 +14,6 @@
                         <label class="block text-sm font-medium text-gray-600 mb-1">KPI Days</label>
                         <input
                             v-model="kpiDays"
-                            @input="clearErrorOnInput('kpiDays')"
                             type="number"
                             placeholder="Enter KPI Days"
                             class="w-full p-2 border rounded-md text-sm focus:ring-2 focus:ring-blue-400"
@@ -79,7 +78,6 @@ import closebtn from "~/components/customcontrol/modal_close_button";
 import { useUserStore } from "~/stores/modules/userStore";
 import { useTaskhubStore } from "~/stores/modules/taskHub/taskhubStore";
 
-import Swal from "sweetalert2";
 
 export default {
   components: { closebtn },
@@ -133,17 +131,9 @@ export default {
       );
 
       if (!confirmed.isConfirmed) return;
-      let formData = new FormData();
-      formData.append("commisionID", this.commisionID);
-      formData.append("isPaid", true);
-      formData.append("PaymentSlipImage", this.slipImageFile);
 
-
-     for (let [key, value] of formData.entries()) {
-        console.log(`${key}: ${value}`);
-      }
      
-      await this.orderStore.AddCommissionPayment(formData, this.showLoading);
+
 
       // Do the payment
 
@@ -152,24 +142,38 @@ export default {
       
     },
 
-    IsValidate() {
+ IsValidate() {
       this.clearErr();
-      let valid = true;
 
+      let IsValidate = true;
 
-      if (!this.dtpId) {
-        this.err.dtpId = "Please select a DTP!";
-        valid = false;
+      // if (!this.curLead.CompanyEmail) {
+      //   this.err.CompanyEmail = "Please Enter an Email!";
+      //   IsValidate = false;
+      // } else {
+      //   const EmailRegex = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
+      //   if (!EmailRegex.test(this.curLead.CompanyEmail)) {
+      //     this.err.CompanyEmail = "Please Enter a valid Email address!";
+      //     IsValidate = false;
+      //   }
+      // }
+
+      if (!this.curLead.CompanyName) {
+        this.err.CompanyName = "Please Enter Company Name!";
+        IsValidate = false;
       }
-      if (!this.kpiDays) {
-        this.err.kpiDays = "Please enter KPI days!";
-        valid = false;
-      }
 
 
 
-      return valid;
+      return IsValidate;
     },
+
+    clearErr() {
+      Object.keys(this.err).forEach((key) => {
+        this.err[key] = "";
+      });
+    },
+
 
     closeModal() {
       this.isOpen = false;
