@@ -293,11 +293,11 @@
 
         <!-- Tab Contents -->
         <div class="p-0 dark:border-gray-700">
-          <div v-if="vendorTabs[vd.id] === 'proposal'">
+          <!-- <div v-if="vendorTabs[vd.id] === 'proposal'">
             <Proposal :customerRef="vd.customerRef"/>
-          </div>
+          </div> -->
           <div v-if="vendorTabs[vd.id] === 'productSample'">
-            <productSample :customerRef="vd.customerRef" :id="vd.id" />
+            <productSample :vendorId="vd.id" />
           </div>
           <div v-if="vendorTabs[vd.id] === 'isuePINo'">
             <IsuePINo :vendorId="vd.id" @close="vendorTabs[vd.id] = ''; quotationStore.curVendorId = null"/>
@@ -348,7 +348,7 @@ import IsuePINo from "~/components/qms/isuePINo/index.vue"
 import defaultShop from "~/assets/img/digitalTechLabs/defaultShopImage.png"
 import MoreVendor from "~/components/qms/vendor/moreVendor.vue";
 import Pagination from "~/components/customcontrol/Pagination.vue";
-import productSample from "~/components/qms/order/productSample.vue";
+import productSample from "~/components/qms/productSample/productSample.vue";
 
 
 

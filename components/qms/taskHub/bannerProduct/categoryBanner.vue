@@ -165,6 +165,8 @@
 <script>
 import { reactive, computed } from "vue";
 import imagepickermultiple from "~/components/customcontrol/imagepickermultiple.vue";
+import serach_Input from "~/components/customcontrol/SearchInput";
+
 
 import { useUserStore } from "~/stores/modules/userStore";
 import { useTaskhubStore } from "~/stores/modules/taskHub/taskhubStore";
@@ -174,7 +176,7 @@ definePageMeta({
   layout: "default",
 });
 export default {
-  components: {imagepickermultiple},
+  components: {imagepickermultiple,serach_Input},
   props: ['id', 'vendorId'],
   data() {
     return {

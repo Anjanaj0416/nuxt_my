@@ -41,6 +41,7 @@ actions: {
         const response = await axios.get(
           `${import.meta.env.VITE_API_URL}/qms/Leads/GetInitLeads`
         );
+console.log("COM",response);
 
         if (response.data.isSuccess) {
           this.InitLeads = response.data.data.data;

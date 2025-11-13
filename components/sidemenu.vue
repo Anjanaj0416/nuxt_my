@@ -27,14 +27,14 @@
         <h1 class="text-xl font-semibold tracking-wide">INTRANET</h1>
       </div>
 
-      <p>granted: {{ userStore.loggedUser.granted }}</p>
+      <!-- <p>granted: {{ userStore.loggedUser.granted }}</p> -->
       <nav class="p-4">
-        <crm v-if="granted.includes('su') || granted.includes('flo') || granted.includes('sso') || granted.includes('accdept') || granted.includes('cso')"  @close-sidebar="$emit('close-sidebar')"/>
+        <crm v-if="granted.includes('su') || granted.includes('flo') || granted.includes('sso') || granted.includes('accdept') || granted.includes('cso') "  @close-sidebar="$emit('close-sidebar')"/>
         <hrsystem   @close-sidebar="$emit('close-sidebar')"/>
         <settings v-if="granted.includes('su') || granted.includes('flo') || granted.includes('hradmin')" @close-sidebar="$emit('close-sidebar')"/>
         <document_registry @close-sidebar="$emit('close-sidebar')"/>
         <router-link to="/qms/workFlow"
-            v-if="userStore.loggedUser.granted.includes('su') || userStore.loggedUser.granted.includes('flo') || userStore.loggedUser.granted.includes('sso') || granted.includes('accdept') || granted.includes('hradmin')"
+            v-if="userStore.loggedUser.granted.includes('su') || userStore.loggedUser.granted.includes('flo') || userStore.loggedUser.granted.includes('sso') || granted.includes('accdept') || granted.includes('hradmin') ||granted.includes('B2BAdmin')"
             class="flex items-center px-3 py-2 text-white rounded hover:text-white hover:bg-blue-800 transition-all duration-200"
             @click="$emit('close-sidebar')">
             <svg

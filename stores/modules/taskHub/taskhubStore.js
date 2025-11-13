@@ -10,7 +10,8 @@ export const useTaskhubStore = defineStore("taskhubStore", {
         listSubSubCategory: [],
         listSubSubSubCategory: [],
         listDTP: [],
-        listSuperUser: []
+        listSuperUser: [],
+        InitNext: []
 
     }),
     persist: true,
@@ -221,7 +222,7 @@ export const useTaskhubStore = defineStore("taskhubStore", {
             }
         },
 
-         async SetProduct(formData, showLoading) {     
+        async SetProduct(formData, showLoading) {     
             console.log('API-AddtasknewCategoryApproval');
 
             const loadingAlert = showLoading("");
@@ -236,6 +237,82 @@ export const useTaskhubStore = defineStore("taskhubStore", {
                 loadingAlert.close();
                 if (response.data.isSuccess) {
                     this.showToast(response.data.message, "success");
+                } else {
+                    this.showToast(response.data.message, "error");
+                }
+            } catch (error) {
+                this.showToast(error.message || "Something went wrong!", "error");
+                loadingAlert.close();
+            }
+        },
+
+        async TaskInit(vendorId, showLoading) {     
+            console.log('API-GetTaskInit',vendorId);
+
+            const loadingAlert = showLoading("");
+            try {
+                const response = await axios.get(
+                    `${import.meta.env.VITE_API_URL}/TaskHub/DTL/DTLBannerMgt/GetTaskInit?clientId=${vendorId}`,
+                );
+                console.log(response);
+                loadingAlert.close();
+                if (response.data.isSuccess) {
+                    this.nextPendingDTPId = response.data.data.data.nextPendingDTPId || [];
+                    this.nextPendingSupperAdminId = response.data.data.data.nextPendingSupperAdminId || [];
+                    this.nextSupervsorId = response.data.data.data.nextSupervsorId || [];
+
+                } else {
+                    this.showToast(response.data.message, "error");
+                }
+            } catch (error) {
+                this.showToast(error.message || "Something went wrong!", "error");
+                loadingAlert.close();
+            }
+        },
+
+        async SampaleProducAssign(formData, showLoading) {     
+            console.log('API-AddtasknewCategoryApproval',formData);
+
+            const loadingAlert = showLoading("");
+            try {
+                const response = await axios.post(
+                    `${import.meta.env.VITE_API_URL}/TaskHub/DTL/DTLBannerMgt/AddTaskProductBoxCreation`,
+                    formData,
+                    { headers: { "Content-Type": "multipart/form-data" } }
+                );
+                console.log(response);
+                loadingAlert.close();
+                if (response.data.isSuccess) {
+                    this.showToast(response.data.message, "success");
+                } else {
+                    this.showToast(response.data.message, "error");
+                }
+            } catch (error) {
+                this.showToast(error.message || "Something went wrong!", "error");
+                loadingAlert.close();
+            }
+        },
+
+        async TaskDetailsList(req, showLoading) {     
+            console.log('API-GetTaskHubDetails',req);
+
+            const loadingAlert = showLoading("");
+            try {
+                const response = await axios.get(
+                    `${import.meta.env.VITE_API_URL}/TaskHub/Task/GetTaskHubDetails`,
+                     {
+                        params: {
+                        taskType: req.taskType,
+                        searchValue: req.searchValue,
+                        searchBy: req.searchBy
+                        }
+                    }
+                );
+                console.log(response);
+                loadingAlert.close();
+                if (response.data.isSuccess) {
+                    this.showToast(response.data.message, "success");
+                    this.taskDetailsList = response.data.data.data
                 } else {
                     this.showToast(response.data.message, "error");
                 }

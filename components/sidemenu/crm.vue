@@ -23,13 +23,13 @@
             <!-- Level 2 submenu -->
             <div v-show="isSubmenuOpen['CRM']" class="pl-4 mt-1 space-y-1">
                 <router-link to="/qms/vendor/leads"
-                    v-if="userStore.loggedUser.granted.includes('su') || userStore.loggedUser.granted.includes('flo') || userStore.loggedUser.granted.includes('sso') || userStore.loggedUser.granted.includes('cso')"
+                    v-if="userStore.loggedUser.granted.includes('su') || userStore.loggedUser.granted.includes('cso') || userStore.loggedUser.granted.includes('sso') || userStore.loggedUser.granted.includes('cso')"
                     class="block px-3 py-2 text-gray-300 rounded hover:text-white hover:bg-blue-800"
                     @click="$emit('close-sidebar')">
                     <span>Leads</span>
                 </router-link>
                 <router-link to="/qms/vendor"
-                    v-if="userStore.loggedUser.granted.includes('su') || userStore.loggedUser.granted.includes('flo') || userStore.loggedUser.granted.includes('sso') || userStore.loggedUser.granted.includes('cso')"
+                    v-if="userStore.loggedUser.granted.includes('su') || userStore.loggedUser.granted.includes('accdept') || userStore.loggedUser.granted.includes('sso') || userStore.loggedUser.granted.includes('cso')"
                     class="block px-3 py-2 text-gray-300 rounded hover:text-white hover:bg-blue-800"
                     @click="$emit('close-sidebar')">
                     <span>Vendors</span>
@@ -97,6 +97,13 @@
                     class="block px-3 py-2 text-gray-300 rounded hover:text-white hover:bg-blue-800"
                     @click="$emit('close-sidebar')">
                     <span>Commission</span>
+                </router-link>
+
+                <router-link to="/qms/availableBanner"
+                    v-if="userStore.loggedUser.granted.includes('su') || userStore.loggedUser.granted.includes('cso') || userStore.loggedUser.granted.includes('sso') || userStore.loggedUser.granted.includes('cso')"
+                    class="block px-3 py-2 text-gray-300 rounded hover:text-white hover:bg-blue-800"
+                    @click="$emit('close-sidebar')">
+                    <span>Available Banner</span>
                 </router-link>
             </div>
         </div>

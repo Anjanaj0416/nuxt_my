@@ -11,7 +11,7 @@
          <div class="p-6">
           <ul class="flex flex-col mt-6 sm:flex-row items-center w-full text-sm font-medium text-gray-900 bg-white border border-gray-200 rounded-lg overflow-hidden shadow-sm">
             <li
-              v-for="(option, idx) in options"
+              v-for="(option, idx) in filteredOptions"
               :key="idx"
               class="w-full sm:w-1/3 border-b sm:border-b-0 sm:border-r last:border-r-0 border-gray-200"
             >
@@ -68,11 +68,11 @@ import { useTaskhubStore } from "~/stores/modules/taskHub/taskhubStore";
 import serach_Input from "~/components/customcontrol/SearchInput";
 import closebtn from "~/components/customcontrol/modal_close_button";
 import imagepicker1 from "~/components/customcontrol/imagepicker1.vue";
-import createNewCategory from "../taskHub/bannerProduct/createNewCategory.vue";
-import mainBanner from "../taskHub/bannerProduct/mainBanner.vue";
-import categoryBanner from "../taskHub/bannerProduct/categoryBanner.vue";
-import vendorBanner from "../taskHub/bannerProduct/vendorBanner.vue";
-import productCreation from "../taskHub/bannerProduct/productCreation.vue";
+import createNewCategory from "../../taskHub/bannerProduct/createNewCategory.vue";
+import mainBanner from "../../taskHub/bannerProduct/mainBanner.vue";
+import categoryBanner from "../../taskHub/bannerProduct/categoryBanner.vue";
+import vendorBanner from "../../taskHub/bannerProduct/vendorBanner.vue";
+import productCreation from "../../taskHub/bannerProduct/productCreation.vue";
 
 export default {
   components: { serach_Input, imagepicker1, createNewCategory, mainBanner, categoryBanner, closebtn, vendorBanner, productCreation },
@@ -103,6 +103,16 @@ export default {
     await this.taskhubStore.loadInitBanner(this.showLoading);
     this.initBanner = this.taskhubStore.initBanner;
   },
+  computed: {
+    filteredOptions() {
+      if (this.userStore?.loggedUser?.granted?.includes("B2BAdmin")) {
+        return this.options;
+      } else {
+        return this.options.filter(opt => opt.value !== "category");
+      }
+    },
+  },
+
   methods: {
     closeModal() {
       this.isOpen = false;
