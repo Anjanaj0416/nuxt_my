@@ -10,7 +10,7 @@
         <!-- Logo -->
         <router-link to="/dashboard" class="flex items-center space-x-2">
           <!-- hide Img -->
-          <!-- <img src="/assets/img/LogoDigitalTechLab.png" alt="Logo" class="h-auto rounded-full w-28" /> -->
+          <img src="/assets/img/LogoDigitalTechLab.png" alt="Logo" class="h-auto rounded-full w-28" />
         </router-link>
         <!-- Close Button -->
         <button @click="$emit('close-sidebar')"
@@ -27,7 +27,7 @@
         <h1 class="text-xl font-semibold tracking-wide">INTRANET</h1>
       </div>
 
-      <p>granted: {{ userStore.loggedUser.granted }}</p>
+      <!-- <p>granted: {{ userStore.loggedUser.granted }}</p> -->
       <nav class="p-4">
         <crm
           v-if="granted.includes('su') || granted.includes('flo') || granted.includes('sso') || granted.includes('accdept') || granted.includes('cso')"

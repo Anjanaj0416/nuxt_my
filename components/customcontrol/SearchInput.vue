@@ -165,6 +165,7 @@ export default {
     },
 
     selectItem(selecteditem) {
+      
       this.$emit("selectItem", selecteditem);
       this.$emit("input", selecteditem.id);
       this.Item = selecteditem;

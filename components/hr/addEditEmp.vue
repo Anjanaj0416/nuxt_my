@@ -334,10 +334,11 @@
               </p>
             </div> -->
             <div class="">
+            
               <label class="block text-sm font-bold text-gray-600">Granted</label>
-              <inputtags_search class="" :arrItems="employeeStore.initEmployee.arrGrantRoles"
-                :arrExistingGrants="employeeStore.empdetails.granted" @GetSelectedIds="GetSelectedGrants"
+              <inputtags_search class="" :arrItems="employeeStore.initEmployee.arrRoles" :arrSelectedItems = "employeeStore.empdetails.granted"             
                 ref="refGrant" />
+                 
               <p v-if="err.Granted" class="mt-2 text-sm text-red-600">
                 {{ err.Granted }}
               </p>
@@ -529,7 +530,7 @@ export default {
     return {
       isOpen: true,
       imageroot: "",
-      listGrants: [],
+     
       err: {
         EmpNo: "",
         EPFNo: "",
@@ -582,8 +583,8 @@ export default {
     };
   },
   computed: {
-    isEditing() {
-
+    isEditing() { 
+    
       return (
         this.employeeStore.empdetails.id !== "00000000-0000-0000-0000-000000000000"
       );
@@ -593,9 +594,19 @@ export default {
     this.employeeStore = useEmployeeStore();
     this.userStore = useUserStore();
     this.showLoading = this.$showLoading;
-    this.imageroot = this.userStore.loggedUser.resourceURLRoot;
+    this.imageroot = this.userStore.loggedUser.resourceURLRoot;         
 
     await this.employeeStore.getInitEmployee();
+
+try{
+    this.$refs.refDepartment.initItem(this.employeeStore.empdetails.department.id);
+    this.$refs.refStaffType.initItem(this.employeeStore.empdetails.staffType.id);
+    this.$refs.refEmpType.initItem(this.employeeStore.empdetails.empType.id);
+    this.$refs.refManager.initItem(this.employeeStore.empdetails.managerEmployee.id);
+    this.$refs.refEmpCategory.initItem(this.employeeStore.empdetails.category.id);
+    // this.$refs.refGrant.initItem(this.employeeStore.empdetails.category.id);
+    }
+    catch{}
 
     if (!this.employeeStore.isModalOpen) {
       this.employeeStore.closeModal();
@@ -603,12 +614,7 @@ export default {
 
   },
   mounted() {
-    this.$refs.refDepartment.initItem(this.employeeStore.empdetails.department.id);
-    this.$refs.refStaffType.initItem(this.employeeStore.empdetails.staffType.id);
-    this.$refs.refEmpType.initItem(this.employeeStore.empdetails.empType.id);
-    this.$refs.refManager.initItem(this.employeeStore.empdetails.managerEmployee.id);
-    this.$refs.refEmpCategory.initItem(this.employeeStore.empdetails.category.id);
-    // this.$refs.refGrant.initItem(this.employeeStore.empdetails.category.id);
+    
   },
   methods: {
     closeModal() {
@@ -621,9 +627,7 @@ export default {
       this.closeModal();
     },
 
-    GetSelectedGrants(list) {
-      this.listGrants = list
-    },
+  
 
     async SaveEmployee() {
 
@@ -634,7 +638,7 @@ export default {
               console.log("employeeStore.empdetails:", this.employeeStore.empdetails);
 
               const formData = this.convertToFormData(this.employeeStore.empdetails);
-
+             
               // / Log FormData contents
               // console.log("FormData contents in SaveEmployee:");
               // for (const [key, value] of formData.entries()) {
@@ -678,8 +682,8 @@ export default {
       formData.append("Email2", formObject.email2 || "");
       formData.append("EmergencyContact", formObject.emergencyContact || "");
       formData.append("Gender", formObject.gender || "");
-      formData.append("EpfNo", formObject.epfNo || "");
-      formData.append("Granted", this.listGrants.length > 0 ? this.listGrants : formObject.granted || "");
+      formData.append("EpfNo", formObject.epfNo || "");  
+      formData.append("Granted", this.employeeStore.empdetails.granted.length > 0 ? JSON.stringify(this.employeeStore.empdetails.granted) : formObject.granted || "");  //zz
 
       // Files
       if (formObject.image) {
