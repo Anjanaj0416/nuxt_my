@@ -10,7 +10,49 @@
 
     <div
       class="bg-white p-4 rounded-xl  max-w-8xl mx-auto mt-10 border">
-      <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-8 mb-6">
+      <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-5 gap-2 mb-6">
+        <!-- Main Category -->
+        <div class="relative bg-gradient-to-b from-white to-gray-50 p-5 rounded-xl border border-gray-200 shadow-sm hover:shadow-md transition-all duration-300">
+          <label class="block text-sm font-medium text-gray-700 mb-1">Home Page Banner</label>
+
+          <div class="transition-all duration-500">
+            <p class="mt-4 text-sm font-semibold text-blue-600">
+                Available Banners:
+                <span class="text-blue-700 font-bold">{{ avalabale1 }}</span>
+            </p>
+
+            <div v-if="avalabale1 == 0" class="mt-4 text-sm text-red-400 font-semibold ">
+              No Available Banners.
+            </div>
+
+            <div v-else>
+              <div class="mt-4 border-t border-gray-200"></div>
+              <p class="mt-3 text-sm font-semibold text-gray-600">Re-Save Banner</p>
+              <label class="mt-3 block text-sm font-medium text-gray-700">
+                  Select Company Name
+              </label>
+              <serach_Input 
+                  :arrItems="leadStore.InitLeads.listClients" 
+                  label="" 
+              />
+              <label class="mt-3 block text-sm font-medium text-gray-700">
+                  Select CSO
+              </label>
+              <serach_Input 
+                  :arrItems="leadStore.InitLeads.listClients" 
+                  label="" 
+              />
+              <button
+                  @click="searchCommission"
+                  class="mt-4 w-full py-2 text-sm font-semibold text-white rounded-full bg-gradient-to-r from-blue-500 via-blue-600 to-blue-700 hover:from-blue-600 hover:to-blue-800 transition-all duration-300 shadow-md focus:ring-2 focus:ring-blue-300"
+              >
+                  Re-Save
+              </button>
+            </div>
+          </div>
+        </div>
+
+        <!-- Main Category -->
         <div class="relative bg-gradient-to-b from-white to-gray-50 p-5 rounded-xl border border-gray-200 shadow-sm hover:shadow-md transition-all duration-300">
           <label class="block text-sm font-medium text-gray-700 mb-1">Main Category</label>
           <serach_Input
@@ -254,6 +296,8 @@ export default {
         isSubCategorySelected: false,
         isSubSubCategorySelected: false,
         isSubSubSubCategorySelected: false,
+        avalabale: "5",
+        avalabale1: "0",
         resaveList:[ 
             {
              comName: "dispatchEvent",

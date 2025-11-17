@@ -35,6 +35,47 @@
                     <span>Vendors</span>
                 </router-link>
 
+                <router-link to="/qms/commission"
+                    v-if="userStore.loggedUser.granted.includes('su') || userStore.loggedUser.granted.includes('flo') || userStore.loggedUser.granted.includes('sso')"
+                    class="block px-3 py-2 text-gray-300 rounded hover:text-white hover:bg-blue-800"
+                    @click="$emit('close-sidebar')">
+                    <span>Commission</span>
+                </router-link>
+
+                <!-- <router-link to="/qms/availableBanner"
+                    v-if="userStore.loggedUser.granted.includes('su') || userStore.loggedUser.granted.includes('cso') || userStore.loggedUser.granted.includes('sso') || userStore.loggedUser.granted.includes('cso')"
+                    class="block px-3 py-2 text-gray-300 rounded hover:text-white hover:bg-blue-800"
+                    @click="$emit('close-sidebar')">
+                    <span>Available Banner</span>
+                </router-link> -->
+
+                <div>
+                    <div @click="toggleSubmenu('Banners')"
+                        v-if="userStore.loggedUser.granted.includes('su') || userStore.loggedUser.granted.includes('flo') || userStore.loggedUser.granted.includes('sso')"
+                        class="flex items-center justify-between px-3 py-2 text-gray-300 rounded cursor-pointer hover:bg-blue-800">
+                       <span>Banners</span>
+                        <svg :class="{ 'rotate-90': isSubmenuOpen['Banners'] }"
+                            class="w-3 h-3 transition-transform duration-200" fill="none" stroke="currentColor"
+                            viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                            <path d="M9 5l7 7-7 7" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
+                        </svg>
+                    </div>
+
+                    <!-- Level 3 submenu -->
+                    <div v-show="isSubmenuOpen['Banners']" class="pl-4 space-y-1">
+                        <router-link to="/qms/banners/availableBanner"
+                            class="block px-3 py-1 text-sm text-gray-400 rounded hover:text-white hover:bg-blue-700"
+                            @click="$emit('close-sidebar')">
+                            Available Banners
+                        </router-link>
+                        <router-link to="/qms/banners/allBanner"
+                            class="block px-3 py-1 text-sm text-gray-400 rounded hover:text-white hover:bg-blue-700"
+                            @click="$emit('close-sidebar')">
+                            All Banners
+                        </router-link>
+                    </div>
+                </div>
+
                 <div>
                     <div @click="toggleSubmenu('Reports')"
                         v-if="userStore.loggedUser.granted.includes('su') || userStore.loggedUser.granted.includes('flo') || userStore.loggedUser.granted.includes('sso')"
@@ -91,20 +132,6 @@
                         </router-link>
                     </div>
                 </div>
-
-                 <router-link to="/qms/commission"
-                    v-if="userStore.loggedUser.granted.includes('su') || userStore.loggedUser.granted.includes('flo') || userStore.loggedUser.granted.includes('sso')"
-                    class="block px-3 py-2 text-gray-300 rounded hover:text-white hover:bg-blue-800"
-                    @click="$emit('close-sidebar')">
-                    <span>Commission</span>
-                </router-link>
-
-                <router-link to="/qms/availableBanner"
-                    v-if="userStore.loggedUser.granted.includes('su') || userStore.loggedUser.granted.includes('cso') || userStore.loggedUser.granted.includes('sso') || userStore.loggedUser.granted.includes('cso')"
-                    class="block px-3 py-2 text-gray-300 rounded hover:text-white hover:bg-blue-800"
-                    @click="$emit('close-sidebar')">
-                    <span>Available Banner</span>
-                </router-link>
             </div>
         </div>
     </section>
