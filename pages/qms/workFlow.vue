@@ -20,7 +20,7 @@
  import { useRoute } from 'vue-router'
  import { useUserStore } from "~/stores/modules/userStore";
  import cso from '~/components/qms/workFlow/cso.vue';
- import dtp from '~/components/qms/workFlow/dtp.vue';
+ import dtp from '~/components/qms/workFlow/dtp/dtp.vue';
 
 
  definePageMeta({

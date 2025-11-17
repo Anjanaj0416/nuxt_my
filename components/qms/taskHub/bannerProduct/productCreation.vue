@@ -1,6 +1,6 @@
 <template>
   <div class="p-6 space-y-6 overflow-y">
-    <h2 class="text-lg font-semibold text-gray-700 border-b pb-2 mb-4">Product Creation </h2>
+    <h2 class="text-lg font-semibold text-gray-700 border-b pb-2 mb-4">Product Creation</h2>
     <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
       <div>
         <label class="block text-sm font-medium text-gray-600 mb-1">Expire Date</label>
@@ -57,13 +57,29 @@
 
     <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
       <div>
-          <label class="block text-sm font-medium text-gray-600 mb-1">Select DTP</label>
+        <span class="text-sm font-medium text-gray-600">
+          Next Pending DTP ID:
+        </span>
+        <span v-if="taskhubStore?.nextPendingDTPId" class="ml-2 font-semibold text-sm text-gray-700">
+          {{taskhubStore.nextPendingDTPId.value }}
+
+        </span><br></br>
+
+        <button
+          @click="toggleManualSelect"
+          class=" text-sm text-blue-600 underline hover:text-blue-800 border-none bg-transparent"
+        >
+            {{ IsDTPManulaSelected ? 'Allocate Next Pending DTP ID?' : 'Allocate another DTP?' }}
+        </button>
+
+        <!-- Dropdown only shown when manual allocation is enabled -->
+        <div v-if="IsDTPManulaSelected" class="mt-2">
           <select
             v-model="selectedDtp"
             @change="onDtpSelect"
             class="w-full p-2 border rounded-md text-sm bg-white focus:ring-2 focus:ring-blue-400"
           >
-            <option disabled value="">Select DTP</option>
+            <option disabled selected value="">Select DTP</option>
             <option
               v-for="item in taskhubStore.listDTP"
               :key="item.id"
@@ -72,11 +88,9 @@
               {{ item.value }}
             </option>
           </select>
-          <p v-if="err.dtpId" class="mt-2 text-sm text-red-600">
-            {{ err.dtpId }}
-          </p>
+        </div>
       </div>
-      <div>
+      <!-- <div>
         <label class="block text-sm font-medium text-gray-600 mb-1">Select Admin</label>
         <select
           v-model="dtpId"
@@ -95,7 +109,7 @@
         <p v-if="err.dtpId" class="mt-2 text-sm text-red-600">
           {{ err.dtpId }}
         </p>
-      </div>
+      </div> -->
     </div>
 
     <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
@@ -158,6 +172,7 @@ export default {
       kpiDays: '',
       dtpId : '',
       selectedDtp: null,
+      IsDTPManulaSelected : false,
       listMaterialFiles: {},
       err: {
         expDate: '',
@@ -181,6 +196,9 @@ export default {
     this.showAlert = this.$showAlert;
    
     await this.taskhubStore.loadInitBanner(this.showLoading);
+    await this.taskhubStore.TaskInit(this.vendorId, this.showLoading);
+    this.nextPendingDTPId = this.taskhubStore.nextPendingDTPId
+
 
   },
   mounted() {
@@ -209,11 +227,15 @@ export default {
       this.listMaterialFiles = files;
     },
 
-    onDtpSelect() {
-      if(this.selectedDtp) {
-        this.dtpId = this.selectedDtp.id;
-        this.clearErrorOnInput("dtpId");
+    toggleManualSelect() {
+      this.IsDTPManulaSelected = !this.IsDTPManulaSelected;
+      if (!this.IsDTPManulaSelected) {
+        this.selectedDtp = null;
       }
+    },
+
+    onDtpSelect() {
+      this.IsDTPManulaSelected = !!this.selectedDtp;
     },
 
 
@@ -228,14 +250,17 @@ export default {
       this.$showConfirm("Are you sure to this Vendor Banner?", "warning")
         .then(async (result) => {
           if (result.isConfirmed) {
-
+            const dtpToSend = this.selectedDtp 
+              ? this.selectedDtp.id 
+              : this.taskhubStore.nextPendingDTPId.id;
             const formData = new FormData();
             formData.append("vendorId", this.vendorId);
             formData.append("expDate", this.formatToEndOfDayISO(this.expDate));
             formData.append("sortOrder", this.sortOrder);
             formData.append("amount", this.amount);
             formData.append("kpiDays", this.kpiDays);
-            formData.append("DtpId", this.dtpId);
+            formData.append("dtpId", dtpToSend || "");
+            formData.append("IsDTPManulaSelected", this.IsDTPManulaSelected || "");
             formData.append("comment", this.comment || "");
 
             if (this.listMaterialFiles && this.listMaterialFiles.length > 0) {
@@ -250,6 +275,7 @@ export default {
               console.log(key, value);
             }
 
+  
             await this.taskhubStore.SetProduct(formData, this.showLoading);
 
             this.closeModal();
@@ -274,10 +300,10 @@ export default {
         this.err.amount = "Please enter a amount!";
         valid = false;
       }
-      if (!this.dtpId) {
-        this.err.dtpId = "Please select a dtp!";
-        valid = false;
-      }
+      // if (!this.dtpId) {
+      //   this.err.dtpId = "Please select a dtp!";
+      //   valid = false;
+      // }
       if (!this.kpiDays) {
         this.err.kpiDays = "Please enter KPI days!";
         valid = false;

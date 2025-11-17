@@ -330,7 +330,8 @@
   import Installment from '../invoice/installment.vue';
   import commision from './commision.vue';
   import TimeLine from './timeLine.vue';
-  import Banner from './banner.vue';
+  import Banner from './Productbanner.vue';
+
 
  definePageMeta({
     layout: 'default',   

@@ -1,6 +1,20 @@
 <template>
   <div class="p-6 space-y-6 overflow-y">
     <h2 class="text-lg font-semibold text-gray-700 border-b pb-2 mb-4">Category Banner Details</h2>
+
+    <p v-if="vendorId"></p>
+    <div v-else class="grid grid-cols-1 md:grid-cols-4 gap-4">
+      <div>
+        <label class="block text-sm font-medium text-gray-600">Select Vendor</label>
+        <serach_Input
+          :arrItems="leadStore.InitLeads.listClients"
+          label=""
+          ref="refMainCategory"
+          @selectItem="GetSelectVendor"
+        />
+      </div>
+    </div>
+
     <div class="grid grid-cols-1 md:grid-cols-4 gap-4">
       <div>
         <label class="block text-sm font-medium text-gray-600">Main Category</label>
@@ -165,16 +179,18 @@
 <script>
 import { reactive, computed } from "vue";
 import imagepickermultiple from "~/components/customcontrol/imagepickermultiple.vue";
-
+import serach_Input from "~/components/customcontrol/SearchInput";
 import { useUserStore } from "~/stores/modules/userStore";
 import { useTaskhubStore } from "~/stores/modules/taskHub/taskhubStore";
+import { useLeadStore } from "~/stores/modules/qms/leadStore";
+
 
 
 definePageMeta({
   layout: "default",
 });
 export default {
-  components: {imagepickermultiple},
+  components: {imagepickermultiple,serach_Input},
   props: ['id', 'vendorId'],
   data() {
     return {
@@ -221,7 +237,9 @@ export default {
   async created() {
     this.userStore = useUserStore();
     this.taskhubStore = useTaskhubStore();
+    this.leadStore = useLeadStore();
 
+    this.curLead = this.leadStore.curLead;
     this.imageroot = this.userStore.loggedUser.resourceURLRoot;
     this.showLoading = this.$showLoading;
     this.showAlert = this.$showAlert;
@@ -251,7 +269,7 @@ export default {
     },
 
     handleSelectedImages(files) {
-      console.log("Selected Files in Parent:", files);
+      // console.log("Selected Files in Parent:", files);
       this.listMaterialFiles = files;
     },
 
@@ -260,8 +278,13 @@ export default {
       return `${dateStr}T23:59:59`;
     },
 
+    async GetSelectVendor(item){
+      // console.log('ven:',item.id);
+      this.vendorId = item.id
+    },
+
     async GetSelectMainCategory(item) {
-      console.log("Selected Main Category ID:", item.id);
+      // console.log("Selected Main Category ID:", item.id);
       this.mainCategoryId = item.id; 
 
       this.subCategoryID = "00000000-0000-0000-0000-000000000000";
@@ -276,7 +299,7 @@ export default {
     },
 
     async GetSelectSubCategory(item) {
-      console.log("Selected Sub Category ID:", item.id);
+      // console.log("Selected Sub Category ID:", item.id);
       this.subCategoryID = item.id;
 
       this.subSubCategoryID = "00000000-0000-0000-0000-000000000000";
@@ -289,7 +312,7 @@ export default {
     },
 
     async GetSelectSubSubCategory(item) {
-      console.log("Selected SubSub Category ID:", item.id);
+      // console.log("Selected SubSub Category ID:", item.id);
       this.subSubCategoryID = item.id;
 
       // Clear dependent dropdowns first
@@ -300,7 +323,7 @@ export default {
     },
 
     async GetSelectSubSubSubCategory(item) {
-      console.log("Selected SubSub Category ID:", item.id);
+      // console.log("Selected SubSub Category ID:", item.id);
       this.subSubSubCategoryID = item.id;
 
       await this.taskhubStore.GetSubCategory(item.id, this.showLoading);

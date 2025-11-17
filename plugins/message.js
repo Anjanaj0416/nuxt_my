@@ -140,7 +140,7 @@ export default defineNuxtPlugin(nuxtApp => {
           gap: 20px;
           min-width: 200px;
         ">
-          <img src="" alt="Loading..." style="width: 100px; height: 100px;" />
+          <img src="${lodingGif}" alt="Loading..." style="width: 100px; height: 100px;" />
         </div>
       `,
       // ${lodingGif}

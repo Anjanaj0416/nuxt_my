@@ -3,7 +3,7 @@
         <div class="bg-white border rounded-lg shadow-md p-6 text-sm text-gray-800">
             <div class="flex items-center justify-between mb-6">
                 <div class="text-2xl uppercase mb-6">
-                    Store 
+                    Product Sample 
                 </div>
                 <!-- Button Section (Right) -->
                 <div class="w-full md:w-auto">
@@ -13,60 +13,54 @@
                             label="Create"
                             variant="primary"
                             v-if="
-                                (status !== 'Canceled' && status !== 'FullPaid') &&
+                                (status !== '' && status !== '') &&
                                 (userStore.loggedUser.granted.includes('su') ||
-                                userStore.loggedUser.granted.includes('accdept') )
+                                userStore.loggedUser.granted.includes('sso') )
                             "
                             @click="GoToAddNew"
                         />
                     </div>
                 </div>
             </div>
-
+            <!-- {{ taskhubStore.taskDetailsList }} -->
             <!-- Payment History Section -->
-            <div v-if="listKpi.length === 0" class="text-center text-gray-900 mt-5 text-sm font-medium">
-                <p>No KPI available...</p>
-            </div>
+      
 
             <!-- KPI Leads -->
             <div
-                v-for="(lead, index) in listKpi"
+                v-for="(lead, index) in taskhubStore.taskDetailsList"
                 :key="index"
             >
                 <div class="grid grid-cols-2 gap-4 sm:flex sm:flex-row sm:justify-between px-2">
                     <div>
                         <h1 class="text-[12px] font-semibold text-gray-600">Job</h1>
-                        <p class="text-sm text-gray-500 mt-0.5">{{ lead.job || 'No Data' }}</p>
+                        <p class="text-sm text-gray-500 mt-0.5">{{ lead.jobType || 'No Data' }}</p>
+                    </div>
+                    <div>
+                        <h1 class="text-[12px] font-semibold text-gray-600">Pendin gWork Group</h1>
+                        <p class="text-sm text-gray-500 mt-0.5">{{ lead.pendingWorkGroup || 'No Data' }}</p>
                     </div>
                     <div>
                         <h1 class="text-[12px] font-semibold text-gray-600">Company</h1>
-                        <p class="text-sm text-gray-500 mt-0.5">{{ lead.companyName || 'No Data' }}</p>
+                        <p class="text-sm text-gray-500 mt-0.5">{{ lead.clientName || 'No Data' }}</p>
                     </div>
                     <div>
-                        <h1 class="text-[12px] font-semibold text-gray-600">Completed Date</h1>
-                        <p class="text-sm text-gray-500 mt-0.5">{{ lead.completedDate || 'No Data' }}</p>
-                    </div>
-                    <div>
-                        <h1 class="text-[12px] font-semibold text-gray-600">Assign By</h1>
-                        <p class="text-sm text-gray-500 mt-0.5">{{ lead.kpiAssignTo || 'No Data' }}</p>
-                    </div>
-                    <div>
-                        <h1 class="text-[12px] font-semibold text-gray-600">Reported By</h1>
-                        <p class="text-sm text-gray-500 mt-0.5">{{ lead.reportedBy || 'No Data' }}</p>
+                        <h1 class="text-[12px] font-semibold text-gray-600">Description</h1>
+                        <p class="text-sm text-gray-500 mt-0.5">{{ lead.jobDescription || 'No Data' }}</p>
                     </div>
                     <div>
                         <h1 class="text-[12px] font-semibold text-gray-600">Status</h1>
                         <span
                         :class="{
-                            'bg-gray-100 text-gray-700': !lead.status,
-                            'bg-yellow-100 text-yellow-800': lead.status === 'Pending',
-                            'bg-red-100 text-red-800': lead.status === 'Cancelled',
-                            'bg-orange-100 text-orange-800': lead.status === 'Hold',
-                            'bg-green-100 text-green-800': lead.status === 'Completed',
+                            'bg-gray-100 text-gray-700': !lead.jobStatus,
+                            'bg-yellow-100 text-yellow-800': lead.jobStatus === 'Pending',
+                            'bg-red-100 text-red-800': lead.jobStatus === 'Cancelled',
+                            'bg-orange-100 text-orange-800': lead.jobStatus === 'Hold',
+                            'bg-green-100 text-green-800': lead.jobStatus === 'Completed',
                         }"
                         class="text-[12px] font-medium px-2.5 py-0.5 rounded-full"
                         >
-                        {{ lead.status || 'Unknown' }}
+                        {{ lead.jobStatus || 'Unknown' }}
                         </span>
                     </div>
                     <div class="flex flex-col items-center  mt-1 mb-2 sm:flex-row sm:justify-end sm:mb-0 sm:mt-0 sm:-my-3">
@@ -80,17 +74,18 @@
                 </div>
             </div>
         </div>
-        <assigDtp :orderId="selectedOrderId" :vendorId="vendorId" v-if="isaAssig" @close="isaAssig = false" />
+        <addProductSample  :vendorId="vendorId" v-if="isaAssig" @close="isaAssig = false" />
     </section>
 </template>
   
 <script>
     import { useRoute } from 'vue-router'
     import { useUserStore } from "~/stores/modules/userStore";
+    import { useTaskhubStore } from '~/stores/modules/taskHub/taskhubStore';
     import imagepicker1 from "~/components/customcontrol/imagepickermultiple.vue";
     import LinkBtn from "~/components/customcontrol/Link";
     import Button from "~/components/customcontrol/Button";
-    import assigDtp from '../workFlow/assigDtp.vue';
+    import addProductSample from '../productSample/addProductSample.vue';
 
 
  
@@ -100,7 +95,7 @@
     });
 
     export default {
-        components:{imagepicker1,assigDtp,Button,LinkBtn,imagepicker1},
+        components:{imagepicker1,addProductSample,Button,LinkBtn,imagepicker1},
         props: ['id', 'vendorId'],
 
         data() {
@@ -109,15 +104,15 @@
             expandedRow: null, 
             listKpi: [
                 {
-                id: "wf001",
-                job: "New Category",
-                assignDate: "2025.09.12",
-                completedDate: "2025.09.15",
-                kpiAssignTo: "Sandari",
-                status: "Pending",
-                noofDaysPending: 3,
-                contactPhoneNo: "077-1234567",
-                isActive: true,
+                    id: "wf001",
+                    job: "New Category",
+                    assignDate: "2025.09.12",
+                    completedDate: "2025.09.15",
+                    kpiAssignTo: "Sandari",
+                    status: "Pending",
+                    noofDaysPending: 3,
+                    contactPhoneNo: "077-1234567",
+                    isActive: true,
                 },
                 
 
@@ -129,6 +124,17 @@
         this.userStore = useUserStore();
         this.imageroot = this.userStore.loggedUser.resourceURLRoot;
         this.showLoading = this.$showLoading;
+        this.taskhubStore = useTaskhubStore();
+
+        const req = {
+            taskType: "DtlBannerMgt",
+            searchValue : "BD86C93A-37CD-4D12-4DE1-08DE0AD24517",
+            searchBy : "100"
+        }
+        await this.taskhubStore.TaskDetailsList(req, this.showLoading);
+
+        this.taskDetailsList = this.taskhubStore.taskDetailsList
+
     },
 
     mounted() {

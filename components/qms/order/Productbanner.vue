@@ -3,7 +3,7 @@
         <div class="bg-white border rounded-lg shadow-md p-6 text-sm text-gray-800">
             <div class="flex items-center justify-between mb-6">
                 <div class="text-2xl uppercase mb-6">
-                    Product Sample 
+                    Store 
                 </div>
                 <!-- Button Section (Right) -->
                 <div class="w-full md:w-auto">
@@ -13,9 +13,9 @@
                             label="Create"
                             variant="primary"
                             v-if="
-                                (status !== '' && status !== '') &&
+                                (status !== 'Canceled' && status !== 'FullPaid') &&
                                 (userStore.loggedUser.granted.includes('su') ||
-                                userStore.loggedUser.granted.includes('accdept') )
+                                userStore.loggedUser.granted.includes('sso') )
                             "
                             @click="GoToAddNew"
                         />
@@ -80,7 +80,7 @@
                 </div>
             </div>
         </div>
-        <addProductSample :orderId="selectedOrderId" :vendorId="vendorId" v-if="isaAssig" @close="isaAssig = false" />
+        <assigDtp :orderId="selectedOrderId" :vendorId="vendorId" v-if="isaAssig" @close="isaAssig = false" />
     </section>
 </template>
   
@@ -90,7 +90,7 @@
     import imagepicker1 from "~/components/customcontrol/imagepickermultiple.vue";
     import LinkBtn from "~/components/customcontrol/Link";
     import Button from "~/components/customcontrol/Button";
-    import addProductSample from './addProductSample.vue';
+    import assigDtp from '../workFlow/dtp/assigDtp.vue';
 
 
  
@@ -100,7 +100,7 @@
     });
 
     export default {
-        components:{imagepicker1,addProductSample,Button,LinkBtn,imagepicker1},
+        components:{imagepicker1,assigDtp,Button,LinkBtn,imagepicker1},
         props: ['id', 'vendorId'],
 
         data() {

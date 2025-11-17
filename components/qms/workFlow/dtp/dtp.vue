@@ -2,19 +2,16 @@
   <section class="justify-center min-h-screen px-4 mt-24 mb-20 lg:px-[60px] md:px-[82px]">
     <div class="text-2xl uppercase mb-6">Work Flow KPI</div>
 
-    <!-- KPI Summary -->
-    <div class="grid gap-4 sm:grid-cols-2 lg:grid-cols-3 mb-6">
-      <div class="p-4 bg-white rounded-lg shadow-sm border hover:shadow-md transition">
-        <h3 class="text-sm font-medium text-gray-600">Executive Assign</h3>
-        <p class="mt-2 text-2xl font-bold text-blue-600">24</p>
+    <div
+      class="flex flex-col items-center justify-between mt-2 mb-2 md:flex-row"
+    >
+      <div class="w-full mb-4 md:mb-0">
+        <div class="mr-2">
+        
+        </div>
       </div>
-      <div class="p-4 bg-white rounded-lg shadow-sm border hover:shadow-md transition">
-        <h3 class="text-sm font-medium text-gray-600">Artwork Created</h3>
-        <p class="mt-2 text-2xl font-bold text-green-600">56</p>
-      </div>
-      <div class="p-4 bg-white rounded-lg shadow-sm border hover:shadow-md transition">
-        <h3 class="text-sm font-medium text-gray-600">Store Created</h3>
-        <p class="mt-2 text-2xl font-bold text-purple-600">12</p>
+      <div class="w-full md:w-96">
+        <SearchComp @DoSearch="GetSearch" />
       </div>
     </div>
 
@@ -26,58 +23,54 @@
 
     <!-- KPI Leads -->
     <div
-      v-for="(lead, index) in listKpi"
+      v-for="(dtpJobs, index) in taskhubStore.taskDetailsList"
       :key="index"
     >
       <div
-        v-if="!filteredKpiId || filteredKpiId === lead.id"
+        v-if="!filteredKpiId || filteredKpiId === dtpJobs.id"
          class="flex flex-col gap-2 p-4 mt-3 bg-white border rounded-xl shadow-sm hover:shadow-md ]"
       >
         <!-- Badges -->
         <div class="flex gap-2">
           <span class="inline-flex items-center gap-1 px-2 py-1 text-[12px] font-medium text-blue-800 bg-blue-100 rounded-full">
-            ⏳ {{ lead.noofDaysPending || 0 }} Days Pending
+            ⏳ {{ dtpJobs.noofDaysPending || 0 }} Days Pending
           </span>
           <span class="inline-flex items-center gap-1 px-2 py-1 text-[12px] font-medium text-purple-800 bg-purple-100 rounded-full">
-            📅 {{ lead.assignDate || 'No Date' }}
+            📅 {{ dtpJobs.assignDate || 'No Date' }}
           </span>
         </div>
 
         <!-- Main Info -->
         <div class="grid grid-cols-2 gap-4 sm:flex sm:flex-row sm:justify-between px-2">
           <div>
-            <h1 class="text-[12px] font-semibold text-gray-600">Job</h1>
-            <p class="text-sm text-gray-500 mt-0.5">{{ lead.job || 'No Data' }}</p>
+            <h1 class="text-[12px] font-semibold text-gray-600">C0lient Name</h1>
+            <p class="text-sm text-gray-500 mt-0.5">{{ dtpJobs.clientName || 'No Data' }}</p>
           </div>
           <div>
-            <h1 class="text-[12px] font-semibold text-gray-600">Company</h1>
-            <p class="text-sm text-gray-500 mt-0.5">{{ lead.companyName || 'No Data' }}</p>
+            <h1 class="text-[12px] font-semibold text-gray-600">Job Type</h1>
+            <p class="text-sm text-gray-500 mt-0.5">{{ dtpJobs.jobType || 'No Data' }}</p>
           </div>
           <div>
-            <h1 class="text-[12px] font-semibold text-gray-600">Completed Date</h1>
-            <p class="text-sm text-gray-500 mt-0.5">{{ lead.completedDate || 'No Data' }}</p>
+            <h1 class="text-[12px] font-semibold text-gray-600">Job Description</h1>
+            <p class="text-sm text-gray-500 mt-0.5">{{ dtpJobs.jobDescription || 'No Data' }}</p>
           </div>
           <div>
-            <h1 class="text-[12px] font-semibold text-gray-600">Assign By</h1>
-            <p class="text-sm text-gray-500 mt-0.5">{{ lead.kpiAssignTo || 'No Data' }}</p>
-          </div>
-          <div>
-            <h1 class="text-[12px] font-semibold text-gray-600">Reported By</h1>
-            <p class="text-sm text-gray-500 mt-0.5">{{ lead.reportedBy || 'No Data' }}</p>
+            <h1 class="text-[12px] font-semibold text-gray-600">Pending WorkGroup</h1>
+            <p class="text-sm text-gray-500 mt-0.5">{{ dtpJobs.pendingWorkGroup || 'No Data' }}</p>
           </div>
           <div>
             <h1 class="text-[12px] font-semibold text-gray-600">Status</h1>
             <span
               :class="{
-                'bg-gray-100 text-gray-700': !lead.status,
-                'bg-yellow-100 text-yellow-800': lead.status === 'Pending',
-                'bg-red-100 text-red-800': lead.status === 'Cancelled',
-                'bg-orange-100 text-orange-800': lead.status === 'Hold',
-                'bg-green-100 text-green-800': lead.status === 'Completed',
+                'bg-gray-100 text-gray-700': !dtpJobs.jobStatus,
+                'bg-yellow-100 text-yellow-800': dtpJobs.jobStatus === 'Pending',
+                'bg-red-100 text-red-800': dtpJobs.jobStatus === 'Cancelled',
+                'bg-orange-100 text-orange-800': dtpJobs.jobStatus === 'Hold',
+                'bg-green-100 text-green-800': dtpJobs.jobStatus === 'Completed',
               }"
               class="text-[12px] font-medium px-2.5 py-0.5 rounded-full"
             >
-              {{ lead.status || 'Unknown' }}
+              {{ dtpJobs.jobStatus || 'Unknown' }}
             </span>
           </div>
         </div>
@@ -86,7 +79,7 @@
         <div class="flex flex-col items-center gap-1 mt-1 mb-2 sm:flex-row sm:justify-end sm:mb-0 sm:mt-0 sm:-my-3">
           <button
             class="text-black dark:bg-transparent text-xs font-medium dark:text-blue-900 cursor-pointer px-4 py-2 text-sm font-medium text-blue-900 rounded-md hover:font-bold underline"
-            @click="toggleKpiView(lead.id, index)"
+            @click="toggleKpiView(dtpJobs.id, index)"
           >
             {{ expandedRow === index ? 'Less' : 'More' }}
           </button>
@@ -104,22 +97,22 @@
               <div class="p-4 rounded-lg bg-white shadow hover:shadow-md transition">
                 <h2 class="text-sm font-bold text-gray-800 border-b pb-2 mb-3">🏬 Store Details</h2>
                 <div class="space-y-2 text-sm">
-                  <p><span class="font-medium text-gray-700">Vendor:</span> {{ lead.details?.store?.name || 'No Data' }}</p>
-                  <p><span class="font-medium text-gray-700">Address:</span> {{ lead.details?.store?.location || 'No Data' }}</p>
-                  <p><span class="font-medium text-gray-700">Contact:</span> {{ lead.details?.store?.contactNumber || 'No Data' }}</p>
-                  <p><span class="font-medium text-gray-700">Email:</span> {{ lead.details?.store?.email || 'No Data' }}</p>
+                  <p><span class="font-medium text-gray-700">Vendor:</span> {{ dtpJobs.details?.store?.name || 'No Data' }}</p>
+                  <p><span class="font-medium text-gray-700">Address:</span> {{ dtpJobs.details?.store?.location || 'No Data' }}</p>
+                  <p><span class="font-medium text-gray-700">Contact:</span> {{ dtpJobs.details?.store?.contactNumber || 'No Data' }}</p>
+                  <p><span class="font-medium text-gray-700">Email:</span> {{ dtpJobs.details?.store?.email || 'No Data' }}</p>
                 </div>
               </div>
 
               <!-- Banner -->
               <div class="p-4 rounded-lg bg-white shadow hover:shadow-md transition">
                 <h2 class="text-sm font-bold text-gray-800 border-b pb-2 mb-3">🖼️ Banner Details</h2>
-                <p class="text-sm"><span class="font-medium text-gray-700">Category:</span> {{ lead.details?.banner?.categoryName || 'No Data' }}</p>
+                <p class="text-sm"><span class="font-medium text-gray-700">Category:</span> {{ dtpJobs.details?.banner?.categoryName || 'No Data' }}</p>
                 <p class="text-sm flex gap-1 items-center">
                   <span class="font-medium text-gray-700">Web:</span>
                   <a
-                    v-if="lead.details?.banner?.web"
-                    :href="lead.details.banner.web"
+                    v-if="dtpJobs.details?.banner?.web"
+                    :href="dtpJobs.details.banner.web"
                     target="_blank"
                     class="text-indigo-600 hover:underline truncate max-w-[150px]"
                     title="Visit Website"
@@ -141,12 +134,12 @@
                   placeholder="Enter Link"
                   class="mt-1 w-full p-2 text-sm border rounded-md bg-white focus:ring-2 focus:ring-indigo-400 focus:outline-none"
                 />
-                <a v-if="(userStore.loggedUser.granted.includes('su') || userStore.loggedUser.granted.includes('sso')) && lead.kpiAssignTo"
-                  :href="lead.kpiAssignTo"
+                <a v-if="(userStore.loggedUser.granted.includes('su') || userStore.loggedUser.granted.includes('sso')) && dtpJobs.kpiAssignTo"
+                  :href="dtpJobs.kpiAssignTo"
                   target="_blank"
                   rel="noopener noreferrer"
                   class="text-sm text-blue-600 hover:underline mt-0.5">
-                  {{ lead.kpiAssignTo }}
+                  {{ dtpJobs.kpiAssignTo }}
                 </a>
 
                 <p v-else-if="userStore.loggedUser.granted.includes('su') || userStore.loggedUser.granted.includes('sso')"
@@ -227,10 +220,11 @@
 
 <script>
 import { useUserStore } from "~/stores/modules/userStore";
+import { useTaskhubStore } from "~/stores/modules/taskHub/taskhubStore";
 import imagepicker1 from "~/components/customcontrol/imagepickermultiple.vue";
 import Button from "~/components/customcontrol/Button.vue";
-import LinkBtn from "~/components/customcontrol/Link";
 import assigDtp from "./assigDtp.vue";
+import SearchComp from "~/components/customcontrol/SearchComp";
 
 
 definePageMeta({
@@ -239,7 +233,7 @@ definePageMeta({
 });
 
 export default {
-    components:{imagepicker1,assigDtp,Button,LinkBtn},
+    components:{imagepicker1,assigDtp,Button,SearchComp},
   data() {
     return {
       isaAssig: false,
@@ -292,8 +286,15 @@ export default {
 
   async created() {
     this.userStore = useUserStore();
+    this.taskhubStore = useTaskhubStore();
     this.imageroot = this.userStore.loggedUser.resourceURLRoot;
     this.showLoading = this.$showLoading;
+
+    await this.taskhubStore.TaskDetailsList(
+      { taskType: "DtlBannerMgt", searchValue: "BD86C93A-37CD-4D12-4DE1-08DE0AD24517", searchBy: this.searchBy },
+      this.showLoading
+    );
+
   },
 
   mounted() {
@@ -302,6 +303,32 @@ export default {
   },
 
   methods: {
+
+
+
+    async GetSearch(searchVal) {
+
+      this.keyword = searchVal || "";
+
+      console.log("keyword, searchBy", this.keyword, this.searchBy);
+
+      await this.taskhubStore.TaskDetailsList(
+      { taskType: "DtlBannerMgt", searchValue: "BD86C93A-37CD-4D12-4DE1-08DE0AD24517", searchBy: this.searchBy },
+      this.showLoading
+    );
+
+      await this.vendorStore.TaskDetailsList(
+        { keyword: this.keyword, searchBy: this.searchBy },
+        this.showLoading
+      );
+
+      this.keyword = "";
+
+      this.taskDetailsList = this.taskhubStore.taskDetailsList
+
+
+    },
+
 
     GoToAddNew() {
       this.isaAssig = true;
