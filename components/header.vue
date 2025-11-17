@@ -22,7 +22,7 @@
           <!-- Logo -->
           <NuxtLink to="/dashboard" class="flex items-center space-x-2 ml-14">
             <!-- hide Img -->
-            <img src="/assets/img/LogoDigitalTechLab.png" alt="Digital Tech Labs Logo" class="h-auto rounded-full w-28" />
+            <!-- <img src="/assets/img/LogoDigitalTechLab.png" alt="Digital Tech Labs Logo" class="h-auto rounded-full w-28" /> -->
           </NuxtLink>
 
           <!-- {{ userStore.loggedUser.resourceURLRoot + userStore.loggedUser.image }} -->
@@ -32,7 +32,7 @@
           <div class="relative flex items-center ml-3 space-x-3">
 
             <div class="relative mr-4">
-              <Notifications :userName="userStore?.loggedUser?.userName"  />
+              <Notifications :userName="userStore?.loggedUser?.userName" />
             </div>
             <div class="flex flex-col text-white text-xs sm:text-sm hidden sm:inline md:inline lg:inline">
               <p class="font-semibold truncate">Hi, {{ userStore.loggedUser.name }}</p>
@@ -82,11 +82,11 @@ import Sidebar from "./sidemenu.vue";
 import { useUserStore } from '~/stores/modules/userStore';
 import profile from "~/pages/user/profile.vue";
 import { useOrderStore } from '~/stores/modules/orderStore';
-import Notifications  from "./notifications/index.vue";
+import Notifications from "./notifications/index.vue";
 
 
 export default {
-  components: { Sidebar, profile,Notifications },
+  components: { Sidebar, profile, Notifications },
   data() {
     return {
       userStore: null,

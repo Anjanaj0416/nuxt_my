@@ -146,17 +146,7 @@ import SearchInput from '~/components/customcontrol/SearchInput.vue';
         isReport: false,
         selectedEmployee: '',
         selectedYear: '',
-        selectedMonth: '',
-        years: [
-          "2000",
-          "2001",
-          "2002",
-          "2003",
-          "2004",
-          "2005",
-          "2006",
-        ],
-        months: [1,2,3,4,5,6,7,8,9,10,11,12]
+        selectedMonth: ''
        
       }
     },

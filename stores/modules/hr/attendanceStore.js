@@ -241,6 +241,29 @@ export const useAttendanceStore = defineStore("attendanceStore", {
       loadingAlert.close();
     },
 
+    async getProcessAttendenceLogs(req, showLoading) {
+      console.log('API-getProcessAttendenceLogs:',req);
+
+      const loadingAlert = showLoading("");
+      try {
+        const response = await axios.post(
+          `${import.meta.env.VITE_API_URL}/hr/Attendance/GetProcessAttendenceLogs`,
+          req
+        );
+        console.log("response:", response);
+        if (response.data.isSuccess) {
+          this.showToast(response.data.message, 'success');
+        } else {
+          console.error("Loading error:", response.data.message);
+          // this.showToast(response.data.message, 'error');
+        }
+      } catch (error) {
+        console.error("Loading error:", error);
+        this.showToast(error.response.data.Message, "error");
+      }
+      loadingAlert.close();
+    },
+
     async getDayAppliedRecords(req, showLoading) {
       console.log('API-getDayAppliedRecords',req);
 

@@ -97,7 +97,7 @@ export const useEmployeeStore = defineStore("employeeStore", {
           console.log(`${key}: ${value}`);
         }
 
-      const loadingAlert = showLoading("");
+      const loadingAlert = showLoading(""); 
       try {
         const response = await axios.post(
           `${import.meta.env.VITE_API_URL}/hr/Employee/SetAddEdit`,
@@ -108,6 +108,9 @@ export const useEmployeeStore = defineStore("employeeStore", {
             },
           }
         );
+
+        console.log("AddEdiEmployee:",response);
+        
 
         loadingAlert.close();
 
@@ -121,8 +124,9 @@ export const useEmployeeStore = defineStore("employeeStore", {
           this.showToast(response.data.message, "error");
         }
       } catch (error) {
+        console.error("error:", error);
         loadingAlert.close();
-        this.showToast("Error in server call", "error");
+        this.showToast("Error in server call", error);
       }
     },
 

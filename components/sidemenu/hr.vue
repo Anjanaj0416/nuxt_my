@@ -36,6 +36,11 @@
                     @click="$emit('close-sidebar')">
                     <span>Attendance Correction</span>
                 </router-link>
+                <router-link to="/hr/attendenceLogs" v-show="userStore.loggedUser.granted.includes('hradmin')"
+                    class="block px-3 py-2 text-gray-300 rounded hover:text-white hover:bg-blue-800"
+                    @click="$emit('close-sidebar')">
+                    <span>Attendance Logs</span>
+                </router-link>
                 <router-link to="/hr/holiday" v-show="userStore.loggedUser.granted.includes('hradmin')"
                     class="block px-3 py-2 text-gray-300 rounded hover:text-white hover:bg-blue-800"
                     @click="$emit('close-sidebar')">
@@ -73,7 +78,7 @@
                         <router-link to="/hr/reports?p=R1003"
                             class="block px-3 py-1 text-sm text-gray-400 rounded hover:text-white hover:bg-blue-700"
                             @click="$emit('close-sidebar')">
-                            Daily Presence Report
+                            Daily Attendance Report
                         </router-link>
                         <router-link to="/hr/reports?p=R1004"
                             class="block px-3 py-1 text-sm text-gray-400 rounded hover:text-white hover:bg-blue-700"
@@ -114,6 +119,11 @@
                             class="block px-3 py-1 text-sm text-gray-400 rounded hover:text-white hover:bg-blue-700"
                             @click="$emit('close-sidebar')">
                             HR - Month End Report Summery
+                        </router-link>
+                        <router-link to="/hr/reports?p=R1012"
+                            class="block px-3 py-1 text-sm text-gray-400 rounded hover:text-white hover:bg-blue-700"
+                            @click="$emit('close-sidebar')">
+                            Month End Attendance Report
                         </router-link>
                     </div>
                 </div>
