@@ -167,7 +167,7 @@
                   ? 'text-blue-600 border-blue-600 dark:text-blue-500 '
                   : 'border-transparent hover:text-gray-600 hover:border-gray-300 '
               ]">
-              Product Sample
+              Demo Product
             </button>
             <button 
               v-if="
@@ -177,7 +177,7 @@
               "
               @click="vendorTabs[vd.id] = ''; quotationStore.curVendorId = null"
               class="p-4 border-b-2 rounded-t-lg text-center text-red-600 border-transparent ">
-              Close Product Sample
+              Close Demo Product
             </button>
 
             <button  

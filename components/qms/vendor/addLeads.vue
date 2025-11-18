@@ -22,7 +22,7 @@
               />
             </div>
           </div>
-          <div class="grid grid-cols-1 gap-4 my-4 sm:grid-cols-1 md:grid-cols-3 lg:grid-cols-3">
+          <div class="grid grid-cols-1 gap-4 my-4 sm:grid-cols-1 md:grid-cols-4 lg:grid-cols-4">
             <div class="">
               <label class="block text-[13px] font-bold text-gray-600">
                 Company Name <span class="text-red-500">*</span>
@@ -53,9 +53,19 @@
                 {{ err.CompanyPhone }}
               </p>
             </div>
+            <div class="">
+              <label class="block text-[13px] font-bold text-gray-600">
+                WhatsApp Number <span class="text-red-500">*</span>
+              </label>
+              <input type="tel" v-model="curLead.CompanyPhone" placeholder="Enter WhatsApp Number" maxlength="10" @input="clearErrorOnInput('CompanyPhone')"
+                class="w-full p-2 mt-2 text-[13px] border rounded-md focus:ring-indigo-500 focus:border-indigo-500" />
+              <p v-if="err.CompanyPhone" class="mt-2 text-sm text-red-600">
+                {{ err.CompanyPhone }}
+              </p>
+            </div>
           </div>
           <div class="mt-4 block text-[13px] font-bold text-gray-800">Contact Person 1</div>
-          <div class="grid grid-cols-1 gap-4 mt-2 sm:grid-cols-1 md:grid-cols-3 lg:grid-cols-3">
+          <div class="grid grid-cols-1 gap-4 mt-2 sm:grid-cols-1 md:grid-cols-4 lg:grid-cols-4">
             <div class="">
               <label class="block text-[13px] font-bold text-gray-600">Name </label>
               <input type="text" v-model="curLead.ContactPerson1Name" placeholder="Enter Name" @input="clearErrorOnInput('ContactPerson1Number')"
@@ -83,9 +93,16 @@
                 {{ err.ContactPerson1Number }}
               </p>
             </div>
+            <div class="">
+              <label class="block text-[13px] font-bold text-gray-600">
+                WhatsApp Number <span class="text-red-500">*</span>
+              </label>
+              <input type="tel" v-model="curLead.CompanyPhone" placeholder="Enter WhatsApp Number" maxlength="10" @input="clearErrorOnInput('CompanyPhone')"
+                class="w-full p-2 mt-2 text-[13px] border rounded-md focus:ring-indigo-500 focus:border-indigo-500" />
+            </div>
           </div>
           <div class="mt-4 block text-[13px] font-bold text-gray-800">Contact Person 2</div>
-          <div class="grid grid-cols-1 gap-4 mt-2 sm:grid-cols-1 md:grid-cols-3 lg:grid-cols-3">
+          <div class="grid grid-cols-1 gap-4 mt-2 sm:grid-cols-1 md:grid-cols-4 lg:grid-cols-4">
             <div class="">
               <label class="block text-[13px] font-bold text-gray-600">Name</label>
               <input type="text" v-model="curLead.ContactPerson2Name" placeholder="Enter Name"
@@ -109,6 +126,13 @@
               <input type="text" v-model="curLead.ContactPerson2Number" :maxlength="10" placeholder="Enter Contact Number" @input="clearErrorOnInput('ContactPerson1Number')"
                 required
                 class="w-full p-2 mt-2 text-sm border rounded-md focus:ring-indigo-500 focus:border-indigo-500" />
+            </div>
+            <div class="">
+              <label class="block text-[13px] font-bold text-gray-600">
+                WhatsApp Number <span class="text-red-500">*</span>
+              </label>
+              <input type="tel" v-model="curLead.CompanyPhone" placeholder="Enter WhatsApp Number" maxlength="10" @input="clearErrorOnInput('CompanyPhone')"
+                class="w-full p-2 mt-2 text-[13px] border rounded-md focus:ring-indigo-500 focus:border-indigo-500" />
             </div>
           </div>
         </div>
@@ -393,7 +417,7 @@ export default {
 .modal {
   background: white;
   width: 80%;
-  max-width: 800px;
+  max-width: 1200px;
   border-radius: 1rem;
   overflow: hidden;
   display: flex;

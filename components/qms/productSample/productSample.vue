@@ -22,55 +22,54 @@
                     </div>
                 </div>
             </div>
-            <!-- {{ taskhubStore.taskDetailsList }} -->
-            <!-- Payment History Section -->
-      
-
-            <!-- KPI Leads -->
             <div
-                v-for="(lead, index) in taskhubStore.taskDetailsList"
+                v-for="(lead, index) in taskhubStore.demoProductMaterialList"
                 :key="index"
+                class="bg-white border rounded-xl shadow-sm p-5 mb-4 hover:shadow-md transition-all duration-300"
             >
-                <div class="grid grid-cols-2 gap-4 sm:flex sm:flex-row sm:justify-between px-2">
-                    <div>
+                <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-6 gap-6">
+                    <div class="space-y-1">
                         <h1 class="text-[12px] font-semibold text-gray-600">Job</h1>
-                        <p class="text-sm text-gray-500 mt-0.5">{{ lead.jobType || 'No Data' }}</p>
+                        <p class="text-sm text-gray-500">{{ lead.taskType || 'No Data' }}</p>
                     </div>
-                    <div>
-                        <h1 class="text-[12px] font-semibold text-gray-600">Pendin gWork Group</h1>
-                        <p class="text-sm text-gray-500 mt-0.5">{{ lead.pendingWorkGroup || 'No Data' }}</p>
+                    <div class="space-y-1">
+                        <h1 class="text-[12px] font-semibold text-gray-600">No Of Days Pending</h1>
+                        <p class="text-sm text-gray-500">{{ lead.noOfDaysPending || 'No Data' }}</p>
                     </div>
-                    <div>
-                        <h1 class="text-[12px] font-semibold text-gray-600">Company</h1>
-                        <p class="text-sm text-gray-500 mt-0.5">{{ lead.clientName || 'No Data' }}</p>
+                    <div class="space-y-1">
+                        <h1 class="text-[12px] font-semibold text-gray-600">Task Created Date</h1>
+                        <p class="text-sm text-gray-500">{{ lead.taskCreatedDate || 'No Data' }}</p>
                     </div>
-                    <div>
+                    <div class="space-y-1">
                         <h1 class="text-[12px] font-semibold text-gray-600">Description</h1>
-                        <p class="text-sm text-gray-500 mt-0.5">{{ lead.jobDescription || 'No Data' }}</p>
+                        <p class="text-sm text-gray-500 line-clamp-2">{{ lead.description || 'No Data' }}</p>
                     </div>
-                    <div>
+                    <div class="space-y-1">
                         <h1 class="text-[12px] font-semibold text-gray-600">Status</h1>
                         <span
-                        :class="{
-                            'bg-gray-100 text-gray-700': !lead.jobStatus,
-                            'bg-yellow-100 text-yellow-800': lead.jobStatus === 'Pending',
-                            'bg-red-100 text-red-800': lead.jobStatus === 'Cancelled',
-                            'bg-orange-100 text-orange-800': lead.jobStatus === 'Hold',
-                            'bg-green-100 text-green-800': lead.jobStatus === 'Completed',
-                        }"
-                        class="text-[12px] font-medium px-2.5 py-0.5 rounded-full"
+                            :class="{
+                            'bg-gray-100 text-gray-700': !lead.status,
+                            'bg-yellow-100 text-yellow-800': lead.status === 'Pending',
+                            'bg-red-100 text-red-800': lead.status === 'Cancelled',
+                            'bg-orange-100 text-orange-800': lead.status === 'Hold',
+                            'bg-green-100 text-green-800': lead.status === 'Completed',
+                            }"
+                            class="text-[12px] font-medium px-3 py-1 rounded-full inline-block shadow-sm"
                         >
-                        {{ lead.jobStatus || 'Unknown' }}
+                            {{ lead.status || 'Unknown' }}
                         </span>
                     </div>
-                    <div class="flex flex-col items-center  mt-1 mb-2 sm:flex-row sm:justify-end sm:mb-0 sm:mt-0 sm:-my-3">
-                        <button
-                            class="text-black dark:bg-transparent text-xs font-medium dark:text-blue-900 cursor-pointer px-4 py-2 text-sm font-medium text-blue-900 rounded-md hover:font-bold underline"
-                            @click="toggleKpiView(lead.id, index)"
-                        >
-                            More Details
-                        </button>
+                    <div class="flex items-end">
+                    <a
+                        :href="lead.moreDetailsUrl"
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        class="text-sm font-semibold text-blue-600 hover:text-blue-800 hover:underline"
+                    >
+                        View More →
+                    </a>
                     </div>
+
                 </div>
             </div>
         </div>
@@ -126,14 +125,9 @@
         this.showLoading = this.$showLoading;
         this.taskhubStore = useTaskhubStore();
 
-        const req = {
-            taskType: "DtlBannerMgt",
-            searchValue : "BD86C93A-37CD-4D12-4DE1-08DE0AD24517",
-            searchBy : "100"
-        }
-        await this.taskhubStore.TaskDetailsList(req, this.showLoading);
+        await this.taskhubStore.DemoProductMaterial(this.vendorId, this.showLoading);
 
-        this.taskDetailsList = this.taskhubStore.taskDetailsList
+        this.demoProductMaterialList = this.taskhubStore.demoProductMaterialList
 
     },
 

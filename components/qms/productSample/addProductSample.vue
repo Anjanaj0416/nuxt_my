@@ -3,7 +3,7 @@
     <div class="modal">
       <!-- Modal Header -->
       <div class="modal-header">
-        <h2 class="modal-title">Payment Add</h2>
+        <h2 class="modal-title">Sample Product Box and banner</h2>
         <closebtn @close="closeModal()" />
       </div>
 
@@ -144,7 +144,7 @@ export default {
 
     async SetApprove() {
       const confirmed = await this.$showConfirm(
-        "Are you sure to Save Task Product Box Creation?",
+        "Are you sure to assign task for sample product box creation ?",
         "warning"
       );
       if (!confirmed.isConfirmed) return;

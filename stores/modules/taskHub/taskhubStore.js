@@ -11,7 +11,8 @@ export const useTaskhubStore = defineStore("taskhubStore", {
         listSubSubSubCategory: [],
         listDTP: [],
         listSuperUser: [],
-        InitNext: []
+        InitNext: [],
+        demoProductMaterialList: []
 
     }),
     persist: true,
@@ -284,6 +285,48 @@ export const useTaskhubStore = defineStore("taskhubStore", {
                 loadingAlert.close();
                 if (response.data.isSuccess) {
                     this.showToast(response.data.message, "success");
+                } else {
+                    this.showToast(response.data.message, "error");
+                }
+            } catch (error) {
+                this.showToast(error.message || "Something went wrong!", "error");
+                loadingAlert.close();
+            }
+        },
+
+        async DemoProductMaterial(vendorId, showLoading) {     
+            console.log('API-GetTaskHubDetails',vendorId);
+
+            const loadingAlert = showLoading("");
+            try {
+                const response = await axios.get(
+                    `${import.meta.env.VITE_API_URL}/TaskHub/DTL/DTLBannerMgt/GetDemoProductMaterialTasksByVendor?clientId=${vendorId}`,
+                );
+                loadingAlert.close();
+                if (response.data.isSuccess) {
+                    // this.showToast(response.data.message, "success");
+                    this.demoProductMaterialList = response.data.data.data
+                } else {
+                    this.showToast(response.data.message, "error");
+                }
+            } catch (error) {
+                this.showToast(error.message || "Something went wrong!", "error");
+                loadingAlert.close();
+            }
+        },
+
+         async StoreMaterialTasks(clientId, showLoading) {     
+            console.log('API-GetStoreMaterialTasksByVendor');
+
+            const loadingAlert = showLoading("");
+            try {
+                const response = await axios.get(
+                    `${import.meta.env.VITE_API_URL}/TaskHub/DTL/DTLBannerMgt/GetStoreMaterialTasksByVendor?clientId=${clientId}`,
+                );
+                loadingAlert.close();
+                if (response.data.isSuccess) {
+                    // this.showToast(response.data.message, "success");
+                    this.storeMateriallList = response.data.data.data
                 } else {
                     this.showToast(response.data.message, "error");
                 }

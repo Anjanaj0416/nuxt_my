@@ -200,7 +200,7 @@
                       : 'text-blue-600 border-transparent hover:text-gray-600 hover:border-gray-300 '
                   ]"
                 >
-                  {{ activeTab.type === 'Banner' && activeTab.orderId === order.id ? 'Close Create Store' : 'Create Store ' }}
+                  {{ activeTab.type === 'Banner' && activeTab.orderId === order.id ? 'Close Create Store Material' : 'Create Store Material' }}
                 </button>
                 <!-- Commision -->
                 <button
@@ -294,7 +294,7 @@
                 <TimeLine :orderId="order.id" />
               </div>
               <div v-if="activeTab.type === 'Banner' && activeTab.orderId === order.id">
-                <Banner :orderId="order.id" :vendorId="order.clientId" />
+                <Banner :orderId="order.id" :clientId="order.clientId" />
               </div>
             </div>
           </div>
