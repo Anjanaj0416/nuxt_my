@@ -14,19 +14,7 @@
           {{ err.expDate }}
         </p>
       </div>
-      <div>
-        <label class="block text-sm font-medium text-gray-600 mb-1">Sort Order</label>
-        <input
-          v-model="sortOrder"
-          @input="clearErrorOnInput('sortOrder')"
-          type="number"
-          placeholder="Enter Sort Order"
-          class="w-full p-2 border rounded-md text-sm focus:ring-2 focus:ring-blue-400"
-        />
-        <p v-if="err.sortOrder" class="mt-2 text-sm text-red-600">
-          {{ err.sortOrder }}
-        </p>
-      </div>
+  
       <div>
         <label class="block text-sm font-medium text-gray-600 mb-1">Amount</label>
         <input
@@ -123,13 +111,13 @@
       </div>
     </div>
     
-    <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+    <div class="grid grid-cols-1 md:grid-cols-1 gap-4">
       <div>
         <label class="block text-sm font-medium text-gray-600 mb-1">Comment</label>
         <textarea
           v-model="comment"
           type="text"
-          rows="4"
+          rows="5"
           placeholder="Enter Comment"
           class="w-full p-2 border rounded-md text-sm focus:ring-2 focus:ring-blue-400"
         />
@@ -290,10 +278,6 @@ export default {
 
       if (!this.expDate) {
         this.err.expDate = "Please enter a expire day!";
-        valid = false;
-      }
-      if (!this.sortOrder) {
-        this.err.sortOrder = "Please select a sort order!";
         valid = false;
       }
       if (!this.amount) {

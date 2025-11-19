@@ -84,7 +84,7 @@
 
 
         </div>
-        <assigDtp :orderId="selectedOrderId" :vendorId="vendorId" v-if="isaAssig" @close="isaAssig = false" />
+        <assigDtp :orderId="selectedOrderId" :vendorId="clientId" v-if="isaAssig" @close="isaAssig = false" />
     </section>
 </template>
   

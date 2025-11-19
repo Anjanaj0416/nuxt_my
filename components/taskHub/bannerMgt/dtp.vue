@@ -26,6 +26,7 @@
       v-for="(dtpJobs, index) in taskhubStore.taskDetailsList"
       :key="index"
     >
+    {{ dtpJobs }}
       <div
         v-if="!filteredKpiId || filteredKpiId === dtpJobs.id"
          class="flex flex-col gap-2 p-4 mt-3 bg-white border rounded-xl shadow-sm hover:shadow-md ]"
