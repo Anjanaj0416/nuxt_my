@@ -35,7 +35,7 @@
               'border-red-300': order.orderStatus === 'Canceled'
             }"
           >
-          {{ order }}
+          <!-- {{ order }} -->
             <!-- Top section: Details -->
             <div class="flex flex-col sm:flex-row sm:justify-between sm:items-center gap-2">
               <div class="flex flex-col text-center sm:text-left">
