@@ -32,6 +32,7 @@
       v-for="(lead, index) in paginatedLeads"
       :key="index"
     >
+    
           {{ leadStore.listLeads.status}}
           <div class="flex justify-between">
       <span
