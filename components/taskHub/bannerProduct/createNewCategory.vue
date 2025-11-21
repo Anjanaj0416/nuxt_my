@@ -1,110 +1,115 @@
 <template>
   <div class="p-6 space-y-6">
     <h2 class="text-lg font-semibold text-gray-700 border-b pb-2 mb-4">Create New Category</h2>
-          <div class="grid grid-cols-1 md:grid-cols-4 gap-4">
-            <div>
-              <label class="block text-sm font-medium text-gray-600">Main Category</label>
-              <serach_Input
-                :arrItems="taskhubStore.listMainCategory"
-                label=""
-                ref="refMainCategory"
-                @selectItem="GetSelectMainCategory"
-              />
-            </div>
-            <div>
-              <label class="block text-sm font-medium text-gray-600">Sub Category</label>
-              <serach_Input
-                :arrItems="taskhubStore.listSubCategory"
-                label=""
-                ref="refSubCategory"
-                @selectItem="GetSelectSubCategory"
-              />
-            </div>
-            <div>
-              <label class="block text-sm font-medium text-gray-600">Sub Sub Category</label>
-              <serach_Input
-                :arrItems="taskhubStore.listSubSubCategory"
-                label=""
-                ref="refSubSubCategory"
-                @selectItem="GetSelectSubSubCategory"
-              />
-            </div>
-            <div>
-              <label class="block text-sm font-medium text-gray-600">Sub Sub Sub Category</label>
-              <serach_Input
-                :arrItems="taskhubStore.listSubSubSubCategory"
-                label=""
-                ref="refSubSubSubCategory"
-                @selectItem="GetSelectSubSubSubCategory"
-              />
-            </div>
-          </div>
-          <div class="grid grid-cols-1 md:grid-cols-4 gap-4">
-            <div>
-              <label class="block text-sm font-medium text-gray-600 mb-1">Requested Category Level</label>
-                <select
-                    v-model="requestedCategoryLevel"
-                    @input="clearErrorOnInput('requestedCategoryLevel')"
-                    class="w-full p-2 border rounded-md text-sm bg-white focus:ring-2 focus:ring-blue-400"
-                  >
-                  <option disabled value="">Select Status</option>
-                  <option value="1">Main Category</option>
-                  <option value="2">Sub Category</option>
-                  <option value="3">Sub Sub Category</option>
-                  <option value="4">Sub Sub Sub Category</option>
-                </select>
-                <p v-if="err.requestedCategoryLevel" class="mt-2 text-sm text-red-600">
-                {{ err.requestedCategoryLevel }}
-              </p>
-            </div>
-            <div>
-              <label class="block text-sm font-medium text-gray-600 mb-1">New Category Name</label>
-              <input
-                v-model="newCategoryName"
-                @input="clearErrorOnInput('newCategoryName')"
-                type="text"
-                placeholder="Enter Category Name"
-                class="w-full p-2 border rounded-md text-sm focus:ring-2 focus:ring-blue-400"
-              />
-              <p v-if="err.newCategoryName" class="mt-2 text-sm text-red-600">
-                {{ err.newCategoryName }}
-              </p>
-            </div>
-            <div>
-              <label class="block text-sm font-medium text-gray-600 mb-1">KPI Days</label>
-              <input
-                v-model="kpiDays"
-                @input="clearErrorOnInput('kpiDays')"
-                type="number"
-                placeholder="Enter KPI Days"
-                class="w-full p-2 border rounded-md text-sm focus:ring-2 focus:ring-blue-400"
-              />
-              <p v-if="err.kpiDays" class="mt-2 text-sm text-red-600">
-                {{ err.newCategoryName }}
-              </p>
-            </div>
-          </div>
-          <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
-            <div>
-              <label class="block text-sm font-medium text-gray-600 mb-1">Comment</label>
-              <textarea
-                v-model="comment"
-                type="date"
-                rows="4"
-                placeholder="Enter Comment"
-                class="w-full p-2 border rounded-md text-sm focus:ring-2 focus:ring-blue-400"
-              />
-              
-            </div>
-          </div>
+      <div class="grid grid-cols-1 md:grid-cols-4 gap-4">
+        <div>
+          <label class="block text-sm font-medium text-gray-600">Main Category</label>
+          <serach_Input
+            :arrItems="taskhubStore.listMainCategory"
+            label=""
+            ref="refMainCategory"
+            @selectItem="GetSelectMainCategory"
+          />
+        </div>
+        <div>
+          <label class="block text-sm font-medium text-gray-600">Sub Category</label>
+          <serach_Input
+            :arrItems="taskhubStore.listSubCategory"
+            label=""
+            ref="refSubCategory"
+            @selectItem="GetSelectSubCategory"
+          />
+        </div>
+        <div>
+          <label class="block text-sm font-medium text-gray-600">Sub Sub Category</label>
+          <serach_Input
+            :arrItems="taskhubStore.listSubSubCategory"
+            label=""
+            ref="refSubSubCategory"
+            @selectItem="GetSelectSubSubCategory"
+          />
+        </div>
+        <div>
+          <label class="block text-sm font-medium text-gray-600">Sub Sub Sub Category</label>
+          <serach_Input
+            :arrItems="taskhubStore.listSubSubSubCategory"
+            label=""
+            ref="refSubSubSubCategory"
+            @selectItem="GetSelectSubSubSubCategory"
+          />
+        </div>
+      </div>
+      <div class="grid grid-cols-1 md:grid-cols-4 gap-4">
+        <div>
+          <label class="block text-sm font-medium text-gray-600 mb-1">Requested Category Level</label>
+            <select
+                v-model="requestedCategoryLevel"
+                @input="clearErrorOnInput('requestedCategoryLevel')"
+                class="w-full p-2 border rounded-md text-sm bg-white focus:ring-2 focus:ring-blue-400"
+              >
+              <option disabled value="">Select Status</option>
+              <option value="1">Main Category</option>
+              <option value="2">Sub Category</option>
+              <option value="3">Sub Sub Category</option>
+              <option value="4">Sub Sub Sub Category</option>
+            </select>
+            <p v-if="err.requestedCategoryLevel" class="mt-2 text-sm text-red-600">
+            {{ err.requestedCategoryLevel }}
+          </p>
+        </div>
+        <div>
+          <label class="block text-sm font-medium text-gray-600 mb-1">New Category Name</label>
+          <input
+            v-model="newCategoryName"
+            @input="clearErrorOnInput('newCategoryName')"
+            type="text"
+            placeholder="Enter Category Name"
+            class="w-full p-2 border rounded-md text-sm focus:ring-2 focus:ring-blue-400"
+          />
+          <p v-if="err.newCategoryName" class="mt-2 text-sm text-red-600">
+            {{ err.newCategoryName }}
+          </p>
+        </div>
+        <div>
+          <label class="block text-sm font-medium text-gray-600 mb-1">KPI Days</label>
+          <input
+            v-model="kpiDays"
+            @input="clearErrorOnInput('kpiDays')"
+            type="number"
+            placeholder="Enter KPI Days"
+            class="w-full p-2 border rounded-md text-sm focus:ring-2 focus:ring-blue-400"
+          />
+          <p v-if="err.kpiDays" class="mt-2 text-sm text-red-600">
+            {{ err.newCategoryName }}
+          </p>
+        </div>
+      </div>
+      <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+        <div>
+          <label class="block text-sm font-medium text-gray-600 mb-1">Comment</label>
+          <textarea
+            v-model="comment"
+            type="date"
+            rows="4"
+            placeholder="Enter Comment"
+            class="w-full p-2 border rounded-md text-sm focus:ring-2 focus:ring-blue-400"
+          />
+          
+        </div>
+      </div>
   </div>
-  <div class=" modal-footer">
-    <button   @click="cancel" class="px-12 py-2 text-xs  font-semibold transition bg-white text-gray-600 rounded-full shadow">Cancel</button>
-    <button @click="SetApprovalCategory()"  class="px-12 py-2 text-xs  bg-gradient-to-r from-blue-500 via-blue-600 to-blue-700 
+  <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+    <div>
+      <button   @click="cancel" class="px-12 py-2 text-xs  font-semibold transition bg-white text-gray-600 rounded-full shadow">Cancel</button>
+    </div>
+    <div>
+      <button @click="SetApprovalCategory()"  class="px-12 py-2 text-xs  bg-gradient-to-r from-blue-500 via-blue-600 to-blue-700 
             font-semibold transition text-white rounded-full shadow  focus:ring-2 focus:ring-blue-400">
         Create
-    </button>
+      </button>
+    </div>
   </div>
+<hr></hr>
 </template>
 
 <script>

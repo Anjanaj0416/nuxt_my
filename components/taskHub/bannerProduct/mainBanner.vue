@@ -242,22 +242,22 @@ export default {
         this.err.expDate = "Please enter a expire day!";
         valid = false;
       }
-      if (!this.sortOrder) {
-        this.err.sortOrder = "Please select a sort order!";
-        valid = false;
-      }
-      if (!this.amount) {
-        this.err.amount = "Please enter a amount!";
-        valid = false;
-      }
+      // if (!this.sortOrder) {
+      //   this.err.sortOrder = "Please select a sort order!";
+      //   valid = false;
+      // }
+      // if (!this.amount) {
+      //   this.err.amount = "Please enter a amount!";
+      //   valid = false;
+      // }
       if (!this.dtpId) {
         this.err.dtpId = "Please select a dtp!";
         valid = false;
       }
-      if (!this.kpiDays) {
-        this.err.kpiDays = "Please enter KPI days!";
-        valid = false;
-      }
+      // if (!this.kpiDays) {
+      //   this.err.kpiDays = "Please enter KPI days!";
+      //   valid = false;
+      // }
 
       return valid;
     },

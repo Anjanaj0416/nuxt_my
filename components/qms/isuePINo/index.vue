@@ -1,7 +1,10 @@
 <template>
     <section class="justify-center">
-        <div class="flex flex-col-reverse items-start justify-between gap-4 mb-4 md:flex-row md:items-center">
-          <div class="text-2xl uppercase">Reserve PI No.</div>
+      <div class="bg-white  p-2 text-sm text-gray-800">
+        <div class="flex flex-wrap items-center justify-between mb-6">
+                <div class="text-xl sm:text-xl md:text-2xl uppercase mb-3 sm:mb-0">
+                    Reserve PI No.
+                </div>
         </div>
         <div class=" flex items-center justify-center">
           <div class="bg-white border border-gray-200 rounded-2xl shadow-2xl p-8 w-full text-center ">
@@ -21,6 +24,7 @@
             </div>
           </div>
         </div>
+      </div>
     </section>
   </template>
   

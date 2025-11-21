@@ -51,7 +51,7 @@
 
                 <div>
                     <div @click="toggleSubmenu('Banners')"
-                        v-if="userStore.loggedUser.granted.includes('su') || userStore.loggedUser.granted.includes('flo') || userStore.loggedUser.granted.includes('sso')"
+                        v-if="userStore.loggedUser.granted.includes('su') || userStore.loggedUser.granted.includes('flo') || userStore.loggedUser.granted.includes('sso')|| userStore.loggedUser.granted.includes('cso')"
                         class="flex items-center justify-between px-3 py-2 text-gray-300 rounded cursor-pointer hover:bg-blue-800">
                        <span>Banners</span>
                         <svg :class="{ 'rotate-90': isSubmenuOpen['Banners'] }"
@@ -78,7 +78,7 @@
 
                 <div>
                     <div @click="toggleSubmenu('Reports')"
-                        v-if="userStore.loggedUser.granted.includes('su') || userStore.loggedUser.granted.includes('flo') || userStore.loggedUser.granted.includes('sso')"
+                        v-if="userStore.loggedUser.granted.includes('su') || userStore.loggedUser.granted.includes('flo') "
                         class="flex items-center justify-between px-3 py-2 text-gray-300 rounded cursor-pointer hover:bg-blue-800">
                         <span>Reports</span>
                         <svg :class="{ 'rotate-90': isSubmenuOpen['Reports'] }"

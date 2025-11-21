@@ -1,33 +1,31 @@
 <template>
     <section class="justify-center">
-        <div class="bg-white border rounded-lg shadow-md p-6 text-sm text-gray-800">
-            <div class="flex items-center justify-between mb-6">
-                <div class="text-2xl uppercase mb-6">
-                    Product Sample 
+        <div class="bg-white  p-2 text-sm text-gray-800">
+            <div class="flex flex-wrap items-center justify-between mb-6">
+                <div class="text-xl sm:text-xl md:text-2xl uppercase mb-3 sm:mb-0">
+                    Product Sample
                 </div>
-                <!-- Button Section (Right) -->
-                <div class="w-full md:w-auto">
-                    <div class="mr-2" >
-                        <Button
-                            class="w-26 px-4 py-1.5 mt-2 rounded-full text-xs transition"
-                            label="Create"
-                            variant="primary"
-                            v-if="
-                                (status !== '' && status !== '') &&
-                                (userStore.loggedUser.granted.includes('su') ||
-                                userStore.loggedUser.granted.includes('sso') )
-                            "
-                            @click="GoToAddNew"
-                        />
-                    </div>
+                <div class="w-full md:w-auto flex justify-start md:justify-end">
+                    <Button
+                    class="px-4 py-1.5 rounded-full text-xs transition mt-1 md:mt-0"
+                    label="Create"
+                    variant="primary"
+                    v-if="
+                        (status !== '' && status !== '') &&
+                        (userStore.loggedUser.granted.includes('su') ||
+                        userStore.loggedUser.granted.includes('sso'))
+                    "
+                    @click="GoToAddNew"
+                    />
                 </div>
             </div>
+
             <div
                 v-for="(lead, index) in taskhubStore.demoProductMaterialList"
                 :key="index"
                 class="bg-white border rounded-xl shadow-sm p-5 mb-4 hover:shadow-md transition-all duration-300"
             >
-                <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-6 gap-6">
+                <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-6 gap-1 sm:gap-6 lg:gap-6">
                     <div class="space-y-1">
                         <h1 class="text-[12px] font-semibold text-gray-600">Job</h1>
                         <p class="text-sm text-gray-500">{{ lead.taskType || 'No Data' }}</p>

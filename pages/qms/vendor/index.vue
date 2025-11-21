@@ -37,7 +37,258 @@
     </div>
     
     <div v-for="vd in paginatedVendor" :key="vd.id">
-      <div class="flex flex-col gap-0 p-4 mt-2  border-2 rounded-md shadow-md sm:p-4 shadow-sm hover:shadow-md " :class="{
+      <!-- ================= MOBILE VERSION ================= -->
+     
+      <div
+        class="flex flex-col gap-0 p-4 mt-2 border-2 rounded-md shadow-sm sm:hidden"
+        :class="{
+          'bg-white': vd.isActive === true || vd.isActive === undefined,
+          'bg-red-50': vd.isActive === false
+        }"
+      >
+
+        <div class="flex gap-3">
+
+          <!-- Shop Image -->
+          <img 
+            v-if="vd.shopLogo"
+            :src="imageroot + '/' + vd.shopLogo"
+            class="w-24 h-20 object-cover rounded-md"
+          />
+
+          <img 
+            v-else 
+            :src="defaultShopImage"
+            class="w-24 h-20 object-cover rounded-md"
+          />
+
+          <!-- Text + QR -->
+          <div class="flex justify-between w-full">
+
+            <!-- Text Content -->
+            <div class="flex flex-col justify-between">
+              <p class="text-sm font-semibold text-gray-800 line-clamp-1">
+                {{ vd.shopName || 'No Shop Name' }}
+              </p>
+
+              <p class="text-xs text-gray-500">
+                {{ vd.customerRef || 'No Customer Ref' }}
+              </p>
+
+              <p class="text-xs text-gray-500">
+                {{ vd.shopEmail || 'No Email' }}
+              </p>
+
+              <p class="text-xs text-gray-500">
+                {{ vd.csoNo || 'No csoNo' }}
+              </p>
+
+              <a 
+                :href="vd.shopContactNo ? 'tel:' + vd.shopContactNo : null"
+                class="text-gray-500 font-semibold text-sm"
+              >
+                {{ vd.shopContactNo || 'No Contact' }}
+              </a>
+
+            </div>
+
+            <div class="flex flex-col items-start gap-2">
+
+              <!-- QR Image (Top) -->
+              <span
+                class="cursor-pointer"
+                @click="handleQrClick(vd)"
+                title="Click to open store and PDF"
+              >
+                <img 
+                  v-if="vd.qrImageUrl"
+                  :src="imageroot + '/' + vd.qrImageUrl"
+                  class="w-12 h-12 object-contain rounded"
+                />
+                <img 
+                  v-else
+                  :src="defaultQR"
+                  class="w-12 h-12 object-contain rounded"
+                />
+              </span>
+
+              <!-- Status Badge (Below QR) -->
+              <span
+                :class="{
+                  'bg-green-100 text-green-700': vd.isActive,
+                  'bg-red-100 text-red-700': vd.isActive === false,
+                  'bg-gray-100 text-gray-700': vd.isActive === undefined
+                }"
+                class="px-2 py-0.5 text-xs rounded-full"
+              >
+                {{ vd.isActive ? 'Active' : 'Inactive' }}
+              </span>
+
+            </div>
+          </div>
+        </div>  
+
+        <div class="sm:flex sm:justify-end sm:gap-4">
+            <div class="flex flex-row gap-2 overflow-x-auto items-center whitespace-nowrap
+                scrollbar-thin scrollbar-thumb-gray-400 scrollbar-track-gray-200 
+                sm:flex sm:flex-wrap sm:gap-4 sm:overflow-visible
+                text-sm font-medium text-gray-500"
+              @click="filterSelectedVendor(vd.id)"
+            >
+            <button  
+              v-if="
+                (userStore.loggedUser.granted.includes('su') ||
+                userStore.loggedUser.granted.includes('sso')) &&
+                vendorTabs[vd.id] !== 'productSample'
+              "
+              @click="vendorTabs[vd.id] = 'productSample'; quotationStore.curVendorId = vd.id" :class="[
+                'p-4 border-b-2 rounded-t-lg text-center',
+                vendorTabs[vd.id] === 'productSample'
+                  ? 'text-blue-600 border-blue-600 dark:text-blue-500 '
+                  : 'border-transparent hover:text-gray-600 hover:border-gray-300 '
+              ]">
+              Demo Product
+            </button>
+            <button 
+              v-if="
+                (userStore.loggedUser.granted.includes('su') ||
+                userStore.loggedUser.granted.includes('sso')) &&
+                vendorTabs[vd.id] === 'productSample'
+              "
+              @click="vendorTabs[vd.id] = ''; quotationStore.curVendorId = null; filteredVendor = null"
+              class="p-4 border-b-2 rounded-t-lg text-center text-red-600 border-transparent ">
+              Close Demo Product
+            </button>
+
+            <button  
+              v-if="
+                (userStore.loggedUser.granted.includes('su') ||
+                userStore.loggedUser.granted.includes('sso')) &&
+                vendorTabs[vd.id] !== 'isuePINo'
+              "
+              @click="vendorTabs[vd.id] = 'isuePINo'; quotationStore.curVendorId = vd.id" :class="[
+                'p-4 border-b-2 rounded-t-lg text-center',
+                vendorTabs[vd.id] === 'isuePINo'
+                  ? 'text-blue-600 border-blue-600 dark:text-blue-500 '
+                  : 'border-transparent hover:text-gray-600 hover:border-gray-300 '
+              ]">
+              Issue PI No.
+            </button>
+            <button 
+              v-if="
+                (userStore.loggedUser.granted.includes('su') ||
+                userStore.loggedUser.granted.includes('sso')) &&
+                vendorTabs[vd.id] === 'isuePINo'
+              "
+              @click="vendorTabs[vd.id] = ''; quotationStore.curVendorId = null; filteredVendor = null"
+              class="p-4 border-b-2 rounded-t-lg text-center text-red-600 border-transparent ">
+              Close Issue PI No.
+            </button>
+
+
+            <button v-if="vendorTabs[vd.id] !== 'order'"
+              @click="vendorTabs[vd.id] = 'order'; quotationStore.curVendorId = vd.id" :class="[
+                'p-4 border-b-2 rounded-t-lg text-center',
+                vendorTabs[vd.id] === 'order'
+                  ? 'text-blue-600 border-blue-600 dark:text-blue-500 dark:border-blue-500'
+                  : 'border-transparent hover:text-gray-600 hover:border-gray-300 '
+              ]">
+              Orders
+            </button>
+            <button v-if="vendorTabs[vd.id] === 'order' "
+              @click="vendorTabs[vd.id] = ''; quotationStore.curVendorId = null; filteredVendor = null"
+              class="p-4 border-b-2 rounded-t-lg text-center text-red-600 border-transparent ">
+              Close Orders
+            </button>
+
+            <button v-if="vendorTabs[vd.id] !== 'viewMore'"
+              @click="vendorTabs[vd.id] = 'viewMore'; quotationStore.curVendorId = vd.id ; GoToView(vd.id)" :class="[
+                'p-4 border-b-2 rounded-t-lg text-center',
+                vendorTabs[vd.id] === 'viewMore'
+                  ? 'text-blue-600 border-blue-600 dark:text-blue-500 '
+                  : 'border-transparent hover:text-gray-600 hover:border-gray-300 '
+              ]">
+              View More
+            </button>
+            <button v-if="vendorTabs[vd.id] === 'viewMore'"
+              @click="vendorTabs[vd.id] = ''; quotationStore.curVendorId = null; filteredVendor = null"
+              class="p-4 border-b-2 rounded-t-lg text-center text-red-600 border-transparent ">
+              Close View More
+            </button>
+
+            <button v-if=" 
+                (userStore.loggedUser.granted.includes('su') ||
+                userStore.loggedUser.granted.includes('sso')) &&
+                vendorTabs[vd.id] !== 'edit'
+              "
+              @click="vendorTabs[vd.id] = 'edit'; quotationStore.curVendorId = vd.id; GoToAddEdit(vd.id)" :class="[
+                'p-4 border-b-2 rounded-t-lg text-center',
+                vendorTabs[vd.id] === 'edit'
+                  ? 'text-blue-600 border-blue-600 dark:text-blue-500 '
+                  : 'border-transparent hover:text-gray-600 hover:border-gray-300 '
+              ]">
+              Edit
+            </button>
+            <!-- Show this only when in 'proposal' mode -->
+            <button v-if="
+                (userStore.loggedUser.granted.includes('su') ||
+                userStore.loggedUser.granted.includes('sso')) &&
+                vendorTabs[vd.id] === 'edit'
+              "
+              @click="vendorTabs[vd.id] = ''; quotationStore.curVendorId = null; filteredVendor = null"
+              class="p-4 border-b-2 rounded-t-lg text-center text-red-600 border-transparent ">
+              Close Edit
+            </button>
+
+            <button v-if=" 
+                (userStore.loggedUser.granted.includes('su') ||
+                userStore.loggedUser.granted.includes('sso')) &&
+                vendorTabs[vd.id] !== 'workFlow'
+              "
+              @click="vendorTabs[vd.id] = 'workFlow'; quotationStore.curVendorId = vd.id " :class="[
+                'p-4 border-b-2 rounded-t-lg text-center',
+                vendorTabs[vd.id] === 'workFlow'
+                  ? 'text-blue-600 border-blue-600 dark:text-blue-500 '
+                  : 'border-transparent hover:text-gray-600 hover:border-gray-300 '
+              ]">
+              Work Flow
+            </button>
+            <!-- Show this only when in 'proposal' mode -->
+            <button v-if="
+                (userStore.loggedUser.granted.includes('su') ||
+                userStore.loggedUser.granted.includes('sso')) &&
+                vendorTabs[vd.id] === 'workFlow'
+              "
+              @click="vendorTabs[vd.id] = ''; quotationStore.curVendorId = null; filteredVendor = null"
+              class="p-4 border-b-2 rounded-t-lg text-center text-red-600 border-transparent ">
+              Close Work Flow
+            </button>
+          </div>
+        </div>
+
+        <div class="p-0 dark:border-gray-700">
+          <div v-if="vendorTabs[vd.id] === 'productSample'">
+            <productSample :vendorId="vd.id" />
+          </div>
+          <div v-if="vendorTabs[vd.id] === 'isuePINo'">
+            <IsuePINo :vendorId="vd.id" @close="vendorTabs[vd.id] = ''; quotationStore.curVendorId = null"/>
+          </div>
+          <div v-if="vendorTabs[vd.id] === 'order'">
+            <Order :customerRef="vd.customerRef" :id="vd.id"/>
+          </div>
+          <div v-if="vendorTabs[vd.id] === 'viewMore'">
+            <MoreVendor :vendorId="vd.id"/>
+          </div>
+          <div v-if="vendorTabs[vd.id] === 'edit'">
+            <AddEdit :key="vd.id" :Id="vd.id" @close="vendorTabs[vd.id] = ''" />
+          </div>
+          <div v-if="vendorTabs[vd.id] === 'workFlow'">
+            <WorkFlow :vendorId="vd.id" />
+          </div>
+        </div>
+      </div>
+      <!-- ================= desktop VERSION ================= -->
+      <div class="flex flex-col gap-0 p-4 mt-2  border-2 rounded-md shadow-md sm:p-4 shadow-sm hover:shadow-md hidden sm:block" :class="{
         'bg-red-50': vd.isActive === false,
         'bg-white': vd.isActive === true,
         'bg-white': vd.isActive === undefined
@@ -55,50 +306,26 @@
             </div>
 
             <!-- Customer Ref -->
-            <div class="flex flex-col text-center sm:text-left">
-              <h1 class="text-xs font-semibold text-gray-600">Customer Ref</h1>
-              <p class="text-xs text-gray-500 mt-0.5">
-                <span v-if="vd.customerRef">{{ vd.customerRef }}</span>
-                <span v-else class="italic text-gray-400">no data</span>
-              </p>
+            <div class="space-y-1">
+                <h1 class="text-[11px] font-semibold text-gray-600">Customer Ref</h1>
+                <p class="text-[13px] text-gray-500">{{ vd.customerRef || 'No Data' }}</p>
             </div>
-
-            <!-- Shop Name -->
-            <div class="flex flex-col text-center sm:text-left">
-              <h1 class="text-xs font-semibold  text-gray-600">Shop Name</h1>
-              <p class="text-xs text-gray-500 mt-0.5">
-                <span v-if="vd.shopName">{{ vd.shopName }}</span>
-                <span v-else class="italic text-gray-400">no data</span>
-              </p>
+            <div class="space-y-1">
+                <h1 class="text-[11px] font-semibold text-gray-600">Shop Name</h1>
+                <p class="text-[13px] text-gray-500">{{ vd.shopName || 'No Data' }}</p>
             </div>
-
-            <!-- Shop Contact -->
-            <div class="flex flex-col text-center sm:text-left">
-              <h1 class="text-xs font-semibold text-gray-600">Shop Contact</h1>
-              <p class="text-xs text-gray-500 mt-0.5">
-                <span v-if="vd.shopContactNo">{{ vd.shopContactNo }}</span>
-                <span v-else class="italic text-gray-400">no data</span>
-              </p>
+            <div class="space-y-1">
+                <h1 class="text-[11px] font-semibold text-gray-600">Shop Contact</h1>
+                <p class="text-[13px] text-gray-500">{{ vd.shopContactNo || 'No Data' }}</p>
             </div>
-
-            <!-- Email -->
-            <div class="flex flex-col text-center sm:text-left">
-              <h1 class="text-xs font-semibold text-gray-600">Email</h1>
-              <p class="text-xs text-gray-500 mt-0.5">
-                <span v-if="vd.shopEmail">{{ vd.shopEmail }}</span>
-                <span v-else class="italic text-gray-400">no data</span>
-              </p>
+            <div class="space-y-1">
+                <h1 class="text-[11px] font-semibold text-gray-600">Shop Email</h1>
+                <p class="text-[13px] text-gray-500">{{ vd.shopEmail || 'No Data' }}</p>
             </div>
-
-            <!-- CSONo -->
-            <div class="flex flex-col text-center sm:text-left">
-              <h1 class="text-xs font-semibold text-gray-600">CSONo</h1>
-              <p class="text-xs text-gray-500 mt-0.5">
-                <span v-if="vd.csoNo">{{ vd.csoNo }}</span>
-                <span v-else class="italic text-gray-400">no data</span>
-              </p>
+            <div class="space-y-1">
+                <h1 class="text-[11px] font-semibold text-gray-600">CSONo</h1>
+                <p class="text-[13px] text-gray-500">{{ vd.csoNo || 'No Data' }}</p>
             </div>
-
             <!-- Status -->
             <div class="flex flex-col text-center sm:text-left">
               <h1 class="text-xs font-semibold text-gray-600">Status</h1>
@@ -130,17 +357,16 @@
               </p>
             </div>
           </div>
-
         </div>
 
-        <!-- Expandable More Section -->
-        <!-- <div class="flex flex-col items-center gap-1 mt-1 mb-2 sm:flex-row sm:justify-end sm:mb-0 sm:mt-0 sm:-my-3">
-          
-        </div> -->
-
         <div class="sm:flex sm:justify-end sm:gap-4">
-            <div class="grid grid-cols-3 gap-2 sm:flex sm:gap-4 text-sm font-medium text-gray-500 "
-              @click="filterSelectedVendor(vd.id)">
+          <div 
+            class="flex flex-row gap-2 overflow-x-auto items-center whitespace-nowrap
+            scrollbar-thin scrollbar-thumb-gray-400 scrollbar-track-gray-200 
+            sm:flex sm:flex-wrap sm:gap-4 sm:overflow-visible
+            text-sm font-medium text-gray-500"
+            @click="filterSelectedVendor(vd.id)"
+          >
             <!-- <button v-if="vendorTabs[vd.id] !== 'proposal'"
               @click="vendorTabs[vd.id] = 'proposal'; quotationStore.curVendorId = vd.id" :class="[
                 'p-4 border-b-2 rounded-t-lg text-center',
@@ -175,7 +401,7 @@
                 userStore.loggedUser.granted.includes('sso')) &&
                 vendorTabs[vd.id] === 'productSample'
               "
-              @click="vendorTabs[vd.id] = ''; quotationStore.curVendorId = null"
+              @click="vendorTabs[vd.id] = ''; quotationStore.curVendorId = null; filteredVendor = null"
               class="p-4 border-b-2 rounded-t-lg text-center text-red-600 border-transparent ">
               Close Demo Product
             </button>
@@ -200,11 +426,10 @@
                 userStore.loggedUser.granted.includes('sso')) &&
                 vendorTabs[vd.id] === 'isuePINo'
               "
-              @click="vendorTabs[vd.id] = ''; quotationStore.curVendorId = null"
+              @click="vendorTabs[vd.id] = ''; quotationStore.curVendorId = null; filteredVendor = null"
               class="p-4 border-b-2 rounded-t-lg text-center text-red-600 border-transparent ">
               Close Issue PI No.
             </button>
-
 
             <button v-if="vendorTabs[vd.id] !== 'order'"
               @click="vendorTabs[vd.id] = 'order'; quotationStore.curVendorId = vd.id" :class="[
@@ -216,13 +441,10 @@
               Orders
             </button>
             <button v-if="vendorTabs[vd.id] === 'order' "
-              @click="vendorTabs[vd.id] = ''; quotationStore.curVendorId = null"
+              @click="vendorTabs[vd.id] = ''; quotationStore.curVendorId = null; filteredVendor = null"
               class="p-4 border-b-2 rounded-t-lg text-center text-red-600 border-transparent ">
               Close Orders
             </button>
-
-           
-
 
             <button v-if="vendorTabs[vd.id] !== 'viewMore'"
               @click="vendorTabs[vd.id] = 'viewMore'; quotationStore.curVendorId = vd.id ; GoToView(vd.id)" :class="[
@@ -233,9 +455,8 @@
               ]">
               View More
             </button>
-
             <button v-if="vendorTabs[vd.id] === 'viewMore'"
-              @click="vendorTabs[vd.id] = ''; quotationStore.curVendorId = null"
+              @click="vendorTabs[vd.id] = ''; quotationStore.curVendorId = null; filteredVendor = null"
               class="p-4 border-b-2 rounded-t-lg text-center text-red-600 border-transparent ">
               Close View More
             </button>
@@ -253,13 +474,12 @@
               ]">
               Edit
             </button>
-            <!-- Show this only when in 'proposal' mode -->
             <button v-if="
                 (userStore.loggedUser.granted.includes('su') ||
                 userStore.loggedUser.granted.includes('sso')) &&
                 vendorTabs[vd.id] === 'edit'
               "
-              @click="vendorTabs[vd.id] = ''; quotationStore.curVendorId = null"
+              @click="vendorTabs[vd.id] = ''; quotationStore.curVendorId = null; filteredVendor = null"
               class="p-4 border-b-2 rounded-t-lg text-center text-red-600 border-transparent ">
               Close Edit
             </button>
@@ -277,19 +497,17 @@
               ]">
               Work Flow
             </button>
-            <!-- Show this only when in 'proposal' mode -->
             <button v-if="
                 (userStore.loggedUser.granted.includes('su') ||
                 userStore.loggedUser.granted.includes('sso')) &&
                 vendorTabs[vd.id] === 'workFlow'
               "
-              @click="vendorTabs[vd.id] = ''; quotationStore.curVendorId = null"
+              @click="vendorTabs[vd.id] = ''; quotationStore.curVendorId = null; filteredVendor = null"
               class="p-4 border-b-2 rounded-t-lg text-center text-red-600 border-transparent ">
               Close Work Flow
             </button>
           </div>
         </div>
-
 
         <!-- Tab Contents -->
         <div class="p-0 dark:border-gray-700">
@@ -404,7 +622,8 @@ export default {
       showLoading: null,
       vendorTabs: {},
       page: 1,
-      itemsPerPage: 2, 
+      itemsPerPage: 5, 
+      filteredVendor: null,
     };
   },
   async created() {
@@ -438,9 +657,12 @@ export default {
 
   computed: {
     paginatedVendor() {
+      let list = this.filteredVendor || this.vendorStore.listVendor;
+
       const start = (this.page - 1) * this.itemsPerPage;
       const end = start + this.itemsPerPage;
-      return this.vendorStore.listVendor.slice(start, end);
+
+      return list.slice(start, end);
     },
   },
 
@@ -508,6 +730,7 @@ export default {
       let selectedVendor = this.vendorStore.listVendor.find(item => item.id === selectedId);
       if (selectedVendor) {
         this.vendorStore.listVendor = [selectedVendor];
+        this.page = 1;
       }
     },
 
