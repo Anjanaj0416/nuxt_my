@@ -3,7 +3,7 @@
     <div class="modal">
       <!-- Modal Header -->
       <div class="modal-header">
-        <h2 class="modal-title">Quotation Approval</h2>
+        <h2 class="modal-title">Approved PI</h2>
         <!-- <button @click="closeModal" class="absolute z-50 p-2 text-white rounded-md  close-button">&times;</button> -->
         <closebtn @close="closeModal()" />
       </div>
@@ -14,12 +14,12 @@
           <div class="grid grid-cols-2 gap-4 mt-1 sm:grid-cols-1 md:grid-cols-1">
             <div>
               <h3 class="font-bold">
-                Quotaion No - {{ id }}
+                Order No - {{ id }}
               </h3>
             </div>
             <hr />
             <div>
-              <label class="block text-sm mb-2 font-bold text-gray-600">Attached the approval prrof</label>
+              <label class="block text-sm mb-2 font-bold text-gray-600">Attach the Approved Signed PI document</label>
               
               <imagepicker1
                 @GetSelectedImage="GetAttachedImage"
@@ -46,10 +46,17 @@
       <!-- End Modal Content -->
 
       <!-- Modal Footer -->
-      <div class="modal-footer">
+      <!-- <div class="modal-footer">
         <button @click="closeModal" class="cancel-button">Cancel</button>
-        <button @click="SetApprove" class="confirm-button">Approve</button>
-      </div>
+        <button @click="SetApprove" class="confirm-button">Upload</button>
+      </div> -->
+      <div class="modal-footer">
+          <button @click="closeModal" class="px-12 py-2 text-xs  font-semibold transition bg-white text-gray-600 rounded-full shadow">Cancel</button>
+          <button @click="SetApprove" class="px-12 py-2 text-xs  bg-gradient-to-r from-blue-500 via-blue-600 to-blue-700 
+              font-semibold transition text-white rounded-full shadow  focus:ring-2 focus:ring-blue-400">
+            Upload
+          </button>
+        </div>
     </div>
   </div>
 </template>

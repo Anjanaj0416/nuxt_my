@@ -1,10 +1,10 @@
 <template>
   <div >
-    <div >
-      <!-- Modal Header -->
-
-      <div class="w-full mb- md:mb-0">  
-          <div class="text-2xl uppercase mb-4"> More Details</div>
+    <div class="bg-white  p-2 text-sm text-gray-800">
+      <div class="flex flex-wrap items-center justify-between mb-3">
+        <div class="text-xl sm:text-xl md:text-2xl uppercase mb-3 sm:mb-0">
+              More Details
+        </div>
       </div>
 
       <!-- Modal Content (scrollable) -->

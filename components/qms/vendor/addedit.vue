@@ -1,339 +1,340 @@
 <template>
-  <div >
-    <div >
-      <div class="w-full mb- md:mb-0">  
-          <div class="text-2xl uppercase mb-4"> Vendor Details - {{ isEditing ? "Edit" : "Add" }}</div>
+  <div class="bg-white  p-2 text-sm text-gray-800">
+
+    <div class="flex flex-wrap items-center justify-between mb-3">
+          <div class="text-xl sm:text-xl md:text-2xl uppercase mb-3 sm:mb-0">
+               Vendor Details - {{ isEditing ? "Edit" : "Add" }}
+          </div>
       </div>
-       <!-- {{ Id }} -->
-      <!-- <pre>{{ JSON.stringify(curVendor, null, 2) }}</pre>   -->
+      <!-- {{ Id }} -->
+    <!-- <pre>{{ JSON.stringify(curVendor, null, 2) }}</pre>   -->
 
 
-      <!-- Modal Content (scrollable) -->
-      <div class="border rounded-lg shadow-md p-6 text-sm">
-        <div class="form-content">
-          <div>
-            <div v-if="isEditing">
+    <!-- Modal Content (scrollable) -->
+    <div class="border rounded-lg shadow-md p-6 text-sm">
+      <div class="form-content">
+        <div>
+          <div v-if="isEditing">
+            <div class="flex items-center justify-between">
+              <div>
+                <h3 class="font-bold">Company Details</h3>
+              </div>
               <div class="flex items-center justify-between">
-                <div>
-                  <h3 class="font-bold">Company Details</h3>
-                </div>
-                <div class="flex items-center justify-between">
-                  <span class="mr-4 text-sm font-bold text-gray-600">Status :</span>
-                  <toggleoption v-model="curVendor.isActive" />
-                </div>
+                <span class="mr-4 text-sm font-bold text-gray-600">Status :</span>
+                <toggleoption v-model="curVendor.isActive" />
               </div>
             </div>
           </div>
+        </div>
 
-          <div class="grid grid-cols-1 gap-4 mt-4 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-3">
-            <div class="" v-if="isEditing">
-              <label class="block text-sm font-bold text-gray-600">Customer Ref</label>
-              <input type="text" v-model="curVendor.customerRef" disabled placeholder="Vendor ID (read-only)"
-                class="w-full p-2 mt-2 text-sm bg-gray-100 border rounded-md" />
-            </div>
-            <div class="">
-              <label class="block text-sm font-bold text-gray-600">Company Name <span class="text-red-500">*</span></label>
-              <input type="text" v-model="curVendor.shopName" placeholder="Enter Company Name" required
-                class="w-full p-2 mt-2 text-sm border rounded-md focus:ring-indigo-500 focus:border-indigo-500" />
-            </div>
-
-            <div class="">
-              <label class="block text-sm font-bold text-gray-600">Phone<span class="text-red-500">*</span></label>
-
-              <input type="text" v-model="curVendor.shopContactNo" placeholder="Enter Phone"
-                class="w-full p-2 mt-2 text-sm border rounded-md focus:ring-indigo-500 focus:border-indigo-500"
-                required />
-            </div>
-
-            <div class="">
-              <label class="block text-sm font-bold text-gray-600">Email<span class="text-red-500">*</span></label>
-              <input type="Email" v-model="curVendor.shopEmail" placeholder="Enter Email"
-                class="w-full p-2 mt-2 text-sm border rounded-md focus:ring-indigo-500 focus:border-indigo-500"
-                required />
-            </div>
-            <div class="">
-              <label class="block text-sm font-bold text-gray-600">Web site</label>
-              <input type="tel" v-model="curVendor.shopWeb" placeholder="Enter Web site"
-                class="w-full p-2 mt-2 text-sm border rounded-md focus:ring-indigo-500 focus:border-indigo-500" />
-            </div>
-            <div class="">
-              <label class="block text-sm font-bold text-gray-600">Address Line 1<span class="text-red-500">*</span></label>
-              <input type="text" v-model="curVendor.shopAddress1" placeholder="Enter Address Line 1" required
-                class="w-full p-2 mt-2 text-sm border rounded-md focus:ring-indigo-500 focus:border-indigo-500" />
-            </div>
-            <div class="">
-              <label class="block text-sm font-bold text-gray-600">Address Line 2</label>
-              <input type="text" v-model="curVendor.shopAddress2" placeholder="Enter Address Line 2" required
-                class="w-full p-2 mt-2 text-sm border rounded-md focus:ring-indigo-500 focus:border-indigo-500" />
-            </div>
-            <div class="">
-              <label class="block text-sm font-bold text-gray-600">District<span class="text-red-500">*</span></label>
-
-              <serach_Input :arrItems="getDistinctDistricts" :isDistrict=true ref="refDistrict" label=""
-                v-model="curVendor.districtId" @selectItem="GetSelectDistrict" />
-            </div>
-            <div class="">
-              <label class="block text-sm font-bold text-gray-600">City<span class="text-red-500">*</span></label>
-              <serach_Input :arrItems="filteredCities" ref="refCity" label="" v-model="curVendor.cityId"
-                @selectItem="GetSelectCity" />
-
-            </div>
-            <div class="">
-              <label class="block text-sm font-bold text-gray-600">BR Number</label>
-              <input type="text" v-model="curVendor.brNumber" placeholder="Enter Business Registration Number" required
-                class="w-full p-2 mt-2 text-sm border rounded-md focus:ring-indigo-500 focus:border-indigo-500" />
-
-            </div>
-            <div class="">
-              <label class="block text-sm font-bold text-gray-600">VAT No</label>
-              <input type="text" v-model="curVendor.vatNo" placeholder="Enter VAT Number" required
-                class="w-full p-2 mt-2 text-sm border rounded-md focus:ring-indigo-500 focus:border-indigo-500" />
-            </div>
-            <div class="">
-              <label class="block text-sm font-bold text-gray-600">TIN No</label>
-              <input type="text" v-model="curVendor.yourTinNo" placeholder="Enter VAT Number" required
-                class="w-full p-2 mt-2 text-sm border rounded-md focus:ring-indigo-500 focus:border-indigo-500" />
-            </div>
-            <div class="">
-              <label class="block text-sm font-bold text-gray-600">Store Url</label>
-              <input type="text" v-model="curVendor.storeUrl" placeholder="Enter QR Link" required
-                class="w-full p-2 mt-2 text-sm border rounded-md focus:ring-indigo-500 focus:border-indigo-500" />
-            </div>
-            <div class="">
-              <label class="block text-sm font-bold text-gray-600">Assiged CSO</label>
-              <serach_Input
-                :arrItems="csoList"
-                ref="refCso"
-                v-model="curVendor.csoNo"
-                @selectItem="GetSelectCso"
-              />
-            </div>
-            <div class="">
-              <label class="block text-sm font-bold text-gray-600">Postal Code<span class="text-red-500">*</span></label>
-              <input type="text" v-model="curVendor.postalCode" placeholder="Enter Postal Code" required
-                class="w-full p-2 mt-2 text-sm border rounded-md focus:ring-indigo-500 focus:border-indigo-500" />
-            </div>
-
+        <div class="grid grid-cols-1 gap-4 mt-4 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-3">
+          <div class="" v-if="isEditing">
+            <label class="block text-sm font-bold text-gray-600">Customer Ref</label>
+            <input type="text" v-model="curVendor.customerRef" disabled placeholder="Vendor ID (read-only)"
+              class="w-full p-2 mt-2 text-sm bg-gray-100 border rounded-md" />
           </div>
-
-          <!-- description -->
-          <div class="mt-3">
-            <label class="block text-sm font-bold text-gray-600">Description<span class="text-red-500">*</span></label>
-            <textarea type="text" v-model="curVendor.description" placeholder="Enter Description"
+          <div class="">
+            <label class="block text-sm font-bold text-gray-600">Company Name <span class="text-red-500">*</span></label>
+            <input type="text" v-model="curVendor.shopName" placeholder="Enter Company Name" required
               class="w-full p-2 mt-2 text-sm border rounded-md focus:ring-indigo-500 focus:border-indigo-500" />
           </div>
 
-          <div class="grid grid-cols-2 gap-4 mt-4 sm:grid-cols-2 md:grid-cols-3">
-            <!--Vendor Image -->
-            <!-- <div>
-              <label class="block text-sm font-bold text-gray-600">Vendor Image</label>
-              <div class="relative mt-2">
-                <imagecomp :existing_image_path="imageroot + curVendor.shopLogo"
-                  @deleteExistingImage="curVendor.shopLogo = ''" @GetSelectedImage="GetSelectedVendorImage"
-                  ref="refVendorImage" />
-              </div>
-            </div> -->
-            <!-- ShopLogo Image -->
-            <div>
-              <label class="block text-sm font-bold text-gray-600">shopLogo<span class="text-red-500">*</span></label>
-              <div class="relative mt-2">
-                <imagepicker1
-                  :existingImagePath="imageroot + curVendor.shopLogo"
-                  @GetSelectedImage="GetSelectedShopLogo"
-                  @deleteExistingImage="curVendor.shopLogo = ''"
-                  ref="refShopLogo"
-                />
+          <div class="">
+            <label class="block text-sm font-bold text-gray-600">Phone<span class="text-red-500">*</span></label>
 
-              </div>
-            </div>
-            <!-- BR Image -->
-            <div>
-              <label class="block text-sm font-bold text-gray-600">BR</label>
-              <div class="relative mt-2">
-                <imagepicker1
-                  :existingImagePath="imageroot + curVendor.brCopyImage"
-                  @GetSelectedImage="GetSelectedBRCopy"
-                  @deleteExistingImage="curVendor.brCopyImage = ''"
-                  ref="refBRCopy"
-                />
-
-              </div>
-            </div>
-
+            <input type="text" v-model="curVendor.shopContactNo" placeholder="Enter Phone"
+              class="w-full p-2 mt-2 text-sm border rounded-md focus:ring-indigo-500 focus:border-indigo-500"
+              required />
           </div>
 
-          <hr class="my-4" />
-          <h3 class="mt-4 font-bold">Owner Information</h3>
-          <div class="grid grid-cols-1 gap-4 mt-4 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-3">
-            <div class="">
-              <label class="block text-sm font-bold text-gray-600">Name<span class="text-red-500">*</span></label>
-              <input type="text" v-model="curVendor.authorisePersonName" placeholder="Enter Name" required
-                class="w-full p-2 mt-2 text-sm border rounded-md focus:ring-indigo-500 focus:border-indigo-500" />
+          <div class="">
+            <label class="block text-sm font-bold text-gray-600">Email<span class="text-red-500">*</span></label>
+            <input type="Email" v-model="curVendor.shopEmail" placeholder="Enter Email"
+              class="w-full p-2 mt-2 text-sm border rounded-md focus:ring-indigo-500 focus:border-indigo-500"
+              required />
+          </div>
+          <div class="">
+            <label class="block text-sm font-bold text-gray-600">Web site</label>
+            <input type="tel" v-model="curVendor.shopWeb" placeholder="Enter Web site"
+              class="w-full p-2 mt-2 text-sm border rounded-md focus:ring-indigo-500 focus:border-indigo-500" />
+          </div>
+          <div class="">
+            <label class="block text-sm font-bold text-gray-600">Address Line 1<span class="text-red-500">*</span></label>
+            <input type="text" v-model="curVendor.shopAddress1" placeholder="Enter Address Line 1" required
+              class="w-full p-2 mt-2 text-sm border rounded-md focus:ring-indigo-500 focus:border-indigo-500" />
+          </div>
+          <div class="">
+            <label class="block text-sm font-bold text-gray-600">Address Line 2</label>
+            <input type="text" v-model="curVendor.shopAddress2" placeholder="Enter Address Line 2" required
+              class="w-full p-2 mt-2 text-sm border rounded-md focus:ring-indigo-500 focus:border-indigo-500" />
+          </div>
+          <div class="">
+            <label class="block text-sm font-bold text-gray-600">District<span class="text-red-500">*</span></label>
 
-            </div>
-            <div class="">
-              <label class="block text-sm font-bold text-gray-600">Contact Number<span class="text-red-500">*</span></label>
-              <input type="text" v-model="curVendor.authorisePersonPhone" :maxlength="10"
-                placeholder="Enter Contact Number" required
-                class="w-full p-2 mt-2 text-sm border rounded-md focus:ring-indigo-500 focus:border-indigo-500" />
-            </div>
-            <div class="">
-              <label class="block text-sm font-bold text-gray-600">Date of Birth</label>
-             <input type="date" v-model="formattedAuthorisePersonBDate" required class="w-full p-2 mt-2 text-sm border rounded-md focus:ring-indigo-500 focus:border-indigo-500" />
-            </div>
-            <div class="">
-              <label class="block text-sm font-bold text-gray-600">Email</label>
-              <input type="text" v-model="curVendor.authorisePersonEmail" placeholder="Enter Email" required
-                class="w-full p-2 mt-2 text-sm border rounded-md focus:ring-indigo-500 focus:border-indigo-500" />
-            </div>
+            <serach_Input :arrItems="getDistinctDistricts" :isDistrict=true ref="refDistrict" label=""
+              v-model="curVendor.districtId" @selectItem="GetSelectDistrict" />
+          </div>
+          <div class="">
+            <label class="block text-sm font-bold text-gray-600">City<span class="text-red-500">*</span></label>
+            <serach_Input :arrItems="filteredCities" ref="refCity" label="" v-model="curVendor.cityId"
+              @selectItem="GetSelectCity" />
+
+          </div>
+          <div class="">
+            <label class="block text-sm font-bold text-gray-600">BR Number</label>
+            <input type="text" v-model="curVendor.brNumber" placeholder="Enter Business Registration Number" required
+              class="w-full p-2 mt-2 text-sm border rounded-md focus:ring-indigo-500 focus:border-indigo-500" />
+
+          </div>
+          <div class="">
+            <label class="block text-sm font-bold text-gray-600">VAT No</label>
+            <input type="text" v-model="curVendor.vatNo" placeholder="Enter VAT Number" required
+              class="w-full p-2 mt-2 text-sm border rounded-md focus:ring-indigo-500 focus:border-indigo-500" />
+          </div>
+          <div class="">
+            <label class="block text-sm font-bold text-gray-600">TIN No</label>
+            <input type="text" v-model="curVendor.yourTinNo" placeholder="Enter VAT Number" required
+              class="w-full p-2 mt-2 text-sm border rounded-md focus:ring-indigo-500 focus:border-indigo-500" />
+          </div>
+          <div class="">
+            <label class="block text-sm font-bold text-gray-600">Store Url</label>
+            <input type="text" v-model="curVendor.storeUrl" placeholder="Enter QR Link" required
+              class="w-full p-2 mt-2 text-sm border rounded-md focus:ring-indigo-500 focus:border-indigo-500" />
+          </div>
+          <div class="">
+            <label class="block text-sm font-bold text-gray-600">Assiged CSO</label>
+            <serach_Input
+              :arrItems="csoList"
+              ref="refCso"
+              v-model="curVendor.csoNo"
+              @selectItem="GetSelectCso"
+            />
+          </div>
+          <div class="">
+            <label class="block text-sm font-bold text-gray-600">Postal Code<span class="text-red-500">*</span></label>
+            <input type="text" v-model="curVendor.postalCode" placeholder="Enter Postal Code" required
+              class="w-full p-2 mt-2 text-sm border rounded-md focus:ring-indigo-500 focus:border-indigo-500" />
           </div>
 
-          <hr class="my-4" />
-          <h3 class="mt-4 font-bold">Contact Person </h3>
-          <div class="grid grid-cols-1 gap-4 mt-4 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-3">
-            <div class="">
-              <label class="block text-sm font-bold text-gray-600">Name</label>
-              <input type="text" v-model="curVendor.shopContactPersonName" placeholder="Enter Name" required
-                class="w-full p-2 mt-2 text-sm border rounded-md focus:ring-indigo-500 focus:border-indigo-500" />
-            </div>
-            <div class="">
-              <label class="block text-sm font-bold text-gray-600">Designation</label>
-              <input type="text" v-model="curVendor.shopContactPersonDesignation" placeholder="Enter Designation"
-                required
-                class="w-full p-2 mt-2 text-sm border rounded-md focus:ring-indigo-500 focus:border-indigo-500" />
-            </div>
+        </div>
 
-            <div class="">
-              <label class="block text-sm font-bold text-gray-600">Contact Number</label>
-              <input type="text" v-model="curVendor.shopContactPersonPhone" :maxlength="10"
-                placeholder="Enter Contact Number" required
-                class="w-full p-2 mt-2 text-sm border rounded-md focus:ring-indigo-500 focus:border-indigo-500" />
+        <!-- description -->
+        <div class="mt-3">
+          <label class="block text-sm font-bold text-gray-600">Description<span class="text-red-500">*</span></label>
+          <textarea type="text" v-model="curVendor.description" placeholder="Enter Description"
+            class="w-full p-2 mt-2 text-sm border rounded-md focus:ring-indigo-500 focus:border-indigo-500" />
+        </div>
 
+        <div class="grid grid-cols-2 gap-4 mt-4 sm:grid-cols-2 md:grid-cols-3">
+          <!--Vendor Image -->
+          <!-- <div>
+            <label class="block text-sm font-bold text-gray-600">Vendor Image</label>
+            <div class="relative mt-2">
+              <imagecomp :existing_image_path="imageroot + curVendor.shopLogo"
+                @deleteExistingImage="curVendor.shopLogo = ''" @GetSelectedImage="GetSelectedVendorImage"
+                ref="refVendorImage" />
             </div>
-            <div class="">
-              <label class="block text-sm font-bold text-gray-600">Date of Birth</label>
-              <input type="date" v-model="formattedShopContactPersonBDate" class="w-full p-2 mt-2 text-sm border rounded-md focus:ring-indigo-500 focus:border-indigo-500" />
-
-            </div>
-            <div class="">
-              <label class="block text-sm font-bold text-gray-600">Email</label>
-              <input type="text" v-model="curVendor.shopContactPersonEmail" placeholder="Enter Email" required
-                class="w-full p-2 mt-2 text-sm border rounded-md focus:ring-indigo-500 focus:border-indigo-500" />
+          </div> -->
+          <!-- ShopLogo Image -->
+          <div>
+            <label class="block text-sm font-bold text-gray-600">shopLogo<span class="text-red-500">*</span></label>
+            <div class="relative mt-2">
+              <imagepicker1
+                :existingImagePath="imageroot + curVendor.shopLogo"
+                @GetSelectedImage="GetSelectedShopLogo"
+                @deleteExistingImage="curVendor.shopLogo = ''"
+                ref="refShopLogo"
+              />
 
             </div>
           </div>
+          <!-- BR Image -->
+          <div>
+            <label class="block text-sm font-bold text-gray-600">BR</label>
+            <div class="relative mt-2">
+              <imagepicker1
+                :existingImagePath="imageroot + curVendor.brCopyImage"
+                @GetSelectedImage="GetSelectedBRCopy"
+                @deleteExistingImage="curVendor.brCopyImage = ''"
+                ref="refBRCopy"
+              />
 
-          <hr class="my-4" />
-          <h3 class="mt-4 font-bold">Bank Details</h3>
-          <div class="grid grid-cols-1 gap-4 mt-4 mb-36 sm:grid-cols-2 md:grid-cols-3 sm:mb-0 lg:grid-cols-3">
-            <div class="">
-              <label class="block text-sm font-bold text-gray-600">Bank Name</label>
-              <input type="text" v-model="curVendor.bankName" placeholder="Enter Bank Name" required
-                class="w-full p-2 mt-2 text-sm border rounded-md focus:ring-indigo-500 focus:border-indigo-500" />
-            </div>
-            <div class="">
-              <label class="block text-sm font-bold text-gray-600">Bank Branch</label>
-              <input type="text" v-model="curVendor.branch" placeholder="Enter Bank Branch" required
-                class="w-full p-2 mt-2 text-sm border rounded-md focus:ring-indigo-500 focus:border-indigo-500" />
-            </div>
-
-            <div class="">
-              <label class="block text-sm font-bold text-gray-600">Bank Account No</label>
-              <input type="text" v-model="curVendor.accountNumber" placeholder="Enter ank Account No" required
-                class="w-full p-2 mt-2 text-sm border rounded-md focus:ring-indigo-500 focus:border-indigo-500" />
-            </div>
-            <div class="">
-              <label class="block text-sm font-bold text-gray-600">Card Holder Name</label>
-              <input type="text" v-model="curVendor.holderName" placeholder="Enter Card Colder Name" required
-                class="w-full p-2 mt-2 text-sm border rounded-md focus:ring-indigo-500 focus:border-indigo-500" />
-            </div>
-            <div class="">
-              <label class="block text-sm font-bold text-gray-600">upload the bank book image</label>
-                <imagepicker1
-                  :existingImagePath="imageroot + curVendor.bankBookImage"
-                  @GetSelectedImage="GetSelectedBankBookImage"
-                  @deleteExistingImage="curVendor.bankBookImage = ''"
-                  ref="refBankBookImage"
-                />
-            </div>
-          </div>
-
-          <hr class="my-4" />
-          <h3 class="mt-4 font-bold">Super Admin Details (Recommended: Business Owner)</h3>
-          <div class="grid grid-cols-1 gap-4 mt-4 mb-36 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-3 sm:mb-0">
-            <div class="">
-              <label class="block text-sm font-bold text-gray-600">Full Name</label>
-              <input type="text" v-model="curVendor.suAdminfullName" placeholder="Enter Full Name" required
-                class="w-full p-2 mt-2 text-sm border rounded-md focus:ring-indigo-500 focus:border-indigo-500" />
- 
-            </div>
-            <div class="">
-              <label class="block text-sm font-bold text-gray-600">Designation</label>
-              <input type="text" v-model="curVendor.suAdminDesignation" placeholder="Enter Designation" required
-                class="w-full p-2 mt-2 text-sm border rounded-md focus:ring-indigo-500 focus:border-indigo-500" />
-            </div>
-
-            <div class="">
-              <label class="block text-sm font-bold text-gray-600">Email</label>
-              <input type="text" v-model="curVendor.suAdminEmail" placeholder="Enter Email" required
-                class="w-full p-2 mt-2 text-sm border rounded-md focus:ring-indigo-500 focus:border-indigo-500" />
-            </div>
-            <div class="">
-              <label class="block text-sm font-bold text-gray-600">Mobile Number</label>
-              <input type="text" v-model="curVendor.suAdminMobile" placeholder="Enter Mobile Number" required
-                class="w-full p-2 mt-2 text-sm border rounded-md focus:ring-indigo-500 focus:border-indigo-500" />
-            </div>
-            <div class="">
-              <label class="block text-sm font-bold text-gray-600">National ID / Passport Number</label>
-              <input type="text" v-model="curVendor.suAdminNic" placeholder="Enter National ID / Passport Number" required
-                class="w-full p-2 mt-2 text-sm border rounded-md focus:ring-indigo-500 focus:border-indigo-500" />
-            </div>
-          </div>
-
-          <hr class="my-4" />
-          <h3 class="mt-4 font-bold">Additional Admin User Details</h3>
-          <div class="grid grid-cols-1 gap-4 mt-4 mb-36 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-3 sm:mb-0">
-            <div class="">
-              <label class="block text-sm font-bold text-gray-600">Full Name</label>
-              <input type="text" v-model="curVendor.additionalFullName" placeholder="Enter Full Name" required
-                class="w-full p-2 mt-2 text-sm border rounded-md focus:ring-indigo-500 focus:border-indigo-500" />
-            </div>
-            <div class="">
-              <label class="block text-sm font-bold text-gray-600">Designation</label>
-              <input type="text" v-model="curVendor.additionalDesignation" placeholder="Enter Designation" required
-                class="w-full p-2 mt-2 text-sm border rounded-md focus:ring-indigo-500 focus:border-indigo-500" />
-            </div>
-
-            <div class="">
-              <label class="block text-sm font-bold text-gray-600">Email</label>
-              <input type="text" v-model="curVendor.additionalEmail" placeholder="Enter Email" required
-                class="w-full p-2 mt-2 text-sm border rounded-md focus:ring-indigo-500 focus:border-indigo-500" />
-            </div>
-            <div class="">
-              <label class="block text-sm font-bold text-gray-600">Mobile Number</label>
-              <input type="text" v-model="curVendor.additionalMobileNumber" placeholder="Enter Mobile Number" required
-                class="w-full p-2 mt-2 text-sm border rounded-md focus:ring-indigo-500 focus:border-indigo-500" />
-            </div>
-            <div class="">
-              <label class="block text-sm font-bold text-gray-600">National ID / Passport Number</label>
-              <input type="text" v-model="curVendor.additionalNic" placeholder="Enter National ID / Passport Number" required
-                class="w-full p-2 mt-2 text-sm border rounded-md focus:ring-indigo-500 focus:border-indigo-500" />
             </div>
           </div>
 
         </div>
 
-        <div class="flex justify-between items-center mt-6">
-          <button @click="cancel" class="px-12 py-2 text-xs  font-semibold transition bg-gray-100 text-gray-600 rounded-full shadow">Cancel</button>
-          <button @click="AddEditVendor" class="px-12 py-2 text-xs  bg-gradient-to-r from-blue-500 via-blue-600 to-blue-700 
-                font-semibold transition text-white rounded-full shadow  focus:ring-2 focus:ring-blue-400">
-            {{ isEditing ? "Update Vendor" : "Save Vendor" }}
-          </button>
-      </div>
-    </div>
+        <hr class="my-4" />
+        <h3 class="mt-4 font-bold">Owner Information</h3>
+        <div class="grid grid-cols-1 gap-4 mt-4 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-3">
+          <div class="">
+            <label class="block text-sm font-bold text-gray-600">Name<span class="text-red-500">*</span></label>
+            <input type="text" v-model="curVendor.authorisePersonName" placeholder="Enter Name" required
+              class="w-full p-2 mt-2 text-sm border rounded-md focus:ring-indigo-500 focus:border-indigo-500" />
 
-      
+          </div>
+          <div class="">
+            <label class="block text-sm font-bold text-gray-600">Contact Number<span class="text-red-500">*</span></label>
+            <input type="text" v-model="curVendor.authorisePersonPhone" :maxlength="10"
+              placeholder="Enter Contact Number" required
+              class="w-full p-2 mt-2 text-sm border rounded-md focus:ring-indigo-500 focus:border-indigo-500" />
+          </div>
+          <div class="">
+            <label class="block text-sm font-bold text-gray-600">Date of Birth</label>
+            <input type="date" v-model="formattedAuthorisePersonBDate" required class="w-full p-2 mt-2 text-sm border rounded-md focus:ring-indigo-500 focus:border-indigo-500" />
+          </div>
+          <div class="">
+            <label class="block text-sm font-bold text-gray-600">Email</label>
+            <input type="text" v-model="curVendor.authorisePersonEmail" placeholder="Enter Email" required
+              class="w-full p-2 mt-2 text-sm border rounded-md focus:ring-indigo-500 focus:border-indigo-500" />
+          </div>
+        </div>
+
+        <hr class="my-4" />
+        <h3 class="mt-4 font-bold">Contact Person </h3>
+        <div class="grid grid-cols-1 gap-4 mt-4 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-3">
+          <div class="">
+            <label class="block text-sm font-bold text-gray-600">Name</label>
+            <input type="text" v-model="curVendor.shopContactPersonName" placeholder="Enter Name" required
+              class="w-full p-2 mt-2 text-sm border rounded-md focus:ring-indigo-500 focus:border-indigo-500" />
+          </div>
+          <div class="">
+            <label class="block text-sm font-bold text-gray-600">Designation</label>
+            <input type="text" v-model="curVendor.shopContactPersonDesignation" placeholder="Enter Designation"
+              required
+              class="w-full p-2 mt-2 text-sm border rounded-md focus:ring-indigo-500 focus:border-indigo-500" />
+          </div>
+
+          <div class="">
+            <label class="block text-sm font-bold text-gray-600">Contact Number</label>
+            <input type="text" v-model="curVendor.shopContactPersonPhone" :maxlength="10"
+              placeholder="Enter Contact Number" required
+              class="w-full p-2 mt-2 text-sm border rounded-md focus:ring-indigo-500 focus:border-indigo-500" />
+
+          </div>
+          <div class="">
+            <label class="block text-sm font-bold text-gray-600">Date of Birth</label>
+            <input type="date" v-model="formattedShopContactPersonBDate" class="w-full p-2 mt-2 text-sm border rounded-md focus:ring-indigo-500 focus:border-indigo-500" />
+
+          </div>
+          <div class="">
+            <label class="block text-sm font-bold text-gray-600">Email</label>
+            <input type="text" v-model="curVendor.shopContactPersonEmail" placeholder="Enter Email" required
+              class="w-full p-2 mt-2 text-sm border rounded-md focus:ring-indigo-500 focus:border-indigo-500" />
+
+          </div>
+        </div>
+
+        <hr class="my-4" />
+        <h3 class="mt-4 font-bold">Bank Details</h3>
+        <div class="grid grid-cols-1 gap-4 mt-4 mb-36 sm:grid-cols-2 md:grid-cols-3 sm:mb-0 lg:grid-cols-3">
+          <div class="">
+            <label class="block text-sm font-bold text-gray-600">Bank Name</label>
+            <input type="text" v-model="curVendor.bankName" placeholder="Enter Bank Name" required
+              class="w-full p-2 mt-2 text-sm border rounded-md focus:ring-indigo-500 focus:border-indigo-500" />
+          </div>
+          <div class="">
+            <label class="block text-sm font-bold text-gray-600">Bank Branch</label>
+            <input type="text" v-model="curVendor.branch" placeholder="Enter Bank Branch" required
+              class="w-full p-2 mt-2 text-sm border rounded-md focus:ring-indigo-500 focus:border-indigo-500" />
+          </div>
+
+          <div class="">
+            <label class="block text-sm font-bold text-gray-600">Bank Account No</label>
+            <input type="text" v-model="curVendor.accountNumber" placeholder="Enter ank Account No" required
+              class="w-full p-2 mt-2 text-sm border rounded-md focus:ring-indigo-500 focus:border-indigo-500" />
+          </div>
+          <div class="">
+            <label class="block text-sm font-bold text-gray-600">Card Holder Name</label>
+            <input type="text" v-model="curVendor.holderName" placeholder="Enter Card Colder Name" required
+              class="w-full p-2 mt-2 text-sm border rounded-md focus:ring-indigo-500 focus:border-indigo-500" />
+          </div>
+          <div class="">
+            <label class="block text-sm font-bold text-gray-600">upload the bank book image</label>
+              <imagepicker1
+                :existingImagePath="imageroot + curVendor.bankBookImage"
+                @GetSelectedImage="GetSelectedBankBookImage"
+                @deleteExistingImage="curVendor.bankBookImage = ''"
+                ref="refBankBookImage"
+              />
+          </div>
+        </div>
+
+        <hr class="my-4" />
+        <h3 class="mt-4 font-bold">Super Admin Details (Recommended: Business Owner)</h3>
+        <div class="grid grid-cols-1 gap-4 mt-4 mb-36 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-3 sm:mb-0">
+          <div class="">
+            <label class="block text-sm font-bold text-gray-600">Full Name</label>
+            <input type="text" v-model="curVendor.suAdminfullName" placeholder="Enter Full Name" required
+              class="w-full p-2 mt-2 text-sm border rounded-md focus:ring-indigo-500 focus:border-indigo-500" />
+
+          </div>
+          <div class="">
+            <label class="block text-sm font-bold text-gray-600">Designation</label>
+            <input type="text" v-model="curVendor.suAdminDesignation" placeholder="Enter Designation" required
+              class="w-full p-2 mt-2 text-sm border rounded-md focus:ring-indigo-500 focus:border-indigo-500" />
+          </div>
+
+          <div class="">
+            <label class="block text-sm font-bold text-gray-600">Email</label>
+            <input type="text" v-model="curVendor.suAdminEmail" placeholder="Enter Email" required
+              class="w-full p-2 mt-2 text-sm border rounded-md focus:ring-indigo-500 focus:border-indigo-500" />
+          </div>
+          <div class="">
+            <label class="block text-sm font-bold text-gray-600">Mobile Number</label>
+            <input type="text" v-model="curVendor.suAdminMobile" placeholder="Enter Mobile Number" required
+              class="w-full p-2 mt-2 text-sm border rounded-md focus:ring-indigo-500 focus:border-indigo-500" />
+          </div>
+          <div class="">
+            <label class="block text-sm font-bold text-gray-600">National ID / Passport Number</label>
+            <input type="text" v-model="curVendor.suAdminNic" placeholder="Enter National ID / Passport Number" required
+              class="w-full p-2 mt-2 text-sm border rounded-md focus:ring-indigo-500 focus:border-indigo-500" />
+          </div>
+        </div>
+
+        <hr class="my-4" />
+        <h3 class="mt-4 font-bold">Additional Admin User Details</h3>
+        <div class="grid grid-cols-1 gap-4 mt-4 mb-36 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-3 sm:mb-0">
+          <div class="">
+            <label class="block text-sm font-bold text-gray-600">Full Name</label>
+            <input type="text" v-model="curVendor.additionalFullName" placeholder="Enter Full Name" required
+              class="w-full p-2 mt-2 text-sm border rounded-md focus:ring-indigo-500 focus:border-indigo-500" />
+          </div>
+          <div class="">
+            <label class="block text-sm font-bold text-gray-600">Designation</label>
+            <input type="text" v-model="curVendor.additionalDesignation" placeholder="Enter Designation" required
+              class="w-full p-2 mt-2 text-sm border rounded-md focus:ring-indigo-500 focus:border-indigo-500" />
+          </div>
+
+          <div class="">
+            <label class="block text-sm font-bold text-gray-600">Email</label>
+            <input type="text" v-model="curVendor.additionalEmail" placeholder="Enter Email" required
+              class="w-full p-2 mt-2 text-sm border rounded-md focus:ring-indigo-500 focus:border-indigo-500" />
+          </div>
+          <div class="">
+            <label class="block text-sm font-bold text-gray-600">Mobile Number</label>
+            <input type="text" v-model="curVendor.additionalMobileNumber" placeholder="Enter Mobile Number" required
+              class="w-full p-2 mt-2 text-sm border rounded-md focus:ring-indigo-500 focus:border-indigo-500" />
+          </div>
+          <div class="">
+            <label class="block text-sm font-bold text-gray-600">National ID / Passport Number</label>
+            <input type="text" v-model="curVendor.additionalNic" placeholder="Enter National ID / Passport Number" required
+              class="w-full p-2 mt-2 text-sm border rounded-md focus:ring-indigo-500 focus:border-indigo-500" />
+          </div>
+        </div>
+
+      </div>
+
+      <div class="flex justify-between items-center mt-6">
+        <button @click="cancel" class="px-12 py-2 text-xs  font-semibold transition bg-gray-100 text-gray-600 rounded-full shadow">Cancel</button>
+        <button @click="AddEditVendor" class="px-12 py-2 text-xs  bg-gradient-to-r from-blue-500 via-blue-600 to-blue-700 
+              font-semibold transition text-white rounded-full shadow  focus:ring-2 focus:ring-blue-400">
+          {{ isEditing ? "Update Vendor" : "Save Vendor" }}
+        </button>
     </div>
+  </div>
+
+    
   </div>
 </template>
 

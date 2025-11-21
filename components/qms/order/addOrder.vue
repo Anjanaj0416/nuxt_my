@@ -19,7 +19,7 @@
                 @change="handleCategoryChange"
                 class="w-full border border-gray-300 rounded px-3 py-2 mt-2"
                 >
-                <option disabled value="">-- Select Category --</option>
+                <option disabled value="">Select Category</option>
                 <option
                     v-for="cat in finalProductCategoryList"
                     :key="cat.id"
@@ -80,7 +80,7 @@
         </div>
       </div>
       <!-- Package -->
-      <!-- <pre>{{ JSON.stringify(curPkgList, null, 2) }}</pre> -->
+      <!-- <pre>{{ JSON.stringify(listoPackagesDetails, null, 2) }}</pre> -->
       <div>
         <label class="block text-sm font-bold text-gray-600" v-if="listoPackagesDetails.length > 0">Available Packages</label>
         <div class="grid grid-cols-1 my-2">
@@ -346,7 +346,7 @@
         @click="GetPrint" 
         class="px-12 py-2 text-xs bg-gradient-to-r from-blue-500 via-blue-600 to-blue-700 font-semibold transition text-white rounded-full shadow  focus:ring-2 focus:ring-indigo-400"
       > 
-        {{ isEditing ? "Update" : "Print" }}
+        {{ isEditing ? "Update" : "Submit" }}
       </button>
     </div>
 
@@ -586,7 +586,7 @@ export default {
 
       if (!this.IsValidated()) return;
 
-      this.$showConfirm("Confirm: Print the proposal?", "warning")
+      this.$showConfirm("Are you sure to create this order?", "warning")
         .then(async (result) => {
           if (result.isConfirmed) {
             const payload = {

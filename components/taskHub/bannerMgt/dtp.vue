@@ -26,7 +26,7 @@
       v-for="(dtpJobs, index) in taskhubStore.taskDetailsList"
       :key="index"
     >
-    {{ dtpJobs }}
+    <!-- {{ dtpJobs }} -->
       <div
         v-if="!filteredKpiId || filteredKpiId === dtpJobs.id"
          class="flex flex-col gap-2 p-4 mt-3 bg-white border rounded-xl shadow-sm hover:shadow-md ]"
@@ -44,16 +44,20 @@
         <!-- Main Info -->
         <div class="grid grid-cols-2 gap-4 sm:flex sm:flex-row sm:justify-between px-2">
           <div>
-            <h1 class="text-[12px] font-semibold text-gray-600">C0lient Name</h1>
+            <h1 class="text-[12px] font-semibold text-gray-600">Client Name</h1>
             <p class="text-sm text-gray-500 mt-0.5">{{ dtpJobs.clientName || 'No Data' }}</p>
+          </div>
+          <div>
+            <h1 class="text-[12px] font-semibold text-gray-600">Job Description</h1>
+            <p class="text-sm text-gray-500 mt-0.5">{{ dtpJobs.jobDescription || 'No Data' }}</p>
           </div>
           <div>
             <h1 class="text-[12px] font-semibold text-gray-600">Job Type</h1>
             <p class="text-sm text-gray-500 mt-0.5">{{ dtpJobs.jobType || 'No Data' }}</p>
           </div>
-          <div>
-            <h1 class="text-[12px] font-semibold text-gray-600">Job Description</h1>
-            <p class="text-sm text-gray-500 mt-0.5">{{ dtpJobs.jobDescription || 'No Data' }}</p>
+           <div>
+            <h1 class="text-[12px] font-semibold text-gray-600">Category</h1>
+            <p class="text-sm text-gray-500 mt-0.5">{{ dtpJobs.category || 'No Data' }}</p>
           </div>
           <div>
             <h1 class="text-[12px] font-semibold text-gray-600">Pending WorkGroup</h1>
@@ -92,6 +96,8 @@
             v-if="expandedRow === index"
             class="flex flex-col gap-4 p-4 mt-2 r"
           >
+          
+         <createNewCategory/>
             <!-- Store & Banner Details side by side -->
             <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
               <!-- Store -->
@@ -226,6 +232,7 @@ import imagepicker1 from "~/components/customcontrol/imagepickermultiple.vue";
 import Button from "~/components/customcontrol/Button.vue";
 import assigDtp from "./assigDtp.vue";
 import SearchComp from "~/components/customcontrol/SearchComp";
+import createNewCategory from "../bannerProduct/createNewCategory.vue";
 
 
 definePageMeta({
@@ -234,7 +241,7 @@ definePageMeta({
 });
 
 export default {
-    components:{imagepicker1,assigDtp,Button,SearchComp},
+    components:{imagepicker1,assigDtp,Button,SearchComp,createNewCategory},
   data() {
     return {
       isaAssig: false,

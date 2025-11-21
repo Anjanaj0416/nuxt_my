@@ -7,26 +7,23 @@
         <!-- <pre>{{ JSON.stringify(orderStore.PaymentDetails, null, 2) }}</pre> -->
 
         <div class="bg-white border rounded-lg shadow-md p-6 text-sm text-gray-800">
-          <div class="flex items-center justify-between mb-6">
-            <div>
-               <div class="text-2xl uppercase">Payments</div>
 
-            </div>
+
+          <div class="flex flex-wrap items-center justify-between mb-6">
+            <div class="text-xl sm:text-xl md:text-2xl uppercase mb-3 sm:mb-0">Payments</div>
             <!-- Button Section (Right) -->
-            <div class="w-full md:w-auto">
-              <div class="mr-2" v-if="status && status.trim().toLowerCase() !== 'canceled' && status !== 'FullPaid'">
-                <Button
-                  class="w-26 px-4 py-1.5 mt-2 rounded-full text-xs transition"
-                  label="Add Payment"
-                  variant="primary"
-                  v-if="
-                    (status !== 'Canceled' && status !== 'FullPaid') &&
-                    (userStore.loggedUser.granted.includes('su') ||
-                    userStore.loggedUser.granted.includes('accdept') )
-                  "
-                  @click="GoToPayment"
-                />
-              </div>
+            <div class="w-full md:w-auto flex justify-start md:justify-end " v-if="status && status.trim().toLowerCase() !== 'canceled' && status !== 'FullPaid'">
+              <Button
+                class="w-26 px-4 py-1.5 mt-2 rounded-full text-xs transition"
+                label="Add Payment"
+                variant="primary"
+                v-if="
+                  (status !== 'Canceled' && status !== 'FullPaid') &&
+                  (userStore.loggedUser.granted.includes('su') ||
+                  userStore.loggedUser.granted.includes('accdept') )
+                "
+                @click="GoToPayment"
+              />
             </div>
           </div>
 
@@ -52,7 +49,7 @@
                 </div>
 
                 <!-- Installment details -->
-                <div class="grid grid-cols-3 gap-x-2 gap-y-1 mt-2 text-xs">
+                <div class="grid grid-cols-1 sm:grid-cols-3 lg:grid-cols-3 gap-x-2 gap-y-1 mt-2 text-xs">
                   <div>
                     <span class="font-semibold text-gray-500">Installment Amount :</span>
                     <span class="ml-1 text-gray-700">{{ inst.installmentAmount }}</span>

@@ -1,8 +1,10 @@
 <template>
     <section class="justify-center">
-      <div  v-if="!showAddProposal && !showInvoice && !showWorkFlow">
-        <div class="flex flex-col-reverse items-start justify-between gap-4 mb-4 md:flex-row md:items-center">
-          <div class="text-2xl uppercase">Order </div>
+      <div class="bg-white  p-2 text-sm text-gray-800" v-if="!showAddProposal && !showInvoice && !showWorkFlow">
+          <div class="flex flex-wrap items-center justify-between mb-6">
+            <div class="text-xl sm:text-xl md:text-2xl uppercase mb-3 sm:mb-0">
+                Order
+            </div>
            <!-- <button
               v-if="id"
               class="flex items-center gap-2 px-4 py-2 text-sm font-medium text-gray-500 transition-all duration-300 bg-white border-1 rounded-full shadow hover:bg-blue-700 hover:text-white hover:shadow-md"
@@ -13,14 +15,13 @@
               </svg>
               Back to Proposals
             </button> -->
-            <div class="w-full md:w-auto">
-              <div class="mr-2">
+            <div class="w-full md:w-auto flex justify-start md:justify-end">
             
                 <Button class="w-24 px-4 py-1.5 mt-2 rounded-full text-xs transition" label="Create" variant="primary" 
                   v-if="userStore.loggedUser.granted.includes('su') || userStore.loggedUser.granted.includes('flo') || userStore.loggedUser.granted.includes('sso') || userStore.loggedUser.granted?.includes('cso')"
                   @click="handleCreateClick" 
                 />
-              </div>
+            
             </div>
           </div>
 
@@ -35,7 +36,7 @@
               'border-red-300': order.orderStatus === 'Canceled'
             }"
           >
-          {{ order }}
+          <!-- {{ order }} -->
             <!-- Top section: Details -->
             <div class="flex flex-col sm:flex-row sm:justify-between sm:items-center gap-2">
               <div class="flex flex-col text-center sm:text-left">
@@ -90,18 +91,18 @@
                 <h1 class="text-xs font-medium text-gray-600">Proposal</h1>
 
                 <!-- Show "view" only if signed PI is uploaded (boolean true) -->
-                <a
+                <!-- <a
                   v-if="order.isScanedProposalUploaded"
                   :href="imageroot + order.scanedProposalUrl"
                   target="_blank"
                   class="text-sm  text-blue-600 hover:underline"
                 >
                   View
-                </a>
+                </a> -->
 
                 <!-- Show "Upload Signed PI" only if not uploaded (boolean false) -->
                 <button
-                  v-else
+                  
                   @click="handleProposalUploderClick(order.id)"
                   class="text-sm  text-blue-600 hover:underline"
                 >
@@ -188,7 +189,11 @@
 
             <!-- Proposal Tab Buttons -->
             <div class="sm:flex sm:justify-end sm:gap-4">
-              <div class="grid grid-cols-3 gap-2 sm:flex sm:gap-4 text-sm font-medium text-gray-500">
+              <div class="flex flex-row gap-2 overflow-x-auto items-center whitespace-nowrap
+                scrollbar-thin scrollbar-thumb-gray-400 scrollbar-track-gray-200 
+                sm:flex sm:flex-wrap sm:gap-4 sm:overflow-visible
+                text-sm font-medium text-gray-500"
+              >
                 <!-- Banner -->
                 <button
                   v-if="order.orderStatus !== 'Active'"

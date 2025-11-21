@@ -1,16 +1,19 @@
 <template>
   <section class="justify-center">
-    <div class="bg-white border rounded-lg shadow-md p-6 text-sm text-gray-800">
-        <div class="mb-6">
-          <div class="flex justify-between items-center mb-2">
-              <h2 class="text-2xl uppercase">Work flow </h2>
-          </div>
-          <div class="">
-              <span class="text-sm text-gray-500">{{ progress }}% complete</span>
+    <div class="bg-white p-2 text-sm text-gray-800">
+      <div class="mb-6">
+        <div class="flex flex-wrap items-center justify-between md:mb-3 lg:mb-3">
+          <div class="text-xl sm:text-xl md:text-2xl uppercase sm:mb-3 lg:mb-3 mb-0">
+                Work flow
           </div>
         </div>
-        <!-- Timeline -->
-        <ol class="items-center sm:flex">
+        <div class="">
+            <span class="text-sm text-gray-500">{{ progress }}% complete</span>
+        </div>
+      </div>
+      <!-- Timeline -->
+      <div class="border rounded-lg shadow-md">
+        <ol class="items-center sm:flex  p-6">
           <li
               v-for="(step, index) in listVendorOnboadingWF"
               :key="index"
@@ -79,9 +82,10 @@
           </li>
         </ol>
 
-        <div v-if="listVendorOnboadingWF.length === 0" class="text-center text-gray-900 mt-5 text-sm font-medium">
+        <div v-if="listVendorOnboadingWF.length === 0" class="text-center text-gray-900 mt-0 text-sm font-medium">
           <p>No Work flow available...</p>
         </div>
+      </div>
     </div>
   </section>
 </template>

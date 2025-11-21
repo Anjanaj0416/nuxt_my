@@ -378,22 +378,22 @@ export default {
         this.err.requestedCategoryLevel = "Please select requested category Level!";
         valid = false;
       }
-      if (!this.sortOrder) {
-        this.err.sortOrder = "Please select sort Order!";
-        valid = false;
-      }
-      if (!this.amount) {
-        this.err.amount = "Please enter a amount!";
-        valid = false;
-      }
+      // if (!this.sortOrder) {
+      //   this.err.sortOrder = "Please select sort Order!";
+      //   valid = false;
+      // }
+      // if (!this.amount) {
+      //   this.err.amount = "Please enter a amount!";
+      //   valid = false;
+      // }
       if (!this.dtpId) {
         this.err.dtpId = "Please select a dtp!";
         valid = false;
       }
-      if (!this.kpiDays) {
-        this.err.kpiDays = "Please enter KPI days!";
-        valid = false;
-      }
+      // if (!this.kpiDays) {
+      //   this.err.kpiDays = "Please enter KPI days!";
+      //   valid = false;
+      // }
 
       return valid;
     },

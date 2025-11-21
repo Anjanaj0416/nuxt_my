@@ -14,7 +14,26 @@
           {{ err.expDate }}
         </p>
       </div>
-  
+      <div>
+        <label class="block text-sm font-medium text-gray-600 mb-1">Category Name</label>
+        <input
+          v-model="newCategoryName"
+          @input="clearErrorOnInput('newCategoryName')"
+          type="text"
+          placeholder="Enter Category Name"
+          class="w-full p-2 border rounded-md text-sm focus:ring-2 focus:ring-blue-400"
+        />
+      </div>
+      <div>
+        <label class="block text-sm font-medium text-gray-600 mb-1">Number Of Product</label>
+        <input
+          v-model="productAmount"
+          @input="clearErrorOnInput('productAmount')"
+          type="text"
+          placeholder="Enter Number Of Product"
+          class="w-full p-2 border rounded-md text-sm focus:ring-2 focus:ring-blue-400"
+        />
+      </div>
       <div>
         <label class="block text-sm font-medium text-gray-600 mb-1">Amount</label>
         <input
@@ -280,18 +299,18 @@ export default {
         this.err.expDate = "Please enter a expire day!";
         valid = false;
       }
-      if (!this.amount) {
-        this.err.amount = "Please enter a amount!";
-        valid = false;
-      }
-      // if (!this.dtpId) {
-      //   this.err.dtpId = "Please select a dtp!";
+      // if (!this.amount) {
+      //   this.err.amount = "Please enter a amount!";
       //   valid = false;
       // }
-      if (!this.kpiDays) {
-        this.err.kpiDays = "Please enter KPI days!";
+      if (!this.dtpId) {
+        this.err.dtpId = "Please select a dtp!";
         valid = false;
       }
+      // if (!this.kpiDays) {
+      //   this.err.kpiDays = "Please enter KPI days!";
+      //   valid = false;
+      // }
 
       return valid;
     },
