@@ -118,7 +118,10 @@
                       </div>
 
                       <!-- Links Section -->
-                      <div class="flex flex-wrap gap-3 mt-2">
+                      <div class=" gap-3 mt-2 flex flex-row gap-2 overflow-x-auto items-center whitespace-nowrap
+                        scrollbar-thin scrollbar-thumb-gray-400 scrollbar-track-gray-200 
+                        sm:flex sm:flex-wrap sm:gap-4 sm:overflow-visible"
+                      >
                         <!-- Slip -->
                         <div>
                           <a
