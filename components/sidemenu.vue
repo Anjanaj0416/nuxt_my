@@ -10,7 +10,7 @@
         <!-- Logo -->
         <router-link to="/dashboard" class="flex items-center space-x-2">
           <!-- hide Img -->
-          <img src="/assets/img/LogoDigitalTechLab.png" alt="Logo" class="h-auto rounded-full w-28" />
+          <!-- <img src="/assets/img/LogoDigitalTechLab.png" alt="Logo" class="h-auto rounded-full w-28" /> -->
         </router-link>
         <!-- Close Button -->
         <button @click="$emit('close-sidebar')"
@@ -29,29 +29,22 @@
 
       <!-- <p>granted: {{ userStore.loggedUser.granted }}</p> -->
       <nav class="p-4">
-        <crm v-if="granted.includes('su') || granted.includes('flo') || granted.includes('sso') || granted.includes('accdept') || granted.includes('cso') "  @close-sidebar="$emit('close-sidebar')"/>
-        <hrsystem   @close-sidebar="$emit('close-sidebar')"/>
-        <settings v-if="granted.includes('su') || granted.includes('flo') || granted.includes('hradmin')" @close-sidebar="$emit('close-sidebar')"/>
-        <document_registry @close-sidebar="$emit('close-sidebar')"/>
-        <router-link to="/taskhub"
-            v-if="userStore.loggedUser.granted.includes('su') || userStore.loggedUser.granted.includes('flo') || userStore.loggedUser.granted.includes('sso') || granted.includes('accdept') || granted.includes('hradmin') ||granted.includes('B2BAdmin')"
-            class="flex items-center px-3 py-2 text-white rounded hover:text-white hover:bg-blue-800 transition-all duration-200"
-            @click="$emit('close-sidebar')">
-            <svg
-              class="w-5 h-5 mr-2"
-              fill="none"
-              stroke="currentColor"
-              viewBox="0 0 24 24"
-              xmlns="http://www.w3.org/2000/svg"
-            >
-              <path
-                stroke-linecap="round"
-                stroke-linejoin="round"
-                stroke-width="2"
-                d="M4 7h16M4 12h8m-8 5h16"
-              />
-            </svg>
-            <span>Work Flow</span>
+        <crm
+          v-if="granted.includes('su') || granted.includes('flo') || granted.includes('sso') || granted.includes('accdept') || granted.includes('cso')"
+          @close-sidebar="$emit('close-sidebar')" />
+        <hrsystem @close-sidebar="$emit('close-sidebar')" />
+        <settings v-if="granted.includes('su') || granted.includes('flo') || granted.includes('hradmin')"
+          @close-sidebar="$emit('close-sidebar')" />
+        <document_registry @close-sidebar="$emit('close-sidebar')" />
+        <router-link to="/qms/workFlow"
+          v-if="userStore.loggedUser.granted.includes('su') || userStore.loggedUser.granted.includes('flo') || userStore.loggedUser.granted.includes('sso') || granted.includes('accdept') || granted.includes('hradmin') || granted.includes('B2BAdmin')"
+          class="flex items-center px-3 py-2 text-white rounded hover:text-white hover:bg-blue-800 transition-all duration-200"
+          @click="$emit('close-sidebar')">
+          <svg class="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24"
+            xmlns="http://www.w3.org/2000/svg">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 7h16M4 12h8m-8 5h16" />
+          </svg>
+          <span>Work Flow</span>
         </router-link>
       </nav>
     </aside>

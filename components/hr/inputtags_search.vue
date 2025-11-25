@@ -19,8 +19,7 @@ data() {
 
 <template>
   <section>
-    <div
-      class="
+    <div class="
         border-gray-500 rounded p-2
         border-2 border-SID-blue
         bg-SID-blue
@@ -31,9 +30,8 @@ data() {
         flex flex-wrap
         h-auto
         gap-3
-      "
-    >
-  
+      ">
+
 
       <div class="cursor-pointer">
         <!-- <input
@@ -43,23 +41,13 @@ data() {
           @keypress.enter="addItem($event.target.value)"
         /> -->
 
-        <serachInput
-          :arrItems="arrItems"
-          ref="compSelect"
-          label=""
-          v-model="inputvalue"
-          @selectItem="addItem"
-          class="w-48 border-gray-500 rounded p-2 rounded"
-        />
+        <serachInput :arrItems="arrItems" ref="compSelect" label="" v-model="inputvalue" @selectItem="addItem"
+          class="w-48 border-gray-500 rounded p-2 rounded" />
       </div>
 
-        <div v-for="item in list" :key="item">
-          
-        <tag
-          :value="item.value"
-          @deletetag="deletetag"
-          :istageditable="false"
-        />
+      <div v-for="item in list" :key="item">
+
+        <tag :value="item.value" @deletetag="deletetag" :istageditable="false" />
       </div>
     </div>
   </section>
@@ -81,37 +69,37 @@ export default {
       list: [],
     }
   },
-  created(){
-   if(this.arrSelectedItems.length>0){      
+  created() {
+    if (this.arrSelectedItems.length > 0) {
       this.list = this.arrSelectedItems;
-       }
+    }
   },
   methods: {
     // selectValue(id){
     //    this.inputvalue= id
     //     this.list.push({ value: this.inputvalue })
     // },
-    resetItems(){
-      this.list=[]
+    resetItems() {
+      this.list = []
     },
     addItem(item) {
-     
+
       var index = this.arrSelectedItems.findIndex((i) => i.id == item.id)
-     
+
       if (index == -1) {
         // let selected_item = this.arrItems.filter((item) => {
         //   return item.id == id
         // })[0]
 
-        this.list.push({ value: item.value })
+        // this.list.push({ value: item.value })
         this.arrSelectedItems.push(item)
-        
+
       } else {
-        alert('Item Already Exisits')
+        alert('Item Already Exist')
       }
     },
     deletetag(tagval) {
-    
+
       try {
         //var arr =   this.list.filter(function(item){
         //  if(item.value == tagval)  return item
@@ -129,7 +117,7 @@ export default {
         })
 
         //this.list.splice(item)
-      } catch (e) {}
+      } catch (e) { }
       // this.list.splice(index)
     },
   },
@@ -138,6 +126,6 @@ export default {
 
 <style>
 .cssbtn:hover {
-  @apply transform  scale-125 duration-500;
+  @apply transform scale-125 duration-500;
 }
 </style>

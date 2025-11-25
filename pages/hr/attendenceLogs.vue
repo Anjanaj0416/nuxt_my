@@ -83,6 +83,7 @@ export default {
     this.imageroot = this.userStore.loggedUser.resourceURLRoot;
 
     await this.reportStore.getReportInitData();
+    this.reportStore.initData.initReport.arrEmp.unshift({ id: "", value: "All" });
 
   },
   watch: {},
