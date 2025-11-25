@@ -1,6 +1,45 @@
 <template>
   <div class="p-6 space-y-6 overflow-y">
     <h2 class="text-lg font-semibold text-gray-700 border-b pb-2 mb-4">Product Creation</h2>
+    <div class="grid grid-cols-1 md:grid-cols-4 gap-4">
+      <div>
+        <label class="block text-sm font-medium text-gray-600">Main Category</label>
+        <serach_Input
+          :arrItems="taskhubStore.listMainCategory"
+          label=""
+          ref="refMainCategory"
+          @selectItem="GetSelectMainCategory"
+        />
+      </div>
+      <div>
+        <label class="block text-sm font-medium text-gray-600">Sub Category</label>
+        <serach_Input
+          :arrItems="taskhubStore.listSubCategory"
+          label=""
+          ref="refSubCategory"
+          @selectItem="GetSelectSubCategory"
+        />
+      </div>
+      <div>
+        <label class="block text-sm font-medium text-gray-600">Sub Sub Category</label>
+        <serach_Input
+          :arrItems="taskhubStore.listSubSubCategory"
+          label=""
+          ref="refSubSubCategory"
+          @selectItem="GetSelectSubSubCategory"
+        />
+      </div>
+      <div>
+        <label class="block text-sm font-medium text-gray-600">Sub Sub Sub Category</label>
+        <serach_Input
+          :arrItems="taskhubStore.listSubSubSubCategory"
+          label=""
+          ref="refSubSubSubCategory"
+          @selectItem="GetSelectSubSubSubCategory"
+        />
+      </div>
+    </div>
+    
     <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
       <div>
         <label class="block text-sm font-medium text-gray-600 mb-1">Expire Date</label>
@@ -154,16 +193,17 @@
 
 <script>
 import { reactive, computed } from "vue";
-import imagepickermultiple from "~/components/customcontrol/imagepickermultiple.vue";
 import { useUserStore } from "~/stores/modules/userStore";
 import { useTaskhubStore } from "~/stores/modules/taskHub/taskhubStore";
+import imagepickermultiple from "~/components/customcontrol/imagepickermultiple.vue";
+import serach_Input from "~/components/customcontrol/SearchInput";
 
 
 definePageMeta({
   layout: "default",
 });
 export default {
-  components: { imagepickermultiple},
+  components: { imagepickermultiple,serach_Input},
   props: ['id', 'vendorId'],
   data() {
     return {
@@ -243,6 +283,52 @@ export default {
 
     onDtpSelect() {
       this.IsDTPManulaSelected = !!this.selectedDtp;
+    },
+
+    async GetSelectMainCategory(item) {
+      console.log("Selected Main Category ID:", item.id);
+      this.mainCategoryId = item.id; 
+
+      this.subCategoryID = "00000000-0000-0000-0000-000000000000";
+      this.subSubCategoryID = "00000000-0000-0000-0000-000000000000";
+      this.subSubSubCategoryID = "00000000-0000-0000-0000-000000000000";
+
+      this.taskhubStore.listSubCategory = [];
+      this.taskhubStore.listSubSubCategory = [];
+      this.taskhubStore.listSubSubSubCategory = [];
+
+      await this.taskhubStore.GetSubMainCategory(item.id, this.showLoading);
+    },
+
+    async GetSelectSubCategory(item) {
+      console.log("Selected Sub Category ID:", item.id);
+      this.subCategoryID = item.id;
+
+      this.subSubCategoryID = "00000000-0000-0000-0000-000000000000";
+      this.subSubSubCategoryID = "00000000-0000-0000-0000-000000000000";
+
+      this.taskhubStore.listSubSubCategory = [];
+      this.taskhubStore.listSubSubSubCategory = [];
+
+      await this.taskhubStore.GetSubCategory(item.id, this.showLoading);
+    },
+
+    async GetSelectSubSubCategory(item) {
+      console.log("Selected SubSub Category ID:", item.id);
+      this.subSubCategoryID = item.id;
+
+      // Clear dependent dropdowns first
+      this.subSubSubCategoryID = "00000000-0000-0000-0000-000000000000";
+      this.taskhubStore.listSubSubSubCategory = [];
+
+      await this.taskhubStore.GetSubCategory(item.id, this.showLoading);
+    },
+
+    async GetSelectSubSubSubCategory(item) {
+      // console.log("Selected SubSub Category ID:", item.id);
+      this.subSubSubCategoryID = item.id;
+
+      await this.taskhubStore.GetSubCategory(item.id, this.showLoading);
     },
 
 

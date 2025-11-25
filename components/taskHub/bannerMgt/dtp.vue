@@ -1,22 +1,27 @@
 <template>
   <section class="justify-center min-h-screen px-4 mt-24 mb-20 lg:px-[60px] md:px-[82px]">
-    <div class="text-2xl uppercase mb-6">Bnner Hub</div>
-
-    <div
-      class="flex flex-col items-center justify-between mt-2 mb-2 md:flex-row"
-    >
+    <div class="flex flex-col items-center justify-between mt-2 mb-2 md:flex-row">
       <div class="w-full mb-4 md:mb-0">
-        <div class="mr-2">
-        
-        </div>
+        <div class="text-2xl uppercase">Bnner Hub</div>
       </div>
-      <div class="w-full md:w-96">
-        <SearchComp @DoSearch="GetSearch" />
+      <div class="w-full md:w-auto flex items-center gap-2">
+        <select
+          v-model="searchBy"
+          @change="SetSelectedFilter"
+          class="w-44 border border-gray-300 rounded-full focus:outline-none 
+                focus:ring-2 focus:ring-blue-500 px-4 py-3 text-gray-700"
+        >
+          <option disabled value="" class="bg-blue-900 text-white">Filter By</option>
+          <option selected value="100">Vendor Id</option>
+          <option value="101">Task Hub Job Details-ID</option>
+        </select>
+        <!-- Search -->
+        <div class="w-full md:w-96">
+          <SearchComp @DoSearch="GetSearch" />
+        </div>
       </div>
     </div>
 
-
-    <!-- If no KPI -->
     <div v-if="listKpi.length === 0" class="text-center text-gray-900 mt-5 text-sm font-medium">
       <p>No KPI available...</p>
     </div>
@@ -299,7 +304,7 @@ export default {
     this.showLoading = this.$showLoading;
 
     await this.taskhubStore.TaskDetailsList(
-      { taskType: "DtlBannerMgt", searchValue: "BD86C93A-37CD-4D12-4DE1-08DE0AD24517", searchBy: this.searchBy },
+      { taskType: "DtlBannerMgt", searchValue: this.searchValue, searchBy: this.searchBy },
       this.showLoading
     );
 
@@ -312,29 +317,27 @@ export default {
 
   methods: {
 
-
+    async SetSelectedFilter(event) {
+      this.searchBy = event.target.value;
+      // await this.GetSearch();
+    },
 
     async GetSearch(searchVal) {
-
-      this.keyword = searchVal || "";
-
-      console.log("keyword, searchBy", this.keyword, this.searchBy);
-
+      if (searchVal) {
+        this.keyword = searchVal;
+      } else {
+        this.keyword = "";
+      }
+      console.log("keyword, searchBy", searchVal, this.searchBy);
       await this.taskhubStore.TaskDetailsList(
-      { taskType: "DtlBannerMgt", searchValue: "BD86C93A-37CD-4D12-4DE1-08DE0AD24517", searchBy: this.searchBy },
-      this.showLoading
-    );
-
-      await this.vendorStore.TaskDetailsList(
-        { keyword: this.keyword, searchBy: this.searchBy },
+        { taskType: "DtlBannerMgt", searchValue: this.keyword, searchBy: this.searchBy },
         this.showLoading
       );
 
+
+
+      this.searchBy = "";
       this.keyword = "";
-
-      this.taskDetailsList = this.taskhubStore.taskDetailsList
-
-
     },
 
 
