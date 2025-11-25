@@ -96,12 +96,17 @@ export default {
         return;
       }
 
-      const req = {
-        EmpNo: this.selectedEmployee,
-        Year: this.selectedYear,
-        Month: this.selectedMonth,
-      };
-      await this.attendanceStore.getProcessAttendenceLogs(req, this.$showLoading);
+      this.$showConfirm("Take some time to process..Do you wish to continue?", "warning")
+        .then(async (result) => {
+          if (result.isConfirmed) {
+            const req = {
+              EmpNo: this.selectedEmployee,
+              Year: this.selectedYear,
+              Month: this.selectedMonth,
+            };
+            await this.attendanceStore.getProcessAttendenceLogs(req, this.$showLoading);
+          }
+        });
     }
 
     //this.$showToast('Login successful!', 'success'); //success ,error ,warning,info
