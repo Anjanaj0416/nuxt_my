@@ -57,10 +57,10 @@
               <label class="block text-[13px] font-bold text-gray-600">
                 WhatsApp Number <span class="text-red-500">*</span>
               </label>
-              <input type="tel" v-model="curLead.CompanyPhone" placeholder="Enter WhatsApp Number" maxlength="10" @input="clearErrorOnInput('CompanyPhone')"
+              <input type="tel" v-model="curLead.CompanyWhatsAppNo" placeholder="Enter WhatsApp Number" maxlength="10" @input="clearErrorOnInput('CompanyWhatsAppNo')"
                 class="w-full p-2 mt-2 text-[13px] border rounded-md focus:ring-indigo-500 focus:border-indigo-500" />
-              <p v-if="err.CompanyPhone" class="mt-2 text-sm text-red-600">
-                {{ err.CompanyPhone }}
+              <p v-if="err.CompanyWhatsAppNo" class="mt-2 text-sm text-red-600">
+                {{ err.CompanyWhatsAppNo }}
               </p>
             </div>
           </div>
@@ -97,7 +97,7 @@
               <label class="block text-[13px] font-bold text-gray-600">
                 WhatsApp Number <span class="text-red-500">*</span>
               </label>
-              <input type="tel" v-model="curLead.CompanyPhone" placeholder="Enter WhatsApp Number" maxlength="10" @input="clearErrorOnInput('CompanyPhone')"
+              <input type="tel" v-model="curLead.ContactPerson1WhatsAppNo" placeholder="Enter WhatsApp Number" maxlength="10" @input="clearErrorOnInput('ContactPerson1WhatsAppNo')"
                 class="w-full p-2 mt-2 text-[13px] border rounded-md focus:ring-indigo-500 focus:border-indigo-500" />
             </div>
           </div>
@@ -108,18 +108,12 @@
               <input type="text" v-model="curLead.ContactPerson2Name" placeholder="Enter Name"
                 required
                 class="w-full p-2 mt-2 text-sm border rounded-md focus:ring-indigo-500 focus:border-indigo-500" />
-              <!-- <p v-if="err.ContactPerson1Number" class="mt-2 text-sm text-red-600">
-                {{ err.ContactPerson1Number }}
-              </p> -->
             </div>
             <div class="">
               <label class="block text-[13px] font-bold text-gray-600">Designation</label>
               <input type="text" v-model="curLead.ContactPerson2Designation" placeholder="Enter Designation" @input="clearErrorOnInput('ContactPerson1Number')"
                 required
                 class="w-full p-2 mt-2 text-sm border rounded-md focus:ring-indigo-500 focus:border-indigo-500" />
-              <!-- <p v-if="err.ContactPerson1Number" class="mt-2 text-sm text-red-600">
-                {{ err.ContactPerson1Number }}
-              </p> -->
             </div>
             <div class="">
               <label class="block text-[13px] font-bold text-gray-600">Contact Number</label>
@@ -131,7 +125,7 @@
               <label class="block text-[13px] font-bold text-gray-600">
                 WhatsApp Number <span class="text-red-500">*</span>
               </label>
-              <input type="tel" v-model="curLead.CompanyPhone" placeholder="Enter WhatsApp Number" maxlength="10" @input="clearErrorOnInput('CompanyPhone')"
+              <input type="tel" v-model="curLead.ContactPerson2WhatsAppNo" placeholder="Enter WhatsApp Number" maxlength="10" @input="clearErrorOnInput('contactPerson2WhatsAppNo')"
                 class="w-full p-2 mt-2 text-[13px] border rounded-md focus:ring-indigo-500 focus:border-indigo-500" />
             </div>
           </div>
@@ -174,14 +168,17 @@ export default {
         CompanyName: "",
         Address: "",
         CompanyPhone: "",
+        CompanyWhatsAppNo: "",
         ContactPerson1Name: "",
         ContactPerson1Designation: "",
         ContactPerson1Number: "",
         ContactPerson1Email: "",
+        ContactPerson1WhatsAppNo: "",
         ContactPerson2Name: "",
         ContactPerson2Designation: "",
         ContactPerson2Number: "",
         ContactPerson2Email: "",
+        contactPerson2WhatsAppNo: "",
         IsBlindVisit: false
       },
       err: {
@@ -273,14 +270,17 @@ export default {
         CompanyName: "",
         Address: "",
         CompanyPhone: "",
+        CompanyWhatsAppNo: "",
         ContactPerson1Name: "",
         ContactPerson1Designation: "",
         ContactPerson1Number: "",
         ContactPerson1Email: "",
+        ContactPerson1WhatsAppNo: "",
         ContactPerson2Name: "",
         ContactPerson2Designation: "",
         ContactPerson2Number: "",
         ContactPerson2Email: "",
+        ContactPerson2WhatsAppNo: "",
         IsBlindVisit: false
       };
     },
@@ -308,18 +308,24 @@ export default {
             // Build request in your existing style
             let request = {
               id: "00000000-0000-0000-0000-000000000000",
-              CompanyName: this.curLead.CompanyName || "",
-              Address: this.curLead.Address || "",
-              CompanyPhone: this.curLead.CompanyPhone || "",
-              ContactPhoneNo: this.curLead.ContactPhoneNo  || "",
-              ContactPerson1Name: this.curLead.ContactPerson1Name || "",
-              ContactPerson1Designation: this.curLead.ContactPerson1Designation || "",
-              ContactPerson1Number: this.curLead.ContactPerson1Number || "",
-              ContactPerson1Email: this.curLead.ContactPerson1Email || "",
-              ContactPerson2Name : this.curLead.ContactPerson2Name || "",
-              ContactPerson2Designation: this.curLead.ContactPerson2Designation || "",
-              ContactPerson2Number: this.curLead.ContactPerson2Number || "",
-              ContactPerson2Email: this.curLead.ContactPerson2Email || "",
+              companyName: this.curLead.CompanyName || "",
+              address: this.curLead.Address || "",
+              companyPhone: this.curLead.CompanyPhone || "",
+              contactPhoneNo: this.curLead.ContactPhoneNo  || "",
+              companyWhatsAppNo: this.curLead.companyWhatsAppNo || "",
+
+              contactPerson1Name: this.curLead.ContactPerson1Name || "",
+              contactPerson1Designation: this.curLead.ContactPerson1Designation || "",
+              contactPerson1Number: this.curLead.ContactPerson1Number || "",
+              contactPerson1WhatsAppNo: this.curLead.ContactPerson1WhatsAppNo || "",
+              contactPerson1Email: this.curLead.ContactPerson1Email || "",
+
+              contactPerson2Name : this.curLead.ContactPerson2Name || "",
+              contactPerson2Designation: this.curLead.ContactPerson2Designation || "",
+              contactPerson2Number: this.curLead.ContactPerson2Number || "",
+              contactPerson2WhatsAppNo: this.curLead.ContactPerson2WhatsAppNo || "",
+              contactPerson2Email: this.curLead.ContactPerson2Email || "",
+
               Medium: "office"
             };
 
@@ -375,13 +381,13 @@ export default {
         IsValidate = false;
       }
 
-      if (!this.curLead.ContactPerson1Number) {
-        this.err.ContactPerson1Number = "Please Enter Contact Person Number!";
+      if (!this.curLead.CompanyWhatsAppNo) {
+        this.err.CompanyWhatsAppNo = "Please Enter Company Whats App Number!";
         IsValidate = false;
       } else {
         const contactNoRegex1 = /^[0-9]{10}$/;
-        if (!contactNoRegex1.test(this.curLead.ContactPerson1Number)) {
-          this.err.ContactPerson1Number = "Please Enter a valid 10-digit Contact Person Number!";
+        if (!contactNoRegex1.test(this.curLead.CompanyWhatsAppNo)) {
+          this.err.CompanyWhatsAppNo = "Please Enter a valid 10-digit Contact Person Number!";
           IsValidate = false;
         }
       }

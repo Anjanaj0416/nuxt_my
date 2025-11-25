@@ -49,6 +49,7 @@
             @click="handleClick(note)"
             class="px-4 py-3 hover:bg-gray-100 transition flex items-start gap-3 border-b last:border-none cursor-pointer"
           >
+
             <div class="w-2 h-2 rounded-full bg-blue-500 mt-2"></div>
             <div>
               <p class="text-sm font-semibold text-gray-800">
@@ -122,9 +123,11 @@ export default {
     },
 
     handleClick(note) {
-      this.$emit('select', note)
-      this.isOpen = false
-    },
+      this.isOpen = false;
+      if (!note.link) return;
+      window.open(note.link, "_blank");
+    }
+
   },
 
 }
