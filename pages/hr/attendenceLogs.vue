@@ -29,7 +29,7 @@
       </div>
     </div>
 
-    <p v-if="!selectedEmployee || !selectedYear || !selectedMonth" class="text-sm text-gray-500 italic text-center">
+    <p v-if="!selectedYear || !selectedMonth" class="text-sm text-gray-500 italic text-center">
       Please select an Employee, Year and Month..
     </p>
   </section>
@@ -91,7 +91,7 @@ export default {
   methods: {
 
     async logSelectedDates() {
-      if (!this.selectedEmployee || !this.selectedYear || !this.selectedMonth) {
+      if (!this.selectedYear || !this.selectedMonth) {
         this.$showToast('Please select an Employee, Year and Month', 'warning');
         return;
       }
