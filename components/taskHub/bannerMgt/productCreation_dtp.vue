@@ -22,7 +22,7 @@
       </div>
     </div>
 
-    <div v-if="listKpi.length === 0" class="text-center text-gray-900 mt-5 text-sm font-medium">
+    <div v-if="taskhubStore.taskDetailsList === 0" class="text-center text-gray-900 mt-5 text-sm font-medium">
       <p>No KPI available...</p>
     </div>
 
@@ -62,7 +62,7 @@
           </div>
            <div>
             <h1 class="text-[12px] font-semibold text-gray-600">Category</h1>
-            <p class="text-sm text-gray-500 mt-0.5">{{ dtpJobs.category || 'No Data' }}</p>
+            <p class="text-sm text-gray-500 mt-0.5">{{ dtpJobs.jobCategory || 'No Data' }}</p>
           </div>
           <div>
             <h1 class="text-[12px] font-semibold text-gray-600">Pending WorkGroup</h1>
@@ -101,8 +101,7 @@
             v-if="expandedRow === index"
             class="flex flex-col gap-4 p-4 mt-2 r"
           >
-          
-         <createNewCategory/>
+
             <!-- Store & Banner Details side by side -->
             <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
               <!-- Store -->
@@ -261,7 +260,7 @@ export default {
     this.showLoading = this.$showLoading;
 
     await this.taskhubStore.TaskDetailsList(
-      { taskType: "DtlBannerMgt", searchValue: "5CD7F771-139D-4044-708C-08DE2A3D770B", searchBy: "101" },
+      { taskType: "DtlBannerMgt", searchValue: "EB65FD62-9C69-44AF-2183-08DE2B1B00C6", searchBy: "101" },
       this.showLoading
     );
 

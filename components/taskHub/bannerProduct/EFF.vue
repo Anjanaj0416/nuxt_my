@@ -1,101 +1,115 @@
-<template>
-  <div class=" mt-6 space-y-4">
-      <h2 class="text-lg font-semibold text-gray-700 border-b pb-2 mb-4">Create New Category</h2>
-    <div class="grid grid-cols-1 gap-4 my-4 sm:grid-cols-1 md:grid-cols-4 lg:grid-cols-4">
-      <div>
-        <label class="block text-sm font-medium text-gray-600">Main Category</label>
-        <serach_Input
-          :arrItems="taskhubStore.listMainCategory"
-          label=""
-          ref="refMainCategory"
-          @selectItem="GetSelectMainCategory"
-        />
-      </div>
-      <div>
-        <label class="block text-sm font-medium text-gray-600">Sub Category</label>
-        <serach_Input
-          :arrItems="taskhubStore.listSubCategory"
-          label=""
-          ref="refSubCategory"
-          @selectItem="GetSelectSubCategory"
-        />
-      </div>
-      <div>
-        <label class="block text-sm font-medium text-gray-600">Sub Sub Category</label>
-        <serach_Input
-          :arrItems="taskhubStore.listSubSubCategory"
-          label=""
-          ref="refSubSubCategory"
-          @selectItem="GetSelectSubSubCategory"
-        />
-      </div>
-      <div>
-        <label class="block text-sm font-medium text-gray-600">Sub Sub Sub Category</label>
-        <serach_Input
-          :arrItems="taskhubStore.listSubSubSubCategory"
-          label=""
-          ref="refSubSubSubCategory"
-          @selectItem="GetSelectSubSubSubCategory"
-        />
-      </div>
-    </div>
-    <div class="grid grid-cols-1 md:grid-cols-1 gap-4">
-      <div>
-        <label class="block text-sm font-medium text-gray-600 mb-1">Category Path</label>
-        <textarea
-          v-model="CategoryPath"
-          type="text"
-          placeholder="Enter Category Path"
-          @input="clearErrorOnInput('CompanyName')"
-          class="w-full p-2 border rounded-md text-sm focus:ring-2 focus:ring-blue-400"
-        />
-        <p class="mt-2 text-sm text-gray-500">Ex : AB/CD/EF ....</p>
-        <p v-if="err.CategoryPath" class="mt-2 text-sm text-red-600">
-          {{ err.CategoryPath }}
-        </p>
-      </div>
-    </div>
-    <!-- <div class="grid grid-cols-1 gap-4 my-4 sm:grid-cols-1 md:grid-cols-4 lg:grid-cols-4">
-      <div>
-        <label class="block text-sm font-medium text-gray-600 mb-1">Task Type</label>
-        <p>{{ taskType }}</p>
-        
-      </div>
-    </div> -->
-    <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
-      <div>
-        <label class="block text-sm font-medium text-gray-600 mb-1">Material Upload</label>
-          <imagepickermultiple
-            @GetSelectedImages="handleSelectedImages"
-            ref="refApprovedImg"
-            accept="image/*,application/pdf,.doc,.docx,.xls,.xlsx"
-          />
-      </div>
-      <div>
-        <label class="block text-sm font-medium text-gray-600 mb-1">Comment</label>
-        <textarea
-          v-model="comment"
-          type="date"
-          rows="4"
-          placeholder="Enter Comment"
-          class="w-full p-2 border rounded-md text-sm focus:ring-2 focus:ring-blue-400"
-        />
-        
-      </div>
-    </div>
-  </div>
-  <div class="mt-6 flex justify-between">
-    <button @click="cancel" 
-      class="px-12 py-2 text-xs font-semibold transition bg-white text-gray-600 rounded-full shadow">
-      Cancel
-    </button>
-    <button @click="SetApprovalCategory()" 
-      class="px-12 py-2 text-xs bg-gradient-to-r from-blue-500 via-blue-600 to-blue-700 
-            font-semibold transition text-white rounded-full shadow focus:ring-2 focus:ring-blue-400">
-      Add Category
-    </button>
-  </div>
 
+
+
+<template>
+  <div class="modal-overlay" v-if="isOpen">
+    <div class="modal">
+      <div class="modal-header">
+        <h2 class="modal-title">
+          Create New Category
+        </h2>
+        <closebtn @close="closeModal" />
+      </div>
+      <!-- {{quotationStore.initQuotation.listVendors}} -->
+      <div class="modal-content">
+        <div class="form-content">
+          <div class="grid grid-cols-1 gap-4 my-4 sm:grid-cols-1 md:grid-cols-4 lg:grid-cols-4">
+            <div>
+              <label class="block text-sm font-medium text-gray-600">Main Category</label>
+              <serach_Input
+                :arrItems="taskhubStore.listMainCategory"
+                label=""
+                ref="refMainCategory"
+                @selectItem="GetSelectMainCategory"
+              />
+            </div>
+            <div>
+              <label class="block text-sm font-medium text-gray-600">Sub Category</label>
+              <serach_Input
+                :arrItems="taskhubStore.listSubCategory"
+                label=""
+                ref="refSubCategory"
+                @selectItem="GetSelectSubCategory"
+              />
+            </div>
+            <div>
+              <label class="block text-sm font-medium text-gray-600">Sub Sub Category</label>
+              <serach_Input
+                :arrItems="taskhubStore.listSubSubCategory"
+                label=""
+                ref="refSubSubCategory"
+                @selectItem="GetSelectSubSubCategory"
+              />
+            </div>
+            <div>
+              <label class="block text-sm font-medium text-gray-600">Sub Sub Sub Category</label>
+              <serach_Input
+                :arrItems="taskhubStore.listSubSubSubCategory"
+                label=""
+                ref="refSubSubSubCategory"
+                @selectItem="GetSelectSubSubSubCategory"
+              />
+            </div>
+          </div>
+          <div class="grid grid-cols-1 md:grid-cols-1 gap-4">
+            <div>
+              <label class="block text-sm font-medium text-gray-600 mb-1">Category Path</label>
+              <textarea
+                v-model="CategoryPath"
+                type="text"
+                placeholder="Enter Category Path"
+                @input="clearErrorOnInput('CompanyName')"
+                class="w-full p-2 border rounded-md text-sm focus:ring-2 focus:ring-blue-400"
+              />
+              <p class="mt-2 text-sm text-gray-500">Ex : AB/CD/EF ....</p>
+              <p v-if="err.CategoryPath" class="mt-2 text-sm text-red-600">
+                {{ err.CategoryPath }}
+              </p>
+            </div>
+          </div>
+          <div class="grid grid-cols-1 gap-4 my-4 sm:grid-cols-1 md:grid-cols-4 lg:grid-cols-4">
+            <div>
+              <label class="block text-sm font-medium text-gray-600 mb-1">Task Type</label>
+              <p>{{ taskType }}</p>
+              
+            </div>
+          </div>
+          <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+            <div>
+              <label class="block text-sm font-medium text-gray-600 mb-1">Material Upload</label>
+                <imagepickermultiple
+                  @GetSelectedImages="handleSelectedImages"
+                  ref="refApprovedImg"
+                  accept="image/*,application/pdf,.doc,.docx,.xls,.xlsx"
+                />
+            </div>
+          </div>
+
+          <div class="grid grid-cols-1 gap-4 my-4 sm:grid-cols-1 md:grid-cols-4 lg:grid-cols-2">
+            <div>
+              <label class="block text-sm font-medium text-gray-600 mb-1">Comment</label>
+              <textarea
+                v-model="comment"
+                type="date"
+                rows="4"
+                placeholder="Enter Comment"
+                class="w-full p-2 border rounded-md text-sm focus:ring-2 focus:ring-blue-400"
+              />
+              
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class=" modal-footer">
+        <button @click="cancel" class="px-12 py-2 text-xs  font-semibold transition bg-white text-gray-600 rounded-full shadow">Cancel</button>
+        <button @click="SetApprovalCategory()"  class="px-12 py-2 text-xs  bg-gradient-to-r from-blue-500 via-blue-600 to-blue-700 
+                font-semibold transition text-white rounded-full shadow  focus:ring-2 focus:ring-blue-400">
+          Add Category
+        </button>
+      </div>
+    </div>
+  </div>
 </template>
 
 <script>
@@ -146,7 +160,7 @@ export default {
     this.showLoading = this.$showLoading;
     this.showAlert = this.$showAlert;
    
-    await this.taskhubStore.loadInitBanner(this.showLoading);
+    // await this.taskhubStore.loadInitBanner(this.showLoading);
 
   },
   mounted() {
@@ -301,6 +315,55 @@ export default {
 </script>
 
 <style scoped>
+/* Modal Styling */
+.modal-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0, 0, 0, 0.5);
+  display: flex;
+  justify-content: cEnter;
+  align-items: cEnter;
+  z-index: 9999;
+}
+
+.modal {
+  background: white;
+  width: 80%;
+  max-width: 1200px;
+  border-radius: 1rem;
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+  height: 80%;
+  position: relative;
+}
+
+.modal-header {
+  background: linear-gradient(to right, #1048c2, #0b2c88, #08236b); /* from-blue-600, via-blue-700, to-blue-900 */
+  backdrop-filter: blur(12px); /* backdrop-blur-md */
+  padding: 15px;
+  display: flex;
+  justify-content: space-between;
+  align-items: cEnter;
+  color: white;
+}
+
+.modal-title {
+  margin: 0;
+  font-size: 18px;
+  font-weight: bold;
+}
+
+.modal-content {
+  padding: 20px;
+  max-height: 80%;
+  overflow-y: auto;
+  flex-grow: 1;
+}
+
 .modal-footer {
   background: #f1f1f1;
   padding: 15px;
@@ -311,4 +374,36 @@ export default {
   width: 100%;
 }
 
+.cancel-button {
+  background: #e4e4e4;
+  color: #333;
+}
+
+.confirm-button {
+  background: #0b2145;
+  color: white;
+}
+
+@media (max-width: 768px) {
+  .modal {
+    width: 100%;
+    height: 100%;
+    border-radius: 0;
+  }
+
+  .modal-header {
+    padding: 10px;
+  }
+
+  .modal-content {
+    padding: 10px;
+    max-height: none;
+  }
+
+  .modal-footer {
+    position: sticky;
+    bottom: 0;
+    padding: 10px;
+  }
+}
 </style>
