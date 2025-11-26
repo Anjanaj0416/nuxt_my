@@ -251,49 +251,6 @@ export default {
     return {
       isaAssig: false,
       expandedRow: null, 
-      listKpi: [
-        {
-          id: "wf001",
-          job: "Store Create and Banner",
-          assignDate: "2025.09.12",
-          completedDate: "2025.09.15",
-          kpiAssignTo: "Sandari",
-          reportedBy: "Mr.Ruwan",
-          status: "Pending",
-          noofDaysPending: 3,
-          contactPhoneNo: "077-1234567",
-          isActive: true,
-          details: {
-              store: {
-                name: "Main Colombo Store",
-                location: "Colombo 03",
-                contactNumber: "0712548741",
-                contactPersonNumber: "0712548742",
-                web: "https://nsc.lk/product-category/electrical-cables/acl-electrical-cables/",
-                email: "abc@gmail.com"
-              },
-              banners: {
-                categoryName: "electrical",
-                web: "https://nsc.lk/product-category/electrical-cables/acl-electrical-cables/",
-              }
-          }
-        },
-
-        {
-            id: "wf002",
-            job: "Store Create ",
-            assignDate: "2025.09.12",
-            completedDate: "2025.09.15",
-            kpiAssignTo: "Panchali",
-            companyName: "Nimal Pvt",
-            reportedBy: "Mr.Ruwan",
-            noofDaysPending: 5,
-            contactPhoneNo: "071-7654321",
-            createdDate: "2025-09-11",
-            status: "Completed",
-            isActive: false,
-        },
-      ],
     };
   },
 
@@ -304,7 +261,7 @@ export default {
     this.showLoading = this.$showLoading;
 
     await this.taskhubStore.TaskDetailsList(
-      { taskType: "DtlBannerMgt", searchValue: this.searchValue, searchBy: this.searchBy },
+      { taskType: "DtlBannerMgt", searchValue: "5CD7F771-139D-4044-708C-08DE2A3D770B", searchBy: "101" },
       this.showLoading
     );
 
@@ -330,7 +287,7 @@ export default {
       }
       console.log("keyword, searchBy", searchVal, this.searchBy);
       await this.taskhubStore.TaskDetailsList(
-        { taskType: "DtlBannerMgt", searchValue: this.keyword, searchBy: this.searchBy },
+        { taskType: "DtlBannerMgt", searchValue: "5CD7F771-139D-4044-708C-08DE2A3D770B", searchBy: "101" },
         this.showLoading
       );
 

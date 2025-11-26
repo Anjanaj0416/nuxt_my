@@ -39,6 +39,20 @@
         />
       </div>
     </div>
+
+    <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+      <div>
+        <label class="block text-sm font-medium text-gray-600 mb-1">Category Path</label>
+        <input
+          v-model="CategoryPath"
+          type="text"
+          placeholder="Enter Category Path"
+          class="w-full p-2 border rounded-md text-sm focus:ring-2 focus:ring-blue-400"
+        />
+
+        <p class="mt-2 text-sm">Ex : AB/CD/EF ....</p>
+      </div>
+    </div>
     
     <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
       <div>
@@ -54,26 +68,16 @@
         </p>
       </div>
       <div>
-        <label class="block text-sm font-medium text-gray-600 mb-1">Category Name</label>
-        <input
-          v-model="newCategoryName"
-          @input="clearErrorOnInput('newCategoryName')"
-          type="text"
-          placeholder="Enter Category Name"
-          class="w-full p-2 border rounded-md text-sm focus:ring-2 focus:ring-blue-400"
-        />
-      </div>
-      <div>
         <label class="block text-sm font-medium text-gray-600 mb-1">Number Of Product</label>
         <input
-          v-model="productAmount"
-          @input="clearErrorOnInput('productAmount')"
+          v-model="NoOfProducts"
+          @input="clearErrorOnInput('NoOfProducts')"
           type="text"
           placeholder="Enter Number Of Product"
           class="w-full p-2 border rounded-md text-sm focus:ring-2 focus:ring-blue-400"
         />
       </div>
-      <div>
+      <!-- <div>
         <label class="block text-sm font-medium text-gray-600 mb-1">Amount</label>
         <input
           v-model="amount"
@@ -85,7 +89,7 @@
         <p v-if="err.amount" class="mt-2 text-sm text-red-600">
           {{ err.amount }}
         </p>
-      </div>
+      </div> -->
       <div>
         <label class="block text-sm font-medium text-gray-600 mb-1">KPI Days</label>
         <input
@@ -221,6 +225,7 @@ export default {
       selectedDtp: null,
       IsDTPManulaSelected : false,
       listMaterialFiles: {},
+      CategoryPath: "",
       err: {
         expDate: '',
         sortOrder: '',
@@ -229,6 +234,7 @@ export default {
         kpiDays: '',
         dtpId : '',
         listMaterialFiles: '',
+        CategoryPath: "",
       },
     };
   },
@@ -286,51 +292,72 @@ export default {
     },
 
     async GetSelectMainCategory(item) {
-      console.log("Selected Main Category ID:", item.id);
-      this.mainCategoryId = item.id; 
+      this.mainCategoryId = item.id;
+      this.mainCategoryValue = item.value;
 
       this.subCategoryID = "00000000-0000-0000-0000-000000000000";
+      this.subCategoryValue = "";
       this.subSubCategoryID = "00000000-0000-0000-0000-000000000000";
+      this.subSubCategoryValue = "";
       this.subSubSubCategoryID = "00000000-0000-0000-0000-000000000000";
+      this.subSubSubCategoryValue = "";
 
       this.taskhubStore.listSubCategory = [];
       this.taskhubStore.listSubSubCategory = [];
       this.taskhubStore.listSubSubSubCategory = [];
 
       await this.taskhubStore.GetSubMainCategory(item.id, this.showLoading);
+      this.updateCategoryPath();
     },
 
     async GetSelectSubCategory(item) {
-      console.log("Selected Sub Category ID:", item.id);
       this.subCategoryID = item.id;
+      this.subCategoryValue = item.value;
 
       this.subSubCategoryID = "00000000-0000-0000-0000-000000000000";
+      this.subSubCategoryValue = "";
       this.subSubSubCategoryID = "00000000-0000-0000-0000-000000000000";
+      this.subSubSubCategoryValue = "";
 
       this.taskhubStore.listSubSubCategory = [];
       this.taskhubStore.listSubSubSubCategory = [];
 
       await this.taskhubStore.GetSubCategory(item.id, this.showLoading);
+      this.updateCategoryPath();
     },
 
     async GetSelectSubSubCategory(item) {
-      console.log("Selected SubSub Category ID:", item.id);
       this.subSubCategoryID = item.id;
+      this.subSubCategoryValue = item.value;
 
-      // Clear dependent dropdowns first
       this.subSubSubCategoryID = "00000000-0000-0000-0000-000000000000";
+      this.subSubSubCategoryValue = "";
+
       this.taskhubStore.listSubSubSubCategory = [];
 
       await this.taskhubStore.GetSubCategory(item.id, this.showLoading);
+      this.updateCategoryPath();
     },
 
     async GetSelectSubSubSubCategory(item) {
-      // console.log("Selected SubSub Category ID:", item.id);
       this.subSubSubCategoryID = item.id;
+      this.subSubSubCategoryValue = item.value;
 
       await this.taskhubStore.GetSubCategory(item.id, this.showLoading);
+      this.updateCategoryPath();
     },
 
+    updateCategoryPath() {
+      let path = [];
+
+      if (this.mainCategoryValue) path.push(this.mainCategoryValue);
+      if (this.subCategoryValue) path.push(this.subCategoryValue);
+      if (this.subSubCategoryValue) path.push(this.subSubCategoryValue);
+      if (this.subSubSubCategoryValue) path.push(this.subSubSubCategoryValue);
+
+      this.CategoryPath = path.join('/');
+
+    },
 
     formatToEndOfDayISO(dateStr) {
       if (!dateStr) return null;
@@ -349,8 +376,10 @@ export default {
             const formData = new FormData();
             formData.append("vendorId", this.vendorId);
             formData.append("expDate", this.formatToEndOfDayISO(this.expDate));
-            formData.append("sortOrder", this.sortOrder);
-            formData.append("amount", this.amount);
+            formData.append("CategoryPath", this.CategoryPath);
+
+            formData.append("NoOfProducts", this.NoOfProducts);
+            // formData.append("amount", this.amount);
             formData.append("kpiDays", this.kpiDays);
             formData.append("dtpId", dtpToSend || "");
             formData.append("IsDTPManulaSelected", this.IsDTPManulaSelected || "");
@@ -385,21 +414,16 @@ export default {
         this.err.expDate = "Please enter a expire day!";
         valid = false;
       }
-      // if (!this.amount) {
-      //   this.err.amount = "Please enter a amount!";
-      //   valid = false;
-      // }
-      if (!this.dtpId) {
-        this.err.dtpId = "Please select a dtp!";
+
+      // Manual DTP validation
+      if (this.IsDTPManulaSelected && !this.selectedDtp) {
+        this.err.dtpId = "Please select a DTP!";
         valid = false;
       }
-      // if (!this.kpiDays) {
-      //   this.err.kpiDays = "Please enter KPI days!";
-      //   valid = false;
-      // }
 
       return valid;
     },
+
 
     clearErr() {
       Object.keys(this.err).forEach((key) => {
