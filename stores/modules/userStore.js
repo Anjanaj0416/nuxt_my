@@ -75,8 +75,9 @@ export const useUserStore = defineStore('userStore', {
 
       const loadingAlert = showLoading(''); 
       try {
-
-        const response = await axios.post(`${import.meta.env.VITE_API_URL}/IAM/Login`, loginDetails);      
+        console.log(import.meta.env.VITE_API_URL)
+        const response = await axios.post(`${import.meta.env.VITE_API_URL}/IAM/Login`, loginDetails); 
+       
         loadingAlert.close();      
         
         console.log("response:",response);

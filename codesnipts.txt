@@ -13,6 +13,8 @@ git pull origin Thilini
 git pull origin Indipa
 git pull origin nuskan
 
+git fetch
+
  git merge --abort
 
 git push origin HEAD:develop
