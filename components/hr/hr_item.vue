@@ -5,6 +5,7 @@
         <div class="w-64  text-gray-600">{{ item }}</div>
         <div v-if="item = 'Feature Granting' && Array.isArray(value)">
           <div v-for="feat in value" :key="feat.id" class="w-full pl-6 font-bold text-gray-600">
+            {{ feat.value }}
           </div>
         </div>
         <div v-else class="w-full font-bold text-gray-600">{{ value }}</div>
