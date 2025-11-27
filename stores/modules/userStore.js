@@ -42,12 +42,14 @@ export const useUserStore = defineStore('userStore', {
 
     async AppLogin(formData,showLoading) { 
       console.log('FormData in AppLogin:', Object.fromEntries(formData));
+      console.log(formData);
+      
       const loadingAlert = showLoading(''); 
 
         try {
           // const secretCode = formData.get('secretCode');
           const response = await axios.post(`${import.meta.env.VITE_API_URL}/IAM/GetAppAccessToken`,formData);     
-          // console.log("response:",response);
+          console.log("response:",response);
           
           loadingAlert.close();                            
 

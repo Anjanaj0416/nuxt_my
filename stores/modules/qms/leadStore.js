@@ -41,7 +41,7 @@ actions: {
         const response = await axios.get(
           `${import.meta.env.VITE_API_URL}/qms/Leads/GetInitLeads`
         );
-console.log("COM",response);
+        console.log("COM",response);
 
         if (response.data.isSuccess) {
           this.InitLeads = response.data.data.data;
@@ -92,22 +92,23 @@ console.log("COM",response);
 
     //Add Lead
     async SetVendorLead(request, showLoading,showAlert) {
-       console.log('API-SetVendorLead');
+      console.log('API-SetVendorLead');
       console.log(JSON.stringify(request));
       try {
         const response = await axios.post(
           `${import.meta.env.VITE_API_URL}/qms/Leads/SetClientLead`,request,    
         );
-      
-        if (response.data.isSuccess) {                   
-          showAlert(response.data.message);
+        console.log('vendor:',response);
         
-         this.listLeads = response.data.data.data;
+        if (response.data.isSuccess) {                   
+          // showAlert(response.data.message);
+          this.showToast(response.data.message, "success");
+
+          this.listLeads = response.data.data.data;
           await this.GetInitLeads(showLoading);
           
         } else {
-        
-          showAlert(response.data.message, "error");
+          this.showToast(response.data.message, "error");
         }
       } catch (error) {
      

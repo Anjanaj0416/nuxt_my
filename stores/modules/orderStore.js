@@ -684,6 +684,27 @@ actions: {
       }
     },
 
+    async GetAllManuaPI(subData, showLoading) {
+      console.log(JSON.stringify(subData));
+
+      
+      try {
+        const response = await axios.get(
+          `${import.meta.env.VITE_API_URL}/qms/Order/GetIssuePINumberByCustomerRef`,
+          { params: { subData } }
+        );
+
+        if (response.data.isSuccess) {
+    
+          console.log("Work Flow:", response.data.data);
+        } else {
+          this.showToast(response.data.message, "error");
+        }
+      } catch (error) {
+        this.showToast("Failed to load WorkFLow", "error");
+      }
+    },
+
 
 
 

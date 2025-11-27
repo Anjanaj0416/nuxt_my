@@ -25,12 +25,13 @@
             <div>
                 <h1 class="text-[12px] font-semibold text-gray-600">Category Path</h1>
                 <p class="text-sm text-gray-500 mt-0.5">
-                {{ taskhubStore.taskMoreDetailsList.data.categoryPath || 'No Data' }}
+                  {{ taskhubStore.taskMoreDetailsList.data.categoryPath || 'No Data' }}
                 </p>
             </div>
 
-            <!-- Edit button with pen icon -->
+            <!-- When modal is CLOSED → show EDIT button -->
             <button 
+                v-if="!isaAssig"
                 @click="GoToAddNew" 
                 class="p-1 rounded hover:bg-gray-200 transition mt-4"
                 title="Edit Category Path"
@@ -39,11 +40,22 @@
                     class="h-4 w-4 text-gray-600" 
                     fill="none" viewBox="0 0 24 24" 
                     stroke="currentColor" stroke-width="2">
-                <path stroke-linecap="round" stroke-linejoin="round" 
+                  <path stroke-linecap="round" stroke-linejoin="round" 
                         d="M15.232 5.232l3.536 3.536M9 13l3 3L21 6l-3-3-12 12v3h3l12-12z" />
                 </svg>
             </button>
+
+            <!-- When modal is OPEN → show CLOSE button -->
+            <button 
+                v-else
+                @click="closeAddNew"
+                class="p-1 rounded hover:bg-red-200 text-red-600 transition mt-4"
+                title="Close"
+            >
+                ✕
+            </button>
           </div>
+
         </div>
 
         <createNewCategory v-if="isaAssig" @close="isaAssig = false" :taskType="taskType" :taskHubId="taskHubId" :categoryPath="categoryPath" />
@@ -92,6 +104,16 @@ export default {
     return {
       isaAssig: false,
       expandedRow: null, 
+       taskMoreDetails: {
+      dtlJobCategory: "",
+      data: {
+        clientDetails: "",
+        categoryPath: "",
+        csoName: "",
+        noOfProducts: ""
+      }
+    }
+      
     };
   },
 
@@ -153,6 +175,10 @@ export default {
     GoToAddNew() {
       this.isaAssig = true;
     },
+
+    closeAddNew() {
+      this.isaAssig = false;
+    },
     
     handleSelectedImages(files) {
         console.log('Selected Files:', files);
@@ -162,18 +188,29 @@ export default {
         mageroots.value.splice(index, 1);
     },
 
-    openFromRoute(queryId) {
-      if (!queryId) {
-        this.expandedRow = null;
-        this.filteredKpiId = null;
-        return;
-      }
-      const foundIndex = this.taskhubStore.taskMoreDetailsList.findIndex(v => v.id === queryId);
-      if (foundIndex !== -1) {
-        this.expandedRow = foundIndex;
-        this.filteredKpiId = this.taskhubStore.taskMoreDetailsList[foundIndex].id;
-      }
-    },
+openFromRoute(queryId) {
+  if (!queryId) {
+    this.expandedRow = null;
+    this.filteredKpiId = null;
+    return;
+  }
+
+  // taskMoreDetailsList must be an array to use findIndex
+  const list = this.taskhubStore.taskMoreDetailsList;
+
+  if (!Array.isArray(list)) {
+    console.warn("taskMoreDetailsList is not an array", list);
+    return;   // Prevents crash
+  }
+
+  const foundIndex = list.findIndex(v => v.id === queryId);
+
+  if (foundIndex !== -1) {
+    this.expandedRow = foundIndex;
+    this.filteredKpiId = list[foundIndex].id;
+  }
+},
+
 
     toggleKpiView(id, index) {
       if (this.expandedRow === index) {

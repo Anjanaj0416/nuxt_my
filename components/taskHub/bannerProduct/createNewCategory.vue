@@ -1,6 +1,6 @@
 <template>
   <div class=" mt-6 space-y-4">
-      <h2 class="text-lg font-semibold text-gray-700 border-b pb-2 mb-4">Create New Category</h2>
+      <!-- <h2 class="text-lg font-semibold text-gray-700 border-b pb-2 mb-4">Create New Category</h2> -->
     <div class="grid grid-cols-1 gap-4 my-4 sm:grid-cols-1 md:grid-cols-4 lg:grid-cols-4">
       <div>
         <label class="block text-sm font-medium text-gray-600">Main Category</label>

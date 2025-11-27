@@ -20,79 +20,82 @@
             
             </p>
         </div>
-        <div class="grid grid-cols-2 gap-4 mt-12 mb-4 sm:grid-cols-2 md:grid-cols-2">
-          <div>
-            <label class="block mb-1 text-sm font-medium text-gray-500">Company Name</label>
-            <input type="text" v-model="curLead.companyName" placeholder="Enter company name" required
-              class="w-full px-4 py-2 text-sm border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-300" />
-            <p v-if="err.companyName" class="mt-2 text-sm text-red-600">
-              {{ err.companyName }}
+        <div class="grid grid-cols-1 gap-4 my-4 sm:grid-cols-1 md:grid-cols-2 lg:grid-cols-2">
+          <div class="">
+            <label class="block text-[13px] font-bold text-gray-600">
+              Company Name
+            </label>
+            <input type="text" v-model="curLead.CompanyName" placeholder="Enter Company Name" required @input="clearErrorOnInput('CompanyName')"
+              class="w-full p-2 mt-1 text-sm border rounded-md focus:ring-indigo-500 focus:border-indigo-500" />
+            <p v-if="err.CompanyName" class="mt-1 text-sm text-red-600">
+              {{ err.CompanyName }}
             </p>
           </div>
-
-          <div>
-            <label class="block mb-1 text-sm font-medium text-gray-500">Address</label>
-            <div class="relative">
-              <input type="text" v-model="curLead.address" placeholder="Enter address" required
-                class="w-full px-4 py-2 pr-10 text-sm border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-300" />
-              <p v-if="err.Address" class="mt-2 text-sm text-red-600">
-                {{ err.Address }}
-              </p>
+          <div class="">
+            <label class="block text-[13px] font-bold text-gray-600">
+              District 
+            </label>
+            <div class="relative w-full">
+              <serachInput
+                v-if="leadStore.InitLeads && leadStore.InitLeads.listDistricts"
+                :arr-items="leadStore.InitLeads.listDistricts"
+                v-model="curLead.District"
+                @selectItem="onDistrictSelect"
+              />
             </div>
           </div>
-          <div>
-            <label class="block mb-1 text-sm font-medium text-gray-500">Contact Number</label>
-            <div class="relative">
-              <div class="flex items-center w-full max-w-md border border-gray-300 rounded-lg overflow-hidden">
-                <!-- Country Code Dropdown with Flag -->
-                <div class="flex items-center bg-gray-100 px-2">
-                  <select v-model="selectedCountryCode" class="bg-gray-100 text-sm focus:outline-none pr-2 pl-1 py-2">
-                    <option v-for="country in countries" :key="country.code" :value="country.code">
-                      {{ country.code }} - {{ country.name }}
-                    </option>
-                  </select>
-                  <!-- Flag Image -->
-                  <img :src="selectedFlagUrl" alt="flag" class="w-6 h-4 ml-1" />
-                </div>
-
-                <!-- Phone Number Input -->
-                <input type="text" placeholder="Enter phone number" v-model="curLead.CompanyPhoneNumber"
-                  :maxlength="phoneMaxLength" class="flex-1 px-4 py-2 text-sm focus:outline-none" />
-              </div>
-              <p v-if="err.CompanyPhoneNumber" class="mt-2 text-sm text-red-600">
-                {{ err.CompanyPhoneNumber }}
-              </p>
-            </div>
+          <div class="">
+            <label class="block text-[13px] font-bold text-gray-600">
+              Contact Number
+            </label>
+            <input type="tel" v-model="curLead.CompanyPhone" placeholder="Enter Company Contact Number" maxlength="10" @input="clearErrorOnInput('CompanyPhone')"
+              class="w-full p-2 mt-2 text-[13px] border rounded-md focus:ring-indigo-500 focus:border-indigo-500" />
+            <p v-if="err.CompanyPhone" class="mt-1 text-sm text-red-600">
+              {{ err.CompanyPhone }}
+            </p>
           </div>
-          <div>
-            <label class="block mb-1 text-sm font-medium text-gray-500">Contact Person Number</label>
-
-            <div class="relative">
-              <div class="flex items-center w-full max-w-md border border-gray-300 rounded-lg overflow-hidden">
-                <!-- Country Code Dropdown with Flag -->
-                <div class="flex items-center bg-gray-100 px-2">
-                  <select v-model="selectedCountryCodeContactPerson"
-                    class="bg-gray-100 text-sm focus:outline-none pr-2 pl-1 py-2">
-                    <option v-for="country in countries" :key="country.code" :value="country.code">
-                      {{ country.code }} - {{ country.name }}
-                    </option>
-                  </select>
-                  <!-- Flag Image -->
-                  <img :src="selectedFlagUrlContactPerson" alt="flag" class="w-6 h-4 ml-1" />
-                </div>
-
-                <!-- Phone Number Input -->
-                <input type="text" placeholder="Enter phone number" v-model="curLead.contactPhoneNo"
-                  :maxlength="contactMaxLength" class="flex-1 px-4 py-2 text-sm focus:outline-none" />
-              </div>
-              <p v-if="err.contactPhoneNo" class="mt-2 text-sm text-red-600">
-                {{ err.contactPhoneNo }}
-              </p>
-            </div>
+          <div class="">
+            <label class="block text-[13px] font-bold text-gray-600">
+              Email
+            </label>
+            <input type="tel" v-model="curLead.ContactPerson1Email" placeholder="Enter WhatsApp Number" maxlength="10" @input="clearErrorOnInput('ContactPerson1Email')"
+              class="w-full p-2 mt-2 text-[13px] border rounded-md focus:ring-indigo-500 focus:border-indigo-500" />
           </div>
         </div>
+          <div class="grid grid-cols-1 gap-4  sm:grid-cols-1 md:grid-cols-2 lg:grid-cols-2">
+            <div class="">
+              <label class="block text-[13px] font-bold text-gray-600">Contact Person Name </label>
+              <input type="text" v-model="curLead.ContactPerson1Name" placeholder="Enter Name" @input="clearErrorOnInput('ContactPerson1Number')"
+                required
+                class="w-full p-2 mt-2 text-sm border rounded-md focus:ring-indigo-500 focus:border-indigo-500" />
+              <p v-if="err.ContactPerson1Name" class="mt-1 text-sm text-red-600">
+                {{ err.ContactPerson1Name }}
+              </p>
+            </div>
+            <div class="">
+              <label class="block text-[13px] font-bold text-gray-600">ContactPerson Designation</label>
+              <input type="text" v-model="curLead.ContactPerson1Designation" placeholder="Enter Designation" 
+                required
+                class="w-full p-2 mt-2 text-sm border rounded-md focus:ring-indigo-500 focus:border-indigo-500" />
+              <p v-if="err.ContactPerson1Designation" class="mt-1 text-sm text-red-600">
+                {{ err.ContactPerson1Designation }}
+              </p>
+            </div>
+            <div class="">
+              <label class="block text-[13px] font-bold text-gray-600">
+                WhatsApp Number <span class="text-red-500">*</span>
+              </label>
+              <input type="tel" v-model="curLead.ContactPerson1WhatsAppNo" placeholder="Enter WhatsApp Number" maxlength="10" @input="clearErrorOnInput('ContactPerson1WhatsAppNo')"
+                class="w-full p-2 mt-2 text-[13px] border rounded-md focus:ring-indigo-500 focus:border-indigo-500" />
+              <p v-if="err.ContactPerson1WhatsAppNo" class="mt-1 text-sm text-red-600">
+                {{ err.ContactPerson1WhatsAppNo }}
+              </p>
+            </div>
+          </div>
 
-        <button type="submit" class="w-full py-2 text-white transition bg-purple-700 rounded-xl hover:bg-purple-800"
+     
+
+        <button type="submit" class="w-full mt-4 py-2 text-white transition bg-purple-700 rounded-xl hover:bg-purple-800"
           @click="SetVendorLead()">
           Submit
         </button>
@@ -105,60 +108,55 @@
 <script>
 import { useLeadStore } from "~/stores/modules/qms/leadStore";
 import { useUserStore } from '~/stores/modules/userStore';
+import serachInput from "~/components/customcontrol/SearchInput2";
+
+
 
 definePageMeta({
   layout: 'contactus',
 });
 
 export default {
+  components: { serachInput},
+
   data() {
     return {
-      selectedCountryCode: '+94',
-      selectedFlagUrl: 'https://flagcdn.com/w40/lk.png',
-      selectedCountryCodeContactPerson: '+94',
-      selectedFlagUrlContactPerson: 'https://flagcdn.com/w40/lk.png',
       isDropdownOpen: false,
-      curLead: {
-        companyName: "",
-        address: "",
-        CompanyPhoneNumber: "",
-        contactPhoneNo: "",
-        medium: '',
+       curLead: {
+        id: "00000000-0000-0000-0000-000000000000",
+        CompanyName: "",
+        Address: "",
+        CompanyPhone: "",
+        District:"",
+        CompanyWhatsAppNo: "",
+        ContactPerson1Name: "",
+        ContactPerson1Designation: "",
+        ContactPerson1Number: "",
+        ContactPerson1Email: "",
+        ContactPerson1WhatsAppNo: "",
+        ContactPerson2Name: "",
+        ContactPerson2Designation: "",
+        ContactPerson2Number: "",
+        ContactPerson2Email: "",
+        contactPerson2WhatsAppNo: "",
       },
       err: {
-        companyName: "",
+        CompanyName: "",
         Address: "",
-        CompanyPhoneNumber: "",
-        ContactPhoneNo: "",
+        CompanyPhone: "",
+        District:"",
+        CompanyWhatsAppNo: "",
+        ContactPerson1Name: "",
+        ContactPerson1Designation: "",
+        ContactPerson1Number: "",
+        ContactPerson1Email: "",
+        ContactPerson1WhatsAppNo: "",
+        ContactPerson2Name: "",
+        ContactPerson2Designation: "",
+        ContactPerson2Number: "",
+        ContactPerson2Email: "",
+        contactPerson2WhatsAppNo: "",
       },
-      countries: [
-        { name: 'USA', code: '+1', flagUrl: 'https://flagcdn.com/w40/us.png' },
-        { name: 'UK', code: '+44', flagUrl: 'https://flagcdn.com/w40/gb.png' },
-        { name: 'Canada', code: '+1', flagUrl: 'https://flagcdn.com/w40/ca.png' },
-        { name: 'Italy', code: '+39', flagUrl: 'https://flagcdn.com/w40/it.png' },
-        { name: 'Australia', code: '+61', flagUrl: 'https://flagcdn.com/w40/au.png' },
-        { name: 'Sri Lanka', code: '+94', flagUrl: 'https://flagcdn.com/w40/lk.png', maxlength: '9' },
-        { name: 'India', code: '+91', flagUrl: 'https://flagcdn.com/w40/in.png' },
-        { name: 'Pakistan', code: '+92', flagUrl: 'https://flagcdn.com/w40/pk.png' },
-        { name: 'Bangladesh', code: '+880', flagUrl: 'https://flagcdn.com/w40/bd.png' },
-        { name: 'Nepal', code: '+977', flagUrl: 'https://flagcdn.com/w40/np.png' },
-        { name: 'Maldives', code: '+960', flagUrl: 'https://flagcdn.com/w40/mv.png' },
-        { name: 'Afghanistan', code: '+93', flagUrl: 'https://flagcdn.com/w40/af.png' },
-        { name: 'Bhutan', code: '+975', flagUrl: 'https://flagcdn.com/w40/bt.png' },
-        { name: 'Thailand', code: '+66', flagUrl: 'https://flagcdn.com/w40/th.png' },
-        { name: 'Malaysia', code: '+60', flagUrl: 'https://flagcdn.com/w40/my.png' },
-        { name: 'Singapore', code: '+65', flagUrl: 'https://flagcdn.com/w40/sg.png' },
-        { name: 'Indonesia', code: '+62', flagUrl: 'https://flagcdn.com/w40/id.png' },
-        { name: 'Vietnam', code: '+84', flagUrl: 'https://flagcdn.com/w40/vn.png' },
-        { name: 'Philippines', code: '+63', flagUrl: 'https://flagcdn.com/w40/ph.png' },
-        { name: 'China', code: '+86', flagUrl: 'https://flagcdn.com/w40/cn.png' },
-        { name: 'Japan', code: '+81', flagUrl: 'https://flagcdn.com/w40/jp.png' },
-        { name: 'South Korea', code: '+82', flagUrl: 'https://flagcdn.com/w40/kr.png' },
-        { name: 'North Korea', code: '+850', flagUrl: 'https://flagcdn.com/w40/kp.png' },
-        { name: 'Myanmar (Burma)', code: '+95', flagUrl: 'https://flagcdn.com/w40/mm.png' },
-        { name: 'Cambodia', code: '+855', flagUrl: 'https://flagcdn.com/w40/kh.png' },
-        { name: 'Laos', code: '+856', flagUrl: 'https://flagcdn.com/w40/la.png' }
-      ],
       showLoading: null,
       showAlert: null,
     };
@@ -180,9 +178,10 @@ export default {
       formData.append('secretCode', secretCode);
 
       await userStore.AppLogin(formData, this.showLoading);
+      await this.leadStore.GetInitLeads(this.showLoading);  
 
-      //const encode = btoa('facebook'); //console.log(encode) // "SGVsbG8gV29ybGQ="        
-      //const decode = atob(encode); console.log(decode); // "Hello World"
+      // const encode = btoa('facebook'); //console.log(encode) // "SGVsbG8gV29ybGQ="        
+      // const decode = atob(encode); console.log(decode); // "Hello World"
 
       // linkedin - p=bGlua2VkaW4=
       // facebook  - p=ZmFjZWJvb2s=
@@ -190,74 +189,93 @@ export default {
       // WhatsApp - p=d2hhdHNhcHA=
       // TikTok - p=dGlrdG9r
 
+      // <a href="https://dtl.lk/VendorRegistration?p=ZmFjZWJvb2s=">Register via Facebook</a>
+      // <a href="https://dtl.lk/VendorRegistration?p=bGlua2VkaW4=">Register via LinkedIn</a>
+      // <a href="https://dtl.lk/VendorRegistration?p=aW5zdGFncmFt">Register via Instagram</a>
+      // <a href="https://dtl.lk/VendorRegistration?p=d2hhdHNhcHA=">Register via WhatsApp</a>
+      // <a href="https://dtl.lk/VendorRegistration?p=dGlrdG9r">Register via TikTok</a>
+
+      // https://dtl.lk/VendorRegistration?p=ZmFjZWJvb2s=
+      // https://dtl.lk/VendorRegistration?p=bGlua2VkaW4=
+      // https://dtl.lk/VendorRegistration?p=aW5zdGFncmFt
+      // https://dtl.lk/VendorRegistration?p=d2hhdHNhcHA=
+      // https://dtl.lk/VendorRegistration?p=dGlrdG9r
+
+
+
       const route = useRoute();
       let val = route.query.p;
 
-        if (val !== undefined) {
-          this.curLead.medium = atob(val);
-          // console.log("Decoded medium:", this.curLead.medium);
+        if (val) {
+          try {
+            this.curLead.medium = atob(val);
+            console.log("Detected medium:", this.curLead.medium);
+          } catch (e) {
+            console.warn("Invalid medium encoding");
+            this.curLead.medium = "Other";
+          }
+        } else {
+          this.curLead.medium = "Other";
         }
-          
-        } catch (error) {
-          console.error("error:", error);
-        }
-      },
+
+              
+      } catch (error) {
+        console.error("error:", error);
+      }
+  },
 
   watch: {},
-  computed: {
-    selectedFlagUrl() {
-      const country = this.countries.find(c => c.code === this.selectedCountryCode);
-      return country ? country.flagUrl : '';
-    },
-
-    selectedFlagUrlContactPerson() {
-      const country = this.countries.find(c => c.code === this.selectedCountryCodeContactPerson);
-      return country ? country.flagUrl : '';
-    },
-
-    phoneMaxLength() {
-      const country = this.countries.find(c => c.code === this.selectedCountryCode);
-      return country?.maxlength ? parseInt(country.maxlength) : 50;
-    },
-    contactMaxLength() {
-      const country = this.countries.find(c => c.code === this.selectedCountryCodeContactPerson);
-      return country?.maxlength ? parseInt(country.maxlength) : 50;
-    }
-  },
+  computed: {},
   methods: {
-    SetVendorLead() {
-      if (this.IsValidate()) {
+    onDistrictSelect(districtName) {
+      this.curLead.District = districtName;
+    },
 
-        const selectedCountry = this.countries.find(c => c.code === this.selectedCountryCode);
-        const countryCode = selectedCountry ? selectedCountry.code : '';
+    async SetVendorLead() {
 
-        const selectedCountryContactPerson = this.countries.find(c => c.code === this.selectedCountryCodeContactPerson);
-        const countryCodeContactPerson = selectedCountryContactPerson ? selectedCountryContactPerson.code : '';
+      if (!this.IsValidate()) return;
 
-        const list = {
-          CompanyName: this.curLead.companyName,
-          Address: this.curLead.address,
-          CompanyPhone: countryCode + this.curLead.CompanyPhoneNumber,
-          ContactPhoneNo: countryCodeContactPerson + this.curLead.contactPhoneNo,
-          Medium: this.curLead.medium || "Other",
-        };
+      this.$showConfirmb2b(
+        "Do you check all your information before submitting?",
+        "warning"
+      ).then(async (result) => {
 
-        this.$showConfirm(
-          "Are you sure to Save this Lead?",
-          "warning"
-        ).then(async (result) => {
-          if (result.isConfirmed) {
-            console.log("list:", list);
-            await this.leadStore.SetVendorLead(list, this.showLoading, this.showAlert);
-            this.curLead = {};
-          } else {
-            console.log("Action canceled");
-          }
-          // this.leadStore.clearCurLead();
+        if (result.isConfirmed) {
+
+          const payload = {
+            id: "00000000-0000-0000-0000-000000000000",
+            companyName: this.curLead.CompanyName || "",
+            address: this.curLead.Address || "",
+            companyPhone: this.curLead.CompanyPhone || "",
+            contactPhoneNo: this.curLead.ContactPhoneNo || "",
+            companyWhatsAppNo: this.curLead.companyWhatsAppNo || "",
+
+            contactPerson1Name: this.curLead.ContactPerson1Name || "",
+            contactPerson1Designation: this.curLead.ContactPerson1Designation || "",
+            contactPerson1Number: this.curLead.ContactPerson1Number || "",
+            contactPerson1WhatsAppNo: this.curLead.ContactPerson1WhatsAppNo || "",
+            contactPerson1Email: this.curLead.ContactPerson1Email || "",
+
+            contactPerson2Name: this.curLead.ContactPerson2Name || "",
+            contactPerson2Designation: this.curLead.ContactPerson2Designation || "",
+            contactPerson2Number: this.curLead.ContactPerson2Number || "",
+            contactPerson2WhatsAppNo: this.curLead.ContactPerson2WhatsAppNo || "",
+            contactPerson2Email: this.curLead.ContactPerson2Email || "",
+
+            District: this.curLead.District,
+            medium: this.curLead.medium || "Other",
+          };
+
+          // console.log("Vendor Lead Payload:", JSON.stringify(payload, null, 2));
+          await this.leadStore.SetVendorLead(payload, this.showLoading);
+          this.curLead = {};
           this.resetForm();
           this.clearErr();
-        });
-      }
+
+        } else {
+          console.log("Action canceled");
+        }
+      });
     },
 
     clearErr() {
@@ -268,39 +286,59 @@ export default {
 
     IsValidate() {
       this.clearErr();
-      let isValid = true;
 
-      // Dynamically generate regex based on maxlength
-      const mobileRegex = new RegExp(`^[0-9]{${this.phoneMaxLength}}$`);
-      const contactRegex = new RegExp(`^[0-9]{${this.contactMaxLength}}$`);
+      let IsValidate = true;
 
-      if (!this.curLead.companyName) {
-        this.err.companyName = "Please enter the company name!";
-        isValid = false;
+      // if (!this.curLead.CompanyEmail) {
+      //   this.err.CompanyEmail = "Please Enter an Email!";
+      //   IsValidate = false;
+      // } else {
+      //   const EmailRegex = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
+      //   if (!EmailRegex.test(this.curLead.CompanyEmail)) {
+      //     this.err.CompanyEmail = "Please Enter a valid Email address!";
+      //     IsValidate = false;
+      //   }
+      // }
+
+      if (!this.curLead.CompanyName) {
+        this.err.CompanyName = "Please Enter Company Name!";
+        IsValidate = false;
       }
 
-      if (!this.curLead.address) {
-        this.err.Address = "Please enter the address!";
-        isValid = false;
+      if (!this.curLead.CompanyPhone) {
+        this.err.CompanyPhone = "Please Enter Company Phone!";
+        IsValidate = false;
       }
 
-      if (!this.curLead.CompanyPhoneNumber) {
-        this.err.CompanyPhoneNumber = "Please enter the company contact number!";
-        isValid = false;
-      } else if (!mobileRegex.test(this.curLead.CompanyPhoneNumber)) {
-        this.err.CompanyPhoneNumber = `Please enter a valid ${this.phoneMaxLength}-digit contact number!`;
-        isValid = false;
+      if (!this.curLead.ContactPerson1Name) {
+        this.err.ContactPerson1Name = "Please Enter Contact Person Name!";
+        IsValidate = false;
       }
 
-      if (!this.curLead.contactPhoneNo) {
-        this.err.contactPhoneNo = "Please enter the contact person number!";
-        isValid = false;
-      } else if (!contactRegex.test(this.curLead.contactPhoneNo)) {
-        this.err.contactPhoneNo = `Please enter a valid ${this.contactMaxLength}-digit mobile number!`;
-        isValid = false;
+      if (!this.curLead.ContactPerson1Designation) {
+        this.err.ContactPerson1Designation = "Please Enter Contact Person Designation!";
+        IsValidate = false;
       }
 
-      return isValid;
+      if (!this.curLead.ContactPerson1WhatsAppNo) {
+        this.err.ContactPerson1WhatsAppNo = "Please Enter Company Whats App Number!";
+        IsValidate = false;
+      } else {
+        const contactNoRegex1 = /^[0-9]{10}$/;
+        if (!contactNoRegex1.test(this.curLead.ContactPerson1WhatsAppNo)) {
+          this.err.ContactPerson1WhatsAppNo = "Please Enter a valid 10-digit Contact Person Number!";
+          IsValidate = false;
+        }
+      }
+
+      return IsValidate;
+    },
+
+    
+    clearErrorOnInput(field) {
+      if (this.err[field]) {
+        this.err[field] = "";
+      }
     },
 
     resetForm() {
