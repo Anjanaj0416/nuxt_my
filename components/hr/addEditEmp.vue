@@ -152,7 +152,7 @@
               </p>
             </div>
             <div class="">
-              <label class="block text-sm font-bold text-gray-600">Staff Type</label>
+              <label class="block text-sm font-bold text-gray-600">Staff Type<span class="text-red-500">*</span></label>
               <serach_Input :arrItems="employeeStore.initEmployee.arrStaffTypes" ref="refStaffType" label=""
                 @selectItem="GetSelectStaffType" />
 
@@ -314,7 +314,7 @@
           </div> -->
 
           <div class="grid grid-cols-2 gap-4 mt-4 sm:grid-cols-1 md:grid-cols-2">
-            <div class="">
+            <!-- <div class="">
               <label class="block text-sm font-bold text-gray-600">
                 NIC Number <span class="text-red-500">*</span>
               </label>
@@ -323,7 +323,7 @@
               <p v-if="err.nic" class="mt-2 text-sm text-red-600">
                 {{ err.nic }}
               </p>
-            </div>
+            </div> -->
             <!-- <div class="">
               <label class="block text-sm font-bold mb-2 text-gray-600">NIC image Upload</label>
               <imagepicker1 :existingImagePath="imageroot + employeeStore.empdetails.nicUrl"
@@ -335,7 +335,7 @@
             </div> -->
             <div class="">
 
-              <label class="block text-sm font-bold text-gray-600">Granted</label>
+              <label class="block text-sm font-bold text-gray-600">Granted<span class="text-red-500">*</span></label>
               <inputtags_search class="" :arrItems="employeeStore.initEmployee.arrRoles"
                 :arrSelectedItems="employeeStore.empdetails.granted" ref="refGrant" />
 
@@ -645,8 +645,8 @@ export default {
               //   console.log(`${key}: ${value}`);
               // }
 
-              await this.employeeStore.AddEdiEmployee(formData, this.showLoading);
-              await this.closeModal();
+              await this.employeeStore.AddEditEmployee(formData, this.showLoading);
+              // await this.closeModal();
             }
           });
       }
