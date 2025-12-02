@@ -44,7 +44,7 @@
               />
             </div>
           </div>
-          <div class="">
+          <!-- <div class="">
             <label class="block text-[13px] font-bold text-gray-600">
               Contact Number
             </label>
@@ -60,12 +60,12 @@
             </label>
             <input type="tel" v-model="curLead.ContactPerson1Email" placeholder="Enter WhatsApp Number" maxlength="10" @input="clearErrorOnInput('ContactPerson1Email')"
               class="w-full p-2 mt-2 text-[13px] border rounded-md focus:ring-indigo-500 focus:border-indigo-500" />
-          </div>
+          </div> -->
         </div>
           <div class="grid grid-cols-1 gap-4  sm:grid-cols-1 md:grid-cols-2 lg:grid-cols-2">
             <div class="">
               <label class="block text-[13px] font-bold text-gray-600">Contact Person Name </label>
-              <input type="text" v-model="curLead.ContactPerson1Name" placeholder="Enter Name" @input="clearErrorOnInput('ContactPerson1Number')"
+              <input type="text" v-model="curLead.ContactPerson1Name"  placeholder="Enter Name" @input="clearErrorOnInput('ContactPerson1Name')"
                 required
                 class="w-full p-2 mt-2 text-sm border rounded-md focus:ring-indigo-500 focus:border-indigo-500" />
               <p v-if="err.ContactPerson1Name" class="mt-1 text-sm text-red-600">
@@ -73,8 +73,8 @@
               </p>
             </div>
             <div class="">
-              <label class="block text-[13px] font-bold text-gray-600">ContactPerson Designation</label>
-              <input type="text" v-model="curLead.ContactPerson1Designation" placeholder="Enter Designation" 
+              <label class="block text-[13px] font-bold text-gray-600">Contact Person Designation</label>
+              <input type="text" v-model="curLead.ContactPerson1Designation" placeholder="Enter Designation" @input="clearErrorOnInput('ContactPerson1Designation')"
                 required
                 class="w-full p-2 mt-2 text-sm border rounded-md focus:ring-indigo-500 focus:border-indigo-500" />
               <p v-if="err.ContactPerson1Designation" class="mt-1 text-sm text-red-600">
@@ -83,7 +83,7 @@
             </div>
             <div class="">
               <label class="block text-[13px] font-bold text-gray-600">
-                WhatsApp Number <span class="text-red-500">*</span>
+                Contact Person WhatsApp Number <span class="text-red-500">*</span>
               </label>
               <input type="tel" v-model="curLead.ContactPerson1WhatsAppNo" placeholder="Enter WhatsApp Number" maxlength="10" @input="clearErrorOnInput('ContactPerson1WhatsAppNo')"
                 class="w-full p-2 mt-2 text-[13px] border rounded-md focus:ring-indigo-500 focus:border-indigo-500" />
@@ -249,6 +249,7 @@ export default {
             companyPhone: this.curLead.CompanyPhone || "",
             contactPhoneNo: this.curLead.ContactPhoneNo || "",
             companyWhatsAppNo: this.curLead.companyWhatsAppNo || "",
+            contactPhoneNo: "",
 
             contactPerson1Name: this.curLead.ContactPerson1Name || "",
             contactPerson1Designation: this.curLead.ContactPerson1Designation || "",
@@ -305,10 +306,10 @@ export default {
         IsValidate = false;
       }
 
-      if (!this.curLead.CompanyPhone) {
-        this.err.CompanyPhone = "Please Enter Company Phone!";
-        IsValidate = false;
-      }
+      // if (!this.curLead.CompanyPhone) {
+      //   this.err.CompanyPhone = "Please Enter Company Phone!";
+      //   IsValidate = false;
+      // }
 
       if (!this.curLead.ContactPerson1Name) {
         this.err.ContactPerson1Name = "Please Enter Contact Person Name!";

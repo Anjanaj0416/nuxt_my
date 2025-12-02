@@ -684,24 +684,23 @@ actions: {
       }
     },
 
-    async GetAllManuaPI(subData, showLoading) {
-      console.log(JSON.stringify(subData));
+    async GetAllManuaPI(subData,showLoading) {
+      // console.log('API-GetCommissioGetIssuePINumberByCustomerRefnRates')
+      const loadingAlert = showLoading("");
 
-      
       try {
         const response = await axios.get(
-          `${import.meta.env.VITE_API_URL}/qms/Order/GetIssuePINumberByCustomerRef`,
-          { params: { subData } }
+          `${import.meta.env.VITE_API_URL}/qms/Order/GetIssuePINumberByCustomerRef?customerRef=${subData.customerRef}&PINo=${subData.PINo}`,
         );
-
+        console.log("EE,:",response);
+        loadingAlert.close();
         if (response.data.isSuccess) {
-    
-          console.log("Work Flow:", response.data.data);
+          this.showToast(response.data.message, "success");
         } else {
           this.showToast(response.data.message, "error");
         }
       } catch (error) {
-        this.showToast("Failed to load WorkFLow", "error");
+        this.showToast("Error while Installment Details", "error");
       }
     },
 

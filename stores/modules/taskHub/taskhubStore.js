@@ -14,6 +14,7 @@ export const useTaskhubStore = defineStore("taskhubStore", {
         InitNext: [],
         demoProductMaterialList: [],
         taskMoreDetailsList: [],
+        workFlowDetailsList: [],
 
     }),
     persist: true,
@@ -410,6 +411,28 @@ export const useTaskhubStore = defineStore("taskhubStore", {
                 loadingAlert.close();
                 if (response.data.isSuccess) {
                     this.showToast(response.data.message, "success");
+                } else {
+                    this.showToast(response.data.message, "error");
+                }
+            } catch (error) {
+                this.showToast(error.message || "Something went wrong!", "error");
+                loadingAlert.close();
+            }
+        },
+
+        async WorkFlowDetails(taskHubId, showLoading) {     
+            console.log('API-GetWorkFlowDetails',taskHubId);
+
+            const loadingAlert = showLoading("");
+            try {
+                const response = await axios.get(
+                    `${import.meta.env.VITE_API_URL}/TaskHub/Task/GetWorkFlowDetails?taskHubId=${taskHubId}`,
+                );
+                console.log(response);
+                loadingAlert.close();
+                if (response.data.isSuccess) {
+                    this.showToast(response.data.message, "success");
+                    this.workFlowDetailsList = response.data.data.data
                 } else {
                     this.showToast(response.data.message, "error");
                 }

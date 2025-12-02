@@ -1,94 +1,107 @@
 <template>
-    <section>
-        <div class="grid grid-cols-1 sm:grid-cols-4 gap-4">
-            <div>
-            <h1 class="text-[12px] font-semibold text-gray-600">Dtl Job Category</h1>
-            <p class="text-sm text-gray-500 mt-0.5">{{ taskhubStore.taskMoreDetailsList.dtlJobCategory || 'No Data' }}</p>
-          </div>
+  <section>
+      <div class="grid grid-cols-1 sm:grid-cols-4 gap-4">
           <div>
-            <h1 class="text-[12px] font-semibold text-gray-600">Client Details</h1>
-           
-            <p
-                v-html="formatComment(taskhubStore.taskMoreDetailsList.data.clientDetails)"
-                class="mt-1 text-xs text-gray-700 max-h-[150px] overflow-auto whitespace-pre-wrap break-words"
-              ></p>
-          </div>
+          <h1 class="text-[12px] font-semibold text-gray-600">Dtl Job Category</h1>
+          <p class="text-sm text-gray-500 mt-0.5">{{ taskhubStore.taskMoreDetailsList.dtlJobCategory || 'No Data' }}</p>
+        </div>
+        <div>
+          <h1 class="text-[12px] font-semibold text-gray-600">Client Details</h1>
+          
+          <p
+              v-html="formatComment(taskhubStore.taskMoreDetailsList?.data?.clientDetails)"
+              class="mt-1 text-xs text-gray-700 max-h-[150px] overflow-auto whitespace-pre-wrap break-words"
+            ></p>
+        </div>
+        <div>
+          <h1 class="text-[12px] font-semibold text-gray-600">CSO Number</h1>
+          <p class="text-sm text-gray-500 mt-0.5">{{ taskhubStore.taskMoreDetailsList?.data?.csoName || 'No Data' }}</p>
+        </div>
+        <div>
+          <h1 class="text-[12px] font-semibold text-gray-600">No Of Products</h1>
+          <p class="text-sm text-gray-500 mt-0.5">{{ taskhubStore.taskMoreDetailsList?.data?.noOfProducts || 'No Data' }}</p>
+        </div>
+        <div class="flex items-center gap-2">
           <div>
-            <h1 class="text-[12px] font-semibold text-gray-600">CSO Number</h1>
-            <p class="text-sm text-gray-500 mt-0.5">{{ taskhubStore.taskMoreDetailsList.data.csoName || 'No Data' }}</p>
-          </div>
-          <div>
-            <h1 class="text-[12px] font-semibold text-gray-600">No Of Products</h1>
-            <p class="text-sm text-gray-500 mt-0.5">{{ taskhubStore.taskMoreDetailsList.data.noOfProducts || 'No Data' }}</p>
-          </div>
-          <div class="flex items-center gap-2">
-            <div>
-                <h1 class="text-[12px] font-semibold text-gray-600">Category Path</h1>
-                <p class="text-sm text-gray-500 mt-0.5">
-                  {{ taskhubStore.taskMoreDetailsList.data.categoryPath || 'No Data' }}
-                </p>
-            </div>
-
-            <!-- When modal is CLOSED → show EDIT button -->
-            <button 
-                v-if="!isaAssig"
-                @click="GoToAddNew" 
-                class="p-1 rounded hover:bg-gray-200 transition mt-4"
-                title="Edit Category Path"
-            >
-                <svg xmlns="http://www.w3.org/2000/svg" 
-                    class="h-4 w-4 text-gray-600" 
-                    fill="none" viewBox="0 0 24 24" 
-                    stroke="currentColor" stroke-width="2">
-                  <path stroke-linecap="round" stroke-linejoin="round" 
-                        d="M15.232 5.232l3.536 3.536M9 13l3 3L21 6l-3-3-12 12v3h3l12-12z" />
-                </svg>
-            </button>
-
-            <!-- When modal is OPEN → show CLOSE button -->
-            <button 
-                v-else
-                @click="closeAddNew"
-                class="p-1 rounded hover:bg-red-200 text-red-600 transition mt-4"
-                title="Close"
-            >
-                ✕
-            </button>
+            <h1 class="text-[12px] font-semibold text-gray-600">Category Path</h1>
+            <p class="text-sm text-gray-500 mt-0.5">
+              {{ taskhubStore.taskMoreDetailsList?.data?.categoryPath || 'No Data' }}
+            </p>
           </div>
 
+          <!-- When modal is CLOSED → show EDIT button -->
+          <button 
+              v-if="!isaAssig"
+              @click="GoToAddNew" 
+              class="p-1 rounded hover:bg-gray-200 transition mt-4"
+              title="Edit Category Path"
+          >
+              <svg xmlns="http://www.w3.org/2000/svg" 
+                  class="h-4 w-4 text-gray-600" 
+                  fill="none" viewBox="0 0 24 24" 
+                  stroke="currentColor" stroke-width="2">
+                <path stroke-linecap="round" stroke-linejoin="round" 
+                      d="M15.232 5.232l3.536 3.536M9 13l3 3L21 6l-3-3-12 12v3h3l12-12z" />
+              </svg>
+          </button>
+
+          <!-- When modal is OPEN → show CLOSE button -->
+          <button 
+              v-else
+              @click="closeAddNew"
+              class="p-1 rounded hover:bg-red-200 text-red-600 transition mt-4"
+              title="Close"
+          >
+              ✕
+          </button>
         </div>
 
-        <createNewCategory v-if="isaAssig" @close="isaAssig = false" :taskType="taskType" :taskHubId="taskHubId" :categoryPath="categoryPath" />
+      </div>
 
+      <createNewCategory v-if="isaAssig" @close="isaAssig = false" :taskType="taskType" :taskHubId="taskHubId" :categoryPath="categoryPath" />
 
-        <!-- Update button -->
-        <div class="flex justify-end mt-2">
-            <div class="flex justify-end pt-2 gap-2">
-                <button
-                class="px-6 py-2 text-xs bg-gradient-to-r from-blue-500 via-blue-600 to-blue-700 
-                        font-semibold transition text-white rounded-full shadow focus:ring-2 focus:ring-indigo-400"
-                >
-                View Work Flow
-                </button>
+      <!-- Update button -->
+      <div class="sm:flex sm:justify-end sm:gap-4">
+        <div v-if="!isaAssig" class="flex flex-row gap-2 overflow-x-auto items-center whitespace-nowrap
+            scrollbar-thin scrollbar-thumb-gray-400 scrollbar-track-gray-200 
+            sm:flex sm:flex-wrap sm:gap-4 sm:overflow-visible
+            text-sm font-medium text-gray-500" >
+          <div class="flex justify-end pt-2 gap-2">
+            <button
+  v-if="!isShowWF"
+  @click="GoToWorkFlow"
+  class="p-4 rounded-t-lg text-center text-gray-600 hover:border-gray-300"
+>
+  View Work Flow
+</button>
 
-                <button
-                class="px-6 py-2 text-xs bg-gradient-to-r from-blue-500 via-blue-600 to-blue-700 
-                        font-semibold transition text-white rounded-full shadow focus:ring-2 focus:ring-indigo-400"
-                >
-                Pass to ?
-                </button>
-            </div>
+<button
+  v-if="isShowWF"
+  @click="closeWorkFlow"
+  class="p-4 border-b-2 rounded-t-lg text-center text-red-600"
+>
+  Close Work Flow
+</button>
+
+            <button
+            >
+            Pass to ?
+            </button>
+          </div>
         </div>
-    </section>
+      </div>
+
+      <div class="p-0 dark:border-gray-700">
+        <workFlowDetails v-if="isShowWF" @close="isShowWF = false" :taskHubId="taskHubId" />
+      </div>
+  </section>
 </template>
 
 <script>
 import { useUserStore } from "~/stores/modules/userStore";
 import { useTaskhubStore } from "~/stores/modules/taskHub/taskhubStore";
-import imagepicker1 from "~/components/customcontrol/imagepickermultiple.vue";
-import Button from "~/components/customcontrol/Button.vue";
-import SearchComp from "~/components/customcontrol/SearchComp";
 import createNewCategory from "../bannerProduct/createNewCategory.vue";
+import workFlowDetails from "./workFlowDetails.vue";
 
 
 definePageMeta({
@@ -97,12 +110,13 @@ definePageMeta({
 });
 
 export default {
-    components:{imagepicker1,Button,SearchComp,createNewCategory},
+    components:{createNewCategory,workFlowDetails},
     props:['taskType','jobCategory', 'taskHubId'],
 
   data() {
     return {
       isaAssig: false,
+      isShowWF: false,
       expandedRow: null, 
        taskMoreDetails: {
       dtlJobCategory: "",
@@ -145,7 +159,8 @@ export default {
   methods: {
 
     formatComment(clientDetails) {
-      return clientDetails ? clientDetails.replace(/\n/g, "<br><br>") : "No Data";
+      if (!clientDetails) return "No Data";
+      return String(clientDetails).replace(/\n/g, "<br><br>");
     },
 
     async SetSelectedFilter(event) {
@@ -179,6 +194,13 @@ export default {
     closeAddNew() {
       this.isaAssig = false;
     },
+
+GoToWorkFlow() {
+    this.isShowWF = true;
+  },
+  closeWorkFlow() {
+    this.isShowWF = false;
+  },
     
     handleSelectedImages(files) {
         console.log('Selected Files:', files);
