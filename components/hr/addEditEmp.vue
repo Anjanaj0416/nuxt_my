@@ -334,10 +334,9 @@
               </p>
             </div> -->
             <div class="">
-
               <label class="block text-sm font-bold text-gray-600">Granted<span class="text-red-500">*</span></label>
               <inputtags_search class="" :arrItems="employeeStore.initEmployee.arrRoles"
-                :arrSelectedItems="employeeStore.empdetails.granted" ref="refGrant" />
+                :arrSelectedItems="employeeStore.empdetails.granted || []" ref="refGrant" />
 
               <p v-if="err.Granted" class="mt-2 text-sm text-red-600">
                 {{ err.Granted }}
@@ -646,7 +645,7 @@ export default {
               // }
 
               await this.employeeStore.AddEditEmployee(formData, this.showLoading);
-              // await this.closeModal();
+              await this.closeModal();
             }
           });
       }

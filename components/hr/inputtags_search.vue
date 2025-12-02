@@ -45,7 +45,7 @@ data() {
           class="w-48 border-gray-500 rounded p-2 rounded" />
       </div>
 
-      <div v-for="item in arrSelectedItems" :key="item">
+      <div v-for="item in list" :key="item">
 
         <tag :value="item.value" @deletetag="deletetag" :istageditable="false" />
       </div>
@@ -70,10 +70,10 @@ export default {
     }
   },
   created() {
-    // console.log("created.arrSelectedItems:", this.arrSelectedItems);
+    console.log("created.arrSelectedItems:", this.arrSelectedItems);
 
-    if (!this.arrSelectedItems || this.arrSelectedItems.length === 0) {
-      this.arrSelectedItems = [];
+    if (this.arrSelectedItems.length > 0) {
+      this.list = this.arrSelectedItems;
     }
   },
   methods: {
@@ -86,17 +86,12 @@ export default {
     },
     addItem(item) {
       console.log("addItem:", item);
-      console.log("this.arrSelectedItems:", this.arrSelectedItems);
 
-
-      if (this.arrSelectedItems.length === 0) {
-        console.log('ok');
-
+      if (!this.list.length > 0) {
+        this.list.push(item)
         this.arrSelectedItems.push(item)
-        console.log("after arrSelectedItems:", this.arrSelectedItems);
       } else {
-        console.log('not ok');
-        var index = this.arrSelectedItems.findIndex((i) => i.id == item.id)
+        var index = this.list.findIndex((i) => i.id == item.id)
         console.log("index:", index);
 
         if (index == -1) {
@@ -104,16 +99,16 @@ export default {
           //   return item.id == id
           // })[0]
 
-          // this.list.push({ value: item.value })
+          this.list.push(item)
           this.arrSelectedItems.push(item)
 
         } else {
           alert('Item Already Exist')
         }
-
       }
 
     },
+
     deletetag(tagval) {
 
       try {
