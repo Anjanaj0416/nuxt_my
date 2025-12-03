@@ -423,7 +423,8 @@ export const useTaskhubStore = defineStore("taskhubStore", {
         async WorkFlowDetails(taskHubId, showLoading) {     
             console.log('API-GetWorkFlowDetails',taskHubId);
 
-            const loadingAlert = showLoading("");
+                        const loadingAlert = showLoading("");
+
             try {
                 const response = await axios.get(
                     `${import.meta.env.VITE_API_URL}/TaskHub/Task/GetWorkFlowDetails?taskHubId=${taskHubId}`,

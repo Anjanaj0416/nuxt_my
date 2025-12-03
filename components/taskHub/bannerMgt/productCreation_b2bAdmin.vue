@@ -54,8 +54,89 @@
           >
               ✕
           </button>
+       
+        
         </div>
-
+        <div>
+          <h1 class="text-[12px] font-semibold text-gray-600">Store Maped Domain Url</h1>
+          <input
+            v-model="StoreMapedDomainUrl"
+            @input="clearErrorOnInput('kpiDStoreMapedDomainUrlays')"
+            type="text"
+            placeholder="Enter Domain Url"
+            class="w-full p-2 border rounded-md text-sm focus:ring-2 focus:ring-blue-400"
+          />
+        </div>
+        <div>
+          <h1 class="text-[12px] font-semibold text-gray-600">Store Url</h1>
+          <input
+            v-model="StoreUrl"
+            @input="clearErrorOnInput('StoreUrl')"
+            type="text"
+            placeholder="Enter Store Url"
+            class="w-full p-2 border rounded-md text-sm focus:ring-2 focus:ring-blue-400"
+          />
+        </div>
+        <div>
+          <h1 class="text-[12px] font-semibold text-gray-600">Store QR Url</h1>
+          <input
+            v-model="StoreQRUrl"
+            @input="clearErrorOnInput('StoreQRUrl')"
+            type="text"
+            placeholder="Enter Store QR Url"
+            class="w-full p-2 border rounded-md text-sm focus:ring-2 focus:ring-blue-400"
+          />
+        </div>
+        <div>
+          <h1 class="text-[12px] font-semibold text-gray-600">Store User Name</h1>
+          <input
+            v-model="StoreUsername"
+            @input="clearErrorOnInput('StoreUsername')"
+            type="text"
+            placeholder="Enter Store User Name"
+            class="w-full p-2 border rounded-md text-sm focus:ring-2 focus:ring-blue-400"
+          />
+        </div>
+        <div>
+          <h1 class="text-[12px] font-semibold text-gray-600">Store User Name</h1>
+          <input
+            v-model="StoreUsername"
+            @input="clearErrorOnInput('StoreUsername')"
+            type="text"
+            placeholder="Enter Store User Name"
+            class="w-full p-2 border rounded-md text-sm focus:ring-2 focus:ring-blue-400"
+          />
+        </div>
+        <div>
+          <h1 class="text-[12px] font-semibold text-gray-600">Store Store Password</h1>
+          <input
+            v-model="StorePassword"
+            @input="clearErrorOnInput('StorePassword')"
+            type="text"
+            placeholder="Enter Store Password"
+            class="w-full p-2 border rounded-md text-sm focus:ring-2 focus:ring-blue-400"
+          />
+        </div>
+      </div>
+      <div class="grid grid-cols-1 md:grid-cols-3 gap-4 mt-2">
+        <div>
+          <label class="text-[12px] font-semibold text-gray-600">Comment</label>
+          <textarea
+            v-model="comment"
+            type="text"
+            rows="5"
+            placeholder="Enter Comment"
+            class="w-full p-2 border rounded-md text-sm focus:ring-2"
+          />
+        </div>
+        <div>
+          <label class="text-[12px] font-semibold text-gray-600">Material Upload</label>
+            <imagepickermultiple
+              @GetSelectedImages="handleSelectedImages"
+              ref="refApprovedImg"
+              accept="image/*,application/pdf,.doc,.docx,.xls,.xlsx"
+            />
+        </div>
       </div>
 
       <createNewCategory v-if="isaAssig" @close="isaAssig = false" :taskType="taskType" :taskHubId="taskHubId" :categoryPath="categoryPath" />
@@ -68,25 +149,32 @@
             text-sm font-medium text-gray-500" >
           <div class="flex justify-end pt-2 gap-2">
             <button
-  v-if="!isShowWF"
-  @click="GoToWorkFlow"
-  class="p-4 rounded-t-lg text-center text-gray-600 hover:border-gray-300"
->
-  View Work Flow
-</button>
-
-<button
-  v-if="isShowWF"
-  @click="closeWorkFlow"
-  class="p-4 border-b-2 rounded-t-lg text-center text-red-600"
->
-  Close Work Flow
-</button>
+              v-if="!isShowWF"
+              @click="GoToWorkFlow"
+              class="p-r px-12 py-2 text-xs bg-gradient-to-r from-blue-500 via-blue-600 to-blue-700 
+              font-semibold transition text-white rounded-full shadow focus:ring-2 focus:ring-blue-400"
+            >
+              View Work Flow
+            </button>
 
             <button
+              v-if="isShowWF"
+              @click="closeWorkFlow"
+              class="p-4 border-b-2 rounded-t-lg text-center text-red-600"
             >
-            Pass to ?
+              Close Work Flow
             </button>
+          </div>
+
+          <div class="flex justify-end pt-2 gap-2">
+            <button
+              @click="GoToWorkFlow"
+              class="p-r px-12 py-2 text-xs bg-gradient-to-r from-blue-500 via-blue-600 to-blue-700 
+              font-semibold transition text-white rounded-full shadow focus:ring-2 focus:ring-blue-400"
+            >
+              Send to Aprovel
+            </button>
+      
           </div>
         </div>
       </div>
@@ -102,6 +190,8 @@ import { useUserStore } from "~/stores/modules/userStore";
 import { useTaskhubStore } from "~/stores/modules/taskHub/taskhubStore";
 import createNewCategory from "../bannerProduct/createNewCategory.vue";
 import workFlowDetails from "./workFlowDetails.vue";
+import imagepickermultiple from "~/components/customcontrol/imagepickermultiple.vue";
+
 
 
 definePageMeta({
@@ -110,7 +200,7 @@ definePageMeta({
 });
 
 export default {
-    components:{createNewCategory,workFlowDetails},
+    components:{createNewCategory,workFlowDetails,imagepickermultiple},
     props:['taskType','jobCategory', 'taskHubId'],
 
   data() {
@@ -186,52 +276,43 @@ export default {
       this.keyword = "";
     },
 
-
     GoToAddNew() {
       this.isaAssig = true;
     },
-
     closeAddNew() {
       this.isaAssig = false;
     },
-
-GoToWorkFlow() {
-    this.isShowWF = true;
-  },
-  closeWorkFlow() {
-    this.isShowWF = false;
-  },
-    
-    handleSelectedImages(files) {
-        console.log('Selected Files:', files);
+    GoToWorkFlow() {
+      this.isShowWF = true;
     },
+    closeWorkFlow() {
+      this.isShowWF = false;
+    },
+    
+
 
     handleDeleteExistingImage(index) {
         mageroots.value.splice(index, 1);
     },
 
-openFromRoute(queryId) {
-  if (!queryId) {
-    this.expandedRow = null;
-    this.filteredKpiId = null;
-    return;
-  }
-
-  // taskMoreDetailsList must be an array to use findIndex
-  const list = this.taskhubStore.taskMoreDetailsList;
-
-  if (!Array.isArray(list)) {
-    console.warn("taskMoreDetailsList is not an array", list);
-    return;   // Prevents crash
-  }
-
-  const foundIndex = list.findIndex(v => v.id === queryId);
-
-  if (foundIndex !== -1) {
-    this.expandedRow = foundIndex;
-    this.filteredKpiId = list[foundIndex].id;
-  }
-},
+    openFromRoute(queryId) {
+      if (!queryId) {
+        this.expandedRow = null;
+        this.filteredKpiId = null;
+        return;
+      }
+      // taskMoreDetailsList must be an array to use findIndex
+      const list = this.taskhubStore.taskMoreDetailsList;
+      if (!Array.isArray(list)) {
+        console.warn("taskMoreDetailsList is not an array", list);
+        return;   // Prevents crash
+      }
+      const foundIndex = list.findIndex(v => v.id === queryId);
+      if (foundIndex !== -1) {
+        this.expandedRow = foundIndex;
+        this.filteredKpiId = list[foundIndex].id;
+      }
+    },
 
 
     toggleKpiView(id, index) {
