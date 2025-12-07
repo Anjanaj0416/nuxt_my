@@ -12,7 +12,9 @@ export const useTaskhubStore = defineStore("taskhubStore", {
         listDTP: [],
         listSuperUser: [],
         InitNext: [],
-        demoProductMaterialList: []
+        demoProductMaterialList: [],
+        taskMoreDetailsList: [],
+        workFlowDetailsList: [],
 
     }),
     persist: true,
@@ -356,6 +358,82 @@ export const useTaskhubStore = defineStore("taskhubStore", {
                 if (response.data.isSuccess) {
                     this.showToast(response.data.message, "success");
                     this.taskDetailsList = response.data.data.data
+                } else {
+                    this.showToast(response.data.message, "error");
+                }
+            } catch (error) {
+                this.showToast(error.message || "Something went wrong!", "error");
+                loadingAlert.close();
+            }
+        },
+
+        async TaskHubMoreDetail(req, showLoading) {     
+            console.log('API-GetTaskHubMoreDetail',req);
+
+            const loadingAlert = showLoading("");
+            try {
+                const response = await axios.get(
+                    `${import.meta.env.VITE_API_URL}/TaskHub/Task/GetTaskHubMoreDetail`,
+                     {
+                        params: {
+                            taskType: req.taskType,
+                            jobCategory: req.jobCategory,
+                            taskHubId: req.taskHubId
+                        }
+                    }
+                );
+                console.log(response);
+                loadingAlert.close();
+                if (response.data.isSuccess) {
+                    this.showToast(response.data.message, "success");
+                    this.taskMoreDetailsList = response.data.data.data
+                } else {
+                    this.showToast(response.data.message, "error");
+                }
+            } catch (error) {
+                this.showToast(error.message || "Something went wrong!", "error");
+                loadingAlert.close();
+            }
+        },
+
+        async SetPassToOtherWorkGroup(formData, showLoading) {     
+            console.log('API-SetPassToOtherWorkGroup');
+
+            const loadingAlert = showLoading("");
+            try {
+                const response = await axios.post(
+                    `${import.meta.env.VITE_API_URL}/TaskHub/Task/SetPassToOtherWorkGroup`,
+                    formData,
+                    { headers: { "Content-Type": "multipart/form-data" } }
+
+                );
+                console.log(response);
+                loadingAlert.close();
+                if (response.data.isSuccess) {
+                    this.showToast(response.data.message, "success");
+                } else {
+                    this.showToast(response.data.message, "error");
+                }
+            } catch (error) {
+                this.showToast(error.message || "Something went wrong!", "error");
+                loadingAlert.close();
+            }
+        },
+
+        async WorkFlowDetails(taskHubId, showLoading) {     
+            console.log('API-GetWorkFlowDetails',taskHubId);
+
+                        const loadingAlert = showLoading("");
+
+            try {
+                const response = await axios.get(
+                    `${import.meta.env.VITE_API_URL}/TaskHub/Task/GetWorkFlowDetails?taskHubId=${taskHubId}`,
+                );
+                console.log(response);
+                loadingAlert.close();
+                if (response.data.isSuccess) {
+                    this.showToast(response.data.message, "success");
+                    this.workFlowDetailsList = response.data.data.data
                 } else {
                     this.showToast(response.data.message, "error");
                 }

@@ -110,7 +110,7 @@
                 </button>
               </div>
 
-              <div class="hidden sm:block w-px bg-gray-300 h-8"></div>
+              <!-- <div class="hidden sm:block w-px bg-gray-300 h-8"></div>
 
               <div class="flex flex-col text-center sm:text-left">
                 <h1 class="text-xs font-medium text-gray-600">Final Proposal</h1>
@@ -127,7 +127,7 @@
                 >
                   view
                 </a>       
-              </div>
+              </div> -->
 
               <div class="hidden sm:block w-px bg-gray-300 h-8"></div>
 

@@ -22,7 +22,7 @@
       </div>
     </div>
 
-    <div v-if="listKpi.length === 0" class="text-center text-gray-900 mt-5 text-sm font-medium">
+    <div v-if="taskhubStore.taskDetailsList === 0" class="text-center text-gray-900 mt-5 text-sm font-medium">
       <p>No KPI available...</p>
     </div>
 
@@ -62,7 +62,7 @@
           </div>
            <div>
             <h1 class="text-[12px] font-semibold text-gray-600">Category</h1>
-            <p class="text-sm text-gray-500 mt-0.5">{{ dtpJobs.category || 'No Data' }}</p>
+            <p class="text-sm text-gray-500 mt-0.5">{{ dtpJobs.jobCategory || 'No Data' }}</p>
           </div>
           <div>
             <h1 class="text-[12px] font-semibold text-gray-600">Pending WorkGroup</h1>
@@ -101,8 +101,7 @@
             v-if="expandedRow === index"
             class="flex flex-col gap-4 p-4 mt-2 r"
           >
-          
-         <createNewCategory/>
+
             <!-- Store & Banner Details side by side -->
             <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
               <!-- Store -->
@@ -251,49 +250,6 @@ export default {
     return {
       isaAssig: false,
       expandedRow: null, 
-      listKpi: [
-        {
-          id: "wf001",
-          job: "Store Create and Banner",
-          assignDate: "2025.09.12",
-          completedDate: "2025.09.15",
-          kpiAssignTo: "Sandari",
-          reportedBy: "Mr.Ruwan",
-          status: "Pending",
-          noofDaysPending: 3,
-          contactPhoneNo: "077-1234567",
-          isActive: true,
-          details: {
-              store: {
-                name: "Main Colombo Store",
-                location: "Colombo 03",
-                contactNumber: "0712548741",
-                contactPersonNumber: "0712548742",
-                web: "https://nsc.lk/product-category/electrical-cables/acl-electrical-cables/",
-                email: "abc@gmail.com"
-              },
-              banners: {
-                categoryName: "electrical",
-                web: "https://nsc.lk/product-category/electrical-cables/acl-electrical-cables/",
-              }
-          }
-        },
-
-        {
-            id: "wf002",
-            job: "Store Create ",
-            assignDate: "2025.09.12",
-            completedDate: "2025.09.15",
-            kpiAssignTo: "Panchali",
-            companyName: "Nimal Pvt",
-            reportedBy: "Mr.Ruwan",
-            noofDaysPending: 5,
-            contactPhoneNo: "071-7654321",
-            createdDate: "2025-09-11",
-            status: "Completed",
-            isActive: false,
-        },
-      ],
     };
   },
 
@@ -304,7 +260,7 @@ export default {
     this.showLoading = this.$showLoading;
 
     await this.taskhubStore.TaskDetailsList(
-      { taskType: "DtlBannerMgt", searchValue: this.searchValue, searchBy: this.searchBy },
+      { taskType: "DtlBannerMgt", searchValue: "EB65FD62-9C69-44AF-2183-08DE2B1B00C6", searchBy: "101" },
       this.showLoading
     );
 
@@ -330,7 +286,7 @@ export default {
       }
       console.log("keyword, searchBy", searchVal, this.searchBy);
       await this.taskhubStore.TaskDetailsList(
-        { taskType: "DtlBannerMgt", searchValue: this.keyword, searchBy: this.searchBy },
+        { taskType: "DtlBannerMgt", searchValue: "5CD7F771-139D-4044-708C-08DE2A3D770B", searchBy: "101" },
         this.showLoading
       );
 

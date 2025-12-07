@@ -20,7 +20,7 @@
  import { useRoute } from 'vue-router'
  import { useUserStore } from "~/stores/modules/userStore";
  import cso from '~/components/qms/workFlow/cso.vue';
- import dtp from '~/components/taskHub/bannerMgt/dtp.vue';
+ import dtp from '~/components/taskHub/taskHubDetails.vue';
 
 
  definePageMeta({

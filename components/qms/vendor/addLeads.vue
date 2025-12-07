@@ -17,6 +17,7 @@
                 Company Search <span class="text-red-500">*</span>
               </label>
               <serach_Input
+              
                 :arrItems="leadStore.InitLeads.listClients"
                 label=""
               />
@@ -169,6 +170,8 @@ export default {
         Address: "",
         CompanyPhone: "",
         CompanyWhatsAppNo: "",
+        contactPhoneNo: "",
+        District:"",
         ContactPerson1Name: "",
         ContactPerson1Designation: "",
         ContactPerson1Number: "",
@@ -271,6 +274,8 @@ export default {
         Address: "",
         CompanyPhone: "",
         CompanyWhatsAppNo: "",
+        contactPhoneNo: "",
+        District:"",
         ContactPerson1Name: "",
         ContactPerson1Designation: "",
         ContactPerson1Number: "",
@@ -313,6 +318,8 @@ export default {
               companyPhone: this.curLead.CompanyPhone || "",
               contactPhoneNo: this.curLead.ContactPhoneNo  || "",
               companyWhatsAppNo: this.curLead.companyWhatsAppNo || "",
+              contactPhoneNo: "",
+              District:"",
 
               contactPerson1Name: this.curLead.ContactPerson1Name || "",
               contactPerson1Designation: this.curLead.ContactPerson1Designation || "",
