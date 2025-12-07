@@ -383,6 +383,9 @@ export default {
 
       await this.employeeStore.getInitEmployee();
 
+      console.log("employeeStore.isModalOpen:", this.employeeStore.isModalOpen);
+
+
     } catch (error) {
       console.error("error:", error)
     }
