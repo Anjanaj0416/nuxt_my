@@ -101,13 +101,13 @@
             v-if="expandedRow === index"
             class="flex flex-col gap-4 p-4 mt-2 r"
           >
-            <div v-if="dtpJobs.pendingWorkGroup === '' && dtpJobs.jobType === ''">
+            <div v-if="dtpJobs.pendingWorkGroup === 'SUPPERADMIN'">
               <productCreation_b2bAdmin :taskType="dtpJobs.jobType" :jobCategory="dtpJobs.jobCategory" :taskHubId="dtpJobs.id" />
             </div>
             <div v-if="dtpJobs.pendingWorkGroup === '' && dtpJobs.jobType === ''">>
               <productCreation_dtp />
             </div>
-            <div v-if="dtpJobs.pendingWorkGroup === 'SUPPERADMIN' ">
+            <div v-if="dtpJobs.pendingWorkGroup === 'SUPERVISOR' ">
               <CategoryApprovelSuperviser :taskType="dtpJobs.jobType" :jobCategory="dtpJobs.jobCategory" :taskHubId="dtpJobs.id"/>
             </div>
           </div>
@@ -127,7 +127,7 @@ import assigDtp from "./bannerMgt/assigDtp.vue";
 import SearchComp from "~/components/customcontrol/SearchComp";
 import productCreation_b2bAdmin from "./bannerMgt/productCreation_b2bAdmin.vue";
 import productCreation_dtp from "./bannerMgt/productCreation_dtp.vue";
-import CategoryApprovelSuperviser from "./bannerMgt/CategoryApprovel_Superviser.vue";
+import CategoryApprovelSuperviser from "./bannerMgt/productCreation_categoryApprovelSuperviser.vue";
 
 
 definePageMeta({
@@ -151,7 +151,7 @@ export default {
     this.showLoading = this.$showLoading;
 
     await this.taskhubStore.TaskDetailsList(
-      { taskType: "DtlBannerMgt", searchValue: "EB65FD62-9C69-44AF-2183-08DE2B1B00C6", searchBy: "101" },
+      { taskType: "DtlBannerMgt", searchValue: "", searchBy: "102" },
       this.showLoading
     );
 

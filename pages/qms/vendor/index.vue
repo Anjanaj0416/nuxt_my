@@ -304,7 +304,6 @@
                 <ImageLable v-else :imageUrl="defaultShopImage" alt="Default Shop Logo" />
               </p>
             </div>
-
             <!-- Customer Ref -->
             <div class="space-y-1">
                 <h1 class="text-[11px] font-semibold text-gray-600">Customer Ref</h1>

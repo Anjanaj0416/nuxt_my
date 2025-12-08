@@ -443,6 +443,28 @@ export const useTaskhubStore = defineStore("taskhubStore", {
             }
         },
 
+        async SaveB2BCategoryItem(req, showLoading){    
+            console.log('API-AddTaskProductBoxCreation',req);
+
+            const loadingAlert = showLoading("");
+            try {
+                const response = await axios.post(
+                    `${import.meta.env.VITE_API_URL}/TaskHub/DTL/DTLBannerMgt/GetSaveB2BCategoryItem`,
+                    req,
+                );
+                console.log(response);
+                loadingAlert.close();
+                if (response.data.isSuccess) {
+                    this.showToast(response.data.message, "success");
+                } else {
+                    this.showToast(response.data.message, "error");
+                }
+            } catch (error) {
+                this.showToast(error.message || "Something went wrong!", "error");
+                loadingAlert.close();
+            }
+        },
+
 
         showToast(message, type) {
         Swal.fire({

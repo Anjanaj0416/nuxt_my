@@ -41,7 +41,7 @@
         <div class="p-4 bg-white border border-gray-200 rounded-xl shadow-sm">
             <h2 class="text-[12px] font-semibold text-gray-600">Category Path</h2>
             <p class="mt-1 text-sm font-medium text-gray-700 tracking-wide">
-            A / B / C (New)
+              {{ taskhubStore.taskMoreDetailsList?.data?.categoryPath || 'No Data' }}
             </p>
         </div>
 
@@ -52,11 +52,13 @@
                 Main Category
                 </h3>
             </div>
-
             <div class="sm:col-span-4">
-                <p class="text-sm font-medium text-gray-700">
-                test
-                </p>
+                <input 
+                  type="text" 
+                  v-model="mainCategoryValue"
+                  placeholder="Enter sub SubSub Category"
+                  class="w-full p-2 mt-2 text-sm border rounded-md" 
+                />
             </div>
             <div class="sm:col-span-2 flex sm:justify-end"></div>
             </div>
@@ -66,11 +68,14 @@
                 Sub Category
                 </h3>
             </div>
-
             <div class="sm:col-span-4">
-                <p class="text-sm font-medium text-gray-700">
-                test
-                </p>
+               
+                <input 
+                  type="text" 
+                  v-model="subCategoryValue"
+                  placeholder="Enter sub SubSub Category"
+                  class="w-full p-2 mt-2 text-sm border rounded-md" 
+                />
             </div>
 
             <div class="sm:col-span-2 flex sm:justify-end"></div>
@@ -81,11 +86,13 @@
                 Sub Sub Category
                 </h3>
             </div>
-
             <div class="sm:col-span-4">
-                <p class="text-sm font-medium text-gray-700">
-                test
-                </p>
+              <input 
+                type="text" 
+                v-model="subSubCategoryValue"
+                placeholder="Enter sub SubSub Category"
+                class="w-full p-2 mt-2 text-sm border rounded-md" 
+              />
             </div>
 
             <div class="sm:col-span-2 flex sm:justify-end"></div>
@@ -96,11 +103,13 @@
                 Sub Sub Sub Category
                 </h3>
             </div>
-
             <div class="sm:col-span-4">
-                <p class="text-sm font-medium text-gray-700">
-                test
-                </p>
+                <input 
+                  type="text" 
+                  v-model="subSubSubCategoryValue"
+                  placeholder="Enter sub SubSub Category"
+                  class="w-full p-2 mt-2 text-sm border rounded-md" 
+                />
             </div>
 
             <div class="sm:col-span-2 flex sm:justify-end"></div>
@@ -123,9 +132,6 @@
 <script>
 import { useUserStore } from "~/stores/modules/userStore";
 import { useTaskhubStore } from "~/stores/modules/taskHub/taskhubStore";
-import createNewCategory from "../bannerProduct/createNewCategory.vue";
-import workFlowDetails from "./workFlowDetails.vue";
-import imagepickermultiple from "~/components/customcontrol/imagepickermultiple.vue";
 import serach_Input from "~/components/customcontrol/SearchInput";
 
 
@@ -135,7 +141,7 @@ definePageMeta({
 });
 
 export default {
-    components:{createNewCategory,workFlowDetails,imagepickermultiple,serach_Input},
+    components:{serach_Input},
       props:['taskType','jobCategory', 'taskHubId', 'categoryPath'],
 
 
@@ -144,23 +150,37 @@ export default {
       isaAssig: false,
       isShowWF: false,
       expandedRow: null, 
-      mainCategoryId: null,
-      subCategoryID: null,
-      subSubCategoryID: null,
-      subSubSubCategoryID: null,
-      
+      mainCategoryId: "00000000-0000-0000-0000-000000000000",
+      mainCategoryValue: "",
+      subCategoryID: "00000000-0000-0000-0000-000000000000",
+      subCategoryValue: "",
+      subSubCategoryID: "00000000-0000-0000-0000-000000000000",
+      subSubCategoryValue: "",
+      subSubSubCategoryID: "00000000-0000-0000-0000-000000000000",
+      subSubSubCategoryValue: "",
     };
   },
 
  async created() {
     this.userStore = useUserStore();
     this.taskhubStore = useTaskhubStore();
+    
 
     this.imageroot = this.userStore.loggedUser.resourceURLRoot;
     this.showLoading = this.$showLoading;
-    this.showAlert = this.$showAlert;
    
     await this.taskhubStore.loadInitBanner(this.showLoading);
+
+    await this.taskhubStore.TaskHubMoreDetail(
+      { 
+          taskType: this.taskType, 
+          jobCategory: this.jobCategory, 
+          taskHubId: this.taskHubId 
+      },
+      this.showLoading
+    );
+
+    this.taskMoreDetailsList = this.taskhubStore.taskMoreDetailsList;
 
   },
 
@@ -201,7 +221,7 @@ export default {
       this.taskhubStore.listSubSubSubCategory = [];
 
       await this.taskhubStore.GetSubMainCategory(item.id, this.showLoading);
-      this.updateCategoryPath();
+
     },
 
     async GetSelectSubCategory(item) {
@@ -217,7 +237,6 @@ export default {
       this.taskhubStore.listSubSubSubCategory = [];
 
       await this.taskhubStore.GetSubCategory(item.id, this.showLoading);
-      this.updateCategoryPath();
     },
 
     async GetSelectSubSubCategory(item) {
@@ -230,7 +249,7 @@ export default {
       this.taskhubStore.listSubSubSubCategory = [];
 
       await this.taskhubStore.GetSubCategory(item.id, this.showLoading);
-      this.updateCategoryPath();
+
     },
 
     async GetSelectSubSubSubCategory(item) {
@@ -238,40 +257,61 @@ export default {
       this.subSubSubCategoryValue = item.value;
 
       await this.taskhubStore.GetSubCategory(item.id, this.showLoading);
-      this.updateCategoryPath();
     },
 
-    updateCategoryPath() {
-      let path = [];
 
-      if (this.mainCategoryValue) path.push(this.mainCategoryValue);
-      if (this.subCategoryValue) path.push(this.subCategoryValue);
-      if (this.subSubCategoryValue) path.push(this.subSubCategoryValue);
-      if (this.subSubSubCategoryValue) path.push(this.subSubSubCategoryValue);
+    async SetCatPath() {
+      this.$showConfirm("Are you sure Approval?", "warning")
+        .then(async (result) => {
+          if (result.isConfirmed) {
 
-      this.CategoryPath = path.join('/');
+            const req = {
+              MainCategory: {
+                Id: this.mainCategoryId || "00000000-0000-0000-0000-000000000000",
+                Value: this.mainCategoryValue || ""
+              },
+              SubCategory: {
+                Id: this.subCategoryID || "00000000-0000-0000-0000-000000000000",
+                Value: this.subCategoryValue || ""
+              },
+              SubSubCategory: {
+                Id: this.subSubCategoryID || "00000000-0000-0000-0000-000000000000",
+                Value: this.subSubCategoryValue || ""
+              },
+              SubSubSubCategory: {
+                Id: this.subSubSubCategoryID || "00000000-0000-0000-0000-000000000000",
+                Value: this.subSubSubCategoryValue || ""
+              }
+            };
 
+             console.log("Sending to backend", req);
+
+            await this.taskhubStore.SaveB2BCategoryItem(req, this.showLoading);
+            this.resetCategoryFields();
+
+          }
+        });
     },
 
-    SetCatPath() {
-      if (!this.IsValidate()) return;
+      resetCategoryFields() {
+        this.mainCategoryId = "00000000-0000-0000-0000-000000000000";
+        this.mainCategoryValue = "";
 
-      this.$emit("update-category-path", this.CategoryPath);
-      this.closeModal();
-    },
+        this.subCategoryID = "00000000-0000-0000-0000-000000000000";
+        this.subCategoryValue = "";
 
-    IsValidate() {
-      this.clearErr();
-      let valid = true;
+        this.subSubCategoryID = "00000000-0000-0000-0000-000000000000";
+        this.subSubCategoryValue = "";
 
-      if (!this.CategoryPath) {
-        this.err.CategoryPath = "Please enter a category Path!";
-        valid = false;
-      }
+        this.subSubSubCategoryID = "00000000-0000-0000-0000-000000000000";
+        this.subSubSubCategoryValue = "";
 
+        // Clear the dropdown/search lists
+        this.taskhubStore.listSubCategory = [];
+        this.taskhubStore.listSubSubCategory = [];
+        this.taskhubStore.listSubSubSubCategory = [];
+      },
 
-      return valid;
-    },
 
     clearErr() {
       Object.keys(this.err).forEach((key) => {

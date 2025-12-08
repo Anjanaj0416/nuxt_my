@@ -174,11 +174,21 @@
 
           <div class="flex justify-end pt-2 gap-2">
             <button
-              @click="GoToWorkFlow"
+              @click="SendToApproval"
               class="p-r px-12 py-2 text-xs bg-gradient-to-r from-blue-500 via-blue-600 to-blue-700 
               font-semibold transition text-white rounded-full shadow focus:ring-2 focus:ring-blue-400"
             >
               Send to Aprovel
+            </button>
+      
+          </div>
+           <div class="flex justify-end pt-2 gap-2">
+            <button
+              @click=""
+              class="p-r px-12 py-2 text-xs bg-gradient-to-r from-blue-500 via-blue-600 to-blue-700 
+              font-semibold transition text-white rounded-full shadow focus:ring-2 focus:ring-blue-400"
+            >
+              Pass to
             </button>
       
           </div>
@@ -296,9 +306,47 @@ export default {
       this.taskhubStore.taskMoreDetailsList.data.categoryPath = newPath;
     },
 
+    handleSelectedImages(files) {
+      console.log("Selected Files in Parent:", files);
+      this.listFiles = files;
+    },
+
     handleDeleteExistingImage(index) {
         mageroots.value.splice(index, 1);
     },
+
+    //pass cat approvel
+    async SendToApproval() {
+
+      this.$showConfirm("Are you sure to this Main Banner?", "warning")
+        .then(async (result) => {
+          if (result.isConfirmed) {
+
+            const formData = new FormData();
+            formData.append("TaskType", this.taskType);
+            formData.append("WGRequestCategory", "NewCategoryRequest");
+            const dataObj = {
+              taskHubId: this.taskHubId,
+              categoryPath: this.CategoryPath,
+              comment: this.comment || ""
+            };
+            formData.append("Data", JSON.stringify(dataObj));
+            if (this.listFiles && this.listFiles.length > 0) {
+              this.listFiles.forEach((file, index) => {
+                formData.append("listFiles", file);
+              });
+            }
+
+            for (let [key, value] of formData.entries()) {
+              console.log(key, value);
+            }
+            await this.taskhubStore.SetPassToOtherWorkGroup(formData, this.showLoading);
+
+          }
+        });
+    },
+
+
 
     openFromRoute(queryId) {
       if (!queryId) {
