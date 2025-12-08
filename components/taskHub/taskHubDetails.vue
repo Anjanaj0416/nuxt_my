@@ -49,10 +49,6 @@
         <!-- Main Info -->
         <div class="grid grid-cols-2 gap-4 sm:flex sm:flex-row sm:justify-between px-2">
           <div>
-            <h1 class="text-[12px] font-semibold text-gray-600">jobPendingAt</h1>
-            <p class="text-sm text-gray-500 mt-0.5">{{ dtpJobs.jobPendingAt || 'No Data' }}</p>
-          </div>
-          <div>
             <h1 class="text-[12px] font-semibold text-gray-600">Job Description</h1>
             <p class="text-sm text-gray-500 mt-0.5">{{ dtpJobs.jobDescription || 'No Data' }}</p>
           </div>
@@ -67,6 +63,10 @@
           <div>
             <h1 class="text-[12px] font-semibold text-gray-600">Pending WorkGroup</h1>
             <p class="text-sm text-gray-500 mt-0.5">{{ dtpJobs.pendingWorkGroup || 'No Data' }}</p>
+          </div>
+          <div>
+            <h1 class="text-[12px] font-semibold text-gray-600">Job Pending At</h1>
+            <p class="text-sm text-gray-500 mt-0.5">{{ dtpJobs.jobPendingAt || 'No Data' }}</p>
           </div>
           <div>
             <h1 class="text-[12px] font-semibold text-gray-600">Status</h1>
@@ -101,11 +101,14 @@
             v-if="expandedRow === index"
             class="flex flex-col gap-4 p-4 mt-2 r"
           >
-            <div v-if="dtpJobs.pendingWorkGroup === 'SUPPERADMIN'">
+            <div v-if="dtpJobs.pendingWorkGroup === '' && dtpJobs.jobType === ''">
               <productCreation_b2bAdmin :taskType="dtpJobs.jobType" :jobCategory="dtpJobs.jobCategory" :taskHubId="dtpJobs.id" />
             </div>
-            <div v-if="dtpJobs.pendingWorkGroup === ''">
+            <div v-if="dtpJobs.pendingWorkGroup === '' && dtpJobs.jobType === ''">>
               <productCreation_dtp />
+            </div>
+            <div v-if="dtpJobs.pendingWorkGroup === 'SUPPERADMIN' ">
+              <CategoryApprovelSuperviser :taskType="dtpJobs.jobType" :jobCategory="dtpJobs.jobCategory" :taskHubId="dtpJobs.id"/>
             </div>
           </div>
         </transition>
@@ -124,6 +127,7 @@ import assigDtp from "./bannerMgt/assigDtp.vue";
 import SearchComp from "~/components/customcontrol/SearchComp";
 import productCreation_b2bAdmin from "./bannerMgt/productCreation_b2bAdmin.vue";
 import productCreation_dtp from "./bannerMgt/productCreation_dtp.vue";
+import CategoryApprovelSuperviser from "./bannerMgt/CategoryApprovel_Superviser.vue";
 
 
 definePageMeta({
@@ -132,7 +136,7 @@ definePageMeta({
 });
 
 export default {
-    components:{imagepicker1,assigDtp,Button,SearchComp,productCreation_b2bAdmin,productCreation_dtp},
+    components:{imagepicker1,assigDtp,Button,SearchComp,productCreation_b2bAdmin,productCreation_dtp,CategoryApprovelSuperviser},
   data() {
     return {
       isaAssig: false,

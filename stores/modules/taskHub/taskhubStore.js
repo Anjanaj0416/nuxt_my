@@ -152,7 +152,7 @@ export const useTaskhubStore = defineStore("taskhubStore", {
         },
 
         async AddMainBanner(formData, showLoading) {     
-            console.log('API-AddtasknewCategoryApproval');
+            console.log('API-AddTaskMainBanner');
 
             const loadingAlert = showLoading("");
             try {
@@ -202,7 +202,7 @@ export const useTaskhubStore = defineStore("taskhubStore", {
 
         
         async SetVendorBanner(formData, showLoading) {     
-            console.log('API-AddtasknewCategoryApproval');
+            console.log('API-AddTaskVendorBanner');
 
             const loadingAlert = showLoading("");
             try {
@@ -226,7 +226,7 @@ export const useTaskhubStore = defineStore("taskhubStore", {
         },
 
         async SetProduct(formData, showLoading) {     
-            console.log('API-AddtasknewCategoryApproval');
+            console.log('API-AddTaskProductCreation');
 
             const loadingAlert = showLoading("");
             try {
@@ -260,9 +260,9 @@ export const useTaskhubStore = defineStore("taskhubStore", {
                 console.log(response);
                 loadingAlert.close();
                 if (response.data.isSuccess) {
-                    this.nextPendingDTPId = response.data.data.data.nextPendingDTPId || [];
-                    this.nextPendingSupperAdminId = response.data.data.data.nextPendingSupperAdminId || [];
-                    this.nextSupervsorId = response.data.data.data.nextSupervsorId || [];
+                    this.nextPendingDTPId = response.data.data.data.nextPendingDTP || [];
+                    this.nextPendingSupperAdmin = response.data.data.data.nextPendingSupperAdmin || [];
+                    this.nextSupervsorId = response.data.data.data.nextSupervsor || [];
 
                 } else {
                     this.showToast(response.data.message, "error");
@@ -274,7 +274,7 @@ export const useTaskhubStore = defineStore("taskhubStore", {
         },
 
         async SampaleProducAssign(formData, showLoading) {     
-            console.log('API-AddtasknewCategoryApproval',formData);
+            console.log('API-AddTaskProductBoxCreation',formData);
 
             const loadingAlert = showLoading("");
             try {

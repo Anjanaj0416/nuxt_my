@@ -1,10 +1,11 @@
 <template>
     <section >
       
-        <div class="mt-6" v-if="userStore.loggedUser.granted === 'hradmin,,,','sso'">
+        <div class="mt-6" v-if="userStore.loggedUser.granted === 'hradmin,,,','sso','su'">
           <dtp/>
         </div>
-        <div class="mt-6" v-if="userStore.loggedUser.userGroup === 'Supervisor'">
+        <div class="mt-6" v-if="userStore.loggedUser.userGroup === ''">
+
         </div>
         <div class="mt-6" v-if="userStore.loggedUser.userGroup === 'Freelance'">
           

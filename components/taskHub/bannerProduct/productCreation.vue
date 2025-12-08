@@ -39,7 +39,6 @@
         />
       </div>
     </div>
-
     <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
       <div>
         <label class="block text-sm font-medium text-gray-600 mb-1">Category Path</label>
@@ -108,12 +107,22 @@
     <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
       <div>
         <span class="text-sm font-medium text-gray-600">
-          Next Pending DTP ID:
+          Next Pending DTP :
         </span>
         <span v-if="taskhubStore?.nextPendingDTPId" class="ml-2 font-semibold text-sm text-gray-700">
           {{taskhubStore.nextPendingDTPId.value }}
 
-        </span><br></br>
+        </span>
+
+        <span class="text-sm font-medium text-gray-600 ml-6">
+          Next Pending B2B Supper Admin:
+        </span>
+        <span v-if="taskhubStore?.nextPendingSupperAdmin" class="ml-2 font-semibold text-sm text-gray-700">
+          {{taskhubStore.nextPendingSupperAdmin.value }}
+
+        </span>
+        
+        <br></br>
 
         <button
           @click="toggleManualSelect"
@@ -251,6 +260,8 @@ export default {
     await this.taskhubStore.loadInitBanner(this.showLoading);
     await this.taskhubStore.TaskInit(this.vendorId, this.showLoading);
     this.nextPendingDTPId = this.taskhubStore.nextPendingDTPId
+    this.taskhubStore.nextPendingSupperAdmin
+
 
 
   },

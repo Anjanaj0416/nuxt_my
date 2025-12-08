@@ -139,9 +139,15 @@
         </div>
       </div>
 
-      <createNewCategory v-if="isaAssig" @close="isaAssig = false" :taskType="taskType" :taskHubId="taskHubId" :categoryPath="categoryPath" />
+      <createNewCategory 
+        v-if="isaAssig"
+        @close="isaAssig = false"
+        @update-category-path="updateCategoryPath"
+        :taskType="taskType"
+        :taskHubId="taskHubId"
+        :categoryPath="taskhubStore.taskMoreDetailsList?.data?.categoryPath"
+      />
 
-      <!-- Update button -->
       <div class="sm:flex sm:justify-end sm:gap-4">
         <div v-if="!isaAssig" class="flex flex-row gap-2 overflow-x-auto items-center whitespace-nowrap
             scrollbar-thin scrollbar-thumb-gray-400 scrollbar-track-gray-200 
@@ -269,9 +275,6 @@ export default {
         { taskType: "DtlBannerMgt", searchValue: "5CD7F771-139D-4044-708C-08DE2A3D770B", searchBy: "101" },
         this.showLoading
       );
-
-
-
       this.searchBy = "";
       this.keyword = "";
     },
@@ -289,7 +292,9 @@ export default {
       this.isShowWF = false;
     },
     
-
+    updateCategoryPath(newPath) {
+      this.taskhubStore.taskMoreDetailsList.data.categoryPath = newPath;
+    },
 
     handleDeleteExistingImage(index) {
         mageroots.value.splice(index, 1);
@@ -313,7 +318,6 @@ export default {
         this.filteredKpiId = list[foundIndex].id;
       }
     },
-
 
     toggleKpiView(id, index) {
       if (this.expandedRow === index) {
