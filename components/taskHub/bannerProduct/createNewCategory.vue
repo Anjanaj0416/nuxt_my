@@ -7,6 +7,7 @@
         </h2>
         <closebtn @close="closeModal" />
       </div>
+      <!-- {{ categoryPath }} -->
       <!-- {{quotationStore.initQuotation.listVendors}} -->
       <div class="modal-content">
         <div class="form-content">
@@ -92,7 +93,7 @@ definePageMeta({
 });
 export default {
   components: { serach_Input, imagepicker1,closebtn},
-  props:['taskType','jobCategory', 'taskHubId', 'categoryPath'],
+  props:['categoryPath'],
 
   data() {
     return {
@@ -127,7 +128,9 @@ export default {
 
   },
   mounted() {
-
+    if (this.categoryPath) {
+      this.CategoryPath = this.categoryPath;
+    }
   },
   methods: {
 

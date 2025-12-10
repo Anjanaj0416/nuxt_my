@@ -57,28 +57,62 @@
 
     <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
       <div>
-          <label class="block text-sm font-medium text-gray-600 mb-1">Select DTP</label>
+        <span class="text-sm font-medium text-gray-600">
+          Next Pending DTP :
+        </span>
+        <span v-if="taskhubStore?.nextPendingDTPId" class="ml-2 font-semibold text-sm text-gray-700">
+          {{taskhubStore.nextPendingDTPId.value }}
+
+        </span>
+
+        <span class="text-sm font-medium text-gray-600 ml-6">
+          Next Pending B2B Supper Admin:
+        </span>
+        <span v-if="taskhubStore?.nextPendingSupperAdmin" class="ml-2 font-semibold text-sm text-gray-700">
+          {{taskhubStore.nextPendingSupperAdmin.value }}
+
+        </span>
+        
+        <br></br>
+
+        <button
+          @click="toggleManualSelect"
+          class=" text-sm text-blue-600 underline hover:text-blue-800 border-none bg-transparent"
+        >
+            {{ IsDTPManulaSelected ? 'Allocate Next Pending DTP ID?' : 'Allocate another DTP?' }}
+        </button>
+
+        <!-- Dropdown only shown when manual allocation is enabled -->
+        <div v-if="IsDTPManulaSelected" class="mt-2">
           <select
-            v-model="dtpId"
-            @input="clearErrorOnInput('dtpId')"
+            v-model="selectedDtp"
+            @change="onDtpSelect"
             class="w-full p-2 border rounded-md text-sm bg-white focus:ring-2 focus:ring-blue-400"
           >
-            <option disabled value="">Select DTP</option>
+            <option disabled selected value="">Select DTP</option>
             <option
               v-for="item in taskhubStore.listDTP"
               :key="item.id"
-              :value="item.id"
+              :value="item"
             >
               {{ item.value }}
             </option>
           </select>
-          <p v-if="err.dtpId" class="mt-2 text-sm text-red-600">
-            {{ err.dtpId }}
-          </p>
+        </div>
       </div>
     </div>
 
     <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+      <div>
+        <label class="block text-sm font-medium text-gray-600 mb-1">Comment</label>
+        <textarea
+          v-model="comment"
+          type="text"
+          rows="5"
+          placeholder="Enter Comment"
+          class="w-full p-2 border rounded-md text-sm focus:ring-2 focus:ring-blue-400"
+        />
+      </div>
       <div>
         <label class="block text-sm font-medium text-gray-600 mb-1">Material Upload</label>
           <imagepickermultiple
@@ -86,18 +120,6 @@
             ref="refApprovedImg"
             accept="image/*,application/pdf,.doc,.docx,.xls,.xlsx"
           />
-      </div>
-    </div>
-    <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
-      <div>
-        <label class="block text-sm font-medium text-gray-600 mb-1">Comment</label>
-        <textarea
-          v-model="comment"
-          type="text"
-          rows="4"
-          placeholder="Enter Comment"
-          class="w-full p-2 border rounded-md text-sm focus:ring-2 focus:ring-blue-400"
-        />
       </div>
     </div>
   </div>
@@ -131,13 +153,7 @@ export default {
       selectedOption: "",
       selectedClient: null,
       optionError: "",
-      options: [
-        { label: "New Category", value: "category" },
-        { label: "Main Banner", value: "mainBanner" },
-        { label: "Category Banner", value: "categoryBanner" },
-        { label: "Vendor Banner", value: "vendorBanner" },
-
-      ],
+      IsDTPManulaSelected : false,
       expDate: '',
       sortOrder: '',
       comment: '',
@@ -167,6 +183,9 @@ export default {
     this.showAlert = this.$showAlert;
    
     await this.taskhubStore.loadInitBanner(this.showLoading);
+    await this.taskhubStore.TaskInit(this.vendorId, this.showLoading);
+    this.nextPendingDTPId = this.taskhubStore.nextPendingDTPId
+    this.taskhubStore.nextPendingSupperAdmin
 
   },
   mounted() {
@@ -200,38 +219,55 @@ export default {
       return `${dateStr}T23:59:59`;
     },
 
+    toggleManualSelect() {
+      this.IsDTPManulaSelected = !this.IsDTPManulaSelected;
+      if (!this.IsDTPManulaSelected) {
+        this.selectedDtp = null;
+      }
+    },
+
+    onDtpSelect() {
+      this.IsDTPManulaSelected = !!this.selectedDtp;
+    },
+
     async SetVendorBanner() {
       if (!this.IsValidate()) return;
 
       this.$showConfirm("Are you sure to this Vendor Banner?", "warning")
         .then(async (result) => {
           if (result.isConfirmed) {
-
+            const dtpToSend = this.selectedDtp 
+              ? this.selectedDtp.id 
+              : this.taskhubStore.nextPendingDTPId.id;
             const formData = new FormData();
             formData.append("vendorId", this.vendorId);
             formData.append("expDate", this.formatToEndOfDayISO(this.expDate));
             formData.append("sortOrder", this.sortOrder);
-            formData.append("amount", this.amount);
-            formData.append("kpiDays", this.kpiDays);
-            formData.append("DtpId", this.dtpId);
             formData.append("comment", this.comment || "");
+            formData.append("amount", this.amount || "");
+            formData.append("kpiDays", this.kpiDays);
+            formData.append("dtpId", dtpToSend || "");
+            formData.append("IsDTPManulaSelected", this.IsDTPManulaSelected || "");
 
-            if (this.listMaterialFiles) {
-              formData.append("listMaterialFiles", this.listMaterialFiles);
+            if (this.listMaterialFiles && this.listMaterialFiles.length > 0) {
+              this.listMaterialFiles.forEach((file) => {
+                formData.append("listMaterialFiles", file);
+              });
             }
-
 
             for (let [key, value] of formData.entries()) {
               console.log(key, value);
             }
 
-            await this.taskhubStore.AddMainBanner(formData, this.showLoading);
-
+            await this.taskhubStore.SetVendorBanner(formData, this.showLoading);
+  
             this.closeModal();
             this.clearErr();
           }
         });
     },
+
+
 
     IsValidate() {
       this.clearErr();
@@ -249,10 +285,7 @@ export default {
       //   this.err.amount = "Please enter a amount!";
       //   valid = false;
       // }
-      if (!this.dtpId) {
-        this.err.dtpId = "Please select a dtp!";
-        valid = false;
-      }
+  
       // if (!this.kpiDays) {
       //   this.err.kpiDays = "Please enter KPI days!";
       //   valid = false;

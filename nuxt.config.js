@@ -53,6 +53,7 @@ devServer: {
     public: {
     //  apiBaseUrl: process.env.API_URL, 
     //  imageBaseUrl: process.env.NUXT_IMAGE_BASE_URL,
+    // public: { apiBaseUrl: process.env.VITE_API_URL }
     },
   },
 

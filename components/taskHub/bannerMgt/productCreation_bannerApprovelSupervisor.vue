@@ -3,7 +3,7 @@
       <div class="grid grid-cols-1 sm:grid-cols-4 gap-4">
         <div>
           <h1 class="text-[12px] font-semibold text-gray-600">Dtl Job Category</h1>
-          <p class="text-sm text-gray-500 mt-0.5">{{ taskhubStore.taskMoreDetailsList?.data?.dtlJobCategory || 'No Data' }}</p>
+          <p class="text-sm text-gray-500 mt-0.5">{{ taskhubStore.taskMoreDetailsList.dtlJobCategory || 'No Data' }}</p>
         </div>
         <!-- {{ taskhubStore.taskMoreDetailsList }} -->
         <div>
@@ -87,8 +87,6 @@
             {{ taskhubStore.taskMoreDetailsList?.data?.comment || 'No Data' }}
           </p>
         </div>
-      </div>
-      <div class="grid grid-cols-1 md:grid-cols-3 gap-4 mt-2">
         <div>
           <h1 class="text-[12px] font-semibold text-gray-600">Material File</h1>
             <div
@@ -108,6 +106,8 @@
               </div>
             </div>
         </div>
+      </div>
+      <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
         <div>
           <label class="text-[12px] font-semibold text-gray-600">Comment</label>
           <textarea
@@ -118,51 +118,43 @@
             class="w-full p-2 border rounded-md text-sm focus:ring-2"
           />
         </div>
-        <div>
-          <label class="text-[12px] font-semibold text-gray-600">Material Upload</label>
-            <imagepickermultiple
-              @GetSelectedImages="handleSelectedImages"
-              ref="refApprovedImg"
-              accept="image/*,application/pdf,.doc,.docx,.xls,.xlsx"
-            />
-            <p v-if="err.listFiles" class="mt-2 text-sm text-red-600">
-              {{ err.listFiles }}
-            </p>
-        </div>
       </div>
-      <div class="sm:flex sm:justify-end sm:gap-4">
-        <div v-if="!isaAssig" class="flex flex-row gap-2 overflow-x-auto items-center whitespace-nowrap
-            scrollbar-thin scrollbar-thumb-gray-400 scrollbar-track-gray-200 
-            sm:flex sm:flex-wrap sm:gap-4 sm:overflow-visible
-            text-sm font-medium text-gray-500" >
-          <div class="flex justify-end pt-2 gap-2">
+      <div class="mt-4 flex flex-col sm:flex-row sm:justify-end sm:items-center gap-4 w-full">
+          <div class="flex gap-2 sm:order-1">
             <button
-              v-if="!isShowWF"
-              @click="GoToWorkFlow"
-              class="p-r px-12 py-2 text-xs bg-gradient-to-r from-blue-500 via-blue-600 to-blue-700 
-              font-semibold transition text-white rounded-full shadow focus:ring-2 focus:ring-blue-400"
+                v-if="!isShowWF"
+                @click="GoToWorkFlow"
+                class="px-12 py-2 text-xs bg-gradient-to-r from-blue-500 via-blue-600 to-blue-700
+                font-semibold transition text-white rounded-full shadow focus:ring-2 focus:ring-blue-400"
             >
-              View Work Flow
+                View Work Flow
             </button>
 
             <button
-              v-if="isShowWF"
-              @click="closeWorkFlow"
-              class="p-4 border-b-2 rounded-t-lg text-center text-red-600"
+                v-if="isShowWF"
+                @click="closeWorkFlow"
+                class="px-6 py-2 text-red-600 border-b-2 rounded-t-lg"
             >
-              Close Work Flow
+                Close Work Flow
             </button>
           </div>
-          <div class="flex justify-end pt-2 gap-2">
+          <div class="flex gap-2 sm:order-2">
             <button
-              @click="PassTo"
-              class="p-r px-12 py-2 text-xs bg-gradient-to-r from-blue-500 via-blue-600 to-blue-700 
-              font-semibold transition text-white rounded-full shadow focus:ring-2 focus:ring-blue-400"
+                @click="RejectBanner"
+                class="px-12 py-2 text-xs bg-gradient-to-r from-blue-500 via-blue-600 to-blue-700
+                font-semibold transition text-white rounded-full shadow focus:ring-2 focus:ring-blue-400"
             >
-              Pass to
+                Reject
+            </button>
+
+            <button
+                @click="AprovelBanner"
+                class="px-12 py-2 text-xs bg-gradient-to-r from-blue-500 via-blue-600 to-blue-700
+                font-semibold transition text-white rounded-full shadow focus:ring-2 focus:ring-blue-400"
+            >
+                Aprovel
             </button>
           </div>
-        </div>
       </div>
 
       <div class="p-0 dark:border-gray-700">
@@ -176,7 +168,6 @@ import { useUserStore } from "~/stores/modules/userStore";
 import { useTaskhubStore } from "~/stores/modules/taskHub/taskhubStore";
 import createNewCategory from "../bannerProduct/createNewCategory.vue";
 import workFlowDetails from "./workFlowDetails.vue";
-import imagepickermultiple from "~/components/customcontrol/imagepickermultiple.vue";
 
 definePageMeta({
   layout: "default",
@@ -184,7 +175,7 @@ definePageMeta({
 });
 
 export default {
-    components:{createNewCategory,workFlowDetails,imagepickermultiple},
+    components:{createNewCategory,workFlowDetails},
     props:['taskType','jobCategory', 'taskHubId'],
 
   data() {
@@ -280,20 +271,11 @@ export default {
     },
     
 
-    handleSelectedImages(files) {
-      console.log("Selected Files in Parent:", files);
-      this.listFiles = files;
-    },
 
-    handleDeleteExistingImage(index) {
-        mageroots.value.splice(index, 1);
-    },
-
-
-    //pass next 
-    async PassTo() {
-      if (!this.IsValidate()) return;
-      this.$showConfirm("Are you sure Pass the DTP?", "warning")
+    //Approve
+    async AprovelBanner() {
+   
+      this.$showConfirm("Are you sure you want to approve this banner?", "warning")
         .then(async (result) => {
           if (result.isConfirmed) {
 
@@ -316,6 +298,36 @@ export default {
             }
 
             await this.taskhubStore.SetPassToOtherWorkGroup(formData, this.showLoading);
+
+          }
+        });
+    },
+
+    //Reject
+    async RejectBanner() {
+   
+      this.$showConfirm("Are you sure you want to reject this banner?", "warning")
+        .then(async (result) => {
+          if (result.isConfirmed) {
+
+            const formData = new FormData();
+            formData.append("TaskType", this.taskType);
+            formData.append("WGRequestCategory", "NewCategoryRequest");
+            const dataObj = {
+              taskHubId: this.taskHubId,
+              comment: this.comment || ""
+            };
+            formData.append("Data", JSON.stringify(dataObj));
+            if (this.listFiles && this.listFiles.length > 0) {
+              this.listFiles.forEach((file, index) => {
+                formData.append("listFiles", file);
+              });
+            }
+
+            for (let [key, value] of formData.entries()) {
+              console.log(key, value);
+            }
+
 
           }
         });

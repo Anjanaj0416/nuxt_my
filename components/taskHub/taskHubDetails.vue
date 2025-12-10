@@ -102,13 +102,32 @@
             class="flex flex-col gap-4 p-4 mt-2 r"
           >
             <div v-if="dtpJobs.pendingWorkGroup === 'SUPPERADMIN'">
-              <productCreation_b2bAdmin :taskType="dtpJobs.jobType" :jobCategory="dtpJobs.jobCategory" :taskHubId="dtpJobs.id" />
+              <productCreation_b2bAdmin 
+                :taskType="dtpJobs.jobType" 
+                :jobCategory="dtpJobs.jobCategory" 
+                :taskHubId="dtpJobs.id" 
+              />
             </div>
-            <div v-if="dtpJobs.pendingWorkGroup === '' && dtpJobs.jobType === ''">>
-              <productCreation_dtp />
+            <div v-if="dtpJobs.pendingWorkGroup === 'DTP' ">
+              <productCreation_dtp 
+                :taskType="dtpJobs.jobType" 
+                :jobCategory="dtpJobs.jobCategory" 
+                :taskHubId="dtpJobs.id"
+              />
             </div>
-            <div v-if="dtpJobs.pendingWorkGroup === 'SUPERVISOR' ">
-              <CategoryApprovelSuperviser :taskType="dtpJobs.jobType" :jobCategory="dtpJobs.jobCategory" :taskHubId="dtpJobs.id"/>
+            <div v-if="dtpJobs.pendingWorkGroup === 'SUPERVISOR'">
+              <CategoryApprovelSuperviser
+                v-if="dtpJobs.jobCategory === 'ProductCreation'"
+                :taskType="dtpJobs.jobType"
+                :jobCategory="dtpJobs.jobCategory"
+                :taskHubId="dtpJobs.id"
+              />
+              <BannerApprovelSuperviser
+                v-if="dtpJobs.jobCategory === 'Banner'"
+                :taskType="dtpJobs.jobType"
+                :jobCategory="dtpJobs.jobCategory"
+                :taskHubId="dtpJobs.id"
+              />
             </div>
           </div>
         </transition>
@@ -127,7 +146,8 @@ import assigDtp from "./bannerMgt/assigDtp.vue";
 import SearchComp from "~/components/customcontrol/SearchComp";
 import productCreation_b2bAdmin from "./bannerMgt/productCreation_b2bAdmin.vue";
 import productCreation_dtp from "./bannerMgt/productCreation_dtp.vue";
-import CategoryApprovelSuperviser from "./bannerMgt/productCreation_categoryApprovelSuperviser.vue";
+import CategoryApprovelSuperviser from "./bannerMgt/productCreation_categoryApprovelSupervisor.vue";
+import BannerApprovelSuperviser from "./bannerMgt/productCreation_bannerApprovelSupervisor.vue";
 
 
 definePageMeta({
@@ -136,7 +156,7 @@ definePageMeta({
 });
 
 export default {
-    components:{imagepicker1,assigDtp,Button,SearchComp,productCreation_b2bAdmin,productCreation_dtp,CategoryApprovelSuperviser},
+    components:{imagepicker1,assigDtp,Button,SearchComp,productCreation_b2bAdmin,productCreation_dtp,CategoryApprovelSuperviser,BannerApprovelSuperviser},
   data() {
     return {
       isaAssig: false,

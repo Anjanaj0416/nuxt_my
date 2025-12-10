@@ -46,85 +46,126 @@
         </div>
 
         <div class="space-y-1">
-            <div class="grid items-center gap-4 p-4 bg-white rounded-xl border border-gray-200 sm:grid-cols-8 shadow-sm">
-            <div class="sm:col-span-2">
-                <h3 class="text-xs font-semibold text-gray-600">
-                Main Category
-                </h3>
-            </div>
-            <div class="sm:col-span-4">
-                <input 
-                  type="text" 
-                  v-model="mainCategoryValue"
-                  placeholder="Enter sub SubSub Category"
-                  class="w-full p-2 mt-2 text-sm border rounded-md" 
-                />
-            </div>
-            <div class="sm:col-span-2 flex sm:justify-end"></div>
-            </div>
-            <div class="grid items-center gap-4 p-4 bg-white rounded-xl border border-gray-200 sm:grid-cols-8 shadow-sm">
-            <div class="sm:col-span-2">
-                <h3 class="text-xs font-semibold text-gray-600">
-                Sub Category
-                </h3>
-            </div>
-            <div class="sm:col-span-4">
-               
-                <input 
-                  type="text" 
-                  v-model="subCategoryValue"
-                  placeholder="Enter sub SubSub Category"
-                  class="w-full p-2 mt-2 text-sm border rounded-md" 
-                />
-            </div>
-
-            <div class="sm:col-span-2 flex sm:justify-end"></div>
-            </div>
-            <div class="grid items-center gap-4 p-4 bg-white rounded-xl border border-gray-200 sm:grid-cols-8 shadow-sm">
-            <div class="sm:col-span-2">
-                <h3 class="text-xs font-semibold text-gray-600">
-                Sub Sub Category
-                </h3>
-            </div>
-            <div class="sm:col-span-4">
+          <div class="grid items-center gap-4 p-4 bg-white rounded-xl border border-gray-200 sm:grid-cols-8 shadow-sm">
+          <div class="sm:col-span-2">
+              <h3 class="text-xs font-semibold text-gray-600">
+              Main Category
+              </h3>
+          </div>
+          <div class="sm:col-span-4">
               <input 
                 type="text" 
-                v-model="subSubCategoryValue"
+                v-model="mainCategoryValue"
                 placeholder="Enter sub SubSub Category"
                 class="w-full p-2 mt-2 text-sm border rounded-md" 
               />
-            </div>
+          </div>
+          <div class="sm:col-span-2 flex sm:justify-end"></div>
+          </div>
+          <div class="grid items-center gap-4 p-4 bg-white rounded-xl border border-gray-200 sm:grid-cols-8 shadow-sm">
+          <div class="sm:col-span-2">
+              <h3 class="text-xs font-semibold text-gray-600">
+              Sub Category
+              </h3>
+          </div>
+          <div class="sm:col-span-4">
+              
+              <input 
+                type="text" 
+                v-model="subCategoryValue"
+                placeholder="Enter sub SubSub Category"
+                class="w-full p-2 mt-2 text-sm border rounded-md" 
+              />
+          </div>
 
-            <div class="sm:col-span-2 flex sm:justify-end"></div>
-            </div>
-            <div class="grid items-center gap-4 p-4 bg-white rounded-xl border border-gray-200 sm:grid-cols-8 shadow-sm">
-            <div class="sm:col-span-2">
-                <h3 class="text-xs font-semibold text-gray-600">
-                Sub Sub Sub Category
-                </h3>
-            </div>
-            <div class="sm:col-span-4">
-                <input 
-                  type="text" 
-                  v-model="subSubSubCategoryValue"
-                  placeholder="Enter sub SubSub Category"
-                  class="w-full p-2 mt-2 text-sm border rounded-md" 
-                />
-            </div>
+          <div class="sm:col-span-2 flex sm:justify-end"></div>
+          </div>
+          <div class="grid items-center gap-4 p-4 bg-white rounded-xl border border-gray-200 sm:grid-cols-8 shadow-sm">
+          <div class="sm:col-span-2">
+              <h3 class="text-xs font-semibold text-gray-600">
+              Sub Sub Category
+              </h3>
+          </div>
+          <div class="sm:col-span-4">
+            <input 
+              type="text" 
+              v-model="subSubCategoryValue"
+              placeholder="Enter sub SubSub Category"
+              class="w-full p-2 mt-2 text-sm border rounded-md" 
+            />
+          </div>
 
-            <div class="sm:col-span-2 flex sm:justify-end"></div>
-            </div>
-            <div class="sm:flex sm:justify-end sm:gap-4">
-                <div class="flex justify-end pt-2 gap-2">
-                    <button
-                    @click="SetCatPath"
-                    class="p-r px-12 py-2 text-xs bg-gradient-to-r from-blue-500 via-blue-600 to-blue-700 
-                    font-semibold transition text-white rounded-full shadow focus:ring-2 focus:ring-blue-400"
-                    >
-                    Aprovel
-                    </button>
-                </div>
-            </div>
+          <div class="sm:col-span-2 flex sm:justify-end"></div>
+          </div>
+          <div class="grid items-center gap-4 p-4 bg-white rounded-xl border border-gray-200 sm:grid-cols-8 shadow-sm">
+          <div class="sm:col-span-2">
+              <h3 class="text-xs font-semibold text-gray-600">
+              Sub Sub Sub Category
+              </h3>
+          </div>
+          <div class="sm:col-span-4">
+              <input 
+                type="text" 
+                v-model="subSubSubCategoryValue"
+                placeholder="Enter sub SubSub Category"
+                class="w-full p-2 mt-2 text-sm border rounded-md" 
+              />
+          </div>
+
+          <div class="sm:col-span-2 flex sm:justify-end"></div>
+          </div>
+        </div>
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+          <div>
+            <label class="text-[12px] font-semibold text-gray-600">Comment</label>
+            <textarea
+              v-model="comment"
+              type="text"
+              rows="3"
+              placeholder="Enter Comment"
+              class="w-full p-2 border rounded-md text-sm focus:ring-2"
+            />
+          </div>
+        </div>
+        <div class="mt-4 flex flex-col sm:flex-row sm:justify-end sm:items-center gap-4 w-full">
+          <div class="flex gap-2 sm:order-1">
+            <button
+                v-if="!isShowWF"
+                @click="GoToWorkFlow"
+                class="px-12 py-2 text-xs bg-gradient-to-r from-blue-500 via-blue-600 to-blue-700
+                font-semibold transition text-white rounded-full shadow focus:ring-2 focus:ring-blue-400"
+            >
+                View Work Flow
+            </button>
+
+            <button
+                v-if="isShowWF"
+                @click="closeWorkFlow"
+                class="px-6 py-2 text-red-600 border-b-2 rounded-t-lg"
+            >
+                Close Work Flow
+            </button>
+          </div>
+          <div class="flex gap-2 sm:order-2">
+            <button
+                @click="RejectBanner"
+                class="px-12 py-2 text-xs bg-gradient-to-r from-blue-500 via-blue-600 to-blue-700
+                font-semibold transition text-white rounded-full shadow focus:ring-2 focus:ring-blue-400"
+            >
+                Reject
+            </button>
+
+            <button
+                @click="AprovelBanner"
+                class="px-12 py-2 text-xs bg-gradient-to-r from-blue-500 via-blue-600 to-blue-700
+                font-semibold transition text-white rounded-full shadow focus:ring-2 focus:ring-blue-400"
+            >
+                Aprovel
+            </button>
+          </div>
+        </div>
+        <div class="p-0 dark:border-gray-700">
+          <workFlowDetails v-if="isShowWF" @close="isShowWF = false" :taskHubId="taskHubId" />
         </div>
     </section>
 </template>
@@ -132,6 +173,7 @@
 <script>
 import { useUserStore } from "~/stores/modules/userStore";
 import { useTaskhubStore } from "~/stores/modules/taskHub/taskhubStore";
+import workFlowDetails from "./workFlowDetails.vue";
 import serach_Input from "~/components/customcontrol/SearchInput";
 
 
@@ -141,7 +183,7 @@ definePageMeta({
 });
 
 export default {
-    components:{serach_Input},
+    components:{serach_Input,workFlowDetails},
       props:['taskType','jobCategory', 'taskHubId', 'categoryPath'],
 
 
@@ -161,7 +203,7 @@ export default {
     };
   },
 
- async created() {
+  async created() {
     this.userStore = useUserStore();
     this.taskhubStore = useTaskhubStore();
     
@@ -199,10 +241,11 @@ export default {
       this.clearErr();
       this.closeModal();
     },
-    clearErrorOnInput(field) {
-      if (this.err[field]) {
-        this.err[field] = "";
-      }
+     GoToWorkFlow() {
+      this.isShowWF = true;
+    },
+    closeWorkFlow() {
+      this.isShowWF = false;
     },
 
     async GetSelectMainCategory(item) {
@@ -259,9 +302,8 @@ export default {
       await this.taskhubStore.GetSubCategory(item.id, this.showLoading);
     },
 
-
-    async SetCatPath() {
-      this.$showConfirm("Are you sure Approval?", "warning")
+    async AprovelBanner() {
+      this.$showConfirm("Are you sure you want to approve this category?", "warning")
         .then(async (result) => {
           if (result.isConfirmed) {
 
@@ -293,30 +335,66 @@ export default {
         });
     },
 
-      resetCategoryFields() {
-        this.mainCategoryId = "00000000-0000-0000-0000-000000000000";
-        this.mainCategoryValue = "";
+    //Reject
+    async RejectBanner() {
+   
+      this.$showConfirm("Are you sure you want to reject this category?", "warning")
+        .then(async (result) => {
+          if (result.isConfirmed) {
 
-        this.subCategoryID = "00000000-0000-0000-0000-000000000000";
-        this.subCategoryValue = "";
+            const formData = new FormData();
+            formData.append("TaskType", this.taskType);
+            formData.append("WGRequestCategory", "NewCategoryRequest");
+            const dataObj = {
+              taskHubId: this.taskHubId,
+              comment: this.comment || ""
+            };
+            formData.append("Data", JSON.stringify(dataObj));
+            if (this.listFiles && this.listFiles.length > 0) {
+              this.listFiles.forEach((file, index) => {
+                formData.append("listFiles", file);
+              });
+            }
 
-        this.subSubCategoryID = "00000000-0000-0000-0000-000000000000";
-        this.subSubCategoryValue = "";
+            for (let [key, value] of formData.entries()) {
+              console.log(key, value);
+            }
 
-        this.subSubSubCategoryID = "00000000-0000-0000-0000-000000000000";
-        this.subSubSubCategoryValue = "";
 
-        // Clear the dropdown/search lists
-        this.taskhubStore.listSubCategory = [];
-        this.taskhubStore.listSubSubCategory = [];
-        this.taskhubStore.listSubSubSubCategory = [];
-      },
+          }
+        });
+    },
+
+    resetCategoryFields() {
+      this.mainCategoryId = "00000000-0000-0000-0000-000000000000";
+      this.mainCategoryValue = "";
+
+      this.subCategoryID = "00000000-0000-0000-0000-000000000000";
+      this.subCategoryValue = "";
+
+      this.subSubCategoryID = "00000000-0000-0000-0000-000000000000";
+      this.subSubCategoryValue = "";
+
+      this.subSubSubCategoryID = "00000000-0000-0000-0000-000000000000";
+      this.subSubSubCategoryValue = "";
+
+      // Clear the dropdown/search lists
+      this.taskhubStore.listSubCategory = [];
+      this.taskhubStore.listSubSubCategory = [];
+      this.taskhubStore.listSubSubSubCategory = [];
+    },
 
 
     clearErr() {
       Object.keys(this.err).forEach((key) => {
         this.err[key] = "";
       });
+    },
+
+    clearErrorOnInput(field) {
+      if (this.err[field]) {
+        this.err[field] = "";
+      }
     },
 
     openFromRoute(queryId) {

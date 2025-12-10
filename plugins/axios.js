@@ -6,7 +6,7 @@ export default defineNuxtPlugin((nuxtApp) => {
 
   // Set base URL
   axios.defaults.baseURL = config.public.apiBaseUrl
-
+  //interceptors--(heders Modification)
   axios.interceptors.request.use(
     (config) => {
       const userStore = useUserStore()

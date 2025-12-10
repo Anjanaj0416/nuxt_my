@@ -1,13 +1,13 @@
 <template>
   <section>
       <div class="grid grid-cols-1 sm:grid-cols-4 gap-4">
-          <div>
+        <div>
           <h1 class="text-[12px] font-semibold text-gray-600">Dtl Job Category</h1>
           <p class="text-sm text-gray-500 mt-0.5">{{ taskhubStore.taskMoreDetailsList.dtlJobCategory || 'No Data' }}</p>
         </div>
+        <!-- {{ taskhubStore.taskMoreDetailsList }} -->
         <div>
           <h1 class="text-[12px] font-semibold text-gray-600">Client Details</h1>
-          
           <p
               v-html="formatComment(taskhubStore.taskMoreDetailsList?.data?.clientDetails)"
               class="mt-1 text-xs text-gray-700 max-h-[150px] overflow-auto whitespace-pre-wrap break-words"
@@ -76,6 +76,9 @@
             placeholder="Enter Store Url"
             class="w-full p-2 border rounded-md text-sm focus:ring-2 focus:ring-blue-400"
           />
+          <p v-if="err.StoreUrl" class="mt-2 text-sm text-red-600">
+          {{ err.StoreUrl }}
+          </p>
         </div>
         <div>
           <h1 class="text-[12px] font-semibold text-gray-600">Store QR Url</h1>
@@ -96,16 +99,9 @@
             placeholder="Enter Store User Name"
             class="w-full p-2 border rounded-md text-sm focus:ring-2 focus:ring-blue-400"
           />
-        </div>
-        <div>
-          <h1 class="text-[12px] font-semibold text-gray-600">Store User Name</h1>
-          <input
-            v-model="StoreUsername"
-            @input="clearErrorOnInput('StoreUsername')"
-            type="text"
-            placeholder="Enter Store User Name"
-            class="w-full p-2 border rounded-md text-sm focus:ring-2 focus:ring-blue-400"
-          />
+          <p v-if="err.StoreUsername" class="mt-2 text-sm text-red-600">
+          {{ err.StoreUsername }}
+          </p>
         </div>
         <div>
           <h1 class="text-[12px] font-semibold text-gray-600">Store Store Password</h1>
@@ -116,6 +112,9 @@
             placeholder="Enter Store Password"
             class="w-full p-2 border rounded-md text-sm focus:ring-2 focus:ring-blue-400"
           />
+          <p v-if="err.StorePassword" class="mt-2 text-sm text-red-600">
+          {{ err.StorePassword }}
+          </p>
         </div>
       </div>
       <div class="grid grid-cols-1 md:grid-cols-3 gap-4 mt-2">
@@ -184,7 +183,7 @@
           </div>
            <div class="flex justify-end pt-2 gap-2">
             <button
-              @click=""
+              @click="PassTo"
               class="p-r px-12 py-2 text-xs bg-gradient-to-r from-blue-500 via-blue-600 to-blue-700 
               font-semibold transition text-white rounded-full shadow focus:ring-2 focus:ring-blue-400"
             >
@@ -208,8 +207,6 @@ import createNewCategory from "../bannerProduct/createNewCategory.vue";
 import workFlowDetails from "./workFlowDetails.vue";
 import imagepickermultiple from "~/components/customcontrol/imagepickermultiple.vue";
 
-
-
 definePageMeta({
   layout: "default",
   middleware: "auth",
@@ -224,15 +221,30 @@ export default {
       isaAssig: false,
       isShowWF: false,
       expandedRow: null, 
-       taskMoreDetails: {
+      taskMoreDetails: {
+        dtlJobCategory: "",
+        data: {
+          clientDetails: "",
+          categoryPath: "",
+          csoName: "",
+          noOfProducts: ""
+        }
+      },
+      CategoryPath:"",
+      TaskHubId: "",
+      listFiles:"",
       dtlJobCategory: "",
-      data: {
-        clientDetails: "",
-        categoryPath: "",
-        csoName: "",
-        noOfProducts: ""
-      }
-    }
+      Comment:"",
+      StoreUrl: "",
+      StoreQRUrl:"",
+      StoreUsername: "",
+      StorePassword: "",
+      StoreMapedDomainUrl:"",
+      err: {
+        StoreUrl: "",
+        StoreUsername: "",
+        StorePassword: "",
+      },
       
     };
   },
@@ -317,8 +329,37 @@ export default {
 
     //pass cat approvel
     async SendToApproval() {
+      this.$showConfirm("Are you sure to this category approval ?", "warning")
+        .then(async (result) => {
+          if (result.isConfirmed) {
+            const formData = new FormData();
+            formData.append("TaskType", this.taskType);
+            formData.append("WGRequestCategory", "NewCategoryRequest");
+            const dataObj = {
+              taskHubId: this.taskHubId,
+              categoryPath: this.taskhubStore.taskMoreDetailsList?.data?.categoryPath,
+              comment: this.comment || ""
+            };
+            formData.append("Data", JSON.stringify(dataObj));
+            if (this.listFiles && this.listFiles.length > 0) {
+              this.listFiles.forEach((file, index) => {
+                formData.append("listFiles", file);
+              });
+            }
 
-      this.$showConfirm("Are you sure to this Main Banner?", "warning")
+            for (let [key, value] of formData.entries()) {
+              console.log(key, value);
+            }
+            
+            await this.taskhubStore.SetPassToOtherWorkGroup(formData, this.showLoading);
+          }
+        });
+    },
+
+    //pass next 
+    async PassTo() {
+      if (!this.IsValidate()) return;
+      this.$showConfirm("Are you sure Pass the DTP?", "warning")
         .then(async (result) => {
           if (result.isConfirmed) {
 
@@ -340,10 +381,37 @@ export default {
             for (let [key, value] of formData.entries()) {
               console.log(key, value);
             }
+
             await this.taskhubStore.SetPassToOtherWorkGroup(formData, this.showLoading);
 
           }
         });
+    },
+
+     IsValidate() {
+      this.clearErr();
+      let valid = true;
+
+      if (!this.StoreUrl) {
+        this.err.StoreUrl = "Please enter Store Url!";
+        valid = false;
+      }
+      if (!this.StoreUsername) {
+        this.err.StoreUsername = "Please enter Store Username!";
+        valid = false;
+      }
+      if (!this.StorePassword) {
+        this.err.StorePassword = "Please enter Store Password!";
+        valid = false;
+      }
+
+      return valid;
+    },
+
+    clearErr() {
+      Object.keys(this.err).forEach((key) => {
+        this.err[key] = "";
+      });
     },
 
 

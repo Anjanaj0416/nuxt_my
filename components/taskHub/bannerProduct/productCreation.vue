@@ -49,7 +49,7 @@
           class="w-full p-2 border rounded-md text-sm focus:ring-2 focus:ring-blue-400"
         />
 
-        <p class="mt-2 text-sm">Ex : AB/CD/EF ....</p>
+        <p class="mt-2 text-sm">Ex : AB/CD/EF(New) ....</p>
       </div>
     </div>
     
@@ -378,7 +378,7 @@ export default {
     async SetProductVBanner() {
       if (!this.IsValidate()) return;
 
-      this.$showConfirm("Are you sure to this Vendor Banner?", "warning")
+      this.$showConfirm("Are you sure to this Product Details?", "warning")
         .then(async (result) => {
           if (result.isConfirmed) {
             const dtpToSend = this.selectedDtp 
