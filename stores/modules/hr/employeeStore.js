@@ -185,6 +185,8 @@ export const useEmployeeStore = defineStore("employeeStore", {
       console.log('API-getEmployeeByID:',req);
       console.log(JSON.stringify(req));
 
+      this.clearEmployee();
+
       const loadingAlert = showLoading("");
       try {
         const response = await axios.get(
