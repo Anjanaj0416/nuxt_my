@@ -161,7 +161,7 @@
               <hr_item item="Reson For Resign" :value="employeeStore?.empdetails?.reasonForResign" />
             </div>
             <div class="col-span-1">
-              <hr_item item="Activation" :value="employeeStore?.empdetails?.isActive ? 'Active' : 'In active'" />
+              <hr_item item="Status" :value="employeeStore?.empdetails?.isActive ? 'Active' : 'In active'" />
             </div>
           </div>
 

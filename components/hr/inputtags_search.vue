@@ -70,6 +70,8 @@ export default {
     }
   },
   created() {
+    console.log("created.arrSelectedItems:", this.arrSelectedItems);
+
     if (this.arrSelectedItems.length > 0) {
       this.list = this.arrSelectedItems;
     }
@@ -83,21 +85,30 @@ export default {
       this.list = []
     },
     addItem(item) {
+      console.log("addItem:", item);
 
-      var index = this.arrSelectedItems.findIndex((i) => i.id == item.id)
-
-      if (index == -1) {
-        // let selected_item = this.arrItems.filter((item) => {
-        //   return item.id == id
-        // })[0]
-
-        // this.list.push({ value: item.value })
+      if (!this.list.length > 0) {
+        this.list.push(item)
         this.arrSelectedItems.push(item)
-
       } else {
-        alert('Item Already Exist')
+        var index = this.list.findIndex((i) => i.id == item.id)
+        console.log("index:", index);
+
+        if (index == -1) {
+          // let selected_item = this.arrItems.filter((item) => {
+          //   return item.id == id
+          // })[0]
+
+          this.list.push(item)
+          this.arrSelectedItems.push(item)
+
+        } else {
+          alert('Item Already Exist')
+        }
       }
+
     },
+
     deletetag(tagval) {
 
       try {
