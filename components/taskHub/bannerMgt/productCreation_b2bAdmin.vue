@@ -3,7 +3,9 @@
       <div class="grid grid-cols-1 sm:grid-cols-4 gap-4">
         <div>
           <h1 class="text-[12px] font-semibold text-gray-600">Dtl Job Category</h1>
-          <p class="text-sm text-gray-500 mt-0.5">{{ taskhubStore.taskMoreDetailsList.dtlJobCategory || 'No Data' }}</p>
+          <p class="text-sm text-gray-500 mt-0.5">  {{ jobCategoryLabel }}</p>
+
+          
         </div>
         <!-- {{ taskhubStore.taskMoreDetailsList }} -->
         <div>
@@ -172,16 +174,27 @@
           </div>
 
           <div class="flex justify-end pt-2 gap-2">
-            <button
+            <!-- <button
               @click="SendToApproval"
               class="p-r px-12 py-2 text-xs bg-gradient-to-r from-blue-500 via-blue-600 to-blue-700 
               font-semibold transition text-white rounded-full shadow focus:ring-2 focus:ring-blue-400"
             >
               Send to Aprovel
+            </button> -->
+            <button
+              v-if="hasNewInCategoryPath"
+              @click="SendToApproval"
+              :class="[
+                'p-r px-12 py-2 text-xs font-semibold transition rounded-full shadow focus:ring-2',
+                hasNewInCategoryPath
+                  ? 'bg-gradient-to-r from-blue-500 via-blue-600 to-blue-700 text-white focus:ring-blue-400'
+                  : 'bg-yellow-400 text-black animate-pulse'
+              ]"
+            >
+              Send to Approval
             </button>
-      
           </div>
-           <div class="flex justify-end pt-2 gap-2">
+          <div class="flex justify-end pt-2 gap-2">
             <button
               @click="PassTo"
               class="p-r px-12 py-2 text-xs bg-gradient-to-r from-blue-500 via-blue-600 to-blue-700 
@@ -189,8 +202,49 @@
             >
               Pass to
             </button>
-      
           </div>
+          <!-- <div class=" pt-2 gap-2 relative">
+            <button
+              @click="togglePassToList"
+              class="p-r px-12 py-2 text-xs bg-gradient-to-r from-blue-500 via-blue-600 to-blue-700 
+              font-semibold transition text-white rounded-full shadow focus:ring-2 focus:ring-blue-400"
+            >
+              Pass to
+            </button>
+            <transition name="fade-slide">
+              <div
+                v-if="showPassToList"
+                class="absolute right-0 mt-2 w-96 bg-white border border-gray-200 rounded-lg shadow-xl z-50 overflow-hidden"
+              >
+              <ul>
+                <li  class="px-4 py-3  cursor-pointer transition">
+                  <div>
+                    <label class="text-[14px] font-semibold text-gray-600">Select</label>
+                  </div>
+                  <select class="w-full p-2 border rounded-md text-sm bg-white focus:ring-2 focus:ring-blue-400">
+                    <option disabled selected value="">Select DTP</option>
+                    <option
+                      v-for="item in taskhubStore.listDTP"
+                      :key="item.id"
+                      :value="item"
+                    >
+                      {{ item.value }}
+                    </option>
+                  </select>
+                </li>
+                <li  class="px-4 py-3 hover:bg-blue-50 cursor-pointer transition flex justify-end">
+                  <button
+                    @click="PassTo"
+                    class="p-r px-12 py-2 text-xs bg-gradient-to-r from-blue-500 via-blue-600 to-blue-700 
+                    font-semibold transition text-white rounded-full shadow focus:ring-2 focus:ring-blue-400"
+                  >
+                    Pass to
+                  </button>
+                </li>
+              </ul>
+              </div>
+            </transition>
+          </div> -->
         </div>
       </div>
 
@@ -240,6 +294,7 @@ export default {
       StoreUsername: "",
       StorePassword: "",
       StoreMapedDomainUrl:"",
+      showPassToList: false,
       err: {
         StoreUrl: "",
         StoreUsername: "",
@@ -263,10 +318,29 @@ export default {
         },
         this.showLoading
     );
+    //    await this.taskhubStore.loadInitBanner(this.showLoading);
+    // await this.taskhubStore.TaskInit(this.vendorId, this.showLoading);
 
     this.taskMoreDetailsList = this.taskhubStore.taskMoreDetailsList;
 
 
+  },
+
+  computed: {
+    jobCategoryLabel() {
+      const code = this.taskhubStore.taskMoreDetailsList?.dtlJobCategory;
+      const categoryMap = {
+        110: 'VendorBannerCreation',
+        100: 'ProductCreation'
+      };
+      return categoryMap[code] || 'No Data';
+    },
+
+    hasNewInCategoryPath() {
+      const path = this.taskhubStore.taskMoreDetailsList?.data?.categoryPath || "";
+      // matches (New), (new), (NEW), etc anywhere in text
+      return /\(new\)/i.test(path);
+    }
   },
 
   mounted() {
@@ -313,6 +387,9 @@ export default {
     closeWorkFlow() {
       this.isShowWF = false;
     },
+    togglePassToList() {
+      this.showPassToList = !this.showPassToList;
+    },
     
     updateCategoryPath(newPath) {
       this.taskhubStore.taskMoreDetailsList.data.categoryPath = newPath;
@@ -333,8 +410,8 @@ export default {
         .then(async (result) => {
           if (result.isConfirmed) {
             const formData = new FormData();
-            formData.append("TaskType", this.taskType);
-            formData.append("WGRequestCategory", "NewCategoryRequest");
+            formData.append("TaskType", "100");//ProductCreation-100
+            formData.append("WGRequestType", "1010");//NewCategoryRequest-1010
             const dataObj = {
               taskHubId: this.taskHubId,
               categoryPath: this.taskhubStore.taskMoreDetailsList?.data?.categoryPath,
@@ -347,9 +424,15 @@ export default {
               });
             }
 
+            const jsonObject = {};
             for (let [key, value] of formData.entries()) {
-              console.log(key, value);
+              if (jsonObject[key]) {
+                jsonObject[key] = [].concat(jsonObject[key], value);
+              } else {
+                jsonObject[key] = value;
+              }
             }
+            console.log(jsonObject);
             
             await this.taskhubStore.SetPassToOtherWorkGroup(formData, this.showLoading);
           }
@@ -362,14 +445,18 @@ export default {
       this.$showConfirm("Are you sure Pass the DTP?", "warning")
         .then(async (result) => {
           if (result.isConfirmed) {
-
             const formData = new FormData();
-            formData.append("TaskType", this.taskType);
-            formData.append("WGRequestCategory", "NewCategoryRequest");
+            formData.append("TaskType", "100");//ProductCreation- 100
+            formData.append("WGRequestType", "1030");//ProductUpload-1030
             const dataObj = {
-              taskHubId: this.taskHubId,
-              categoryPath: this.CategoryPath,
-              comment: this.comment || ""
+              TaskHubId: this.taskHubId,
+              CategoryPath: this.taskhubStore.taskMoreDetailsList?.data?.categoryPath,
+              Comment: this.comment || "",
+              StoreMapedDomainUrl: this.StoreMapedDomainUrl || "",
+              StoreUrl: this.StoreUrl || "",
+              StoreQRUrl: this.StoreQRUrl || "",
+              StoreUsername: this.StoreUsername || "",
+              StorePassword: this.StorePassword || "",
             };
             formData.append("Data", JSON.stringify(dataObj));
             if (this.listFiles && this.listFiles.length > 0) {

@@ -18,7 +18,7 @@
             <div class="w-full md:w-auto flex justify-start md:justify-end">
             
                 <Button class="w-24 px-4 py-1.5 mt-2 rounded-full text-xs transition" label="Create" variant="primary" 
-                  v-if="userStore.loggedUser.granted.includes('su') || userStore.loggedUser.granted.includes('flo') || userStore.loggedUser.granted.includes('sso') || userStore.loggedUser.granted?.includes('cso')"
+                  v-if="userStore.loggedUser.granted.includes('su') || userStore.loggedUser.granted.includes('flo') || userStore.loggedUser.granted.includes('sso') || userStore.loggedUser.granted?.includes('accdept')"
                   @click="handleCreateClick" 
                 />
             
@@ -257,7 +257,7 @@
                 </button>
 
                 <button
-                  v-if="(userStore.loggedUser.granted.includes('sso') || userStore.loggedUser.granted.includes('su')) && (order.orderStatus !== 'Canceled')"
+                  v-if="(userStore.loggedUser.granted.includes('sso') || userStore.loggedUser.granted.includes('su') || userStore.loggedUser.granted?.includes('flo') || userStore.loggedUser.granted?.includes('accdept')) && (order.orderStatus !== 'Canceled')"
                   @click="confirmDelete(order.id)"
                   class="text-sm  text-blue-600 hover:underline"
                 >

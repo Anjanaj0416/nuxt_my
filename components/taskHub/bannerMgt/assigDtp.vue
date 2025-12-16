@@ -46,14 +46,14 @@
           </div>
 
           <div v-else-if="selectedOption === 'categoryBanner'" class="overflow-y-auto max-h-[55vh]">
-            <categoryBanner :vendorId="vendorId" />
+            <categoryBanner :vendorId="vendorId" @close="closeModal"/>
           </div>
 
           <div v-else-if="selectedOption === 'vendorBanner'" class="overflow-y-auto max-h-[55vh]">
-            <vendorBanner :vendorId="vendorId" />
+            <vendorBanner :vendorId="vendorId" @close="closeModal"/>
           </div>
            <div v-else-if="selectedOption === 'store'" class="overflow-y-auto max-h-[55vh]">
-            <productCreation :vendorId="vendorId" />
+            <productCreation :vendorId="vendorId" @close="closeModal"/>
           </div>
         </transition>
       </div>
