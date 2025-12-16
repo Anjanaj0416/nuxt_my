@@ -174,14 +174,25 @@
           </div>
 
           <div class="flex justify-end pt-2 gap-2">
-            <button
+            <!-- <button
               @click="SendToApproval"
               class="p-r px-12 py-2 text-xs bg-gradient-to-r from-blue-500 via-blue-600 to-blue-700 
               font-semibold transition text-white rounded-full shadow focus:ring-2 focus:ring-blue-400"
             >
               Send to Aprovel
+            </button> -->
+            <button
+              v-if="hasNewInCategoryPath"
+              @click="SendToApproval"
+              :class="[
+                'p-r px-12 py-2 text-xs font-semibold transition rounded-full shadow focus:ring-2',
+                hasNewInCategoryPath
+                  ? 'bg-gradient-to-r from-blue-500 via-blue-600 to-blue-700 text-white focus:ring-blue-400'
+                  : 'bg-yellow-400 text-black animate-pulse'
+              ]"
+            >
+              Send to Approval
             </button>
-      
           </div>
           <div class="flex justify-end pt-2 gap-2">
             <button
@@ -318,13 +329,17 @@ export default {
   computed: {
     jobCategoryLabel() {
       const code = this.taskhubStore.taskMoreDetailsList?.dtlJobCategory;
-
       const categoryMap = {
         110: 'VendorBannerCreation',
         100: 'ProductCreation'
       };
-
       return categoryMap[code] || 'No Data';
+    },
+
+    hasNewInCategoryPath() {
+      const path = this.taskhubStore.taskMoreDetailsList?.data?.categoryPath || "";
+      // matches (New), (new), (NEW), etc anywhere in text
+      return /\(new\)/i.test(path);
     }
   },
 
