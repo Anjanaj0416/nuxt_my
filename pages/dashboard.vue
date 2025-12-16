@@ -178,10 +178,6 @@
   </div>
 </template>
 
-
-
-
-
 <script>
 import changelogin from '~/components/auth/changelogin'
 import login from '~/components/auth/login'

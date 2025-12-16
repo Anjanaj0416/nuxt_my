@@ -61,8 +61,8 @@
           Next Pending DTP :
         </span>
         <span v-if="taskhubStore?.nextPendingDTPId" class="ml-2 font-semibold text-sm text-gray-700">
-          {{taskhubStore.nextPendingDTPId.value }}
-
+          <!-- {{ taskhubStore.nextPendingDTPId.value }} -->
+            {{ displayDtpValue }}
         </span>
 
         <span class="text-sm font-medium text-gray-600 ml-6">
@@ -160,6 +160,7 @@ export default {
       amount:'',
       kpiDays: '',
       dtpId : '',
+      selectedDtp: "",
       listMaterialFiles: {},
       err: {
         expDate: '',
@@ -172,7 +173,14 @@ export default {
       },
     };
   },
-  computed: {},
+
+  computed: {
+    displayDtpValue() {
+      return this.IsDTPManulaSelected && this.selectedDtp
+        ? this.selectedDtp.value
+        : this.taskhubStore?.nextPendingDTPId?.value;
+    }
+  },
 
   async created() {
     this.userStore = useUserStore();
@@ -188,15 +196,21 @@ export default {
     this.taskhubStore.nextPendingSupperAdmin
 
   },
-  mounted() {
+  mounted() {},
 
+  computed: {
+    displayDtpValue() {
+      return this.IsDTPManulaSelected && this.selectedDtp
+        ? this.selectedDtp.value
+        : this.taskhubStore?.nextPendingDTPId?.value;
+    }
   },
   methods: {
 
-  closeModal() {
-    this.isOpen = false;
-    this.$emit("close");
-  },
+    closeModal() {
+      this.isOpen = false;
+      this.$emit("close");
+    },
 
     cancel() {
       this.clearErr();
@@ -222,7 +236,7 @@ export default {
     toggleManualSelect() {
       this.IsDTPManulaSelected = !this.IsDTPManulaSelected;
       if (!this.IsDTPManulaSelected) {
-        this.selectedDtp = null;
+        this.selectedDtp = "";
       }
     },
 
@@ -236,9 +250,10 @@ export default {
       this.$showConfirm("Are you sure to this Vendor Banner?", "warning")
         .then(async (result) => {
           if (result.isConfirmed) {
-            const dtpToSend = this.selectedDtp 
-              ? this.selectedDtp.id 
-              : this.taskhubStore.nextPendingDTPId.id;
+            const dtpToSend = 
+              this.IsDTPManulaSelected && this.selectedDtp
+                ? this.selectedDtp.id
+                : (this.taskhubStore.nextPendingDTPId?.id || "");
             const formData = new FormData();
             formData.append("vendorId", this.vendorId);
             formData.append("expDate", this.formatToEndOfDayISO(this.expDate));
@@ -247,7 +262,7 @@ export default {
             formData.append("amount", this.amount || "");
             formData.append("kpiDays", this.kpiDays);
             formData.append("dtpId", dtpToSend || "");
-            formData.append("IsDTPManulaSelected", this.IsDTPManulaSelected || "");
+            formData.append("IsDTPManulaSelected", this.IsDTPManulaSelected);
 
             if (this.listMaterialFiles && this.listMaterialFiles.length > 0) {
               this.listMaterialFiles.forEach((file) => {

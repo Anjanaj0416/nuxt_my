@@ -1,5 +1,7 @@
 <template>
     <section class="space-y-5">
+
+
         <div class="grid gap-6 sm:grid-cols-2 lg:grid-cols-4">
             <div class="space-y-1">
             <label class="text-[12px] font-semibold text-gray-600">Main Category</label>
@@ -42,6 +44,12 @@
             <h2 class="text-[12px] font-semibold text-gray-600">Category Path</h2>
             <p class="mt-1 text-sm font-medium text-gray-700 tracking-wide">
               {{ taskhubStore.taskMoreDetailsList?.data?.categoryPath || 'No Data' }}
+            </p>
+        </div>
+        <div class="p-4 bg-white border border-gray-200 rounded-xl shadow-sm">
+            <h2 class="text-[12px] font-semibold text-gray-600">CSO Name</h2>
+            <p class="mt-1 text-sm font-medium text-gray-700 tracking-wide">
+              {{ taskhubStore.taskMoreDetailsList?.data?.csoName || 'No Data' }}
             </p>
         </div>
 
@@ -303,36 +311,57 @@ export default {
     },
 
     async AprovelBanner() {
-      this.$showConfirm("Are you sure you want to approve this category?", "warning")
-        .then(async (result) => {
-          if (result.isConfirmed) {
+      try {
+        const result = await this.$showConfirm(
+          "Are you sure you want to approve this category?",
+          "warning"
+        );
 
-            const req = {
-              MainCategory: {
-                Id: this.mainCategoryId || "00000000-0000-0000-0000-000000000000",
-                Value: this.mainCategoryValue || ""
-              },
-              SubCategory: {
-                Id: this.subCategoryID || "00000000-0000-0000-0000-000000000000",
-                Value: this.subCategoryValue || ""
-              },
-              SubSubCategory: {
-                Id: this.subSubCategoryID || "00000000-0000-0000-0000-000000000000",
-                Value: this.subSubCategoryValue || ""
-              },
-              SubSubSubCategory: {
-                Id: this.subSubSubCategoryID || "00000000-0000-0000-0000-000000000000",
-                Value: this.subSubSubCategoryValue || ""
-              }
-            };
+        if (!result.isConfirmed) return;
 
-             console.log("Sending to backend", req);
-
-            await this.taskhubStore.SaveB2BCategoryItem(req, this.showLoading);
-            this.resetCategoryFields();
-
+        const CategoryItemDetails = {
+          MainCategory: {
+            Id: this.mainCategoryId || "00000000-0000-0000-0000-000000000000",
+            Value: this.mainCategoryValue || ""
+          },
+          SubCategory: {
+            Id: this.subCategoryID || "00000000-0000-0000-0000-000000000000",
+            Value: this.subCategoryValue || ""
+          },
+          SubSubCategory: {
+            Id: this.subSubCategoryID || "00000000-0000-0000-0000-000000000000",
+            Value: this.subSubCategoryValue || ""
+          },
+          SubSubSubCategory: {
+            Id: this.subSubSubCategoryID || "00000000-0000-0000-0000-000000000000",
+            Value: this.subSubSubCategoryValue || ""
           }
-        });
+        };
+        const dataObj = {
+          TaskHubId: this.taskHubId || "",
+          CategoryPath: this.taskhubStore.taskMoreDetailsList?.data?.categoryPath || "",
+          Comment: this.comment || "",
+          CategoryItemDetails
+        };
+
+        const formData = new FormData();
+        formData.append("TaskType", "1");//ProductCreation-100
+        formData.append("WGRequestType", "1020");//NewCategoryApproval-1020
+        // formData.append("Data", JSON.stringify(finalData));
+        formData.append("Data", JSON.stringify(dataObj));
+        if (this.listFiles?.length > 0) {
+          this.listFiles.forEach((file) => {
+            formData.append("listFiles", file || "");
+          });
+        }
+        for (let [key, value] of formData.entries()) {
+          console.log(key, value);
+        }
+        await this.taskhubStore.SetPassToOtherWorkGroup(formData, this.showLoading);
+        this.resetCategoryFields();
+      } catch (err) {
+        console.error("Error:", err);
+      }
     },
 
     //Reject

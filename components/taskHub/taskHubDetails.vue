@@ -32,6 +32,7 @@
       :key="index"
     >
     <!-- {{ dtpJobs }} -->
+      
       <div
         v-if="!filteredKpiId || filteredKpiId === dtpJobs.id"
          class="flex flex-col gap-2 p-4 mt-3 bg-white border rounded-xl shadow-sm hover:shadow-md ]"
@@ -103,8 +104,15 @@
           >
             <div v-if="dtpJobs.pendingWorkGroup === 'SUPPERADMIN'">
               <productCreation_b2bAdmin 
-                :taskType="dtpJobs.jobType" 
-                :jobCategory="dtpJobs.jobCategory" 
+                v-if="dtpJobs.jobCategoryId === 100"
+                :taskType="'1'" 
+                :jobCategory="'100'" 
+                :taskHubId="dtpJobs.id" 
+              />
+              <VendorBannerCreation_b2bAdmin
+                v-if="dtpJobs.jobCategoryId === 110"
+                :taskType="'1'" 
+                :jobCategory="'110'" 
                 :taskHubId="dtpJobs.id" 
               />
             </div>
@@ -117,17 +125,18 @@
             </div>
             <div v-if="dtpJobs.pendingWorkGroup === 'SUPERVISOR'">
               <CategoryApprovelSuperviser
-                v-if="dtpJobs.jobCategory === 'ProductCreation'"
-                :taskType="dtpJobs.jobType"
-                :jobCategory="dtpJobs.jobCategory"
+                v-if="dtpJobs.jobCategoryId === 100"
+                :taskType="1"
+                :jobCategory="100"
                 :taskHubId="dtpJobs.id"
               />
               <BannerApprovelSuperviser
-                v-if="dtpJobs.jobCategory === 'Banner'"
+                v-if="dtpJobs.jobCategoryId === 101"
                 :taskType="dtpJobs.jobType"
                 :jobCategory="dtpJobs.jobCategory"
                 :taskHubId="dtpJobs.id"
               />
+              
             </div>
           </div>
         </transition>
@@ -148,6 +157,8 @@ import productCreation_b2bAdmin from "./bannerMgt/productCreation_b2bAdmin.vue";
 import productCreation_dtp from "./bannerMgt/productCreation_dtp.vue";
 import CategoryApprovelSuperviser from "./bannerMgt/productCreation_categoryApprovelSupervisor.vue";
 import BannerApprovelSuperviser from "./bannerMgt/productCreation_bannerApprovelSupervisor.vue";
+import VendorBannerCreation_b2bAdmin from "./bannerMgt/vendorBannerCreation_b2bAdmin.vue";
+
 
 
 definePageMeta({
@@ -156,7 +167,16 @@ definePageMeta({
 });
 
 export default {
-    components:{imagepicker1,assigDtp,Button,SearchComp,productCreation_b2bAdmin,productCreation_dtp,CategoryApprovelSuperviser,BannerApprovelSuperviser},
+    components:{
+      imagepicker1,
+      assigDtp,Button,
+      SearchComp,
+      productCreation_b2bAdmin,
+      productCreation_dtp,
+      CategoryApprovelSuperviser,
+      BannerApprovelSuperviser,
+      VendorBannerCreation_b2bAdmin,
+    },
   data() {
     return {
       isaAssig: false,
@@ -171,7 +191,7 @@ export default {
     this.showLoading = this.$showLoading;
 
     await this.taskhubStore.TaskDetailsList(
-      { taskType: "DtlBannerMgt", searchValue: "", searchBy: "102" },
+      { taskType: "1", searchValue: "", searchBy: "102" }, //DtlBannerMgt=1
       this.showLoading
     );
 
@@ -197,7 +217,7 @@ export default {
       }
       console.log("keyword, searchBy", searchVal, this.searchBy);
       await this.taskhubStore.TaskDetailsList(
-        { taskType: "DtlBannerMgt", searchValue: "5CD7F771-139D-4044-708C-08DE2A3D770B", searchBy: "101" },
+        { taskType: "1", searchValue: "", searchBy: "102" },
         this.showLoading
       );
 

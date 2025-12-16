@@ -189,11 +189,11 @@ export default {
       // WhatsApp - p=d2hhdHNhcHA=
       // TikTok - p=dGlrdG9r
 
-      // <a href="https://dtl.lk/VendorRegistration?p=ZmFjZWJvb2s=">Register via Facebook</a>
-      // <a href="https://dtl.lk/VendorRegistration?p=bGlua2VkaW4=">Register via LinkedIn</a>
-      // <a href="https://dtl.lk/VendorRegistration?p=aW5zdGFncmFt">Register via Instagram</a>
-      // <a href="https://dtl.lk/VendorRegistration?p=d2hhdHNhcHA=">Register via WhatsApp</a>
-      // <a href="https://dtl.lk/VendorRegistration?p=dGlrdG9r">Register via TikTok</a>
+      // <a href="https://dtl.lk/B2BVendorRegistration?p=ZmFjZWJvb2s=">Register via Facebook</a>
+      // <a href="https://dtl.lk/B2BVendorRegistration?p=bGlua2VkaW4=">Register via LinkedIn</a>
+      // <a href="https://dtl.lk/B2BVendorRegistration?p=aW5zdGFncmFt">Register via Instagram</a>
+      // <a href="https://dtl.lk/B2BVendorRegistration?p=d2hhdHNhcHA=">Register via WhatsApp</a>
+      // <a href="https://dtl.lk/B2BVendorRegistration?p=dGlrdG9r">Register via TikTok</a>
 
       // https://dtl.lk/VendorRegistration?p=ZmFjZWJvb2s=
       // https://dtl.lk/VendorRegistration?p=bGlua2VkaW4=
