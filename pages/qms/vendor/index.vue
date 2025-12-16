@@ -383,6 +383,8 @@
             <button  
               v-if="
                 (userStore.loggedUser.granted.includes('su') ||
+                userStore.loggedUser.granted.includes('accdept') ||
+                userStore.loggedUser.granted.includes('flo') ||
                 userStore.loggedUser.granted.includes('sso')) &&
                 vendorTabs[vd.id] !== 'productSample'
               "
@@ -397,6 +399,8 @@
             <button 
               v-if="
                 (userStore.loggedUser.granted.includes('su') ||
+                userStore.loggedUser.granted.includes('accdept') ||
+                userStore.loggedUser.granted.includes('flo') ||
                 userStore.loggedUser.granted.includes('sso')) &&
                 vendorTabs[vd.id] === 'productSample'
               "
@@ -408,6 +412,8 @@
             <button  
               v-if="
                 (userStore.loggedUser.granted.includes('su') ||
+                userStore.loggedUser.granted.includes('accdept') ||
+                userStore.loggedUser.granted.includes('flo') ||
                 userStore.loggedUser.granted.includes('sso')) &&
                 vendorTabs[vd.id] !== 'isuePINo'
               "
@@ -422,6 +428,8 @@
             <button 
               v-if="
                 (userStore.loggedUser.granted.includes('su') ||
+                userStore.loggedUser.granted.includes('accdept') ||
+                userStore.loggedUser.granted.includes('flo') ||
                 userStore.loggedUser.granted.includes('sso')) &&
                 vendorTabs[vd.id] === 'isuePINo'
               "
@@ -462,6 +470,8 @@
 
             <button v-if=" 
                 (userStore.loggedUser.granted.includes('su') ||
+                userStore.loggedUser.granted.includes('accdept') ||
+                userStore.loggedUser.granted.includes('flo') ||
                 userStore.loggedUser.granted.includes('sso')) &&
                 vendorTabs[vd.id] !== 'edit'
               "
@@ -475,6 +485,8 @@
             </button>
             <button v-if="
                 (userStore.loggedUser.granted.includes('su') ||
+                userStore.loggedUser.granted.includes('accdept') ||
+                userStore.loggedUser.granted.includes('flo') ||
                 userStore.loggedUser.granted.includes('sso')) &&
                 vendorTabs[vd.id] === 'edit'
               "
@@ -485,6 +497,8 @@
 
             <button v-if=" 
                 (userStore.loggedUser.granted.includes('su') ||
+                userStore.loggedUser.granted.includes('accdept') ||
+                userStore.loggedUser.granted.includes('flo') ||
                 userStore.loggedUser.granted.includes('sso')) &&
                 vendorTabs[vd.id] !== 'workFlow'
               "
@@ -498,6 +512,8 @@
             </button>
             <button v-if="
                 (userStore.loggedUser.granted.includes('su') ||
+                userStore.loggedUser.granted.includes('accdept') ||
+                userStore.loggedUser.granted.includes('flo') ||
                 userStore.loggedUser.granted.includes('sso')) &&
                 vendorTabs[vd.id] === 'workFlow'
               "
