@@ -359,9 +359,11 @@ export const useTaskhubStore = defineStore("taskhubStore", {
                     this.showToast(response.data.message, "success");
                     this.taskDetailsList = response.data.data.data
                 } else {
+                    this.taskDetailsList = [];
                     this.showToast(response.data.message, "error");
                 }
             } catch (error) {
+                this.taskDetailsList = [];
                 this.showToast(error.message || "Something went wrong!", "error");
                 loadingAlert.close();
             }

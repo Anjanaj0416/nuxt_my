@@ -251,11 +251,17 @@
           </div>
           <div class="">
             <label class="block text-sm font-bold text-gray-600">upload the bank book image</label>
-              <imagepicker1
+              <!-- <imagepicker1
                 :existingImagePath="imageroot + curVendor.bankBookImage"
                 @GetSelectedImage="GetSelectedBankBookImage"
                 @deleteExistingImage="curVendor.bankBookImage = ''"
                 ref="refBankBookImage"
+              /> -->
+              <imagepickermultiple
+                :existingImagePath="imageroot + curVendor.bankBookImage"
+                @GetSelectedImages="GetSelectedBankBookImage"
+                ref="refApprovedImg"
+                accept="image/*,application/pdf,.doc,.docx,.xls,.xlsx"
               />
           </div>
         </div>
@@ -344,7 +350,7 @@ import { ref } from 'vue'
 import closebtn from "~/components/customcontrol/modal_close_button";
 import imagecomp from "~/components/customcontrol/imagepicker";
 import imagepicker1 from "~/components/customcontrol/imagepicker1.vue";
-
+import imagepickermultiple from "~/components/customcontrol/imagepickermultiple.vue";
 
 import ImageLable from "~/components/customcontrol/ImageLable";
 import serach_Input from "~/components/customcontrol/SearchInput.vue";
@@ -359,7 +365,7 @@ definePageMeta({
   layout: "default",
 });
 export default {
-  components: { closebtn, serach_Input, ImageLable, imagecomp, toggleoption ,imagepicker1},
+  components: { closebtn, serach_Input, ImageLable, imagecomp, toggleoption ,imagepicker1,imagepickermultiple},
   props:[''],
   data() {
     return {

@@ -254,7 +254,7 @@
     </div>
 
      <Pagination
-      :total-items="leadStore.listLeads.length"
+      :total-items="leadStore.listLeads?.length || 0"
       :items-per-page="itemsPerPage"
       :current-page="page"
       @update:currentPage="page = $event"
@@ -347,6 +347,7 @@ export default {
   watch: {},
   computed: {
     paginatedLeads() {
+      if (!this.leadStore.loadListLeads) return [];
       const start = (this.page - 1) * this.itemsPerPage;
       const end = start + this.itemsPerPage;
       return this.leadStore.listLeads.slice(start, end);

@@ -654,7 +654,6 @@ export default {
       let isGuid = false;
       if (val !== undefined) isGuid = val.includes('-');
 
-
       await this.vendorStore.loadListVendors(
         { keyword: (isGuid) ? val : '', searchBy: (isGuid) ? 'id' : '' },
         this.showLoading
@@ -672,8 +671,9 @@ export default {
 
   computed: {
     paginatedVendor() {
-      let list = this.filteredVendor || this.vendorStore.listVendor;
+      if (!this.vendorStore.listVendor) return [];
 
+      let list = this.filteredVendor || this.vendorStore.listVendor;
       const start = (this.page - 1) * this.itemsPerPage;
       const end = start + this.itemsPerPage;
 
