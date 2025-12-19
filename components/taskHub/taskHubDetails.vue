@@ -53,6 +53,10 @@
         <!-- Main Info -->
         <div class="grid grid-cols-2 gap-4 sm:flex sm:flex-row sm:justify-between px-2">
           <div>
+            <h1 class="text-[12px] font-semibold text-gray-600">Job ID</h1>
+            <p class="text-sm text-gray-500 mt-0.5">{{ dtpJobs.jobId || 'No Data' }}</p>
+          </div>
+          <div>
             <h1 class="text-[12px] font-semibold text-gray-600">Job Description</h1>
             <p class="text-sm text-gray-500 mt-0.5">{{ dtpJobs.jobDescription || 'No Data' }}</p>
           </div>

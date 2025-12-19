@@ -1,0 +1,19 @@
+<template>
+  <div>
+    <slot />
+  </div>
+</template>
+
+<script>
+export default {
+ 
+}
+</script>
+
+<style>
+
+</style>
+
+<!-- <template>
+  <Nuxt />
+</template> -->
