@@ -39,7 +39,6 @@
         />
       </div>
     </div>
-
     <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
       <div>
         <label class="block text-sm font-medium text-gray-600 mb-1">Category Path</label>
@@ -50,7 +49,7 @@
           class="w-full p-2 border rounded-md text-sm focus:ring-2 focus:ring-blue-400"
         />
 
-        <p class="mt-2 text-sm">Ex : AB/CD/EF ....</p>
+        <p class="mt-2 text-sm">Ex : AB/CD/EF(New) ....</p>
       </div>
     </div>
     
@@ -108,12 +107,21 @@
     <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
       <div>
         <span class="text-sm font-medium text-gray-600">
-          Next Pending DTP ID:
+          Next Pending DTP :
         </span>
         <span v-if="taskhubStore?.nextPendingDTPId" class="ml-2 font-semibold text-sm text-gray-700">
-          {{taskhubStore.nextPendingDTPId.value }}
+          <!-- {{ taskhubStore.nextPendingDTPId.value }} -->
+            {{ displayDtpValue }}
+        </span>
+        <span class="text-sm font-medium text-gray-600 ml-6">
+          Next Pending B2B Supper Admin:
+        </span>
+        <span v-if="taskhubStore?.nextPendingSupperAdmin" class="ml-2 font-semibold text-sm text-gray-700">
+          {{taskhubStore.nextPendingSupperAdmin.value }}
 
-        </span><br></br>
+        </span>
+        
+        <br></br>
 
         <button
           @click="toggleManualSelect"
@@ -222,7 +230,7 @@ export default {
       amount:'',
       kpiDays: '',
       dtpId : '',
-      selectedDtp: null,
+      selectedDtp: "",
       IsDTPManulaSelected : false,
       listMaterialFiles: {},
       CategoryPath: "",
@@ -238,7 +246,14 @@ export default {
       },
     };
   },
-  computed: {},
+  computed: {
+    displayDtpValue() {
+      return this.IsDTPManulaSelected && this.selectedDtp
+        ? this.selectedDtp.value
+        : this.taskhubStore?.nextPendingDTPId?.value;
+    }
+  },
+
 
   async created() {
     this.userStore = useUserStore();
@@ -251,6 +266,8 @@ export default {
     await this.taskhubStore.loadInitBanner(this.showLoading);
     await this.taskhubStore.TaskInit(this.vendorId, this.showLoading);
     this.nextPendingDTPId = this.taskhubStore.nextPendingDTPId
+    this.taskhubStore.nextPendingSupperAdmin
+
 
 
   },
@@ -283,7 +300,7 @@ export default {
     toggleManualSelect() {
       this.IsDTPManulaSelected = !this.IsDTPManulaSelected;
       if (!this.IsDTPManulaSelected) {
-        this.selectedDtp = null;
+        this.selectedDtp = "";
       }
     },
 
@@ -367,12 +384,14 @@ export default {
     async SetProductVBanner() {
       if (!this.IsValidate()) return;
 
-      this.$showConfirm("Are you sure to this Vendor Banner?", "warning")
+      this.$showConfirm("Are you sure to this Product Details?", "warning")
         .then(async (result) => {
           if (result.isConfirmed) {
-            const dtpToSend = this.selectedDtp 
-              ? this.selectedDtp.id 
-              : this.taskhubStore.nextPendingDTPId.id;
+            const dtpToSend = 
+              this.IsDTPManulaSelected && this.selectedDtp
+                ? this.selectedDtp.id
+                : (this.taskhubStore.nextPendingDTPId?.id || "");
+
             const formData = new FormData();
             formData.append("vendorId", this.vendorId);
             formData.append("expDate", this.formatToEndOfDayISO(this.expDate));
@@ -382,7 +401,7 @@ export default {
             // formData.append("amount", this.amount);
             formData.append("kpiDays", this.kpiDays);
             formData.append("dtpId", dtpToSend || "");
-            formData.append("IsDTPManulaSelected", this.IsDTPManulaSelected || "");
+            formData.append("IsDTPManulaSelected", this.IsDTPManulaSelected);
             formData.append("comment", this.comment || "");
 
             if (this.listMaterialFiles && this.listMaterialFiles.length > 0) {
@@ -391,15 +410,12 @@ export default {
               });
             }
 
-
-
             for (let [key, value] of formData.entries()) {
               console.log(key, value);
             }
 
-  
             await this.taskhubStore.SetProduct(formData, this.showLoading);
-
+            
             this.closeModal();
             this.clearErr();
           }

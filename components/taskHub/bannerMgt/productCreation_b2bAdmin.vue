@@ -1,13 +1,15 @@
 <template>
   <section>
       <div class="grid grid-cols-1 sm:grid-cols-4 gap-4">
-          <div>
+        <div>
           <h1 class="text-[12px] font-semibold text-gray-600">Dtl Job Category</h1>
-          <p class="text-sm text-gray-500 mt-0.5">{{ taskhubStore.taskMoreDetailsList.dtlJobCategory || 'No Data' }}</p>
+          <p class="text-sm text-gray-500 mt-0.5">  {{ jobCategoryLabel }}</p>
+
+          
         </div>
+        <!-- {{ taskhubStore.taskMoreDetailsList }} -->
         <div>
           <h1 class="text-[12px] font-semibold text-gray-600">Client Details</h1>
-          
           <p
               v-html="formatComment(taskhubStore.taskMoreDetailsList?.data?.clientDetails)"
               class="mt-1 text-xs text-gray-700 max-h-[150px] overflow-auto whitespace-pre-wrap break-words"
@@ -76,6 +78,9 @@
             placeholder="Enter Store Url"
             class="w-full p-2 border rounded-md text-sm focus:ring-2 focus:ring-blue-400"
           />
+          <p v-if="err.StoreUrl" class="mt-2 text-sm text-red-600">
+          {{ err.StoreUrl }}
+          </p>
         </div>
         <div>
           <h1 class="text-[12px] font-semibold text-gray-600">Store QR Url</h1>
@@ -96,16 +101,9 @@
             placeholder="Enter Store User Name"
             class="w-full p-2 border rounded-md text-sm focus:ring-2 focus:ring-blue-400"
           />
-        </div>
-        <div>
-          <h1 class="text-[12px] font-semibold text-gray-600">Store User Name</h1>
-          <input
-            v-model="StoreUsername"
-            @input="clearErrorOnInput('StoreUsername')"
-            type="text"
-            placeholder="Enter Store User Name"
-            class="w-full p-2 border rounded-md text-sm focus:ring-2 focus:ring-blue-400"
-          />
+          <p v-if="err.StoreUsername" class="mt-2 text-sm text-red-600">
+          {{ err.StoreUsername }}
+          </p>
         </div>
         <div>
           <h1 class="text-[12px] font-semibold text-gray-600">Store Store Password</h1>
@@ -116,6 +114,9 @@
             placeholder="Enter Store Password"
             class="w-full p-2 border rounded-md text-sm focus:ring-2 focus:ring-blue-400"
           />
+          <p v-if="err.StorePassword" class="mt-2 text-sm text-red-600">
+          {{ err.StorePassword }}
+          </p>
         </div>
       </div>
       <div class="grid grid-cols-1 md:grid-cols-3 gap-4 mt-2">
@@ -139,9 +140,15 @@
         </div>
       </div>
 
-      <createNewCategory v-if="isaAssig" @close="isaAssig = false" :taskType="taskType" :taskHubId="taskHubId" :categoryPath="categoryPath" />
+      <createNewCategory 
+        v-if="isaAssig"
+        @close="isaAssig = false"
+        @update-category-path="updateCategoryPath"
+        :taskType="taskType"
+        :taskHubId="taskHubId"
+        :categoryPath="taskhubStore.taskMoreDetailsList?.data?.categoryPath"
+      />
 
-      <!-- Update button -->
       <div class="sm:flex sm:justify-end sm:gap-4">
         <div v-if="!isaAssig" class="flex flex-row gap-2 overflow-x-auto items-center whitespace-nowrap
             scrollbar-thin scrollbar-thumb-gray-400 scrollbar-track-gray-200 
@@ -167,15 +174,77 @@
           </div>
 
           <div class="flex justify-end pt-2 gap-2">
-            <button
-              @click="GoToWorkFlow"
+            <!-- <button
+              @click="SendToApproval"
               class="p-r px-12 py-2 text-xs bg-gradient-to-r from-blue-500 via-blue-600 to-blue-700 
               font-semibold transition text-white rounded-full shadow focus:ring-2 focus:ring-blue-400"
             >
               Send to Aprovel
+            </button> -->
+            <button
+              v-if="hasNewInCategoryPath"
+              @click="SendToApproval"
+              :class="[
+                'p-r px-12 py-2 text-xs font-semibold transition rounded-full shadow focus:ring-2',
+                hasNewInCategoryPath
+                  ? 'bg-gradient-to-r from-blue-500 via-blue-600 to-blue-700 text-white focus:ring-blue-400'
+                  : 'bg-yellow-400 text-black animate-pulse'
+              ]"
+            >
+              Send to Approval
             </button>
-      
           </div>
+          <div class="flex justify-end pt-2 gap-2">
+            <button
+              @click="PassTo"
+              class="p-r px-12 py-2 text-xs bg-gradient-to-r from-blue-500 via-blue-600 to-blue-700 
+              font-semibold transition text-white rounded-full shadow focus:ring-2 focus:ring-blue-400"
+            >
+              Pass to
+            </button>
+          </div>
+          <!-- <div class=" pt-2 gap-2 relative">
+            <button
+              @click="togglePassToList"
+              class="p-r px-12 py-2 text-xs bg-gradient-to-r from-blue-500 via-blue-600 to-blue-700 
+              font-semibold transition text-white rounded-full shadow focus:ring-2 focus:ring-blue-400"
+            >
+              Pass to
+            </button>
+            <transition name="fade-slide">
+              <div
+                v-if="showPassToList"
+                class="absolute right-0 mt-2 w-96 bg-white border border-gray-200 rounded-lg shadow-xl z-50 overflow-hidden"
+              >
+              <ul>
+                <li  class="px-4 py-3  cursor-pointer transition">
+                  <div>
+                    <label class="text-[14px] font-semibold text-gray-600">Select</label>
+                  </div>
+                  <select class="w-full p-2 border rounded-md text-sm bg-white focus:ring-2 focus:ring-blue-400">
+                    <option disabled selected value="">Select DTP</option>
+                    <option
+                      v-for="item in taskhubStore.listDTP"
+                      :key="item.id"
+                      :value="item"
+                    >
+                      {{ item.value }}
+                    </option>
+                  </select>
+                </li>
+                <li  class="px-4 py-3 hover:bg-blue-50 cursor-pointer transition flex justify-end">
+                  <button
+                    @click="PassTo"
+                    class="p-r px-12 py-2 text-xs bg-gradient-to-r from-blue-500 via-blue-600 to-blue-700 
+                    font-semibold transition text-white rounded-full shadow focus:ring-2 focus:ring-blue-400"
+                  >
+                    Pass to
+                  </button>
+                </li>
+              </ul>
+              </div>
+            </transition>
+          </div> -->
         </div>
       </div>
 
@@ -192,8 +261,6 @@ import createNewCategory from "../bannerProduct/createNewCategory.vue";
 import workFlowDetails from "./workFlowDetails.vue";
 import imagepickermultiple from "~/components/customcontrol/imagepickermultiple.vue";
 
-
-
 definePageMeta({
   layout: "default",
   middleware: "auth",
@@ -208,15 +275,31 @@ export default {
       isaAssig: false,
       isShowWF: false,
       expandedRow: null, 
-       taskMoreDetails: {
+      taskMoreDetails: {
+        dtlJobCategory: "",
+        data: {
+          clientDetails: "",
+          categoryPath: "",
+          csoName: "",
+          noOfProducts: ""
+        }
+      },
+      CategoryPath:"",
+      TaskHubId: "",
+      listFiles:"",
       dtlJobCategory: "",
-      data: {
-        clientDetails: "",
-        categoryPath: "",
-        csoName: "",
-        noOfProducts: ""
-      }
-    }
+      Comment:"",
+      StoreUrl: "",
+      StoreQRUrl:"",
+      StoreUsername: "",
+      StorePassword: "",
+      StoreMapedDomainUrl:"",
+      showPassToList: false,
+      err: {
+        StoreUrl: "",
+        StoreUsername: "",
+        StorePassword: "",
+      },
       
     };
   },
@@ -235,10 +318,29 @@ export default {
         },
         this.showLoading
     );
+    //    await this.taskhubStore.loadInitBanner(this.showLoading);
+    // await this.taskhubStore.TaskInit(this.vendorId, this.showLoading);
 
     this.taskMoreDetailsList = this.taskhubStore.taskMoreDetailsList;
 
 
+  },
+
+  computed: {
+    jobCategoryLabel() {
+      const code = this.taskhubStore.taskMoreDetailsList?.dtlJobCategory;
+      const categoryMap = {
+        110: 'VendorBannerCreation',
+        100: 'ProductCreation'
+      };
+      return categoryMap[code] || 'No Data';
+    },
+
+    hasNewInCategoryPath() {
+      const path = this.taskhubStore.taskMoreDetailsList?.data?.categoryPath || "";
+      // matches (New), (new), (NEW), etc anywhere in text
+      return /\(new\)/i.test(path);
+    }
   },
 
   mounted() {
@@ -269,9 +371,6 @@ export default {
         { taskType: "DtlBannerMgt", searchValue: "5CD7F771-139D-4044-708C-08DE2A3D770B", searchBy: "101" },
         this.showLoading
       );
-
-
-
       this.searchBy = "";
       this.keyword = "";
     },
@@ -288,12 +387,121 @@ export default {
     closeWorkFlow() {
       this.isShowWF = false;
     },
+    togglePassToList() {
+      this.showPassToList = !this.showPassToList;
+    },
     
+    updateCategoryPath(newPath) {
+      this.taskhubStore.taskMoreDetailsList.data.categoryPath = newPath;
+    },
 
+    handleSelectedImages(files) {
+      console.log("Selected Files in Parent:", files);
+      this.listFiles = files;
+    },
 
     handleDeleteExistingImage(index) {
         mageroots.value.splice(index, 1);
     },
+
+    //pass cat approvel
+    async SendToApproval() {
+      this.$showConfirm("Are you sure to this category approval ?", "warning")
+        .then(async (result) => {
+          if (result.isConfirmed) {
+            const formData = new FormData();
+            formData.append("TaskType", "100");//ProductCreation-100
+            formData.append("WGRequestType", "1010");//NewCategoryRequest-1010
+            const dataObj = {
+              taskHubId: this.taskHubId,
+              categoryPath: this.taskhubStore.taskMoreDetailsList?.data?.categoryPath,
+              comment: this.comment || ""
+            };
+            formData.append("Data", JSON.stringify(dataObj));
+            if (this.listFiles && this.listFiles.length > 0) {
+              this.listFiles.forEach((file, index) => {
+                formData.append("listFiles", file);
+              });
+            }
+
+            const jsonObject = {};
+            for (let [key, value] of formData.entries()) {
+              if (jsonObject[key]) {
+                jsonObject[key] = [].concat(jsonObject[key], value);
+              } else {
+                jsonObject[key] = value;
+              }
+            }
+            console.log(jsonObject);
+            
+            await this.taskhubStore.SetPassToOtherWorkGroup(formData, this.showLoading);
+          }
+        });
+    },
+
+    //pass next 
+    async PassTo() {
+      if (!this.IsValidate()) return;
+      this.$showConfirm("Are you sure Pass the DTP?", "warning")
+        .then(async (result) => {
+          if (result.isConfirmed) {
+            const formData = new FormData();
+            formData.append("TaskType", "100");//ProductCreation- 100
+            formData.append("WGRequestType", "1030");//ProductUpload-1030
+            const dataObj = {
+              TaskHubId: this.taskHubId,
+              CategoryPath: this.taskhubStore.taskMoreDetailsList?.data?.categoryPath,
+              Comment: this.comment || "",
+              StoreMapedDomainUrl: this.StoreMapedDomainUrl || "",
+              StoreUrl: this.StoreUrl || "",
+              StoreQRUrl: this.StoreQRUrl || "",
+              StoreUsername: this.StoreUsername || "",
+              StorePassword: this.StorePassword || "",
+            };
+            formData.append("Data", JSON.stringify(dataObj));
+            if (this.listFiles && this.listFiles.length > 0) {
+              this.listFiles.forEach((file, index) => {
+                formData.append("listFiles", file);
+              });
+            }
+
+            for (let [key, value] of formData.entries()) {
+              console.log(key, value);
+            }
+
+            await this.taskhubStore.SetPassToOtherWorkGroup(formData, this.showLoading);
+
+          }
+        });
+    },
+
+     IsValidate() {
+      this.clearErr();
+      let valid = true;
+
+      if (!this.StoreUrl) {
+        this.err.StoreUrl = "Please enter Store Url!";
+        valid = false;
+      }
+      if (!this.StoreUsername) {
+        this.err.StoreUsername = "Please enter Store Username!";
+        valid = false;
+      }
+      if (!this.StorePassword) {
+        this.err.StorePassword = "Please enter Store Password!";
+        valid = false;
+      }
+
+      return valid;
+    },
+
+    clearErr() {
+      Object.keys(this.err).forEach((key) => {
+        this.err[key] = "";
+      });
+    },
+
+
 
     openFromRoute(queryId) {
       if (!queryId) {
@@ -313,7 +521,6 @@ export default {
         this.filteredKpiId = list[foundIndex].id;
       }
     },
-
 
     toggleKpiView(id, index) {
       if (this.expandedRow === index) {

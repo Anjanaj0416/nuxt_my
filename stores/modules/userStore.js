@@ -92,7 +92,7 @@ export const useUserStore = defineStore('userStore', {
           this.assetsBaseUrl =response.data.loggedUser.resourceURLRoot;
           this.redirectTo = response.data.redirectTo;
           
-          document.cookie = `token=${this.token}; path=/; max-age=3600; Secure`;
+          document.cookie = `token=${this.token}; path=/; max-age=3600; Secure; SameSite=Strict`;
                   
        }
        else{        
@@ -160,9 +160,12 @@ export const useUserStore = defineStore('userStore', {
     },
 
     logout() {
-      this.token = '';
+      const userStore = useUserStore();
+      userStore.token = '';
+      userStore.loggedUser = null;
+
       localStorage.clear();
-      document.cookie = 'token=; path=/; max-age=0; Secure'
+      document.cookie = 'token=; path=/; max-age=0; Secure; SameSite=Strict';
       //this.showToast('User Logged out!','success');
   
     },

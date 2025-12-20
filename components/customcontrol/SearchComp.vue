@@ -112,9 +112,9 @@ export default {
         }
     },
     methods: {
-        GetSearch() { 
-                      
+        GetSearch() {        
             this.$emit('DoSearch',this.selectedVal)
+            this.selectedVal = ''
         }
     }
 }

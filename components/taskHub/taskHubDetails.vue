@@ -11,9 +11,9 @@
           class="w-44 border border-gray-300 rounded-full focus:outline-none 
                 focus:ring-2 focus:ring-blue-500 px-4 py-3 text-gray-700"
         >
-          <option disabled value="" class="bg-blue-900 text-white">Filter By</option>
-          <option selected value="100">Vendor Id</option>
-          <option value="101">Task Hub Job Details-ID</option>
+          <option disabled value="102" class="bg-blue-900 text-white">Filter By</option>
+          <option selected value="103">Vendor Name or JobName</option>
+
         </select>
         <!-- Search -->
         <div class="w-full md:w-96">
@@ -22,16 +22,20 @@
       </div>
     </div>
 
-    <div v-if="taskhubStore.taskDetailsList === 0" class="text-center text-gray-900 mt-5 text-sm font-medium">
-      <p>No KPI available...</p>
+    <div
+      v-if="!taskhubStore.taskDetailsList || taskhubStore.taskDetailsList.length === 0"
+      class="text-center text-gray-900 mt-5 text-sm font-medium"
+    >
+      <p>No Tasks Found...</p>
     </div>
 
     <!-- KPI Leads -->
     <div
-      v-for="(dtpJobs, index) in taskhubStore.taskDetailsList"
+      v-for="(dtpJobs, index) in paginatedTaskList"
       :key="index"
     >
     <!-- {{ dtpJobs }} -->
+      
       <div
         v-if="!filteredKpiId || filteredKpiId === dtpJobs.id"
          class="flex flex-col gap-2 p-4 mt-3 bg-white border rounded-xl shadow-sm hover:shadow-md ]"
@@ -49,8 +53,8 @@
         <!-- Main Info -->
         <div class="grid grid-cols-2 gap-4 sm:flex sm:flex-row sm:justify-between px-2">
           <div>
-            <h1 class="text-[12px] font-semibold text-gray-600">jobPendingAt</h1>
-            <p class="text-sm text-gray-500 mt-0.5">{{ dtpJobs.jobPendingAt || 'No Data' }}</p>
+            <h1 class="text-[12px] font-semibold text-gray-600">Job ID</h1>
+            <p class="text-sm text-gray-500 mt-0.5">{{ dtpJobs.jobId || 'No Data' }}</p>
           </div>
           <div>
             <h1 class="text-[12px] font-semibold text-gray-600">Job Description</h1>
@@ -67,6 +71,10 @@
           <div>
             <h1 class="text-[12px] font-semibold text-gray-600">Pending WorkGroup</h1>
             <p class="text-sm text-gray-500 mt-0.5">{{ dtpJobs.pendingWorkGroup || 'No Data' }}</p>
+          </div>
+          <div>
+            <h1 class="text-[12px] font-semibold text-gray-600">Job Pending At</h1>
+            <p class="text-sm text-gray-500 mt-0.5">{{ dtpJobs.jobPendingAt || 'No Data' }}</p>
           </div>
           <div>
             <h1 class="text-[12px] font-semibold text-gray-600">Status</h1>
@@ -102,15 +110,53 @@
             class="flex flex-col gap-4 p-4 mt-2 r"
           >
             <div v-if="dtpJobs.pendingWorkGroup === 'SUPPERADMIN'">
-              <productCreation_b2bAdmin :taskType="dtpJobs.jobType" :jobCategory="dtpJobs.jobCategory" :taskHubId="dtpJobs.id" />
+              <productCreation_b2bAdmin 
+                v-if="dtpJobs.jobCategoryId === 100"
+                :taskType="'1'" 
+                :jobCategory="'100'" 
+                :taskHubId="dtpJobs.id" 
+              />
+              <VendorBannerCreation_b2bAdmin
+                v-if="dtpJobs.jobCategoryId === 110"
+                :taskType="'1'" 
+                :jobCategory="'110'" 
+                :taskHubId="dtpJobs.id" 
+              />
             </div>
-            <div v-if="dtpJobs.pendingWorkGroup === ''">
-              <productCreation_dtp />
+            <div v-if="dtpJobs.pendingWorkGroup === 'DTP' ">
+              <productCreation_dtp 
+                :taskType="dtpJobs.jobType" 
+                :jobCategory="dtpJobs.jobCategory" 
+                :taskHubId="dtpJobs.id"
+              />
+            </div>
+            <div v-if="dtpJobs.pendingWorkGroup === 'SUPERVISOR'">
+              <CategoryApprovelSuperviser
+                v-if="dtpJobs.jobCategoryId === 100"
+                :taskType="1"
+                :jobCategory="100"
+                :taskHubId="dtpJobs.id"
+              />
+              <BannerApprovelSuperviser
+                v-if="dtpJobs.jobCategoryId === 101"
+                :taskType="dtpJobs.jobType"
+                :jobCategory="dtpJobs.jobCategory"
+                :taskHubId="dtpJobs.id"
+              />
+              
             </div>
           </div>
         </transition>
       </div>
     </div>
+
+    <Pagination
+      :total-items="taskhubStore.taskDetailsList?.length || 0"
+      :items-per-page="itemsPerPage"
+      :current-page="page"
+      @update:currentPage="page = $event"
+    />
+
     <assigDtp  v-if="isaAssig" @close="isaAssig = false" />
   </section>
 </template>
@@ -124,6 +170,11 @@ import assigDtp from "./bannerMgt/assigDtp.vue";
 import SearchComp from "~/components/customcontrol/SearchComp";
 import productCreation_b2bAdmin from "./bannerMgt/productCreation_b2bAdmin.vue";
 import productCreation_dtp from "./bannerMgt/productCreation_dtp.vue";
+import CategoryApprovelSuperviser from "./bannerMgt/productCreation_categoryApprovelSupervisor.vue";
+import BannerApprovelSuperviser from "./bannerMgt/productCreation_bannerApprovelSupervisor.vue";
+import VendorBannerCreation_b2bAdmin from "./bannerMgt/vendorBannerCreation_b2bAdmin.vue";
+import Pagination from "~/components/customcontrol/Pagination.vue";
+
 
 
 definePageMeta({
@@ -132,11 +183,27 @@ definePageMeta({
 });
 
 export default {
-    components:{imagepicker1,assigDtp,Button,SearchComp,productCreation_b2bAdmin,productCreation_dtp},
+    components:{
+      imagepicker1,
+      assigDtp,Button,
+      SearchComp,
+      productCreation_b2bAdmin,
+      productCreation_dtp,
+      CategoryApprovelSuperviser,
+      BannerApprovelSuperviser,
+      VendorBannerCreation_b2bAdmin,
+      Pagination
+    },
   data() {
     return {
       isaAssig: false,
       expandedRow: null, 
+      searchBy: "102",
+      taskType: "1",
+      searchValue: "",
+       page: 1,
+      itemsPerPage: 5, 
+      showLoading: null,
     };
   },
 
@@ -145,9 +212,10 @@ export default {
     this.taskhubStore = useTaskhubStore();
     this.imageroot = this.userStore.loggedUser.resourceURLRoot;
     this.showLoading = this.$showLoading;
+    
 
     await this.taskhubStore.TaskDetailsList(
-      { taskType: "DtlBannerMgt", searchValue: "EB65FD62-9C69-44AF-2183-08DE2B1B00C6", searchBy: "101" },
+      { taskType: this.taskType, searchValue: this.searchValue, searchBy: this.searchBy }, 
       this.showLoading
     );
 
@@ -157,30 +225,38 @@ export default {
     const queryId = this.$route.query.id;
     this.openFromRoute(queryId);
   },
+  
+  computed: {
+    paginatedTaskList() {
+      if (!this.taskhubStore.taskDetailsList) return [];
+
+      const start = (this.page - 1) * this.itemsPerPage;
+      const end = start + this.itemsPerPage;
+
+      return this.taskhubStore.taskDetailsList.slice(start, end);
+    },
+  },
+
 
   methods: {
 
     async SetSelectedFilter(event) {
       this.searchBy = event.target.value;
-      // await this.GetSearch();
+      this.page = 1;
+      await this.GetSearch();
     },
 
     async GetSearch(searchVal) {
-      if (searchVal) {
-        this.keyword = searchVal;
-      } else {
-        this.keyword = "";
-      }
-      console.log("keyword, searchBy", searchVal, this.searchBy);
+      this.searchValue = searchVal || "";
+      this.page = 1;
+      console.log("searchValue, searchBy", this.searchValue, this.searchBy);
       await this.taskhubStore.TaskDetailsList(
-        { taskType: "DtlBannerMgt", searchValue: "5CD7F771-139D-4044-708C-08DE2A3D770B", searchBy: "101" },
+        { taskType: "1", searchValue: this.searchValue, searchBy: this.searchBy || '102' },
         this.showLoading
       );
 
 
 
-      this.searchBy = "";
-      this.keyword = "";
     },
 
 

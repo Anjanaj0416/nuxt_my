@@ -3,36 +3,14 @@
       <div class="grid grid-cols-1 sm:grid-cols-4 gap-4">
         <div>
           <h1 class="text-[12px] font-semibold text-gray-600">Dtl Job Category</h1>
-          <p class="text-sm text-gray-500 mt-0.5">{{ taskhubStore.taskMoreDetailsList?.dtlJobCategory || 'No Data' }}</p>
+          <p class="text-sm text-gray-500 mt-0.5">{{ jobCategoryLabel}}</p>
         </div>
-        <!-- {{ taskhubStore.taskMoreDetailsList }} -->
-        <div>
-          <h1 class="text-[12px] font-semibold text-gray-600">Client Details</h1>
-          <p
-              v-html="formatComment(taskhubStore.taskMoreDetailsList?.data?.clientDetails)"
-              class="mt-1 text-xs text-gray-700 max-h-[150px] overflow-auto whitespace-pre-wrap break-words"
-            ></p>
-        </div>
+
+         <!-- {{ taskhubStore.taskMoreDetailsList }} -->
         <div>
           <h1 class="text-[12px] font-semibold text-gray-600">CSO Number</h1>
-          <p class="text-sm text-gray-500 mt-0.5">{{ taskhubStore.taskMoreDetailsList?.data?.csoName || 'No Data' }}</p>
-        </div>
-        <div>
-          <h1 class="text-[12px] font-semibold text-gray-600">No Of Products</h1>
-          <p class="text-sm text-gray-500 mt-0.5">{{ taskhubStore.taskMoreDetailsList?.data?.noOfProducts || 'No Data' }}</p>
-        </div>
-        <div >
-          <div>
-            <h1 class="text-[12px] font-semibold text-gray-600">Category Path</h1>
-            <p class="text-sm text-gray-500 mt-0.5">
-              {{ taskhubStore.taskMoreDetailsList?.data?.categoryPath || 'No Data' }}
-            </p>
-          </div>
-        </div>
-        <div>
-          <h1 class="text-[12px] font-semibold text-gray-600">Store Maped Domain Url</h1>
           <p class="text-sm text-gray-500 mt-0.5">
-            {{ taskhubStore.taskMoreDetailsList?.data?.StoreMapedDomainUrl || 'No Data' }}
+            {{ taskhubStore.taskMoreDetailsList?.data?.csoName || 'No Data' }}
           </p>
         </div>
         <div>
@@ -53,10 +31,10 @@
           </span>
         </div>
         <div>
-          <h1 class="text-[12px] font-semibold text-gray-600">Store QR Url</h1>
+          <h1 class="text-[12px] font-semibold text-gray-600">Banner Url</h1>
           <a
-            v-if="taskhubStore.taskMoreDetailsList?.data?.storeQRUrl"
-            :href="taskhubStore.taskMoreDetailsList.data.storeQRUrl"
+            v-if="taskhubStore.taskMoreDetailsList?.data?.bannerUrl"
+            :href="taskhubStore.taskMoreDetailsList.data.bannerUrl"
             target="_blank"
             class="text-sm text-blue-600 mt-0.5 underline"
           >
@@ -72,42 +50,17 @@
         <div>
           <h1 class="text-[12px] font-semibold text-gray-600">Store User Name</h1>
           <p class="text-sm text-gray-500 mt-0.5">
-            {{ taskhubStore.taskMoreDetailsList?.data?.storeUsername || 'No Data' }}
+              {{ taskhubStore.taskMoreDetailsList?.data?.storeUsername || 'No Data' }}
           </p>
         </div>
         <div>
           <h1 class="text-[12px] font-semibold text-gray-600">Store Store Password</h1>
           <p class="text-sm text-gray-500 mt-0.5">
-            {{ taskhubStore.taskMoreDetailsList?.data?.storePassword || 'No Data' }}
-          </p>
-        </div>
-        <div>
-          <h1 class="text-[12px] font-semibold text-gray-600">Comment</h1>
-          <p class="text-sm text-gray-500 mt-0.5">
-            {{ taskhubStore.taskMoreDetailsList?.data?.comment || 'No Data' }}
+              {{ taskhubStore.taskMoreDetailsList?.data?.storePassword || 'No Data' }}
           </p>
         </div>
       </div>
       <div class="grid grid-cols-1 md:grid-cols-3 gap-4 mt-2">
-        <div>
-          <h1 class="text-[12px] font-semibold text-gray-600">Material File</h1>
-            <div
-              class="flex items-center justify-between bg-gray-50 mt-2 px-3 py-2 rounded-lg shadow-sm hover:bg-gray-100 transition"
-            >
-              <div class="text-sm">
-                <span class="font-semibold text-gray-500">📄 </span>
-              </div>
-              <div>
-                <a
-                  target="_blank"
-                  class="text-blue-600 text-sm font-medium hover:underline"
-                >
-                  View File
-                </a>
-                <!-- <span v-else class="text-gray-400 italic text-sm">No File</span> -->
-              </div>
-            </div>
-        </div>
         <div>
           <label class="text-[12px] font-semibold text-gray-600">Comment</label>
           <textarea
@@ -125,11 +78,10 @@
               ref="refApprovedImg"
               accept="image/*,application/pdf,.doc,.docx,.xls,.xlsx"
             />
-            <p v-if="err.listFiles" class="mt-2 text-sm text-red-600">
-              {{ err.listFiles }}
-            </p>
         </div>
       </div>
+
+
       <div class="sm:flex sm:justify-end sm:gap-4">
         <div v-if="!isaAssig" class="flex flex-row gap-2 overflow-x-auto items-center whitespace-nowrap
             scrollbar-thin scrollbar-thumb-gray-400 scrollbar-track-gray-200 
@@ -153,6 +105,7 @@
               Close Work Flow
             </button>
           </div>
+
           <div class="flex justify-end pt-2 gap-2">
             <button
               @click="PassTo"
@@ -174,7 +127,6 @@
 <script>
 import { useUserStore } from "~/stores/modules/userStore";
 import { useTaskhubStore } from "~/stores/modules/taskHub/taskhubStore";
-import createNewCategory from "../bannerProduct/createNewCategory.vue";
 import workFlowDetails from "./workFlowDetails.vue";
 import imagepickermultiple from "~/components/customcontrol/imagepickermultiple.vue";
 
@@ -184,7 +136,7 @@ definePageMeta({
 });
 
 export default {
-    components:{createNewCategory,workFlowDetails,imagepickermultiple},
+    components:{workFlowDetails,imagepickermultiple},
     props:['taskType','jobCategory', 'taskHubId'],
 
   data() {
@@ -211,6 +163,7 @@ export default {
       StoreUsername: "",
       StorePassword: "",
       StoreMapedDomainUrl:"",
+      showPassToList: false,
       err: {
         StoreUrl: "",
         StoreUsername: "",
@@ -228,16 +181,31 @@ export default {
 
     await this.taskhubStore.TaskHubMoreDetail(
         { 
-            taskType: "1", 
-            jobCategory: "100", 
+            taskType: this.taskType, 
+            jobCategory: this.jobCategory, 
             taskHubId: this.taskHubId 
         },
         this.showLoading
     );
+    //    await this.taskhubStore.loadInitBanner(this.showLoading);
+    // await this.taskhubStore.TaskInit(this.vendorId, this.showLoading);
 
     this.taskMoreDetailsList = this.taskhubStore.taskMoreDetailsList;
 
 
+  },
+
+  computed: {
+    jobCategoryLabel() {
+      const code = this.taskhubStore.taskMoreDetailsList?.dtlJobCategory;
+
+      const categoryMap = {
+        110: 'Vendor Banner Creation',
+        100: 'Product Creation'
+      };
+
+      return categoryMap[code] || 'No Data';
+    }
   },
 
   mounted() {
@@ -265,12 +233,13 @@ export default {
       }
       console.log("keyword, searchBy", searchVal, this.searchBy);
       await this.taskhubStore.TaskDetailsList(
-        { taskType: "1", searchValue: "5CD7F771-139D-4044-708C-08DE2A3D770B", searchBy: "101" },
+        { taskType: "DtlBannerMgt", searchValue: "5CD7F771-139D-4044-708C-08DE2A3D770B", searchBy: "101" },
         this.showLoading
       );
       this.searchBy = "";
       this.keyword = "";
     },
+
 
     GoToWorkFlow() {
       this.isShowWF = true;
@@ -278,7 +247,13 @@ export default {
     closeWorkFlow() {
       this.isShowWF = false;
     },
+    togglePassToList() {
+      this.showPassToList = !this.showPassToList;
+    },
     
+    updateCategoryPath(newPath) {
+      this.taskhubStore.taskMoreDetailsList.data.categoryPath = newPath;
+    },
 
     handleSelectedImages(files) {
       console.log("Selected Files in Parent:", files);
@@ -295,13 +270,15 @@ export default {
       this.$showConfirm("Are you sure Pass the DTP?", "warning")
         .then(async (result) => {
           if (result.isConfirmed) {
-
             const formData = new FormData();
-            formData.append("TaskType", "100");//ProductCreation- 100
-            formData.append("WGRequestType", "1040");//VerifyStore--1040
+            formData.append("TaskType", "110");//VendorBannerCreation- 100
+            formData.append("WGRequestType", "1070");//VerifyStore-1070
             const dataObj = {
-              taskHubId: this.taskHubId,
-              comment: this.comment || ""
+              TaskHubId: this.taskHubId,
+              Comment: this.comment || "",
+              StoreUrl: this.taskhubStore.taskMoreDetailsList?.data?.storeUrl || "",
+              StoreUsername: this.taskhubStore.taskMoreDetailsList?.data?.storeUsername || "",
+              StorePassword: this.taskhubStore.taskMoreDetailsList?.data?.storePassword || "",
             };
             formData.append("Data", JSON.stringify(dataObj));
             if (this.listFiles && this.listFiles.length > 0) {
@@ -324,10 +301,19 @@ export default {
       this.clearErr();
       let valid = true;
 
-      if (!this.listFiles) {
-        this.err.listFiles = "Please enter Store Url!";
-        valid = false;
-      }
+    //   if (!this.StoreUrl) {
+    //     this.err.StoreUrl = "Please enter Store Url!";
+    //     valid = false;
+    //   }
+    //   if (!this.StoreUsername) {
+    //     this.err.StoreUsername = "Please enter Store Username!";
+    //     valid = false;
+    //   }
+    //   if (!this.StorePassword) {
+    //     this.err.StorePassword = "Please enter Store Password!";
+    //     valid = false;
+    //   }
+
       return valid;
     },
 

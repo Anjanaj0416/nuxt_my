@@ -1,37 +1,26 @@
 <template>
-    <section >
-      
-        <div class="mt-6" v-if="userStore.loggedUser.granted === 'hradmin,,,','sso','su'">
-          <dtp/>
-        </div>
-        <div class="mt-6" v-if="userStore.loggedUser.userGroup === ''">
-
-        </div>
-        <div class="mt-6" v-if="userStore.loggedUser.userGroup === 'Freelance'">
-          
-        </div>
-        <div class="mt-6" v-if="userStore.loggedUser.granted === 'sso'">
-
-        </div>
+    <section>
+       <h1>dashbord</h1>
     </section>
-    
 </template>
   
   <script>
  import { useRoute } from 'vue-router'
  import { useUserStore } from "~/stores/modules/userStore";
- import cso from '~/components/qms/workFlow/cso.vue';
- import dtp from '~/components/taskHub/taskHubDetails.vue';
-
+ //import { useQuotationStore } from "~/stores/modules/qms/quotationStore";
+ 
+ import LinkBtn from "~/components/customcontrol/Link";
+  import Button from "~/components/customcontrol/Button";
+  import selectinput2 from "~/components/customcontrol/selectinput2";
 
  definePageMeta({
-    layout: 'default',   
-    //middleware: 'auth',
+    layout: 'tenderLog',   
+    // middleware: 'auth',
    });
    
   export default {
     
-    components: {cso,dtp},
+    components: {LinkBtn,Button,selectinput2},
     props:[''],
     data() {
       return {
@@ -49,8 +38,17 @@
       this.imageroot = this.userStore.loggedUser.resourceURLRoot;
       
     },
-    async beforeMount() {
+    watch: {},
+    computed: {
+  
     },
+    methods: {
+     
+    },
+    async beforeMount() {
+
+    },
+
     head() {
       return {
         title: 'Intranet - Digital Tech Labs',
@@ -58,7 +56,7 @@
     },
   }
 
-      
+ 
   </script>
   
   <style scoped>
