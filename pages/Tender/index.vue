@@ -43,19 +43,25 @@
               <option>Divaina</option>
             </select>
 
-            <select class="filter-select">
-              <option>Any Date</option>
+              <input
+    type="date"
+    class="filter-select w-full sm:w-auto"
+    placeholder="From"
+  />
+
+  <!-- To -->
+  <input
+    type="date"
+    class="filter-select w-full sm:w-auto"
+    placeholder="To"
+  />
+
+            <!-- <select class="filter-select">
+              <option>To</option>
               <option>Today</option>
               <option>Last 7 Days</option>
               <option>Last 30 Days</option>
-            </select>
-
-            <button
-              class="border border-gray-300 rounded-lg text-sm text-gray-600
-                     hover:bg-gray-100 transition"
-            >
-              Reset
-            </button>
+            </select> -->
           </div>
 
         </div>

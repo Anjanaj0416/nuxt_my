@@ -6,7 +6,7 @@
 
 <script setup>
   useHead({
-    title: 'TenderB2B.lk',
+    title: 'BtoB | Largest Business-to-business Marketplace in Sri Lanka BtoB.lk',
     link: [
       { rel: "icon", type: "image/png", sizes: "16x16", href: "/favicon_io/tender/favicon-16x16.png" },
       { rel: "icon", type: "image/png", sizes: "32x32", href: "/favicon_io/tender/favicon-32x32.png" },

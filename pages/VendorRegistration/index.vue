@@ -23,7 +23,7 @@
         <div class="grid grid-cols-1 gap-4 my-4 sm:grid-cols-1 md:grid-cols-2 lg:grid-cols-2">
           <div class="">
             <label class="block text-[13px] font-bold text-gray-600">
-              Company Name
+              Company Name<span class="text-red-500">*</span>
             </label>
             <input type="text" v-model="curLead.CompanyName" placeholder="Enter Company Name" required @input="clearErrorOnInput('CompanyName')"
               class="w-full p-2 mt-1 text-sm border rounded-md focus:ring-indigo-500 focus:border-indigo-500" />
@@ -64,7 +64,7 @@
         </div>
           <div class="grid grid-cols-1 gap-4  sm:grid-cols-1 md:grid-cols-2 lg:grid-cols-2">
             <div class="">
-              <label class="block text-[13px] font-bold text-gray-600">Contact Person Name </label>
+              <label class="block text-[13px] font-bold text-gray-600">Contact Person Name <span class="text-red-500">*</span></label>
               <input type="text" v-model="curLead.ContactPerson1Name"  placeholder="Enter Name" @input="clearErrorOnInput('ContactPerson1Name')"
                 required
                 class="w-full p-2 mt-2 text-sm border rounded-md focus:ring-indigo-500 focus:border-indigo-500" />
@@ -73,7 +73,7 @@
               </p>
             </div>
             <div class="">
-              <label class="block text-[13px] font-bold text-gray-600">Contact Person Designation</label>
+              <label class="block text-[13px] font-bold text-gray-600">Contact Person Designation <span class="text-red-500">*</span></label>
               <input type="text" v-model="curLead.ContactPerson1Designation" placeholder="Enter Designation" @input="clearErrorOnInput('ContactPerson1Designation')"
                 required
                 class="w-full p-2 mt-2 text-sm border rounded-md focus:ring-indigo-500 focus:border-indigo-500" />
@@ -113,7 +113,7 @@ import serachInput from "~/components/customcontrol/SearchInput2";
 
 
 definePageMeta({
-  layout: 'contactus',
+  layout: 'vendor',
 });
 
 export default {
