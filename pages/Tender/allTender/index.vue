@@ -19,8 +19,8 @@
     <!-- Filter Tabs (Example) -->
     <div class="flex gap-2 mb-4">
       <button class="px-3 py-1 rounded-full bg-blue-50 text-blue-800 text-xs font-semibold">All</button>
-      <button class="px-3 py-1 rounded-full bg-gray-200 text-gray-800 text-xs font-semibold">Pending</button>
-      <button class="px-3 py-1 rounded-full bg-green-50 text-green-800 text-xs font-semibold">Completed</button>
+      <button class="px-3 py-1 rounded-full bg-gray-200 text-gray-800 text-xs font-semibold">Publish</button>
+      <button class="px-3 py-1 rounded-full bg-green-50 text-green-800 text-xs font-semibold">Close</button>
     </div>
 
     <!-- Leads List -->
@@ -29,60 +29,29 @@
       <div class="flex flex-col gap-2 p-4 bg-white border rounded-xl shadow-sm hover:shadow-md">
         <div class="flex justify-between items-center">
           <span class="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-blue-50 text-blue-800 text-xs font-semibold">
-            ⏳ 3 Days Pending
+            ⏳ 33 Days Remaining
           </span>
-          <span class="inline-flex items-center text-xs font-medium px-2.5 py-0.5 rounded-full bg-amber-500 text-white">
-            Pending
-          </span>
-        </div>
-
-        <div class="grid grid-cols-2 gap-4 sm:flex sm:flex-row sm:justify-between mt-2">
-          <div class="flex flex-col text-center sm:text-left">
-            <h1 class="text-xs font-semibold text-gray-600">Vendor Name</h1>
-            <p class="text-xs text-gray-500 mt-0.5">ABC Company</p>
-          </div>
-          <div class="flex flex-col text-center sm:text-left">
-            <h1 class="text-xs font-semibold text-gray-600">Address</h1>
-            <p class="text-xs text-gray-500 mt-0.5">123 Main Street</p>
-          </div>
-          <div class="flex flex-col text-center sm:text-left">
-            <h1 class="text-xs font-semibold text-gray-600">Contact Number</h1>
-            <p class="text-xs text-gray-500 mt-0.5">+94 123 456 789</p>
-          </div>
-          <div class="flex flex-col text-center sm:text-left">
-            <h1 class="text-xs font-semibold text-gray-600">CSO Number</h1>
-            <p class="text-xs text-gray-500 mt-0.5">+94 987 654 321</p>
-          </div>
-        </div>
-      </div>
-
-      <!-- Duplicate card for example -->
-      <div class="flex flex-col gap-2 p-4 bg-white border rounded-xl shadow-sm hover:shadow-md">
-        <div class="flex justify-between items-center">
-          <span class="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-blue-50 text-blue-800 text-xs font-semibold">
-            ⏳ 1 Day Pending
-          </span>
-          <span class="inline-flex items-center text-xs font-medium px-2.5 py-0.5 rounded-full bg-emerald-500 text-white">
-            Completed
+          <span class="inline-flex items-center text-xs font-medium px-2.5 py-0.5 rounded-full bg-green-500 text-white">
+            Publish
           </span>
         </div>
 
         <div class="grid grid-cols-2 gap-4 sm:flex sm:flex-row sm:justify-between mt-2">
           <div class="flex flex-col text-center sm:text-left">
-            <h1 class="text-xs font-semibold text-gray-600">Vendor Name</h1>
-            <p class="text-xs text-gray-500 mt-0.5">XYZ Pvt Ltd</p>
+            <h1 class="text-xs font-semibold text-gray-600">Organization Type</h1>
+            <p class="text-xs text-gray-500 mt-0.5">Private Companies</p>
           </div>
           <div class="flex flex-col text-center sm:text-left">
-            <h1 class="text-xs font-semibold text-gray-600">Address</h1>
-            <p class="text-xs text-gray-500 mt-0.5">456 High Street</p>
+            <h1 class="text-xs font-semibold text-gray-600">Location ( Province )</h1>
+            <p class="text-xs text-gray-500 mt-0.5">Colombo</p>
           </div>
           <div class="flex flex-col text-center sm:text-left">
-            <h1 class="text-xs font-semibold text-gray-600">Contact Number</h1>
-            <p class="text-xs text-gray-500 mt-0.5">+94 111 222 333</p>
+            <h1 class="text-xs font-semibold text-gray-600">Published on</h1>
+            <p class="text-xs text-gray-500 mt-0.5">2026/01/01</p>
           </div>
           <div class="flex flex-col text-center sm:text-left">
-            <h1 class="text-xs font-semibold text-gray-600">CSO Number</h1>
-            <p class="text-xs text-gray-500 mt-0.5">+94 444 555 666</p>
+            <h1 class="text-xs font-semibold text-gray-600">Closed on</h1>
+            <p class="text-xs text-gray-500 mt-0.5">2026/02/01</p>
           </div>
         </div>
       </div>
