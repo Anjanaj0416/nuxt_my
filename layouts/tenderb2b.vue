@@ -38,10 +38,8 @@
   <div class="flex min-h-screen bg-gray-100">
     <input type="checkbox" id="menu-toggle" class="hidden peer" />
 
-    <!-- SIDEBAR -->
     <Sidebar />
 
-    <!-- MOBILE OVERLAY -->
     <label
       for="menu-toggle"
       class="fixed inset-0 bg-black/50 z-30 hidden peer-checked:block sm:hidden"
