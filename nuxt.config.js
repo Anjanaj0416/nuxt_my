@@ -102,5 +102,6 @@ devServer: {
     }
   },
 
-  compatibilityDate: "2025-11-02"
+  compatibilityDate: "2025-11-02",
+   sourcemap: false
 })
