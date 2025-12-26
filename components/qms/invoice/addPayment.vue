@@ -126,15 +126,21 @@
             <div>
               <label class="block text-sm mb-2 font-bold text-gray-600"> Attachment For Payment Referance</label>
               
-              <imagepicker1
+              <!-- <imagepicker1
                 @GetSelectedImage="GetAttachedImage"
                 :image_file="imageroot"
                 ref="refApprovedImg"
                 accept="image/*,application/pdf"
-              />
+              /> -->
               <!-- accept="image/*,application/pdf"
                 accept="application/pdf"
                  accept="image/*" -->
+              <imagepickermultiple
+                @GetSelectedImages="GetAttachedImage"
+                :image_file="imageroot"
+                ref="refApprovedImg"
+                accept="image/*,application/pdf,.doc,.docx,.xls,.xlsx"
+              />
   
               <p v-if="err.approvedImage" class="mt-2 text-sm text-red-600">
                 {{ err.approvedImage }}
@@ -181,10 +187,10 @@ import ImageLable from "~/components/customcontrol/ImageLable";
 import LinkBtn from "~/components/customcontrol/Link";
 // import imagecomp from "~/components/customcontrol/imagepicker";
 import imagepicker1 from "~/components/customcontrol/imagepicker1.vue";
-import Swal from "sweetalert2";
+import imagepickermultiple from "~/components/customcontrol/imagepickermultiple.vue";
 
 export default {
-  components: { closebtn, LinkBtn, Lable, Button, ImageLable, imagepicker1 },
+  components: { closebtn, LinkBtn, Lable, Button, ImageLable, imagepicker1,imagepickermultiple },
   props: {
     orderId: {
       type: [String, Number],

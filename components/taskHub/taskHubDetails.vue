@@ -11,9 +11,9 @@
           class="w-44 border border-gray-300 rounded-full focus:outline-none 
                 focus:ring-2 focus:ring-blue-500 px-4 py-3 text-gray-700"
         >
-          <option disabled value="" class="bg-blue-900 text-white">Filter By</option>
-          <option selected value="100">Vendor Id</option>
-          <option value="101">Task Hub Job Details-ID</option>
+          <option disabled value="102" class="bg-blue-900 text-white">Filter By</option>
+          <option selected value="103">Vendor Name or JobName</option>
+
         </select>
         <!-- Search -->
         <div class="w-full md:w-96">
@@ -22,13 +22,16 @@
       </div>
     </div>
 
-    <div v-if="taskhubStore.taskDetailsList === 0" class="text-center text-gray-900 mt-5 text-sm font-medium">
-      <p>No KPI available...</p>
+    <div
+      v-if="!taskhubStore.taskDetailsList || taskhubStore.taskDetailsList.length === 0"
+      class="text-center text-gray-900 mt-5 text-sm font-medium"
+    >
+      <p>No Tasks Found...</p>
     </div>
 
     <!-- KPI Leads -->
     <div
-      v-for="(dtpJobs, index) in taskhubStore.taskDetailsList"
+      v-for="(dtpJobs, index) in paginatedTaskList"
       :key="index"
     >
     <!-- {{ dtpJobs }} -->
@@ -49,6 +52,10 @@
 
         <!-- Main Info -->
         <div class="grid grid-cols-2 gap-4 sm:flex sm:flex-row sm:justify-between px-2">
+          <div>
+            <h1 class="text-[12px] font-semibold text-gray-600">Job ID</h1>
+            <p class="text-sm text-gray-500 mt-0.5">{{ dtpJobs.jobId || 'No Data' }}</p>
+          </div>
           <div>
             <h1 class="text-[12px] font-semibold text-gray-600">Job Description</h1>
             <p class="text-sm text-gray-500 mt-0.5">{{ dtpJobs.jobDescription || 'No Data' }}</p>
@@ -142,6 +149,14 @@
         </transition>
       </div>
     </div>
+
+    <Pagination
+      :total-items="taskhubStore.taskDetailsList?.length || 0"
+      :items-per-page="itemsPerPage"
+      :current-page="page"
+      @update:currentPage="page = $event"
+    />
+
     <assigDtp  v-if="isaAssig" @close="isaAssig = false" />
   </section>
 </template>
@@ -158,6 +173,7 @@ import productCreation_dtp from "./bannerMgt/productCreation_dtp.vue";
 import CategoryApprovelSuperviser from "./bannerMgt/productCreation_categoryApprovelSupervisor.vue";
 import BannerApprovelSuperviser from "./bannerMgt/productCreation_bannerApprovelSupervisor.vue";
 import VendorBannerCreation_b2bAdmin from "./bannerMgt/vendorBannerCreation_b2bAdmin.vue";
+import Pagination from "~/components/customcontrol/Pagination.vue";
 
 
 
@@ -176,11 +192,18 @@ export default {
       CategoryApprovelSuperviser,
       BannerApprovelSuperviser,
       VendorBannerCreation_b2bAdmin,
+      Pagination
     },
   data() {
     return {
       isaAssig: false,
       expandedRow: null, 
+      searchBy: "102",
+      taskType: "1",
+      searchValue: "",
+       page: 1,
+      itemsPerPage: 5, 
+      showLoading: null,
     };
   },
 
@@ -189,9 +212,10 @@ export default {
     this.taskhubStore = useTaskhubStore();
     this.imageroot = this.userStore.loggedUser.resourceURLRoot;
     this.showLoading = this.$showLoading;
+    
 
     await this.taskhubStore.TaskDetailsList(
-      { taskType: "1", searchValue: "", searchBy: "102" }, //DtlBannerMgt=1
+      { taskType: this.taskType, searchValue: this.searchValue, searchBy: this.searchBy }, 
       this.showLoading
     );
 
@@ -201,30 +225,38 @@ export default {
     const queryId = this.$route.query.id;
     this.openFromRoute(queryId);
   },
+  
+  computed: {
+    paginatedTaskList() {
+      if (!this.taskhubStore.taskDetailsList) return [];
+
+      const start = (this.page - 1) * this.itemsPerPage;
+      const end = start + this.itemsPerPage;
+
+      return this.taskhubStore.taskDetailsList.slice(start, end);
+    },
+  },
+
 
   methods: {
 
     async SetSelectedFilter(event) {
       this.searchBy = event.target.value;
-      // await this.GetSearch();
+      this.page = 1;
+      await this.GetSearch();
     },
 
     async GetSearch(searchVal) {
-      if (searchVal) {
-        this.keyword = searchVal;
-      } else {
-        this.keyword = "";
-      }
-      console.log("keyword, searchBy", searchVal, this.searchBy);
+      this.searchValue = searchVal || "";
+      this.page = 1;
+      console.log("searchValue, searchBy", this.searchValue, this.searchBy);
       await this.taskhubStore.TaskDetailsList(
-        { taskType: "1", searchValue: "", searchBy: "102" },
+        { taskType: "1", searchValue: this.searchValue, searchBy: this.searchBy || '102' },
         this.showLoading
       );
 
 
 
-      this.searchBy = "";
-      this.keyword = "";
     },
 
 

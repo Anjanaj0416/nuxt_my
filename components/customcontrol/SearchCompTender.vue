@@ -12,7 +12,7 @@
           id="simple-search"
           class="w-full pl-4 pr-14 py-3 text-gray-700 placeholder-gray-400 
                  border border-gray-300 rounded-full focus:outline-none 
-                 focus:ring-2 focus:ring-blue-800"
+                 focus:ring-2 focus:ring-purple-800"
           placeholder="What are you looking for?"
           v-model="selectedVal"
         />
@@ -21,7 +21,7 @@
         <button
           type="button"
           class="absolute top-1/2 right-2 -translate-y-1/2 flex items-center justify-center 
-                 w-10 h-10 bg-blue-900 rounded-full hover:bg-blue-800 transition duration-200"
+                 w-10 h-10 bg-purple-900 rounded-full hover:bg-purple-800 transition duration-200"
           @click="GetSearch"
         >
           <svg
