@@ -13,11 +13,11 @@
             <li
               v-for="(option, idx) in optionsdata"
               :key="idx"
-              class="w-full sm:w-1/3 border-b sm:border-b-0 sm:border-r last:border-r-0 border-gray-200"
+              class="w-full sm:w-1/2 border-b sm:border-b-0 sm:border-r last:border-r-0 border-gray-200"
             >
               <label
-                class="flex flex-col items-center justify-center cursor-pointer p-3 hover:bg-purple-50 transition-colors duration-200"
-                :class="selectedOption === option.value ? 'bg-purple-100 text-purple-800 font-semibold' : 'text-gray-700'"
+                class="flex flex-col items-center justify-center cursor-pointer p-3 hover:bg-blue-50 transition-colors duration-200"
+                :class="selectedOption === option.value ? 'bg-blue-100 text-blue-800 font-semibold' : 'text-gray-700'"
               >
                 <input
                   type="radio"
@@ -75,13 +75,13 @@ export default {
       optionsdata: [
         { label: "Private Companies", value: "private" },
         { label: "Government Institutions", value: "government" },
-        { label: "Private/Government supplier Registration", value: "supplier" },
+        // { label: "Private/Government supplier Registration", value: "supplier" },
       ],
       err: { job: "" },
     };
   },
   async created() {
-    this.imageroot = this.userStore.loggedUser.resourceURLRoot;
+    // this.imageroot = this.userStore.loggedUser.resourceURLRoot;
     this.showLoading = this.$showLoading;
   },
   computed: {},
@@ -136,7 +136,7 @@ export default {
   position: relative;
 }
 .modal-header {
-  background: linear-gradient(to right, #7032da,  #6D28D9, #5B21B6);
+  background: linear-gradient(to right, #1048c2, #0b2c88, #08236b); /* from-blue-600, via-blue-700, to-blue-900 */
   padding: 15px;
   display: flex;
   justify-content: space-between;

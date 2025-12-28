@@ -297,7 +297,8 @@ export default {
           if (result.isConfirmed) {
 
             const formData = new FormData();
-            formData.append("TaskType", "100");//ProductCreation- 100
+            formData.append("TaskType", "1");//ProductCreation- 1
+            formData.append("JobCategory", "100");//ProductCreation-100
             formData.append("WGRequestType", "1040");//VerifyStore--1040
             const dataObj = {
               taskHubId: this.taskHubId,

@@ -410,7 +410,8 @@ export default {
         .then(async (result) => {
           if (result.isConfirmed) {
             const formData = new FormData();
-            formData.append("TaskType", "100");//ProductCreation-100
+            formData.append("TaskType", "1");//ProductCreation-1
+            formData.append("JobCategory", "100");//JobCategory-100
             formData.append("WGRequestType", "1010");//NewCategoryRequest-1010
             const dataObj = {
               taskHubId: this.taskHubId,
@@ -446,7 +447,8 @@ export default {
         .then(async (result) => {
           if (result.isConfirmed) {
             const formData = new FormData();
-            formData.append("TaskType", "100");//ProductCreation- 100
+            formData.append("TaskType", "1");//ProductCreation- 1
+            formData.append("JobCategory", "100");//ProductCreation-100
             formData.append("WGRequestType", "1030");//ProductUpload-1030
             const dataObj = {
               TaskHubId: this.taskHubId,

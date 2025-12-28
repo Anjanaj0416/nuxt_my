@@ -21,40 +21,64 @@
               Search
             </button>
           </div>
-          <div class="mt-5 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-5 gap-3">
-            <select class="filter-select">
-              <option>All Categories</option>
-              <option>Construction</option>
-              <option>IT & Software</option>
-              <option>Medical</option>
+          <div class="mt-5 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-6 gap-3">
+            <select v-model="CategoryId"  class="filter-select">
+              <option disabled selected="" value="">Select Category</option>
+              <option
+                v-for="Category in tenderStore.listTenderCategory"
+                :key="Category.id"
+                :value="Category.id"
+              >
+                {{ Category.value }}
+              </option>
             </select>
 
-            <select class="filter-select">
-              <option>All Organizations</option>
-              <option>Government institutions</option>
-              <option>Private companies</option>
-              <option>Private/Government supplier Registration</option>
+            <select v-model="DistrictId"  class="filter-select">
+              <option disabled selected="" value="">Select District</option>
+              <option
+                v-for="DistrictId in tenderStore.listTenderCategory"
+                :key="DistrictId.id"
+                :value="DistrictId.id"
+              >
+                {{ DistrictId.value }}
+              </option>
             </select>
 
-            <select class="filter-select">
-              <option>All Newspapers</option>
-              <option>Daily News</option>
-              <option>The Island</option>
-              <option>Divaina</option>
+            <select v-model="TenderTypeId" class="filter-select">
+              <option disabled selected="" value="">Select Type</option>
+              <option
+                v-for="tenderType in tenderStore.listTenderType"
+                :key="tenderType.id"
+                :value="tenderType.id"
+              >
+                {{ tenderType.value }}
+              </option>
             </select>
 
+            <select v-model="TenderSourceId"  class="filter-select">
+              <option disabled selected="" value="">Select Source</option>
+              <option
+                v-for="Source in tenderStore.listTenderSource"
+                :key="Source.id"
+                :value="Source.id"
+              >
+                {{ Source.value }}
+              </option>
+            </select>
               <input
-    type="date"
-    class="filter-select w-full sm:w-auto"
-    placeholder="From"
-  />
+                v-model="TenderDatePublised_To"
+                type="date"
+                class="filter-select w-full sm:w-auto"
+                placeholder="From"
+              />
 
-  <!-- To -->
-  <input
-    type="date"
-    class="filter-select w-full sm:w-auto"
-    placeholder="To"
-  />
+              <!-- To -->
+              <input
+                v-model="TenderClosingDate"
+                type="date"
+                class="filter-select w-full sm:w-auto"
+                placeholder="To"
+              />
 
             <!-- <select class="filter-select">
               <option>To</option>
@@ -79,7 +103,7 @@
         class="custom-swiper"
       >
         <SwiperSlide
-          v-for="(category, index) in vehicleCategories"
+          v-for="(category, index) in  tenderStore.listTenderCategory"
           :key="index"
           class="!w-auto"
         >
@@ -99,7 +123,7 @@
               class="w-2 h-2 rounded-full bg-white animate-pulse"
             ></span>
 
-            {{ category }}
+            {{ category.value }}
           </button>
 
         </SwiperSlide>
@@ -138,18 +162,19 @@
           Supplier
         </button>
       </div>
+
       <div class="grid grid-cols-1 lg:grid-cols-6 gap-0 text-sm relative">
         <!-- Tender list -->
         <div class="col-span-1 lg:col-span-5 flex flex-col gap-4">
           <div
-            v-for="tender in tenders"
+            v-for="tender in tenderStore.TenderList"
             :key="tender.id"
             class="bg-white border border-gray-200 rounded-xl shadow-sm p-4 hover:shadow-md transition"
           >
             <!-- Tender content here (same as your current tender card) -->
             <div class="flex items-center justify-between mb-2">
               <span class="text-xs font-semibold px-2 py-0.5 rounded-md bg-gray-100 text-gray-700">
-                Tender ID: {{ tender.id }}
+                Tender ID: {{ tender.tenderCode }}
               </span>
               <span
                 class="text-xs font-bold px-2.5 py-1 rounded-full"
@@ -161,20 +186,19 @@
             <h2 class="text-sm font-semibold text-gray-900 leading-snug line-clamp-3">
               {{ tender.title }}
             </h2>
-            <div class="flex flex-wrap gap-1.5 mt-2">
-              <span class="px-2 py-0.5 text-xs rounded-full bg-blue-50 text-blue-700">{{ tender.category }}</span>
-              <span class="px-2 py-0.5 text-xs rounded-full bg-gray-100 text-gray-700">{{ tender.sourceType }}</span>
+            <div v-for="category in listCategory" class="flex flex-wrap gap-1.5 mt-2">
+              <span class="px-2 py-0.5 text-xs rounded-full bg-blue-50 text-blue-700">{{ category }}</span>
             </div>
             <div
               class="mt-3 text-xs text-gray-500 grid grid-cols-2 gap-x-4 gap-y-2 sm:flex sm:flex-wrap sm:items-center sm:gap-x-5 sm:gap-y-1 sm:divide-x sm:divide-gray-200"
             >
               <div class="flex items-center gap-1 sm:pr-4">
                 <span>Published:</span>
-                <span class="font-semibold text-green-600">{{ tender.published }}</span>
+                <span class="font-semibold text-green-600">{{ tender.publishedDate }}</span>
               </div>
               <div class="flex items-center gap-1 sm:px-4">
                 <span>Closing:</span>
-                <span class="font-semibold text-red-600">{{ tender.closing }}</span>
+                <span class="font-semibold text-red-600">{{ tender.closingDate }}</span>
               </div>
               <div class="flex items-center gap-1 sm:px-4">
                 <span>Location:</span>
@@ -224,6 +248,8 @@
   import homefooter from '~/components/tender/footer/index.vue';
   import { ref } from 'vue'
   import { Swiper, SwiperSlide } from 'swiper/vue'
+  import { useUserStore } from '~/stores/modules/userStore';
+  import { useTenderStore } from '~/stores/modules/tender/tenderStore';
   import 'swiper/css'
   import 'swiper/css/free-mode'
 
@@ -231,8 +257,6 @@
     layout: 'tender',
     // middleware: 'auth',
   });
-
-
 
   export default {
     
@@ -243,90 +267,14 @@
       return {
         activeCategory: null,
         showBanner: true,
+        CategoryId:"",
+        TenderTypeId:"",
+        TenderSourceId:"",
+        DistrictId:"",
+        TenderDatePublised_To:"",
+        TenderClosingDate:"",
         logos: [
         ],
-        vehicleCategories: [
-          'Hardware and Constructions',
-          'Roofing Materials & Machinery',
-          'Doors, Windows and Accessories',
-          'Electrical, Electronic and Accessories',
-          'CCTV, Security and Fire Extinguisher',
-          'Air Conditioners and Refrigerators',
-          'Paints and Waterproofing Materials',
-          'Repair and Maintenance',
-          'Chemicals and Gas',
-          'Industrial Machinery and Equipment',
-          'Three Boilers and Heaters',
-          'Boilers and Heaters',
-        ],
-        tenders: [
-          {
-            id: 'TND-2025-1187',
-            daysLeft: 26,
-            title: 'අධ්‍යාපන, උසස් අධ්‍යාපන සහ වෘත්තීය අධ්‍යාපන අමාත්‍යාංගය වෛද්‍ය පීඨයේ මහාචාර්ය ඒකකය සඳහා නවතම පරිගණක සහ මුද්‍රණ යන්ත්‍ර සැපයීම',
-            category: 'Works',
-            sourceType: 'Nprocure',
-            published: '18 Dec 2025',
-            closing: '13 Jan 2026',
-            location: 'Colombo',
-            source: 'Lankadipa News Paper'
-          },
-          {
-            id: 'TND-2025-1188',
-            daysLeft: 12,
-            title: 'රාජ්‍ය රෝහල් සඳහා වෛද්‍ය උපකරණ සැපයීම',
-            category: 'Goods',
-            sourceType: 'ICTA',
-            published: '10 Dec 2025',
-            closing: '01 Jan 2026',
-            location: 'Kandy',
-            source: 'Daily News'
-          },
-          {
-            id: 'TND-2025-1189',
-            daysLeft: 7,
-            title: 'පාසල් සඳහා පරිගණක පද්ධති ස්ථාපනය',
-            category: 'Services',
-            sourceType: 'GovProc',
-            published: '12 Dec 2025',
-            closing: '26 Dec 2025',
-            location: 'Galle',
-            source: 'Government Gazette'
-          },
-          {
-            id: 'TND-2025-1190',
-            daysLeft: 30,
-            title: 'ජල සැපයුම් ව්‍යාපෘතිය සඳහා නල සැපයීම',
-            category: 'Works',
-            sourceType: 'NWSDB',
-            published: '15 Dec 2025',
-            closing: '14 Jan 2026',
-            location: 'Kurunegala',
-            source: 'Sunday Observer'
-          },
-          {
-            id: 'TND-2025-1191',
-            daysLeft: 5,
-            title: 'සෞඛ්‍ය අමාත්‍යාංශයට ඖෂධ සැපයීම',
-            category: 'Goods',
-            sourceType: 'MSD',
-            published: '14 Dec 2025',
-            closing: '24 Dec 2025',
-            location: 'Colombo',
-            source: 'Daily Mirror'
-          },
-          {
-            id: 'TND-2025-1192',
-            daysLeft: 18,
-            title: 'රාජ්‍ය ආයතන සඳහා ජාල පද්ධති නවීකරණය',
-            category: 'Services',
-            sourceType: 'ICTA',
-            published: '16 Dec 2025',
-            closing: '06 Jan 2026',
-            location: 'Jaffna',
-            source: 'IT Gazette'
-          }
-        ]
       }
     },
     async mounted() {
@@ -334,6 +282,25 @@
     },
     async created() {
       this.showLoading = this.$showLoading;
+      this.userStore = useUserStore();
+      this.tenderStore = useTenderStore();
+      this.loginWithSecretCode();
+      
+      await this.tenderStore.loadInitTender(this.showLoading);
+      await this.tenderStore.fetcTender(
+        {
+          CategoryId: this.CategoryId || "",
+          TenderTypeId: this.TenderTypeId || "",
+          TenderSourceId:this.TenderSourceId || "",
+          DistrctId:this.DistrctId || "",
+          TenderDatePublised_To:this.TenderDatePublised_To || "",
+          TenderClosingDate:this.TenderClosingDate || ""
+        },
+        this.showLoading,
+      );
+      this.TenderList = this.tenderStore.TenderList;
+
+
     },
     watch: {},
     computed: {
@@ -345,6 +312,18 @@
         },
     },
     methods: {
+      async loginWithSecretCode() {
+        const secretCode = 'pki1w2fj11';
+        const formData = new FormData();
+        formData.append('secretCode', secretCode);
+
+        try {
+          await this.userStore.AppLogin(formData, this.showLoading);
+          // console.log('Login successful');
+        } catch (err) {
+          // console.error('Login failed:', err);
+        }
+      },
       toggleCategory(category) {
         this.activeCategory = category;
       },

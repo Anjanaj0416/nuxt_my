@@ -21,7 +21,7 @@
         </div>
       </div>
     </div>
-
+{{ userStore }}<hr>
     <div
       v-if="!taskhubStore.taskDetailsList || taskhubStore.taskDetailsList.length === 0"
       class="text-center text-gray-900 mt-5 text-sm font-medium"
@@ -130,7 +130,7 @@
                 :taskHubId="dtpJobs.id"
               />
             </div>
-            <div v-if="dtpJobs.pendingWorkGroup === 'SUPERVISOR'">
+            <div v-if="isSupervisorUser && dtpJobs.pendingWorkGroup === 'SUPERVISOR'">
               <CategoryApprovelSuperviser
                 v-if="dtpJobs.jobCategoryId === 100"
                 :taskType="1"
@@ -235,6 +235,22 @@ export default {
 
       return this.taskhubStore.taskDetailsList.slice(start, end);
     },
+
+     isSupervisorUser() {
+      return this.userStore?.loggedUser?.userGroup === 'Supervisor';
+    },
+
+    isB2bAdminUser() {
+      return this.userStore?.loggedUser?.userGroup === 'Supervisor';
+    },
+
+    isDtp() {
+      return this.userGroup === 'DTP';
+    },
+
+    isB2bAdmin() {
+      return this.userGroup === 'B2BADMIN';
+    }
   },
 
 
