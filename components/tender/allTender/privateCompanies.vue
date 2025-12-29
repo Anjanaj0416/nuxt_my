@@ -20,13 +20,13 @@
                   <span
                     v-for="(cat, index) in selectedCategories"
                     :key="cat.id"
-                    class="inline-flex items-center gap-2 px-3 py-1 text-sm bg-purple-100 text-purple-700 rounded-full"
+                    class="inline-flex items-center gap-2 px-3 py-1 text-sm bg-blue-100 text-blue-700 rounded-full"
                   >
                     {{ cat.value }}
 
                     <button
                       @click="removeCategory(index)"
-                      class="text-purple-500 hover:text-red-500 font-bold"
+                      class="text-blue-500 hover:text-red-500 font-bold"
                     >
                       ✕
                     </button>
@@ -42,7 +42,7 @@
                 </label>
                 <select
                   v-model="DistrictId"
-                  class="w-full p-2 border rounded-md text-sm bg-white focus:ring-2 focus:ring-purple-400"
+                  class="w-full p-2 border rounded-md text-sm bg-white focus:ring-2 focus:ring-blue-400"
                 >
                   <option disabled value="">Select District</option>
                   <option
@@ -64,7 +64,7 @@
                             v-model="Title"
                             rows="3"
                             type="text"
-                            class="w-full p-2 border rounded-md text-sm focus:ring-2 focus:ring-purple-400"
+                            class="w-full p-2 border rounded-md text-sm focus:ring-2 focus:ring-blue-400"
                             placeholder="Enter Title"
                         />
                 </div>
@@ -74,7 +74,7 @@
                             v-model="TenderDetails"
                             rows="3"
                             type="text"
-                            class="w-full p-2 border rounded-md text-sm focus:ring-2 focus:ring-purple-400"
+                            class="w-full p-2 border rounded-md text-sm focus:ring-2 focus:ring-blue-400"
                             placeholder="Enter Description"
                         />
                 </div>
@@ -95,9 +95,9 @@
                   </label>
                   <select
                     v-model="TenderSource"
-                    class="w-full p-2 border rounded-md text-sm bg-white focus:ring-2 focus:ring-purple-400"
+                    class="w-full p-2 border rounded-md text-sm bg-white focus:ring-2 focus:ring-blue-400"
                   >
-                    <option disabled value="">Select District</option>
+                    <option disabled value="">Select Tender Source</option>
                     <option
                       v-for="district in tenderStore.listTenderSource"
                       :key="district.id"
@@ -112,7 +112,7 @@
                     <input
                         v-model="PublishedOn"
                         type="date"
-                        class="w-full p-2 border rounded-md text-sm focus:ring-2 focus:ring-purple-400"
+                        class="w-full p-2 border rounded-md text-sm focus:ring-2 focus:ring-blue-400"
                     />
                 </div>
                 <div>
@@ -120,7 +120,7 @@
                     <input
                         v-model="ClosedOn"
                         type="date"
-                        class="w-full p-2 border rounded-md text-sm focus:ring-2 focus:ring-purple-400"
+                        class="w-full p-2 border rounded-md text-sm focus:ring-2 focus:ring-blue-400"
                     />
                 </div>
             </div>
@@ -128,8 +128,8 @@
         </div>
         <div class=" modal-footer">
             <button   @click="cancel" class="px-12 py-2 text-xs  font-semibold transition bg-white text-gray-600 rounded-full shadow">Cancel</button>
-            <button @click="CreateTender()"  class="px-12 py-2 text-xs  bg-gradient-to-r from-purple-500 via-purple-600 to-purple-700 
-                    font-semibold transition text-white rounded-full shadow  focus:ring-2 focus:ring-purple-400">
+            <button @click="CreateTender()"  class="px-12 py-2 text-xs  bg-gradient-to-r from-blue-500 via-blue-600 to-blue-700 
+                    font-semibold transition text-white rounded-full shadow  focus:ring-2 focus:ring-blue-400">
                 Create
             </button>
         </div>
@@ -158,7 +158,7 @@ export default {
       isShowWF: false,
       expandedRow: null, 
         DistrictId: "",
-        TenderSourceId:"",
+        TenderSource:"",
         Title:"",
         TenderDetails:"",
 
@@ -205,6 +205,15 @@ export default {
 
       // optional: close dropdown
       this.$refs.refCategory?.close?.();
+    },
+
+    closeModal() {
+      this.isOpen = false;
+      this.$emit("close");
+    },
+    cancel() {
+      this.clearErr();
+      this.closeModal();
     },
 
     removeCategory(index) {

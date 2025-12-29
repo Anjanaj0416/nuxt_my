@@ -29,13 +29,13 @@
           </nav>
 
           <!-- Registration -->
-          <NuxtLink
+          <!-- <NuxtLink
             to="/learners/registration"
             class="ml-auto px-4 py-2 text-sm font-medium
                   text-purple-800 bg-white rounded-full shadow transition-all duration-300"
           >
             Registration
-          </NuxtLink>
+          </NuxtLink> -->
         </div>
 
         <!-- Mobile menu (UNDER logo) -->

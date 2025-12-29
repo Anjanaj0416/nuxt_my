@@ -60,7 +60,10 @@ export const useTenderStore = defineStore("tenderStore", {
                 loadingAlert.close();
             }
         },
-        async fetcTender(showLoading) {
+        async fetcTender(req,showLoading) {
+            console.log('list:',req);
+
+ 
             const loadingAlert = showLoading ? showLoading('Loading Tender...') : null;
 
             try {
@@ -74,13 +77,14 @@ export const useTenderStore = defineStore("tenderStore", {
                     Authorization: `Bearer ${token}`
                     },
                     params: {
-                        CategoryId: "",
-                        TenderTypeId: "",
-                        TenderSourceId: "",
-                        DistrctId: "",
-                        TenderDatePublised_From: "",
-                        TenderDatePublised_To: "",
-                        TenderClosingDate: ""
+                        SearchText: req.SearchText, 
+                        CategoryId: req.CategoryId,
+                        TenderTypeId: req.TenderTypeId,
+                        TenderSourceId: req.TenderSourceId,
+                        DistrctId: req.DistrctId,
+                        TenderDatePublised_From: req.TenderDatePublised_From,
+                        TenderDatePublised_To: req.TenderDatePublised_To,
+                        TenderClosingDate: req.TenderClosingDate
                     }
                 }
                 );

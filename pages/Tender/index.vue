@@ -8,12 +8,14 @@
         <div class="bg-white rounded-2xl shadow-xl p-5 sm:p-6">
           <div class="relative">
             <input
+              v-model="SearchText"
               type="search"
               placeholder="Search tenders, reference no, keywords..."
               class="w-full rounded-full border border-gray-300 px-6 py-3 text-sm text-gray-800
                      focus:ring-2 focus:ring-purple-500 focus:outline-none"
             />
             <button
+              @click="onSearchClick"
               class="absolute right-2 top-1/2 -translate-y-1/2
                      bg-purple-600 hover:bg-purple-700
                      text-white px-6 py-2 rounded-full text-sm font-medium"
@@ -180,7 +182,7 @@
                 class="text-xs font-bold px-2.5 py-1 rounded-full"
                 :class="tender.daysLeft <= 7 ? 'bg-red-100 text-red-700' : 'bg-green-100 text-green-700'"
               >
-                {{ tender.daysLeft }} Days Left
+                {{ tender.daysLeft }}
               </span>
             </div>
             <h2 class="text-sm font-semibold text-gray-900 leading-snug line-clamp-3">
@@ -273,6 +275,7 @@
         DistrictId:"",
         TenderDatePublised_To:"",
         TenderClosingDate:"",
+        SearchText: "",
         logos: [
         ],
       }
@@ -299,10 +302,28 @@
         this.showLoading,
       );
       this.TenderList = this.tenderStore.TenderList;
-
-
     },
-    watch: {},
+    watch: {
+      CategoryId() {
+        this.searchByFilters();
+      },
+      TenderTypeId() {
+        this.searchByFilters();
+      },
+      TenderSourceId() {
+        this.searchByFilters();
+      },
+      DistrictId() {
+        this.searchByFilters();
+      },
+      TenderDatePublised_To() {
+        this.searchByFilters();
+      },
+      TenderClosingDate() {
+        this.searchByFilters();
+      }
+    },
+
     computed: {
       getSlidesPerView() {
           const width = window.innerWidth
@@ -324,8 +345,35 @@
           // console.error('Login failed:', err);
         }
       },
-      toggleCategory(category) {
+      // keywordsearch
+      async onSearchClick() {
+        const req = {
+          SearchText: this.SearchText || "",
+        };
+        await this.tenderStore.fetcTender(req, this.showLoading);
+      },
+      // filtersearch
+      async searchByFilters() {
+        const req = {
+          CategoryId: this.CategoryId || "",
+          TenderTypeId: this.TenderTypeId || "",
+          TenderSourceId: this.TenderSourceId || "",
+          DistrctId: this.DistrictId || "",
+          TenderDatePublised_To: this.TenderDatePublised_To || "",
+          TenderClosingDate: this.TenderClosingDate || ""
+        };
+
+        await this.tenderStore.fetcTender(req, this.showLoading);
+      },
+      // onlycategoryfiltersearch
+      async toggleCategory(category) {
         this.activeCategory = category;
+        this.categoryId = category.id;
+        const req = {
+          CategoryId: this.categoryId,
+        };
+
+        await this.tenderStore.fetcTender(req, this.showLoading);          
       },
       closeBanner() {
         this.showBanner = false;
