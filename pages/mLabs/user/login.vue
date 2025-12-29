@@ -120,8 +120,7 @@
     async created() {
       this.userStore = useUserStore();
       this.showLoading = this.$showLoading;
-      this.imageroot = this.userStore.loggedUser.resourceURLRoot;
-      
+
     },
     watch: {},
     computed: {

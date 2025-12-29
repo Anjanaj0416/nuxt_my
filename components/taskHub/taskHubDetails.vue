@@ -21,14 +21,13 @@
         </div>
       </div>
     </div>
-
     <div
       v-if="!taskhubStore.taskDetailsList || taskhubStore.taskDetailsList.length === 0"
       class="text-center text-gray-900 mt-5 text-sm font-medium"
     >
       <p>No Tasks Found...</p>
     </div>
-
+<!-- {{ userStore }} -->
     <!-- KPI Leads -->
     <div
       v-for="(dtpJobs, index) in paginatedTaskList"
@@ -97,40 +96,51 @@
         <div class="flex flex-col items-center gap-1 mt-1 mb-2 sm:flex-row sm:justify-end sm:mb-0 sm:mt-0 sm:-my-3">
           <button
             class="text-black dark:bg-transparent text-xs font-medium dark:text-blue-900 cursor-pointer px-4 py-2 text-sm font-medium text-blue-900 rounded-md hover:font-bold underline"
+            @click="toggleWorkFlow(dtpJobs.id, index)"
+          >
+            {{ expandedRowWF  === index ? 'Close Work Flow' : 'View Work Flow' }}
+          </button>
+          <button
+            class="text-black dark:bg-transparent text-xs font-medium dark:text-blue-900 cursor-pointer px-4 py-2 text-sm font-medium text-blue-900 rounded-md hover:font-bold underline"
             @click="toggleKpiView(dtpJobs.id, index)"
           >
             {{ expandedRow === index ? 'Less' : 'More' }}
           </button>
+          
         </div>
 
         <!-- Expanded Content -->
-        <transition name="expand" mode="out-in">
+
+        <transition name="expand">
           <div
             v-if="expandedRow === index"
-            class="flex flex-col gap-4 p-4 mt-2 r"
+            class="flex flex-col gap-4 p-4 mt-2"
           >
-            <div v-if="dtpJobs.pendingWorkGroup === 'SUPPERADMIN'">
-              <productCreation_b2bAdmin 
+            <div v-if="isB2bAdmin && dtpJobs.pendingWorkGroup === 'SUPPERADMIN'">
+              <productCreation_b2bAdmin
                 v-if="dtpJobs.jobCategoryId === 100"
-                :taskType="'1'" 
-                :jobCategory="'100'" 
-                :taskHubId="dtpJobs.id" 
+                :taskType="'1'"
+                :jobCategory="'100'"
+                :taskHubId="dtpJobs.id"
               />
               <VendorBannerCreation_b2bAdmin
                 v-if="dtpJobs.jobCategoryId === 110"
-                :taskType="'1'" 
-                :jobCategory="'110'" 
-                :taskHubId="dtpJobs.id" 
-              />
-            </div>
-            <div v-if="dtpJobs.pendingWorkGroup === 'DTP' ">
-              <productCreation_dtp 
-                :taskType="dtpJobs.jobType" 
-                :jobCategory="dtpJobs.jobCategory" 
+                :taskType="'1'"
+                :jobCategory="'110'"
                 :taskHubId="dtpJobs.id"
               />
             </div>
-            <div v-if="dtpJobs.pendingWorkGroup === 'SUPERVISOR'">
+
+            <div v-else-if="isDtp && dtpJobs.pendingWorkGroup === 'DTP'">
+              <productCreation_dtp
+                v-if="dtpJobs.jobCategoryId === 100"
+                :taskType="dtpJobs.jobType"
+                :jobCategory="dtpJobs.jobCategory"
+                :taskHubId="dtpJobs.id"
+              />
+            </div>
+
+            <div v-else-if="isSupervisorUser && dtpJobs.pendingWorkGroup === 'SUPERVISOR'">
               <CategoryApprovelSuperviser
                 v-if="dtpJobs.jobCategoryId === 100"
                 :taskType="1"
@@ -138,15 +148,31 @@
                 :taskHubId="dtpJobs.id"
               />
               <BannerApprovelSuperviser
-                v-if="dtpJobs.jobCategoryId === 101"
+                v-else-if="dtpJobs.jobCategoryId === 101"
                 :taskType="dtpJobs.jobType"
                 :jobCategory="dtpJobs.jobCategory"
                 :taskHubId="dtpJobs.id"
               />
-              
+            </div>
+
+            <div v-else class="text-center text-gray-900 text-sm font-medium">
+              You do not have access to this task
             </div>
           </div>
         </transition>
+
+        <transition name="expand">
+          <div
+            v-if="expandedRowWF === index && isShowWF"
+            class="flex flex-col gap-4 p-4 mt-2"
+          >
+            <workFlowDetails
+              :taskHubId="taskHubIdWF"
+              @close="isShowWF = false; expandedRowWF = null"
+            />
+          </div>
+        </transition>
+
       </div>
     </div>
 
@@ -174,6 +200,7 @@ import CategoryApprovelSuperviser from "./bannerMgt/productCreation_categoryAppr
 import BannerApprovelSuperviser from "./bannerMgt/productCreation_bannerApprovelSupervisor.vue";
 import VendorBannerCreation_b2bAdmin from "./bannerMgt/vendorBannerCreation_b2bAdmin.vue";
 import Pagination from "~/components/customcontrol/Pagination.vue";
+import workFlowDetails from "./bannerMgt/workFlowDetails.vue";
 
 
 
@@ -192,12 +219,17 @@ export default {
       CategoryApprovelSuperviser,
       BannerApprovelSuperviser,
       VendorBannerCreation_b2bAdmin,
-      Pagination
+      Pagination,
+      workFlowDetails
     },
   data() {
     return {
       isaAssig: false,
       expandedRow: null, 
+      expandedRowWF: null,
+      isShowWF: false,
+      taskHubIdWF: null,
+      filteredKpiId: null,
       searchBy: "102",
       taskType: "1",
       searchValue: "",
@@ -235,6 +267,18 @@ export default {
 
       return this.taskhubStore.taskDetailsList.slice(start, end);
     },
+
+    isSupervisorUser() {
+      return this.userStore?.loggedUser?.userGroup === 'Supervisor';
+    },
+
+    isDtp() {
+      return this.userStore?.loggedUser?.userGroup === 'DTP';
+    },
+
+    isB2bAdmin() {
+      return this.userStore?.loggedUser?.userGroup === 'B2BAdmin';
+    }
   },
 
 
@@ -295,7 +339,19 @@ export default {
         this.filteredKpiId = id;
         this.$router.replace({ path: this.$route.path, query: { id } });
       }
-    }
+    },
+
+    toggleWorkFlow(taskHubId, index) {
+      if (this.expandedRowWF === index && this.isShowWF) {
+        this.expandedRowWF = null;
+        this.isShowWF = false;
+        this.taskHubIdWF = null;
+      } else {
+        this.expandedRowWF = index;
+        this.isShowWF = true;
+        this.taskHubIdWF = taskHubId;
+      }
+    },
 
   },
   
