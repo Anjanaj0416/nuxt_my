@@ -1,8 +1,8 @@
 <template>
 
-      <header class="bg-purple-600 shadow-md h-20 flex items-center px-4 sm:px-6 text-white z-20">
-        <label for="menu-toggle" class="sm:hidden mr-4 cursor-pointer text-2xl">☰</label>
-        <h1 class="text-lg font-semibold flex-1"><slot name="page-title">Dashboard</slot></h1>
+      <header class="bg-white shadow-md h-20 flex items-center px-4 sm:px-6 text-white z-20">
+        <label for="menu-toggle" class="sm:hidden mr-4 cursor-pointer text-green-500 text-2xl">☰</label>
+        <h1 class="text-lg font-semibold flex-1"><slot name="page-title"></slot></h1>
 
         <div class="relative flex items-center ml-auto space-x-3">
           <div class="relative mr-2">
@@ -11,13 +11,13 @@
             </div>
           </div>
 
-          <div class="hidden sm:flex flex-col text-white text-xs sm:text-sm leading-tight">
+          <div class="hidden sm:flex flex-col text-gray-600 text-xs sm:text-sm leading-tight">
             <p class="font-semibold truncate">Hi, John Doe</p>
             <p class="text-[10px] sm:text-xs opacity-80 truncate">john.doe@company.com</p>
           </div>
 
           <div class="relative">
-            <button @click="isDropdownOpen = !isDropdownOpen" class="relative flex items-center justify-center w-10 h-10 rounded-full border-2 border-white shadow-md hover:scale-105 transition">
+            <button @click="isDropdownOpen = !isDropdownOpen" class="relative flex items-center justify-center w-10 h-10 rounded-full border-2 border-green-500 shadow-md hover:scale-105 transition">
               <img src="https://i.pravatar.cc/100" alt="Profile" class="w-10 h-10 rounded-full object-cover" />
             </button>
 

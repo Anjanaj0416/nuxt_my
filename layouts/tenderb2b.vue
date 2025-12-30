@@ -12,13 +12,11 @@
 
     <!-- MAIN -->
     <div class="flex-1 flex flex-col">
-      <!-- HEADER COMPONENT -->
       <Header>
         <!-- <slot name="page-title"></slot> -->
       </Header>
-
       <!-- PAGE CONTENT -->
-      <main class="my-8">
+      <main class="my-8 mx-4">
         <slot />
       </main>
     </div>
@@ -30,7 +28,7 @@ import Sidebar from '~/components/mLabs/header/sidebar.vue'
 import Header from '~/components/mLabs/header/loginHeader.vue'
 
 useHead({
-  title: 'TenderB2B.lk',
+  title: 'appts.lk',
   link: [
     { rel: "icon", type: "image/png", sizes: "16x16", href: "/favicon_io/tender/favicon-16x16.png" },
     { rel: "icon", type: "image/png", sizes: "32x32", href: "/favicon_io/tender/favicon-32x32.png" },

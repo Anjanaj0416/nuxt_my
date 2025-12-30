@@ -1,17 +1,22 @@
 <template>
   <section class="min-h-screen flex flex-col md:flex-row bg-green-500">
-    <div class="hidden md:flex w-full md:w-1/2 items-center justify-center p-10 text-white">
-      <div class="text-center">
-        <NuxtLink to="/">
-          <h1 class="text-5xl font-bold mb-6 drop-shadow-md">Welcome to</h1>
-        </NuxtLink>
-        <!-- Replace with your image -->
-        <!-- <img src="" alt="Mockup" class="w-2/3 mx-auto" /> -->
-      </div>
-    </div>
+  
+  <!-- LEFT IMAGE -->
+  <div class="hidden md:block w-full md:w-1/2 h-screen">
+    <img
+      src="/assets/img/appts/login.jpg"
+      alt="Mockup"
+      class="w-full h-full object-cover"
+    />
+  </div>
 
     <!-- Right Panel -->
-    <div class="flex w-full md:w-1/2 items-center justify-center bg-white rounded-l-3xl md:rounded-none p-8 md:p-16 shadow-xl">
+    <div class="flex w-full md:w-1/2 my-32 md:my-0 items-center justify-center bg-white rounded-l-3xl md:rounded-none p-8 md:p-16 shadow-xl">
+       <!-- <div
+    class="flex w-full md:w-1/2 min-h-screen items-center justify-center
+           bg-white rounded-l-3xl md:rounded-none p-6 sm:p-8 md:p-16 shadow-xl"
+  > -->
+
       <div class="w-full max-w-xl">
 
 

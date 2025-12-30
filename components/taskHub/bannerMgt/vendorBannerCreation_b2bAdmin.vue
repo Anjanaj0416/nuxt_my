@@ -53,10 +53,43 @@
               {{ taskhubStore.taskMoreDetailsList?.data?.storeUsername || 'No Data' }}
           </p>
         </div>
-        <div>
-          <h1 class="text-[12px] font-semibold text-gray-600">Store Store Password</h1>
+        <div class="relative">
+          <h1 class="text-[12px] font-semibold text-gray-600">Store Password</h1>
+
+          <!-- Eye Button -->
+          <button
+            type="button"
+            @click="togglePassword"
+            class="absolute right-2 top-4 right-12 text-gray-600"
+          >
+            <!-- Show icon -->
+            <svg v-if="showPassword" xmlns="http://www.w3.org/2000/svg" class="w-5 h-5" fill="none"
+              viewBox="0 0 24 24" stroke="currentColor">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" />
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7
+                  -1.274 4.057-5.064 7-9.542 7-4.478 0-8.268-2.943-9.542-7z" />
+            </svg>
+
+            <!-- Hide icon -->
+            <svg v-else xmlns="http://www.w3.org/2000/svg" class="w-5 h-5" fill="none"
+              viewBox="0 0 24 24" stroke="currentColor">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                d="M13.875 18.825A10.05 10.05 0 0112 19c-4.478 0-8.268-2.943-9.542-7
+                  a10.05 10.05 0 012.304-3.65M15 12a3 3 0 00-3-3m3 3a3 3 0 01-3 3
+                  m0 0l-4.875-4.875M9.879 9.88L4.22 4.22" />
+            </svg>
+          </button>
+
+          <!-- Password text -->
           <p class="text-sm text-gray-500 mt-0.5">
+            <span v-if="showPassword">
               {{ taskhubStore.taskMoreDetailsList?.data?.storePassword || 'No Data' }}
+            </span>
+            <span v-else>
+              ••••••••
+            </span>
           </p>
         </div>
       </div>
@@ -115,6 +148,16 @@
               Pass to
             </button>
           </div>
+          <div class="flex justify-end pt-2 gap-2">
+            <button
+              @click="JobDone"
+              class="p-r px-12 py-2 text-xs bg-gradient-to-r from-blue-500 via-blue-600 to-blue-700 
+              font-semibold transition text-white rounded-full shadow focus:ring-2 focus:ring-blue-400"
+            >
+              Job Complete
+            </button>
+          </div>
+          
         </div>
       </div>
 
@@ -144,6 +187,7 @@ export default {
       isaAssig: false,
       isShowWF: false,
       expandedRow: null, 
+      showPassword: false,
       taskMoreDetails: {
         dtlJobCategory: "",
         data: {
@@ -214,30 +258,13 @@ export default {
   },
 
   methods: {
+    togglePassword() {
+      this.showPassword = !this.showPassword;
+    },
 
     formatComment(clientDetails) {
       if (!clientDetails) return "No Data";
       return String(clientDetails).replace(/\n/g, "<br><br>");
-    },
-
-    async SetSelectedFilter(event) {
-      this.searchBy = event.target.value;
-      // await this.GetSearch();
-    },
-
-    async GetSearch(searchVal) {
-      if (searchVal) {
-        this.keyword = searchVal;
-      } else {
-        this.keyword = "";
-      }
-      console.log("keyword, searchBy", searchVal, this.searchBy);
-      await this.taskhubStore.TaskDetailsList(
-        { taskType: "DtlBannerMgt", searchValue: "5CD7F771-139D-4044-708C-08DE2A3D770B", searchBy: "101" },
-        this.showLoading
-      );
-      this.searchBy = "";
-      this.keyword = "";
     },
 
 
@@ -271,14 +298,45 @@ export default {
         .then(async (result) => {
           if (result.isConfirmed) {
             const formData = new FormData();
-            formData.append("TaskType", "110");//VendorBannerCreation- 100
-            formData.append("WGRequestType", "1070");//VerifyStore-1070
+            formData.append("TaskType", "1");
+            formData.append("TaskType", "110");
+            formData.append("WGRequestType", "1070");
             const dataObj = {
               TaskHubId: this.taskHubId,
               Comment: this.comment || "",
               StoreUrl: this.taskhubStore.taskMoreDetailsList?.data?.storeUrl || "",
               StoreUsername: this.taskhubStore.taskMoreDetailsList?.data?.storeUsername || "",
               StorePassword: this.taskhubStore.taskMoreDetailsList?.data?.storePassword || "",
+            };
+            formData.append("Data", JSON.stringify(dataObj));
+            if (this.listFiles && this.listFiles.length > 0) {
+              this.listFiles.forEach((file, index) => {
+                formData.append("listFiles", file);
+              });
+            }
+
+            for (let [key, value] of formData.entries()) {
+              console.log(key, value);
+            }
+
+            await this.taskhubStore.SetPassToOtherWorkGroup(formData, this.showLoading);
+
+          }
+        });
+    },
+
+    //JobDone
+    async JobDone() {
+      this.$showConfirm("Are you sure the Job Done?", "warning")
+        .then(async (result) => {
+          if (result.isConfirmed) {
+            const formData = new FormData();
+            formData.append("TaskType", "1");//ProductCreation- 1
+            formData.append("JobCategory", "110");//ProductCreation-100
+            formData.append("WGRequestType", "1100");
+            const dataObj = {
+              taskHubId: this.taskHubId,
+              comment: this.comment || ""
             };
             formData.append("Data", JSON.stringify(dataObj));
             if (this.listFiles && this.listFiles.length > 0) {

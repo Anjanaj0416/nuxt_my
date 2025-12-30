@@ -337,7 +337,7 @@ export default {
             };
 
             // Send to backend
-            console.log(request);
+            // console.log(request);
             await this.leadStore.SetVendorLead(request, this.showLoading, this.showAlert);
 
             this.leadStore.clearCurLead();

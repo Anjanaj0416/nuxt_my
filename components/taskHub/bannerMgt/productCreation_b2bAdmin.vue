@@ -154,7 +154,7 @@
             scrollbar-thin scrollbar-thumb-gray-400 scrollbar-track-gray-200 
             sm:flex sm:flex-wrap sm:gap-4 sm:overflow-visible
             text-sm font-medium text-gray-500" >
-          <div class="flex justify-end pt-2 gap-2">
+          <!-- <div class="flex justify-end pt-2 gap-2">
             <button
               v-if="!isShowWF"
               @click="GoToWorkFlow"
@@ -171,7 +171,7 @@
             >
               Close Work Flow
             </button>
-          </div>
+          </div> -->
 
           <div class="flex justify-end pt-2 gap-2">
             <!-- <button
@@ -201,6 +201,24 @@
               font-semibold transition text-white rounded-full shadow focus:ring-2 focus:ring-blue-400"
             >
               Pass to
+            </button>
+          </div>
+          <div class="flex justify-end pt-2 gap-2">
+            <button
+              @click="Reject"
+              class="p-r px-12 py-2 text-xs bg-gradient-to-r from-blue-500 via-blue-600 to-blue-700 
+              font-semibold transition text-white rounded-full shadow focus:ring-2 focus:ring-blue-400"
+            >
+              Reject
+            </button>
+          </div>
+          <div class="flex justify-end pt-2 gap-2">
+            <button
+              @click="JobDone"
+              class="p-r px-12 py-2 text-xs bg-gradient-to-r from-blue-500 via-blue-600 to-blue-700 
+              font-semibold transition text-white rounded-full shadow focus:ring-2 focus:ring-blue-400"
+            >
+              Job Complete
             </button>
           </div>
           <!-- <div class=" pt-2 gap-2 relative">
@@ -476,6 +494,68 @@ export default {
           }
         });
     },
+
+    //JobDone
+    async JobDone() {
+      this.$showConfirm("Are you sure the Job Done?", "warning")
+        .then(async (result) => {
+          if (result.isConfirmed) {
+            const formData = new FormData();
+            formData.append("TaskType", "1");//ProductCreation- 1
+            formData.append("JobCategory", "100");//ProductCreation-100
+            formData.append("WGRequestType", "1050");
+            const dataObj = {
+              taskHubId: this.taskHubId,
+              comment: this.comment || ""
+            };
+            formData.append("Data", JSON.stringify(dataObj));
+            if (this.listFiles && this.listFiles.length > 0) {
+              this.listFiles.forEach((file, index) => {
+                formData.append("listFiles", file);
+              });
+            }
+
+            for (let [key, value] of formData.entries()) {
+              console.log(key, value);
+            }
+
+            await this.taskhubStore.SetPassToOtherWorkGroup(formData, this.showLoading);
+
+          }
+        });
+    },
+
+    //Reject
+    async Reject() {
+      this.$showConfirm("Are you sure the Reject this one?", "warning")
+        .then(async (result) => {
+          if (result.isConfirmed) {
+            const formData = new FormData();
+            formData.append("TaskType", "1");//ProductCreation- 1
+            formData.append("JobCategory", "160");
+            formData.append("WGRequestType", "1401");
+            const dataObj = {
+              taskHubId: this.taskHubId,
+              comment: this.comment || ""
+            };
+            formData.append("Data", JSON.stringify(dataObj));
+            if (this.listFiles && this.listFiles.length > 0) {
+              this.listFiles.forEach((file, index) => {
+                formData.append("listFiles", file);
+              });
+            }
+
+            for (let [key, value] of formData.entries()) {
+              console.log(key, value);
+            }
+
+            await this.taskhubStore.SetPassToOtherWorkGroup(formData, this.showLoading);
+
+          }
+        });
+    },
+
+
 
      IsValidate() {
       this.clearErr();

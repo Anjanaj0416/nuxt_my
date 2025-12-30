@@ -23,8 +23,10 @@
                 </div>
             </div>
 
+            <!-- {{ taskhubStore.storeMateriallList }} -->
+
             <!-- Payment History Section -->
-            <div v-if="listKpi.length === 0" class="text-center text-gray-900 mt-5 text-sm font-medium">
+            <div v-if="taskhubStore.storeMateriallList  === 0" class="text-center text-gray-900 mt-5 text-sm font-medium">
                 <p>No KPI available...</p>
             </div>
 
@@ -112,21 +114,6 @@
             return {
             isaAssig: false,
             expandedRow: null, 
-            listKpi: [
-                {
-                id: "wf001",
-                job: "New Category",
-                assignDate: "2025.09.12",
-                completedDate: "2025.09.15",
-                kpiAssignTo: "Sandari",
-                status: "Pending",
-                noofDaysPending: 3,
-                contactPhoneNo: "077-1234567",
-                isActive: true,
-                },
-                
-
-            ],
             };
         },
 
@@ -166,22 +153,22 @@
             this.filteredKpiId = null;
             return;
         }
-        const foundIndex = this.listKpi.findIndex(v => v.id === queryId);
+        const foundIndex = this.taskhubStore.storeMateriallList.findIndex(v => v.taskId === queryId);
         if (foundIndex !== -1) {
             this.expandedRow = foundIndex;
-            this.filteredKpiId = this.listKpi[foundIndex].id;
+            this.filteredKpiId = this.taskhubStore.storeMateriallList[foundIndex].taskIdid;
         }
         },
 
-        toggleKpiView(id, index) {
+        toggleKpiView(taskId, index) {
         if (this.expandedRow === index) {
             this.expandedRow = null;
             this.filteredKpiId = null;
             this.$router.replace({ path: this.$route.path, query: {} });
         } else {
             this.expandedRow = index;
-            this.filteredKpiId = id;
-            this.$router.replace({ path: this.$route.path, query: { id } });
+            this.filteredKpiId = taskId;
+            this.$router.replace({ path: this.$route.path, query: { taskId } });
         }
         }
 
