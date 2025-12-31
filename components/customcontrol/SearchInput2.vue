@@ -7,7 +7,7 @@
       @focus="openDropdown"
       @keydown="onKeydown"
       placeholder="Search..."
-      class="w-full px-4 py-2 mt-1 text-sm border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-300"
+      class="w-full px-4 py-2 mt-1 text-sm border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-gray-800"
     />
 
     <!-- Dropdown -->
@@ -19,13 +19,13 @@
         v-for="(item, index) in filtered"
         :key="item"
         :class="[
-          'cursor-pointer px-4 py-2 text-sm hover:bg-indigo-600 hover:text-white',
-          highlightedIndex === index ? 'bg-indigo-500 text-white' : ''
+          'cursor-pointer px-4 py-2 text-sm hover:bg-purple-600 hover:text-white',
+          highlightedIndex === index ? 'bg-purple-600 text-white' : ''
         ]"
         @mousedown.prevent="selectItem(item)"
         @mouseover="highlightedIndex = index"
       >
-        {{ item }}
+        {{ item.value }}
       </div>
     </div>
 

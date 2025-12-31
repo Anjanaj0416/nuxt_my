@@ -14,6 +14,7 @@
           <div class="grid grid-cols-1 gap-4 my-4 sm:grid-cols-1 md:grid-cols-4 lg:grid-cols-4">
             <div>
               <label class="block text-sm font-medium text-gray-600">Main Category</label>
+              {{  }}
               <serach_Input
                 :arrItems="taskhubStore.listMainCategory"
                 label=""
