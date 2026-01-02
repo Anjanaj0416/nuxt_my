@@ -2,20 +2,14 @@
     <section>
         <div class="p-6 space-y-6 overflow-y">
             <h2 class="text-lg font-semibold text-gray-700 border-b pb-2 mb-4">Private Companies</h2>
+              <categorySearch @updatecategorypaths="handleCategoryPaths" />
+              
+                <p v-if="err.addCategory" class="mt-1 text-sm text-red-600">
+                  {{ err.Categories }}
+                </p>
+
             <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
-              <!-- Category -->
               <div>
-                <label class="block text-sm font-medium text-gray-600 mb-1">
-                  Select Categories
-                </label>
-
-                <serach_Input
-                  :arrItems="tenderStore.listTenderCategory"
-                  ref="refCategory"
-                  @selectItem="addCategory"
-                />
-
-                <!-- Selected Category Badges -->
                 <div v-if="selectedCategories.length" class="flex flex-wrap gap-2 mt-2">
                   <span
                     v-for="(cat, index) in selectedCategories"
@@ -43,6 +37,7 @@
                 <select
                   v-model="DistrictId"
                   class="w-full p-2 border rounded-md text-sm bg-white focus:ring-2 focus:ring-blue-400"
+                  @input="clearErrorOnInput('DistrictId')"
                 >
                   <option disabled value="">Select District</option>
                   <option
@@ -53,30 +48,41 @@
                     {{ district.value }}
                   </option>
                 </select>
+                <p v-if="err.DistrictId" class="mt-2 text-sm text-red-600">
+                  {{ err.DistrictId }}
+                </p>
               </div>
             </div>
 
 
             <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
                 <div>
-                    <label class="block text-sm font-medium text-gray-600 mb-2">Tender Title</label>
-                        <textarea
-                            v-model="Title"
-                            rows="3"
-                            type="text"
-                            class="w-full p-2 border rounded-md text-sm focus:ring-2 focus:ring-blue-400"
-                            placeholder="Enter Title"
-                        />
+                  <label class="block text-sm font-medium text-gray-600 mb-2">Tender Title</label>
+                    <textarea
+                      v-model="Title"
+                      rows="3"
+                      type="text"
+                      class="w-full p-2 border rounded-md text-sm focus:ring-2 focus:ring-blue-400"
+                      placeholder="Enter Title"
+                      @input="clearErrorOnInput('Title')"
+                    />
+                  <p v-if="err.Title" class="mt-2 text-sm text-red-600">
+                    {{ err.Title }}
+                  </p>
                 </div>
                 <div>
-                    <label class="block text-sm font-medium text-gray-600 mb-2">Description</label>
-                        <textarea
-                            v-model="TenderDetails"
-                            rows="3"
-                            type="text"
-                            class="w-full p-2 border rounded-md text-sm focus:ring-2 focus:ring-blue-400"
-                            placeholder="Enter Description"
-                        />
+                  <label class="block text-sm font-medium text-gray-600 mb-2">Description</label>
+                    <textarea
+                      v-model="TenderDetails"
+                      rows="3"
+                      type="text"
+                      class="w-full p-2 border rounded-md text-sm focus:ring-2 focus:ring-blue-400"
+                      placeholder="Enter Description"
+                      @input="clearErrorOnInput('TenderDetails')"
+                    />
+                  <p v-if="err.TenderDetails" class="mt-2 text-sm text-red-600">
+                  {{ err.TenderDetails }}
+                  </p>
                 </div>
             </div>
             <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
@@ -87,7 +93,11 @@
                         @GetSelectedImages="handleSelectedImages"
                         ref="refApprovedImg"
                         accept="image/*,application/pdf,.doc,.docx,.xls,.xlsx"
+                        @input="clearErrorOnInput('listFiles')"
                     />
+                    <p v-if="err.listFiles" class="mt-2 text-sm text-red-600">
+                      {{ err.listFiles }}
+                    </p>
                 </div>
                 <div>
                   <label class="block text-sm font-medium text-gray-600 mb-2">
@@ -96,6 +106,7 @@
                   <select
                     v-model="TenderSource"
                     class="w-full p-2 border rounded-md text-sm bg-white focus:ring-2 focus:ring-blue-400"
+                    @input="clearErrorOnInput('TenderSource')"
                   >
                     <option disabled value="">Select Tender Source</option>
                     <option
@@ -106,22 +117,34 @@
                       {{ district.value }}
                     </option>
                   </select>
+                  <p v-if="err.TenderSource" class="mt-2 text-sm text-red-600">
+                    {{ err.TenderSource }}
+                  </p>
+
                 </div>
                 <div>
                     <label class="block text-sm font-medium text-gray-600 mb-2">Published on</label>
                     <input
-                        v-model="PublishedOn"
-                        type="date"
-                        class="w-full p-2 border rounded-md text-sm focus:ring-2 focus:ring-blue-400"
+                      v-model="PublishedOn"
+                      type="date"
+                      class="w-full p-2 border rounded-md text-sm focus:ring-2 focus:ring-blue-400"
+                      @input="clearErrorOnInput('PublishedOn')"
                     />
+                    <p v-if="err.PublishedOn" class="mt-2 text-sm text-red-600">
+                      {{ err.PublishedOn }}
+                    </p>
                 </div>
                 <div>
                     <label class="block text-sm font-medium text-gray-600 mb-2">Closed on</label>
                     <input
-                        v-model="ClosedOn"
-                        type="date"
-                        class="w-full p-2 border rounded-md text-sm focus:ring-2 focus:ring-blue-400"
+                      v-model="ClosedOn"
+                      type="date"
+                      class="w-full p-2 border rounded-md text-sm focus:ring-2 focus:ring-blue-400"
+                      @input="clearErrorOnInput('ClosedOn')"
                     />
+                    <p v-if="err.ClosedOn" class="mt-2 text-sm text-red-600">
+                      {{ err.ClosedOn }}
+                    </p>
                 </div>
             </div>
 
@@ -141,7 +164,7 @@ import { useUserStore } from "~/stores/modules/userStore";
 import { useTenderStore } from "~/stores/modules/tender/tenderStore";
 import imagepickermultiple from "~/components/customcontrol/imagepickermultiple.vue";
 import serach_Input from "~/components/customcontrol/SearchInput";
-
+import categorySearch from "~/components/customcontrol/categorySearch.vue";
 
 definePageMeta({
 layout: 'tenderb2b',   
@@ -149,7 +172,7 @@ layout: 'tenderb2b',
 });
 
 export default {
-    components:{imagepickermultiple,serach_Input},
+    components:{imagepickermultiple,categorySearch},
     props:['taskType','jobCategory', 'taskHubId'],
 
   data() {
@@ -157,19 +180,24 @@ export default {
       isaAssig: false,
       isShowWF: false,
       expandedRow: null, 
-        DistrictId: "",
-        TenderSource:"",
-        Title:"",
-        TenderDetails:"",
-
-        selectedCategories: [],   
-        categoryIds: [], 
-        listFiles:"",
-    
+      DistrictId: "",
+      TenderSource: "",
+      Title: "",
+      TenderDetails: "",
+      PublishedOn: "",
+      ClosedOn: "",
+      selectedCategories: [],
+      categoryIds: [],
+      listFiles: [],
       err: {
-        StoreUrl: "",
-        StoreUsername: "",
-        StorePassword: "",
+        DistrictId: "",
+        TenderSource: "",
+        Categories: "",
+        Title: "",
+        TenderDetails: "",
+        PublishedOn: "",
+        ClosedOn: "",
+        listFiles: "",
       },
       
     };
@@ -195,18 +223,10 @@ export default {
       console.log("Selected Files in Parent:", files);
       this.listFiles = files;
     },
-    addCategory(item) {
-      // prevent duplicate selection
-      const exists = this.selectedCategories.some(cat => cat.id === item.id);
-      if (exists) return;
 
-      this.selectedCategories.push(item);
-      this.categoryIds.push(item.id);
-
-      // optional: close dropdown
-      this.$refs.refCategory?.close?.();
+    updateCategoryPath(newPath) {
+      this.newPath = newPath
     },
-
     closeModal() {
       this.isOpen = false;
       this.$emit("close");
@@ -221,30 +241,32 @@ export default {
       this.categoryIds.splice(index, 1);
     },
 
-    //Approve
-    async CreateTender() {
-   
-      this.$showConfirm("Are you sure you want to approve this banner?", "warning")
+    handleCategoryPaths(paths) {
+      console.log(paths);
+      // paths = array of category objects (as you wanted)
+    },
+
+    //CreateTender
+     async CreateTender() {
+       if (!this.IsValidate()) return;
+      this.$showConfirm("Are you sure you want publish this tender?", "warning")
         .then(async (result) => {
           if (result.isConfirmed) {
 
             const formData = new FormData();
-            formData.append("TenderType", "100");
-            formData.append(
-              "TenderCategories",
-              JSON.stringify(
-                this.selectedCategories.map(cat => ({
-                  categoryId: cat.id,
-                }))
-              )
-            );;
+
+            formData.append("TenderTypeId", "100");
             formData.append("DistrictId", this.DistrictId);
-            formData.append("TenderSource", this.TenderSource);
+            formData.append("TenderSourceId", this.TenderSource);
             formData.append("Title", this.Title || "");
             formData.append("TenderDetails", this.TenderDetails || "");
-            
             formData.append("PublishedOn", this.PublishedOn);
             formData.append("ClosedOn", this.ClosedOn || "");
+
+            this.categoryIds.forEach((id, index) => {
+              formData.append(`listTenderCategory[${index}]`, id);
+            });
+            
             if (this.listFiles && this.listFiles.length > 0) {
               this.listFiles.forEach((file, index) => {
                 formData.append("listFiles", file);
@@ -264,17 +286,64 @@ export default {
         });
     },
 
+    clearErrorOnInput(field) {
+      if (this.err[field]) {
+        this.err[field] = "";
+      }
+    },
 
-     IsValidate() {
+    IsValidate() {
       this.clearErr();
       let valid = true;
 
-      if (!this.listFiles) {
-        this.err.listFiles = "Please enter Store Url!";
+      if (!this.addCategory.length) {
+        this.err.Categories = "Please select at least one category";
         valid = false;
       }
+
+      if (!this.DistrictId) {
+        this.err.DistrictId = "Please select district";
+        valid = false;
+      }
+
+      if (!this.TenderSource) {
+        this.err.TenderSource = "Please select tender source";
+        valid = false;
+      }
+
+      if (!this.Title.trim()) {
+        this.err.Title = "Title is required";
+        valid = false;
+      }
+
+      if (!this.TenderDetails.trim()) {
+        this.err.TenderDetails = "Description is required";
+        valid = false;
+      }
+
+      if (!this.PublishedOn) {
+        this.err.PublishedOn = "Please select published date";
+        valid = false;
+      }
+
+      if (!this.ClosedOn) {
+        this.err.ClosedOn = "Please select closed date";
+        valid = false;
+      }
+
+      if (this.PublishedOn && this.ClosedOn && this.ClosedOn < this.PublishedOn) {
+        this.err.ClosedOn = "Closed date must be after published date";
+        valid = false;
+      }
+
+      if (!this.listFiles || !this.listFiles.length) {
+        this.err.listFiles = "Please upload at least one attachment";
+        valid = false;
+      }
+
       return valid;
     },
+
 
     clearErr() {
       Object.keys(this.err).forEach((key) => {

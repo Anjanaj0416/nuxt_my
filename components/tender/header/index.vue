@@ -39,7 +39,7 @@
         </div>
 
         <!-- Mobile menu (UNDER logo) -->
-        <nav class="flex gap-6 mt-4 sm:hidden">
+        <nav class="flex gap-6  sm:hidden">
           <NuxtLink to="/tender" class="text-md font-medium text-white">
             Tender
           </NuxtLink>

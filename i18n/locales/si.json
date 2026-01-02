@@ -59,10 +59,12 @@
     "name" : "නම",
     "id" : "සාමාජික අංකය",
     "joinDate" : "සම්බන්ධ වූ දිනය",
+    "address" : "ලිපිනය",
     "phone" : "දුරකථන අංකය",
     "status" : "තත්ත්වය",
     "details" : "තොරතුරු",
     "closeDetails" : "තොරතුරු ලුහුඩු කිරීම",
-    "addMembersDetails" : "නව සාමජික තොරතුරු "
+    "addMembersDetails" : "නව සාමජික තොරතුරු ",
+    "addMembersPayment" : ""
 
 }
