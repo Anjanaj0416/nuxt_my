@@ -62,7 +62,57 @@
     "status" : "Status",
     "details" : "Details",
     "closeDetails" : "Close Details",
-    "addMembersPayment" : "Add Payment"
+    "addMembersPayment" : "Add Payment",
+    "addMembersPaymentAmount" : "Payment Amount",
+    "addMembersPaymentDate" : "Payment Amount",
+    "addMembersPaymentEnterAmount" : "Enter Amount",
+    "addMembersPaymentAdd" : "Add Payment",
+    "cancel" : "cancel",
+    "noData" : "No Data",
+    "addMembersPaymentTital" : "Payment Details",
+    "fee" : "Fee",
+    "collectionMonth" : "Collection Month",
+    "paidDate" : "Paid Date",
+    "fullName" : "Full Name",
+    "memberDetails" : "Member Details",
+    "memberEdit" : "Edit",
+    "regNo" : "Registered No",
+    "removepayment" : "Are you sure to Remove this payment",
+    "regDate" : "Registered Date",
+    "area" : "Area",
+    "contactDetails" : "Contact Details",
+    "address" : "Address",
+    "teamLeader" : "Team Leader",
+    "resignedDate" : "Resigned Date",
+    "addMembersEditDetails" : "Update Member Details",
+
+    "addMembersFullNEname": "Full Name (English)",
+    "addMembersFullNsname": "Full Name (Sinhala)",
+    "addMembersCallingName": "Calling Name",
+    "addMembersRegistrationNo": "Registration No",
+    "addMembersRegistrationDate": "Registration Date",
+    "addMembersArea": "Area",
+    "addMembersTeamLeader": "Team Leader",
+    "addMembersWhatsAppNumber": "WhatsApp Number",
+    "addMembersAddressLine1": "Address Line 1",
+    "addMembersAddressLine2": "Address Line 2",
+    "addMembersAddressLine3": "Address Line 3",
+    "addMembersResignedDate": "Resigned Date",
+    "addMembersImage" : "Image",
+    "addMembersStatus" : "Status",
+    "homepage": "Home Page",
+    "searchPlaceholderMember" : "What is the member you are looking for?",
+    "BookId" :"BookId",
+    "Name" :"Name",
+    "Mobile" :"Mobile",
+    "Nic" : "Nic",
+    "Address" :"Address",
+
+
+
+    "alertConfirm" : "Yes",
+    "alertCancel" : "No"
+
 
 
 

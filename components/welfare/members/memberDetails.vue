@@ -12,7 +12,7 @@
       >
         <div class="flex items-center gap-3">
         
-          <span>Member Details</span>
+          <span>{{ t('memberDetails') }}</span>
         </div>
 
         <svg
@@ -41,65 +41,66 @@
         >
             <div class="flex justify-end">
                 <button 
+                    @click="GoToAddNew"
                     type="button" 
-                    class="text-white bg-brand hover:bg-brand-strong rounded-lg box-border bg-blue-500 border border-transparent text-xs px-3 py-1.5 focus:outline-none"
+                    class="text-white bg-brand hover:bg-brand-strong rounded-lg box-border bg-[#232B37] border border-transparent text-xs px-3 py-1.5 focus:outline-none"
                 >
-                Edit
+                {{ t('memberEdit') }}
                 </button>
             </div>
             <div 
               class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 mt-2"
             >
               <div>
-                <p class="text-xs font-semibold text-gray-500 uppercase">Reg No</p>
+                <p class="text-xs font-semibold text-gray-500 ">{{ t('regNo') }}</p>
                 <p class="mt-1 text-sm font-sm text-gray-800">
                     {{ welfareStore.profileDetails.regNo }}
                 </p>
               </div>
               <div>
-                <p class="text-xs font-semibold text-gray-500 uppercase">Full Name</p>
+                <p class="text-xs font-semibold text-gray-500 ">{{ t('fullName') }}</p>
                 <p class="mt-1 text-sm font-sm text-gray-800">
                     {{ welfareStore.profileDetails.fullname }}
                 </p>
               </div>
               <div>
-                <p class="text-xs font-semibold text-gray-500 uppercase">Reg Date</p>
+                <p class="text-xs font-semibold text-gray-500 ">{{ t('regDate') }}</p>
                 <p class="mt-1 text-sm font-sm text-gray-800">
                     {{ welfareStore.profileDetails.regDate }}
                 </p>
               </div>
               <div>
-                <p class="text-xs font-semibold text-gray-500 uppercase">Area</p>
+                <p class="text-xs font-semibold text-gray-500 ">{{ t('area') }}</p>
                 <p class="mt-1 text-sm font-sm text-gray-800">
                     {{ welfareStore.profileDetails.areaCode }}
                 </p>
               </div>
                 <div>
-                <p class="text-xs font-semibold text-gray-500 uppercase">Contact Details</p>
+                <p class="text-xs font-semibold text-gray-500 ">{{ t('contactDetails') }}</p>
                 <p class="mt-1 text-sm font-sm text-gray-800">
                     {{ welfareStore.profileDetails.contactDetails }}
                 </p>
               </div>
               <div>
-                <p class="text-xs font-semibold text-gray-500 uppercase">Address</p>
+                <p class="text-xs font-semibold text-gray-500 ">{{ t('address') }}</p>
                 <p class="mt-1 text-sm font-sm text-gray-800">
                     {{ welfareStore.profileDetails.address }}
                 </p>
               </div>
               <div>
-                <p class="text-xs font-semibold text-gray-500 uppercase">Team Leader</p>
+                <p class="text-xs font-semibold text-gray-500 ">{{ t('teamLeader') }}</p>
                 <p class="mt-1 text-sm font-sm text-gray-800">
                     {{ welfareStore.profileDetails.teamLeader }}
                 </p>
               </div>
               <div>
-                <p class="text-xs font-semibold text-gray-500 uppercase">Resigned Date</p>
+                <p class="text-xs font-semibold text-gray-500 ">{{ t('resignedDate') }}</p>
                 <p class="mt-1 text-sm font-sm text-gray-800">
                     {{ welfareStore.profileDetails.resignedDate }}
                 </p>
               </div>
               <div>
-                <p class="text-xs font-semibold text-gray-500 uppercase">Status</p>
+                <p class="text-xs font-semibold text-gray-500 ">{{ t('status') }}</p>
                 <p class="mt-1 text-sm font-sm text-gray-800">
                     {{ welfareStore.profileDetails.status }}
                 </p>
@@ -110,16 +111,28 @@
           </div>
         </div>
       </transition>
-
+      <updateMember v-if="isEditMember" @close="isEditMember = false" :id="id"/>
     </div>
   </div>
 </template>
+
+<script setup>
+  import { useI18n } from 'vue-i18n'
+  const { locale } = useI18n()
+
+  const { t } = useI18n()
+
+  function switchLang(lang) {
+    locale.value = lang
+  }
+</script>
 <script>
 import { useWelfareStore } from '~/stores/modules/welfare/welfareStore';
 import { useUserStore } from '~/stores/modules/userStore';
+import updateMember from './updateMember.vue';
 
 export default {
-  components: {},
+  components: {updateMember},
   props:['id'],
 
   data() {
@@ -131,6 +144,7 @@ export default {
       showLoading: null,
       dashboardStore: null,
       userStore: null,
+      isEditMember: false,
       memberInfo: {
         name: '',
         nic: '',
@@ -164,7 +178,10 @@ export default {
         // load attendance when opened
         await this.welfareStore.memberDashboardDetail(this.id, this.showLoading)
       }
-    }
+    },
+    GoToAddNew() {
+      this.isEditMember = true;
+    },
   },
 
 }

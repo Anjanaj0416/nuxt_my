@@ -11,24 +11,12 @@
       <!-- Modal Content (scrollable) -->
       <div class="modal-content">
         <div class="form-content">
-          <!-- <h3 class="font-bold">General Information</h3> -->
-          <!-- <div class="grid grid-cols-2 gap-4 mt-4 sm:grid-cols-2 md:grid-cols-2">
-            <div class="">
-              <label class="block text-sm font-bold text-gray-600">
-                Company Search <span class="text-red-500">*</span>
-              </label>
-              <serach_Input
-                :arrItems="leadStore.InitLeads.listClients"
-                label=""
-              />
-            </div>
-          </div> -->
           <div class="grid grid-cols-1 gap-4 mt-4 sm:grid-cols-1 md:grid-cols-1 lg:grid-cols-1">
             <div class="">
               <label class="block text-[13px] font-bold text-gray-600">
-                Pay Amount <span class="text-red-500">*</span>
+                 {{ t('addMembersPaymentAmount') }} <span class="text-red-500">*</span>
               </label>
-              <input type="number" v-model="curLead.amount" placeholder="Enter amount" required @input="clearErrorOnInput('amount')"
+              <input type="number" v-model="curLead.amount"  :placeholder="t('addMembersPaymentEnterAmount')" required @input="clearErrorOnInput('amount')"
                 class="w-full p-2 mt-2 text-sm border rounded-md focus:ring-indigo-500 focus:border-indigo-500" />
               <p v-if="err.amount" class="mt-2 text-sm text-red-600">
                 {{ err.amount }}
@@ -36,7 +24,7 @@
             </div>
             <div class="">
               <label class="block text-[13px] font-bold text-gray-600">
-                Payment Date<span class="text-red-500">*</span>
+                {{ t('addMembersPaymentDate') }}<span class="text-red-500">*</span>
               </label>
               <input type="date" v-model="curLead.payment" placeholder="Enter payment Line 1" required @input="clearErrorOnInput('payment')"
                 class="w-full p-2 mt-2 text-sm border rounded-md focus:ring-indigo-500 focus:border-indigo-500" />
@@ -48,10 +36,18 @@
         </div>
       </div>
 
-      <div class=" modal-footer">
+      <!-- <div class=" modal-footer">
         <button @click="cancel" class="cancel-button">Cancel</button>
-        <button @click="SetPayment()"  class="px-5 py-2 text-xs font-semibold transition bg-[#232B37] text-white rounded-md shadow hover:gray-400 focus:ring-2 focus:ring-indigo-400">
+        <button @click="SetPayment()"  class="px-12 py-2 text-xs  bg-gradient-to-r from-blue-500 via-blue-600 to-blue-700 
+                font-semibold transition text-white rounded-full shadow  focus:ring-2 focus:ring-blue-400">
           Add Payment
+        </button>
+      </div> -->
+      <div class="modal-footer">
+        <button @click="closeModal" class="px-12 py-2 text-xs  font-semibold transition bg-white text-gray-600 rounded-full shadow">{{ t('cancel') }}</button>
+        <button @click="SetPayment()" class="px-12 py-2 text-xs  bg-[#232B37] text-white 
+                font-semibold transition text-white rounded-full shadow  focus:ring-2 focus:ring-blue-400">
+           {{ t('addMembersPaymentAdd') }}
         </button>
       </div>
     </div>
@@ -70,22 +66,22 @@
 </script>
 
 <script>
-import { reactive, computed } from "vue";
 import closebtn from "~/components/customcontrol/modal_close_button";
-import imagecomp from "~/components/customcontrol/imagepicker";
-import ImageLable from "~/components/customcontrol/ImageLable";
-import serach_Input from "~/components/customcontrol/SearchInput";
 import { useUserStore } from "~/stores/modules/userStore";
-import toggleoption from "~/components/customcontrol/toggleoption";
-import { useLeadStore } from "~/stores/modules/qms/leadStore";
-import { useQuotationStore } from "~/stores/modules/qms/quotationStore";
+import { useWelfareStore } from '~/stores/modules/welfare/welfareStore';
 
 
 definePageMeta({
   layout: "default",
 });
 export default {
-  components: { closebtn, serach_Input, ImageLable, imagecomp, toggleoption },
+  components: { closebtn },
+  props: {
+    memberId: {
+      type: [String, Number],
+      required: true
+    }
+  },
   data() {
     return {
       isOpen: true,
@@ -115,6 +111,7 @@ export default {
   },
   async created() {
     this.userStore = useUserStore();
+    this.welfareStore = useWelfareStore();
     this.imageroot = this.userStore.loggedUser.resourceURLRoot;
     this.showLoading = this.$showLoading;
     this.showAlert = this.$showAlert;
@@ -128,28 +125,31 @@ export default {
  
 
 
-    SetPayment() {
-     
-      if (this.IsValidate()) {
-       
-        this.$showConfirm(
-          "Are you sure to Save this Lead?",
-          "warning"
-        ).then(async (result) => {
-          if (result.isConfirmed) {
-            console.log(JSON.stringify(this.curLead));
+  SetPayment() {
+    if (this.IsValidate()) {
+      this.$showConfirmWelfare(
+        "Are you sure to save this payment?",
+        "warning"
+      ).then(async (result) => {
+        if (result.isConfirmed) {
 
-           
-          } else {
-            console.log("Action canceled");
+          const req = {
+            memberId: this.memberId,
+            amount: this.curLead.amount,
+            paidDate: this.curLead.payment
           }
-          this.clearCurLead();
-          this.closeModal();
-          this.clearErr();
-        });
-       
-      }
-    },
+
+          console.log("PAYLOAD ", req)
+
+          await this.welfareStore.addPayment(req,this.showLoading)
+        }
+
+        this.clearCurLead()
+        this.closeModal()
+      })
+    }
+},
+
 
     closeModal() {
       this.clearErr();               

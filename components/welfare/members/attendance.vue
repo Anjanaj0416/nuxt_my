@@ -53,23 +53,28 @@
             >
               <p>No ...</p>
             </div>
-            <div 
-              class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 mt-2"
-               v-for="(list, index) in welfareStore.listAttendence"
+            <div class="grid grid-cols-1 gap-6 mt-2
+              max-h-[300px] md:max-h-[300px] lg:max-h-[300px]
+              overflow-y-auto pr-2"
             >
-                <div>
-                  <p class="text-xs font-semibold text-gray-500 uppercase">date</p>
-                  <p class="mt-1 text-sm font-sm text-gray-800">
-                      {{ list.date }}
-                  </p>
-                </div>
-                <div>
-                  <p class="text-xs font-semibold text-gray-500 uppercase">status</p>
-                  <p class="mt-1 text-sm font-sm text-gray-800">
-                      {{ list.status }}
-                  </p>
-                </div>
-                
+              <div 
+                class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 mt-2"
+                v-for="(list, index) in welfareStore.listAttendence"
+              >
+                  <div>
+                    <p class="text-xs font-semibold text-gray-500 uppercase">date</p>
+                    <p class="mt-1 text-sm font-sm text-gray-800">
+                        {{ list.date }}
+                    </p>
+                  </div>
+                  <div>
+                    <p class="text-xs font-semibold text-gray-500 uppercase">status</p>
+                    <p class="mt-1 text-sm font-sm text-gray-800">
+                        {{ list.status }}
+                    </p>
+                  </div>
+                  
+              </div>
             </div>
           <div>
 

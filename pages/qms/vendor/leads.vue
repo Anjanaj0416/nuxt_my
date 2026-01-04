@@ -58,7 +58,6 @@
       </span>
     </div>
 
-
       <div class="grid grid-cols-2 gap-4 sm:flex sm:flex-row sm:justify-between">
         <!-- Vendor Name -->
         <div class="flex flex-col text-center sm:text-left">
@@ -88,8 +87,60 @@
             <span v-if="lead.csoNo">{{ lead.csoNo }}</span>
             <span v-else class="flex items-center text-sm text-gray-400">No Data Available</span>
           </p>
-
         </div>
+        <div class="flex flex-col text-center sm:text-left">
+          <h1 class="text-xs font-semibold text-gray-600">Reported By</h1>
+
+          <span
+            v-if="lead.reportedBy === 'facebook'"
+            class="inline-flex items-center gap-1 px-2 py-0.5 mt-1 text-xs font-semibold rounded-full bg-blue-100 text-blue-700"
+          >
+          Facebook
+          </span>
+
+          <span
+            v-else-if="lead.reportedBy === 'linkedin'"
+            class="inline-flex items-center gap-1 px-2 py-0.5 mt-1 text-xs font-semibold rounded-full bg-sky-100 text-sky-700"
+          >
+          LinkedIn
+          </span>
+
+          <span
+            v-else-if="lead.reportedBy === 'instagram'"
+            class="inline-flex items-center gap-1 px-2 py-0.5 mt-1 text-xs font-semibold rounded-full bg-pink-100 text-pink-700"
+          >
+          Instagram
+          </span>
+
+          <span
+            v-else-if="lead.reportedBy === 'whatsapp'"
+            class="inline-flex items-center gap-1 px-2 py-0.5 mt-1 text-xs font-semibold rounded-full bg-green-100 text-green-700"
+          >
+          WhatsApp
+          </span>
+
+          <span
+            v-else-if="lead.reportedBy === 'tiktok'"
+            class="inline-flex items-center gap-1 px-2 py-0.5 mt-1 text-xs font-semibold rounded-full bg-gray-200 text-gray-800"
+          >
+          TikTok
+          </span>
+
+          <span
+            v-else-if="lead.reportedBy === 'office'"
+            class="inline-flex items-center gap-1 px-2 py-0.5 mt-1 text-xs font-semibold rounded-full bg-gray-200 text-gray-800"
+          >
+          Office
+          </span>
+
+          <span
+            v-else
+            class="mt-1 text-xs text-gray-400"
+          >
+            No Data Available
+          </span>
+        </div>
+
         <!-- Status -->
        <div class="flex flex-col text-center sm:text-left hidden sm:flex">
           <h1 class="text-xs font-semibold text-gray-600">Status</h1>
