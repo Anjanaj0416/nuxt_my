@@ -45,25 +45,36 @@
         </div>
       </div>
         <div class="grid grid-cols-1 md:grid-cols-1 gap-4">
-        <div>
-            <label class="block text-sm font-medium text-gray-600 mb-1">Category Path</label>
-            <ul class="space-y-1">
-    <li
-      v-for="(item, index) in categoryPaths"
-      :key="index"
-      class="text-sm text-gray-700 bg-gray-100 px-3 py-2 rounded"
-    >
-      {{ 
-        [
-          item.MainCategory.value,
-          item.SubCategory.value,
-          item.SubSubCategory.value,
-          item.SubSubSubCategory.value
-        ].filter(Boolean).join('/')
-      }}
-    </li>
-  </ul>
-        </div>
+          <div>
+              <label class="block text-sm font-medium text-gray-600 mb-1">Category Path</label>
+              <ul class="space-y-1">
+                <li
+                  v-for="(item, index) in categoryPaths"
+                  :key="index"
+                  class="flex items-center justify-between text-sm text-gray-700 bg-gray-100 px-3 py-2 rounded"
+                >
+                  <span>
+                    {{
+                      [
+                        item.MainCategory.value,
+                        item.SubCategory.value,
+                        item.SubSubCategory.value,
+                        item.SubSubSubCategory.value
+                      ].filter(Boolean).join('/')
+                    }}
+                  </span>
+
+                  <!-- ❌ Remove Path -->
+                  <button
+                    @click="removePath(index)"
+                    class="text-red-500 hover:text-red-700 font-bold"
+                  >
+                    ✕
+                  </button>
+                </li>
+              </ul>
+              
+          </div>
         </div>
     </div>
 </template>
@@ -187,37 +198,52 @@ export default {
 
     },
 
+    removePath(index) {
+      this.categoryPaths.splice(index, 1);
+
+      // Emit updated list to parent
+      this.$emit("updatecategorypaths", this.categoryPaths);
+    },
+
     addPath() {
       if (!this.CategoryPath) return;
 
       const pathObj = {
         MainCategory: {
-          Id: this.mainCategoryId,
+          id: this.mainCategoryId,
           value: this.mainCategoryValue,
         },
         SubCategory: {
-          Id: this.subCategoryID,
+          id: this.subCategoryID,
           value: this.subCategoryValue,
         },
         SubSubCategory: {
-          Id: this.subSubCategoryID,
+          id: this.subSubCategoryID,
           value: this.subSubCategoryValue,
         },
         SubSubSubCategory: {
-          Id: this.subSubSubCategoryID,
+          id: this.subSubSubCategoryID,
           value: this.subSubSubCategoryValue,
         },
       };
 
-      // ✅ Add to list
+      // 🔒 Prevent duplicate paths
+      const exists = this.categoryPaths.some(p =>
+        JSON.stringify(p) === JSON.stringify(pathObj)
+      );
+
+      if (exists) {
+        this.showAlert("This category path already exists");
+        return;
+      }
+
       this.categoryPaths.push(pathObj);
 
-      // ✅ Emit to parent / another component
       this.$emit("updatecategorypaths", this.categoryPaths);
 
-      // ✅ Reset for next selection
       this.resetCategorySelection();
     },
+
     resetCategorySelection() {
       this.mainCategoryId = null;
       this.mainCategoryValue = "";

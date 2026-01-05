@@ -24,7 +24,7 @@ export const useTenderStore = defineStore("tenderStore", {
             const response = await axios.get(
                 `${import.meta.env.VITE_API_URL}/TenderNProcument/Tender/GetTenderInit`
             );
-            console.log(response);
+            // console.log(response);
             
             loadingAlert.close();
             if (response.data.isSuccess) {
@@ -82,11 +82,7 @@ export const useTenderStore = defineStore("tenderStore", {
                         SearchText: req.SearchText, 
                         CategoryId: req.CategoryId,
                         TenderTypeId: req.TenderTypeId,
-                        TenderSourceId: req.TenderSourceId,
-                        DistrctId: req.DistrctId,
-                        TenderDatePublised_From: req.TenderDatePublised_From,
-                        TenderDatePublised_To: req.TenderDatePublised_To,
-                        TenderClosingDate: req.TenderClosingDate
+                        Days: req.Days,
                     }
                 }
                 );

@@ -176,12 +176,16 @@
       </div>
     </div>
 
-    <Pagination
-      :total-items="taskhubStore.taskDetailsList?.length || 0"
-      :items-per-page="itemsPerPage"
-      :current-page="page"
-      @update:currentPage="page = $event"
-    />
+    <transition name="fade">
+      <Pagination
+        v-if="expandedRow === null && expandedRowWF === null"
+        :total-items="taskhubStore.taskDetailsList?.length || 0"
+        :items-per-page="itemsPerPage"
+        :current-page="page"
+        @update:currentPage="page = $event"
+      />
+    </transition>
+
 
     <assigDtp  v-if="isaAssig" @close="isaAssig = false" />
   </section>
@@ -245,7 +249,6 @@ export default {
     this.imageroot = this.userStore.loggedUser.resourceURLRoot;
     this.showLoading = this.$showLoading;
     
-
     await this.taskhubStore.TaskDetailsList(
       { taskType: this.taskType, searchValue: this.searchValue, searchBy: this.searchBy }, 
       this.showLoading
@@ -253,9 +256,16 @@ export default {
 
   },
 
-  mounted() {
-    const queryId = this.$route.query.id;
-    this.openFromRoute(queryId);
+  watch: {
+    '$route.query.id'(newId) {
+      this.openFromRoute(newId);
+    },
+
+    'taskhubStore.taskDetailsList'(newList) {
+      if (newList?.length) {
+        this.openFromRoute(this.$route.query.id);
+      }
+    }
   },
   
   computed: {
@@ -281,7 +291,6 @@ export default {
     }
   },
 
-
   methods: {
 
     async SetSelectedFilter(event) {
@@ -298,11 +307,7 @@ export default {
         { taskType: "1", searchValue: this.searchValue, searchBy: this.searchBy || '102' },
         this.showLoading
       );
-
-
-
     },
-
 
     GoToAddNew() {
       this.isaAssig = true;
@@ -317,16 +322,22 @@ export default {
     },
 
     openFromRoute(queryId) {
-      if (!queryId) {
+      if (!queryId || !this.taskhubStore?.taskDetailsList) {
         this.expandedRow = null;
         this.filteredKpiId = null;
         return;
       }
-      // const foundIndex = this.listKpi.findIndex(v => v.id === queryId);
-      // if (foundIndex !== -1) {
-      //   this.expandedRow = foundIndex;
-      //   this.filteredKpiId = this.listKpi[foundIndex].id;
-      // }
+
+      const index = this.taskhubStore.taskDetailsList.findIndex(
+        item => item.id === queryId
+      );
+
+      if (index !== -1) {
+        this.expandedRow = index;
+        this.filteredKpiId = queryId;
+
+        this.page = Math.floor(index / this.itemsPerPage) + 1;
+      }
     },
 
     toggleKpiView(id, index) {
@@ -352,8 +363,16 @@ export default {
         this.taskHubIdWF = taskHubId;
       }
     },
-
   },
   
 };
 </script>
+<style>
+  .fade-enter-active, .fade-leave-active {
+    transition: opacity 0.2s ease;
+  }
+  .fade-enter-from, .fade-leave-to {
+    opacity: 0;
+  }
+
+</style>

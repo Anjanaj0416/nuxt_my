@@ -44,23 +44,6 @@
               />
             </div>
           </div>
-          <!-- <div class="">
-            <label class="block text-[13px] font-bold text-gray-600">
-              Contact Number
-            </label>
-            <input type="tel" v-model="curLead.CompanyPhone" placeholder="Enter Company Contact Number" maxlength="10" @input="clearErrorOnInput('CompanyPhone')"
-              class="w-full p-2 mt-2 text-[13px] border rounded-md focus:ring-indigo-500 focus:border-indigo-500" />
-            <p v-if="err.CompanyPhone" class="mt-1 text-sm text-red-600">
-              {{ err.CompanyPhone }}
-            </p>
-          </div>
-          <div class="">
-            <label class="block text-[13px] font-bold text-gray-600">
-              Email
-            </label>
-            <input type="tel" v-model="curLead.ContactPerson1Email" placeholder="Enter WhatsApp Number" maxlength="10" @input="clearErrorOnInput('ContactPerson1Email')"
-              class="w-full p-2 mt-2 text-[13px] border rounded-md focus:ring-indigo-500 focus:border-indigo-500" />
-          </div> -->
         </div>
           <div class="grid grid-cols-1 gap-4  sm:grid-cols-1 md:grid-cols-2 lg:grid-cols-2">
             <div class="">
@@ -227,8 +210,8 @@ export default {
   watch: {},
   computed: {},
   methods: {
-    onDistrictSelect(districtName) {
-      this.curLead.District = districtName;
+    onDistrictSelect(districtId) {
+      this.curLead.District = districtId.id;
     },
 
     async SetVendorLead() {
@@ -267,7 +250,7 @@ export default {
             medium: this.curLead.medium || "Other",
           };
 
-          // console.log("Vendor Lead Payload:", JSON.stringify(payload, null, 2));
+          console.log("Vendor Lead Payload:", JSON.stringify(payload, null, 2));
           await this.leadStore.SetVendorLead(payload, this.showLoading);
           this.curLead = {};
           this.resetForm();
