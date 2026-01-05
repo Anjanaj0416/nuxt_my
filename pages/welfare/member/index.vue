@@ -102,11 +102,10 @@
               >
                 <div class="flex flex-col sm:flex-row sm:justify-between sm:items-center gap-2">
                   <div class="flex justify-center items-center">
-                    <ImageLable 
-                      v-if="member.image" 
-                      :imageUrl="member.image" 
-                      alt="Member Avatar" 
-                      class="h-12 w-12 rounded-full object-cover"
+                    <img
+                      :src="imageroot + member.image" 
+                      alt="Banner Image"
+                        class="h-16 w-16 rounded-full object-cover"
                     />
                   </div>
                   <div class="flex flex-col">
