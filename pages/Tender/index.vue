@@ -45,12 +45,13 @@
               </option>
             </select>
 
-            <select class="filter-select">
-              <option>To</option>
-              <option>Today</option>
-              <option>Last 7 Days</option>
-              <option>Last 30 Days</option>
+            <select v-model="Days" class="filter-select">
+              <option disabled selected="" value="">Select Date</option>
+              <option :value="1">Today</option>
+              <option :value="7">Last 7 Days</option>
+              <option :value="30">Last 30 Days</option>
             </select>
+
           </div>
 
         </div>
@@ -67,6 +68,13 @@
         free-mode="true"
         class="custom-swiper"
       >
+        <div
+          v-if="tenderStore.listTenderCategory.length === 0"
+          class="text-center text-gray-900 mt-5 text-sm font-medium"
+        >
+          <p>No TenderCategory....</p>
+        </div>
+
         <SwiperSlide
           v-for="(category, index) in  tenderStore.listTenderCategory"
           :key="index"
@@ -128,6 +136,13 @@
         </button>
       </div>
 
+      <div
+        v-if="tenderStore.TenderList.length === 0"
+        class="text-center text-gray-900 mt-5 text-sm font-medium"
+      >
+        <p>No Tender....</p>
+      </div>
+
       <div class="grid grid-cols-1 lg:grid-cols-6 gap-0 text-sm relative">
         <!-- Tender list -->
         <div class="col-span-1 lg:col-span-5 flex flex-col gap-4">
@@ -187,16 +202,30 @@
           </div>
         </div>
         <!-- Banner-->
-       <div class="hidden lg:flex lg:flex-wrap lg:gap-4 justify-end col-span-1">
         <div
-          v-for="(tender, index) in tenderStore.listBanners"
-          :key="index"
-          v-if="showBanner"
-          class="w-[200px] h-[300px] bg-white rounded-lg shadow-lg flex flex-col overflow-hidden"
+          class="col-span-1lg:col-span-1 mt-4 lg:mt-0 flex lg:flex-col gap-3
+            overflow-x-auto lg:overflow-visible whitespace-nowrap lg:whitespace-normal lg:justify-end "
         >
-          <img :src="tender" alt="Banner Image" class="w-full h-full object-cover">
+          <div
+            v-for="(tender, index) in tenderStore.listBanners"
+            :key="index"
+            v-if="showBanner"
+            class="
+              inline-block lg:block
+              w-[200px] h-[300px]
+              bg-white rounded-lg shadow-lg
+              overflow-hidden
+              flex-shrink-0
+            "
+          >
+            <img
+              :src="imageroot + tender"
+              alt="Banner Image"
+              class="w-full h-full object-cover"
+            />
+          </div>
         </div>
-      </div>
+
 
       </div>
     </section>
@@ -232,7 +261,7 @@
         showBanner: true,
         CategoryId:"",
         TenderTypeId:"",
-        TenderSourceId:"",
+        Days:"",
         DistrictId:"",
         TenderDatePublised_To:"",
         TenderClosingDate:"",
@@ -246,20 +275,17 @@
     },
     async created() {
       this.showLoading = this.$showLoading;
-    // this.imageroot = this.userStore.loggedUser.resourceURLRoot;   
       this.userStore = useUserStore();
       this.tenderStore = useTenderStore();
       this.loginWithSecretCode();
+      this.imageroot = this.userStore.loggedUser.resourceURLRoot;   
       
       await this.tenderStore.loadInitTender(this.showLoading);
       await this.tenderStore.fetcTender(
         {
           CategoryId: this.CategoryId || "",
           TenderTypeId: this.TenderTypeId || "",
-          TenderSourceId:this.TenderSourceId || "",
-          DistrctId:this.DistrctId || "",
-          TenderDatePublised_To:this.TenderDatePublised_To || "",
-          TenderClosingDate:this.TenderClosingDate || ""
+          Days:this.Days || "",
         },
         this.showLoading,
       );
@@ -272,18 +298,9 @@
       TenderTypeId() {
         this.searchByFilters();
       },
-      TenderSourceId() {
+      Days() {
         this.searchByFilters();
       },
-      DistrictId() {
-        this.searchByFilters();
-      },
-      TenderDatePublised_To() {
-        this.searchByFilters();
-      },
-      TenderClosingDate() {
-        this.searchByFilters();
-      }
     },
 
     computed: {
@@ -325,7 +342,7 @@
         const req = {
           CategoryId: this.CategoryId || "",
           TenderTypeId: this.TenderTypeId || "",
-          TenderSourceId: this.TenderSourceId || "",
+          Days: this.Days || "",
           DistrctId: this.DistrictId || "",
           TenderDatePublised_To: this.TenderDatePublised_To || "",
           TenderClosingDate: this.TenderClosingDate || ""

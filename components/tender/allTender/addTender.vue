@@ -74,8 +74,8 @@ export default {
       VendorBanner: "",
       optionsdata: [
         { label: "Private Companies", value: "private" },
-        { label: "Government Institutions", value: "government" },
-        // { label: "Private/Government supplier Registration", value: "supplier" },
+        // { label: "Government Institutions", value: "government" },
+        { label: "Supplier Registration", value: "supplier" },
       ],
       err: { job: "" },
     };

@@ -3,56 +3,9 @@
         <div class="p-6 space-y-6 overflow-y">
             <h2 class="text-lg font-semibold text-gray-700 border-b pb-2 mb-4">Private Companies</h2>
               <categorySearch @updatecategorypaths="handleCategoryPaths" />
-              
-                <p v-if="err.addCategory" class="mt-1 text-sm text-red-600">
-                  {{ err.Categories }}
-                </p>
-
-            <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
-              <div>
-                <div v-if="selectedCategories.length" class="flex flex-wrap gap-2 mt-2">
-                  <span
-                    v-for="(cat, index) in selectedCategories"
-                    :key="cat.id"
-                    class="inline-flex items-center gap-2 px-3 py-1 text-sm bg-blue-100 text-blue-700 rounded-full"
-                  >
-                    {{ cat.value }}
-
-                    <button
-                      @click="removeCategory(index)"
-                      class="text-blue-500 hover:text-red-500 font-bold"
-                    >
-                      ✕
-                    </button>
-                  </span>
-                </div>
-              </div>
-
-
-              <!-- District -->
-              <div>
-                <label class="block text-sm font-medium text-gray-600 mb-2">
-                  Location ( Province )
-                </label>
-                <select
-                  v-model="DistrictId"
-                  class="w-full p-2 border rounded-md text-sm bg-white focus:ring-2 focus:ring-blue-400"
-                  @input="clearErrorOnInput('DistrictId')"
-                >
-                  <option disabled value="">Select District</option>
-                  <option
-                    v-for="district in tenderStore.listDistrict"
-                    :key="district.id"
-                    :value="district.id"
-                  >
-                    {{ district.value }}
-                  </option>
-                </select>
-                <p v-if="err.DistrictId" class="mt-2 text-sm text-red-600">
-                  {{ err.DistrictId }}
-                </p>
-              </div>
-            </div>
+              <p v-if="err.selectedCategories" class="mt-2 text-sm text-red-600">
+                {{ err.selectedCategories }}
+              </p>
 
 
             <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
@@ -104,21 +57,43 @@
                     Tender Source 
                   </label>
                   <select
-                    v-model="TenderSource"
+                    v-model="TenderSourceId"
                     class="w-full p-2 border rounded-md text-sm bg-white focus:ring-2 focus:ring-blue-400"
-                    @input="clearErrorOnInput('TenderSource')"
+                    @input="clearErrorOnInput('TenderSourceId')"
                   >
                     <option disabled value="">Select Tender Source</option>
                     <option
-                      v-for="district in tenderStore.listTenderSource"
+                      v-for="source in tenderStore.listTenderSource"
+                      :key="source.id"
+                      :value="source.id"
+                    >
+                      {{ source.value }}
+                    </option>
+                  </select>
+                  <p v-if="err.TenderSourceId" class="mt-2 text-sm text-red-600">
+                    {{ err.TenderSourceId }}
+                  </p>
+                </div>
+                <div>
+                  <label class="block text-sm font-medium text-gray-600 mb-2">
+                    District
+                  </label>
+                  <select
+                    v-model="DistrictId"
+                    class="w-full p-2 border rounded-md text-sm bg-white focus:ring-2 focus:ring-blue-400"
+                    @input="clearErrorOnInput('DistrictId')"
+                  >
+                    <option disabled value="">Select Tender District</option>
+                    <option
+                      v-for="district in tenderStore.listDistrict"
                       :key="district.id"
                       :value="district.id"
                     >
                       {{ district.value }}
                     </option>
                   </select>
-                  <p v-if="err.TenderSource" class="mt-2 text-sm text-red-600">
-                    {{ err.TenderSource }}
+                  <p v-if="err.DistrictId" class="mt-2 text-sm text-red-600">
+                    {{ err.DistrictId }}
                   </p>
 
                 </div>
@@ -163,7 +138,6 @@
 import { useUserStore } from "~/stores/modules/userStore";
 import { useTenderStore } from "~/stores/modules/tender/tenderStore";
 import imagepickermultiple from "~/components/customcontrol/imagepickermultiple.vue";
-import serach_Input from "~/components/customcontrol/SearchInput";
 import categorySearch from "~/components/customcontrol/categorySearch.vue";
 
 definePageMeta({
@@ -181,7 +155,7 @@ export default {
       isShowWF: false,
       expandedRow: null, 
       DistrictId: "",
-      TenderSource: "",
+      TenderSourceId: "",
       Title: "",
       TenderDetails: "",
       PublishedOn: "",
@@ -190,9 +164,9 @@ export default {
       categoryIds: [],
       listFiles: [],
       err: {
-        DistrictId: "",
-        TenderSource: "",
-        Categories: "",
+         DistrictId: "",
+        TenderSourceId: "",
+        selectedCategories: "",
         Title: "",
         TenderDetails: "",
         PublishedOn: "",
@@ -209,16 +183,12 @@ export default {
     this.tenderStore = useTenderStore();
 
     await this.tenderStore.loadInitTender(this.showLoading);
-  
   },
 
   mounted() {},
 
   methods: {
-    async SetSelectedFilter(event) {
-      this.searchBy = event.target.value;
-      // await this.GetSearch();
-    },
+
     handleSelectedImages(files) {
       console.log("Selected Files in Parent:", files);
       this.listFiles = files;
@@ -236,15 +206,29 @@ export default {
       this.closeModal();
     },
 
-    removeCategory(index) {
-      this.selectedCategories.splice(index, 1);
-      this.categoryIds.splice(index, 1);
+    handleCategoryPaths(paths) {
+      this.selectedCategories = paths.map(p => ({
+        MainCategory: {
+          id: p.MainCategory.id ?? p.MainCategory.Id,
+          value: p.MainCategory.value,
+        },
+        SubCategory: {
+          id: p.SubCategory.id ?? p.SubCategory.Id,
+          value: p.SubCategory.value,
+        },
+        SubSubCategory: {
+          id: p.SubSubCategory.id ?? p.SubSubCategory.Id,
+          value: p.SubSubCategory.value,
+        },
+        SubSubSubCategory: {
+          id: p.SubSubSubCategory.id ?? p.SubSubSubCategory.Id,
+          value: p.SubSubSubCategory.value,
+        },
+      }));
+
+      this.err.selectedCategories = "";
     },
 
-    handleCategoryPaths(paths) {
-      console.log(paths);
-      // paths = array of category objects (as you wanted)
-    },
 
     //CreateTender
      async CreateTender() {
@@ -257,16 +241,24 @@ export default {
 
             formData.append("TenderTypeId", "100");
             formData.append("DistrictId", this.DistrictId);
-            formData.append("TenderSourceId", this.TenderSource);
+            formData.append("TenderSourceId", this.TenderSourceId);
             formData.append("Title", this.Title || "");
             formData.append("TenderDetails", this.TenderDetails || "");
             formData.append("PublishedOn", this.PublishedOn);
             formData.append("ClosedOn", this.ClosedOn || "");
+            this.selectedCategories.forEach((cat, index) => {
+              formData.append(`listTenderCategory[${index}].MainCategory.Id`, cat.MainCategory.id);
+              formData.append(`listTenderCategory[${index}].MainCategory.Value`, cat.MainCategory.value);
 
-            this.categoryIds.forEach((id, index) => {
-              formData.append(`listTenderCategory[${index}]`, id);
+              formData.append(`listTenderCategory[${index}].SubCategory.Id`, cat.SubCategory.id);
+              formData.append(`listTenderCategory[${index}].SubCategory.Value`, cat.SubCategory.value);
+
+              formData.append(`listTenderCategory[${index}].SubSubCategory.Id`, cat.SubSubCategory.id);
+              formData.append(`listTenderCategory[${index}].SubSubCategory.Value`, cat.SubSubCategory.value);
+
+              formData.append(`listTenderCategory[${index}].SubSubSubCategory.Id`, cat.SubSubSubCategory.id);
+              formData.append(`listTenderCategory[${index}].SubSubSubCategory.Value`, cat.SubSubSubCategory.value);
             });
-            
             if (this.listFiles && this.listFiles.length > 0) {
               this.listFiles.forEach((file, index) => {
                 formData.append("listFiles", file);
@@ -277,7 +269,8 @@ export default {
               console.log(key, value);
             }
 
-            await this.tenderStore.AddTender(formData, this.showLoading);
+           await this.tenderStore.AddTender(formData,this.showLoading)
+  
 
             this.closeModal();
             this.clearErr();
@@ -294,55 +287,51 @@ export default {
 
     IsValidate() {
       this.clearErr();
-      let valid = true;
+      let IsValidate = true;
 
-      if (!this.addCategory.length) {
-        this.err.Categories = "Please select at least one category";
-        valid = false;
+      if (!this.selectedCategories || !this.selectedCategories.length) {
+        this.err.selectedCategories = "Please select at least one category";
+        IsValidate = false;
       }
 
       if (!this.DistrictId) {
         this.err.DistrictId = "Please select district";
-        valid = false;
+        IsValidate = false;
       }
 
-      if (!this.TenderSource) {
-        this.err.TenderSource = "Please select tender source";
-        valid = false;
+      if (!this.TenderSourceId) {
+        this.err.TenderSourceId = "Please select tender source";
+        IsValidate = false;
       }
 
-      if (!this.Title.trim()) {
-        this.err.Title = "Title is required";
-        valid = false;
+      if (!this.Title){
+        this.err.Title = "Please enter Title ";
+        IsValidate = false;
       }
 
-      if (!this.TenderDetails.trim()) {
-        this.err.TenderDetails = "Description is required";
-        valid = false;
+      if (!this.TenderDetails) {
+        this.err.TenderDetails = "Please enter Description";
+        IsValidate = false;
       }
 
       if (!this.PublishedOn) {
         this.err.PublishedOn = "Please select published date";
-        valid = false;
+        IsValidate = false;
       }
 
       if (!this.ClosedOn) {
         this.err.ClosedOn = "Please select closed date";
-        valid = false;
-      }
-
-      if (this.PublishedOn && this.ClosedOn && this.ClosedOn < this.PublishedOn) {
-        this.err.ClosedOn = "Closed date must be after published date";
-        valid = false;
+        IsValidate = false;
       }
 
       if (!this.listFiles || !this.listFiles.length) {
         this.err.listFiles = "Please upload at least one attachment";
-        valid = false;
+        IsValidate = false;
       }
 
-      return valid;
+      return IsValidate;
     },
+
 
 
     clearErr() {
@@ -356,3 +345,98 @@ export default {
   
 };
 </script>
+
+
+<style scoped>
+/* Modal Styling */
+.modal-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0, 0, 0, 0.5);
+  display: flex;
+  justify-content: cEnter;
+  align-items: cEnter;
+  z-index: 9999;
+}
+
+.modal {
+  background: white;
+  width: 80%;
+  max-width: 1200px;
+  border-radius: 1rem;
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+  height: 80%;
+  position: relative;
+}
+
+.modal-header {
+  background: linear-gradient(to right, #1048c2, #0b2c88, #08236b); /* from-blue-600, via-blue-700, to-blue-900 */
+  backdrop-filter: blur(12px); /* backdrop-blur-md */
+  padding: 15px;
+  display: flex;
+  justify-content: space-between;
+  align-items: cEnter;
+  color: white;
+}
+
+.modal-title {
+  margin: 0;
+  font-size: 18px;
+  font-weight: bold;
+}
+
+.modal-content {
+  padding: 20px;
+  max-height: 80%;
+  overflow-y: auto;
+  flex-grow: 1;
+}
+
+.modal-footer {
+  background: #f1f1f1;
+  padding: 15px;
+  display: flex;
+  justify-content: space-between;
+  position: absolute;
+  bottom: 0;
+  width: 100%;
+}
+
+.cancel-button {
+  background: #e4e4e4;
+  color: #333;
+}
+
+.confirm-button {
+  background: #0b2145;
+  color: white;
+}
+
+@media (max-width: 768px) {
+  .modal {
+    width: 100%;
+    height: 100%;
+    border-radius: 0;
+  }
+
+  .modal-header {
+    padding: 10px;
+  }
+
+  .modal-content {
+    padding: 10px;
+    max-height: none;
+  }
+
+  .modal-footer {
+    position: sticky;
+    bottom: 0;
+    padding: 10px;
+  }
+}
+</style>
