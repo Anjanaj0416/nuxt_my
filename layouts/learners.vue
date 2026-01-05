@@ -30,7 +30,7 @@
 
 
 <script>
-import headercomp from '~/components/society/header.vue'
+
 import footercomp from '~/components/footer'
 import LoadingSpinner from '~/components/LoadingSpinner.vue'
 
