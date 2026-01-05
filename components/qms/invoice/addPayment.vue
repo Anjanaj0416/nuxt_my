@@ -169,7 +169,7 @@
       <div class="modal-footer">
         <button @click="closeModal" class="px-12 py-2 text-xs  font-semibold transition bg-white text-gray-600 rounded-full shadow">Cancel</button>
         <button @click="SetApprove" class="px-12 py-2 text-xs  bg-gradient-to-r from-blue-500 via-blue-600 to-blue-700 
-                font-semibold transition text-white rounded-full shadow  focus:ring-2 focus:ring-blue-400">
+                font-semibold transition text-white rounded-full shadow">
           Add Payment 
         </button>
       </div>

@@ -21,12 +21,12 @@
                gap-4 text-sm font-medium text-white"
       >
         <li>
-          <NuxtLink to="/About_Us" class="hover:underline">
+          <NuxtLink to="" class="hover:underline">
             About
           </NuxtLink>
         </li>
         <li>
-          <NuxtLink to="/Contact_Us" class="hover:underline">
+          <NuxtLink to="https://btob.lk/contact-us" class="hover:underline">
             Contact
           </NuxtLink>
         </li>

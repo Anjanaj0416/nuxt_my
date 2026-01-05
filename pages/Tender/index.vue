@@ -1,7 +1,6 @@
 <template>
 <div class="min-h-screen flex flex-col">
   <homeHeader />
-
   <main class="flex-grow">
     <section class="bg-purple-600 py-10">
       <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
@@ -23,29 +22,7 @@
               Search
             </button>
           </div>
-          <div class="mt-5 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-6 gap-3">
-            <select v-model="CategoryId"  class="filter-select">
-              <option disabled selected="" value="">Select Category</option>
-              <option
-                v-for="Category in tenderStore.listTenderCategory"
-                :key="Category.id"
-                :value="Category.id"
-              >
-                {{ Category.value }}
-              </option>
-            </select>
-
-            <select v-model="DistrictId"  class="filter-select">
-              <option disabled selected="" value="">Select District</option>
-              <option
-                v-for="DistrictId in tenderStore.listTenderCategory"
-                :key="DistrictId.id"
-                :value="DistrictId.id"
-              >
-                {{ DistrictId.value }}
-              </option>
-            </select>
-
+          <div class="mt-5 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3">
             <select v-model="TenderTypeId" class="filter-select">
               <option disabled selected="" value="">Select Type</option>
               <option
@@ -57,37 +34,23 @@
               </option>
             </select>
 
-            <select v-model="TenderSourceId"  class="filter-select">
-              <option disabled selected="" value="">Select Source</option>
+            <select v-model="CategoryId"  class="filter-select">
+              <option disabled selected="" value="">Select Category</option>
               <option
-                v-for="Source in tenderStore.listTenderSource"
-                :key="Source.id"
-                :value="Source.id"
+                v-for="Category in tenderStore.listTenderCategory"
+                :key="Category.id"
+                :value="Category.id"
               >
-                {{ Source.value }}
+                {{ Category.value }}
               </option>
             </select>
-              <input
-                v-model="TenderDatePublised_To"
-                type="date"
-                class="filter-select w-full sm:w-auto"
-                placeholder="From"
-              />
 
-              <!-- To -->
-              <input
-                v-model="TenderClosingDate"
-                type="date"
-                class="filter-select w-full sm:w-auto"
-                placeholder="To"
-              />
-
-            <!-- <select class="filter-select">
+            <select class="filter-select">
               <option>To</option>
               <option>Today</option>
               <option>Last 7 Days</option>
               <option>Last 30 Days</option>
-            </select> -->
+            </select>
           </div>
 
         </div>
@@ -188,9 +151,16 @@
             <h2 class="text-sm font-semibold text-gray-900 leading-snug line-clamp-3">
               {{ tender.title }}
             </h2>
-            <div v-for="category in listCategory" class="flex flex-wrap gap-1.5 mt-2">
-              <span class="px-2 py-0.5 text-xs rounded-full bg-blue-50 text-blue-700">{{ category }}</span>
+            <div class="flex flex-wrap gap-2 mt-4">
+              <span
+                v-for="(category, index) in tender.listCategory || []"
+                :key="index"
+                class="px-3 py-1 text-xs rounded-full bg-purple-50 text-purple-700"
+              >
+                {{ category }}
+              </span>
             </div>
+         
             <div
               class="mt-3 text-xs text-gray-500 grid grid-cols-2 gap-x-4 gap-y-2 sm:flex sm:flex-wrap sm:items-center sm:gap-x-5 sm:gap-y-1 sm:divide-x sm:divide-gray-200"
             >
@@ -212,31 +182,22 @@
               </div>
             </div>
             <div class="mt-4 flex justify-end">
-              <button  @click="$router.push('Tender/MoreDetail')" class="px-3 py-1.5 text-xs font-semibold rounded-lg bg-purple-600 text-white">View Details</button>
+              <button  @click="viewTenderDetails(tender.id)"  class="px-3 py-1.5 text-xs font-semibold rounded-lg bg-purple-600 text-white">View Details</button>
             </div>
           </div>
         </div>
         <!-- Banner-->
-        <div class="hidden lg:flex col-span-1 justify-end">
-          <div
-            v-if="showBanner"
-            class="w-[200px] h-[300px] bg-white rounded-lg shadow-lg flex flex-col overflow-hidden"
-          >
-            <img src="/assets/img/tender/tenderBanner.jpeg" alt="Banner Image" class=" w-full object-cover">
-            <div class="flex flex-col justify-between p-2 h-1/2">
-              <div class="flex justify-between items-start">
-                <h3 class="text-sm font-bold text-gray-800">Special Announcement</h3>
-                <button @click="closeBanner" class="text-gray-500 hover:text-gray-800 rounded-full w-6 h-6 flex items-center justify-center">
-                  <svg class="w-3 h-3" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
-                    <path stroke-linecap="round" stroke-linejoin="round" d="M6 18 18 6M6 6l12 12"/>
-                  </svg>
-                </button>
-              </div>
-              <p class="text-gray-700 text-xs my-1">Check out our latest offer! Click below to learn more.</p>
-              <button class="bg-purple-600 text-white text-xs px-2 py-1 rounded-lg hover:bg-purple-600 transition">Learn More</button>
-            </div>
-          </div>
+       <div class="hidden lg:flex lg:flex-wrap lg:gap-4 justify-end col-span-1">
+        <div
+          v-for="(tender, index) in tenderStore.listBanners"
+          :key="index"
+          v-if="showBanner"
+          class="w-[200px] h-[300px] bg-white rounded-lg shadow-lg flex flex-col overflow-hidden"
+        >
+          <img :src="tender" alt="Banner Image" class="w-full h-full object-cover">
         </div>
+      </div>
+
       </div>
     </section>
   </main>
@@ -285,6 +246,7 @@
     },
     async created() {
       this.showLoading = this.$showLoading;
+    // this.imageroot = this.userStore.loggedUser.resourceURLRoot;   
       this.userStore = useUserStore();
       this.tenderStore = useTenderStore();
       this.loginWithSecretCode();
@@ -344,6 +306,12 @@
         } catch (err) {
           // console.error('Login failed:', err);
         }
+      },
+      viewTenderDetails(id)  {
+        navigateTo({
+          path: '/Tender/MoreDetail',
+          query: { id }  
+        })
       },
       // keywordsearch
       async onSearchClick() {

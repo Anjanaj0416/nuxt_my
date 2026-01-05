@@ -56,10 +56,65 @@
     "attendence" : "வருகைப் பதிவு",
     "members" : "உறுப்பினர்கள்",
     "name" : "பெயர்",
+    "address" : "முகவரி",
     "id" : "உறுப்பினர் எண்",
     "joinDate" : "சேர்ந்த தேதி",
     "phone" : "தொலைபேசி",
     "status" : "நிலைமை",
-    "details" : "விவரங்கள்"
+    "details" : "விவரங்கள்",
+    "addMembersPayment" : "கட்டணத்தைச் சேர்",
+    "addMembersPaymentAmount" : "கட்டணத் தொகை",
+    "addMembersPaymentDate" : "பணம் செலுத்தும் தேதி",
+    "addMembersPaymentEnterAmount" : "தொகையை உள்ளிடவும்",
+    "addMembersPaymentAdd" : "கட்டணத்தைச் சேர்",
+    "cancel" : "ரத்துசெய்",
+    "noData" : "தரவு இல்லை",
+    "addMembersPaymentTital" : "கட்டண விவரங்கள்",
+    "fee" : "கட்டணம்",
+    "collectionMonth" : "வசூல் மாதம்",
+    "paidDate" : "பணம் செலுத்திய தேதி",
+    "regDate" : "பதிவு செய்யப்பட்ட தேதி",
+    "area" : "பகுதி",
+    "contactDetails" : "தொடர்பு விவரங்கள்",
+    "teamLeader" : "குழுத் தலைவர்",
+    "resignedDate" : "ராஜினாமா செய்த தேதி",
+    "fullName" : "முழு பெயர்",
+    "regNo" : "பதிவுசெய்யப்பட்ட எண்",
+    "memberDetails" : "உறுப்பினர் விவரங்கள்",
+    "memberEdit" : "திருத்து",
+    "addMembersEditDetails" : "உறுப்பினர் விவரங்களைப் புதுப்பிக்கவும்",
+
+    "addMembersFullNEname": "முழுப் பெயர் (ஆங்கிலம்)",
+    "addMembersFullNsname": "முழுப் பெயர் (தமிழ்)",
+    "addMembersCallingName": "அழைக்கும் பெயர்",
+    "addMembersRegistrationNo": "பதிவு எண்",
+    "addMembersRegistrationDate": "பதிவு தேதி",
+    "addMembersArea": "பகுதி",
+    "addMembersTeamLeader": "குழுத் தலைவர்",
+    "addMembersWhatsAppNumber": "வாட்ஸ்அப் எண்",
+    "addMembersAddressLine1": "முகவரி வரி 1",
+    "addMembersAddressLine2": "முகவரி வரி 2",
+    "addMembersAddressLine3": "முகவரி வரி 3",
+    "addMembersResignedDate": "ராஜினாமா செய்த தேதி",
+    "addMembersImage" : "படம்",
+    "addMembersStatus" : "நிலைமை",
+    "homepage": "முகப்பு பக்கம்",
+    "searchPlaceholderMember" : "நீங்கள் தேடும் உறுப்பினர் யார்?",
+    "BookId" :"புத்தக ஐடி",
+    "Name" :"பெயர்",
+    "Mobile" :"மொபைல்",
+    "Address" : "முகவரி",
+    "Nic" : "தேசிய அடையாள அட்டை"
+    
+
+
+
+
+
+
+
+
+    
+
 
 }

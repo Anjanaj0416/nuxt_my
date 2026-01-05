@@ -92,6 +92,32 @@ export default defineNuxtPlugin(nuxtApp => {
     });
   });
 
+  // showConfirm-Walfare
+  nuxtApp.provide('showConfirmWelfare', (message, icon = 'warning') => {
+    return Swal.fire({
+      title: message,
+      icon: icon,  // 'warning', 'info', 'question', etc.
+      showCancelButton: true,
+      confirmButtonText: 'Yes',
+      cancelButtonText: 'No',
+      reverseButtons: true, // Reverses the order of the buttons (No, Yes)
+
+      // Custom button colors
+      confirmButtonColor: '#5B21B6', // Tailwind blue-500 gradient start
+      cancelButtonColor: '#F3F4F6',  // Tailwind gray-200 for "Back"
+      
+      customClass: {
+        popup: 'custom-zindex rounded-xl p-4 sm:p-6 shadow-lg max-w-xs sm:max-w-sm text-center',
+        title: 'text-sm sm:text-lg font-semibold text-gray-600 mb-2',
+        htmlContainer: 'mt-2 mb-3 sm:mb-4 text-xs sm:text-sm', 
+        confirmButton: 'px-10 py-2 text-xs sm:text-sm font-semibold rounded-full shadow text-white hover:scale-[1.03] transition-all bg-[#232B37]',
+        cancelButton: 'px-10 py-2 text-xs sm:text-sm font-semibold rounded-full shadow text-gray-600 bg-gray-200 hover:bg-gray-300 hover:scale-[1.03] transition-all',
+      },
+      background: '#ffffff', // white popup
+      backdrop: 'rgba(0,0,0,0.4)', // semi-transparent overlay
+    });
+  });
+
 
   //UseCase
   // this.$showInput('Please enter your name:').then((input) => {
