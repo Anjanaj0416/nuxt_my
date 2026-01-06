@@ -7,13 +7,13 @@
         <!-- Top row -->
         <div class="flex items-center gap-8 w-full">
           <!-- Logo -->
-          <NuxtLink to="/Tender" class="flex items-center">
+           <a href="/Tender"  to="/Tender" class="flex items-center">
             <span
               class="text-xl sm:text-3xl font-bold text-white tracking-wide whitespace-nowrap"
             >
               TenderB2B.lk
             </span>
-          </NuxtLink>
+          </a>
 
           <!-- Desktop menu -->
           <nav class="hidden sm:flex items-center mt-2 gap-6">

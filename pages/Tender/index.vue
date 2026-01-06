@@ -47,6 +47,7 @@
 
             <select v-model="Days" class="filter-select">
               <option disabled selected="" value="">Select Date</option>
+              <option value="">All</option>
               <option :value="1">Today</option>
               <option :value="7">Last 7 Days</option>
               <option :value="30">Last 30 Days</option>
@@ -137,7 +138,7 @@
       </div>
 
       <div
-        v-if="tenderStore.TenderList.length === 0"
+        v-if="tenderStore.TenderList?.length === 0"
         class="text-center text-gray-900 mt-5 text-sm font-medium"
       >
         <p>No Tender....</p>
@@ -226,7 +227,6 @@
           </div>
         </div>
 
-
       </div>
     </section>
   </main>
@@ -238,7 +238,6 @@
 <script >
   import homeHeader from '~/components/tender/header/index.vue';
   import homefooter from '~/components/tender/footer/index.vue';
-  import { ref } from 'vue'
   import { Swiper, SwiperSlide } from 'swiper/vue'
   import { useUserStore } from '~/stores/modules/userStore';
   import { useTenderStore } from '~/stores/modules/tender/tenderStore';
@@ -266,8 +265,6 @@
         TenderDatePublised_To:"",
         TenderClosingDate:"",
         SearchText: "",
-        logos: [
-        ],
       }
     },
     async mounted() {
@@ -342,10 +339,7 @@
         const req = {
           CategoryId: this.CategoryId || "",
           TenderTypeId: this.TenderTypeId || "",
-          Days: this.Days || "",
-          DistrctId: this.DistrictId || "",
-          TenderDatePublised_To: this.TenderDatePublised_To || "",
-          TenderClosingDate: this.TenderClosingDate || ""
+          Days:this.Days || "",
         };
 
         await this.tenderStore.fetcTender(req, this.showLoading);

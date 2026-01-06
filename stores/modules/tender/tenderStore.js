@@ -100,6 +100,7 @@ export const useTenderStore = defineStore("tenderStore", {
         },
         async tenderDetails(tenderId,showLoading) {
             const loadingAlert = showLoading ? showLoading('Loading Tender...') : null;
+            console.log(tenderId);
 
             try {
                 const userStoreData = JSON.parse(localStorage.getItem("userStore"));

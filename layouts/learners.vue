@@ -30,12 +30,11 @@
 
 
 <script>
-import headercomp from '~/components/society/header.vue'
 import footercomp from '~/components/footer'
 import LoadingSpinner from '~/components/LoadingSpinner.vue'
 
 export default {
-  components: {headercomp,footercomp,LoadingSpinner},
+  components: {footercomp,LoadingSpinner},
   data() {
     return {
        showLoading: null,

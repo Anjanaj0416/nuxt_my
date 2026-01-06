@@ -21,6 +21,7 @@
                         </li>
                     </ol>
                 </nav>
+                {{ this.userStore.loggedUser.id }}
                 <div class="bg-white rounded-xl border border-gray-200 p-5 shadow-sm">
                     <div class="flex items-center justify-between mb-2">
                     <span class="text-xs font-semibold px-2 py-1 rounded-md bg-gray-100 text-gray-700">
@@ -73,69 +74,27 @@
                     {{ tenderStore.moreDetails.description }}
                     </p>
                 </div>
-                <!-- <div class="bg-white rounded-xl border border-gray-200 p-5 shadow-sm">
-                    <h3 class="text-sm font-semibold text-gray-800 mb-3">
-                    Financial Information
-                    </h3>
-
-                    <div class="grid grid-cols-1 sm:grid-cols-3 gap-4 text-sm">
-                    <div class="bg-gray-50 rounded-lg p-3">
-                        <p class="text-xs text-gray-500">Estimated Value</p>
-                        <p class="font-semibold text-gray-800">LKR 5,000,000</p>
-                    </div>
-
-                    <div class="bg-gray-50 rounded-lg p-3">
-                        <p class="text-xs text-gray-500">Bid Security</p>
-                        <p class="font-semibold text-gray-800">LKR 100,000</p>
-                    </div>
-
-                    <div class="bg-gray-50 rounded-lg p-3">
-                        <p class="text-xs text-gray-500">Validity Period</p>
-                        <p class="font-semibold text-gray-800">90 Days</p>
-                    </div>
-                    </div>
-                </div> -->
                 <div class="bg-white rounded-xl border border-gray-200 p-5 shadow-sm">
-                    <h3 class="text-sm font-semibold text-gray-800 mb-3">
-                    Tender Documents
-                    </h3>
-
-                    <!-- <ul class="space-y-2 text-sm">
-                      <li
-                        v-for="(doc, index) in moreDetails?.listTenderDocuments || []"
-                        :key="index"
-                        class="flex items-center justify-between bg-gray-50 p-3 rounded-lg"
-                      >
-                        <span class="text-gray-700">{{ doc.split('\\').pop() }}</span>
-                        <a
-                          :href="doc.replace(/\\/g, '/')" 
-                          target="_blank"
-                          class="text-purple-600 font-semibold hover:underline"
-                        >
-                          Open
-                        </a>
-                      </li>
-                      <li v-if="!(moreDetails?.listTenderDocuments?.length === '0')">
-                        No documents available
-                      </li>
-                    </ul> -->
-                    <ul class="space-y-2 text-sm">
-                      <li
-                        v-for="(doc, index) in moreDetails?.listTenderDocuments || []"
-                        :key="index"
-                        class="flex flex-col items-start bg-gray-50 p-3 rounded-lg"
-                      >
-                        <span class="text-gray-700 mb-2">{{ doc.split('\\').pop() }}</span>
-                        <img
-                          :src="doc.replace(/\\/g, '/')"
-                          alt="Document Image"
-                          class="max-w-xs border rounded"
-                        />
-                      </li>
-                      <li v-if="!(moreDetails?.listTenderDocuments?.length)">
-                        No documents available
-                      </li>
-                    </ul>
+                  <h3 class="text-sm font-semibold text-gray-800 mb-3">
+                  Tender Documents
+                  </h3>
+                  <ul class="space-y-2 text-sm">
+                    <li
+                      v-for="(doc, index) in moreDetails?.listTenderDocuments || []"
+                      :key="index"
+                      class="flex flex-col items-start bg-gray-50 p-3 rounded-lg"
+                    >
+                      <span class="text-gray-700 mb-2">{{ doc.split('\\').pop() }}</span>
+                      <img
+                        :src="doc.replace(/\\/g, '/')"
+                        alt="Document Image"
+                        class="max-w-xs border rounded"
+                      />
+                    </li>
+                    <li v-if="!(moreDetails?.listTenderDocuments?.length)">
+                      No documents available
+                    </li>
+                  </ul>
                 </div>
             </div>
             <div class="lg:col-span-2">
@@ -195,8 +154,23 @@
       }
     },
     async mounted() {
-     
+      const route = useRoute()
+      this.tenderId = route.query.id
+
+      if (!this.tenderId) {
+        console.error('Tender ID missing')
+        return
+      }
+
+      this.showLoading = this.$showLoading
+      this.userStore = useUserStore()
+      this.tenderStore = useTenderStore()
+      this.imageroot = this.userStore.loggedUser.resourceURLRoot;   
+
+      await this.loginWithSecretCode()
+      await this.tenderStore.tenderDetails(this.tenderId, this.showLoading)
     },
+
     async created() {
       const route = useRoute() 
       this.tenderId = route.query.id 
@@ -205,8 +179,10 @@
       this.userStore = useUserStore();
       this.tenderStore = useTenderStore();
       this.loginWithSecretCode();
+      this.imageroot = this.userStore.loggedUser.resourceURLRoot;   
       
-      await this.tenderStore.tenderDetails(this.tenderId,this.showLoading,);
+      
+
     },
     watch: {},
     computed: {},
