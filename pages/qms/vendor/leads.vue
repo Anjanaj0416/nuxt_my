@@ -133,10 +133,29 @@
           </span>
 
           <span
-            v-else
-            class="mt-1 text-xs text-gray-400"
+            v-else-if="lead.reportedBy === 'my_email'"
+            class="inline-flex items-center gap-1 px-2 py-0.5 mt-1 text-xs font-semibold rounded-full bg-yellow-100 text-yellow-800"
           >
-            No Data Available
+          Email
+          </span>
+
+          <span
+            v-else-if="lead.reportedBy === 'mymobile'"
+            class="inline-flex items-center gap-1 px-2 py-0.5 mt-1 text-xs font-semibold rounded-full bg-indigo-100 text-indigo-800"
+          >
+          SMS 
+          </span>
+
+          <span
+            v-else-if="lead.reportedBy === 'Other'"
+            class="inline-flex items-center gap-1 px-2 py-0.5 mt-1 text-xs font-semibold rounded-full bg-gray-200 text-gray-800"
+          >
+          Other
+          </span>
+
+          <span v-else-if="lead.reportedBy"
+            class="badge bg-gray-200 text-gray-800">
+            {{ lead.reportedBy }}
           </span>
         </div>
 
@@ -212,7 +231,7 @@
             <div class="text-center sm:text-left">
               <h2 class="block text-xs font-semibold text-gray-600">Contact Person 1 WhatsAppNo</h2>
               <p class="mt-1 text-xs text-gray-700">
-                {{ lead.ContactPerson1WhatsAppNo || "No Data" }}
+                {{ lead.contactPerson1WhatsApp || "No Data" }}
               </p>
             </div>
             <div class="text-center sm:text-left">
