@@ -96,7 +96,7 @@ import serachInput from "~/components/customcontrol/SearchInput2";
 
 
 definePageMeta({
-  layout: 'vendor',
+  layout: 'b2b',
 });
 
 export default {
@@ -153,15 +153,15 @@ export default {
     try {
       const userStore = useUserStore();
       this.leadStore = useLeadStore();
-      this.showLoading = this.$showLoading;
+      this.B2BshowLoading = this.$B2BshowLoading;
       this.showAlert = this.$showAlert;
 
       const secretCode = 'w5jzxd02';
       const formData = new FormData();
       formData.append('secretCode', secretCode);
 
-      await userStore.AppLogin(formData, this.showLoading);
-      await this.leadStore.GetInitLeads(this.showLoading);  
+      await userStore.AppLogin(formData, this.B2BshowLoading);
+      await this.leadStore.GetInitLeads(this.B2BshowLoading);  
 
       // const encode = btoa('facebook'); //console.log(encode) // "SGVsbG8gV29ybGQ="        
       // const decode = atob(encode); console.log(decode); // "Hello World"
@@ -171,12 +171,17 @@ export default {
       // Instagram - p=aW5zdGFncmFt
       // WhatsApp - p=d2hhdHNhcHA=
       // TikTok - p=dGlrdG9r
+      // Email - p=bXlfZW1haWw=  
+      // SMS - p=bXltb2JpbGU= 
 
       // <a href="https://b2b.lk/B2BVendorRegistration?p=ZmFjZWJvb2s=">Register via Facebook</a>
       // <a href="https://b2b.lk/B2BVendorRegistration?p=bGlua2VkaW4=">Register via LinkedIn</a>
       // <a href="https://b2b.lk/B2BVendorRegistration?p=aW5zdGFncmFt">Register via Instagram</a>
       // <a href="https://b2b.lk/B2BVendorRegistration?p=d2hhdHNhcHA=">Register via WhatsApp</a>
       // <a href="https://b2b.lk/B2BVendorRegistration?p=dGlrdG9r">Register via TikTok</a>
+      // <a href="https://b2b.lk/B2BVendorRegistration?p=bXlfZW1haWw=">Register via SMS</a>
+      // <a href="https://b2b.lk/B2BVendorRegistration?p=dGlrdG9r">Register via Email</a>
+
 
       // https://b2b.lk/VendorRegistration?p=ZmFjZWJvb2s=
       // https://b2b.lk/VendorRegistration?p=bGlua2VkaW4=
@@ -347,7 +352,7 @@ export default {
 
   head() {
     return {
-      title: 'Intranet - Digital Tech Labs',
+      title: 'BtoB | Largest Business-to-business Marketplace in Sri Lanka BtoB.lk',
     };
   },
 };

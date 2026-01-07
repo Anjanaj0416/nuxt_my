@@ -70,7 +70,7 @@
         class="custom-swiper"
       >
         <div
-          v-if="tenderStore.listTenderCategory.length === 0"
+          v-if="tenderStore.listTenderCategory?.length === 0"
           class="text-center text-gray-900 mt-5 text-sm font-medium"
         >
           <p>No TenderCategory....</p>
@@ -108,32 +108,24 @@
     <section class="px-2 sm:px-4 md:px-8 lg:px-24 py-4">
       <div class="flex flex-wrap gap-3 mb-3">
         <button
+          v-for="tenderType in tenderStore.listTenderType"
+          :key="tenderType.id"
+          :value="tenderType.id"
+          @click="toggletenderType(tenderType)"
           type="button"
-          class="relative inline-flex items-center justify-center px-4 py-1.5 text-xs font-semibold rounded-full text-purple-600 bg-white border-2 border-purple-500 hover:bg-purple-600 hover:text-white transition-all duration-300 shadow-sm hover:shadow-lg"
+          :class="[
+              'relative flex items-center gap-1.5 px-3 py-1.5 text-sm font-medium rounded-full transition-all duration-300',
+              'border backdrop-blur-sm',
+              activeType === tenderType
+                ? 'bg-gradient-to-r from-purple-600 to-indigo-600 text-white shadow-lg scale-105 border-transparent'
+                : 'bg-white/80 text-gray-600 border-gray-200 hover:bg-gradient-to-r hover:from-purple-50 hover:to-indigo-50 hover:text-purple-600 hover:shadow-md'
+            ]"
         >
-          All 2533
-        </button>
-
-        <button
-          type="button"
-          class="relative inline-flex items-center justify-center px-4 py-1.5 text-xs font-semibold rounded-full text-purple-600 bg-white border-2 border-purple-500 hover:bg-purple-600 hover:text-white transition-all duration-300 shadow-sm hover:shadow-lg"
-
-        >
-          Government
-        </button>
-
-        <button
-          type="button"
-          class="relative inline-flex items-center justify-center px-4 py-1.5 text-xs font-semibold rounded-full text-purple-600 bg-white border-2 border-purple-500 hover:bg-purple-600 hover:text-white transition-all duration-300 shadow-sm hover:shadow-lg"
-        >
-          Private
-        </button>
-
-        <button
-          type="button"
-          class="relative inline-flex items-center justify-center px-4 py-1.5 text-xs font-semibold rounded-full text-purple-600 bg-white border-2 border-purple-500 hover:bg-purple-600 hover:text-white transition-all duration-300 shadow-sm hover:shadow-lg"
-        >
-          Supplier
+          <span
+            v-if="activeType === tenderType"
+            class="w-2 h-2 rounded-full bg-white animate-pulse"
+          ></span>
+          {{ tenderType.value }}
         </button>
       </div>
 
@@ -148,7 +140,7 @@
         <!-- Tender list -->
         <div class="col-span-1 lg:col-span-5 flex flex-col gap-4">
           <div
-            v-for="tender in tenderStore.TenderList"
+            v-for="tender in paginatedTenderList"
             :key="tender.id"
             class="bg-white border border-gray-200 rounded-xl shadow-sm p-4 hover:shadow-md transition"
           >
@@ -204,30 +196,36 @@
         </div>
         <!-- Banner-->
         <div
-          class="col-span-1lg:col-span-1 mt-4 lg:mt-0 flex lg:flex-col gap-3
-            overflow-x-auto lg:overflow-visible whitespace-nowrap lg:whitespace-normal lg:justify-end "
+          v-if="tenderStore.listBanners?.length && showBanner"
+          class=" hidden lg:flex lg:col-span-1 flex-col gap-4 self-start pl-4"
         >
+
           <div
-            v-for="(tender, index) in tenderStore.listBanners"
+            v-for="(banner, index) in tenderStore.listBanners"
             :key="index"
-            v-if="showBanner"
             class="
-              inline-block lg:block
-              w-[200px] h-[300px]
-              bg-white rounded-lg shadow-lg
-              overflow-hidden
-              flex-shrink-0
+              w-full h-[280px]
+              rounded-xl overflow-hidden
+              shadow-md hover:shadow-xl
+              transition-all
             "
           >
             <img
-              :src="imageroot + tender"
-              alt="Banner Image"
+              :src="imageroot + banner"
               class="w-full h-full object-cover"
+              alt="Banner"
             />
           </div>
         </div>
 
       </div>
+        <Pagination
+          :total-items="tenderStore.TenderList?.length || 0"
+          :items-per-page="itemsPerPage"
+          :current-page="page"
+          active-color="#7c3aed"  
+          @update:currentPage="page = $event"
+        />
     </section>
   </main>
   <homefooter class="mt-auto" />
@@ -238,6 +236,7 @@
 <script >
   import homeHeader from '~/components/tender/header/index.vue';
   import homefooter from '~/components/tender/footer/index.vue';
+  import Pagination from "~/components/customcontrol/Pagination.vue";
   import { Swiper, SwiperSlide } from 'swiper/vue'
   import { useUserStore } from '~/stores/modules/userStore';
   import { useTenderStore } from '~/stores/modules/tender/tenderStore';
@@ -252,11 +251,12 @@
   export default {
     
     components: { Swiper,homeHeader,homefooter,
-    SwiperSlide,},
+    SwiperSlide,Pagination},
     props:[''],
     data() {
       return {
         activeCategory: null,
+        activeType: null,
         showBanner: true,
         CategoryId:"",
         TenderTypeId:"",
@@ -265,26 +265,28 @@
         TenderDatePublised_To:"",
         TenderClosingDate:"",
         SearchText: "",
+        page: 1,
+        itemsPerPage: 5, 
       }
     },
     async mounted() {
      
     },
     async created() {
-      this.showLoading = this.$showLoading;
+      this.TendershowLoading = this.$TendershowLoading;
       this.userStore = useUserStore();
       this.tenderStore = useTenderStore();
       this.loginWithSecretCode();
       this.imageroot = this.userStore.loggedUser.resourceURLRoot;   
       
-      await this.tenderStore.loadInitTender(this.showLoading);
+      await this.tenderStore.loadInitTender(this.TendershowLoading);
       await this.tenderStore.fetcTender(
         {
           CategoryId: this.CategoryId || "",
           TenderTypeId: this.TenderTypeId || "",
           Days:this.Days || "",
         },
-        this.showLoading,
+        this.TendershowLoading,
       );
       this.TenderList = this.tenderStore.TenderList;
     },
@@ -301,6 +303,14 @@
     },
 
     computed: {
+      paginatedTenderList() {
+        if (!this.tenderStore.TenderList) return [];
+
+        const start = (this.page - 1) * this.itemsPerPage;
+        const end = start + this.itemsPerPage;
+
+        return this.tenderStore.TenderList.slice(start, end);
+      },
       getSlidesPerView() {
           const width = window.innerWidth
           if (width < 640) return 2
@@ -315,7 +325,7 @@
         formData.append('secretCode', secretCode);
 
         try {
-          await this.userStore.AppLogin(formData, this.showLoading);
+          await this.userStore.AppLogin(formData, this.TendershowLoading);
           // console.log('Login successful');
         } catch (err) {
           // console.error('Login failed:', err);
@@ -332,7 +342,7 @@
         const req = {
           SearchText: this.SearchText || "",
         };
-        await this.tenderStore.fetcTender(req, this.showLoading);
+        await this.tenderStore.fetcTender(req, this.TendershowLoading);
       },
       // filtersearch
       async searchByFilters() {
@@ -342,7 +352,7 @@
           Days:this.Days || "",
         };
 
-        await this.tenderStore.fetcTender(req, this.showLoading);
+        await this.tenderStore.fetcTender(req, this.TendershowLoading);
       },
       // onlycategoryfiltersearch
       async toggleCategory(category) {
@@ -352,7 +362,17 @@
           CategoryId: this.categoryId,
         };
 
-        await this.tenderStore.fetcTender(req, this.showLoading);          
+        await this.tenderStore.fetcTender(req, this.TendershowLoading);          
+      },
+      // onlycategoryfiltersearch
+      async toggletenderType(tenderType) {
+        this.activeType = tenderType;
+        this.TenderTypeId = tenderType.id;
+        const req = {
+          TenderTypeId: this.TenderTypeId,
+        };
+
+        await this.tenderStore.fetcTender(req, this.TendershowLoading);          
       },
       closeBanner() {
         this.showBanner = false;

@@ -1,6 +1,7 @@
 // plugins/toast.js
 import Swal from 'sweetalert2';
-import lodingGif from '~/assets/img/digitalTechLabs/LodingGif.gif'
+import lodingGif from '~/assets/img/digitalTechLabs/LodingGif.gif';
+import TenderLodingGif from '~/assets/img/tender/TenderLogingGif.gif'
 
 export default defineNuxtPlugin(nuxtApp => {
   // Add showToast globally, available as $showToast
@@ -213,7 +214,91 @@ export default defineNuxtPlugin(nuxtApp => {
     });
   });
 
+  //B2BpageLoding
+  nuxtApp.provide('B2BshowLoading', () => {
+    return Swal.fire({
+      html: `
+        <div class="b2b-spinner-wrapper">
+          <div class="b2b-spinner"></div>
+          <p class="loading-text"></p>
+        </div>
+      `,
+      background: 'transparent',
+      backdrop: 'rgba(55, 65, 81, 0.85)',
+      showConfirmButton: false,
+      allowOutsideClick: false,
+      didOpen: () => {
+        const style = document.createElement('style')
+        style.innerHTML = `
+          .b2b-spinner-wrapper {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            height: 140px;
+          }
 
+          .b2b-spinner {
+            width: 60px;
+            height: 60px;
+            border-radius: 50%;
+            background: conic-gradient(#7c3aed, #a78bfa, #7c3aed);
+            mask: radial-gradient(circle 22px, transparent 98%, #000);
+            -webkit-mask: radial-gradient(circle 22px, transparent 98%, #000);
+            animation: spin 1s linear infinite;
+          }
+
+          .loading-text {
+            margin-top: 12px;
+            font-size: 14px;
+            color: #e5e7eb;
+            letter-spacing: 0.4px;
+          }
+
+          @keyframes spin {
+            to { transform: rotate(360deg); }
+          }
+        `
+        document.head.appendChild(style)
+      }
+    })
+  });
+
+  //Tender
+    nuxtApp.provide('TendershowLoading', (message = 'Loading...') => {
+    return Swal.fire({
+      title: '',
+      html: `
+        <div style="
+          padding: 30px 40px;
+          border-radius: 12px;
+          display: flex;
+          flex-direction: column;
+          align-items: center;
+          justify-content: center;
+          gap: 20px;
+          min-width: 200px;
+        ">
+          <img src="${TenderLodingGif}" alt="Loading..." style="width: 100px; height: 100px;" />
+        </div>
+      `,
+      // ${lodingGif}
+      background: 'transparent', // So Swal's background is transparent; your container sets bg
+      backdrop: `
+      rgba(55, 65, 81, 0.8)
+      url("") /* no pattern image */
+      left top
+      no-repeat
+      fixed
+      `,
+      backdrop: true, // show backdrop overlay
+      allowOutsideClick: false,
+      showConfirmButton: false,
+      didOpen: () => {
+        // Optional: Focus on Swal or add any animation here
+      },
+    });
+  });
 
 
 

@@ -59,7 +59,7 @@ devServer: {
 
   app: {
     head: {
-      title: "Digital TechLabs",//Digital TechLabs
+      title: "Digital TechLabs",
       link: [
         // { rel: "icon", type: "image/png", sizes: "16x16", href: "/dtl/favicon_io/favicon-16x16.png" },
         // { rel: "icon", type: "image/png", sizes: "32x32", href: "/dtl/favicon_io/favicon-32x32.png" },
