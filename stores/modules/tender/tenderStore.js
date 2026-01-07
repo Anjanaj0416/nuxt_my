@@ -16,9 +16,9 @@ export const useTenderStore = defineStore("tenderStore", {
     persist: true,
 
     actions: {
-        async loadInitTender(showLoading) {     
+        async loadInitTender(B2BshowLoading) {     
             console.log('API-GetTenderInit');
-                  const loadingAlert = showLoading("");
+                  const loadingAlert = B2BshowLoading("");
 
             try {
             const response = await axios.get(
@@ -40,9 +40,9 @@ export const useTenderStore = defineStore("tenderStore", {
             this.showToast(response.data.message, "error");
             }
         },
-        async AddTender(formData, showLoading) {     
+        async AddTender(formData, B2BshowLoading) {     
             console.log('API-SetTender');
-            const loadingAlert = showLoading("");
+            const loadingAlert = B2BshowLoading("");
             try {
                 const response = await axios.post(
                     `${import.meta.env.VITE_API_URL}/TenderNProcument/Tender/SetTender`,
@@ -62,11 +62,11 @@ export const useTenderStore = defineStore("tenderStore", {
                 loadingAlert.close();
             }
         },
-        async fetcTender(req,showLoading) {
+        async fetcTender(req,B2BshowLoading) {
             console.log('list:',req);
 
  
-            const loadingAlert = showLoading ? showLoading('Loading Tender...') : null;
+            const loadingAlert = B2BshowLoading ? B2BshowLoading('Loading Tender...') : null;
 
             try {
                 const userStoreData = JSON.parse(localStorage.getItem("userStore"));
@@ -98,8 +98,9 @@ export const useTenderStore = defineStore("tenderStore", {
                 console.error(err);
             }
         },
-        async tenderDetails(tenderId,showLoading) {
-            const loadingAlert = showLoading ? showLoading('Loading Tender...') : null;
+        async tenderDetails(tenderId,B2BshowLoading) {
+            const loadingAlert = B2BshowLoading ? B2BshowLoading('Loading Tender...') : null;
+            console.log(tenderId);
 
             try {
                 const userStoreData = JSON.parse(localStorage.getItem("userStore"));

@@ -73,83 +73,34 @@
                     {{ tenderStore.moreDetails.description }}
                     </p>
                 </div>
-                <!-- <div class="bg-white rounded-xl border border-gray-200 p-5 shadow-sm">
-                    <h3 class="text-sm font-semibold text-gray-800 mb-3">
-                    Financial Information
-                    </h3>
-
-                    <div class="grid grid-cols-1 sm:grid-cols-3 gap-4 text-sm">
-                    <div class="bg-gray-50 rounded-lg p-3">
-                        <p class="text-xs text-gray-500">Estimated Value</p>
-                        <p class="font-semibold text-gray-800">LKR 5,000,000</p>
-                    </div>
-
-                    <div class="bg-gray-50 rounded-lg p-3">
-                        <p class="text-xs text-gray-500">Bid Security</p>
-                        <p class="font-semibold text-gray-800">LKR 100,000</p>
-                    </div>
-
-                    <div class="bg-gray-50 rounded-lg p-3">
-                        <p class="text-xs text-gray-500">Validity Period</p>
-                        <p class="font-semibold text-gray-800">90 Days</p>
-                    </div>
-                    </div>
-                </div> -->
                 <div class="bg-white rounded-xl border border-gray-200 p-5 shadow-sm">
-                    <h3 class="text-sm font-semibold text-gray-800 mb-3">
-                    Tender Documents
-                    </h3>
-
-                    <!-- <ul class="space-y-2 text-sm">
-                      <li
-                        v-for="(doc, index) in moreDetails?.listTenderDocuments || []"
-                        :key="index"
-                        class="flex items-center justify-between bg-gray-50 p-3 rounded-lg"
-                      >
-                        <span class="text-gray-700">{{ doc.split('\\').pop() }}</span>
-                        <a
-                          :href="doc.replace(/\\/g, '/')" 
-                          target="_blank"
-                          class="text-purple-600 font-semibold hover:underline"
-                        >
-                          Open
-                        </a>
-                      </li>
-                      <li v-if="!(moreDetails?.listTenderDocuments?.length === '0')">
-                        No documents available
-                      </li>
-                    </ul> -->
-                    <ul class="space-y-2 text-sm">
-                      <li
-                        v-for="(doc, index) in moreDetails?.listTenderDocuments || []"
-                        :key="index"
-                        class="flex flex-col items-start bg-gray-50 p-3 rounded-lg"
-                      >
-                        <span class="text-gray-700 mb-2">{{ doc.split('\\').pop() }}</span>
-                        <img
-                          :src="doc.replace(/\\/g, '/')"
-                          alt="Document Image"
-                          class="max-w-xs border rounded"
-                        />
-                      </li>
-                      <li v-if="!(moreDetails?.listTenderDocuments?.length)">
-                        No documents available
-                      </li>
-                    </ul>
+                  <h3 class="text-sm font-semibold text-gray-800 mb-3">
+                  Tender Documents
+                  </h3>
+                   <img
+                    :src="imageroot + tenderStore.moreDetails.listTenderDocuments"
+                    alt="Banner Image"
+                    class="w-full h-full object-cover"
+                  />
+                  
                 </div>
             </div>
             <div class="lg:col-span-2">
-                <div class="sticky top-24 bg-white rounded-xl border border-gray-200 p-5 shadow-sm space-y-4">
+                <div class="sticky top-2 bg-white rounded-xl border border-gray-200 p-5 shadow-sm space-y-4">
 
                     <div class="text-center">
                     <p class="text-xs text-gray-500">Time Remaining</p>
                     <p class="text-lg font-bold text-red-600">{{ tenderStore.moreDetails.daysRemaining }}</p>
                     </div>
 
-                    <!-- <button
-                    class="w-full bg-purple-600 hover:bg-purple-700 text-white text-sm font-semibold py-2.5 rounded-lg transition">
-                    Apply for Tender
-                    </button> -->
+                    <a v-if="tenderStore.moreDetails.tenderUrl" 
+                      :href="tenderStore.moreDetails.tenderUrl" 
+                      target="_blank">
+                      <button
+                        class="w-full bg-purple-600 hover:bg-purple-700 text-white text-sm font-semibold py-2.5 rounded-lg transition">
+                        Go To Tender
+                      </button>
+                    </a>
                     <!-- <button
                     class="w-full border border-purple-600 text-purple-600 text-sm font-semibold py-2.5 rounded-lg hover:bg-purple-50 transition">
                     Save Tender
@@ -195,18 +146,35 @@
       }
     },
     async mounted() {
-     
+      const route = useRoute()
+      this.tenderId = route.query.id
+
+      if (!this.tenderId) {
+        console.error('Tender ID missing')
+        return
+      }
+
+      this.TendershowLoading = this.$TendershowLoading
+      this.userStore = useUserStore()
+      this.tenderStore = useTenderStore()
+      this.imageroot = this.userStore.loggedUser.resourceURLRoot;   
+
+      await this.loginWithSecretCode()
+      await this.tenderStore.tenderDetails(this.tenderId, this.TendershowLoading)
     },
+
     async created() {
       const route = useRoute() 
       this.tenderId = route.query.id 
 
-      this.showLoading = this.$showLoading;
+      this.TendershowLoading = this.$TendershowLoading;
       this.userStore = useUserStore();
       this.tenderStore = useTenderStore();
       this.loginWithSecretCode();
+      this.imageroot = this.userStore.loggedUser.resourceURLRoot;   
       
-      await this.tenderStore.tenderDetails(this.tenderId,this.showLoading,);
+      
+
     },
     watch: {},
     computed: {},
@@ -217,7 +185,7 @@
         formData.append('secretCode', secretCode);
 
         try {
-          await this.userStore.AppLogin(formData, this.showLoading);
+          await this.userStore.AppLogin(formData, this.TendershowLoading);
           // console.log('Login successful');
         } catch (err) {
           // console.error('Login failed:', err);

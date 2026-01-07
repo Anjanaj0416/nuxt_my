@@ -57,11 +57,10 @@
         {{ lead.status || '—' }}
       </span>
     </div>
-
       <div class="grid grid-cols-2 gap-4 sm:flex sm:flex-row sm:justify-between">
         <!-- Vendor Name -->
         <div class="flex flex-col text-center sm:text-left">
-          <h1 class="text-xs font-semibold text-gray-600">Vendor Name</h1>
+          <h1 class="text-xs font-semibold text-gray-600">Company  Name</h1>
           <p class="text-xs text-gray-500 mt-0.5">
             <span v-if="lead.companyName">{{ lead.companyName }}</span>
             <span v-else class="flex items-center text-sm text-gray-400">No Data Available</span>
@@ -75,7 +74,7 @@
           </p>
         </div>
         <div class="flex flex-col text-center sm:text-left">
-          <h1 class="text-xs font-semibold text-gray-600">Contact Number</h1>
+          <h1 class="text-xs font-semibold text-gray-600">Company Phone Number</h1>
           <p class="text-xs text-gray-500 mt-0.5">
             <span v-if="lead.companyPhone">{{ lead.companyPhone }}</span>
             <span v-else class="flex items-center text-sm text-gray-400 ">No Data Available</span>
@@ -187,9 +186,57 @@
         <section class="flex flex-col gap-5 p-4 mt-0 bg-white sm:p-6">
           <div class="grid grid-cols-2 gap-4 sm:grid-cols-5">
             <div class="text-center sm:text-left">
-              <h2 class="block text-xs font-semibold text-gray-600">Contact Person Number</h2>
+              <h2 class="block text-xs font-semibold text-gray-600">Company Phone Number</h2>
               <p class="mt-1 text-xs text-gray-700">
-                {{ lead.contactPhoneNo || "No Data" }}
+                {{ lead.companyPhone || "No Data" }}
+              </p>
+            </div>
+            <div class="text-center sm:text-left">
+              <h2 class="block text-xs font-semibold text-gray-600">Contact Person 1 Name</h2>
+              <p class="mt-1 text-xs text-gray-700">
+                {{ lead.contactPerson1Name || "No Data" }}
+              </p>
+            </div>
+            <div class="text-center sm:text-left">
+              <h2 class="block text-xs font-semibold text-gray-600">Contact Person 1 Designation</h2>
+              <p class="mt-1 text-xs text-gray-700">
+                {{ lead.contactPerson1Designation || "No Data" }}
+              </p>
+            </div>
+            <div class="text-center sm:text-left">
+              <h2 class="block text-xs font-semibold text-gray-600">Contact Person 1 Number</h2>
+              <p class="mt-1 text-xs text-gray-700">
+                {{ lead.contactPerson1Number || "No Data" }}
+              </p>
+            </div>
+            <div class="text-center sm:text-left">
+              <h2 class="block text-xs font-semibold text-gray-600">Contact Person 1 WhatsAppNo</h2>
+              <p class="mt-1 text-xs text-gray-700">
+                {{ lead.ContactPerson1WhatsAppNo || "No Data" }}
+              </p>
+            </div>
+            <div class="text-center sm:text-left">
+              <h2 class="block text-xs font-semibold text-gray-600">Contact Person 2 Name</h2>
+              <p class="mt-1 text-xs text-gray-700">
+                {{ lead.contactPerson2Name || "No Data" }}
+              </p>
+            </div>
+            <div class="text-center sm:text-left">
+              <h2 class="block text-xs font-semibold text-gray-600">Contact Person 2 Designation</h2>
+              <p class="mt-1 text-xs text-gray-700">
+                {{ lead.contactPerson2Designation || "No Data" }}
+              </p>
+            </div>
+            <div class="text-center sm:text-left">
+              <h2 class="block text-xs font-semibold text-gray-600">Contact Person 2 Number</h2>
+              <p class="mt-1 text-xs text-gray-700">
+                {{ lead.contactPerson2Number || "No Data" }}
+              </p>
+            </div>
+            <div class="text-center sm:text-left">
+              <h2 class="block text-xs font-semibold text-gray-600">Contact Person 2 WhatsAppNo</h2>
+              <p class="mt-1 text-xs text-gray-700">
+                {{ lead.ContactPerson2WhatsAppNo || "No Data" }}
               </p>
             </div>
             <div class="text-center sm:text-left">

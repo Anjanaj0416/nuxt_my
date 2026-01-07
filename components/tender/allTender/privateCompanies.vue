@@ -39,7 +39,6 @@
                 </div>
             </div>
             <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
-                
                 <div>
                     <label class="block text-sm font-medium text-gray-600 mb-2">Attachment</label>
                     <imagepickermultiple
@@ -96,6 +95,15 @@
                     {{ err.DistrictId }}
                   </p>
 
+                </div>
+                <div>
+                  <label class="block text-sm font-medium text-gray-600 mb-2">Web URL</label>
+                    <input
+                      v-model="TenderUrl"
+                      type="text"
+                      class="w-full p-2 border rounded-md text-sm focus:ring-2 focus:ring-blue-400"
+                      placeholder="Enter Url"
+                    />
                 </div>
                 <div>
                     <label class="block text-sm font-medium text-gray-600 mb-2">Published on</label>
@@ -160,6 +168,7 @@ export default {
       TenderDetails: "",
       PublishedOn: "",
       ClosedOn: "",
+      TenderUrl:"",
       selectedCategories: [],
       categoryIds: [],
       listFiles: [],
@@ -246,18 +255,20 @@ export default {
             formData.append("TenderDetails", this.TenderDetails || "");
             formData.append("PublishedOn", this.PublishedOn);
             formData.append("ClosedOn", this.ClosedOn || "");
+            formData.append("TenderUrl", this.TenderUrl || "");
+
             this.selectedCategories.forEach((cat, index) => {
               formData.append(`listTenderCategory[${index}].MainCategory.Id`, cat.MainCategory.id);
-              formData.append(`listTenderCategory[${index}].MainCategory.Value`, cat.MainCategory.value);
+              formData.append(`listTenderCategory[${index}].MainCategory.Value`, cat.MainCategory.value || "abc");
 
               formData.append(`listTenderCategory[${index}].SubCategory.Id`, cat.SubCategory.id);
-              formData.append(`listTenderCategory[${index}].SubCategory.Value`, cat.SubCategory.value);
+              formData.append(`listTenderCategory[${index}].SubCategory.Value`, cat.SubCategory.value || "abc");
 
               formData.append(`listTenderCategory[${index}].SubSubCategory.Id`, cat.SubSubCategory.id);
-              formData.append(`listTenderCategory[${index}].SubSubCategory.Value`, cat.SubSubCategory.value);
+              formData.append(`listTenderCategory[${index}].SubSubCategory.Value`, cat.SubSubCategory.value || "abc");
 
               formData.append(`listTenderCategory[${index}].SubSubSubCategory.Id`, cat.SubSubSubCategory.id);
-              formData.append(`listTenderCategory[${index}].SubSubSubCategory.Value`, cat.SubSubSubCategory.value);
+              formData.append(`listTenderCategory[${index}].SubSubSubCategory.Value`, cat.SubSubSubCategory.value || "abc");
             });
             if (this.listFiles && this.listFiles.length > 0) {
               this.listFiles.forEach((file, index) => {
