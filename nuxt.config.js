@@ -53,17 +53,18 @@ devServer: {
     public: {
     //  apiBaseUrl: process.env.API_URL, 
     //  imageBaseUrl: process.env.NUXT_IMAGE_BASE_URL,
+    // public: { apiBaseUrl: process.env.VITE_API_URL }
     },
   },
 
   app: {
     head: {
-      title: "",//Digital TechLabs
+      title: "Digital TechLabs",
       link: [
-        // { rel: "icon", type: "image/png", sizes: "16x16", href: "/favicon_io/favicon-16x16.png" },
-        // { rel: "icon", type: "image/png", sizes: "32x32", href: "/favicon_io/favicon-32x32.png" },
-        // { rel: "apple-touch-icon", sizes: "180x180", href: "/favicon_io/apple-touch-icon.png" },
-        // { rel: "manifest", href: "/favicon_io/site.webmanifest" }
+        // { rel: "icon", type: "image/png", sizes: "16x16", href: "/dtl/favicon_io/favicon-16x16.png" },
+        // { rel: "icon", type: "image/png", sizes: "32x32", href: "/dtl/favicon_io/favicon-32x32.png" },
+        // { rel: "apple-touch-icon", sizes: "180x180", href: "/dtl/favicon_io/apple-touch-icon.png" },
+        // { rel: "manifest", href: "/dtl/favicon_io/site.webmanifest" }
       ],
       meta: [
         // Charset
@@ -101,5 +102,6 @@ devServer: {
     }
   },
 
-  compatibilityDate: "2025-11-02"
+  compatibilityDate: "2025-11-02",
+   sourcemap: false
 })

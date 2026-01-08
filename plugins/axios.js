@@ -6,7 +6,7 @@ export default defineNuxtPlugin((nuxtApp) => {
 
   // Set base URL
   axios.defaults.baseURL = config.public.apiBaseUrl
-
+  //interceptors--(heders Modification)
   axios.interceptors.request.use(
     (config) => {
       const userStore = useUserStore()
@@ -34,6 +34,31 @@ export default defineNuxtPlugin((nuxtApp) => {
       return config
     },
     (error) => Promise.reject(error)
+  )
+
+  // ✅ RESPONSE INTERCEPTOR (TOKEN EXPIRED HANDLING)
+  axios.interceptors.response.use(
+    (response) => response,
+    (error) => {
+      const userStore = useUserStore()
+
+      if (error.response?.status === 401) {
+        console.warn('Token expired or unauthorized')
+
+        // 🔥 Clear Pinia store
+        userStore.$reset()
+
+        // 🔥 Remove cookie
+        if (process.client) {
+          document.cookie = 'token=; path=/; max-age=0'
+        }
+
+        // 🔥 Redirect to login
+        navigateTo('/user/login')
+      }
+
+      return Promise.reject(error)
+    }
   )
 
   return {

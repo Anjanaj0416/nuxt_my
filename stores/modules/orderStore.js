@@ -684,6 +684,26 @@ actions: {
       }
     },
 
+    async GetAllManuaPI(subData,showLoading) {
+      // console.log('API-GetCommissioGetIssuePINumberByCustomerRefnRates')
+      const loadingAlert = showLoading("");
+
+      try {
+        const response = await axios.get(
+          `${import.meta.env.VITE_API_URL}/qms/Order/GetIssuePINumberByCustomerRef?customerRef=${subData.customerRef}&PINo=${subData.PINo}`,
+        );
+        console.log("EE,:",response);
+        loadingAlert.close();
+        if (response.data.isSuccess) {
+          this.showToast(response.data.message, "success");
+        } else {
+          this.showToast(response.data.message, "error");
+        }
+      } catch (error) {
+        this.showToast("Error while Installment Details", "error");
+      }
+    },
+
 
 
 

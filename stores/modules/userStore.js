@@ -42,12 +42,14 @@ export const useUserStore = defineStore('userStore', {
 
     async AppLogin(formData,showLoading) { 
       console.log('FormData in AppLogin:', Object.fromEntries(formData));
+      console.log(formData);
+      
       const loadingAlert = showLoading(''); 
 
         try {
           // const secretCode = formData.get('secretCode');
           const response = await axios.post(`${import.meta.env.VITE_API_URL}/IAM/GetAppAccessToken`,formData);     
-          // console.log("response:",response);
+          console.log("response:",response);
           
           loadingAlert.close();                            
 
@@ -90,7 +92,7 @@ export const useUserStore = defineStore('userStore', {
           this.assetsBaseUrl =response.data.loggedUser.resourceURLRoot;
           this.redirectTo = response.data.redirectTo;
           
-          document.cookie = `token=${this.token}; path=/; max-age=3600; Secure`;
+          document.cookie = `token=${this.token}; path=/; max-age=3600; Secure; SameSite=Strict`;
                   
        }
        else{        
@@ -158,9 +160,13 @@ export const useUserStore = defineStore('userStore', {
     },
 
     logout() {
-      this.token = '';
+      const userStore = useUserStore();
+      userStore.token = '';
+      userStore.loggedUser = null;
+      this.$reset()
       localStorage.clear();
-      document.cookie = 'token=; path=/; max-age=0; Secure'
+      document.cookie = 'token=; path=/; max-age=0; Secure; SameSite=Strict';
+      navigateTo('/user/login')
       //this.showToast('User Logged out!','success');
   
     },

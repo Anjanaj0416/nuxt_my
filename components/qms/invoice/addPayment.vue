@@ -15,6 +15,7 @@
                 <select
                   v-model="InstallmentId"
                   class="w-full border border-gray-300 rounded px-3 py-2 mt-2 text-sm text-gray-700 px-4 py-2 pr-10"
+                  @input="clearErrorOnInput('InstallmentId')"
                 >
                   <option disabled value="">Select Installment</option>
                   <option
@@ -26,8 +27,8 @@
                   </option>
                 </select>
               </div>
-               <p v-if="err.installmentTypeError" class="mt-2 text-sm text-red-600">
-                {{ err.installmentTypeError }}
+               <p v-if="err.InstallmentId" class="mt-2 text-sm text-red-600">
+                {{ err.InstallmentId }}
                 </p>
             </div>
             <div>
@@ -35,12 +36,12 @@
               <input 
                 type="text"
                 v-model="formattedAmount"
-                @input="formatAmount"
+                @input="handleInput"
                 placeholder="Enter pay amount"
                 class="w-full p-2 mt-2 text-sm border rounded-md" 
               />
-               <p v-if="err.packageError" class="mt-2 text-sm text-red-600">
-                {{ err.packageError }}
+               <p v-if="err.Amount" class="mt-2 text-sm text-red-600">
+                {{ err.Amount }}
                 </p>
             </div>
             <div>
@@ -50,9 +51,10 @@
                 v-model="ReferenceNo"
                 placeholder="Enter reference no"
                 class="w-full p-2 mt-2 text-sm border rounded-md" 
+                @input="clearErrorOnInput('ReferenceNo')"
               />
-               <p v-if="err.referenceNoError" class="mt-2 text-sm text-red-600">
-                {{ err.referenceNoError }}
+               <p v-if="err.ReferenceNo" class="mt-2 text-sm text-red-600">
+                {{ err.ReferenceNo }}
                 </p>
             </div>
             <div>
@@ -61,6 +63,7 @@
                 <select
                   v-model="ReceiptType"
                   class="w-full border border-gray-300 rounded px-3 py-2 mt-2 text-sm text-gray-700 px-4 py-2 pr-10"
+                  @input="clearErrorOnInput('ReceiptType')"
                 >
                   <option disabled value="">Select Receipt Type</option>
                   <option
@@ -72,8 +75,8 @@
                   </option>
                 </select>
               </div>
-               <p v-if="err.receiptTypeError" class="mt-2 text-sm text-red-600">
-                {{ err.receiptTypeError }}
+               <p v-if="err.ReceiptType" class="mt-2 text-sm text-red-600">
+                {{ err.ReceiptType }}
                 </p>
             </div>
             <div v-if="ReceiptType !== 'CASH-Cash Receipt'">
@@ -82,6 +85,7 @@
                 <select
                   v-model="BankName"
                   class="w-full border border-gray-300 rounded px-3 py-2 mt-2 text-sm text-gray-700 px-4 py-2 pr-10"
+                  @input="clearErrorOnInput('BankName')"
                 >
                   <option disabled value="">Select Bank</option>
                   <option
@@ -93,8 +97,8 @@
                   </option>
                 </select>
               </div>
-              <p v-if="err.bankNameError" class="mt-2 text-sm text-red-600">
-              {{ err.bankNameError }}
+              <p v-if="err.BankName" class="mt-2 text-sm text-red-600">
+              {{ err.BankName }}
               </p>
               
             </div>
@@ -105,9 +109,10 @@
                 v-model="OriginalAdvanceReceiptNo"
                 placeholder="Enter reference no"
                 class="w-full p-2 mt-2 text-sm border rounded-md" 
+                @input="clearErrorOnInput('OriginalAdvanceReceiptNo')"
               />
-               <p v-if="err.originalAdvanceReceiptNoError" class="mt-2 text-sm text-red-600">
-                {{ err.originalAdvanceReceiptNoError }}
+               <p v-if="err.OriginalAdvanceReceiptNo" class="mt-2 text-sm text-red-600">
+                {{ err.OriginalAdvanceReceiptNo }}
                 </p>
             </div>
             <div>
@@ -117,24 +122,31 @@
                 v-model="OriginalAdvanceReceiptDate"
                 placeholder="Enter Pay Date"
                 class="w-full p-2 mt-2 text-sm border rounded-md" 
-                min="2025-05-02"
+                @input="clearErrorOnInput('OriginalAdvanceReceiptDate')"
               />
-               <p v-if="err.originalAdvanceReceiptDateError" class="mt-2 text-sm text-red-600">
-                {{ err.originalAdvanceReceiptDateError }}
+               <p v-if="err.OriginalAdvanceReceiptDate" class="mt-2 text-sm text-red-600">
+                {{ err.OriginalAdvanceReceiptDate }}
                 </p>
             </div>
             <div>
               <label class="block text-sm mb-2 font-bold text-gray-600"> Attachment For Payment Referance</label>
               
-              <imagepicker1
+              <!-- <imagepicker1
                 @GetSelectedImage="GetAttachedImage"
                 :image_file="imageroot"
                 ref="refApprovedImg"
                 accept="image/*,application/pdf"
-              />
+              /> -->
               <!-- accept="image/*,application/pdf"
                 accept="application/pdf"
                  accept="image/*" -->
+              <imagepickermultiple
+                @GetSelectedImages="GetAttachedImage"
+                :image_file="imageroot"
+                ref="refApprovedImg"
+                accept="image/*,application/pdf,.doc,.docx,.xls,.xlsx"
+                @input="clearErrorOnInput('PaymentSlipImage')"
+              />
   
               <p v-if="err.approvedImage" class="mt-2 text-sm text-red-600">
                 {{ err.approvedImage }}
@@ -150,6 +162,7 @@
                  rows="4"
                 placeholder="Enter remarks"
                 class="w-full p-2 mt-2 text-sm border rounded-md" 
+                @input="clearErrorOnInput('Remarks')"
               />
             </div>
           </div>
@@ -163,7 +176,7 @@
       <div class="modal-footer">
         <button @click="closeModal" class="px-12 py-2 text-xs  font-semibold transition bg-white text-gray-600 rounded-full shadow">Cancel</button>
         <button @click="SetApprove" class="px-12 py-2 text-xs  bg-gradient-to-r from-blue-500 via-blue-600 to-blue-700 
-                font-semibold transition text-white rounded-full shadow  focus:ring-2 focus:ring-blue-400">
+                font-semibold transition text-white rounded-full shadow">
           Add Payment 
         </button>
       </div>
@@ -181,10 +194,10 @@ import ImageLable from "~/components/customcontrol/ImageLable";
 import LinkBtn from "~/components/customcontrol/Link";
 // import imagecomp from "~/components/customcontrol/imagepicker";
 import imagepicker1 from "~/components/customcontrol/imagepicker1.vue";
-import Swal from "sweetalert2";
+import imagepickermultiple from "~/components/customcontrol/imagepickermultiple.vue";
 
 export default {
-  components: { closebtn, LinkBtn, Lable, Button, ImageLable, imagepicker1 },
+  components: { closebtn, LinkBtn, Lable, Button, ImageLable, imagepicker1,imagepickermultiple },
   props: {
     orderId: {
       type: [String, Number],
@@ -210,6 +223,16 @@ export default {
       err: { PaymentSlipImage: "" },
       formattedAmount: '', // the formatted string
       Amount: 0, 
+      err: {
+        InstallmentId: "",
+        Amount: "",
+        ReferenceNo: "",
+        ReceiptType: "",
+        BankName: "",
+        OriginalAdvanceReceiptNo: "",
+        OriginalAdvanceReceiptDate: "",
+        approvedImage: "",
+      }
     };
   },
   async created() {
@@ -226,11 +249,15 @@ export default {
   computed: {
   },
   methods: {
-    GetAttachedImage(file) {
-      console.log("Selected File:", file);
-      if (file) {
-        this.PaymentSlipImage = file;
-      }
+
+    GetAttachedImage(files) {
+      console.log("Selected Files:", files);
+      this.PaymentSlipImage = files;
+    },
+
+    handleInput(event) {
+      this.formatAmount(event);           
+      this.clearErrorOnInput('Amount'); 
     },
 
     formatAmount() {
@@ -256,102 +283,83 @@ export default {
       const formData = new FormData();
       formData.append("InstallmentId", this.InstallmentId || "");
       formData.append("Amount", this.Amount || "");
-
       formData.append("Remarks", this.Remarks || "");
       formData.append("ReferenceNo", this.ReferenceNo || "");
       formData.append("ReceiptType", this.ReceiptType || "");
       formData.append("BankName", this.BankName || "");
       formData.append("OriginalAdvanceReceiptNo", this.OriginalAdvanceReceiptNo || "");
       formData.append("OriginalAdvanceReceiptDate", this.OriginalAdvanceReceiptDate || "");
-      formData.append("PaymentSlipImage", this.PaymentSlipImage);
+      if (this.PaymentSlipImage && this.PaymentSlipImage.length > 0) {
+        this.PaymentSlipImage.forEach(file => {
+          formData.append("PaymentSlipImage", file);
+        });
+      }
 
+      for (let [key, value] of formData.entries()) {
+        console.log(key, value);
+      }
 
-
-      // for (let [key, value] of formData.entries()) {
-      //   console.log(`${key}: ${value}`);
-      // }
-      // console.log("File Name:", this.PaymentSlipImage);
-
-
-      // Do the payment
       await this.orderStore.getDoPay(formData, this.showLoading);
-
-
       this.closeModal();
-      
+    },
+
+    clearErrorOnInput(field) {
+      if (this.err[field]) {
+        this.err[field] = "";
+      }
+    },
+
+    clearErr() {
+      Object.keys(this.err).forEach(key => {
+        this.err[key] = "";
+      });
     },
 
     IsValidate() {
-      let isSuccess = true;
+      this.clearErr();
+      let isValid = true;
 
-      if (this.PaymentSlipImage && this.PaymentSlipImage.size > 0) {
-        this.err.approvedImage = "";
-      } else {
-        this.err.approvedImage = "Attach the approval proof.";
-        isSuccess = false;
+      if (!this.InstallmentId) {
+        this.err.InstallmentId = "Please select installment";
+        isValid = false;
       }
 
-        if (!this.Amount) {
-            this.err.installmentTypeError = "Please select installment.";
-            isSuccess = false;
-        } else {
-            this.err.packageError = "";
-        }
+      if (!this.Amount || this.Amount <= 0) {
+        this.err.Amount = "Please enter valid amount";
+        isValid = false;
+      }
 
-        if (!this.Amount) {
-            this.err.packageError = "Please enter amount.";
-            isSuccess = false;
-        } else {
-            this.err.packageError = "";
-        }
+      if (!this.ReferenceNo) {
+        this.err.ReferenceNo = "Please enter Reference No";
+        isValid = false;
+      }
 
-        if (!this.OriginalAdvanceReceiptDate) {
-            this.err.originalAdvanceReceiptDateError = "Please enter original advance receip date.";
-            isSuccess = false;
-        } else {
-            this.err.originalAdvanceReceiptDateError = "";
-        }
+      if (!this.ReceiptType) {
+        this.err.ReceiptType = "Please select Receipt Type";
+        isValid = false;
+      }
 
-        if (!this.ReferenceNo) {
-            this.err.referenceNoError = "Please enter Reference No.";
-            isSuccess = false;
-        } else {
-            this.err.referenceNoError = "";
-        }
+      if (this.ReceiptType !== "CASH-Cash Receipt" && !this.BankName) {
+        this.err.BankName = "Please select Bank Name";
+        isValid = false;
+      }
 
-        if (!this.ReceiptType) {
-            this.err.receiptTypeError = "Please select Receipt Type.";
-            isSuccess = false;
-        } else {
-            this.err.receiptTypeError = "";
-        }
+      if (!this.OriginalAdvanceReceiptNo) {
+        this.err.OriginalAdvanceReceiptNo = "Please enter Advance Receipt No";
+        isValid = false;
+      }
 
-        if (this.ReceiptType !== 'CASH-Cash Receipt') {
-          if (!this.BankName) {
-            this.err.bankNameError = "Please select Bank Name.";
-            isSuccess = false;
-          } else {
-            this.err.bankNameError = "";
-          }
-        } else {
-          this.err.bankNameError = "";
-        }
+      if (!this.OriginalAdvanceReceiptDate) {
+        this.err.OriginalAdvanceReceiptDate = "Please select Advance Receipt Date";
+        isValid = false;
+      }
 
-        if (!this.OriginalAdvanceReceiptNo) {
-            this.err.originalAdvanceReceiptNoError = "Please enter Original AdvanceReceipt No.";
-            isSuccess = false;
-        } else {
-            this.err.originalAdvanceReceiptNoError = "";
-        }
+      if (!this.PaymentSlipImage || !this.PaymentSlipImage.length) {
+        this.err.approvedImage = "Attach payment proof";
+        isValid = false;
+      }
 
-        if (!this.OriginalAdvanceReceiptDate) {
-            this.err.originalAdvanceReceiptDateError = "Please enter Original AdvanceReceipt Date.";
-            isSuccess = false;
-        } else {
-            this.err.originalAdvanceReceiptDateError = "";
-        }
-
-      return isSuccess;
+      return isValid;
     },
 
     closeModal() {
@@ -360,13 +368,8 @@ export default {
     },
 
   },
-  async beforeMount() {
-    // if (this.loggeduser.granted.indexOf('workgroup') > -1 || this.loggeduser.usergroup == 'Supervisor' ) {
-    // } else {
-    //   this.show_error('Not Allowed to access this page')
-    //   this.$router.push('/')
-    // }
-  },
+  async beforeMount() {},
+
   head() {
     return {
       title: "Intranet - Digital Tech Labs",
@@ -398,7 +401,7 @@ export default {
   overflow: hidden;
   display: flex;
   flex-direction: column;
-  height: 80%;
+  height: 90%;
   position: relative;
 }
 

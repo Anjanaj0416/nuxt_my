@@ -23,20 +23,47 @@
             <!-- Level 2 submenu -->
             <div v-show="isSubmenuOpen['CRM']" class="pl-4 mt-1 space-y-1">
                 <router-link to="/qms/vendor/leads"
-                    v-if="userStore.loggedUser.granted.includes('su') || userStore.loggedUser.granted.includes('cso') || userStore.loggedUser.granted.includes('sso') || userStore.loggedUser.granted.includes('cso')"
+                    v-if="userStore.loggedUser.granted.includes('su') || userStore.loggedUser.granted.includes('cso')  ||  userStore.loggedUser.granted.includes('flo') || userStore.loggedUser.granted.includes('sso') || userStore.loggedUser.granted.includes('accdept')"
                     class="block px-3 py-2 text-gray-300 rounded hover:text-white hover:bg-blue-800"
                     @click="$emit('close-sidebar')">
                     <span>Leads</span>
                 </router-link>
-                <router-link to="/qms/vendor"
+                <!-- <router-link to="/qms/vendor"
                     v-if="userStore.loggedUser.granted.includes('su') || userStore.loggedUser.granted.includes('accdept') || userStore.loggedUser.granted.includes('sso') || userStore.loggedUser.granted.includes('cso')"
                     class="block px-3 py-2 text-gray-300 rounded hover:text-white hover:bg-blue-800"
                     @click="$emit('close-sidebar')">
                     <span>Vendors</span>
-                </router-link>
+                </router-link> -->
+                <div>
+                    <div @click="toggleSubmenu('Vendor')"
+                        v-if="userStore.loggedUser.granted.includes('su') || userStore.loggedUser.granted.includes('flo') || userStore.loggedUser.granted.includes('sso')|| userStore.loggedUser.granted.includes('cso') || userStore.loggedUser.granted.includes('accdept')"
+                        class="flex items-center justify-between px-3 py-2 text-gray-300 rounded cursor-pointer hover:bg-blue-800">
+                       <span>Vendors</span>
+                        <svg :class="{ 'rotate-90': isSubmenuOpen['Vendor'] }"
+                            class="w-3 h-3 transition-transform duration-200" fill="none" stroke="currentColor"
+                            viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                            <path d="M9 5l7 7-7 7" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
+                        </svg>
+                    </div>
+
+                    <!-- Level 3 submenu -->
+                    <div v-show="isSubmenuOpen['Vendor']" class="pl-4 space-y-1">
+                        <router-link to="/qms/vendor"
+                            v-if="userStore.loggedUser.granted.includes('su') || userStore.loggedUser.granted.includes('accdept') || userStore.loggedUser.granted.includes('sso') || userStore.loggedUser.granted.includes('cso') ||  userStore.loggedUser.granted.includes('flo')"
+                            class="block px-3 py-2 text-gray-300 rounded hover:text-white hover:bg-blue-800"
+                            @click="$emit('close-sidebar')">
+                            <span>Vendors</span>
+                        </router-link>
+                        <router-link to="/qms/vendor/manualPI"
+                            class="block px-3 py-2 text-gray-300 rounded hover:text-white hover:bg-blue-800"
+                            @click="$emit('close-sidebar')">
+                            Manual PI
+                        </router-link>
+                    </div>
+                </div>
 
                 <router-link to="/qms/commission"
-                    v-if="userStore.loggedUser.granted.includes('su') || userStore.loggedUser.granted.includes('flo') || userStore.loggedUser.granted.includes('sso')"
+                    v-if="userStore.loggedUser.granted.includes('su') || userStore.loggedUser.granted.includes('flo') || userStore.loggedUser.granted.includes('sso')  ||  userStore.loggedUser.granted.includes('accdept')"
                     class="block px-3 py-2 text-gray-300 rounded hover:text-white hover:bg-blue-800"
                     @click="$emit('close-sidebar')">
                     <span>Commission</span>
@@ -51,7 +78,7 @@
 
                 <div>
                     <div @click="toggleSubmenu('Banners')"
-                        v-if="userStore.loggedUser.granted.includes('su') || userStore.loggedUser.granted.includes('flo') || userStore.loggedUser.granted.includes('sso')|| userStore.loggedUser.granted.includes('cso')"
+                        v-if="userStore.loggedUser.granted.includes('su') || userStore.loggedUser.granted.includes('flo') || userStore.loggedUser.granted.includes('sso')|| userStore.loggedUser.granted.includes('cso') ||  userStore.loggedUser.granted.includes('accdept')"
                         class="flex items-center justify-between px-3 py-2 text-gray-300 rounded cursor-pointer hover:bg-blue-800">
                        <span>Banners</span>
                         <svg :class="{ 'rotate-90': isSubmenuOpen['Banners'] }"
@@ -78,7 +105,7 @@
 
                 <div>
                     <div @click="toggleSubmenu('Reports')"
-                        v-if="userStore.loggedUser.granted.includes('su') || userStore.loggedUser.granted.includes('flo') "
+                        v-if="userStore.loggedUser.granted.includes('su') || userStore.loggedUser.granted.includes('sso') "
                         class="flex items-center justify-between px-3 py-2 text-gray-300 rounded cursor-pointer hover:bg-blue-800">
                         <span>Reports</span>
                         <svg :class="{ 'rotate-90': isSubmenuOpen['Reports'] }"

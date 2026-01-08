@@ -38,6 +38,8 @@
     
     <div v-for="vd in paginatedVendor" :key="vd.id">
       <!-- ================= MOBILE VERSION ================= -->
+
+      <!-- {{ paginatedVendor }} -->
      
       <div
         class="flex flex-col gap-0 p-4 mt-2 border-2 rounded-md shadow-sm sm:hidden"
@@ -304,7 +306,6 @@
                 <ImageLable v-else :imageUrl="defaultShopImage" alt="Default Shop Logo" />
               </p>
             </div>
-
             <!-- Customer Ref -->
             <div class="space-y-1">
                 <h1 class="text-[11px] font-semibold text-gray-600">Customer Ref</h1>
@@ -384,6 +385,8 @@
             <button  
               v-if="
                 (userStore.loggedUser.granted.includes('su') ||
+                userStore.loggedUser.granted.includes('accdept') ||
+                userStore.loggedUser.granted.includes('flo') ||
                 userStore.loggedUser.granted.includes('sso')) &&
                 vendorTabs[vd.id] !== 'productSample'
               "
@@ -398,6 +401,8 @@
             <button 
               v-if="
                 (userStore.loggedUser.granted.includes('su') ||
+                userStore.loggedUser.granted.includes('accdept') ||
+                userStore.loggedUser.granted.includes('flo') ||
                 userStore.loggedUser.granted.includes('sso')) &&
                 vendorTabs[vd.id] === 'productSample'
               "
@@ -409,6 +414,8 @@
             <button  
               v-if="
                 (userStore.loggedUser.granted.includes('su') ||
+                userStore.loggedUser.granted.includes('accdept') ||
+                userStore.loggedUser.granted.includes('flo') ||
                 userStore.loggedUser.granted.includes('sso')) &&
                 vendorTabs[vd.id] !== 'isuePINo'
               "
@@ -423,6 +430,8 @@
             <button 
               v-if="
                 (userStore.loggedUser.granted.includes('su') ||
+                userStore.loggedUser.granted.includes('accdept') ||
+                userStore.loggedUser.granted.includes('flo') ||
                 userStore.loggedUser.granted.includes('sso')) &&
                 vendorTabs[vd.id] === 'isuePINo'
               "
@@ -463,6 +472,8 @@
 
             <button v-if=" 
                 (userStore.loggedUser.granted.includes('su') ||
+                userStore.loggedUser.granted.includes('accdept') ||
+                userStore.loggedUser.granted.includes('flo') ||
                 userStore.loggedUser.granted.includes('sso')) &&
                 vendorTabs[vd.id] !== 'edit'
               "
@@ -476,6 +487,8 @@
             </button>
             <button v-if="
                 (userStore.loggedUser.granted.includes('su') ||
+                userStore.loggedUser.granted.includes('accdept') ||
+                userStore.loggedUser.granted.includes('flo') ||
                 userStore.loggedUser.granted.includes('sso')) &&
                 vendorTabs[vd.id] === 'edit'
               "
@@ -486,6 +499,8 @@
 
             <button v-if=" 
                 (userStore.loggedUser.granted.includes('su') ||
+                userStore.loggedUser.granted.includes('accdept') ||
+                userStore.loggedUser.granted.includes('flo') ||
                 userStore.loggedUser.granted.includes('sso')) &&
                 vendorTabs[vd.id] !== 'workFlow'
               "
@@ -499,6 +514,8 @@
             </button>
             <button v-if="
                 (userStore.loggedUser.granted.includes('su') ||
+                userStore.loggedUser.granted.includes('accdept') ||
+                userStore.loggedUser.granted.includes('flo') ||
                 userStore.loggedUser.granted.includes('sso')) &&
                 vendorTabs[vd.id] === 'workFlow'
               "
@@ -639,7 +656,6 @@ export default {
       let isGuid = false;
       if (val !== undefined) isGuid = val.includes('-');
 
-
       await this.vendorStore.loadListVendors(
         { keyword: (isGuid) ? val : '', searchBy: (isGuid) ? 'id' : '' },
         this.showLoading
@@ -657,8 +673,9 @@ export default {
 
   computed: {
     paginatedVendor() {
-      let list = this.filteredVendor || this.vendorStore.listVendor;
+      if (!this.vendorStore.listVendor) return [];
 
+      let list = this.filteredVendor || this.vendorStore.listVendor;
       const start = (this.page - 1) * this.itemsPerPage;
       const end = start + this.itemsPerPage;
 

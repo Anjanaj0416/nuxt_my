@@ -17,6 +17,7 @@
                 Company Search <span class="text-red-500">*</span>
               </label>
               <serach_Input
+              
                 :arrItems="leadStore.InitLeads.listClients"
                 label=""
               />
@@ -95,7 +96,7 @@
             </div>
             <div class="">
               <label class="block text-[13px] font-bold text-gray-600">
-                WhatsApp Number <span class="text-red-500">*</span>
+                WhatsApp Number 
               </label>
               <input type="tel" v-model="curLead.ContactPerson1WhatsAppNo" placeholder="Enter WhatsApp Number" maxlength="10" @input="clearErrorOnInput('ContactPerson1WhatsAppNo')"
                 class="w-full p-2 mt-2 text-[13px] border rounded-md focus:ring-indigo-500 focus:border-indigo-500" />
@@ -123,7 +124,7 @@
             </div>
             <div class="">
               <label class="block text-[13px] font-bold text-gray-600">
-                WhatsApp Number <span class="text-red-500">*</span>
+                WhatsApp Number
               </label>
               <input type="tel" v-model="curLead.ContactPerson2WhatsAppNo" placeholder="Enter WhatsApp Number" maxlength="10" @input="clearErrorOnInput('contactPerson2WhatsAppNo')"
                 class="w-full p-2 mt-2 text-[13px] border rounded-md focus:ring-indigo-500 focus:border-indigo-500" />
@@ -169,6 +170,8 @@ export default {
         Address: "",
         CompanyPhone: "",
         CompanyWhatsAppNo: "",
+        contactPhoneNo: "",
+        District:"",
         ContactPerson1Name: "",
         ContactPerson1Designation: "",
         ContactPerson1Number: "",
@@ -271,6 +274,8 @@ export default {
         Address: "",
         CompanyPhone: "",
         CompanyWhatsAppNo: "",
+        contactPhoneNo: "",
+        District:"",
         ContactPerson1Name: "",
         ContactPerson1Designation: "",
         ContactPerson1Number: "",
@@ -313,24 +318,26 @@ export default {
               companyPhone: this.curLead.CompanyPhone || "",
               contactPhoneNo: this.curLead.ContactPhoneNo  || "",
               companyWhatsAppNo: this.curLead.companyWhatsAppNo || "",
+              contactPhoneNo: "",
+              District:"",
 
               contactPerson1Name: this.curLead.ContactPerson1Name || "",
               contactPerson1Designation: this.curLead.ContactPerson1Designation || "",
               contactPerson1Number: this.curLead.ContactPerson1Number || "",
-              contactPerson1WhatsAppNo: this.curLead.ContactPerson1WhatsAppNo || "",
+              contactPerson1WhatsAppNo: this.curLead.contactPerson1WhatsAppNo || "",
               contactPerson1Email: this.curLead.ContactPerson1Email || "",
 
               contactPerson2Name : this.curLead.ContactPerson2Name || "",
               contactPerson2Designation: this.curLead.ContactPerson2Designation || "",
               contactPerson2Number: this.curLead.ContactPerson2Number || "",
-              contactPerson2WhatsAppNo: this.curLead.ContactPerson2WhatsAppNo || "",
+              contactPerson2WhatsAppNo: this.curLead.contactPerson2WhatsAppNo || "",
               contactPerson2Email: this.curLead.ContactPerson2Email || "",
 
               Medium: "office"
             };
 
             // Send to backend
-            console.log(request);
+            // console.log(request);
             await this.leadStore.SetVendorLead(request, this.showLoading, this.showAlert);
 
             this.leadStore.clearCurLead();

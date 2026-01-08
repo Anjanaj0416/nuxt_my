@@ -7,6 +7,7 @@
                 Work flow
           </div>
         </div>
+        {{ vendorId }}
         <div class="">
             <span class="text-sm text-gray-500">{{ progress }}% complete</span>
         </div>
@@ -117,7 +118,7 @@ export default {
   async created() {
     this.showLoading = this.$showLoading;
     this.vendorStore = useVendorStore();
-    await this.vendorStore.GetVendorOnboadingWorkflow(this.vendorId,this.showLoading);
+    // await this.vendorStore.GetVendorOnboadingWorkflow(this.vendorId,this.showLoading);
     this.listVendorOnboadingWF = this.vendorStore.listVendorOnboadingWF;
   },
 };

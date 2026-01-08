@@ -148,7 +148,6 @@
             <!-- Package Items -->
             <div class="w-full p-2 bg-white rounded-lg shadow-sm sm:p-4 dark:bg-gray-100 dark:border-gray-700 overflow-y-auto max-h-[300px]">
               <div v-for="(orderItem, index) in order.listOrderItem" :key="index" class="mb-4 rounded-lg border border-gray-200 shadow-sm p-4 bg-gray-50">
-                
                 <!-- Package Name (Top Left) -->
                 <div class="flex justify-between items-center mb-3">
                   <h2 class="text-sm font-bold text-gray-800">
@@ -170,9 +169,19 @@
                   <!-- No of Banners -->
                   <div v-if="orderItem.packageName === 'Customized Package'" class="flex flex-col">
                     <label class="text-xs font-medium text-gray-600 mb-1">No. of Banners</label>
-                    <input type="number" min="1" v-model="orderItem.NoOfBanners"
-                      class="p-2 text-xs border rounded-lg focus:ring-2 focus:ring-blue-400 focus:outline-none" 
-                      placeholder="Enter number of banners"/>
+                    <input
+                      type="number"
+                      min="1"
+                      v-model="orderItem.NoOfBanners"
+                      class="p-2 text-xs border rounded-lg focus:ring-2 focus:ring-blue-400 focus:outline-none"
+                      placeholder="Enter number of banners"
+                    />
+                  </div>
+                  <div v-else class="flex flex-col">
+                    <label class="text-xs font-medium text-gray-600 mb-1">No. of Banners</label>
+                    <strong class="text-sm text-blue-700">
+                      {{ orderItem.NoOfBanners || '-' }}
+                    </strong>
                   </div>
 
                   <!-- No of Links -->
@@ -181,6 +190,12 @@
                     <input type="number" min="1" v-model="orderItem.NoOfLinks"
                       class="p-2 text-xs border rounded-lg focus:ring-2 focus:ring-blue-400 focus:outline-none"
                       placeholder="Enter number of links" />
+                  </div>
+                  <div v-else class="flex flex-col">
+                    <label class="text-xs font-medium text-gray-600 mb-1">No. of Banners</label>
+                    <strong class="text-sm text-blue-700">
+                      {{ orderItem.NoOfLinks || '-' }}
+                    </strong>
                   </div>
 
                   <!-- Unit Price -->
@@ -267,13 +282,21 @@
                 <!-- Fee input -->
                 <div class="flex items-center gap-1">
                   <span>Rs:</span>
-                  <input
+                  <!-- <input
                     type="number"
                     v-model.number="item.fee"
                     min="1"
                     placeholder="Fee"
                     @input="handleInstallmentChange(index)"
                     class="w-full sm:w-20 px-2 py-1 border rounded focus:ring-indigo-500 focus:border-indigo-500"
+                    required
+                  /> -->
+                  <input
+                    type="number"
+                    v-model.number="item.fee"
+                    min="1"
+                    placeholder="Fee"
+                    class="w-full sm:w-20 px-2 py-1 border rounded"
                     required
                   />
                 </div>
@@ -284,10 +307,10 @@
                     type="date"
                     v-model="item.date"
                     :min="today"
-                    @change="handleDateChange(index, item.date)"
                     class="w-full sm:w-28 px-2 py-1 border rounded focus:ring-indigo-500 focus:border-indigo-500"
                     required
                   />
+                  <!--@change="handleDateChange(index, item.date)" -->
                 </div>
 
                 <!-- Remove button -->
@@ -479,6 +502,8 @@ export default {
         vatRate: vatRate,
         ssclRate: ssclRate ,
         total: pkg.showPrice,
+        NoOfBanners: pkg.NoOfBanners,
+        NoOfLinks: pkg.NoOfLinks
       };
 
       // Check if package is already selected
@@ -487,16 +512,11 @@ export default {
         this.order.listOrderItem.push(orderItem);
     
         this.updateTotalPrice(this.order.listOrderItem.length-1);
-
         this.AddInstallments(1);
       }
       else{
         this.$showCustomToast('This Item Already added', 'warning', 3000);
       }
-    },
-
-    GetRemoveRow(index) {
-      this.order.listOrderItem.splice(index, 1);
     },
     
     clearerr() {
@@ -600,9 +620,9 @@ export default {
                 Quantity: Number(item.qty),
                 Discount: Number(item.discount),
                 Data: JSON.stringify({
-                  NoOfBanners: item.NoOfBanners,
-                  NoOfLinks: item.NoOfLinks
-                })
+                NoOfBanners: Number(item.NoOfBanners) || 0,
+                NoOfLinks: Number(item.NoOfLinks) || 0
+              })
                 
               })),
               Installments: this.listInstallmentDetails.map((inst) => ({
@@ -610,7 +630,7 @@ export default {
                   InstallmentDate: inst.date
                 }))
             };
-            console.log("Payload to send:", JSON.stringify(payload, null, 2));
+            // console.log("Payload to send:", JSON.stringify(payload, null, 2));
             await this.orderStore.GetAddorder(payload, this.showLoading);
 
             // ✅ reset form after submit

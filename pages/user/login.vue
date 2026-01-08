@@ -93,7 +93,7 @@ import { useUserStore } from "~/stores/modules/userStore";
 ////import * as myfilter from '@/plugins/myfilter'
 // import { mapState, mapGetters, mapActions, mapMutations } from 'pinia'
 definePageMeta({
-  layout: "loginlayout",
+  layout: 'bst',
 });
 
 export default {

@@ -1,23 +1,47 @@
 <template>
     <div class="m-4 mt-20 lg:m-12 lg:mt-20">
       <section class="px-4 py-8 mt-14 lg:px-24">
-        <div class="flex flex-row-reverse p-2">
-          <router-link
-            to="/welfare/member"
-            class="relative flex items-center gap-2 px-4 py-2 bg-[#232B37]
-                  text-white rounded-xl shadow-md hover:shadow-lg hover:scale-105 
-                  transition-all duration-300 ease-in-out"
-          >
+        <div class="my-4">        
+          <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class=" p-5 sm:p-6">
+              <div class="relative">
+                <input
+                  type="search"
+                  v-model="keyWord"
+                  :placeholder="t('searchPlaceholderMember')"
+                  class="w-full rounded-full border border-gray-300 px-6 py-3 text-sm text-gray-800
+                        focus:ring-2 focus:ring-purple-500 focus:outline-none"
+                />
+                <button
+                  @click="searchMembers"
+                  class="absolute right-2 top-1/2 -translate-y-1/2
+                        bg-gray-600 hover:bg-gray-700
+                        text-white px-6 py-2 rounded-full text-sm font-medium"
+                >
+                   {{ t('search') }}
+                </button>
+              </div>
+              <div class="flex gap-2 mt-4 overflow-x-auto items-center whitespace-nowrap">
+                <button
+                  v-for="category in translatedCategories"
+                  :key="category.id"
+                  @click="toggleCategory(category)"
+                  :class="[
+                    'relative flex items-center gap-1.5 px-3 py-1.5 text-sm font-medium rounded-full transition-all duration-300 border',
+                    activeCategoryId === category.id
+                      ? 'bg-black text-white shadow-lg'
+                      : 'bg-white text-gray-600 hover:bg-gray-200'
+                  ]"
+                >
+                  {{ category.value }}
+                </button>
+              </div>
 
-            <svg xmlns="http://www.w3.org/2000/svg" 
-                fill="none" viewBox="0 0 24 24" stroke-width="2" 
-                stroke="currentColor" class="w-5 h-5">
-              <path stroke-linecap="round" stroke-linejoin="round" d="M12 4.5v15m7.5-7.5h-15" />
-            </svg>
-            <span class="text-sm sm:text-base font-semibold tracking-wide">
-              {{ t('AddMembersbtn') }}
-            </span>
-          </router-link>
+
+
+
+            </div>
+          </div>
         </div>
 
         <!-- <pre>{{ JSON.stringify(dashbordStore.salesDashboardList, null, 2) }}</pre> -->
@@ -215,7 +239,17 @@
       data() {
         return {
           selectedYear: "",
-          currentYear: new Date().getFullYear()
+          currentYear: new Date().getFullYear(),
+          keyWord: '',
+          activeCategoryId: 190,
+          categories: [
+            { id: 190, value: this.$t('all') },
+            { id: 100, value: this.$t('BookId') },
+            { id: 110, value: this.$t('Name') },
+            { id: 120, value: this.$t('Mobile')},
+            { id: 130, value: this.$t('Address') },
+            { id: 140, value: this.$t('Nic')},
+          ],
         };
       },
       async created() {
@@ -251,8 +285,18 @@
       catch { }
     },
     computed: {
-
+      translatedCategories() {
+        return [
+          { id: 190, value: this.$t('all') },
+          { id: 100, value: this.$t('BookId') },
+          { id: 110, value: this.$t('Name') },
+          { id: 120, value: this.$t('Mobile') },
+          { id: 130, value: this.$t('Address') },
+          { id: 140, value: this.$t('Nic') },
+        ]
+      }
     },
+
     methods: {
       setYearInStore() {
         this.dashbordStore.selectedYear = this.selectedYear;
@@ -268,18 +312,23 @@
         data.adreesTranslated = await autoTranslate(data.adrees?.toString() || "0");
         data.subjectTranslated = await autoTranslate(data.subject?.toString() || "0");
         data.districtTranslated = await autoTranslate(data.district?.toString() || "0");
+      },
 
+      toggleCategory(category) {
+        if (this.activeCategoryId === category.id) {
+          this.activeCategoryId = null;
+        } else {
+          this.activeCategoryId = category.id;
+        }
+        // console.log('Active Category ID:', this.activeCategoryId);
+      },
 
-        // if (data.monthWiseDetails?.length) {
-        //   for (const month of data.monthWiseDetails) {
-        //     month.openingBankBalanceTranslated = await autoTranslate(
-        //       month.openingBankBalance?.toString() || "0"
-        //     );
-        //     month.totalMemberShipFeeCollectionTranslated = await autoTranslate(
-        //       month.totalMemberShipFeeCollection?.toString() || "0"
-        //     );
-        //   }
-        // }
+      searchMembers() {
+        const query = {
+          keyWord: this.keyWord || '',
+          category: this.activeCategoryId || '',
+        };
+        this.$router.push({ path: '/welfare/member', query });
       },
 
     }

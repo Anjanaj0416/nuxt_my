@@ -59,6 +59,9 @@ export default {
                     return 'px-4 py-2 font-semibold transition duration-300 ease-in-out border-2 rounded-lg text-btn border-btn hover:bg-blue-900 hover:text-white focus:ring-2 focus:ring-red-600 focus:outline-none';
                 default:
                     return 'px-4 py-2 font-semibold transition duration-300 ease-in-out border-2 rounded-lg text-btn border-btn hover:bg-blue-900 hover:text-white focus:ring-2 focus:ring-gray-600 focus:outline-none';
+                case 'tender':
+                   return 'px-4 py-2 font-semibold transition duration-300 ease-in-out border-2 rounded-full text-black border-purple-900 hover:bg-gradient-to-r hover:from-purple-500 hover:via-purple-600 hover:to-purple-700 hover:border-purple-700 hover:text-white focus:ring-2 focus:ring-purple-600 focus:outline-none';
+                
             }
         }
     },

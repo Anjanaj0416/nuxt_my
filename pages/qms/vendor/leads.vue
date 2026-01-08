@@ -57,12 +57,10 @@
         {{ lead.status || '—' }}
       </span>
     </div>
-
-
       <div class="grid grid-cols-2 gap-4 sm:flex sm:flex-row sm:justify-between">
         <!-- Vendor Name -->
         <div class="flex flex-col text-center sm:text-left">
-          <h1 class="text-xs font-semibold text-gray-600">Vendor Name</h1>
+          <h1 class="text-xs font-semibold text-gray-600">Company  Name</h1>
           <p class="text-xs text-gray-500 mt-0.5">
             <span v-if="lead.companyName">{{ lead.companyName }}</span>
             <span v-else class="flex items-center text-sm text-gray-400">No Data Available</span>
@@ -76,7 +74,7 @@
           </p>
         </div>
         <div class="flex flex-col text-center sm:text-left">
-          <h1 class="text-xs font-semibold text-gray-600">Contact Number</h1>
+          <h1 class="text-xs font-semibold text-gray-600">Company Phone Number</h1>
           <p class="text-xs text-gray-500 mt-0.5">
             <span v-if="lead.companyPhone">{{ lead.companyPhone }}</span>
             <span v-else class="flex items-center text-sm text-gray-400 ">No Data Available</span>
@@ -88,8 +86,60 @@
             <span v-if="lead.csoNo">{{ lead.csoNo }}</span>
             <span v-else class="flex items-center text-sm text-gray-400">No Data Available</span>
           </p>
-
         </div>
+        <div class="flex flex-col text-center sm:text-left">
+          <h1 class="text-xs font-semibold text-gray-600">Reported By</h1>
+
+          <span
+            v-if="lead.reportedBy === 'facebook'"
+            class="inline-flex items-center gap-1 px-2 py-0.5 mt-1 text-xs font-semibold rounded-full bg-blue-100 text-blue-700"
+          >
+          Facebook
+          </span>
+
+          <span
+            v-else-if="lead.reportedBy === 'linkedin'"
+            class="inline-flex items-center gap-1 px-2 py-0.5 mt-1 text-xs font-semibold rounded-full bg-sky-100 text-sky-700"
+          >
+          LinkedIn
+          </span>
+
+          <span
+            v-else-if="lead.reportedBy === 'instagram'"
+            class="inline-flex items-center gap-1 px-2 py-0.5 mt-1 text-xs font-semibold rounded-full bg-pink-100 text-pink-700"
+          >
+          Instagram
+          </span>
+
+          <span
+            v-else-if="lead.reportedBy === 'whatsapp'"
+            class="inline-flex items-center gap-1 px-2 py-0.5 mt-1 text-xs font-semibold rounded-full bg-green-100 text-green-700"
+          >
+          WhatsApp
+          </span>
+
+          <span
+            v-else-if="lead.reportedBy === 'tiktok'"
+            class="inline-flex items-center gap-1 px-2 py-0.5 mt-1 text-xs font-semibold rounded-full bg-gray-200 text-gray-800"
+          >
+          TikTok
+          </span>
+
+          <span
+            v-else-if="lead.reportedBy === 'office'"
+            class="inline-flex items-center gap-1 px-2 py-0.5 mt-1 text-xs font-semibold rounded-full bg-gray-200 text-gray-800"
+          >
+          Office
+          </span>
+
+          <span
+            v-else
+            class="mt-1 text-xs text-gray-400"
+          >
+            No Data Available
+          </span>
+        </div>
+
         <!-- Status -->
        <div class="flex flex-col text-center sm:text-left hidden sm:flex">
           <h1 class="text-xs font-semibold text-gray-600">Status</h1>
@@ -136,9 +186,57 @@
         <section class="flex flex-col gap-5 p-4 mt-0 bg-white sm:p-6">
           <div class="grid grid-cols-2 gap-4 sm:grid-cols-5">
             <div class="text-center sm:text-left">
-              <h2 class="block text-xs font-semibold text-gray-600">Contact Person Number</h2>
+              <h2 class="block text-xs font-semibold text-gray-600">Company Phone Number</h2>
               <p class="mt-1 text-xs text-gray-700">
-                {{ lead.contactPhoneNo || "No Data" }}
+                {{ lead.companyPhone || "No Data" }}
+              </p>
+            </div>
+            <div class="text-center sm:text-left">
+              <h2 class="block text-xs font-semibold text-gray-600">Contact Person 1 Name</h2>
+              <p class="mt-1 text-xs text-gray-700">
+                {{ lead.contactPerson1Name || "No Data" }}
+              </p>
+            </div>
+            <div class="text-center sm:text-left">
+              <h2 class="block text-xs font-semibold text-gray-600">Contact Person 1 Designation</h2>
+              <p class="mt-1 text-xs text-gray-700">
+                {{ lead.contactPerson1Designation || "No Data" }}
+              </p>
+            </div>
+            <div class="text-center sm:text-left">
+              <h2 class="block text-xs font-semibold text-gray-600">Contact Person 1 Number</h2>
+              <p class="mt-1 text-xs text-gray-700">
+                {{ lead.contactPerson1Number || "No Data" }}
+              </p>
+            </div>
+            <div class="text-center sm:text-left">
+              <h2 class="block text-xs font-semibold text-gray-600">Contact Person 1 WhatsAppNo</h2>
+              <p class="mt-1 text-xs text-gray-700">
+                {{ lead.ContactPerson1WhatsAppNo || "No Data" }}
+              </p>
+            </div>
+            <div class="text-center sm:text-left">
+              <h2 class="block text-xs font-semibold text-gray-600">Contact Person 2 Name</h2>
+              <p class="mt-1 text-xs text-gray-700">
+                {{ lead.contactPerson2Name || "No Data" }}
+              </p>
+            </div>
+            <div class="text-center sm:text-left">
+              <h2 class="block text-xs font-semibold text-gray-600">Contact Person 2 Designation</h2>
+              <p class="mt-1 text-xs text-gray-700">
+                {{ lead.contactPerson2Designation || "No Data" }}
+              </p>
+            </div>
+            <div class="text-center sm:text-left">
+              <h2 class="block text-xs font-semibold text-gray-600">Contact Person 2 Number</h2>
+              <p class="mt-1 text-xs text-gray-700">
+                {{ lead.contactPerson2Number || "No Data" }}
+              </p>
+            </div>
+            <div class="text-center sm:text-left">
+              <h2 class="block text-xs font-semibold text-gray-600">Contact Person 2 WhatsAppNo</h2>
+              <p class="mt-1 text-xs text-gray-700">
+                {{ lead.ContactPerson2WhatsAppNo || "No Data" }}
               </p>
             </div>
             <div class="text-center sm:text-left">
@@ -195,7 +293,7 @@
           </div>
           <!-- Editable Fields -->
           <div class="grid grid-cols-1 gap-4 sm:grid-cols-1">
-            <div v-if="(userStore.loggedUser.granted?.includes('sso') || userStore.loggedUser.granted?.includes('su') || userStore.loggedUser.granted?.includes('cso') ) 
+            <div v-if="(userStore.loggedUser.granted?.includes('sso') || userStore.loggedUser.granted?.includes('su') || userStore.loggedUser.granted?.includes('cso') || userStore.loggedUser.granted?.includes('flo') || userStore.loggedUser.granted?.includes('accdept')) 
               && (lead.status === 'Pending' || lead.status === 'Hold' || lead.status === 'Cancelled' || lead.status == 'Completed' || lead.status == 'CSOAssigned' || lead.status == 'CallLater' || lead.status == 'Called' || lead.status == 'Visited' || lead.status == 'VisitLater' || lead.status == 'Presented')"
               class="grid grid-cols-1 md:grid-cols-2 gap-4"
             >
@@ -218,7 +316,7 @@
               </div>
             </div>
             
-            <div v-if="(userStore.loggedUser.granted?.includes('flo') || userStore.loggedUser.granted?.includes('su') || userStore.loggedUser.granted?.includes('sso') || userStore.loggedUser.granted?.includes('cso')) 
+            <div v-if="(userStore.loggedUser.granted?.includes('flo') || userStore.loggedUser.granted?.includes('su') || userStore.loggedUser.granted?.includes('sso') || userStore.loggedUser.granted?.includes('cso') || userStore.loggedUser.granted?.includes('accdept')) 
               && (lead.status === 'Pending' || lead.status === 'Hold' || lead.status === 'Cancelled' || lead.status == 'Completed' || lead.status == 'CSOAssigned' || lead.status == 'CallLater' || lead.status == 'Called' || lead.status == 'Visited' || lead.status == 'VisitLater' || lead.status == 'Presented')"
               class="w-full sm:w-1/2"
             >
@@ -237,7 +335,7 @@
        
           <!-- Action Buttons -->
           <div
-            v-if="(userStore.loggedUser.granted?.includes('flo') || userStore.loggedUser.granted?.includes('su') || userStore.loggedUser.granted?.includes('sso') || userStore.loggedUser.granted?.includes('cso')) 
+            v-if="(userStore.loggedUser.granted?.includes('flo') || userStore.loggedUser.granted?.includes('su') || userStore.loggedUser.granted?.includes('sso') || userStore.loggedUser.granted?.includes('cso') || userStore.loggedUser.granted?.includes('accdept')) 
               && (lead.status === 'Pending' || lead.status === 'Hold' || lead.status === 'Cancelled' || lead.status == 'Completed' || lead.status == 'CSOAssigned' || lead.status == 'CallLater' || lead.status == 'Called' || lead.status == 'Visited' || lead.status == 'VisitLater' || lead.status == 'Presented')"
             class="flex justify-end pt-2"
           >
@@ -254,7 +352,7 @@
     </div>
 
      <Pagination
-      :total-items="leadStore.listLeads.length"
+      :total-items="leadStore.listLeads?.length || 0"
       :items-per-page="itemsPerPage"
       :current-page="page"
       @update:currentPage="page = $event"
@@ -347,6 +445,7 @@ export default {
   watch: {},
   computed: {
     paginatedLeads() {
+      if (!this.leadStore.loadListLeads) return [];
       const start = (this.page - 1) * this.itemsPerPage;
       const end = start + this.itemsPerPage;
       return this.leadStore.listLeads.slice(start, end);
