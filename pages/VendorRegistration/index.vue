@@ -174,13 +174,13 @@ export default {
       // Email - p=bXlfZW1haWw=  
       // SMS - p=bXltb2JpbGU= 
 
-      // <a href="https://b2b.lk/B2BVendorRegistration?p=ZmFjZWJvb2s=">Register via Facebook</a>
-      // <a href="https://b2b.lk/B2BVendorRegistration?p=bGlua2VkaW4=">Register via LinkedIn</a>
-      // <a href="https://b2b.lk/B2BVendorRegistration?p=aW5zdGFncmFt">Register via Instagram</a>
-      // <a href="https://b2b.lk/B2BVendorRegistration?p=d2hhdHNhcHA=">Register via WhatsApp</a>
-      // <a href="https://b2b.lk/B2BVendorRegistration?p=dGlrdG9r">Register via TikTok</a>
-      // <a href="https://b2b.lk/B2BVendorRegistration?p=bXlfZW1haWw=">Register via SMS</a>
-      // <a href="https://b2b.lk/B2BVendorRegistration?p=dGlrdG9r">Register via Email</a>
+      // <a href="https://b2b.lk/VendorRegistration?p=ZmFjZWJvb2s=">Register via Facebook</a>
+      // <a href="https://b2b.lk/VendorRegistration?p=bGlua2VkaW4=">Register via LinkedIn</a>
+      // <a href="https://b2b.lk/VendorRegistration?p=aW5zdGFncmFt">Register via Instagram</a>
+      // <a href="https://b2b.lk/VendorRegistration?p=d2hhdHNhcHA=">Register via WhatsApp</a>
+      // <a href="https://b2b.lk/VendorRegistration?p=dGlrdG9r">Register via TikTok</a>
+      // <a href="https://b2b.lk/VendorRegistration?p=bXltb2JpbGU=">Register via SMS</a>
+      // <a href="https://b2b.lk/VendorRegistration?p=bXlfZW1haWw=">Register via Email</a>
 
 
       // https://b2b.lk/VendorRegistration?p=ZmFjZWJvb2s=
