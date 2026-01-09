@@ -384,13 +384,59 @@ export const useReportStore = defineStore("reportStore", {
         loadingAlert.close();
     },
 
-    async getMonthEndAttendanceSheet(req, showLoading) {
-        console.log('API-getMonthEndAttendanceSheet:',req);
+    async getMonthEndAttendanceSheetType1(req, showLoading) {
+        console.log('API-getMonthEndAttendanceSheetType1:',req);
 
         const loadingAlert = showLoading("");
         try {
           const response = await axios.get(
-            `${import.meta.env.VITE_API_URL}/hr/Report/GetMonthEndAttendanceSheets`,
+            `${import.meta.env.VITE_API_URL}/hr/Report/GetMonthEndAttendanceSheetType1`,
+            {params: {
+              EmpNo: req.EmpNo,
+              year:req.Year,
+              monthNo:req.Month
+            },
+            responseType: 'blob' 
+          }); 
+
+            const blob = new Blob([response.data], {
+              type: 'application/x-rar-compressed',
+            });
+
+            const url = URL.createObjectURL(blob);
+
+            const link = document.createElement('a');
+            link.href = url;
+            link.download = `DailyAttendance_${req.EmpNo}_${req.Year}_${req.Month}.rar`;
+            document.body.appendChild(link);
+            link.click();
+
+            // Clean-up
+            document.body.removeChild(link);
+            URL.revokeObjectURL(url);
+
+          console.log("response:", response);
+          if (response.data.isSuccess) {
+          } else {
+            console.error("Loading error:", response.data.message);
+            // this.showToast(response.data.message, 'error');
+          }
+        } catch (error) {
+          console.error("Loading error:", error);
+          if (error.response && error.response.status == 400) {
+          }
+          // this.showToast(error.response.data.Message, 'error');
+        }
+        loadingAlert.close();
+    },
+
+    async getMonthEndAttendanceSheetType2(req, showLoading) {
+        console.log('API-getMonthEndAttendanceSheetType2:',req);
+
+        const loadingAlert = showLoading("");
+        try {
+          const response = await axios.get(
+            `${import.meta.env.VITE_API_URL}/hr/Report/getMonthEndAttendanceSheetType2`,
             {params: {
               EmpNo: req.EmpNo,
               year:req.Year,

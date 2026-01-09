@@ -25,7 +25,7 @@
               <label class="block text-sm font-bold text-gray-600">
                 Employee No <span class="text-red-500">*</span>
               </label>
-              <input type="text" v-model="employeeStore.empdetails.empNo" placeholder="Enter Employee No" required
+              <input type="text" v-model="employeeStore.empdetails.empNo" placeholder="Enter Employee No : D0000" required
                 class="w-full p-2 mt-2 text-sm border rounded-md focus:ring-indigo-500 focus:border-indigo-500" />
               <p v-if="err.empNo" class="mt-2 text-sm text-red-600">
                 {{ err.empNo }}
@@ -224,22 +224,22 @@
               </p>
             </div>
 
-            <div class="">
+            <!-- <div class="">
               <label class="block text-sm font-bold text-gray-600">User Group</label>
               <input type="text" v-model="employeeStore.empdetails.UserGroup" placeholder="Enter User Group" required
                 class="w-full p-2 mt-2 text-sm border rounded-md focus:ring-indigo-500 focus:border-indigo-500" />
               <p v-if="err.UserGroup" class="mt-2 text-sm text-red-600">
                 {{ err.UserGroup }}
               </p>
-            </div>
-            <div class="">
+            </div> -->
+            <!-- <div class="">
               <label class="block text-sm font-bold text-gray-600">User Type<span class="text-red-500">*</span></label>
               <input type="text" v-model="employeeStore.empdetails.userType" placeholder="Enter User Type" required
                 class="w-full p-2 mt-2 text-sm border rounded-md focus:ring-indigo-500 focus:border-indigo-500" />
               <p v-if="err.UserType" class="mt-2 text-sm text-red-600">
                 {{ err.UserType }}
               </p>
-            </div>
+            </div> -->
 
             <!-- <div class="">
               <label class="block text-sm font-bold text-gray-600">Employee ststus<span class="text-red-500">*</span></label>
@@ -263,6 +263,7 @@
                 {{ err.CSONo }}
               </p>
             </div>
+            
             <div class="">
               <label class="block text-sm font-bold text-gray-600">Emp Category<span
                   class="text-red-500">*</span></label>

@@ -95,7 +95,7 @@ export default {
               Year: this.selectedYear,
               Month: this.selectedMonth,
             };
-            await this.reportStore.getMonthEndAttendanceSheet(req, this.$showLoading);
+            await this.reportStore.getMonthEndAttendanceSheetType1(req, this.$showLoading);
 
             await this.clearAll();
           }
