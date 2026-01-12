@@ -30,8 +30,8 @@
                 <p>No KPI available...</p>
             </div>
 
-
             <!-- KPI Leads -->
+             {{  }}
             <div
                 v-for="(lead, index) in taskhubStore.storeMateriallList"
                 :key="index"
@@ -71,20 +71,22 @@
                         </span>
                     </div>
                     <div class="flex items-end">
-                    <a
+                    <!-- <a
                         :href="lead.moreDetailsUrl"
                         target="_blank"
                         rel="noopener noreferrer"
                         class="text-sm font-semibold text-blue-600 hover:text-blue-800 hover:underline"
                     >
                         View More →
-                    </a>
+                    </a> -->
+                    
+                     <button  @click="viewTaskDetails(lead.taskId)"  class="px-3 py-1.5 text-xs font-semibold rounded-lg bg-purple-600 text-white">View Details</button>
+
                     </div>
-
+                   
                 </div>
+                 <!-- {{ lead }} -->
             </div>
-
-
         </div>
         <assigDtp :orderId="selectedOrderId" :vendorId="clientId" v-if="isaAssig" @close="isaAssig = false" />
     </section>
@@ -129,8 +131,8 @@
     },
 
     mounted() {
-        const queryId = this.$route.query.id;
-        this.openFromRoute(queryId);
+        // const queryId = this.$route.query.id;
+        // this.openFromRoute(queryId);
     },
 
     methods: {
@@ -147,30 +149,41 @@
             mageroots.value.splice(index, 1);
         },
 
-        openFromRoute(queryId) {
-        if (!queryId) {
-            this.expandedRow = null;
-            this.filteredKpiId = null;
-            return;
-        }
-        const foundIndex = this.taskhubStore.storeMateriallList.findIndex(v => v.taskId === queryId);
-        if (foundIndex !== -1) {
-            this.expandedRow = foundIndex;
-            this.filteredKpiId = this.taskhubStore.storeMateriallList[foundIndex].taskIdid;
-        }
+        viewTaskDetails(taskId)  {
+            navigateTo({
+                path: '/Taskhub',
+                query: {
+                    id: taskId,
+                    // searchBy: '101'
+                }
+            })
+
         },
 
-        toggleKpiView(taskId, index) {
-        if (this.expandedRow === index) {
-            this.expandedRow = null;
-            this.filteredKpiId = null;
-            this.$router.replace({ path: this.$route.path, query: {} });
-        } else {
-            this.expandedRow = index;
-            this.filteredKpiId = taskId;
-            this.$router.replace({ path: this.$route.path, query: { taskId } });
-        }
-        }
+        // openFromRoute(queryId) {
+        // if (!queryId) {
+        //     this.expandedRow = null;
+        //     this.filteredKpiId = null;
+        //     return;
+        // }
+        // const foundIndex = this.taskhubStore.storeMateriallList.findIndex(v => v.taskId === queryId);
+        // if (foundIndex !== -1) {
+        //     this.expandedRow = foundIndex;
+        //     this.filteredKpiId = this.taskhubStore.storeMateriallList[foundIndex].taskIdid;
+        // }
+        // },
+
+        // toggleKpiView(taskId, index) {
+        // if (this.expandedRow === index) {
+        //     this.expandedRow = null;
+        //     this.filteredKpiId = null;
+        //     this.$router.replace({ path: this.$route.path, query: {} });
+        // } else {
+        //     this.expandedRow = index;
+        //     this.filteredKpiId = taskId;
+        //     this.$router.replace({ path: this.$route.path, query: { taskId } });
+        // }
+        // }
 
     },
     

@@ -246,14 +246,37 @@ export default {
   async created() {
     this.userStore = useUserStore();
     this.taskhubStore = useTaskhubStore();
-    this.imageroot = this.userStore.loggedUser.resourceURLRoot;
     this.showLoading = this.$showLoading;
-    
-    await this.taskhubStore.TaskDetailsList(
-      { taskType: this.taskType, searchValue: this.searchValue, searchBy: this.searchBy }, 
-      this.showLoading
-    );
 
+    const routeId = this.$route.query.id;
+    // const routeSearchBy = this.$route.query.searchBy;
+
+    // CASE 1: Coming from another page
+    // && routeSearchBy === '101'
+    if (routeId ) {
+      this.searchBy = '101';
+      this.searchValue = routeId;
+
+      await this.taskhubStore.TaskDetailsList(
+        {
+          taskType: this.taskType,
+          searchValue: this.searchValue,
+          searchBy: this.searchBy,
+        },
+        this.showLoading
+      );
+    }
+    // CASE 2: Normal Task Hub page load
+    else {
+      await this.taskhubStore.TaskDetailsList(
+        {
+          taskType: this.taskType,
+          searchValue: this.searchValue,
+          searchBy: this.searchBy,
+        },
+        this.showLoading
+      );
+    }
   },
 
   watch: {
@@ -322,20 +345,15 @@ export default {
     },
 
     openFromRoute(queryId) {
-      if (!queryId || !this.taskhubStore?.taskDetailsList) {
-        this.expandedRow = null;
-        this.filteredKpiId = null;
-        return;
-      }
+      if (!queryId || !this.taskhubStore?.taskDetailsList) return;
 
       const index = this.taskhubStore.taskDetailsList.findIndex(
-        item => item.id === queryId
+        item => String(item.id) === String(queryId)
       );
 
       if (index !== -1) {
         this.expandedRow = index;
         this.filteredKpiId = queryId;
-
         this.page = Math.floor(index / this.itemsPerPage) + 1;
       }
     },

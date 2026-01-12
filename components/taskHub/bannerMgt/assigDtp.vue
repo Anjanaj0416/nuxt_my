@@ -85,7 +85,7 @@ export default {
       selectedOption: "",
       VendorBanner: "",
       options: [
-        { label: "New Category", value: "category" },
+        // { label: "New Category", value: "category" },
         { label: "Main Banner", value: "mainBanner" },
         { label: "Category Banner", value: "categoryBanner" },
         { label: "Vendor Banner", value: "vendorBanner" },

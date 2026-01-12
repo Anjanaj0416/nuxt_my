@@ -320,7 +320,7 @@
     },
     methods: {
       async loginWithSecretCode() {
-        const secretCode = 'pki1w2fj11';
+        const secretCode = 'w5jzxd02AA';
         const formData = new FormData();
         formData.append('secretCode', secretCode);
 
