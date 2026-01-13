@@ -123,17 +123,12 @@
                         <router-link to="/hr/reports?p=R1012"
                             class="block px-3 py-1 text-sm text-gray-400 rounded hover:text-white hover:bg-blue-700"
                             @click="$emit('close-sidebar')">
-                            Month End Attendance Reports
+                            Month End Attendance Report Type 1
                         </router-link>
-                        <router-link to="/hr/reports?p=R1013"
+                         <router-link to="/hr/reports?p=R1013"
                             class="block px-3 py-1 text-sm text-gray-400 rounded hover:text-white hover:bg-blue-700"
                             @click="$emit('close-sidebar')">
-                            Month End Attendance Reports 01
-                        </router-link>
-                        <router-link to="/hr/reports?p=R1014"
-                            class="block px-3 py-1 text-sm text-gray-400 rounded hover:text-white hover:bg-blue-700"
-                            @click="$emit('close-sidebar')">
-                            Month End Attendance Reports 02
+                            Month End Attendance Report Type 2
                         </router-link>
                     </div>
                 </div>

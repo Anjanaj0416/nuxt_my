@@ -197,9 +197,8 @@ export const useEmployeeStore = defineStore("employeeStore", {
           this.curEmployee = response.data.data.data || {};
           this.empdetails = this.curEmployee;
           // this.showToast('Loading successful!', 'success');
-        } else {
-          console.error("Loading error:", response.data.message);
-          // this.showToast(response.data.message, 'error');
+        } else {         
+           this.showToast(response.data.message, 'error');
         }
       } catch (error) {
         console.error("Loading error:", error);
