@@ -80,7 +80,8 @@
                         View More →
                     </a> -->
                     
-                     <button  @click="viewTaskDetails(lead.taskId)"  class="px-3 py-1.5 text-xs font-semibold rounded-lg bg-purple-600 text-white">View Details</button>
+                    <button  @click="viewTaskDetails(lead.taskId)"  class="px-3 py-1.5 text-xs bg-gradient-to-r from-blue-500 via-blue-600 to-blue-700 
+                        font-semibold transition text-white rounded-full shadow">View More →</button>
 
                     </div>
                    
@@ -157,7 +158,6 @@
                     // searchBy: '101'
                 }
             })
-
         },
 
         // openFromRoute(queryId) {
