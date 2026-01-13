@@ -97,7 +97,6 @@ export default {
         },
 
         async clearAll() {
-            this.selectedEmployee = ""
             this.selectedYear = ""
             this.selectedMonth = ""
         },

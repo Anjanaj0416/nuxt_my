@@ -1,6 +1,6 @@
 <template>
     <section class="justify-center min-h-screen px-4 mt-24 mb-20 lg:px-60">
-        <div class="text-2xl uppercase">Get Month-End Attendance Sheet Type 01</div>
+        <div class="text-2xl uppercase">Get Month-End Attendance Sheet Type 02</div>
         <div
             class="bg-gradient-to-r from-blue-900 via-indigo-700 to-blue-600 shadow-md rounded-lg p-6 mt-10 mb-10 border text-white">
             <div class="grid grid-cols-1 md:grid-cols-3 gap-4">

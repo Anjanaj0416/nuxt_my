@@ -11,6 +11,8 @@
       <timeCard_summery_report v-if="reportNo=='R1007'"/>
       <noPay_monthly_report v-if="reportNo=='R1009'"/>
       <monthend_attendance_report v-if="reportNo=='R1012'"/>
+      <get_month_end_attendance_sheet_type1 v-if="reportNo=='R1013'"/>
+      <get_month_end_attendance_sheet_type2 v-if="reportNo=='R1014'"/>
     </section>
     <!-- <input type="text" oninput="this.value = this.value.replace(/[^0-9.]/g, '').replace(/(\..*?)\..*/g, '$1');" > -->
   </template>
@@ -34,6 +36,8 @@ import employee_leave_annual_report from "~/components/hr/reports/employee_leave
 import timeCard_summery_report from "~/components/hr/reports/timeCard_summery_report";
 import noPay_monthly_report from "~/components/hr/reports/noPay_monthly_report";
 import monthend_attendance_report from "~/components/hr/reports/monthend_attendance_report";
+import get_month_end_attendance_sheet_type1 from "~/components/hr/reports/get_month_end_attendance_sheet_type1";
+import get_month_end_attendance_sheet_type2 from "~/components/hr/reports/get_month_end_attendance_sheet_type2";
 import { useRoute } from 'vue-router'
 
  //import LinkBtn from "~/components/customcontrol/Link";
@@ -56,6 +60,8 @@ import { useRoute } from 'vue-router'
       timeCard_summery_report,
       noPay_monthly_report,
       monthend_attendance_report,
+      get_month_end_attendance_sheet_type1,
+      get_month_end_attendance_sheet_type2
     },//LinkBtn,Button,selectinput2
 
     props:[''],
