@@ -1,6 +1,6 @@
 <template>
   <section>
-    <div class="pt-2 px-4 text-sm relative min-h-screen">
+    <div class=" pt-2 px-4 text-sm relative min-h-screen">
       <div class="flex justify-between">
         <div class="flex gap-x-4">
           <div class="
@@ -24,7 +24,7 @@
         </div>
       </div>
 
-      <div class="my-4 w-full lg:w-1/2 bg-gray-600 px-4 py-8 text-white rounded">
+      <div class="border rounded my-4 w-full lg:w-1/2 bg-gray-600 px-4 py-8 text-white rounded">
         <div class="font-bold uppercase text-xs">Date and Time</div>
         <div class="lb"></div>
 
@@ -201,6 +201,7 @@ export default {
     async init() { },
     goto_movementview() {
       this.$emit('goto_movementview')
+      this.$emit('is-movement-apply')
     },
 
     async getSave() {
