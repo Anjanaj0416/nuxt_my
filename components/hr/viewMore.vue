@@ -6,14 +6,17 @@
             dayInfo?.rectificationDetails?.id === `00000000-0000-0000-0000-000000000000` -->
         <div class="mb-3">
             <span @click="isOtApply= !isOtApply" class="border rounded p-2 mr-2 ">Apply OT</span>
-            <span  class="border rounded p-2 mr-2">Apply Leave</span>
+            <span @click="isLeaveApply= !isLeaveApply" class="border rounded p-2 mr-2">Apply Leave</span>
             <span @click="isMovementApply= !isMovementApply" class="border rounded p-2 mr-2">Apply Movement</span>
         </div>
         <div v-show="isOtApply" class="mt-5">
             <OtApply @is-ot-apply="isOtApply= !isOtApply"/>
         </div>
+        <div v-show="isLeaveApply" class="mt-5">
+            <LeaveApply @is-leave-apply="isLeaveApply= !isLeaveApply" :leaveyear="leaveYear"/>
+        </div>
         <div v-show="isMovementApply" class="mt-5">
-            <MovementApply @is-movement-apply="isMovementApply= !isMovementApply"/>
+            <MovementApply @is-movement-apply="isMovementApply= !isMovementApply" :empno="empno"/>
         </div>
         <div v-if="dayType !== `No-Pay`"
             class="text-center bg-white text-black p-2 rounded mt-1 text-xs whitespace-pre-line">
@@ -450,23 +453,28 @@
 
 import OtApply from "~/components/hr/otApply";
 import MovementApply from "~/components/hr/movementcreate";
+import LeaveApply from "~/components/hr/absencecreate";
 
 export default {
-    props: ["dayInfo","dayType"],
+    props: ["dayInfo","dayType","empno"],
     components: {
         OtApply,
-        MovementApply
+        MovementApply,
+        LeaveApply
     },
 
     data() {
         return {
             showLoading: null,
             isOtApply: false,
+            isLeaveApply: false,
             isMovementApply: false,
+            leaveYear: "",
         }
     },
 
     async created() {
+        this.leaveYear = new Date().getFullYear()
         this.showLoading = this.$showLoading;
     },
 
