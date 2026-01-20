@@ -154,69 +154,69 @@
                     {{ orderItem.packageName }}
                   </h2>
                   <!-- Remove Button -->
-                  <button type="button"  @click="GetEditPkg(orderItem)" class="text-blue-600 hover:text-black" title="Remove">
-                    Edit
-                  </button>
                   <button type="button" @click="GetRemoveRow(index)" class="text-blue-600 hover:text-black" title="Remove">
+                    <!-- <svg xmlns="http://www.w3.org/2000/svg" class="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                        d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6M9 7h6m-6 0V5a1 1 0 011-1h4a1 1 0 011 1v2" />
+                    </svg> -->
                     Delete
                   </button>
                 </div>
 
                 <!-- Inputs Section -->
-                <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-12 gap-4">
+                <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-8 gap-4">
 
                   <!-- No of Banners -->
-                  <div class="flex flex-col">
-                    <label class="text-xs font-medium text-gray-600 mb-1">No. of Main Banners</label>
-                    <strong class="text-sm font-bold text-green-600">{{ orderItem.NoOfMainBanners }}</strong>
+                  <div v-if="orderItem.packageName === 'Customized Package'" class="flex flex-col">
+                    <label class="text-xs font-medium text-gray-600 mb-1">No. of Banners</label>
+                    <input
+                      type="number"
+                      min="1"
+                      v-model="orderItem.NoOfBanners"
+                      class="p-2 text-xs border rounded-lg focus:ring-2 focus:ring-blue-400 focus:outline-none"
+                      placeholder="Enter number of banners"
+                    />
+                  </div>
+                  <div v-else class="flex flex-col">
+                    <label class="text-xs font-medium text-gray-600 mb-1">No. of Banners</label>
+                    <strong class="text-sm text-blue-700">
+                      {{ orderItem.NoOfBanners || '-' }}
+                    </strong>
                   </div>
 
-                  <div class="flex flex-col">
-                    <label class="text-xs font-medium text-gray-600 mb-1">No. of Category Banners</label>
-                    <strong class="text-sm font-bold text-green-600">{{ orderItem.NoOfCategoryBanners }}</strong>
+                  <!-- No of Links -->
+                  <div v-if="orderItem.packageName === 'Customized Package'" class="flex flex-col">
+                    <label class="text-xs font-medium text-gray-600 mb-1">No. of Links</label>
+                    <input type="number" min="1" v-model="orderItem.NoOfLinks"
+                      class="p-2 text-xs border rounded-lg focus:ring-2 focus:ring-blue-400 focus:outline-none"
+                      placeholder="Enter number of links" />
                   </div>
-
-                  <div class="flex flex-col">
-                    <label class="text-xs font-medium text-gray-600 mb-1">No. of Sub Category Banners</label>
-                    <strong class="text-sm font-bold text-green-600">{{ orderItem.NoOfCategoryBanners }}</strong>
-                  </div>
-
-                  <div class="flex flex-col">
-                    <label class="text-xs font-medium text-gray-600 mb-1">No. of Vendor Banners</label>
-                    <strong class="text-sm font-bold text-green-600">{{ orderItem.NoOfVendorBanners }}</strong>
-                  </div>
-
-                  <div class="flex flex-col">
-                    <label class="text-xs font-medium text-gray-600 mb-1">No. of Product Link</label>
-                    <strong class="text-sm font-bold text-green-600">{{ orderItem.NoOfMainBanners }}</strong>
-                  </div>
-
-                  <div class="flex flex-col">
-                    <label class="text-xs font-medium text-gray-600 mb-1">No. of Service Link</label>
-                    <strong class="text-sm font-bold text-green-600">{{ orderItem.NoOfCategoryBanners }}</strong>
-                  </div>
-
-                  <div class="flex flex-col">
-                    <label class="text-xs font-medium text-gray-600 mb-1">Prominent Items</label>
-                    <strong class="text-sm font-bold text-green-600">{{ orderItem.NoOfCategoryBanners }}</strong>
+                  <div v-else class="flex flex-col">
+                    <label class="text-xs font-medium text-gray-600 mb-1">No. of Banners</label>
+                    <strong class="text-sm text-blue-700">
+                      {{ orderItem.NoOfLinks || '-' }}
+                    </strong>
                   </div>
 
                   <!-- Unit Price -->
                   <div class="flex flex-col">
                     <label class="text-xs font-medium text-gray-600 mb-1">Unit Price (Rs)</label>
-                    <strong class="text-sm font-bold text-green-600">{{ orderItem.unitPrice }}</strong>
+                    <input type="number" min="1" v-model="orderItem.unitPrice" @input="updateUnitPrice(index)"
+                      class="p-2 text-xs border rounded-lg focus:ring-2 focus:ring-green-400 focus:outline-none" />
                   </div>
 
                   <!-- Quantity -->
                   <div class="flex flex-col">
                     <label class="text-xs font-medium text-gray-600 mb-1">Quantity</label>
-                    <strong class="text-sm font-bold text-green-600">{{ orderItem.qty }}</strong>
+                    <input type="number" min="1" v-model="orderItem.qty" @input="updateTotalPrice(index)"
+                      class="p-2 text-xs border rounded-lg focus:ring-2 focus:ring-purple-400 focus:outline-none" />
                   </div>
 
                   <!-- Discount -->
                   <div class="flex flex-col">
                     <label class="text-xs font-medium text-gray-600 mb-1">Discount (Rs)</label>
-                    <strong class="text-sm font-bold text-green-600">{{ orderItem.discount }}</strong>
+                    <input type="number" min="0" v-model="orderItem.discount" @input="updateTotalPrice(index)"
+                      class="p-2 text-xs border rounded-lg focus:ring-2 focus:ring-pink-400 focus:outline-none" />
                   </div>
 
                   <!-- SSL -->
@@ -372,111 +372,341 @@
         {{ isEditing ? "Update" : "Submit" }}
       </button>
     </div>
-    <orderIteam 
-      v-if="isAddPackage"
-      :pkg="selectedPackage"
-      @submit="handlePackageSubmit"
-      @close="isAddPackage = false"
-    />
 
   </section>
 </template>
 
 <script>
+import { reactive, computed } from "vue";
+import closebtn from "~/components/customcontrol/modal_close_button";
+import serach_Input from "~/components/customcontrol/SearchInput";
+import inputtags_search from "~/components/customcontrol/inputtags_search";
+import selectinput2 from "~/components/customcontrol/selectinput2";
+import Button from "~/components/customcontrol/Button";
+
 import { useOrderStore } from "~/stores/modules/orderStore";
-import orderIteam from "./orderIteam.vue";
 
 export default {
-  components: { orderIteam },
-  props: ["customerRef", "id", "orderNo"],
-
+  components: {
+    closebtn,
+    serach_Input,
+    inputtags_search,
+    selectinput2,
+    Button,
+  },
+  props:['customerRef', 'id','orderNo'],
   data() {
     return {
-      orderStore: null,
-      showLoading: null,
-      curProductCategory: "",
-      listoPackagesDetails: [],
-      isAddPackage: false,
-      selectedPackage: null,
-      order: {
-        listOrderItem: [],
-        netTotal: 0,
+      isOpen: true,
+      err: {
+        customerRef: "",
+        mainDistrictId: "",
       },
-
-      listInstallmentDetails: [],
+      piIssued: false,
+      piNumber: '',
+      selectedPackages: [],
+      showLoading: null, 
+      listoPackagesDetails: [],
+      curProductCategory: '',
+      localOrderNo: this.orderNo, 
+      listInstallmentDetails: [],  
       today: new Date().toISOString().split("T")[0],
 
-      err: {},
+      order: {
+        customerRef: "",
+        listOrderItem: [],
+        netTotal: 0,
+        listInstallment: [],
+      },
+
+  
     };
+  },
+  
+  watch: {
+    piIssued(newVal) {
+      if (!newVal) {
+        this.piNumber = '';  // Clear PI Number input when toggled off
+      }
+    }
+  },
+  
+ computed: {
+    finalProductCategoryList() {
+        const categories = this.orderStore.initOrder.listProductCategory || [];
+        console.log("cat:",categories);
+        // Optionally remove duplicates based on id
+        const uniqueCategories = categories.filter(
+            (cat, index, self) =>
+            index === self.findIndex((c) => c.id === cat.id)
+        );
+        return uniqueCategories;
+    },
   },
 
   async created() {
     this.showLoading = this.$showLoading;
     this.orderStore = useOrderStore();
-    await this.orderStore.loadInitOrderPlace(this.showLoading);
-  },
 
-  computed: {
-    finalProductCategoryList() {
-      return this.orderStore.initOrder.listProductCategory || [];
-    },
+    await this.orderStore.loadInitOrderPlace(this.showLoading);
   },
 
   methods: {
     handleCategoryChange() {
-      this.orderStore
-        .setSelectedCategoryId(this.curProductCategory, this.showLoading)
-        .then(() => {
-          this.listoPackagesDetails = this.orderStore.listoPackagesDetails;
-        });
+        const id = this.curProductCategory;
+        console.log('Selected Category ID:', id);
+        this.showLoading("");  
+        this.orderStore.setSelectedCategoryId(id, this.showLoading)
+            .then(() => {
+            this.listoPackagesDetails = this.orderStore.listoPackagesDetails;
+            });
+    },
+
+  
+    // updateUnitPrice(index) {
+    //   const item = this.quotation.listOrderItem[index];
+    //   const qty = Number(item.qty) || 0;
+    //   const price = Number(item.unitPrice) || 0;
+    //   const discount = Number(item.discount) || 0;
+
+    //   let total = qty * price * (1 - discount / 100);
+    //   if (total < 0) total = 0;
+
+    //   item.total = total;
+
+    //   this.netTotalPrice();
+    // },
+
+    updateUnitPrice(index) {
+      this.updateTotalPrice(index);
     },
 
     GetAddPkg(pkg) {
-       console.log("ADD CLICKED", pkg);
-      this.selectedPackage = pkg;
-      this.isAddPackage = true;
+      // Make sure listOrderItem is an array
+      if (!this.orderStore.listoPackagesDetails) {
+        this.orderStore.listoPackagesDetails = [];
+      }
+
+      const vatRate = this.orderStore.initOrder.vatRate ;
+      const ssclRate = this.orderStore.initOrder.ssclRate ;
+
+      const orderItem = {
+        index: this.orderStore.listoPackagesDetails.length + 1,
+        packageId: pkg.itemId,
+        packageName: pkg.categoryName,
+        packageCategory: pkg.itemDescription,
+        unitPrice: pkg.price,
+        tax:pkg.isTaxable,
+        qty: 1,
+        discount: 0.0,
+        vatRate: vatRate,
+        ssclRate: ssclRate ,
+        total: pkg.showPrice,
+        NoOfBanners: pkg.NoOfBanners,
+        NoOfLinks: pkg.NoOfLinks
+      };
+
+      // Check if package is already selected
+      if (!this.selectedPackages.includes(pkg)) {
+        this.selectedPackages.push(pkg);
+        this.order.listOrderItem.push(orderItem);
+    
+        this.updateTotalPrice(this.order.listOrderItem.length-1);
+        this.AddInstallments(1);
+      }
+      else{
+        this.$showCustomToast('This Item Already added', 'warning', 3000);
+      }
+    },
+    
+    clearerr() {
+      Object.keys(this.err).forEach((key) => {
+        this.err[key] = "";
+      });
     },
 
-    GetEditPkg(orderItem) {
-       console.log("ADD CLICKED", orderItem);
-      this.isAddPackage = true;
-    },
-
-    handlePackageSubmit(orderItem) {
-      this.order.listOrderItem.push(orderItem);
-      this.recalculateTotals();
-      this.AddInstallments(1);
-      this.isAddPackage = false;
-      console.log('List',orderItem);
-      
-    },
-
-    GetRemoveRow(index) {
-      this.order.listOrderItem.splice(index, 1);
-      this.recalculateTotals();
-    },
-
-    recalculateTotals() {
-      this.order.netTotal = this.order.listOrderItem.reduce(
-        (sum, i) => sum + (Number(i.total) || 0),
-        0
-      );
-    },
-
-    AddInstallments(num = 1) {
+    AddInstallments(e) {
+      const num = Number(e?.target?.value || e) || 1; // can be event or direct call
       this.listInstallmentDetails = [];
+
+      const today = new Date().toISOString().split("T")[0];
+
       for (let i = 0; i < num; i++) {
         this.listInstallmentDetails.push({
           installment: `Installment ${i + 1}`,
           fee: 0,
-          date: this.today,
+          date: today, // 👉 default to today
         });
       }
     },
+
+    RemoveInstallment(index) {
+      this.listInstallmentDetails.splice(index, 1);
+
+      // reindex installment names after deletion
+      this.listInstallmentDetails.forEach((item, i) => {
+        item.installment = `Installment ${i + 1}`;
+      });
+    },
+
+
+
+    updateTotalPrice(index) {
+      const item = this.order.listOrderItem[index];
+
+      const qty = Number(item.qty) || 0;
+      const unitPrice = Number(item.unitPrice) || 0;
+      const discount = Number(item.discount) || 0;
+      const vatRate = Number(item.vatRate) || 0;   // % VAT
+      const ssclRate = Number(item.ssclRate) || 0; // % SSCL
+
+      // Base total after discount
+      const baseTotal = qty * unitPrice - discount;
+
+      // Apply SSCL first
+      const ssclAmount = baseTotal * (ssclRate / 100);
+      const afterSSCL = baseTotal + ssclAmount;
+
+      const vatAmount = afterSSCL * (vatRate / 100);
+      const finalTotal = afterSSCL + vatAmount;
+
+      item.total = finalTotal;
+
+      this.netTotalPrice();
+    },
+    
+    GetRemoveRow(index) {
+      this.order.listOrderItem.splice(index, 1);
+      this.netTotalPrice();
+    },
+    
+    netTotalPrice() {
+      if (this.order && Array.isArray(this.order.listOrderItem)) {
+        this.order.netTotal = this.order.listOrderItem.reduce((acc, item) => {
+          const total = Number(item.total) || 0;
+          return acc + total;
+        }, 0);
+      } else {
+        this.order.netTotal = 0;
+      }
+
+      // this.order.totalAmount = this.order.netTotal + (this.order.vat || 0);
+      this.order.totalAmount = this.order.netTotal;
+    },
+
+    formatDate(dateObj) {
+      const yyyy = dateObj.getFullYear();
+      const mm = String(dateObj.getMonth() + 1).padStart(2, '0');
+      const dd = String(dateObj.getDate()).padStart(2, '0');
+      return `${yyyy}-${mm}-${dd}`;
+    },
+  
+    GetPrint() {
+      this.netTotalPrice();
+
+      if (!this.IsValidated()) return;
+
+      this.$showConfirm("Are you sure to create this order?", "warning")
+        .then(async (result) => {
+          if (result.isConfirmed) {
+            const payload = {
+              QuotationId: '',
+              OrderNo: this.piNumber || this.orderNo || '',
+              ClientId: this.id, 
+              OrderItems: this.order.listOrderItem.map((item, index) => ({
+                Index: index + 1,
+                ItemId: item.packageId,
+                UnitPrice: Number(item.unitPrice),
+                Quantity: Number(item.qty),
+                Discount: Number(item.discount),
+                Data: JSON.stringify({
+                NoOfBanners: Number(item.NoOfBanners) || 0,
+                NoOfLinks: Number(item.NoOfLinks) || 0
+              })
+                
+              })),
+              Installments: this.listInstallmentDetails.map((inst) => ({
+                  InstallmentAmount: Number(inst.fee) || 0,
+                  InstallmentDate: inst.date
+                }))
+            };
+            // console.log("Payload to send:", JSON.stringify(payload, null, 2));
+            await this.orderStore.GetAddorder(payload, this.showLoading);
+
+            // ✅ reset form after submit
+            this.localOrderNo = '';
+            this.piIssued = false;
+            this.piNumber = '';
+            this.order.listOrderItem = [];
+            this.curProductCategory = '';
+            
+            // refresh list after add
+            await this.orderStore.loadListOrder(
+              { keyword: this.id, searchBy: 'clientId' },
+              this.showLoading
+            );
+            
+          } else {
+            console.log("Action canceled");
+          
+          }
+          this.closeModal();
+            // this.clearErr();
+        });
+    },
+
+
+
+
+
+
+  
+
+
+    IsValidated() {
+      let isValidated = true;
+      this.err = {};
+      // Check Merchant
+      // if (!this.order.customerRef) {
+      //   this.err.customerRef = "Please select a Merchant!";
+      //   isValidated = false;
+      // }
+      // Check Product Category
+      if (!this.curProductCategory) {
+      this.err.curProductCategory = "Please select a Product Category!";
+      isValidated = false;
+      }
+      // Package validation
+      if (!this.order.listOrderItem || this.order.listOrderItem.length === 0) {
+        this.err.packageError = "Please select at least one package!";
+        isValidated = false;
+      }
+      // Installment validation
+      if (!this.listInstallmentDetails || this.listInstallmentDetails.length === 0) {
+        this.err.installmentError = "Please add at least one installment!";
+        isValidated = false;
+      }
+      return isValidated;
+    },
+
+
+    closeModal() {
+      this.isOpen = false;
+      this.$emit("close");
+    },
+    ProcessOrderItems(){
+     //loop  listOrderItem
+     //{
+     //reindexing
+     //calc vat, calc net 
+     //}
+    },
+
   },
+
+
 };
 </script>
-
 
 <style scoped>
 /* Modal Styling */
