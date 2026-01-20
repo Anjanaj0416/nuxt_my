@@ -40,9 +40,7 @@ export const useTenderStore = defineStore("tenderStore", {
             this.showToast(response.data.message, "error");
             }
         },
-         async loadInitTenderHome(req,B2BshowLoading) {
-            console.log('list:',req);
-
+         async loadInitTenderHome(B2BshowLoading) {
             const loadingAlert = B2BshowLoading ? B2BshowLoading('Loading Tender...') : null;
 
             try {
