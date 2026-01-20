@@ -4,11 +4,7 @@
   </div>
 </template>
 
-<script>
-  import headercomp from '~/components/header'
-  import footercomp from '~/components/footer'
-  import LoadingSpinner from '~/components/LoadingSpinner.vue'
-
+<script setup>
   useHead({
     title: 'Digital TecLabs',
     link: [
@@ -18,27 +14,4 @@
       { rel: "manifest", href: "/favicon_io/dtl/site.webmanifest" }
     ]
   })
-
-  export default {
-    components: { headercomp, footercomp, LoadingSpinner },
-    data() {
-      return {
-        showLoading: null,
-        isLoading: null,
-      }
-    },
-    async created() {
-      this.isLoading = useLoading()
-      // console.log("isLoading:",this.isLoading);
-
-      // alert('sl')
-      // this.showLoading = this.$showLoading;
-      //  const loadingAlert = showLoading("");
-      // loadingAlert.close();
-    },
-  }
 </script>
-
-<style>
-
-</style>

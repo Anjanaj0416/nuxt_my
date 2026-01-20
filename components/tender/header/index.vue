@@ -1,13 +1,18 @@
 <template>
-    <header class="bg-purple-600 w-full h-20 py-4">
+    <!-- <header class="sticky bg-purple-600 w-full py-0 lg:py-7 "> -->
+    <header class="sticky top-0 z-50 bg-purple-600 w-full py-0 lg:py-7">
       <div
         class="flex flex-col sm:flex-row sm:items-center
               px-4 sm:px-10 lg:px-44 py-3 sm:py-0"
       >
         <!-- Top row -->
         <div class="flex items-center gap-8 w-full">
-          <!-- Logo -->
-           <a href="/Tender"  to="/Tender" class="flex items-center">
+          <a href="/Tender" class="flex items-center gap-2">
+            <img
+              src="/assets/img/tender/tenermainlogo.png"
+              alt="TenderB2B.lk"
+              class="h-8 sm:h-10 w-auto mb-3  rounded-lg"
+            />
             <span
               class="text-xl sm:text-3xl font-bold text-white tracking-wide whitespace-nowrap"
             >
@@ -20,10 +25,7 @@
             <NuxtLink to="/tender" class="text-md font-medium text-white">
               Tender
             </NuxtLink>
-            <NuxtLink to="/contact" class="text-md font-medium text-white">
-              Contact Us
-            </NuxtLink>
-            <NuxtLink to="/" class="text-md font-medium text-white">
+            <NuxtLink to="https://btob.lk/" class="text-md font-medium text-white">
               B2B.lk
             </NuxtLink>
           </nav>
@@ -43,10 +45,7 @@
           <NuxtLink to="/tender" class="text-md font-medium text-white">
             Tender
           </NuxtLink>
-          <NuxtLink to="/contact" class="text-md font-medium text-white">
-            Contact Us
-          </NuxtLink>
-          <NuxtLink to="/" class="text-md font-medium text-white">
+          <NuxtLink to="https://btob.lk/" class="text-md font-medium text-white">
             B2B.lk
           </NuxtLink>
         </nav>

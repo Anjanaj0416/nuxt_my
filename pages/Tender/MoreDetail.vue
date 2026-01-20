@@ -77,6 +77,8 @@
                   <h3 class="text-sm font-semibold text-gray-800 mb-3">
                   Tender Documents
                   </h3>
+                  <!-- {{ tenderStore.moreDetails.listTenderDocuments }}
+                  {{ imageroot }} -->
                    <img
                     :src="imageroot + tenderStore.moreDetails.listTenderDocuments"
                     alt="Banner Image"
