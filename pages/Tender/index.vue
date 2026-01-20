@@ -308,28 +308,40 @@
       this.imageroot = this.userStore.loggedUser.resourceURLRoot;   
       
       await this.tenderStore.loadInitTenderHome(this.TendershowLoading);
-      await this.tenderStore.fetcTender(
-        {
-          CategoryId: this.CategoryId || "",
-          TenderTypeId: this.TenderTypeId || "",
-          Days:this.Days || "",
-        },
-        this.TendershowLoading,
-      );
-      this.listTenderCategory = this.tenderStore.listTenderCategory
-      this.TenderList = this.tenderStore.TenderList;
+      await this.loadInitialTenderList();
+      // await this.tenderStore.fetcTender(
+      //   {
+      //     CategoryId: this.CategoryId || "",
+      //     TenderTypeId: this.TenderTypeId || "",
+      //     Days:this.Days || "",
+      //   },
+      //   this.TendershowLoading,
+      // );
+      // this.listTenderCategory = this.tenderStore.listTenderCategory
+      // this.TenderList = this.tenderStore.TenderList;
     },
+
     watch: {
-      CategoryId() {
-        this.searchByFilters();
+      CategoryId: {
+        handler() {
+          this.searchByFilters();
+        },
+        immediate: false,
       },
-      TenderTypeId() {
-        this.searchByFilters();
+      TenderTypeId: {
+        handler() {
+          this.searchByFilters();
+        },
+        immediate: false,
       },
-      Days() {
-        this.searchByFilters();
+      Days: {
+        handler() {
+          this.searchByFilters();
+        },
+        immediate: false,
       },
     },
+
 
     computed: {
       paginatedTenderList() {
@@ -365,6 +377,20 @@
           path: '/Tender/MoreDetail',
           query: { id }  
         })
+      },
+      async loadInitialTenderList() {
+        try {
+          const payload = {
+            CategoryId: "", 
+            TenderTypeId: "",
+            Days: "",
+            SearchText: "",
+          };
+          await this.tenderStore.fetcTender(payload, this.TendershowLoading);
+          this.TenderList = this.tenderStore.TenderList; 
+        } catch (error) {
+          console.error("Error loading tenders:", error);
+        }
       },
       // keywordsearch
       async onSearchClick() {
@@ -412,6 +438,17 @@
         this.SearchText = "";
         this.applyFilters();
       },
+
+      async applyFilters() {
+        const req = {
+          CategoryId: this.CategoryId || "",
+          TenderTypeId: this.TenderTypeId || "",
+          Days: this.Days || "",
+          SearchText: this.SearchText || "",
+        };
+        await this.tenderStore.fetcTender(req, this.TendershowLoading);
+      },
+
 
       scrollToTop() {
         window.scrollTo({

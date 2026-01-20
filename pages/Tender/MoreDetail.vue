@@ -21,6 +21,8 @@
                         </li>
                     </ol>
                 </nav>
+
+                <!-- {{ tenderStore.moreDetails }} -->
                 <div class="bg-white rounded-xl border border-gray-200 p-5 shadow-sm">
                     <div class="flex items-center justify-between mb-2">
                     <span class="text-xs font-semibold px-2 py-1 rounded-md bg-gray-100 text-gray-700">
@@ -81,7 +83,7 @@
                   {{ imageroot }} -->
                    <img
                     :src="imageroot + tenderStore.moreDetails.listTenderDocuments"
-                    alt="Banner Image"
+                    alt="Tender Documents"
                     class="w-full h-full object-cover"
                   />
                   
