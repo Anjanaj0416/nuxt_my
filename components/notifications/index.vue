@@ -41,7 +41,7 @@
 
         <!-- <a class="underline" href="/qms/vendor/leads?id=cb5eaaa8-1113-4699-4de2-08de0ad24517">Lead Link</a><br></br> -->
         <!-- <a class="underline" href="/workFlow?id=wf001">KPI Link</a> -->
-
+        <!-- {{ orderStore.notifications }} -->
         <ul class="max-h-60 overflow-y-auto">
           <li 
             v-for="note in orderStore.notifications" 

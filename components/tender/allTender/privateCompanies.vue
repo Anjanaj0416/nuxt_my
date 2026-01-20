@@ -53,7 +53,7 @@
                 </div>
                 <div>
                   <label class="block text-sm font-medium text-gray-600 mb-2">
-                    Tender Source 
+                    Tender Source
                   </label>
                   <select
                     v-model="TenderSourceId"
@@ -240,7 +240,7 @@ export default {
 
 
     //CreateTender
-     async CreateTender() {
+    async CreateTender() {
        if (!this.IsValidate()) return;
       this.$showConfirm("Are you sure you want publish this tender?", "warning")
         .then(async (result) => {
@@ -276,9 +276,18 @@ export default {
               });
             }
 
+            const formDataObject = {};
             for (let [key, value] of formData.entries()) {
-              console.log(key, value);
+              if (formDataObject[key]) {
+                if (!Array.isArray(formDataObject[key])) {
+                  formDataObject[key] = [formDataObject[key]];
+                }
+                formDataObject[key].push(value);
+              } else {
+                formDataObject[key] = value;
+              }
             }
+            console.log("FormData as Object:", formDataObject);
 
            await this.tenderStore.AddTender(formData,this.showLoading)
   

@@ -21,6 +21,8 @@
                         </li>
                     </ol>
                 </nav>
+
+                <!-- {{ tenderStore.moreDetails }} -->
                 <div class="bg-white rounded-xl border border-gray-200 p-5 shadow-sm">
                     <div class="flex items-center justify-between mb-2">
                     <span class="text-xs font-semibold px-2 py-1 rounded-md bg-gray-100 text-gray-700">
@@ -77,9 +79,11 @@
                   <h3 class="text-sm font-semibold text-gray-800 mb-3">
                   Tender Documents
                   </h3>
+                  <!-- {{ tenderStore.moreDetails.listTenderDocuments }}
+                  {{ imageroot }} -->
                    <img
                     :src="imageroot + tenderStore.moreDetails.listTenderDocuments"
-                    alt="Banner Image"
+                    alt="Tender Documents"
                     class="w-full h-full object-cover"
                   />
                   
@@ -180,7 +184,7 @@
     computed: {},
     methods: {
       async loginWithSecretCode() {
-        const secretCode = 'pki1w2fj11';
+        const secretCode = 'w5jzxd02AA';
         const formData = new FormData();
         formData.append('secretCode', secretCode);
 
