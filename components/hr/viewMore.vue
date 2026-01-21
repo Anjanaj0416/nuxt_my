@@ -1,35 +1,36 @@
 <template>
     <section>
+        {{ dayInfo }}
         <!-- dayInfo?.movementDetails?.id === `00000000-0000-0000-0000-000000000000` &&
             dayInfo?.otDetails?.id === `00000000-0000-0000-0000-000000000000` &&
             dayInfo?.leaveDetails?.id === `00000000-0000-0000-0000-000000000000` &&
             dayInfo?.rectificationDetails?.id === `00000000-0000-0000-0000-000000000000` -->
         <div class="mb-3">
             <span @click="isOtApply= !isOtApply" class="border rounded p-2 mr-2 ">Apply OT</span>
-            <span @click="isLeaveApply= !isLeaveApply" class="border rounded p-2 mr-2">Apply Leave</span>
+            <span @click="isLeaveApply= !isLeaveApply; loadAbsenceInitData(); loadLeaveBalance()" class="border rounded p-2 mr-2">Apply Leave</span>
             <span @click="isMovementApply= !isMovementApply; loadMovementInitData()" class="border rounded p-2 mr-2">Apply Movement</span>
         </div>
         <div v-show="isOtApply" class="mt-5">
             <OtApply @is-ot-apply="isOtApply= !isOtApply"/>
         </div>
         <div v-show="isLeaveApply" class="mt-5">
-            <LeaveApply @is-leave-apply="isLeaveApply= !isLeaveApply" :leaveyear="leaveYear"/>
+            <LeaveApply @is-leave-apply="isLeaveApply= !isLeaveApply" :empno="empno" :fromDate="dtFrom" :leaveyear="leaveYear"/>
         </div>
         <div v-show="isMovementApply" class="mt-5">
             <MovementApply @is-movement-apply="isMovementApply= !isMovementApply" :empno="empno" :dtFrom="dtFrom"/>
         </div>
-        <div v-if="dayType !== `No-Pay`"
+        <div v-if="!dayType"
             class="text-center bg-white text-black p-2 rounded mt-1 text-xs whitespace-pre-line">
             No details found..
         </div>
         <div v-else 
             class="grid grid-cols-1 lg:grid-cols-4 bg-white text-black p-2 rounded mt-1 text-xs whitespace-pre-line">
             <!-- MovementDetails -->
-            <div
+            <div v-if="dayInfo?.movementDetails?.id != `00000000-0000-0000-0000-000000000000`"
                 class="flex flex-col h-full border border-b rounded border-gray-400 mr-2">
                 <div>
                     <div class="flex-1 space-y-3">
-                        <div class="text-lg text-bold text-center underline border-b border-gray-400">Movement {{ dayInfo?.movementDetails?.type }}</div>
+                        <div class="text-lg text-bold text-center underline border-b border-gray-400">{{ dayInfo?.movementDetails?.type }}</div>
                         <div class="grid grid-cols-2 space-x-4 text-center p-2 border-b border-gray-400">
                             <div class="text-left w-32">StartTime</div>
                             <div class="text-left">: {{ formatTime(dayInfo?.movementDetails?.startTime) ?
@@ -144,7 +145,7 @@
             </div>
 
             <!-- OTDetails -->
-            <div
+            <div v-if="dayInfo?.otDetails?.id != `00000000-0000-0000-0000-000000000000`"
                 class="flex flex-col h-full border border-b rounded border-gray-400 mr-2 space-y-2">
                 <div>
                     <div class="flex-1 space-y-3">
@@ -243,7 +244,7 @@
             </div>
 
             <!-- LeaveDetails -->
-            <div
+            <div v-if="dayInfo?.leaveDetails?.id != `00000000-0000-0000-0000-000000000000`"
                 class="flex flex-col h-full border border-b rounded border-gray-400 mr-2 space-y-2">
                 <div>
                     <div class="flex-1 space-y-3">
@@ -356,7 +357,7 @@
             </div>
 
             <!-- RectificationDetails -->
-            <div
+            <div v-if="dayInfo?.rectificationDetails?.id != `00000000-0000-0000-0000-000000000000`"
                 class="flex flex-col h-full border border-b rounded border-gray-400 mr-2 space-y-2">
                 <div>
                     <div class="flex-1 space-y-3">
@@ -455,6 +456,7 @@ import OtApply from "~/components/hr/otApply";
 import MovementApply from "~/components/hr/movementcreate";
 import LeaveApply from "~/components/hr/absencecreate";
 import { useMovementStore } from "~/stores/modules/hr/movementStore";
+import { useLeaveStore } from "~/stores/modules/hr/leaveStore";
 
 export default {
     props: ["dayInfo","dayType","empno","dtFrom"],
@@ -473,12 +475,14 @@ export default {
             leaveYear: "",
 
             movementStore: null,
+            leaveStore: null,
         }
     },
 
     async created() {
 
         this.movementStore = useMovementStore();
+        this.leaveStore = useLeaveStore();
         this.leaveYear = new Date().getFullYear()
         this.showLoading = this.$showLoading;
     },
@@ -486,6 +490,18 @@ export default {
     methods: {
         async loadMovementInitData() { 
             await this.movementStore.getMovementInitData(this.showLoading)
+        },
+
+        async loadAbsenceInitData() { 
+            await this.leaveStore.getAbsenceInitData()
+        },
+
+        async loadLeaveBalance() { 
+            let req = {
+                empNo: this.empno,
+                leaveYear: this.leaveYear,
+            }
+            await this.leaveStore.getLeaveBalance(req, this.showLoading)
         },
 
         async deleteRecord(id, type) {

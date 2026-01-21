@@ -193,11 +193,11 @@ export default {
   },
 
   async created() {
-            console.log("dtFrom:",this.dtFrom);
 
     this.movementStore = useMovementStore();
     this.showLoading = this.$showLoading;
     this.localDate = this.dtFrom ?? this.movement_apply.date;
+    this.movement_apply.date = this.localDate;
 
   },
 
@@ -208,20 +208,17 @@ export default {
     },
 
     async getSave() {
-      console.log("movement_apply:",this.movement_apply);
-      
+    // console.log("this.localDate:",this.movement_apply.date);
       if (!this.validate()) {
         return
       }
-
-      this.movement_apply.date = this.localDate
 
       this.$showConfirm("Are you sure to save this Movement?", "warning")
         .then(async (result) => {
           if (result.isConfirmed) {
             let req = {
               EmpNo: this.empno,
-              Date: this.movement_apply.date,
+              Date: this.localDate,
               InTime: this.movement_apply.in_time,
               OutTime: this.movement_apply.out_time,
               StartFrom: this.movement_apply.start_from,
@@ -238,8 +235,8 @@ export default {
             await this.movementStore.setMovement(req, this.showLoading);
 
             let reqGetViewMovement = {
-              fromDate: this.dtFrom,
-              toDate: this.dtTo,
+              fromDate: this.localDate,
+              toDate: this.localDate,
               empNo: this.empno,
             }
 
@@ -250,6 +247,8 @@ export default {
             console.log("Action canceled");
           }
         });
+
+        this.movement_apply = {};
     },
 
     movementTypeChanged(selected_item) {
