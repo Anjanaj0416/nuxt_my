@@ -24,7 +24,7 @@
         </div>
       </div>
 
-      <div class="grid grid-cols-1 lg:grid-cols-2 gap-x-4 mt-2 w-full lg:w-4/5">
+      <div class="grid grid-cols-1 lg:grid-cols-2 gap-x-4 mt-2 w-full lg:w-4/5 border rounded">
         <div class="my-4 bg-gray-600 px-4 py-8 text-white rounded">
           <div class="grid grid-cols-2 gap-y-2">
             <div class="">Absence Type</div>
@@ -163,6 +163,7 @@ export default {
     async init() { },
     goto_absenceview() {
       this.$emit('goto_absenceview')
+      this.$emit('is-leave-apply')
     },
     ImageChanged() {
       this.leavedocDetails.imagechanged = true
