@@ -1,7 +1,7 @@
 <template>
 <div class="min-h-screen flex flex-col">
   <homeHeader />
-  <main class="flex-grow">
+  <main class="flex-grow bg-gray-50">
     <section class="px-2 sm:px-4 md:px-8 lg:px-24 py-6 bg-gray-50">
         <div class="grid grid-cols-1 lg:grid-cols-6 gap-6">
             <div class="lg:col-span-4 space-y-6">
