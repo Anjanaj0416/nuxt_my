@@ -7,7 +7,7 @@
         <div class="mb-3">
             <span @click="isOtApply= !isOtApply" class="border rounded p-2 mr-2 ">Apply OT</span>
             <span @click="isLeaveApply= !isLeaveApply" class="border rounded p-2 mr-2">Apply Leave</span>
-            <span @click="isMovementApply= !isMovementApply" class="border rounded p-2 mr-2">Apply Movement</span>
+            <span @click="isMovementApply= !isMovementApply; loadMovementInitData()" class="border rounded p-2 mr-2">Apply Movement</span>
         </div>
         <div v-show="isOtApply" class="mt-5">
             <OtApply @is-ot-apply="isOtApply= !isOtApply"/>
@@ -16,7 +16,7 @@
             <LeaveApply @is-leave-apply="isLeaveApply= !isLeaveApply" :leaveyear="leaveYear"/>
         </div>
         <div v-show="isMovementApply" class="mt-5">
-            <MovementApply @is-movement-apply="isMovementApply= !isMovementApply" :empno="empno"/>
+            <MovementApply @is-movement-apply="isMovementApply= !isMovementApply" :empno="empno" :dtFrom="dtFrom"/>
         </div>
         <div v-if="dayType !== `No-Pay`"
             class="text-center bg-white text-black p-2 rounded mt-1 text-xs whitespace-pre-line">
@@ -454,9 +454,10 @@
 import OtApply from "~/components/hr/otApply";
 import MovementApply from "~/components/hr/movementcreate";
 import LeaveApply from "~/components/hr/absencecreate";
+import { useMovementStore } from "~/stores/modules/hr/movementStore";
 
 export default {
-    props: ["dayInfo","dayType","empno"],
+    props: ["dayInfo","dayType","empno","dtFrom"],
     components: {
         OtApply,
         MovementApply,
@@ -470,15 +471,23 @@ export default {
             isLeaveApply: false,
             isMovementApply: false,
             leaveYear: "",
+
+            movementStore: null,
         }
     },
 
     async created() {
+
+        this.movementStore = useMovementStore();
         this.leaveYear = new Date().getFullYear()
         this.showLoading = this.$showLoading;
     },
 
     methods: {
+        async loadMovementInitData() { 
+            await this.movementStore.getMovementInitData(this.showLoading)
+        },
+
         async deleteRecord(id, type) {
             await this.$emit("test", { id, type });
         },

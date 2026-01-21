@@ -203,7 +203,7 @@
                 </div>
               </div>
               <div class="space-y-12">
-                <viewMore @test="({ id, type }) => deleteRecord(id, type)" :dayInfo="attendanceStore.dayInfo" :dayType="getDayTypeName(dayatt)" :empno="empno" />
+                <viewMore :dayInfo="attendanceStore.dayInfo" :dayType="getDayTypeName(dayatt)" :dtFrom="dayatt.date.split('T')[0]" :empno="empno" />
               </div>
             </div>
           </div>
