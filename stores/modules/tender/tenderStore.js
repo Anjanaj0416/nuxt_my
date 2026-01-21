@@ -55,8 +55,8 @@ export const useTenderStore = defineStore("tenderStore", {
                     },
                 }
                 );
-
                 loadingAlert.close();
+                
                 if (response.data.isSuccess) {
                     this.listTenderCategory = response.data.data.data.listTenderCategory;
                     this.listTenderSource = response.data.data.data.listTenderSource;

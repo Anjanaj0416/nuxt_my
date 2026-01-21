@@ -9,19 +9,38 @@
             <input
               v-model="SearchText"
               type="search"
-              placeholder="Search tenders, reference no, keywords..."
-              class="w-full rounded-full border border-gray-300 px-6 py-3 text-sm text-gray-800
-                     focus:ring-2 focus:ring-purple-500 focus:outline-none"
+              :placeholder="isMobile ? 'Search...' : 'Search tenders, reference no, keywords...'"
+              class="w-full rounded-full border border-gray-300 px-6 py-3 pr-14 text-sm text-gray-800
+                    focus:ring-2 focus:ring-purple-500 focus:outline-none"
             />
+
+            <!-- Desktop / Tablet Button -->
             <button
               @click="onSearchClick"
-              class="absolute right-2 top-1/2 -translate-y-1/2
-                     bg-purple-600 hover:bg-purple-700
-                     text-white px-6 py-2 rounded-full text-sm font-medium"
+              class="hidden sm:flex absolute right-2 top-1/2 -translate-y-1/2
+                    bg-purple-600 hover:bg-purple-700
+                    text-white px-6 py-2 rounded-full text-sm font-medium items-center"
             >
               Search
             </button>
+
+            <!-- Mobile Icon Button -->
+            <button
+              @click="onSearchClick"
+              class="flex sm:hidden absolute right-3 top-1/2 -translate-y-1/2
+                    bg-purple-600 hover:bg-purple-700
+                    text-white p-2 rounded-full"
+              aria-label="Search"
+            >
+              <!-- Search Icon -->
+              <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none"
+                viewBox="0 0 24 24" stroke="currentColor">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                  d="M21 21l-4.35-4.35m1.35-5.65a7 7 0 11-14 0 7 7 0 0114 0z" />
+              </svg>
+            </button>
           </div>
+
           <div class="mt-5 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-3">
             <select v-model="TenderTypeId" class="filter-select">
               <option disabled selected="" value="">Select Type</option>
@@ -67,7 +86,7 @@
       </div>
     </section>
 
-    <section class="py-6 px-2">
+    <section class="mt-6 px-2">
       <h1 class="mb-4 text-md font-semibold text-center text-gray-700 uppercase tracking-wide">
           ALL Categories
         </h1>
@@ -122,7 +141,7 @@
           @click="toggletenderType(tenderType)"
           type="button"
           :class="[
-              'relative flex items-center gap-1.5 px-3 py-1.5 text-sm font-medium rounded-full transition-all duration-300',
+              'relative flex items-center gap-1.5 px-2 py-1.5 text-sm font-medium rounded-full transition-all duration-300',
               'border backdrop-blur-sm',
               activeType === tenderType
                 ? 'bg-gradient-to-r from-purple-600 to-indigo-600 text-white shadow-lg scale-105 border-transparent'
@@ -237,7 +256,7 @@
       <button
         v-show="showBackToTop"
         @click="scrollToTop"
-        class="fixed bottom-6 right-6 z-50 bg-purple-600 hover:bg-purple-700 text-white p-3 rounded-full shadow-lg transition-all duration-300"
+        class="fixed bottom-6 right-6 z-50 bg-purple-600 hover:bg-purple-700 text-white p-3 rounded-full shadow-lg transition-all duration-300 border border-white"
       >
         <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
           <path stroke-linecap="round" stroke-linejoin="round" d="M5 15l7-7 7 7" />
@@ -357,7 +376,10 @@
           if (width < 640) return 2
           if (width < 1024) return 3
           return 5
-        },
+      },
+      isMobile() {
+        return window.innerWidth < 640
+      }
     },
     methods: {
       async loginWithSecretCode() {
@@ -380,13 +402,13 @@
       },
       async loadInitialTenderList() {
         try {
-          const payload = {
+          const req = {
             CategoryId: "", 
             TenderTypeId: "",
             Days: "",
             SearchText: "",
           };
-          await this.tenderStore.fetcTender(payload, this.TendershowLoading);
+          await this.tenderStore.fetcTender(req, this.TendershowLoading);
           this.TenderList = this.tenderStore.TenderList; 
         } catch (error) {
           console.error("Error loading tenders:", error);

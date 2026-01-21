@@ -257,7 +257,7 @@
                 </button>
 
                 <button
-                  v-if="(userStore.loggedUser.granted.includes('sso') || userStore.loggedUser.granted.includes('su') || userStore.loggedUser.granted?.includes('flo') || userStore.loggedUser.granted?.includes('accdept')) && (order.orderStatus !== 'Canceled')"
+                  v-if="(userStore.loggedUser.granted.includes('sso') || userStore.loggedUser.granted.includes('su') || userStore.loggedUser.granted?.includes('flo') || userStore.loggedUser.granted?.includes('accdept')) && order.orderStatus !== 'Cancelled'"
                   @click="confirmDelete(order.id)"
                   class="text-sm  text-blue-600 hover:underline"
                 >
@@ -284,7 +284,7 @@
             <!-- Button group -->
             <div class="p-0 dark:border-gray-700">
               <div v-if="activeTab.type === 'Invoice' && activeTab.orderId === order.id">
-                <Invoice :orderId="order.id" :status="order.orderStatus" :orderNo="order.orderNo" />
+                <Invoice :orderId="order.id" :orderStatus="order.orderStatus" :orderNo="order.orderNo" />
               </div>
               <div v-if="activeOrderWorkFloweId === order.id">
                 <WorkFlow  />
@@ -299,7 +299,7 @@
                 <TimeLine :orderId="order.id" />
               </div>
               <div v-if="activeTab.type === 'Banner' && activeTab.orderId === order.id">
-                <Banner :orderId="order.id" :clientId="order.clientId" />
+                <Banner :orderId="order.id" :clientId="order.clientId" :orderStatus="order.orderStatus"/>
               </div>
             </div>
           </div>
