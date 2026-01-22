@@ -17,12 +17,12 @@
             </a>
 
             <!-- Menu UNDER the logo/text -->
-            <nav class="flex items-center gap-6 mt-2">
+            <nav class="flex items-center gap-6 mt-2 ml-1 lg:ml:0">
               <NuxtLink
                 to="/tender"
                 class="text-md font-medium text-white"
               >
-                Tender
+                 Home
               </NuxtLink>
 
               <NuxtLink

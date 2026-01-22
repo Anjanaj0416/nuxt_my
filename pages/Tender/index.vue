@@ -247,24 +247,24 @@
             />
           </div>
         </div> -->
-        <div
-          class=" hidden lg:flex lg:col-span-1 flex-col gap-4 self-start pl-4"
-        >
-          <div
-            class="
-              w-full h-[280px]
-              rounded-xl overflow-hidden
-              shadow-md hover:shadow-xl
-              transition-all
-            "
-          >
-            <img
-              src="/assets/img/tender/tenermainlogo.png"
-              alt="TenderB2B.lk"
-              class="h-8 sm:h-10 w-auto mb-3  rounded-lg"
-            />
-          </div>
-        </div>
+      <!-- Desktop sidebar banner -->
+      <div class="hidden lg:flex lg:col-span-1 flex-col gap-4 self-start pl-4">
+        <img
+          src="/assets/img/tender/homeBanner.gif"
+          alt="TenderB2B.lk"
+          class="w-full rounded-xl shadow-md"
+        />
+      </div>
+
+      <!-- Mobile bottom banner -->
+      <div class="block lg:hidden mt-6">
+        <img
+          src="/assets/img/tender/mainBannerMobile.gif"
+          alt="TenderB2B.lk"
+          class="w-full rounded-xl shadow-md"
+        />
+      </div>
+
       </div>
       <Pagination
         :total-items="tenderStore.TenderList?.length || 0"
