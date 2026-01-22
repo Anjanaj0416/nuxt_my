@@ -77,17 +77,34 @@
                 </div>
                 <div class="bg-white rounded-xl border border-gray-200 p-5 shadow-sm">
                   <h3 class="text-sm font-semibold text-gray-800 mb-3">
-                  Tender Documents
+                    Tender Documents
                   </h3>
-                  {{ imageroot + tenderStore.moreDetails.listTenderDocuments }}
-                  {{ imageroot }}
-                   <img
+
+                  <img
                     :src="imageroot + tenderStore.moreDetails.listTenderDocuments"
                     alt="Tender Documents"
-                    class="w-full h-full object-cover"
+                    class="w-full h-full object-cover mb-4"
+                    ref="tenderImage"
                   />
-                  
+
+                  <!-- Action Buttons -->
+                  <div class="flex gap-3">
+                    <!-- WhatsApp Share -->
+                    <button
+                      @click="shareWhatsApp"
+                      class="px-4 py-2 bg-green-500 text-white rounded-lg text-sm hover:bg-green-600"
+                    >
+                      Share WhatsApp
+                    </button>
+                    <button
+                      @click="downloadImage"
+                      class="px-4 py-2 bg-gray-700 text-white rounded-lg text-sm hover:bg-gray-800"
+                    >
+                      Download
+                    </button>
+                  </div>
                 </div>
+
             </div>
             <div class="lg:col-span-2">
                 <div class="sticky top-2 bg-white rounded-xl border border-gray-200 p-5 shadow-sm space-y-4">
@@ -235,6 +252,27 @@
       },
       handleScroll() {
         this.showBackToTop = window.scrollY > 100;
+      },
+      shareWhatsApp() {
+        const url =
+          "https://b2b.lk/Tender/MoreDetail?id=3eaad9f4-6dc8-4d04-f9d7-08de58b2cce1";
+
+        const text = `Check this Tender Document:\n${url}`;
+        const whatsappUrl = `https://wa.me/?text=${encodeURIComponent(text)}`;
+
+        window.open(whatsappUrl, "_blank");
+      },
+
+      downloadImage() {
+        const imageUrl =
+          this.imageroot + this.tenderStore.moreDetails.listTenderDocuments;
+
+        const link = document.createElement("a");
+        link.href = imageUrl;
+        link.download = "tender-document.jpg"; // you can change name
+        document.body.appendChild(link);
+        link.click();
+        document.body.removeChild(link);
       },
     },
     mounted() {
