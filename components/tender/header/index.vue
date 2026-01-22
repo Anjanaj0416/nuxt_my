@@ -1,6 +1,6 @@
 <template>
     <!-- <header class="sticky bg-purple-600 w-full py-0 lg:py-7 "> -->
-    <header class="sticky top-0 z-50 bg-purple-600 w-full py-0 lg:py-7">
+    <header class="sticky top-0 z-50 bg-purple-600 w-full py-0 lg:py-2">
       <div
         class="flex flex-col sm:flex-row sm:items-center
               px-4 sm:px-10 lg:px-44 py-3 sm:py-0"
