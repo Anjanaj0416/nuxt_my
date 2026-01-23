@@ -161,6 +161,7 @@
         class="text-center text-gray-900 mt-5 text-sm font-medium"
       >
         <p>No Tender....</p>
+      
       </div>
 
       <div class="grid grid-cols-1 lg:grid-cols-6 gap-0 text-sm relative">

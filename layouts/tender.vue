@@ -17,10 +17,10 @@
   useHead({
     title: 'TenderB2B.lk | Sri Lanka Main B2B Tender Website',
     link: [
-      { rel: "icon", sizes: "16x16", href: "/favicon_io/tender/favicon-16x16.png" },
-      { rel: "icon", sizes: "32x32", href: "/favicon_io/tender/favicon-32x32.png" },
-      { rel: "apple-touch-icon", href: "/favicon_io/tender/apple-touch-icon.png" },
-      { rel: "manifest", href: "/favicon_io/tender/site.webmanifest" }
+      { rel: "icon", sizes: "16x16", href: "https://b2b.lk/favicon_io/tender/favicon-16x16.png" },
+      { rel: "icon", sizes: "32x32", href: "https://b2b.lk/favicon_io/tender/favicon-32x32.png" },
+      { rel: "apple-touch-icon", href: "https://b2b.lk/favicon_io/tender/apple-touch-icon.png" },
+      { rel: "manifest", href: "https://b2b.lk/favicon_io/tender/site.webmanifest" }
     ]
   })
 

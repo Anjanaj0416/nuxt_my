@@ -1,262 +1,6 @@
 <template>
-  <section class="p-2">
-    <div class="relative min-h-screen px-4 pt-2 text-sm">
-      <div class="flex flex-col gap-4 mb-4 sm:flex-row sm:justify-between">
-        <div class="flex flex-wrap justify-between gap-2">
-          <!-- <div class="p-2 text-xs font-semibold uppercase bg-blue-600 rounded-md sm:text-sm text-white">
-            Attendence
-          </div> -->
-          <div class="text-2xl uppercase">Attendence </div>
-          <!-- <div class="p-2 text-xs font-semibold uppercase bg-blue-600 rounded-md sm:text-sm text-SID-blue">
-            <a :href="imageroot + '/Resource/HR/Attendence_Rectify_Form.docx'" target="_blank" class="hover:text-white">
-              Rectify Form
-            </a>
-          </div> -->
-        </div>
-
-        <datediff ref="datediffRef" @date-change="handleDateChange" class="mb-2 sm:mb-0" />
-
-        <div class="flex flex-wrap items-center justify-between gap-4 rounded-md sm:justify-start">
-          <div
-            class="w-full p-2 font-bold text-center text-gray-700 border bg-white border-white rounded-md sm:w-auto ">
-            Normal OT Hrs - {{ attendanceStore.attendence.tot_normal_overtime }}
-          </div>
-          <div class="w-full p-2 font-bold text-center text-gray-700 border bg-white border-white rounded-md sm:w-auto">
-            Sunday OT Hrs - {{ attendanceStore.attendence.tot_sunday_overtime }}
-          </div>
-
-          <!-- <div class="w-full sm:w-auto">
-            <btnhr_print class="w-full sm:w-20" name="Download" @click="getDownload" />
-          </div> -->
-          <div class="w-full sm:w-auto">
-            <btnhr_print class="w-full sm:w-20" name="Print" @get_Print="getPrint" />
-          </div>
-          <div class="w-full cursor-pointer sm:w-auto hover:text-SID-blue" title="Exit Absence" @click="getclose">
-            <svg xmlns="http://www.w3.org/2000/svg" class="w-8 h-8 mx-auto sm:mx-0" fill="none" viewBox="0 0 24 24"
-              stroke="currentColor">
-              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                d="M10 14l2-2m0 0l2-2m-2 2l-2-2m2 2l2 2m7-2a9 9 0 11-18 0 9 9 0 0118 0z" />
-            </svg>
-          </div>
-        </div>
-      </div>
-
-      <div class="absolute top-0 right-0 hidden px-4 mt-16 sm:hidden md:block">
-        <atten_colorbox />
-      </div>
-
-      <div class="block md:hidden">
-        <atten_colorbox />
-      </div>
-
-      <div class="grid w-full grid-cols-1 p-2 text-center text-white bg-blue-800 lg:grid-cols-12 lg:w-5/6 rounded-t-md">
-        <div class="hidden lg:block">Emp No</div>
-        <div class="hidden lg:block">Date</div>
-        <div class="hidden lg:block">In Time</div>
-        <div class="hidden lg:block">Out Time</div>
-        <div class="hidden lg:block">In Location</div>
-        <div class="hidden lg:block">Out Location</div>
-        <div class="hidden lg:block">Over Time</div>
-        <div class="hidden lg:block">Status</div>
-
-        <div class="hidden lg:block"></div>
-        <div class="hidden lg:block"></div>
-        <div class="hidden lg:block"></div>
-      </div>
-      <div v-for="dayatt in attendanceStore.attendence.alattendences" :key="dayatt">
-        <div class="w-full p-2 mt-1 text-white bg-gray-600 rounded-md lg:w-5/6" v-bind:class="[getAttRowColor(dayatt)]">
-          <div class="grid grid-cols-1 text-center lg:grid-cols-12">
-            <div>{{ dayatt.empNo }}</div>
-            <!-- <div>{{ $options.filters.toReadableDate(dayatt.date) }}</div> -->
-            <div class="mx-auto">
-              <div class="flex gap-x-2">
-                <div>
-                  <!-- <attnrectify v-model="dayatt.intime" :rowid="dayatt.id" :rectifingrow="rectifingrow" /> -->
-                  {{ dayatt.date.split("T")[0] }}
-                </div>
-                <div>
-                  <swipes v-show="dayatt.swipesIn.length > 0" :swipes="dayatt.swipesIn" class=""
-                    :cssbg="getAttRowColor(dayatt)" />
-                </div>
-              </div>
-            </div>
-            <div class="mx-auto">
-              <div class="flex gap-x-2">
-                <div>
-                  <!-- <attnrectify v-model="dayatt.inTime" :rowid="dayatt.id" :rectifingrow="rectifingrow" /> -->
-                  {{ dayatt.inTime }}
-                </div>
-                <div>
-                  <swipes v-show="dayatt.swipesOut.length > 0" :swipes="dayatt.swipesOut" class=""
-                    :cssbg="getAttRowColor(dayatt)" />
-                </div>
-              </div>
-            </div>
-
-            <div>{{ dayatt.outTime }}</div>
-            <div>{{ dayatt.inLocation }}</div>
-            <div>{{ dayatt.outLocation }}</div>
-            <div>{{ dayatt.overTime }}</div>
-            <div>{{ getDayTypeName(dayatt) }}</div>
-            <div>
-              <span v-show="dayatt.lateMin > 0">
-                Late {{ dayatt.weekType }} min</span>
-            </div>
-
-            <div class="">
-              <!-- <btnhr_rectify v-show="dayatt.dayType == 505 && !isOTAppling &&
-                (!isrectifing || rectifingrow == dayatt.id)
-                " :rowid="dayatt.id" :rectifingrow="rectifingrow" ref="ref_btnrectify"
-                @save_rectification="save_rectification" @click="setRectifing(dayatt.id)" @canceledit="cancelRectify" /> -->
-
-              <div v-show="!isrectifing &&
-                dayatt.dayType == 505 &&
-                !isOTAppling &&
-                (!isrectifing || rectifingrow == dayatt.id)
-                "
-                class="w-1/2 p-2 font-bold text-center border-gray-500 rounded-md cursor-pointer gap-x-1 hover:bg-blue-500 hover:text-white"
-                @click="showRectifing(dayatt.id)">
-                Rectify
-              </div>
-              <!-- && loggeduser.granted.indexOf('hradmin')>-1 -->
-            </div>
-
-            <!-- <div class="flex">
-              <span v-show="isOTEntitled &&
-                !isOTAppling &&
-                dayatt.dayType != 100.1 &&
-                otApplingRow == -1 &&
-                dayatt.inTime != '00:00' &&
-                dayatt.overTime != '' &&
-                dayatt.overTime != '0' &&
-                dayatt.overTime != '00.00' &&
-                !dayatt.isOTApplied
-                "
-                class="w-4/5 p-2 font-bold text-center border-gray-500 rounded rounded-md cursor-pointer gap-x-1 hover:bg-blue-500 hover:text-white"
-                @click="showOTApplyForm(dayatt.id)">
-                Apply OT
-              </span>
-
-              <span v-show="isOTEntitled &&
-                !isOtManual &&
-                dayatt.dayType != 100.1 &&
-                otManualRow == -1 &&
-                dayatt.inTime != '00:00' &&
-                dayatt.overTime != '' &&
-                dayatt.overTime != '0' &&
-                dayatt.overTime != '00.00' &&
-                !dayatt.isOTApplied
-                "
-                class="w-4/5 p-2 font-bold text-center border-gray-500 rounded rounded-md cursor-pointer gap-x-1 hover:bg-blue-500 hover:text-white"
-                @click="showOTManualApplyForm(dayatt.id)">
-                Manual OT
-              </span>
-            </div> -->
-            <div>
-              <div v-show="userStore.loggedUser.granted.includes('hradmin') ||
-                userStore.loggedUser.granted.includes('hradmin')
-                "
-                class="w-4/5 p-1 p-2 font-bold text-center border-gray-500 rounded rounded-md cursor-pointer gap-x-1 hover:bg-blue-500 hover:text-white"
-                @click="getReCalcOT(dayatt)">
-                ReCalc.OT
-              </div>
-            </div>
-
-            <div class="flex">
-              <svg v-show="!isView" width="16" height="16" viewBox="0 0 16 16" fill="none" class="mr-3"
-                xmlns="http://www.w3.org/2000/svg" @click="changeView(dayatt.id); getDayAppliedRecords(dayatt.date)">
-                <path class="down-arrow" d="M2 5L8 11L14 5" stroke="currentColor" stroke-width="2"
-                  stroke-linecap="round" stroke-linejoin="round" />
-              </svg>
-
-              <svg v-show="isView && viewRow == dayatt.id" width="16" height="16" viewBox="0 0 16 16" fill="none"
-                class="mr-3" xmlns="http://www.w3.org/2000/svg" @click="getClose()">
-                <path class="up-arrow" d="M2 11L8 5L14 11" stroke="currentColor" stroke-width="2" stroke-linecap="round"
-                  stroke-linejoin="round" />
-              </svg>
-
-              <svg v-if="dayatt.comment" width="16" height="16" viewBox="0 0 16 16" fill="none"
-                xmlns="http://www.w3.org/2000/svg" @click="changeCommentView(dayatt.id)">
-                <path
-                  d="M2 4C2 2.89543 2.89543 2 4 2H12C13.1046 2 14 2.89543 14 4V10C14 11.1046 13.1046 12 12 12H6L2 14V4Z"
-                  stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
-              </svg>
-              <!-- <div class="font-bold text-center text-xs cursor-pointer p-1 p-2 gap-x-1 text-sm hover:text-blue-500"
-                @click="changeView(dayatt.id); getDayAppliedRecords(dayatt.date)">View more>>></div>
-              <div v-if="dayatt.comment"
-                class="font-bold text-center text-xs cursor-pointer p-1 p-2 gap-x-1 text-sm hover:text-blue-500"
-                @click="changeCommentView(dayatt.id)">Comments>>></div> -->
-            </div>
-
-          </div>
-          <!-- View more -->
-          <div v-show="isView && viewRow == dayatt.id">
-            <div class="relative  px-4 pt-2 text-sm">
-              <div class="absolute top-0 right-0 flex mt-3 mr-5 gap-x-4">
-                <div class="cursor-pointer text-gray-500 hover:text-gray-800" title="Exit Employee Details"
-                  @click="getClose">
-                  <svg xmlns="http://www.w3.org/2000/svg" class="w-8 h-8" fill="none" viewBox="0 0 24 24"
-                    stroke="currentColor">
-                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                      d="M10 14l2-2m0 0l2-2m-2 2l-2-2m2 2l2 2m7-2a9 9 0 11-18 0 9 9 0 0118 0z" />
-                  </svg>
-                </div>
-              </div>
-              <div class="space-y-12">
-                <viewMore :dayInfo="attendanceStore.dayInfo" :dayType="getDayTypeName(dayatt)" :dtFrom="dayatt.date.split('T')[0]" :empno="empno" />
-              </div>
-            </div>
-          </div>
-
-          <!-- Comments view -->
-          <div v-show="isCommentView && commentRow == dayatt.id"
-            class="bg-white text-black p-2 rounded mt-1 text-xs max-h-20 overflow-y-auto whitespace-pre-line">
-            {{ formatComment(dayatt.comment) || 'No comment available' }}
-          </div>
-
-          <!-- Rectify form -->
-          <div class="w-full p-2 mt-1 bg-gray-400 rounded-md" v-show="isrectifing && rectifingrow == dayatt.id">
-            <RectifyForm class="flex text-gray-800 gap-x-4">
-              <div>
-                <span class="pr-4">In Time</span>
-                <input type="time" :value="rectificationRequest.inTime" :disabled="dayatt.inTime !== '00:00'"
-                  @input="(e) => handleInTimeChange(e, dayatt)" />
-              </div>
-              <div>
-                <span class="pr-4">Out Time </span>
-                <input type="time" :value="rectificationRequest.outTime" :disabled="dayatt.outTime !== '00:00'"
-                  @input="(e) => handleOutTimeChange(e, dayatt)" />
-                <!-- :value="dayatt.outTime !== '00:00' ? dayatt.outTime : rectificationRequest.outTime" -->
-              </div>
-
-              <div>
-                <span class="pr-4">Rectification Reason</span>
-                <input required v-model="rectificationRequest.reason" type="text" />
-              </div>
-
-              <div
-                class="p-2 px-1 font-bold text-center border-gray-500 rounded rounded-md cursor-pointer hover:bg-blue-500 hover:text-white"
-                @click="save_rectification(dayatt.id, dayatt.empNo)">
-                Apply
-              </div>
-
-              <div
-                class="p-2 px-1 font-bold text-center border-gray-500 rounded rounded-md cursor-pointer hover:bg-blue-500 hover:text-white"
-                @click="
-                  (isrectifing = false),
-                  (rectifingrow = -1),
-                  (rectificationRequest.outTime = '00.00'),
-                  (rectificationRequest.inTime = '00.00'),
-                  (rectificationRequest.reason = '')
-                  ">
-                Cancel
-              </div>
-            </RectifyForm>
-          </div>
-
-          <!-- OT Apply -->
-          <div class="w-full p-2 mt-1 bg-gray-400 rounded-md" v-show="isOTAppling && otApplingRow == dayatt.id">
-            <OTApplyForm class="flex text-gray-800 gap-x-4">
+    <section>
+        <OTApplyForm class="border rounded p-2 flex text-gray-800 gap-x-4">
               <div>
                 <span class="pr-4">From</span>
                 <input v-model="oTPreApprovalRequest.OTFrom" @blur="calcOTHours" type="time" />
@@ -274,54 +18,18 @@
               </div>
 
               <div
-                class="p-2 px-1 font-bold text-center border-gray-500 rounded rounded-md cursor-pointer hover:bg-blue-500 hover:text-white"
+                class=" px-1 font-bold text-center border-gray-500 rounded rounded-md cursor-pointer hover:bg-blue-500 hover:text-white"
                 @click="setApplyOT(dayatt.date)">
                 Apply
               </div>
 
               <div
-                class="p-2 px-1 font-bold text-center border-gray-500 rounded rounded-md cursor-pointer hover:bg-blue-500 hover:text-white"
+                class=" px-1 font-bold text-center border-gray-500 rounded rounded-md cursor-pointer hover:bg-blue-500 hover:text-white"
                 @click="oTApplingCancel()">
                 Cancel
               </div>
             </OTApplyForm>
-          </div>
-
-          <!-- OT Manual Apply -->
-          <div class="w-full p-2 mt-1 bg-gray-400 rounded-md" v-show="isOTManualAppling && otManualRow == dayatt.id">
-            <OTManualForm class="flex text-gray-800 gap-x-4">
-              <div>
-                <span class="pr-4">Hours</span>
-                <input v-model="oTManualRequest.otHour" type="text" />
-              </div>
-              |
-              <div class="">
-                OT Hrs :
-                {{ oTManualRequest.otHour === "" ? 0 : oTManualRequest.otHour }}
-              </div>
-              |
-              <div>
-                <span class="pr-4">Comment</span>
-                <input v-model="oTManualRequest.comment" type="text" />
-              </div>
-
-              <div
-                class="p-2 px-1 font-bold text-center border-gray-500 rounded rounded-md cursor-pointer hover:bg-blue-500 hover:text-white"
-                @click="applyOTManual(dayatt.id)">
-                Apply
-              </div>
-
-              <div
-                class="p-2 px-1 font-bold text-center border-gray-500 rounded rounded-md cursor-pointer hover:bg-blue-500 hover:text-white"
-                @click="manualOTApplingCancel()">
-                Cancel
-              </div>
-            </OTManualForm>
-          </div>
-        </div>
-      </div>
-    </div>
-  </section>
+    </section>
 </template>
 
 <script>
@@ -395,7 +103,6 @@ export default {
     datediff,
     swipes,
     attnrectify,
-    viewMore
   },
   computed: {
     getAttRowColor() {
@@ -610,6 +317,7 @@ export default {
       this.isOTAppling = false;
       this.otApplingRow = -1;
       await this.attendanceStore.otCancel();
+      await this.$emit('is-ot-apply');
     },
 
     async manualOTApplingCancel() {
@@ -933,52 +641,3 @@ export default {
 };
 </script>
 
-<style scoped>
-.cssNoPay {
-  @apply bg-red-700;
-}
-
-.cssShortLeave {
-  @apply bg-green-700;
-}
-
-.cssHalfday {
-  @apply bg-blue-700;
-}
-
-.cssInComplete {
-  @apply bg-orange-500;
-}
-
-.cssHoliday {
-  @apply bg-indigo-700;
-}
-
-.cssMovement {
-  @apply bg-yellow-500;
-}
-
-.cssLeave {
-  @apply bg-pink-700;
-}
-
-.cssSaturday {
-  @apply bg-gray-800;
-}
-
-.cssSunday {
-  @apply bg-gray-800;
-}
-
-.cssDefault {
-  @apply bg-gray-600;
-}
-
-.cssSWA {
-  @apply bg-green-400;
-}
-
-.cssTransport {
-  @apply bg-red-400;
-}
-</style>

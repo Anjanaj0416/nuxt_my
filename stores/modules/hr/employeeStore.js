@@ -60,7 +60,7 @@ export const useEmployeeStore = defineStore("employeeStore", {
       isExecutive: false,
       isActive: false,
       employeeStatus: "",
-      granted: "",
+      granted: [],
       isMorningOtAllowed: false,
       isTransport: false,
       role: { id: "", value: "" },
@@ -91,8 +91,8 @@ export const useEmployeeStore = defineStore("employeeStore", {
 
     //Employee//
 
-    async AddEdiEmployee(formData, showLoading) {
-      console.log("AddEdiEmployee received FormData:");
+    async AddEditEmployee(formData, showLoading) {
+      console.log("AddEditEmployee received FormData:");
         for (const [key, value] of formData.entries()) {
           console.log(`${key}: ${value}`);
         }
@@ -109,7 +109,7 @@ export const useEmployeeStore = defineStore("employeeStore", {
           }
         );
 
-        console.log("AddEdiEmployee:",response);
+        console.log("AddEditEmployee:",response);
         
 
         loadingAlert.close();
@@ -120,13 +120,13 @@ export const useEmployeeStore = defineStore("employeeStore", {
           this.closeModal();
           // You can also update other state values if needed
         } else {
-          console.error("Server error:", response.data.message);
-          this.showToast(response.data.message, "error");
+          console.log("Server error:", response.data.message);
+          // this.showToast(response.data.message, "error");
         }
       } catch (error) {
-        console.error("error:", error);
+        console.log("error:", error);
         loadingAlert.close();
-        this.showToast("Error in server call", error);
+        // this.showToast("Error in server call", error);
       }
     },
 
@@ -185,6 +185,8 @@ export const useEmployeeStore = defineStore("employeeStore", {
       console.log('API-getEmployeeByID:',req);
       console.log(JSON.stringify(req));
 
+      this.clearEmployee();
+
       const loadingAlert = showLoading("");
       try {
         const response = await axios.get(
@@ -195,9 +197,8 @@ export const useEmployeeStore = defineStore("employeeStore", {
           this.curEmployee = response.data.data.data || {};
           this.empdetails = this.curEmployee;
           // this.showToast('Loading successful!', 'success');
-        } else {
-          console.error("Loading error:", response.data.message);
-          // this.showToast(response.data.message, 'error');
+        } else {         
+           this.showToast(response.data.message, 'error');
         }
       } catch (error) {
         console.error("Loading error:", error);
@@ -322,7 +323,7 @@ export const useEmployeeStore = defineStore("employeeStore", {
         isExecutive: false,
         isActive: false,
         employeeStatus: "",
-        granted: "",
+        granted: [],
         isMorningOtAllowed: false,
         isTransport: false,
         role: { id: "", value: "" },
