@@ -79,10 +79,9 @@
                   <h3 class="text-sm font-semibold text-gray-800 mb-3">
                   Tender Documents
                   </h3>
-                  {{ imageroot + tenderStore.moreDetails.listTenderDocuments }}
-                  {{ imageroot }}
+               
                    <img
-                    :src="imageroot + tenderStore.moreDetails.listTenderDocuments"
+                    :src="imageroot + tenderStore.moreDetails.listTenderDocuments[0]"
                     alt="Tender Documents"
                     class="w-full h-full object-cover"
                   />
@@ -176,33 +175,37 @@
       }
     },
     async mounted() {
-      const route = useRoute()
-      this.tenderId = route.query.id
+      //  console.log('mounted')
+      // const route = useRoute()
+      // this.tenderId = route.query.id
 
-      if (!this.tenderId) {
-        console.error('Tender ID missing')
-        return
-      }
+      // if (!this.tenderId) {
+      //   console.error('Tender ID missing')
+      //   return
+      // }
 
-      this.TendershowLoading = this.$TendershowLoading
-      this.userStore = useUserStore()
-      this.tenderStore = useTenderStore()
-      this.imageroot = this.userStore.loggedUser.resourceURLRoot;   
+      // this.TendershowLoading = this.$TendershowLoading
+      // this.userStore = useUserStore()
+      // this.tenderStore = useTenderStore()
+      // this.imageroot = this.userStore.loggedUser.resourceURLRoot;   
 
-      await this.loginWithSecretCode()
-      await this.tenderStore.tenderDetails(this.tenderId, this.TendershowLoading)
+      // await this.loginWithSecretCode()
+      // console.log(this.tenderId)
+     
+    //  await this.tenderStore.tenderDetails(this.tenderId, this.TendershowLoading)
     },
 
     async created() {
+       
       const route = useRoute() 
       this.tenderId = route.query.id 
 
       this.TendershowLoading = this.$TendershowLoading;
       this.userStore = useUserStore();
       this.tenderStore = useTenderStore();
-      this.loginWithSecretCode();
+      //this.loginWithSecretCode();
       this.imageroot = this.userStore.loggedUser.resourceURLRoot;   
-      
+      await this.tenderStore.tenderDetails(this.tenderId, this.TendershowLoading)
       
 
     },
@@ -216,9 +219,9 @@
 
         try {
           await this.userStore.AppLogin(formData, this.TendershowLoading);
-          // console.log('Login successful');
+        
         } catch (err) {
-          // console.error('Login failed:', err);
+        
         }
       },
       toggleCategory(category) {
@@ -246,7 +249,7 @@
     },
     head() {
       return {
-        title: 'DriveLearn - Find Your Perfect Driving School',
+        title: 'Tender Details',
       }
     },
   }
