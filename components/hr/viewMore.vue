@@ -1,6 +1,6 @@
 <template>
     <section>
-        {{ dayInfo }}
+        <!-- {{ dayInfo }} -->
         <!-- dayInfo?.movementDetails?.id === `00000000-0000-0000-0000-000000000000` &&
             dayInfo?.otDetails?.id === `00000000-0000-0000-0000-000000000000` &&
             dayInfo?.leaveDetails?.id === `00000000-0000-0000-0000-000000000000` &&
@@ -11,7 +11,7 @@
             <span @click="isMovementApply= !isMovementApply; loadMovementInitData()" class="border rounded p-2 mr-2">Apply Movement</span>
         </div>
         <div v-show="isOtApply" class="mt-5">
-            <OtApply @is-ot-apply="isOtApply= !isOtApply"/>
+            <OtApply @is-ot-apply="isOtApply= !isOtApply" :empno="empno" :dtFrom="dtFrom"/>
         </div>
         <div v-show="isLeaveApply" class="mt-5">
             <LeaveApply @is-leave-apply="isLeaveApply= !isLeaveApply" :empno="empno" :fromDate="dtFrom" :leaveyear="leaveYear"/>
@@ -499,7 +499,7 @@ export default {
         async loadLeaveBalance() { 
             let req = {
                 empNo: this.empno,
-                leaveYear: this.leaveYear,
+                year: this.leaveYear,
             }
             await this.leaveStore.getLeaveBalance(req, this.showLoading)
         },
