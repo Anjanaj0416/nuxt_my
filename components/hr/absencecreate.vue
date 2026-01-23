@@ -65,7 +65,7 @@
             <div class="grid grid-cols-6 my-4">
               <div>Date</div>
               <div>
-                <input class="text-gray-600 rounded p-1" type="date" v-model="absense_apply.start_date" />
+                <input class="text-gray-600 rounded p-1" type="date" v-model="localDate" />
                 <!-- @change="LoadLeaveBalance" -->
               </div>
               <div class="text-right pr-2" v-show="absense_apply.absence_type === 'Short Leave'">
@@ -135,7 +135,6 @@ export default {
         start_time: '00:00',
         end_date: '',
         end_time: '00:00',
-
       },
       leavedocDetails: {
         imagechanged: false,
@@ -146,6 +145,7 @@ export default {
       },
       leave_entitle_year: -1,
       isSaving: false,
+      localDate:'',
       showLoading: null,
       leaveStore: null,
     }
@@ -154,6 +154,9 @@ export default {
   async created() {
     this.leaveStore = useLeaveStore();
     this.showLoading = this.$showLoading;
+
+    this.localDate = this.fromDate ?? this.absense_apply.start_date;
+    this.absense_apply.start_date = this.localDate;
   },
 
   beforeMount() {
