@@ -163,7 +163,6 @@
         <p>No Tender....</p>
       
       </div>
-
       <div class="grid grid-cols-1 lg:grid-cols-6 gap-0 text-sm relative">
         <!-- Tender list -->
         <div class="col-span-1 lg:col-span-5 flex flex-col gap-4">
@@ -226,36 +225,31 @@
           </div>
         </div>
         <!-- Banner-->
-        <!-- <div
+        <div
           v-if="tenderStore.listBanners?.length"
-          class=" hidden lg:flex lg:col-span-1 flex-col gap-4 self-start pl-4"
+          class="hidden lg:flex lg:col-span-1 flex-col gap-4 self-start pl-4"
         >
-
-          <div
-            v-for="(banner, index) in tenderStore.listBanners"
-            :key="index"
-            class="
-              w-full h-[280px]
-              rounded-xl overflow-hidden
-              shadow-md hover:shadow-xl
-              transition-all
-            "
+          <!-- Desktop sidebar banner -->
+          <div 
+           v-for="(banner, index) in tenderStore.listBanners"
+            :key="banner.id || index"
           >
             <img
-              :src="imageroot + banner"
-              class="w-full h-full object-cover"
-              alt="Banner"
+              :src="imageroot + banner.bannerUrl"
+              alt="TenderB2B.lk"
+              class="w-full rounded-xl shadow-md"
             />
           </div>
-        </div> -->
-      <!-- Desktop sidebar banner -->
-      <div class="hidden lg:flex lg:col-span-1 flex-col gap-4 self-start pl-4">
+        </div>
+
+      
+      <!-- <div class="hidden lg:flex lg:col-span-1 flex-col gap-4 self-start pl-4">
         <img
           src="/assets/img/tender/homeBanner.gif"
           alt="TenderB2B.lk"
           class="w-full rounded-xl shadow-md"
         />
-      </div>
+      </div> -->
 
       <!-- Mobile bottom banner -->
       <div class="block lg:hidden mt-6">

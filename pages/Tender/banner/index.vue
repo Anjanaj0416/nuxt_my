@@ -21,7 +21,7 @@
     </div>
 
     <!-- Filter Tabs -->
-    <div class="flex gap-2 mb-4">
+    <!-- <div class="flex gap-2 mb-4">
       <button class="px-3 py-1 rounded-full bg-blue-50 text-blue-800 text-xs font-semibold">
         All
       </button>
@@ -31,25 +31,26 @@
       <button class="px-3 py-1 rounded-full bg-green-50 text-green-800 text-xs font-semibold">
         Close
       </button>
-    </div>
+    </div> -->
 
     <!-- Empty State -->
+
     <div
-      v-if="tenderList.length === 0"
+      v-if="!tenderStore.TenderBannerList || tenderStore.TenderBannerList.length === 0"
       class="text-center text-gray-900 mt-5 text-sm font-medium"
     >
-      No tenders available...
+      No Tender Banner available...
     </div>
 
     <!-- Tender Cards -->
     <div
       class="flex flex-col gap-2 p-4 mt-3 bg-white border rounded-xl shadow-sm hover:shadow-md "
-      v-for="(tender, index) in tenderList"
+      v-for="(tender, index) in paginatedTenderBannerList"
       :key="index"
     >
     
       <div class="flex justify-between">
-        <span
+        <!-- <span
           class="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-blue-50 text-blue-800 text-xs font-semibold"
         >
           ⏳ {{ tender.noofDaysPending }} Days Pending
@@ -62,40 +63,46 @@
           class="inline-flex items-center text-xs font-medium me-2 px-2.5 py-0.5 rounded-full md:hidden"
         >
           {{ tender.status || '—' }}
-        </span>
+        </span> -->
       </div>
       <div class="grid grid-cols-2 gap-4 sm:flex sm:flex-row sm:justify-between">
         <div class="flex flex-col text-center sm:text-left">
-          <h1 class="text-xs font-semibold text-gray-600">Organization Type</h1>
+          <h1 class="text-xs font-semibold text-gray-600">Banner App Name</h1>
           <p class="text-xs text-gray-500 mt-0.5">
-            <span v-if="tender.organizationType">{{ tender.organizationType }}</span>
+            <span v-if="tender.bannerAppName">{{ tender.bannerAppName }}</span>
             <span v-else class="flex items-center text-sm text-gray-400">No Data Available</span>
           </p>
         </div>
         <div class="flex flex-col text-center sm:text-left">
-          <h1 class="text-xs font-semibold text-gray-600">Location</h1>
+          <h1 class="text-xs font-semibold text-gray-600">Banner Section</h1>
           <p class="text-xs text-gray-500 mt-0.5">
-            <span v-if="tender.location">{{ tender.location }}</span>
+            <span v-if="tender.bannerSection">{{ tender.bannerSection }}</span>
             <span v-else class="flex items-center text-sm text-gray-400">No Data Available</span>
           </p>
         </div>
         <div class="flex flex-col text-center sm:text-left">
-          <h1 class="text-xs font-semibold text-gray-600">publishe dDate</h1>
+          <h1 class="text-xs font-semibold text-gray-600">Sort Order</h1>
+          <p class="text-xs text-gray-500 mt-0.5">
+            <span v-if="tender.sortOrder">{{ tender.sortOrder }}</span>
+            <span v-else class="flex items-center text-sm text-gray-400">No Data Available</span>
+          </p>
+        </div>
+        <div class="flex flex-col text-center sm:text-left">
+          <h1 class="text-xs font-semibold text-gray-600">Publishe dDate</h1>
           <p class="text-xs text-gray-500 mt-0.5">
             <span v-if="tender.publishedDate">{{ tender.publishedDate }}</span>
             <span v-else class="flex items-center text-sm text-gray-400 ">No Data Available</span>
           </p>
         </div>
         <div class="flex flex-col text-center sm:text-left">
-          <h1 class="text-xs font-semibold text-gray-600">Closed Date</h1>
+          <h1 class="text-xs font-semibold text-gray-600">Expire Date</h1>
           <p class="text-xs text-gray-500 mt-0.5">
-            <span v-if="tender.closedDate">{{ tender.closedDate }}</span>
+            <span v-if="tender.expireDate">{{ tender.expireDate }}</span>
             <span v-else class="flex items-center text-sm text-gray-400">No Data Available</span>
           </p>
-
         </div>
         <!-- Status -->
-       <div class="flex flex-col text-center sm:text-left hidden sm:flex">
+       <!-- <div class="flex flex-col text-center sm:text-left hidden sm:flex">
           <h1 class="text-xs font-semibold text-gray-600">Status</h1>
           <span
             :class="{
@@ -106,7 +113,7 @@
           >
             {{ tender.status || '—' }}
           </span>
-        </div>
+        </div> -->
       </div>
 
       <div
@@ -126,22 +133,17 @@
         <section class="flex flex-col gap-5 p-4 mt-0 bg-white sm:p-6">
           <div class="grid grid-cols-2 gap-4 sm:grid-cols-5">
             <div class="text-center sm:text-left">
-              <h2 class="block text-xs font-semibold text-gray-600">Organization Type</h2>
-              <p class="mt-1 text-xs text-gray-700">
-                {{ tender.organizationType || "No Data" }}
-              </p>
+              <h2 class="block text-xs font-semibold text-gray-600 mb-2">Organization Type</h2>
+               <img
+                  :src="imageroot + tender.bannerUrl"
+                  alt="Tender Banner"
+                  class="w-full h-full object-cover mb-4"
+                  ref="bannertenderImage"
+                />
             </div>
-            <div class="text-center sm:text-left">
-              <h2 class="block text-xs font-semibold text-gray-600">Description</h2>
-              <p class="mt-1 text-xs text-gray-700">
-                {{ tender.description || "No Data" }}
-              </p>
-            </div>
-
           </div>
-
           <!-- Action Buttons -->
-          <div
+          <!-- <div
             class="flex justify-end pt-2"
           >
             <button
@@ -151,24 +153,35 @@
             >
               Update
             </button>
-          </div>
+          </div> -->
         </section>
       </div>
     </div>
 
+    <Pagination
+      :total-items="tenderStore.TenderBannerList?.length || 0"
+      :items-per-page="itemsPerPage"
+      :current-page="page"
+      active-color="#7c3aed"  
+      @update:currentPage="page = $event"
+    />
+
     <!-- Modal -->
-    <AddAllTender v-if="isAddLeads" @close="isAddLeads = false" />
+    <Banner v-if="isAddLeads" @close="isAddLeads = false" />
   </section>
 </template>
 
 
 <script>
   import { useUserStore } from "~/stores/modules/userStore";
+  import { useTenderStore } from "~/stores/modules/tender/tenderStore";
   import LinkBtn from "~/components/customcontrol/Link";
   import Button from "~/components/customcontrol/Button.vue";
   import selectinput2 from "~/components/customcontrol/selectinput2";
   import SearchComp from "~/components/customcontrol/SearchComp";
-  import AddAllTender from "~/components/tender/allTender/addAllTender.vue";
+  import Banner from "~/components/tender/banner/index.vue";
+  import Pagination from "~/components/customcontrol/Pagination.vue";
+
 
  definePageMeta({
     layout: 'default',   
@@ -177,7 +190,7 @@
    
   export default {
     
-    components: {LinkBtn,Button,selectinput2,SearchComp,AddAllTender},
+    components: {LinkBtn,Button,selectinput2,SearchComp,Banner,Pagination},
     props:[''],
     data() {
       return {
@@ -186,40 +199,8 @@
         isAddLeads: false,
         rowIndex: -1,
         isMore: false,
-        tenderList : [
-          {
-            id: 'TND-001',
-            remainingDays: 33,
-            status: 'Publish', // Publish | Close
-
-            organizationType: 'Private Companies',
-            location: 'Colombo',
-
-            publishedDate: '2026/01/01',
-            closedDate: '2026/02/01',
-
-            createdBy: 'Admin',
-            createdDate: '2026/01/01',
-
-            description: 'Supply and installation of IT equipment for head office',
-          },
-          {
-            id: 'TND-002',
-            remainingDays: 12,
-            status: 'Close',
-
-            organizationType: 'Government Institution',
-            location: 'Gampaha',
-
-            publishedDate: '2026/01/05',
-            closedDate: '2026/01/20',
-
-            createdBy: 'Procurement Dept',
-            createdDate: '2026/01/05',
-
-            description: 'Office renovation and maintenance services',
-          }
-        ]
+        page: 1,
+        itemsPerPage: 5,
        
       }
     },
@@ -228,13 +209,31 @@
     },
     async created() {
       this.userStore = useUserStore();
+      this.tenderStore = useTenderStore();
       this.showLoading = this.$showLoading;
       this.imageroot = this.userStore.loggedUser.resourceURLRoot;
+
+      const req = {
+        bannerAppName: "Tender",
+        bannerSection: "TenderSideBanner"
+      };
+
+      await this.tenderStore.listBanner(req,this.showLoading)
+
+      this.TenderBannerList = this.tenderStore.TenderBannerList
       
     },
     watch: {},
     computed: {
-  
+      paginatedTenderBannerList() {
+        if (!this.tenderStore.TenderBannerList) return [];
+
+        const start = (this.page - 1) * this.itemsPerPage;
+        const end = start + this.itemsPerPage;
+
+        return this.tenderStore.TenderBannerList.slice(start, end);
+      }
+
     },
     methods: {
 

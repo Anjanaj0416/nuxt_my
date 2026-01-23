@@ -31,7 +31,7 @@
                     <span>All Tenders</span>
                 </router-link>
 
-                <router-link to="/Tender/allTender"
+                <router-link to="/Tender/banner"
                     v-if="userStore.loggedUser.granted.includes('su') || userStore.loggedUser.granted.includes('flo')"
                     class="block px-3 py-2 text-gray-300 rounded hover:text-white hover:bg-blue-800"
                     @click="$emit('close-sidebar')">

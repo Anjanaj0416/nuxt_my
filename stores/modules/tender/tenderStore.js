@@ -11,7 +11,10 @@ export const useTenderStore = defineStore("tenderStore", {
         TenderList:[],
         moreDetails:[],
         listTenderType:[],
-        listBanners:[]
+        listBanners:[],
+        listBannerAppName:[],
+        listBannerSection:[],
+        TenderBannerList:[]
     }),
     persist: true,
 
@@ -55,6 +58,8 @@ export const useTenderStore = defineStore("tenderStore", {
                     },
                 }
                 );
+                console.log(response);
+                
                 loadingAlert.close();
                 
                 if (response.data.isSuccess) {
@@ -160,6 +165,78 @@ export const useTenderStore = defineStore("tenderStore", {
                 console.error(err);
             }
         },
+        async loadInitTenderBanner(branchCode,B2BshowLoading) {     
+           console.log('API-GetInitUploadBanner');
+           console.log();
+           
+            const loadingAlert = B2BshowLoading("");
+
+            try {
+                const response = await axios.get(`${import.meta.env.VITE_API_URL}/BannerMgt/GetInitUploadBanner`,
+                {
+                    params: { companyCode: branchCode }
+                }
+            );
+
+            // console.log(response);
+            
+            loadingAlert.close();
+            if (response.data.isSuccess) {
+                this.listBannerAppName = response.data.data.data.listBannerAppName;
+                this.listBannerSection = response.data.data.data.listBannerSection;
+            } else {
+                this.showToast(response.data.message, "error");
+            }
+            } catch (error) {
+            this.showToast(response.data.message, "error");
+            }
+        },
+        async AddTenderBanner(formData, B2BshowLoading) {     
+            //console.log('API-SetTender');
+            const loadingAlert = B2BshowLoading("");
+            try {
+                const response = await axios.post(
+                    `${import.meta.env.VITE_API_URL}/BannerMgt/GetUploadBanner`,
+                    formData,
+                    { headers: { "Content-Type": "multipart/form-data" } }
+
+                );
+                //console.log(response);
+                loadingAlert.close();
+                if (response.data.isSuccess) {
+                    this.showToast(response.data.message, "success");
+                } else {
+                    this.showToast(response.data.message, "error");
+                }
+            } catch (error) {
+                this.showToast(error.message || "Something went wrong!", "error");
+                loadingAlert.close();
+            }
+        },
+        async listBanner(req, B2BshowLoading) {     
+            // console.log('API-GetAllActiveBanners');
+            const loadingAlert = B2BshowLoading("");
+            try {
+                const response = await axios.post(
+                    `${import.meta.env.VITE_API_URL}/BannerMgt/GetAllActiveBanners`,req,
+                    // { headers: { "Content-Type": "multipart/form-data" } }
+
+                );
+                // console.log(response);
+                loadingAlert.close();
+                if (response.data.isSuccess) {
+                    // this.showToast(response.data.message, "success");
+                    this.TenderBannerList = response.data.data.data;
+                } else {
+                    this.showToast(response.data.message, "error");
+                }
+            } catch (error) {
+                this.showToast(error.message || "Something went wrong!", "error");
+                loadingAlert.close();
+            }
+        },
+        
+        
         showToast(message, type) {
             Swal.fire({
               icon: type,
