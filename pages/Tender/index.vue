@@ -170,6 +170,9 @@
           <div
             v-for="tender in paginatedTenderList"
             :key="tender.id"
+            @click="viewTenderDetails(tender.id)"
+            role="button"
+            tabindex="0"
             class="bg-white border border-gray-200 rounded-xl shadow-sm p-4 hover:shadow-md transition"
           >
             <!-- Tender content here (same as your current tender card) -->
@@ -223,8 +226,8 @@
           </div>
         </div>
         <!-- Banner-->
-        <div
-          v-if="tenderStore.listBanners?.length && showBanner"
+        <!-- <div
+          v-if="tenderStore.listBanners?.length"
           class=" hidden lg:flex lg:col-span-1 flex-col gap-4 self-start pl-4"
         >
 
@@ -244,7 +247,25 @@
               alt="Banner"
             />
           </div>
-        </div>
+        </div> -->
+      <!-- Desktop sidebar banner -->
+      <div class="hidden lg:flex lg:col-span-1 flex-col gap-4 self-start pl-4">
+        <img
+          src="/assets/img/tender/homeBanner.gif"
+          alt="TenderB2B.lk"
+          class="w-full rounded-xl shadow-md"
+        />
+      </div>
+
+      <!-- Mobile bottom banner -->
+      <div class="block lg:hidden mt-6">
+        <img
+          src="/assets/img/tender/mainBannerMobile.gif"
+          alt="TenderB2B.lk"
+          class="w-full rounded-xl shadow-md"
+        />
+      </div>
+
       </div>
       <Pagination
         :total-items="tenderStore.TenderList?.length || 0"
@@ -320,26 +341,30 @@
       }
     },
 
+    // async created() {
+    //   this.TendershowLoading = this.$TendershowLoading;
+    //   this.userStore = useUserStore();
+    //   this.tenderStore = useTenderStore();
+    //   this.loginWithSecretCode();
+    //   this.imageroot = this.userStore.loggedUser.resourceURLRoot;   
+      
+    //   await this.tenderStore.loadInitTenderHome(this.TendershowLoading);
+    //   await this.loadInitialTenderList();
+
+    // },
     async created() {
       this.TendershowLoading = this.$TendershowLoading;
       this.userStore = useUserStore();
       this.tenderStore = useTenderStore();
-      this.loginWithSecretCode();
-      this.imageroot = this.userStore.loggedUser.resourceURLRoot;   
-      
+
+      await this.loginWithSecretCode();
+
+      this.imageroot = this.userStore.loggedUser.resourceURLRoot;
+
       await this.tenderStore.loadInitTenderHome(this.TendershowLoading);
       await this.loadInitialTenderList();
-      // await this.tenderStore.fetcTender(
-      //   {
-      //     CategoryId: this.CategoryId || "",
-      //     TenderTypeId: this.TenderTypeId || "",
-      //     Days:this.Days || "",
-      //   },
-      //   this.TendershowLoading,
-      // );
-      // this.listTenderCategory = this.tenderStore.listTenderCategory
-      // this.TenderList = this.tenderStore.TenderList;
     },
+
 
     watch: {
       CategoryId: {

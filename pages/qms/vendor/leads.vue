@@ -255,7 +255,7 @@
             <div class="text-center sm:text-left">
               <h2 class="block text-xs font-semibold text-gray-600">Contact Person 2 WhatsAppNo</h2>
               <p class="mt-1 text-xs text-gray-700">
-                {{ lead.ContactPerson2WhatsAppNo || "No Data" }}
+                {{ lead.contactPerson2WhatsApp || "No Data" }}
               </p>
             </div>
             <div class="text-center sm:text-left">
@@ -430,6 +430,7 @@ export default {
       isAddRso: false,
       searchBy: "",
       keyword: "",
+      tempStatus:"",
       isMore: false,
       newComment: "",
       rowIndex: -1,

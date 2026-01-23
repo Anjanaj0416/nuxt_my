@@ -4,7 +4,7 @@
           <!-- <div class="text-2xl uppercase">Invoice</div> -->
         </div>
 
-        <pre>{{ JSON.stringify(orderStore.PaymentDetails, null, 2) }}</pre>
+        <!-- <pre>{{ JSON.stringify(orderStore.PaymentDetails, null, 2) }}</pre> -->
 
         <div class="bg-white border rounded-lg shadow-md p-6 text-sm text-gray-800">
 

@@ -157,22 +157,18 @@
     </div>
 
     <!-- Modal -->
-    <AddTender v-if="isAddLeads" @close="isAddLeads = false" />
+    <AddAllTender v-if="isAddLeads" @close="isAddLeads = false" />
   </section>
 </template>
 
 
 <script>
- import { useRoute } from 'vue-router'
- import { useUserStore } from "~/stores/modules/userStore";
- 
-    import LinkBtn from "~/components/customcontrol/Link";
+  import { useUserStore } from "~/stores/modules/userStore";
+  import LinkBtn from "~/components/customcontrol/Link";
   import Button from "~/components/customcontrol/Button.vue";
   import selectinput2 from "~/components/customcontrol/selectinput2";
-    import SearchComp from "~/components/customcontrol/SearchComp";
-
-    import AddTender from '~/components/tender/allTender/addTender.vue';
-
+  import SearchComp from "~/components/customcontrol/SearchComp";
+  import AddAllTender from "~/components/tender/allTender/addAllTender.vue";
 
  definePageMeta({
     layout: 'default',   
@@ -181,7 +177,7 @@
    
   export default {
     
-    components: {LinkBtn,Button,selectinput2,SearchComp,AddTender},
+    components: {LinkBtn,Button,selectinput2,SearchComp,AddAllTender},
     props:[''],
     data() {
       return {
