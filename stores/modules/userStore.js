@@ -41,21 +41,22 @@ export const useUserStore = defineStore('userStore', {
     },
 
     async AppLogin(formData,showLoading) { 
-      console.log('FormData in AppLogin:', Object.fromEntries(formData));
-      console.log(formData);
+    //  console.log('FormData in AppLogin:', Object.fromEntries(formData));
+      //console.log(formData);
       
       const loadingAlert = showLoading(''); 
 
         try {
           // const secretCode = formData.get('secretCode');
           const response = await axios.post(`${import.meta.env.VITE_API_URL}/IAM/GetAppAccessToken`,formData);     
-          console.log("response:",response);
+        //  console.log("response:",response);
           
           loadingAlert.close();                            
 
           if (response.data.isSuccess) {         
             this.token = response.data.authToken;  // Assuming the response contains a 'token'  
-            
+             this.loggedUser =response.data.loggedUser;
+             this.assetsBaseUrl =response.data.loggedUser.resourceURLRoot;
                localStorage.setItem("authToken", response.data.authToken);
         // this.showToast("Login successful!", "success");
 
@@ -73,16 +74,16 @@ export const useUserStore = defineStore('userStore', {
     },
 
     async login(loginDetails,showLoading) {   
-      console.log("API - login:",loginDetails);
+    //  console.log("API - login:",loginDetails);
 
       const loadingAlert = showLoading(''); 
       try {
-        console.log("VITE_API_URL:",import.meta.env.VITE_API_URL)
+       // console.log(import.meta.env.VITE_API_URL)
         const response = await axios.post(`${import.meta.env.VITE_API_URL}/IAM/Login`, loginDetails); 
        
         loadingAlert.close();      
         
-        console.log("response:",response);
+       // console.log("response:",response);
         
 
         if (response.data.isSuccess) {
@@ -108,7 +109,7 @@ export const useUserStore = defineStore('userStore', {
     },
 
     async profileUpdate(formData, showLoading) {
-      console.log('FormData in AppLogin:', Object.fromEntries(formData));
+     // console.log('FormData in AppLogin:', Object.fromEntries(formData));
       const loadingAlert = showLoading('');
       try {
         const response = await axios.post(
@@ -131,7 +132,7 @@ export const useUserStore = defineStore('userStore', {
     },
 
     async fetchProfileData(id, showLoading) {
-      console.log(id);
+   //   console.log(id);
       
       const loadingAlert = showLoading('');
 

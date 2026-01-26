@@ -58,7 +58,7 @@
                 </p>
             </div>
             <div>
-              <label class="block mb-2 text-sm font-semibold text-gray-700">Receipt Type</label>
+              <label class="block  text-sm font-semibold text-gray-700">Receipt Type</label>
               <div class="relative">
                 <select
                   v-model="ReceiptType"
@@ -80,7 +80,7 @@
                 </p>
             </div>
             <div v-if="ReceiptType !== 'CASH-Cash Receipt'">
-              <label class="block text-sm mb-2 font-bold text-gray-600">Bank Name</label>
+              <label class="block text-sm font-bold text-gray-600">Bank Name</label>
               <div class="relative">
                 <select
                   v-model="BankName"
@@ -103,7 +103,7 @@
               
             </div>
             <div>
-              <label class="block text-sm font-bold text-gray-600">Advance Receipt No</label>
+              <label class="block text-sm font-bold text-gray-600">Invoice No</label>
               <input 
                 type="text" 
                 v-model="OriginalAdvanceReceiptNo"
@@ -116,7 +116,7 @@
                 </p>
             </div>
             <div>
-              <label class="block text-sm font-bold text-gray-600">Advance Receipt Date</label>
+              <label class="block text-sm font-bold text-gray-600">Invoice Date</label>
               <input 
                 type="date" 
                 v-model="OriginalAdvanceReceiptDate"
@@ -126,6 +126,19 @@
               />
                <p v-if="err.OriginalAdvanceReceiptDate" class="mt-2 text-sm text-red-600">
                 {{ err.OriginalAdvanceReceiptDate }}
+                </p>
+            </div>
+            <div>
+              <label class="block text-sm font-bold text-gray-600">Paid Date</label>
+              <input 
+                type="date" 
+                v-model="PaidDate"
+                placeholder="Enter Pay Date"
+                class="w-full p-2 mt-2 text-sm border rounded-md" 
+                @input="clearErrorOnInput('PaidDate')"
+              />
+               <p v-if="err.PaidDate" class="mt-2 text-sm text-red-600">
+                {{ err.PaidDate }}
                 </p>
             </div>
             <div>
@@ -231,6 +244,7 @@ export default {
         BankName: "",
         OriginalAdvanceReceiptNo: "",
         OriginalAdvanceReceiptDate: "",
+        PaidDate:"",
         approvedImage: "",
       }
     };
@@ -289,6 +303,7 @@ export default {
       formData.append("BankName", this.BankName || "");
       formData.append("OriginalAdvanceReceiptNo", this.OriginalAdvanceReceiptNo || "");
       formData.append("OriginalAdvanceReceiptDate", this.OriginalAdvanceReceiptDate || "");
+      formData.append("PaidDate", this.PaidDate || "");
       if (this.PaymentSlipImage && this.PaymentSlipImage.length > 0) {
         this.PaymentSlipImage.forEach(file => {
           formData.append("PaymentSlipImage", file);
@@ -351,6 +366,11 @@ export default {
 
       if (!this.OriginalAdvanceReceiptDate) {
         this.err.OriginalAdvanceReceiptDate = "Please select Advance Receipt Date";
+        isValid = false;
+      }
+
+      if (!this.PaidDate) {
+        this.err.PaidDate = "Please select Paid Date";
         isValid = false;
       }
 

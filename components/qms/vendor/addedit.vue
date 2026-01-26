@@ -42,20 +42,20 @@
           <div class="">
             <label class="block text-sm font-bold text-gray-600">Phone<span class="text-red-500">*</span></label>
 
-            <input type="text" v-model="curVendor.shopContactNo" placeholder="Enter Phone"
+            <input type="text" v-model="curVendor.shopContactNo" maxlength="10" placeholder="Enter Phone"
               class="w-full p-2 mt-2 text-sm border rounded-md focus:ring-indigo-500 focus:border-indigo-500"
               required />
           </div>
 
           <div class="">
             <label class="block text-sm font-bold text-gray-600">Email<span class="text-red-500">*</span></label>
-            <input type="Email" v-model="curVendor.shopEmail" placeholder="Enter Email"
+            <input type="email" v-model="curVendor.shopEmail" placeholder="Enter Email"
               class="w-full p-2 mt-2 text-sm border rounded-md focus:ring-indigo-500 focus:border-indigo-500"
               required />
           </div>
           <div class="">
             <label class="block text-sm font-bold text-gray-600">Web site</label>
-            <input type="tel" v-model="curVendor.shopWeb" placeholder="Enter Web site"
+            <input type="text" v-model="curVendor.shopWeb" placeholder="Enter Web site"
               class="w-full p-2 mt-2 text-sm border rounded-md focus:ring-indigo-500 focus:border-indigo-500" />
           </div>
           <div class="">
@@ -139,24 +139,35 @@
           <div>
             <label class="block text-sm font-bold text-gray-600">shopLogo<span class="text-red-500">*</span></label>
             <div class="relative mt-2">
-              <imagepicker1
+              <!-- <imagepicker1
                 :existingImagePath="imageroot + curVendor.shopLogo"
                 @GetSelectedImage="GetSelectedShopLogo"
                 @deleteExistingImage="curVendor.shopLogo = ''"
                 ref="refShopLogo"
+              /> -->
+              <imagepickermultiple
+                :existingImagePath="imageroot + curVendor.shopLogo"
+                @GetSelectedImages="GetSelectedShopLogo"
+                ref="refApprovedImg"
+                accept="image/*,application/pdf,.doc,.docx,.xls,.xlsx"
               />
-
             </div>
           </div>
           <!-- BR Image -->
           <div>
             <label class="block text-sm font-bold text-gray-600">BR</label>
             <div class="relative mt-2">
-              <imagepicker1
+              <!-- <imagepicker1
                 :existingImagePath="imageroot + curVendor.brCopyImage"
                 @GetSelectedImage="GetSelectedBRCopy"
                 @deleteExistingImage="curVendor.brCopyImage = ''"
                 ref="refBRCopy"
+              /> -->
+              <imagepickermultiple
+                :existingImagePath="imageroot + curVendor.brCopyImage"
+                @GetSelectedImages="GetSelectedBRCopy"
+                ref="refApprovedImg"
+                accept="image/*,application/pdf,.doc,.docx,.xls,.xlsx"
               />
 
             </div>
@@ -185,7 +196,7 @@
           </div>
           <div class="">
             <label class="block text-sm font-bold text-gray-600">Email</label>
-            <input type="text" v-model="curVendor.authorisePersonEmail" placeholder="Enter Email" required
+            <input type="email" v-model="curVendor.authorisePersonEmail" placeholder="Enter Email" required
               class="w-full p-2 mt-2 text-sm border rounded-md focus:ring-indigo-500 focus:border-indigo-500" />
           </div>
         </div>
@@ -219,7 +230,7 @@
           </div>
           <div class="">
             <label class="block text-sm font-bold text-gray-600">Email</label>
-            <input type="text" v-model="curVendor.shopContactPersonEmail" placeholder="Enter Email" required
+            <input type="email" v-model="curVendor.shopContactPersonEmail" placeholder="Enter Email" required
               class="w-full p-2 mt-2 text-sm border rounded-md focus:ring-indigo-500 focus:border-indigo-500" />
 
           </div>
@@ -283,12 +294,12 @@
 
           <div class="">
             <label class="block text-sm font-bold text-gray-600">Email</label>
-            <input type="text" v-model="curVendor.suAdminEmail" placeholder="Enter Email" required
+            <input type="email" v-model="curVendor.suAdminEmail" placeholder="Enter Email" required
               class="w-full p-2 mt-2 text-sm border rounded-md focus:ring-indigo-500 focus:border-indigo-500" />
           </div>
           <div class="">
             <label class="block text-sm font-bold text-gray-600">Mobile Number</label>
-            <input type="text" v-model="curVendor.suAdminMobile" placeholder="Enter Mobile Number" required
+            <input type="text" v-model="curVendor.suAdminMobile" placeholder="Enter Mobile Number" :maxlength="10" required
               class="w-full p-2 mt-2 text-sm border rounded-md focus:ring-indigo-500 focus:border-indigo-500" />
           </div>
           <div class="">
@@ -314,12 +325,12 @@
 
           <div class="">
             <label class="block text-sm font-bold text-gray-600">Email</label>
-            <input type="text" v-model="curVendor.additionalEmail" placeholder="Enter Email" required
+            <input type="email" v-model="curVendor.additionalEmail" placeholder="Enter Email" required
               class="w-full p-2 mt-2 text-sm border rounded-md focus:ring-indigo-500 focus:border-indigo-500" />
           </div>
           <div class="">
             <label class="block text-sm font-bold text-gray-600">Mobile Number</label>
-            <input type="text" v-model="curVendor.additionalMobileNumber" placeholder="Enter Mobile Number" required
+            <input type="text" v-model="curVendor.additionalMobileNumber" placeholder="Enter Mobile Number" :maxlength="10" required
               class="w-full p-2 mt-2 text-sm border rounded-md focus:ring-indigo-500 focus:border-indigo-500" />
           </div>
           <div class="">
@@ -624,7 +635,7 @@ export default {
               jsonObject[key] = value;
           });
 
-          // console.log("FormData as JSON:\n", JSON.stringify(jsonObject, null, 2));
+          console.log("FormData as JSON:\n", JSON.stringify(jsonObject, null, 2));
 
           await this.vendorStore.AddEditVendor(formData, this.showLoading);
           this.clearCurVendor();
@@ -707,7 +718,12 @@ export default {
       formData.append("Branch", this.curVendor.branch || "");
       formData.append("AccountNumber", this.curVendor.accountNumber || "");
       formData.append("HolderName", this.curVendor.holderName || "");
-      formData.append("BankBookFile", this.curVendor.bankBookImage || "");
+      // formData.append("BankBookFile", this.curVendor.bankBookImage || "");
+      if (this.bankBookImage && this.bankBookImage.length > 0) {
+        this.bankBookImage.forEach(file => {
+          formData.append("BankBookFile", file);
+        });
+      }
 
 
       // Boolean fields should be converted to string

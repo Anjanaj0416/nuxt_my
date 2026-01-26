@@ -17,7 +17,7 @@ export const useTenderStore = defineStore("tenderStore", {
 
     actions: {
         async loadInitTender(B2BshowLoading) {     
-            console.log('API-GetTenderInit');
+           // console.log('API-GetTenderInit');
                   const loadingAlert = B2BshowLoading("");
 
             try {
@@ -40,8 +40,38 @@ export const useTenderStore = defineStore("tenderStore", {
             this.showToast(response.data.message, "error");
             }
         },
+         async loadInitTenderHome(B2BshowLoading) {
+            const loadingAlert = B2BshowLoading ? B2BshowLoading('Loading Tender...') : null;
+
+            try {
+                const userStoreData = JSON.parse(localStorage.getItem("userStore"));
+                const token = userStoreData?.token;
+
+                const response = await axios.get(
+                `${import.meta.env.VITE_API_URL}/TenderNProcument/Tender/GetTenderInit`,
+                {
+                    headers: {
+                    Authorization: `Bearer ${token}`
+                    },
+                }
+                );
+                loadingAlert.close();
+                
+                if (response.data.isSuccess) {
+                    this.listTenderCategory = response.data.data.data.listTenderCategory;
+                    this.listTenderSource = response.data.data.data.listTenderSource;
+                    this.listDistrict = response.data.data.data.listDistrict;
+                    this.listTenderType = response.data.data.data.listTenderType;
+                    this.listBanners = response.data.data.data.listBanners;
+                } else {
+                    this.showToast(response.data.message, "error");
+                }
+            } catch (error) {
+                this.showToast(response.data.message, "error");
+            }
+        },
         async AddTender(formData, B2BshowLoading) {     
-            console.log('API-SetTender');
+            //console.log('API-SetTender');
             const loadingAlert = B2BshowLoading("");
             try {
                 const response = await axios.post(
@@ -50,7 +80,7 @@ export const useTenderStore = defineStore("tenderStore", {
                     { headers: { "Content-Type": "multipart/form-data" } }
 
                 );
-                console.log(response);
+                //console.log(response);
                 loadingAlert.close();
                 if (response.data.isSuccess) {
                     this.showToast(response.data.message, "success");
@@ -63,9 +93,8 @@ export const useTenderStore = defineStore("tenderStore", {
             }
         },
         async fetcTender(req,B2BshowLoading) {
-            console.log('list:',req);
+            //console.log('list:',req);
 
- 
             const loadingAlert = B2BshowLoading ? B2BshowLoading('Loading Tender...') : null;
 
             try {
@@ -88,7 +117,7 @@ export const useTenderStore = defineStore("tenderStore", {
                 );
 
                 loadingAlert?.close();
-                console.log(response.data);
+               // console.log(response.data);
 
                 if (response.data.isSuccess) {
                 this.TenderList = response.data.data.data;
@@ -100,7 +129,7 @@ export const useTenderStore = defineStore("tenderStore", {
         },
         async tenderDetails(tenderId,B2BshowLoading) {
             const loadingAlert = B2BshowLoading ? B2BshowLoading('Loading Tender...') : null;
-            console.log(tenderId);
+            //console.log(tenderId);
 
             try {
                 const userStoreData = JSON.parse(localStorage.getItem("userStore"));
@@ -119,7 +148,9 @@ export const useTenderStore = defineStore("tenderStore", {
                 );
 
                 loadingAlert?.close();
-                console.log(response.data.data.data);
+               // console.log('api');
+
+               // console.log(response.data.data)
 
                 if (response.data.isSuccess) {
                 this.moreDetails = response.data.data.data;

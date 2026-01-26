@@ -2,27 +2,46 @@
 <div class="min-h-screen flex flex-col">
   <homeHeader />
   <main class="flex-grow">
-    <section class="bg-purple-600 py-10">
+    <section class="bg-purple-600 pb-10">
       <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div class="bg-white rounded-2xl shadow-xl p-5 sm:p-6">
           <div class="relative">
             <input
               v-model="SearchText"
               type="search"
-              placeholder="Search tenders, reference no, keywords..."
-              class="w-full rounded-full border border-gray-300 px-6 py-3 text-sm text-gray-800
-                     focus:ring-2 focus:ring-purple-500 focus:outline-none"
+              :placeholder="isMobile ? 'Search...' : 'Search tenders, reference no, keywords...'"
+              class="w-full rounded-full border border-gray-300 px-6 py-3 pr-14 text-sm text-gray-800
+                    focus:ring-2 focus:ring-purple-500 focus:outline-none"
             />
+
+            <!-- Desktop / Tablet Button -->
             <button
               @click="onSearchClick"
-              class="absolute right-2 top-1/2 -translate-y-1/2
-                     bg-purple-600 hover:bg-purple-700
-                     text-white px-6 py-2 rounded-full text-sm font-medium"
+              class="hidden sm:flex absolute right-2 top-1/2 -translate-y-1/2
+                    bg-purple-600 hover:bg-purple-700
+                    text-white px-6 py-2 rounded-full text-sm font-medium items-center"
             >
               Search
             </button>
+
+            <!-- Mobile Icon Button -->
+            <button
+              @click="onSearchClick"
+              class="flex sm:hidden absolute right-3 top-1/2 -translate-y-1/2
+                    bg-purple-600 hover:bg-purple-700
+                    text-white p-2 rounded-full"
+              aria-label="Search"
+            >
+              <!-- Search Icon -->
+              <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none"
+                viewBox="0 0 24 24" stroke="currentColor">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                  d="M21 21l-4.35-4.35m1.35-5.65a7 7 0 11-14 0 7 7 0 0114 0z" />
+              </svg>
+            </button>
           </div>
-          <div class="mt-5 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3">
+
+          <div class="mt-5 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-3">
             <select v-model="TenderTypeId" class="filter-select">
               <option disabled selected="" value="">Select Type</option>
               <option
@@ -53,13 +72,21 @@
               <option :value="30">Last 30 Days</option>
             </select>
 
+            <button
+              @click="clearFilters"
+              class="px-3 py-1.5 text-xs font-semibold rounded-lg bg-purple-600 text-white"
+            >
+              Clear filters
+            </button>
+
+
           </div>
 
         </div>
       </div>
     </section>
 
-    <section class="py-6 px-2">
+    <section class="mt-6 px-2">
       <h1 class="mb-4 text-md font-semibold text-center text-gray-700 uppercase tracking-wide">
           ALL Categories
         </h1>
@@ -114,7 +141,7 @@
           @click="toggletenderType(tenderType)"
           type="button"
           :class="[
-              'relative flex items-center gap-1.5 px-3 py-1.5 text-sm font-medium rounded-full transition-all duration-300',
+              'relative flex items-center gap-1.5 px-2 py-1.5 text-sm font-medium rounded-full transition-all duration-300',
               'border backdrop-blur-sm',
               activeType === tenderType
                 ? 'bg-gradient-to-r from-purple-600 to-indigo-600 text-white shadow-lg scale-105 border-transparent'
@@ -134,6 +161,7 @@
         class="text-center text-gray-900 mt-5 text-sm font-medium"
       >
         <p>No Tender....</p>
+      
       </div>
 
       <div class="grid grid-cols-1 lg:grid-cols-6 gap-0 text-sm relative">
@@ -142,6 +170,9 @@
           <div
             v-for="tender in paginatedTenderList"
             :key="tender.id"
+            @click="viewTenderDetails(tender.id)"
+            role="button"
+            tabindex="0"
             class="bg-white border border-gray-200 rounded-xl shadow-sm p-4 hover:shadow-md transition"
           >
             <!-- Tender content here (same as your current tender card) -->
@@ -195,8 +226,8 @@
           </div>
         </div>
         <!-- Banner-->
-        <div
-          v-if="tenderStore.listBanners?.length && showBanner"
+        <!-- <div
+          v-if="tenderStore.listBanners?.length"
           class=" hidden lg:flex lg:col-span-1 flex-col gap-4 self-start pl-4"
         >
 
@@ -216,16 +247,60 @@
               alt="Banner"
             />
           </div>
-        </div>
+        </div> -->
+      <!-- Desktop sidebar banner -->
+      <div class="hidden lg:flex lg:col-span-1 flex-col gap-4 self-start pl-4">
+        <img
+          src="/assets/img/tender/homeBanner.gif"
+          alt="TenderB2B.lk"
+          class="w-full rounded-xl shadow-md"
+        />
+      </div>
+
+      <!-- Mobile bottom banner -->
+      <div class="block lg:hidden mt-6">
+        <img
+          src="/assets/img/tender/mainBannerMobile.gif"
+          alt="TenderB2B.lk"
+          class="w-full rounded-xl shadow-md"
+        />
+      </div>
 
       </div>
-        <Pagination
-          :total-items="tenderStore.TenderList?.length || 0"
-          :items-per-page="itemsPerPage"
-          :current-page="page"
-          active-color="#7c3aed"  
-          @update:currentPage="page = $event"
-        />
+      <Pagination
+        :total-items="tenderStore.TenderList?.length || 0"
+        :items-per-page="itemsPerPage"
+        :current-page="page"
+        active-color="#7c3aed"  
+        @update:currentPage="page = $event"
+      />
+      <!-- Back to Top Button -->
+      <button
+        v-show="showBackToTop"
+        @click="scrollToTop"
+        class="fixed bottom-6 right-6 z-50 bg-purple-600 hover:bg-purple-700 text-white p-3 rounded-full shadow-lg transition-all duration-300 border border-white"
+      >
+        <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+          <path stroke-linecap="round" stroke-linejoin="round" d="M5 15l7-7 7 7" />
+        </svg>
+      </button>
+      <a
+        href="https://wa.me/94711619868?text=Hello%20I%20want%20to%20inquire"
+        target="_blank"
+        rel="noopener noreferrer"
+        class="fixed bottom-20 right-6 z-50 bg-green-500 hover:bg-green-600 text-white p-3 rounded-full shadow-lg transition-all duration-300"
+      >
+        <svg
+          xmlns="http://www.w3.org/2000/svg"
+          viewBox="0 0 24 24"
+          fill="white"
+          class="w-4 h-4"
+        >
+          <path d="M20.52 3.48a11.92 11.92 0 0 0-17 0 11.92 11.92 0 0 0-3.5 8.5c0 2 0.53 3.96 1.54 5.68l-1.63 5.95 6-1.6a11.9 11.9 0 0 0 5.58 1.4 11.92 11.92 0 0 0 8.48-3.51 11.92 11.92 0 0 0 0-16.98zM12 21c-1.6 0-3.18-.43-4.55-1.24l-.33-.2-3.57.95 1.03-3.75-.22-.36A9.92 9.92 0 0 1 2 12a10 10 0 1 1 10 10z"/>
+          <path d="M16.03 14.41c-.26-.13-1.53-.76-1.76-.84-.23-.08-.4-.13-.57.13-.17.26-.66.84-.81 1.02-.15.17-.3.19-.56.06-.26-.13-1.09-.4-2.08-1.28-.77-.69-1.28-1.55-1.43-1.81-.15-.26-.02-.4.11-.53.11-.12.26-.3.39-.45.13-.15.17-.26.26-.43.09-.17.04-.32-.02-.45-.06-.13-.57-1.37-.78-1.87-.2-.49-.41-.43-.57-.44-.15-.01-.32-.01-.49-.01s-.45.06-.68.32c-.23.26-.88.85-.88 2.07s.9 2.4 1.03 2.57c.13.17 1.77 2.7 4.29 3.78.6.26 1.06.41 1.42.53.6.19 1.15.16 1.58.1.48-.07 1.53-.63 1.74-1.23.22-.6.22-1.12.15-1.23-.07-.12-.26-.19-.52-.32z"/>
+        </svg>
+      </a>
+
     </section>
   </main>
   <homefooter class="mt-auto" />
@@ -245,7 +320,6 @@
 
   definePageMeta({
     layout: 'tender',
-    // middleware: 'auth',
   });
 
   export default {
@@ -257,50 +331,62 @@
       return {
         activeCategory: null,
         activeType: null,
-        showBanner: true,
         CategoryId:"",
         TenderTypeId:"",
         Days:"",
-        DistrictId:"",
-        TenderDatePublised_To:"",
-        TenderClosingDate:"",
         SearchText: "",
         page: 1,
         itemsPerPage: 5, 
+        showBackToTop: false,
       }
     },
-    async mounted() {
-     
-    },
+
+    // async created() {
+    //   this.TendershowLoading = this.$TendershowLoading;
+    //   this.userStore = useUserStore();
+    //   this.tenderStore = useTenderStore();
+    //   this.loginWithSecretCode();
+    //   this.imageroot = this.userStore.loggedUser.resourceURLRoot;   
+      
+    //   await this.tenderStore.loadInitTenderHome(this.TendershowLoading);
+    //   await this.loadInitialTenderList();
+
+    // },
     async created() {
       this.TendershowLoading = this.$TendershowLoading;
       this.userStore = useUserStore();
       this.tenderStore = useTenderStore();
-      this.loginWithSecretCode();
-      this.imageroot = this.userStore.loggedUser.resourceURLRoot;   
-      
-      await this.tenderStore.loadInitTender(this.TendershowLoading);
-      await this.tenderStore.fetcTender(
-        {
-          CategoryId: this.CategoryId || "",
-          TenderTypeId: this.TenderTypeId || "",
-          Days:this.Days || "",
-        },
-        this.TendershowLoading,
-      );
-      this.TenderList = this.tenderStore.TenderList;
+
+      await this.loginWithSecretCode();
+
+      this.imageroot = this.userStore.loggedUser.resourceURLRoot;
+
+      await this.tenderStore.loadInitTenderHome(this.TendershowLoading);
+      await this.loadInitialTenderList();
     },
+
+
     watch: {
-      CategoryId() {
-        this.searchByFilters();
+      CategoryId: {
+        handler() {
+          this.searchByFilters();
+        },
+        immediate: false,
       },
-      TenderTypeId() {
-        this.searchByFilters();
+      TenderTypeId: {
+        handler() {
+          this.searchByFilters();
+        },
+        immediate: false,
       },
-      Days() {
-        this.searchByFilters();
+      Days: {
+        handler() {
+          this.searchByFilters();
+        },
+        immediate: false,
       },
     },
+
 
     computed: {
       paginatedTenderList() {
@@ -316,11 +402,14 @@
           if (width < 640) return 2
           if (width < 1024) return 3
           return 5
-        },
+      },
+      isMobile() {
+        return window.innerWidth < 640
+      }
     },
     methods: {
       async loginWithSecretCode() {
-        const secretCode = 'pki1w2fj11';
+        const secretCode = 'w5jzxd02AA';
         const formData = new FormData();
         formData.append('secretCode', secretCode);
 
@@ -336,6 +425,20 @@
           path: '/Tender/MoreDetail',
           query: { id }  
         })
+      },
+      async loadInitialTenderList() {
+        try {
+          const req = {
+            CategoryId: "", 
+            TenderTypeId: "",
+            Days: "",
+            SearchText: "",
+          };
+          await this.tenderStore.fetcTender(req, this.TendershowLoading);
+          this.TenderList = this.tenderStore.TenderList; 
+        } catch (error) {
+          console.error("Error loading tenders:", error);
+        }
       },
       // keywordsearch
       async onSearchClick() {
@@ -374,13 +477,48 @@
 
         await this.tenderStore.fetcTender(req, this.TendershowLoading);          
       },
-      closeBanner() {
-        this.showBanner = false;
+      clearFilters() {
+        this.activeCategory = null;
+        this.activeType = null;
+        this.CategoryId = "";
+        this.TenderTypeId = "";
+        this.Days = "";
+        this.SearchText = "";
+        this.applyFilters();
       },
-    },
-    async beforeMount() {
+
+      async applyFilters() {
+        const req = {
+          CategoryId: this.CategoryId || "",
+          TenderTypeId: this.TenderTypeId || "",
+          Days: this.Days || "",
+          SearchText: this.SearchText || "",
+        };
+        await this.tenderStore.fetcTender(req, this.TendershowLoading);
+      },
+
+
+      scrollToTop() {
+        window.scrollTo({
+          top: 0,
+          behavior: 'smooth'
+        });
+      },
+
+      handleScroll() {
+        this.showBackToTop = window.scrollY > 100;
+      },
 
     },
+
+    mounted() {
+      window.addEventListener('scroll', this.handleScroll);
+    },
+
+    beforeUnmount() {
+      window.removeEventListener('scroll', this.handleScroll);
+    },
+
     head() {
       return {
         title: 'DriveLearn - Find Your Perfect Driving School',
