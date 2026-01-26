@@ -37,7 +37,7 @@
 import { useAttendanceStore } from "~/stores/modules/hr/attendanceStore";
 
 export default {
-  props: ["empno","dtFrom"],
+  props: ["empno","dtFrom","rowId"],
 
   data() {
     return {
@@ -45,7 +45,7 @@ export default {
       otManualRow: -1,
       isOtManual: false,
 
-      // otApplingRow: -1,
+      otApplingRow: -1,
       // isOTAppling: false,
 
       dtfrom: "",
@@ -99,7 +99,7 @@ export default {
       this.oTPreApprovalRequest.OTFrom = "";
       this.oTPreApprovalRequest.OTTo = "";
       // this.isOTAppling = false;
-      // this.otApplingRow = -1;
+      this.otApplingRow = -1;
       await this.attendanceStore.otCancel();
       await this.$emit('is-ot-apply');
     },
@@ -127,6 +127,7 @@ export default {
           // this.isOTAppling = false;
           // this.otApplingRow = -1;
           await this.attendanceStore.otCancel();
+          await this.$emit('is-ot-apply');
 
           } else {
             console.log("Action canceled");
