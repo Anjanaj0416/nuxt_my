@@ -29,7 +29,7 @@
                 to="https://btob.lk/"
                 class="text-md font-medium text-white"
               >
-                B2B.lk
+                BtoB.lk
               </NuxtLink>
             </nav>
           </div>
