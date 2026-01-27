@@ -212,7 +212,7 @@ export default {
             formData.append("ExpireDate", this.ExpireDate || "");
             if (this.listFiles && this.listFiles.length > 0) {
               this.listFiles.forEach((file, index) => {
-                formData.append("FileBanner", file);
+                formData.append("FileDesktopBanner", file);
               });
             }
             if (this.mobileBannerFiles && this.mobileBannerFiles.length > 0) {
