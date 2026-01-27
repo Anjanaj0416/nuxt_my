@@ -215,14 +215,14 @@ export const useLeaveStore = defineStore("leaveStore", {
 
     async getLeaveBalance(req, showLoading) {
       console.log('API-getLeaveBalance');
-      console.log(JSON.stringify(req));
+      console.log("getLeaveBalance-req:",req);
 
       const loadingAlert = showLoading("");
       try {
         console.log("req:", req, showLoading);
         const response = await axios.get(
           `${import.meta.env.VITE_API_URL}/hr/Absence/GetLeaveBalance`,
-          { params: { empNo: req.empNo, year: req.leaveYear } }
+          { params: { empNo: req.empNo, year: req.year } }
         );
         console.log("response:", response);
         if (response.data.isSuccess) {

@@ -200,12 +200,13 @@ export default {
                 {
                   empNo: this.absense_apply.empNo,
                   fromDate: this.fromDate,
-                  toDate: this.toDate,
+                  toDate: this.toDate ?? this.fromDate,
                 },
                 this.showLoading
               );
               this.getClear();
               this.$emit('goto_absenceview');
+              this.LoadLeaveBalance();
             } finally {
               this.isSaving = false; // Re-enable the button
             }
@@ -213,10 +214,9 @@ export default {
         });
     },
 
-    // async LoadLeaveBalance() {
-    //   this.leave_entitle_year = new Date(this.absense_apply.start_date).getFullYear();
-    //   await this.leaveStore.getLeaveBalance({ empNo: this.empno, year: this.leave_entitle_year }, this.showLoading)
-    // },
+    async LoadLeaveBalance() {
+      await this.leaveStore.getLeaveBalance({ empNo: this.empno, year: this.leave_entitle_year }, this.showLoading)
+    },
 
     validate() {
       if (this.absense_apply.absence_type == '') {
