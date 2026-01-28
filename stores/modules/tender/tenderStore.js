@@ -21,14 +21,12 @@ export const useTenderStore = defineStore("tenderStore", {
     actions: {
         async loadInitTender(B2BshowLoading) {     
            // console.log('API-GetTenderInit');
-                  const loadingAlert = B2BshowLoading("");
-
+            const loadingAlert = B2BshowLoading("");
             try {
             const response = await axios.get(
                 `${import.meta.env.VITE_API_URL}/TenderNProcument/Tender/GetTenderInit`
             );
             // console.log(response);
-            
             loadingAlert.close();
             if (response.data.isSuccess) {
                 this.listTenderCategory = response.data.data.data.listTenderCategory;
@@ -235,8 +233,7 @@ export const useTenderStore = defineStore("tenderStore", {
                 loadingAlert.close();
             }
         },
-        
-        
+          
         showToast(message, type) {
             Swal.fire({
               icon: type,
