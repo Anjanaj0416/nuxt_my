@@ -16,7 +16,7 @@
       </div>
 
       <div class="w-full md:w-96">
-        <SearchComp @DoSearch="GetSearch" />
+        <!-- <SearchComp @DoSearch="GetSearch" /> -->
       </div>
     </div>
 
