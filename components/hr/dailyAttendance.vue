@@ -38,15 +38,21 @@
                                 <div>{{ data.outLocation }}</div>
                                 <div>
                                     <selectinput2 
-                                        v-model="leaveStatus" 
+                                        v-model="statusMap[data.id]" 
                                         :isAttendanceStatus="true" 
                                         :selections="attendanceStore.initDailyEmpsInOut" 
-                                        @update:modelValue="val => setDailyEmpsInOutDetails(val, data.id)"
+                                        @update:modelValue="val => setLeaveStatus(val, data.id)"
                                     />
                                 </div>
                             </div>
                         </div>
                     </div>
+                </div>
+                <div v-if="statusArr.length > 0 && isAttendOpen[attend.date]" class="text-right">
+                    <button type="button" @click="setDailyEmpsInOutDetails()"
+                        class="text-white mt-5 bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2">
+                        Submit
+                    </button>
                 </div>
             </div>
         </div>
@@ -80,7 +86,8 @@ export default {
             isReport: false,
             selectedToDate: '',
             selectedFromDate: '',
-            leaveStatus: -1,
+            statusMap: {},
+            statusArr:[],
             isAttendOpen:{},
         }
     },
@@ -100,14 +107,21 @@ export default {
             this.isAttendOpen[date] = !this.isAttendOpen[date]
         },
 
-        async setDailyEmpsInOutDetails(val,id){
-            const req = {
-                Id : id,
-                StatusId : val
+        async setLeaveStatus(val,id){
+            this.statusMap[id] = val;
+            let statusObj = {
+                Id: id,
+                StatusId: val
             }
-            await this.attendanceStore.setDailyEmpsInOutDetails(req,this.$showLoading);
 
-            this.leaveStatus = -1;
+            this.statusArr.push(statusObj);
+            console.log("statusArr:",this.statusArr);
+            
+        },
+
+        async setDailyEmpsInOutDetails(){
+            await this.attendanceStore.setDailyEmpsInOutDetails(this.statusArr,this.$showLoading);
+            this.statusArr = [];
         }
     },
 
