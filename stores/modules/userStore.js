@@ -55,9 +55,9 @@ export const useUserStore = defineStore('userStore', {
 
           if (response.data.isSuccess) {         
             this.token = response.data.authToken;  // Assuming the response contains a 'token'  
-             this.loggedUser =response.data.loggedUser;
-             this.assetsBaseUrl =response.data.loggedUser.resourceURLRoot;
-               localStorage.setItem("authToken", response.data.authToken);
+            this.loggedUser =response.data.loggedUser;
+            this.assetsBaseUrl =response.data.loggedUser.resourceURLRoot;
+            localStorage.setItem("authToken", response.data.authToken);
         // this.showToast("Login successful!", "success");
 
         }
@@ -169,7 +169,17 @@ export const useUserStore = defineStore('userStore', {
       document.cookie = 'token=; path=/; max-age=0; Secure; SameSite=Strict';
       navigateTo('/user/login')
       //this.showToast('User Logged out!','success');
-  
+    },
+
+    logoutQbook() {
+      const userStore = useUserStore();
+      userStore.token = '';
+      userStore.loggedUser = null;
+      this.$reset()
+      localStorage.clear();
+      document.cookie = 'token=; path=/; max-age=0; Secure; SameSite=Strict';
+      navigateTo('/q-book')
+      //this.showToast('User Logged out!','success');
     },
 
     loadFromStorage() {
