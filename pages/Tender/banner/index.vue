@@ -16,7 +16,7 @@
       </div>
 
       <div class="w-full md:w-96">
-        <SearchComp @DoSearch="GetSearch" />
+        <!-- <SearchComp @DoSearch="GetSearch" /> -->
       </div>
     </div>
 
@@ -48,23 +48,6 @@
       v-for="(tender, index) in paginatedTenderBannerList"
       :key="index"
     >
-    
-      <div class="flex justify-between">
-        <!-- <span
-          class="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-blue-50 text-blue-800 text-xs font-semibold"
-        >
-          ⏳ {{ tender.noofDaysPending }} Days Pending
-        </span>
-        <span
-          :class="{
-            'bg-blue-500 text-white font-semibold': tender.status === 'Publish',
-            'bg-amber-500 text-white font-semibold': tender.status === 'Close',
-          }"
-          class="inline-flex items-center text-xs font-medium me-2 px-2.5 py-0.5 rounded-full md:hidden"
-        >
-          {{ tender.status || '—' }}
-        </span> -->
-      </div>
       <div class="grid grid-cols-2 gap-4 sm:flex sm:flex-row sm:justify-between">
         <div class="flex flex-col text-center sm:text-left">
           <h1 class="text-xs font-semibold text-gray-600">Banner App Name</h1>
@@ -129,19 +112,28 @@
         />
       </div>
       <div v-if="isMore && rowIndex === index">
-        <!-- <pre>{{ JSON.stringify(tender, null, 2) }}</pre> -->
         <section class="flex flex-col gap-5 p-4 mt-0 bg-white sm:p-6">
           <div class="grid grid-cols-2 gap-4 sm:grid-cols-5">
             <div class="text-center sm:text-left">
-              <h2 class="block text-xs font-semibold text-gray-600 mb-2">Organization Type</h2>
+              <h2 class="block text-xs font-semibold text-gray-600 mb-2">Desktop Banner</h2>
                <img
-                  :src="imageroot + tender.bannerUrl"
+                  :src="imageroot + tender.desktopBannerUrl"
+                  alt="Tender Banner"
+                  class="w-full h-full object-cover mb-4"
+                  ref="bannertenderImage"
+                />
+            </div>
+            <div class="text-center sm:text-left">
+              <h2 class="block text-xs font-semibold text-gray-600 mb-2">Mobile Banner</h2>
+               <img
+                  :src="imageroot + tender.mobileBannerUrl"
                   alt="Tender Banner"
                   class="w-full h-full object-cover mb-4"
                   ref="bannertenderImage"
                 />
             </div>
           </div>
+          
           <!-- Action Buttons -->
           <!-- <div
             class="flex justify-end pt-2"

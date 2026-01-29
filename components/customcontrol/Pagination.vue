@@ -1,63 +1,92 @@
 <template>
-  <div v-if="totalPages > 0" class="pagination">
-    <!-- Previous Button -->
-    <button
-      class="nav-button"
-      :disabled="currentPage === 1"
-      @click="goToPage(currentPage - 1)"
-    >
-      Prev
-    </button>
+  <div class="pagination-container">
+    <div v-if="totalPages > 1" class="pagination-wrapper">
+      <!-- Previous -->
+      <button
+        class="arrow-btn"
+        :disabled="currentPage === 1"
+        @click="goToPage(currentPage - 1)"
+      >
+        ‹
+      </button>
 
-    <!-- Numbered Page Buttons -->
-    <button
-      v-for="page in visiblePages"
-      :key="page"
-      :class="['page-button', { active: page === currentPage }]"
-      :style="page === currentPage ? activeButtonStyle : {}"
-      @click="goToPage(page)"
-    >
-      {{ page }}
-    </button>
+      <!-- Pages -->
+      <template v-for="(page, i) in pages" :key="i">
+        <span v-if="page === '...'" class="dots">…</span>
 
-    <!-- Next Button -->
-    <button
-      class="nav-button"
-      :disabled="currentPage === totalPages"
-      @click="goToPage(currentPage + 1)"
-    >
-      Next
-    </button>
+        <button
+          v-else
+          class="page-btn"
+          :class="{ active: page === currentPage }"
+          :style="page === currentPage ? activeStyle : {}"
+          @click="goToPage(page)"
+        >
+          {{ page }}
+        </button>
+      </template>
+
+      <!-- Next -->
+      <button
+        class="arrow-btn"
+        :disabled="currentPage === totalPages"
+        @click="goToPage(currentPage + 1)"
+      >
+        ›
+      </button>
+    </div>
   </div>
 </template>
+
+
 
 <script>
 export default {
   props: {
-    totalItems: { type: Number, required: true },
-    itemsPerPage: { type: Number, required: true },
-    currentPage: { type: Number, required: true },
-    activeColor: { type: String, default: '#3b82f6' } // default blue
+    totalItems: Number,
+    itemsPerPage: Number,
+    currentPage: Number,
+    activeColor: {
+      type: String,
+      default: '#3b82f6'
+    }
   },
   computed: {
     totalPages() {
       return Math.ceil(this.totalItems / this.itemsPerPage);
     },
-    visiblePages() {
-      if (this.totalPages === 0) return [];
+    pages() {
+      const pages = [];
       const total = this.totalPages;
       const current = this.currentPage;
-      const maxVisible = 4;
-      let start = Math.floor((current - 1) / maxVisible) * maxVisible + 1;
-      let end = Math.min(start + maxVisible - 1, total);
-      return Array.from({ length: end - start + 1 }, (_, i) => start + i);
+
+      if (total <= 6) {
+        for (let i = 1; i <= total; i++) pages.push(i);
+      } else {
+        pages.push(1);
+
+        if (current > 4) pages.push('...');
+
+        const start = Math.max(2, current - 1);
+        const end = Math.min(total - 1, current + 1);
+
+        for (let i = start; i <= end; i++) {
+          pages.push(i);
+        }
+
+        if (current < total - 3) pages.push('...');
+
+        pages.push(total);
+      }
+      return pages;
     },
-    activeButtonStyle() {
+    activeStyle() {
       return {
         backgroundColor: this.activeColor,
-        borderColor: this.activeColor,
-        color: 'white',
-        fontWeight: 'bold'
+        color: '#fff',
+        width: '36px',
+        height: '36px',
+        borderRadius: '50%',
+        fontWeight: '600'
       };
     }
   },
@@ -69,35 +98,93 @@ export default {
     }
   }
 };
+
 </script>
 
 <style scoped>
-.pagination {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  gap: 6px;
-  margin-top: 16px;
-}
+  /* Outer container → ALWAYS CENTER */
+  .pagination-container {
+    display: flex;
+    justify-content: center;
+    width: 100%;
+    margin: 20px 0;
+  }
 
-.page-button,
-.nav-button {
-  padding: 6px 10px;
-  border: 1px solid #d1d5db;
-  border-radius: 6px;
-  background-color: #f9fafb;
-  cursor: pointer;
-  font-size: 14px;
-  transition: 0.2s;
-}
+  /* Pagination pill */
+  .pagination-wrapper {
+    display: flex;
+    align-items: center;
+    gap: 14px;
+    padding: 6px 20px;
+    background: white;
+    border-radius: 999px;
+    box-shadow: 0 8px 25px rgba(0, 0, 0, 0.08);
+    flex-wrap: wrap;              /* responsive */
+    justify-content: center;
+  }
 
-.page-button:hover,
-.nav-button:hover {
-  background-color: #e5e7eb;
-}
+  /* Page numbers */
+  .page-btn {
+    background: none;
+    border: none;
+    font-size: 15px;
+    color: #6b7280;
+    cursor: pointer;
+    padding: 6px 10px;
+    min-width: 32px;
+    transition: 0.2s;
+  }
 
-.nav-button:disabled {
-  opacity: 0.5;
-  cursor: not-allowed;
-}
+  .page-btn:hover {
+    color: #4f46e5;
+  }
+
+  /* Active page */
+  .page-btn.active {
+    width: 36px;
+    height: 36px;
+
+    border-radius: 50%;
+    font-weight: 600;
+  }
+
+  /* Arrows */
+  .arrow-btn {
+    border: none;
+    background: none;
+    font-size: 20px;
+    color: #6b7280;
+    cursor: pointer;
+    padding: 6px;
+  }
+
+  .arrow-btn:disabled {
+    opacity: 0.4;
+    cursor: not-allowed;
+  }
+
+  /* Ellipsis */
+  .dots {
+    color: #9ca3af;
+    font-size: 16px;
+    padding: 0 6px;
+  }
+
+  /* 📱 Mobile adjustments */
+  @media (max-width: 640px) {
+    .pagination-wrapper {
+      gap: 2px;
+      padding: 10px 14px;
+    }
+
+    .page-btn {
+      font-size: 14px;
+      padding: 4px 8px;
+    }
+
+    .page-btn.active {
+      width: 32px;
+      height: 32px;
+    }
+  }
 </style>

@@ -128,8 +128,7 @@
           </button>
 
         </SwiperSlide>
-      </Swiper>
-      
+      </Swiper> 
     </section>
 
     <section class="px-2 sm:px-4 md:px-8 lg:px-24 py-4">
@@ -155,13 +154,11 @@
           {{ tenderType.value }}
         </button>
       </div>
-
       <div
         v-if="tenderStore.TenderList?.length === 0"
         class="text-center text-gray-900 mt-5 text-sm font-medium"
       >
         <p>No Tender....</p>
-      
       </div>
       <div class="grid grid-cols-1 lg:grid-cols-6 gap-0 text-sm relative">
         <!-- Tender list -->
@@ -198,7 +195,6 @@
                 {{ category }}
               </span>
             </div>
-         
             <div
               class="mt-3 text-xs text-gray-500 grid grid-cols-2 gap-x-4 gap-y-2 sm:flex sm:flex-wrap sm:items-center sm:gap-x-5 sm:gap-y-1 sm:divide-x sm:divide-gray-200"
             >
@@ -235,31 +231,28 @@
             :key="banner.id || index"
           >
             <img
-              :src="imageroot + banner.bannerUrl"
+              :src="imageroot + banner.desktopBannerUrl"
               alt="TenderB2B.lk"
               class="w-full rounded-xl shadow-md"
             />
           </div>
         </div>
-
-      
-      <!-- <div class="hidden lg:flex lg:col-span-1 flex-col gap-4 self-start pl-4">
-        <img
-          src="/assets/img/tender/homeBanner.gif"
-          alt="TenderB2B.lk"
-          class="w-full rounded-xl shadow-md"
-        />
-      </div> -->
-
-      <!-- Mobile bottom banner -->
-      <div class="block lg:hidden mt-6">
-        <img
-          src="/assets/img/tender/mainBannerMobile.gif"
-          alt="TenderB2B.lk"
-          class="w-full rounded-xl shadow-md"
-        />
-      </div>
-
+        <!-- Mobile bottom banner -->
+        <div 
+          v-if="tenderStore.listBanners?.length"
+          class="block lg:hidden mt-6"
+        >
+          <div
+            v-for="(banner, index) in tenderStore.listBanners"
+            :key="banner.id || index"
+          >
+            <img
+              :src="imageroot + banner.mobileBannerUrl"
+              alt="TenderB2B.lk"
+              class="w-full rounded-xl shadow-md"
+            />
+          </div>
+        </div>
       </div>
       <Pagination
         :total-items="tenderStore.TenderList?.length || 0"
@@ -296,6 +289,7 @@
       </a>
 
     </section>
+    
   </main>
   <homefooter class="mt-auto" />
 </div>
