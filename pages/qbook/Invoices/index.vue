@@ -33,7 +33,7 @@
 
   definePageMeta({
     layout: 'qbooklogin',   
-    //middleware: 'auth',
+    // middleware: 'auth-ebook',
    });
    
   export default {

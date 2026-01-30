@@ -223,7 +223,7 @@ export default {
     await this.tenderStore.loadInitTender(this.showLoading);
   },
   computed: {},
-methods: {
+  methods: {
 
     handleSelectedImages(files) {
       console.log("Selected Files in Parent:", files);

@@ -178,7 +178,7 @@ export const useUserStore = defineStore('userStore', {
       this.$reset()
       localStorage.clear();
       document.cookie = 'token=; path=/; max-age=0; Secure; SameSite=Strict';
-      navigateTo('/q-book')
+      navigateTo('/qbook')
       //this.showToast('User Logged out!','success');
     },
 

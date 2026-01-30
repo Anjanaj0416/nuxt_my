@@ -40,7 +40,7 @@ export default defineNuxtRouteMiddleware(async (to, from) => {
           await new Promise(resolve => setTimeout(resolve, 1000));
           loading.value = false
 
-          return navigateTo('/q-book')
+          return navigateTo('/qbook')
         }else {
             loading.value = false
             return 
@@ -59,7 +59,7 @@ export default defineNuxtRouteMiddleware(async (to, from) => {
           if (decoded.exp < now) {
             // Token expired
             userStore.token = null
-            if (to.path !== '/q-book') {
+            if (to.path !== '/qbook') {
               const redirectToCookie = useCookie('redirectTo', {
                 maxAge: 60 * 3,
                 path: '/',
@@ -75,7 +75,7 @@ export default defineNuxtRouteMiddleware(async (to, from) => {
           console.error('Invalid token:', err)
           userStore.token = null
           loading.value = false
-          return navigateTo('/q-book')
+          return navigateTo('/qbook')
         }
       }
     }

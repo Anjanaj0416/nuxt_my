@@ -45,15 +45,15 @@ export default defineNuxtPlugin(nuxtApp => {
   nuxtApp.provide('showConfirm', (message, icon = 'warning') => {
     return Swal.fire({
       title: message,
-      icon: icon,  // 'warning', 'info', 'question', etc.
+      icon: icon,  
       showCancelButton: true,
       confirmButtonText: 'Yes',
       cancelButtonText: 'No',
-      reverseButtons: true, // Reverses the order of the buttons (No, Yes)
+      reverseButtons: true, 
 
       // Custom button colors
-      confirmButtonColor: '#3B82F6', // Tailwind blue-500 gradient start
-      cancelButtonColor: '#F3F4F6',  // Tailwind gray-200 for "Back"
+      confirmButtonColor: '#3B82F6', 
+      cancelButtonColor: '#F3F4F6',  
       
       customClass: {
         popup: 'custom-zindex rounded-xl p-4 sm:p-6 shadow-lg max-w-xs sm:max-w-sm text-center',
@@ -62,8 +62,8 @@ export default defineNuxtPlugin(nuxtApp => {
         confirmButton: 'px-10 py-2 text-xs sm:text-sm font-semibold rounded-full shadow text-white hover:scale-[1.03] transition-all bg-gradient-to-r from-blue-500 via-blue-600 to-blue-700',
         cancelButton: 'px-10 py-2 text-xs sm:text-sm font-semibold rounded-full shadow text-gray-600 bg-gray-200 hover:bg-gray-300 hover:scale-[1.03] transition-all',
       },
-      background: '#ffffff', // white popup
-      backdrop: 'rgba(0,0,0,0.4)', // semi-transparent overlay
+      background: '#ffffff', 
+      backdrop: 'rgba(0,0,0,0.4)', 
     });
   });
 
@@ -71,15 +71,14 @@ export default defineNuxtPlugin(nuxtApp => {
   nuxtApp.provide('showConfirmb2b', (message, icon = 'warning') => {
     return Swal.fire({
       title: message,
-      icon: icon,  // 'warning', 'info', 'question', etc.
+      icon: icon,  
       showCancelButton: true,
       confirmButtonText: 'Yes',
       cancelButtonText: 'No',
-      reverseButtons: true, // Reverses the order of the buttons (No, Yes)
+      reverseButtons: true, 
 
-      // Custom button colors
-      confirmButtonColor: '#5B21B6', // Tailwind blue-500 gradient start
-      cancelButtonColor: '#F3F4F6',  // Tailwind gray-200 for "Back"
+      confirmButtonColor: '#5B21B6', 
+      cancelButtonColor: '#F3F4F6', 
       
       customClass: {
         popup: 'custom-zindex rounded-xl p-4 sm:p-6 shadow-lg max-w-xs sm:max-w-sm text-center',
@@ -88,8 +87,8 @@ export default defineNuxtPlugin(nuxtApp => {
         confirmButton: 'px-10 py-2 text-xs sm:text-sm font-semibold rounded-full shadow text-white hover:scale-[1.03] transition-all bg-gradient-to-r from-purple-600 via-purple-700 to-purple-800',
         cancelButton: 'px-10 py-2 text-xs sm:text-sm font-semibold rounded-full shadow text-gray-600 bg-gray-200 hover:bg-gray-300 hover:scale-[1.03] transition-all',
       },
-      background: '#ffffff', // white popup
-      backdrop: 'rgba(0,0,0,0.4)', // semi-transparent overlay
+      background: '#ffffff', 
+      backdrop: 'rgba(0,0,0,0.4)', 
     });
   });
 
@@ -97,15 +96,15 @@ export default defineNuxtPlugin(nuxtApp => {
   nuxtApp.provide('showConfirmWelfare', (message, icon = 'warning') => {
     return Swal.fire({
       title: message,
-      icon: icon,  // 'warning', 'info', 'question', etc.
+      icon: icon,  
       showCancelButton: true,
       confirmButtonText: 'Yes',
       cancelButtonText: 'No',
-      reverseButtons: true, // Reverses the order of the buttons (No, Yes)
+      reverseButtons: true, 
 
       // Custom button colors
-      confirmButtonColor: '#5B21B6', // Tailwind blue-500 gradient start
-      cancelButtonColor: '#F3F4F6',  // Tailwind gray-200 for "Back"
+      confirmButtonColor: '#5B21B6', 
+      cancelButtonColor: '#F3F4F6',  
       
       customClass: {
         popup: 'custom-zindex rounded-xl p-4 sm:p-6 shadow-lg max-w-xs sm:max-w-sm text-center',
@@ -114,11 +113,37 @@ export default defineNuxtPlugin(nuxtApp => {
         confirmButton: 'px-10 py-2 text-xs sm:text-sm font-semibold rounded-full shadow text-white hover:scale-[1.03] transition-all bg-[#232B37]',
         cancelButton: 'px-10 py-2 text-xs sm:text-sm font-semibold rounded-full shadow text-gray-600 bg-gray-200 hover:bg-gray-300 hover:scale-[1.03] transition-all',
       },
-      background: '#ffffff', // white popup
-      backdrop: 'rgba(0,0,0,0.4)', // semi-transparent overlay
+      background: '#ffffff', 
+      backdrop: 'rgba(0,0,0,0.4)', 
     });
   });
 
+  // showConfirm-qbook
+  nuxtApp.provide('showConfirmbqbook', (title, description = '', icon = null) => {
+    return Swal.fire({
+      title: title,     
+      text: description,   
+      icon: icon || undefined, 
+      showCancelButton: true,
+      confirmButtonText: 'Yes',
+      cancelButtonText: 'No',
+      reverseButtons: true,
+
+      // Custom button colors
+      confirmButtonColor: '#bbd151',
+      cancelButtonColor: '#F3F4F6',
+
+      customClass: {
+        popup: 'custom-zindex rounded-xl p-4 sm:p-6 shadow-lg max-w-xs sm:max-w-sm text-center',
+        title: 'text-sm sm:text-lg font-semibold text-gray-600 mb-2',
+        htmlContainer: 'mt-2 mb-3 sm:mb-4 text-xs sm:text-sm',
+        confirmButton: 'px-12 py-2 text-xs bg-[#bbd151] font-semibold text-white rounded-lg shadow',
+        cancelButton: 'px-12 py-2 text-xs bg-white font-semibold border border-[#bbd151] text-[#bbd151] rounded-lg shadow transition'
+      },
+      background: '#ffffff',
+      backdrop: 'rgba(0,0,0,0.4)',
+    });
+  });
 
   //UseCase
   // this.$showInput('Please enter your name:').then((input) => {

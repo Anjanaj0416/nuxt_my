@@ -1,6 +1,6 @@
 <template>
   <section
-    class="min-h-screen grid grid-cols-1 md:grid-cols-2 font-sans bg-[#bbd151]"
+    class="min-h-screen grid grid-cols-1 md:grid-cols-2 font-sans bg-qbook"
   >
 
     <!-- Left Brand Panel -->

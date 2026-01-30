@@ -1,5 +1,3 @@
-
-
 <template>
   <section class="flex min-h-screen page-container">
     <div>

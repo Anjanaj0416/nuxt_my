@@ -10,11 +10,13 @@
   import LinkBtn from "~/components/customcontrol/Link";
   import Button from "~/components/customcontrol/Button";
   import selectinput2 from "~/components/customcontrol/selectinput2";
+  import { useUserStore } from '~/stores/modules/userStore';
 
 
   definePageMeta({
     layout: 'qbooklogin',   
-    middleware: 'authEbook',
+    // middleware: 'auth',
+    middleware: 'auth-ebook',
    });
    
   export default {
@@ -32,7 +34,7 @@
      
     },
     async created() {
-     
+      this.userStore = useUserStore();
       this.showLoading = this.$showLoading;
      
       

@@ -23,7 +23,7 @@
 
             <!-- Level 2 submenu -->
             <div v-show="isSubmenuOpen['Invoice']" class="pl-4 mt-1 space-y-1">
-                <router-link to="/q-book/Invoices"
+                <router-link to="/qbook/Invoices"
                     class="block px-3 py-2 rounded text-black hover:text-black  hover:bg-white"
                     @click="$emit('close-sidebar')">
                     <span>All Invoices</span>

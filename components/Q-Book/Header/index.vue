@@ -8,7 +8,7 @@
       <div class="flex flex-col flex-1">
         <!-- Header -->
         <header class="flex items-center justify-between h-16 px-6 shadow-md 
-          bg-white 
+          bg-white
           backdrop-blur-md">
           <!-- Sidebar Toggle -->
           <button @click="isSidebarOpen = !isSidebarOpen" class="absolute z-50 p-2 rounded-full bg-white/20 hover:bg-white/30 
@@ -30,7 +30,7 @@
 
           <!-- User Profile -->
           <div class="relative flex items-center ml-3 space-x-3">
-            <div class="flex flex-col text-white text-xs sm:text-sm hidden sm:inline md:inline lg:inline">
+            <div class="flex flex-col text-gray-800 text-xs sm:text-sm hidden sm:inline md:inline lg:inline">
               <p class="font-semibold truncate">Hi, {{ userStore.loggedUser.name }}</p>
               <p class="text-[10px] sm:text-xs opacity-80 truncate">{{ userStore.loggedUser.userName }}</p>
               <!-- <p class="text-[10px] sm:text-xs opacity-80 truncate">Role: {{ userStore.loggedUser.role || 'N/A' }}</p> -->
@@ -56,7 +56,8 @@
                   <a href="#" class="block px-4 py-2 text-sm text-gray-700 hover:bg-blue-50 hover:text-blue-700">
                     Settings
                   </a>
-                  <a href="/user/login"
+                  <a 
+                     @click="isDropdownOpen = false; userStore.logoutQbook()"
                     class="block px-4 py-2 text-sm text-gray-700 hover:bg-red-50 hover:text-red-600">
                     Sign out
                   </a>
