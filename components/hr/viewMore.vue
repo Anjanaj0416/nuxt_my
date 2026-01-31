@@ -1,6 +1,6 @@
 <template>
     <section>
-        {{ dayInfo }}
+        <!-- {{ dayInfo }} -->
         <!-- dayInfo?.movementDetails?.id === `00000000-0000-0000-0000-000000000000` &&
             dayInfo?.otDetails?.id === `00000000-0000-0000-0000-000000000000` &&
             dayInfo?.leaveDetails?.id === `00000000-0000-0000-0000-000000000000` &&
@@ -11,7 +11,7 @@
             <span @click="isMovementApply= !isMovementApply; loadMovementInitData()" class="border rounded p-2 mr-2">Apply Movement</span>
         </div>
         <div v-show="isOtApply" class="mt-5">
-            <OtApply @is-ot-apply="isOtApply= !isOtApply"/>
+            <OtApply @is-ot-apply="isOtApply= !isOtApply" :empno="empno" :dtFrom="dtFrom" :rowId="dayInfo.id"/>
         </div>
         <div v-show="isLeaveApply" class="mt-5">
             <LeaveApply @is-leave-apply="isLeaveApply= !isLeaveApply" :empno="empno" :fromDate="dtFrom" :leaveyear="leaveYear"/>
@@ -149,7 +149,7 @@
                 class="flex flex-col h-full border border-b rounded border-gray-400 mr-2 space-y-2">
                 <div>
                     <div class="flex-1 space-y-3">
-                        <div class="text-lg text-bold text-center underline border-b border-gray-400">OT {{ dayInfo?.otDetails?.type }}</div>
+                        <div class="text-lg text-bold text-center underline border-b border-gray-400">{{ dayInfo?.otDetails?.type }}</div>
                         <div class="grid grid-cols-2 space-x-4 text-center p-2 border-b border-gray-400">
                             <div class="text-left w-32">OverTimeFrom</div>
                             <div class="text-left">: {{ formatTime(dayInfo?.otDetails?.overTimeStart) ?
@@ -248,7 +248,7 @@
                 class="flex flex-col h-full border border-b rounded border-gray-400 mr-2 space-y-2">
                 <div>
                     <div class="flex-1 space-y-3">
-                        <div class="text-lg text-bold text-center underline border-b border-gray-400">Leave {{ dayInfo?.leaveDetails?.type ?
+                        <div class="text-lg text-bold text-center underline border-b border-gray-400">{{ dayInfo?.leaveDetails?.type ?
                             dayInfo?.leaveDetails?.type : "N/A" }}</div>
                         <div class="grid grid-cols-2 space-x-4 text-center p-2 border-b border-gray-400">
                             <div class="text-left w-32">EndDate</div>
@@ -361,7 +361,7 @@
                 class="flex flex-col h-full border border-b rounded border-gray-400 mr-2 space-y-2">
                 <div>
                     <div class="flex-1 space-y-3">
-                        <div class="text-lg text-bold text-center underline border-b border-gray-400">Rectification{{ dayInfo?.rectificationDetails?.type ?
+                        <div class="text-lg text-bold text-center underline border-b border-gray-400">{{ dayInfo?.rectificationDetails?.type ?
                             dayInfo?.rectificationDetails?.type : "N/A" }}</div>
                         <div class="grid grid-cols-2 space-x-4 text-center p-2 border-b border-gray-400">
                             <div class="text-left w-32">BeforeRectify</div>
@@ -499,7 +499,7 @@ export default {
         async loadLeaveBalance() { 
             let req = {
                 empNo: this.empno,
-                leaveYear: this.leaveYear,
+                year: this.leaveYear,
             }
             await this.leaveStore.getLeaveBalance(req, this.showLoading)
         },

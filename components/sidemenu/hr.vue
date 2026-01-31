@@ -51,6 +51,11 @@
                     @click="$emit('close-sidebar')">
                     <span>Special Work Arrangement</span>
                 </router-link>
+                <router-link to="/hr/dailyAttendanceStatusUpdate" v-show="userStore.loggedUser.granted.includes('hradmin')"
+                    class="block px-3 py-2 text-gray-300 rounded hover:text-white hover:bg-blue-800"
+                    @click="$emit('close-sidebar')">
+                    <span>Daily Atten. Status Update</span>
+                </router-link>
 
                 <div v-show="userStore.loggedUser.granted.includes('hradmin')">
                     <div @click="toggleSubmenu('Reports')"

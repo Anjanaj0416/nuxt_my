@@ -191,7 +191,7 @@
           </div>
           <!-- View more -->
           <div v-show="isView && viewRow == dayatt.id">
-            <div class="relative  px-4 pt-2 text-sm">
+            <div class="relative  px-4 pt-2 text-sm"> 
               <div class="absolute top-0 right-0 flex mt-3 mr-5 gap-x-4">
                 <div class="cursor-pointer text-gray-500 hover:text-gray-800" title="Exit Employee Details"
                   @click="getClose">
