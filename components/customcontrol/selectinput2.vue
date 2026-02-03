@@ -130,7 +130,7 @@ export default {
           </option>
         </template>
 
-        <template v-else-if="isReport">
+        <template v-else-if="isReport,isAttendanceStatus">
           <option v-for="item in selections" :key="item.id" :value="item.id">
             {{ item.value }}
           </option>
@@ -169,6 +169,7 @@ export default {
     isDistrict: Boolean,
     isReport: Boolean,
     isDepartment: Boolean,
+    isAttendanceStatus: Boolean,
     err: {
       type: String,
       default: ''

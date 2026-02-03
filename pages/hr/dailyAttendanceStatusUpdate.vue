@@ -35,7 +35,7 @@
             Please select a date range..
         </p>
 
-        <dailyAttendance/>
+        <dailyAttendance v-if="attendanceStore.dailyEmpsInOutDetails?.length > 0"/>
         
     </section>
 </template>
@@ -75,8 +75,7 @@ export default {
         this.attendanceStore = useAttendanceStore();
         this.showLoading = this.$showLoading;
 
-        await this.attendanceStore.getDailyEmpsInOutDetailsInit(this.$showLoading);
-
+        await this.attendanceStore.clearDailyAttendanceInOut();
     },
     watch: {},
     computed: {},
