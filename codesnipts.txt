@@ -35,3 +35,6 @@ mkcert -install
 mkcert localhost
 openssl pkcs12 -export -out localhost+2.pfx -inkey localhost+2-key.pem -in localhost+2.pem
 hpTFT7600;;
+
+
+npm install jwt-decode

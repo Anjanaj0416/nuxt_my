@@ -1,19 +1,57 @@
 <template>
-  <section class="flex items-center justify-center min-h-screen px-4 bg-gray-100">
-    <div class="flex flex-col items-center w-full max-w-xl overflow-hidden shadow-2xl rounded-3xl md:flex-row">
-      <!-- Right Panel -->
-      <div class="w-full p-10 bg-white">
-        <h3 class="mb-6 text-3xl font-semibold text-center text-blue-900">
+  <section
+    class="min-h-screen grid grid-cols-1 md:grid-cols-2 font-sans bg-qbook"
+  >
+
+    <!-- Left Brand Panel -->
+    <div class="hidden md:flex flex-col items-center justify-center px-10 bg-qbook relative overflow-hidden">
+      <!-- Decorative Shapes -->
+      <div class="absolute -top-16 -left-16 w-64 h-64 bg-indigo-300 rounded-full mix-blend-multiply opacity-30 animate-pulse"></div>
+      <div class="relative z-10 flex flex-col items-center text-center">
+        <img
+          src="/assets/img/qbook/qbook.png"
+          alt="QBook"
+          class="w-40 mb-6 drop-shadow-lg"
+        />
+
+        <h1 class="text-4xl font-extrabold text-gray-900 tracking-tight mb-4">
+          Smart Finance, Simplified
+        </h1>
+
+        <p class="text-gray-700 max-w-md leading-relaxed">
+          Powerful accounting tools designed for modern businesses.
+          Track expenses, manage invoices, and grow with confidence.
+        </p>
+      </div>
+
+      <div class="mt-6 flex gap-6 text-sm font-medium text-black">
+        <span>🔒 Secure</span>
+        <span>📑 Accurate</span>
+        <span>📊 Smart</span>
+      </div>
+    </div>
+
+    <!-- Right Login Panel -->
+    <div class="flex items-center justify-center px-4">
+      
+      <div class="w-full max-w-md bg-white rounded-2xl shadow-2xl p-8">
+
+        <h2 class="text-2xl font-bold text-gray-900 text-center mb-1">
           Sign In
-        </h3>
+        </h2>
+        <p class="text-sm text-gray-600 text-center mb-6">
+          Access your financial dashboard
+        </p>
 
         <form @submit.prevent="handleLogin" class="space-y-5">
           <!-- Email -->
           <div>
-            <label class="block mb-1 text-sm font-medium text-gray-700">User Name</label>
-            <input type="text" v-model="loginDetails.userName" @input="clearErrorOnInput('userName')" placeholder="Enter your username"
+            <label class="block text-sm font-medium text-gray-700 mb-1">
+              Email Address
+            </label>
+            <input type="text" v-model="loginDetails.userName" @input="clearErrorOnInput('userName')" placeholder="Enter your username" 
               class="w-full px-4 py-2 text-sm border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-300" />
-            <p v-if="err.userName" class="mt-2 text-sm text-red-600">
+            <p v-if="err.userName" class="mt-1 text-sm text-red-600">
               {{ err.userName }}
             </p>
           </div>
@@ -22,9 +60,10 @@
           <div>
             <label class="block mb-1 text-sm font-medium text-gray-700">Password</label>
             <div class="relative">
-              <input :type="showPassword ? 'text' : 'password'" v-model="loginDetails.password"
-                @input="clearErrorOnInput('password')"
+              <input :type="showPassword ? 'text' : 'password'"
+                v-model="loginDetails.password"
                 placeholder="Enter your password"
+                @input="clearErrorOnInput('password')"
                 class="w-full px-4 py-2 pr-10 text-sm border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-300" />
               <button type="button" @click="togglePassword"
                 class="absolute inset-y-0 flex items-center text-black right-3">
@@ -43,44 +82,45 @@
                 </svg>
               </button>
             </div>
-            <p v-if="err.password" class="mt-2 text-sm text-red-600">
+            <p v-if="err.password" class="mt-1 text-sm text-red-600">
               {{ err.password }}
             </p>
           </div>
 
-          <!-- Sign In Button -->
-          <button @click="GetLogin" type="submit"
-            class="w-full py-2 text-white transition bg-blue-900 rounded-lg hover:bg-blue-800">
-            Sign In
+          <!-- Remember + Forgot -->
+          <div class="flex items-center justify-between text-sm">
+            <!-- <label class="flex items-center gap-2 text-gray-700">
+              <input type="checkbox" class="rounded accent-[#bbd151]" />
+              Remember me
+            </label> -->
+
+            <a href="#" class="text-gray-600 hover:underline">
+              Forgot password?
+            </a>
+          </div>
+
+          <!-- Button -->
+          <button
+            @click="GetLogin" 
+            type="submit"
+            class="w-full py-1 bg-gray-900 text-white font-semibold text-sm
+                   rounded-lg hover:opacity-90 transition"
+          >
+            Login Securely
           </button>
-
-          <div class="flex justify-between">
-            <a href="/" class="text-sm text-blue-800 hover:underline">
-              Go to home
-            </a>
-
-            <a href="/user/changelogin" class="text-sm text-blue-800 hover:underline">
-              Forgot Password?
-            </a>
-          </div>
-
-          <!-- Separator -->
-          <!-- <div class="flex items-center justify-center gap-2 my-6 text-sm text-gray-400">
-            <hr class="w-1/4 border-gray-300" />
-            OR
-            <hr class="w-1/4 border-gray-300" />
-          </div>
-
-          <button @click="goToRegister"
-            class="w-full px-4 py-2 font-semibold text-gray-700 bg-gray-100 rounded-lg hover:bg-gray-200">
-            Sign up for a new account
-          </button> -->
         </form>
+
+        <p class="text-xs text-gray-500 text-center mt-6">
+          © 2026 Sri Lanka Q Books
+        </p>
       </div>
+      
     </div>
+
   </section>
 </template>
 
+  
 <script>
 import changelogin from "~/pages/user/changelogin";
 import register from "~/pages/user/register.vue";
@@ -94,11 +134,11 @@ import { useUserStore } from "~/stores/modules/userStore";
 ////import * as myfilter from '@/plugins/myfilter'
 // import { mapState, mapGetters, mapActions, mapMutations } from 'pinia'
 definePageMeta({
-  layout: 'bst',
+  layout: 'qbook',
 });
 
 export default {
-  layout: "b2b",
+  layout: "qbook",
   components: { changelogin, register, logo },
   props: [""],
   data() {
@@ -122,7 +162,7 @@ export default {
 
   async mounted() {
     this.userStore = useUserStore();
-    await this.userStore.logout();
+    await this.userStore.logoutQbook();
   },
   watch: {},
   created() {
@@ -135,47 +175,47 @@ export default {
 
       if (!this.IsValidate()) return;
 
+      const loadingAlert = this.$QbookshowLoading();
+
       const redirectToCookie = useCookie("redirectTo");
 
       if (redirectToCookie.value !== undefined) {
         this.loginDetails.RequestedUrl = redirectToCookie.value;
       }
 
-      await this.userStore.login(this.loginDetails, this.showLoading);
-
-      //api Call using pinia
       try {
+        await this.userStore.login(this.loginDetails);
+
         var token = this.userStore.token;
+
         if (token === null) {
           this.$showToast("Login Failed!", "error");
         } else {
           //this.$showToast("Login successful!", "success");
           try {
-
             const redirectToCookie = useCookie("redirectTo");
 
             if (redirectToCookie.value === undefined && this.userStore.redirectTo != '') {
               this.$router.push(this.userStore.redirectTo);
             }
             else if (redirectToCookie.value != "") {
-
               this.$router.push(redirectToCookie.value);
             } else {
-
-              this.$router.push("/dashboard");
+              this.$router.push("/qbook/dashboard");
             }
           } catch (error) {
-
-            this.$router.push("/dashboard");
+            this.$router.push("/qbook");
           }
         }
+
       } catch (error) {
         this.$showToast(
           "Login failed. Please check your credentials.",
           "error"
         );
-      }
+      } 
     },
+    
 
     IsValidate() {
       let isvalid = true;
@@ -227,22 +267,55 @@ export default {
   },
 };
 </script>
+  
+  <style scoped>
 
-<style scoped>
-.csscmd {
-  @apply p-2 text-center bg-blue-200 rounded;
-}
+  </style>
+  
+  
+      <!-- async GetLogin() {
 
-.csscmd:hover {
-  @apply bg-blue-200 cursor-pointer;
-}
+      if (!this.IsValidate()) return;
 
-.cssBox {
-  border: 1px solid;
-  @apply border-gray-500 rounded p-2;
-}
+      const redirectToCookie = useCookie("redirectTo");
 
-.btn {
-  background-color: #072556;
-}
-</style>
+      if (redirectToCookie.value !== undefined) {
+        this.loginDetails.RequestedUrl = redirectToCookie.value;
+      }
+
+      await this.userStore.login(this.loginDetails, this.showLoading);
+
+      //api Call using pinia
+      try {
+        var token = this.userStore.token;
+        if (token === null) {
+          this.$showToast("Login Failed!", "error");
+        } else {
+          //this.$showToast("Login successful!", "success");
+          try {
+
+            const redirectToCookie = useCookie("redirectTo");
+
+
+            if (redirectToCookie.value === undefined && this.userStore.redirectTo != '') {
+              this.$router.push(this.userStore.redirectTo);
+            }
+            else if (redirectToCookie.value != "") {
+
+              this.$router.push(redirectToCookie.value);
+            } else {
+
+              this.$router.push("/dashboard");
+            }
+          } catch (error) {
+
+            this.$router.push("/dashboard");
+          }
+        }
+      } catch (error) {
+        this.$showToast(
+          "Login failed. Please check your credentials.",
+          "error"
+        );
+      }
+    }, -->

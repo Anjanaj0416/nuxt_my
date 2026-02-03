@@ -5,7 +5,7 @@ export default defineNuxtPlugin((nuxtApp) => {
   const config = useRuntimeConfig()
 
   // Set base URL
-  axios.defaults.baseURL = config.public.apiBaseUrl
+  axios.defaults.baseURL = config.public.apiBaseUrl //maken tamal env ake base url eka Axios base URL ekt set krnne
   //interceptors--(heders Modification)
   axios.interceptors.request.use(
     (config) => {

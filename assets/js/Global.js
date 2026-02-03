@@ -123,3 +123,18 @@ export function getMonthNames() {
       ]
     return alMonths;
 }
+
+export function toLKR(value) {
+  try {
+    const num = Number(value)
+    if (isNaN(num)) return 'Rs. 0.00'
+
+    return `Rs. ${num.toLocaleString('en-LK', {
+      minimumFractionDigits: 2,
+      maximumFractionDigits: 2
+    })}`
+  } catch {
+    return 'Rs. 0.00'
+  }
+}
+
