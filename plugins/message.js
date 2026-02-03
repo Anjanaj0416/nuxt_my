@@ -2,6 +2,7 @@
 import Swal from 'sweetalert2';
 import lodingGif from '~/assets/img/digitalTechLabs/LodingGif.gif';
 import TenderLodingGif from '~/assets/img/tender/TenderLogingGif.gif'
+import Qbook from '~/assets/img/qbook/QbookLoding.gif'
 
 export default defineNuxtPlugin(nuxtApp => {
   // Add showToast globally, available as $showToast
@@ -144,6 +145,57 @@ export default defineNuxtPlugin(nuxtApp => {
       backdrop: 'rgba(0,0,0,0.4)',
     });
   });
+
+  // showConfirm-qbook with delete reason
+
+  nuxtApp.provide('showDeteleConfirmbqbook', (title, description = '', icon = null) => {
+    return Swal.fire({
+      title,
+      text: description,
+      icon: icon || undefined,
+
+      // 🔥 Add textarea input
+      input: 'textarea',
+      inputPlaceholder: 'Enter delete reason...',
+      inputAttributes: {
+        rows: 3
+      },
+
+      showCancelButton: true,
+      confirmButtonText: 'Yes, Delete',
+      cancelButtonText: 'No',
+      reverseButtons: true,
+
+      // ✅ Validate reason
+      preConfirm: (reason) => {
+        if (!reason || reason.trim() === '') {
+          Swal.showValidationMessage('Please Add the reason.')
+          return false
+        }
+        return reason
+      },
+
+      confirmButtonColor: '#bbd151',
+      cancelButtonColor: '#F3F4F6',
+
+      customClass: {
+        popup: 'custom-zindex rounded-xl p-2 sm:p-2 shadow-lg  text-center',
+        title: 'text-sm sm:text-lg font-semibold text-gray-600 mb-0',
+        htmlContainer: 'mt-0 mb-1 sm:mb-4 text-xs sm:text-sm',
+        confirmButton: ' text-xs bg-[#bbd151] font-semibold text-white rounded-lg shadow',
+        cancelButton: 'px-12 py-2 text-xs bg-white font-semibold border border-[#bbd151] text-[#bbd151] rounded-lg shadow transition'
+      },
+
+   
+
+      background: '#ffffff',
+      backdrop: 'rgba(0,0,0,0.4)',
+    })
+  });
+
+
+
+  
 
   //UseCase
   // this.$showInput('Please enter your name:').then((input) => {
@@ -289,7 +341,7 @@ export default defineNuxtPlugin(nuxtApp => {
     })
   });
 
-  //Tender
+  //TenderLoding
     nuxtApp.provide('TendershowLoading', (message = 'Loading...') => {
     return Swal.fire({
       title: '',
@@ -305,6 +357,42 @@ export default defineNuxtPlugin(nuxtApp => {
           min-width: 200px;
         ">
           <img src="${TenderLodingGif}" alt="Loading..." style="width: 100px; height: 100px;" />
+        </div>
+      `,
+      // ${lodingGif}
+      background: 'transparent', // So Swal's background is transparent; your container sets bg
+      backdrop: `
+      rgba(55, 65, 81, 0.8)
+      url("") /* no pattern image */
+      left top
+      no-repeat
+      fixed
+      `,
+      backdrop: true, // show backdrop overlay
+      allowOutsideClick: false,
+      showConfirmButton: false,
+      didOpen: () => {
+        // Optional: Focus on Swal or add any animation here
+      },
+    });
+  });
+
+  //qbookLoding
+  nuxtApp.provide('QbookshowLoading', (message = 'Loading...') => {
+    return Swal.fire({
+      title: '',
+      html: `
+        <div style="
+          padding: 30px 40px;
+          border-radius: 12px;
+          display: flex;
+          flex-direction: column;
+          align-items: center;
+          justify-content: center;
+          gap: 20px;
+          min-width: 200px;
+        ">
+          <img src="${Qbook}" alt="Loading..." style="width: 100px; height: 100px;" />
         </div>
       `,
       // ${lodingGif}

@@ -5,44 +5,29 @@
       <main class="px-4 py-8 mt-14 lg:px-24">
         <NuxtPage />
       </main>
-      <!-- hide -->
-      <!-- <footercomp /> -->
     </div>
   </section>
 </template>
 
-
-<script>
+<script setup>
+import { ref } from 'vue'
 import headercomp from '~/components/Q-Book/Header/index.vue'
+import { useLoading } from '~/composables/useLoading'
 
+/* head */
 useHead({
   title: 'Q-Book',
   link: [
-    { rel: "icon", type: "image/png", sizes: "16x16", href: "/favicon_io/dtl/favicon-16x16.png" },
-    { rel: "icon", type: "image/png", sizes: "32x32", href: "/favicon_io/dtl/favicon-32x32.png" },
-    { rel: "apple-touch-icon", sizes: "180x180", href: "/favicon_io/dtl/apple-touch-icon.png" },
-    { rel: "manifest", href: "/favicon_io/dtl/site.webmanifest" }
+    { rel: "icon", type: "image/png", sizes: "16x16", href: "/favicon_io/qbook/favicon-16x16.png" },
+    { rel: "icon", type: "image/png", sizes: "32x32", href: "/favicon_io/qbook/favicon-32x32.png" },
+    { rel: "apple-touch-icon", sizes: "180x180", href: "/favicon_io/qbook/apple-touch-icon.png" },
+    { rel: "manifest", href: "/favicon_io/qbook/site.webmanifest" }
   ]
 })
 
-export default {
-  components: { headercomp },
-  data() {
-    return {
-      showLoading: null,
-      isLoading: null,
-    }
-  },
-  async created() {
-    this.isLoading = useLoading()
-    // console.log("isLoading:",this.isLoading);
-
-    // alert('sl')
-    // this.showLoading = this.$showLoading;
-    //  const loadingAlert = showLoading("");
-    // loadingAlert.close();
-  },
-}
+/* state */
+const showLoading = ref(null)
+const isLoading = useLoading() // same as created()
 </script>
 
 <style scoped>
@@ -54,6 +39,5 @@ export default {
 
 .content {
   flex-grow: 1;
-  /* Allows the content to take the available space */
 }
 </style>

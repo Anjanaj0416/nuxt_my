@@ -62,9 +62,9 @@
                   v-model="InvoiceNo"
                   placeholder="INV-000123"
                   @input="clearErrorOnInput('InvoiceNo')"
-                  class="w-full rounded-lg border border-gray-300 bg-white
-                        text-sm text-gray-700 px-4 py-2
-                        focus:border-[#2ca01c] focus:ring-2 focus:ring-[#2ca01c]/20"
+                  readonly
+                  class="w-full rounded-lg border border-gray-300 bg-gray-100
+                    text-sm text-gray-700 px-4 py-2 "
                 />
                 <p v-if="err.InvoiceNo" class="mt-2 text-sm text-red-600">
                   {{ err.InvoiceNo }}
@@ -121,150 +121,153 @@
             </div>
           </div>
 
-          <div class="bg-white  shadow-sm mt-8 overflow-x-auto">
-            <table class="w-full text-sm text-left">
-              <thead class="">
-                <tr class="text-gray-700">
-                  <th class="px-4 py-3 text-sm font-medium">Product / Service</th>
-                  <th class="px-4 py-3 font-medium">Item Code</th>
-                  <th class="px-4 py-3 font-medium">Description</th>
-                  <th class="px-4 py-3 font-medium text-center">Qty</th>
-                  <th class="px-4 py-3 font-medium text-right">Unit Price</th>
-                  <th class="px-4 py-3 font-medium text-center">Discount</th>
-                  <th class="px-4 py-3 font-medium text-right">Total</th>
-                  <th class="px-4 py-3"></th>
-                </tr>
-              </thead>
+          <div class="bg-white  shadow-sm mt-8">
+            <div class="overflow-x-auto max-h-[400px]">
+              <table class="w-full text-sm text-left">
+                <thead class="">
+                  <tr class="text-gray-700">
+                    <th class="px-4 py-3 text-sm font-medium">Product / Service</th>
+                    <th class="px-4 py-3 font-medium">Item Code</th>
+                    <th class="px-4 py-3 font-medium">Description</th>
+                    <th class="px-4 py-3 font-medium text-center">Qty</th>
+                    <th class="px-4 py-3 font-medium text-right">Unit Price</th>
+                    <th class="px-4 py-3 font-medium text-center">Discount</th>
+                    <th class="px-4 py-3 font-medium text-right">Total</th>
+                    <th class="px-4 py-3"></th>
+                  </tr>
+                </thead>
+                
 
-              <tbody>
-                <tr
-                  v-for="(row, index) in rows"
-                  :key="index"
-                  class="border-b hover:bg-white"
-                >
-                  <td class="px-4 py-2">
-                    <select
-                      v-model="row.product"
-                      @change="onProductChange(row)"
-                      class="w-full rounded-lg border border-gray-300 bg-white
-                            text-xs text-gray-700 px-2 py-1
-                            focus:border-[#2ca01c] focus:ring-1 focus:ring-[#2ca01c]/20"
-                    >
-                      <option disabled value="">Select product</option>
-                      <option
-                        v-for="(cus, index) in qbookStore.listItemDetails"
-                        :key="index"
-                        :value="cus.id"
+                <tbody>
+                  <tr
+                    v-for="(row, index) in rows"
+                    :key="index"
+                    class="border-b hover:bg-white"
+                  >
+                    <td class="px-4 py-2">
+                      <select
+                        v-model="row.product"
+                        @change="onProductChange(row)"
+                        class="w-full rounded-lg border border-gray-300 bg-white
+                              text-xs text-gray-700 px-2 py-1
+                              focus:border-[#2ca01c] focus:ring-1 focus:ring-[#2ca01c]/20"
                       >
-                        {{ cus.itemName }}
-                      </option>
-                    </select>
+                        <option disabled value="">Select product</option>
+                        <option
+                          v-for="(cus, index) in qbookStore.listItemDetails"
+                          :key="index"
+                          :value="cus.id"
+                        >
+                          {{ cus.itemName }}
+                        </option>
+                      </select>
 
-                  </td>
-                  <td class="px-4 py-2">
-                    <p class="text-sm">{{ row.itemCode || '-'}} </p>
-                  </td>
-                  <td class="px-4 py-2">
-                    <p class="text-sm">{{ row.description || '-'}}</p>
-                  </td>
-                  <td class="px-2 py-1 text-center">
-                    <input
-                      type="number"
-                      min="1"
-                      v-model.number="row.qty"
-                      class="w-16 px-2 py-1 text-xs text-center rounded border outline-none
-                            focus:border-[#2ca01c] focus:ring-1 focus:ring-[#2ca01c]/20"
-                    />
-                  </td>
+                    </td>
+                    <td class="px-4 py-2">
+                      <p class="text-sm">{{ row.itemCode || '-'}} </p>
+                    </td>
+                    <td class="px-4 py-2">
+                      <p class="text-sm">{{ row.itemDescription || '-'}}</p>
+                    </td>
+                    <td class="px-2 py-1 text-center">
+                      <input
+                        type="number"
+                        min="1"
+                        v-model.number="row.qty"
+                        class="w-16 px-2 py-1 text-xs text-center rounded border outline-none
+                              focus:border-[#2ca01c] focus:ring-1 focus:ring-[#2ca01c]/20"
+                      />
+                    </td>
 
-                  <td class="px-4 py-2">
-                    <p class="text-sm">{{ row.unitPrice }}</p>
-                  </td>
+                    <td class="px-4 py-2">
+                      <p class="text-sm">{{ row.unitPrice }}</p>
+                    </td>
 
-                  <td class="px-2 py-1">
-                    <div class="flex items-center justify-center">
-                      <div class="flex border rounded-lg overflow-hidden bg-white shadow-sm text-xs">
-                        <!-- Discount Input -->
-                        <input
-                          type="number"
-                          min="0"
-                          v-model.number="row.discount"
-                          :placeholder="row.discountType === 'lkr' ? 'Rs 0.00' : '0%'"
-                          class="w-24 px-2 py-1 text-xs text-center outline-none focus:ring-1 focus:ring-[#2ca01c]/20"
-                        />
+                    <td class="px-2 py-1">
+                      <div class="flex items-center justify-center">
+                        <div class="flex border rounded-lg overflow-hidden bg-white shadow-sm text-xs">
+                          <!-- Discount Input -->
+                          <input
+                            type="number"
+                            min="0"
+                            v-model.number="row.discount"
+                            :placeholder="row.discountType === 'lkr' ? 'Rs 0.00' : '0%'"
+                            class="w-24 px-2 py-1 text-xs text-center outline-none focus:ring-1 focus:ring-[#2ca01c]/20"
+                          />
 
-                        <!-- LKR / % Toggle -->
-                        <div class="flex border-l">
-                          <label
-                            class="flex items-center justify-center px-2 cursor-pointer transition"
-                            :class="row.discountType === 'lkr'
-                              ? 'bg-[#2ca01c] text-white'
-                              : 'bg-white text-gray-600 hover:bg-gray-100'"
-                          >
-                            <input
-                              type="radio"
-                              value="lkr"
-                              v-model="row.discountType"
-                              @change="onDiscountTypeChange(row)"
-                              class="hidden"
-                            />
-                            LKR
-                          </label>
+                          <!-- LKR / % Toggle -->
+                          <div class="flex border-l">
+                            <label
+                              class="flex items-center justify-center px-2 cursor-pointer transition"
+                              :class="row.discountType === 'lkr'
+                                ? 'bg-[#2ca01c] text-white'
+                                : 'bg-white text-gray-600 hover:bg-gray-100'"
+                            >
+                              <input
+                                type="radio"
+                                value="lkr"
+                                v-model="row.discountType"
+                                @change="onDiscountTypeChange(row)"
+                                class="hidden"
+                              />
+                              LKR
+                            </label>
 
-                          <label
-                            class="flex items-center justify-center px-2 cursor-pointer transition border-l"
-                            :class="row.discountType === 'percentage'
-                              ? 'bg-[#2ca01c] text-white'
-                              : 'bg-white text-gray-600 hover:bg-gray-100'"
-                          >
-                            <input
-                              type="radio"
-                              value="percentage"
-                              v-model="row.discountType"
-                              @change="onDiscountTypeChange(row)"
-                              class="hidden"
-                            />
-                            %
-                          </label>
+                            <label
+                              class="flex items-center justify-center px-2 cursor-pointer transition border-l"
+                              :class="row.discountType === 'percentage'
+                                ? 'bg-[#2ca01c] text-white'
+                                : 'bg-white text-gray-600 hover:bg-gray-100'"
+                            >
+                              <input
+                                type="radio"
+                                value="percentage"
+                                v-model="row.discountType"
+                                @change="onDiscountTypeChange(row)"
+                                class="hidden"
+                              />
+                              %
+                            </label>
+                          </div>
                         </div>
                       </div>
-                    </div>
-                  </td>
+                    </td>
 
-                  <td class="px-4 py-2 text-right font-semibold">
-                    {{ lineTotal(row).toFixed(2) }}
-                  </td>
+                    <td class="px-4 py-2 text-right font-semibold">
+                      {{ lineTotal(row).toFixed(2) }}
+                    </td>
 
-                  <td class="px-4 py-2 text-center">
-                    <button
-                      @click="removeRow(index)"
-                      class="text-black hover:text-red-700"
-                      title="Delete Row"
-                    >
-                      <svg xmlns="http://www.w3.org/2000/svg" class="w-5 h-5" fill="none"
-                        viewBox="0 0 24 24" stroke="currentColor">
-                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                          d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6M9 7h6m-6 0V5a1 1 0 011-1h4a1 1 0 011 1v2" />
-                      </svg>
-                    </button>
-                  </td>
-                </tr>
-              </tbody>
-            </table>
+                    <td class="px-4 py-2 text-center">
+                      <button
+                        @click="removeRow(index)"
+                        class="text-black hover:text-red-700"
+                        title="Delete Row"
+                      >
+                        <svg xmlns="http://www.w3.org/2000/svg" class="w-5 h-5" fill="none"
+                          viewBox="0 0 24 24" stroke="currentColor">
+                          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                            d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6M9 7h6m-6 0V5a1 1 0 011-1h4a1 1 0 011 1v2" />
+                        </svg>
+                      </button>
+                    </td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
 
             <!-- Footer -->
             <div class="flex justify-between items-center px-6 py-2 bg-white">
-              <div class="space-x-4">
+              <div class="flex flex-wrap gap-2 mb-36">
                 <button
                   @click="addRow"
-                  class="text-gray-700 bg-gray-100 text-sm rounded-lg text-xs px-3 py-1.5"
+                  class="text-gray-700 bg-gray-100 rounded-lg text-xs px-3 py-1.5 w-full sm:w-auto"
                 >
                   + Add line
                 </button>
 
                 <button
                   @click="clearAll"
-                  class="text-gray-700 bg-gray-100 text-sm rounded-lg text-xs px-3 py-1.5"
+                  class="text-gray-700 bg-gray-100 rounded-lg text-xs px-3 py-1.5 w-full sm:w-auto"
                 >
                   Clear All Line
                 </button>
@@ -272,8 +275,66 @@
 
               <div class="text-right space-y-1">
                 <div class="text-lg font-semibold">
-                  <span class="text-sm text-gray-600">Subtotal :</span> {{ subtotal.toFixed(2) }}
+                  <span class="text-sm text-gray-600">Grose Total :</span> {{ subtotal.toFixed(2) }}
                 </div>
+                <div class="text-lg font-semibold">
+                  <span class="text-sm text-gray-600">Discount :</span>
+
+                  <div class="flex border rounded-lg overflow-hidden bg-white shadow-sm text-xs mt-1">
+                    <input
+                      type="number"
+                      min="0"
+                      v-model.number="invoiceDiscount"
+                      class="w-24 px-2 py-1 text-xs text-center outline-none focus:ring-1 focus:ring-[#2ca01c]/20"
+                    />
+
+                    <div class="flex border-l">
+                      <label
+                       class="flex items-center justify-center px-2 cursor-pointer transition"
+                        :class="invoiceDiscountType === 'lkr'
+                          ? 'bg-[#2ca01c] text-white'
+                          : 'bg-white text-gray-600'"
+                      >
+                        <input type="radio" value="lkr" v-model="invoiceDiscountType" hidden />
+                        LKR
+                      </label>
+
+                      <label
+                        class="flex items-center justify-center px-2 cursor-pointer transition"
+                        :class="invoiceDiscountType === 'percentage'
+                          ? 'bg-[#2ca01c] text-white'
+                          : 'bg-white text-gray-600'"
+                      >
+                        <input type="radio" value="percentage" v-model="invoiceDiscountType" hidden />
+                        %
+                      </label>
+                    </div>
+                  </div>
+
+                  <p class="text-xs text-gray-500 mt-1">
+                    − {{ Number(invoiceDiscountAmount).toFixed(2) }}
+                  </p>
+                </div>
+
+                <div class="text-lg font-semibold">
+                  <span class="text-sm text-gray-600">Tax (%) :</span>
+                  <input
+                    type="number"
+                    min="0"
+                    v-model.number="taxRate"
+                    class="w-24 ml-2 px-2 py-1 text-sm border rounded"
+                  />
+                  <p class="text-xs text-gray-500 mt-1">
+                    + {{ Number(taxAmount).toFixed(2) }}
+                  </p>
+                </div>
+
+                <div class="text-xl font-bold text-[#2ca01c]">
+                  <span class="text-sm text-gray-600">Net Total :</span>
+                  {{ Number(netTotal).toFixed(2) }}
+                  
+                </div>
+
               </div>
             </div>
 
@@ -346,7 +407,7 @@ export default {
     return {
       isOpen: true,
       imageroot: "",
-      showLoading: null,
+      QbookshowLoading: null,
       showAlert: null,
       InvoiceNo:'',
       InvoiceDate: '',
@@ -357,6 +418,9 @@ export default {
       qty: 1,
       unitPrice: 0,
       discount: 0,
+      invoiceDiscount: 0,
+      invoiceDiscountType: 'percentage',
+      taxRate: 0,
       rows: [
         this.newRow(),
       ],
@@ -370,16 +434,49 @@ export default {
   },
   computed: {
     subtotal() {
-      return this.rows.reduce((sum, row) => sum + this.lineTotal(row), 0)
+      return this.rows.reduce(
+        (sum, row) => sum + Number(this.lineTotal(row) || 0),
+        0
+      )
+    },
+
+    invoiceDiscountAmount() {
+      const discount = Number(this.invoiceDiscount || 0)
+      const subtotal = Number(this.subtotal || 0)
+
+      if (this.invoiceDiscountType === 'percentage') {
+        return subtotal * (discount / 100)
+      }
+      return discount
+    },
+
+    taxAmount() {
+      const rate = Number(this.taxRate || 0)
+      const taxable = Math.max(
+        Number(this.subtotal) - Number(this.invoiceDiscountAmount),
+        0
+      )
+      return taxable * (rate / 100)
+    },
+
+    netTotal() {
+      return Math.max(
+        Number(this.subtotal)
+        - Number(this.invoiceDiscountAmount)
+        + Number(this.taxAmount),
+        0
+      )
     }
   },
   async created() {
-    this.showLoading = this.$showLoading;
+    this.QbookshowLoading = this.$QbookshowLoading;
     this.userStore = useUserStore();
     this.qbookStore = useQbookStore(),
 
     await this.qbookStore.loadInitInvoice();
-    this.listCustomers = this.qbookStore.listCustomers
+    await this.qbookStore.nextInvoiceNo();
+    this.listCustomers = this.qbookStore.listCustomers;
+    this.InvoiceNo = this.qbookStore.InvoiceNumber;
 
   },
   mounted() {
@@ -472,7 +569,7 @@ export default {
     hasFormData() {
       if (
         this.PartnerId?.trim() ||
-        this.InvoiceNo?.trim() ||
+        // this.InvoiceNo?.trim() ||
         this.Terms?.trim() ||
         this.Memo?.trim()
       ) {
@@ -513,11 +610,17 @@ export default {
       }
     },
 
+    closeModalAfterSubmit() {
+      this.isOpen = false;
+      this.$emit("close");
+    },
+
     async SetInstallment() {
       if (!this.IsValidate()) return;
 
       const confirmed = await this.$showConfirmbqbook(
         "Are you sure to Save this Invoice?",
+        null,
         "warning"
       );
 
@@ -533,22 +636,29 @@ export default {
 
       this.rows.forEach((row, index) => {
         formData.append(`Lines[${index}].ItemId`, row.product || "");
+        formData.append(`Lines[${index}].IsDiscountInPercent`,row.discountType === 'percentage');
+        formData.append(`Lines[${index}].DiscountAmount`, row.discount || 0);
         formData.append(`Lines[${index}].Qty`, row.qty || 0);
       });
 
+      formData.append("DiscountAmount", this.invoiceDiscount)
+      formData.append("IsDiscountInPercent",this.invoiceDiscountType === 'percentage')
+
       if (this.listFiles && this.listFiles.length > 0) {
-        this.listFiles.forEach(file => {
-          formData.append("listAttachment", file);
+        this.listFiles.forEach((file, index) => {
+          formData.append(`listAttachment[${index}]`, file);
         });
       }
 
-      for (let [key, value] of formData.entries()) {
-        console.log(key, value);
-      }
 
-      await this.qbookStore.getInvoice(formData, this.showLoading);
+for (let pair of formData.entries()) {
+  console.log(pair[0], pair[1]);
+}
 
-      this.closeModal();
+
+      await this.qbookStore.setInvoice(formData, this.QbookshowLoading);
+
+      this.closeModalAfterSubmit();
     },
 
     // cancel() {

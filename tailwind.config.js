@@ -11,7 +11,7 @@ module.exports = {
       colors: {
         btn: '#072556',
         nav : '#072556',
-        qbook : '#bbd151',
+        qbook : '#d2f042',
         textColor: '#9900c7',
         primary: {
           50: '#eff6ff',

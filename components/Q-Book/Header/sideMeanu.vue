@@ -10,7 +10,8 @@
         <!-- Logo -->
         <router-link to="/dashboard" class="flex items-center space-x-2">
           <!-- hide Img -->
-          <img src="/assets/img/LogoDigitalTechLab.png" alt="Logo" class="h-auto rounded-full w-28" />
+          <img src="/assets/img/qbook/qbook.png" alt="Logo" class="h-auto rounded-full w-28" />
+           <!-- <p>QBook</p> -->
         </router-link>
         <!-- Close Button -->
         <button @click="$emit('close-sidebar')"
@@ -27,6 +28,7 @@
       <!-- <p>granted: {{ userStore.loggedUser.granted }}</p> -->
       <nav class="p-4">
         <invoice @close-sidebar="$emit('close-sidebar')"/>
+        <account @close-sidebar="$emit('close-sidebar')"/>
         <router-link to=""
             
             class="flex items-center px-3 py-2 text-black rounded hover:text-black hover:bg-white transition-all duration-200"
@@ -62,12 +64,13 @@
 // import { ref, computed, onMounted } from "vue";
 import { useUserStore } from '~/stores/modules/userStore';
 import invoice from './sideMeanu/invoice.vue';
+import account from './sideMeanu/account.vue';
 
 export default {
   props: ['isOpen'],
 
   components: {
-    invoice
+    invoice,account
   },
 
   setup() {

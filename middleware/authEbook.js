@@ -24,7 +24,7 @@ export default defineNuxtRouteMiddleware(async (to, from) => {
           userStore.token = token
         }
 
-        if (to.path !== '/user/login') {
+        if (to.path !== '/qbook') {
           // console.log("to.path:",to.path);
           
           const redirectToCookie = useCookie('redirectTo', {
@@ -68,7 +68,7 @@ export default defineNuxtRouteMiddleware(async (to, from) => {
               })
               redirectToCookie.value = to.fullPath
               // return navigateTo('/user/login')
-              return navigateTo('/errors/401page');
+              return navigateTo('/errors/qbook401page');
             }
           }
         } catch (err) {
@@ -85,6 +85,6 @@ export default defineNuxtRouteMiddleware(async (to, from) => {
     console.error('Middleware error:', error)
     loading.value = false
     // return navigateTo('/')
-    return navigateTo('/errors/500page');
+    return navigateTo('/errors/qbook500page');
   }
 });

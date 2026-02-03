@@ -154,7 +154,6 @@ export default {
 
             const redirectToCookie = useCookie("redirectTo");
 
-
             if (redirectToCookie.value === undefined && this.userStore.redirectTo != '') {
               this.$router.push(this.userStore.redirectTo);
             }

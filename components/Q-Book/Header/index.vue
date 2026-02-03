@@ -11,7 +11,7 @@
           bg-white
           backdrop-blur-md">
           <!-- Sidebar Toggle -->
-          <button @click="isSidebarOpen = !isSidebarOpen" class="absolute z-50 p-2 rounded-full bg-white/20 hover:bg-white/30 
+          <button @click="isSidebarOpen = !isSidebarOpen" class="absolute z-50 p-2 rounded-full bg-qbook hover:bg-qbook/70 
             transition-all duration-300 top-4 left-4">
             <svg v-if="!isSidebarOpen" class="w-6 h-6 text-white" fill="none" stroke="currentColor" stroke-width="2"
               viewBox="0 0 24 24">
@@ -20,9 +20,9 @@
           </button>
 
           <!-- Logo -->
-          <NuxtLink to="/dashboard" class="flex items-center space-x-2 ml-14">
+          <NuxtLink to="/qbook/dashboard" class="flex items-center space-x-2 ml-14">
             <!-- hide Img -->
-            <img src="/assets/img/LogoDigitalTechLab.png" alt="Digital Tech Labs Logo" class="h-auto rounded-full w-28" />
+            <img src="/assets/img/qbook/qbookcolor.png" alt="q book" class="h-auto rounded-full w-28" />
           </NuxtLink>
 
           <!-- {{ userStore.loggedUser.resourceURLRoot + userStore.loggedUser.image }} -->

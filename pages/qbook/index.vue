@@ -4,16 +4,27 @@
   >
 
     <!-- Left Brand Panel -->
-    <div class="hidden md:flex flex-col items-center justify-center px-10">
-      <h1 class="text-4xl font-bold tracking-wide mb-4 text-gray-900">
-        Sri Lanka Q Books
-      </h1>
+    <div class="hidden md:flex flex-col items-center justify-center px-10 bg-qbook relative overflow-hidden">
+      <!-- Decorative Shapes -->
+      <div class="absolute -top-16 -left-16 w-64 h-64 bg-indigo-300 rounded-full mix-blend-multiply opacity-30 animate-pulse"></div>
+      <div class="relative z-10 flex flex-col items-center text-center">
+        <img
+          src="/assets/img/qbook/qbook.png"
+          alt="QBook"
+          class="w-40 mb-6 drop-shadow-lg"
+        />
 
-      <p class="text-gray-800 text-center max-w-sm leading-relaxed">
-        Trusted financial solutions for professionals and businesses.
-      </p>
+        <h1 class="text-4xl font-extrabold text-gray-900 tracking-tight mb-4">
+          Smart Finance, Simplified
+        </h1>
 
-      <div class="mt-10 flex gap-6 text-sm text-gray-900">
+        <p class="text-gray-700 max-w-md leading-relaxed">
+          Powerful accounting tools designed for modern businesses.
+          Track expenses, manage invoices, and grow with confidence.
+        </p>
+      </div>
+
+      <div class="mt-6 flex gap-6 text-sm font-medium text-black">
         <span>🔒 Secure</span>
         <span>📑 Accurate</span>
         <span>📊 Smart</span>
@@ -22,6 +33,7 @@
 
     <!-- Right Login Panel -->
     <div class="flex items-center justify-center px-4">
+      
       <div class="w-full max-w-md bg-white rounded-2xl shadow-2xl p-8">
 
         <h2 class="text-2xl font-bold text-gray-900 text-center mb-1">
@@ -102,6 +114,7 @@
           © 2026 Sri Lanka Q Books
         </p>
       </div>
+      
     </div>
 
   </section>
@@ -162,48 +175,47 @@ export default {
 
       if (!this.IsValidate()) return;
 
+      const loadingAlert = this.$QbookshowLoading();
+
       const redirectToCookie = useCookie("redirectTo");
 
       if (redirectToCookie.value !== undefined) {
         this.loginDetails.RequestedUrl = redirectToCookie.value;
       }
 
-      await this.userStore.login(this.loginDetails, this.showLoading);
-
-      //api Call using pinia
       try {
+        await this.userStore.login(this.loginDetails);
+
         var token = this.userStore.token;
+
         if (token === null) {
           this.$showToast("Login Failed!", "error");
         } else {
           //this.$showToast("Login successful!", "success");
           try {
-
             const redirectToCookie = useCookie("redirectTo");
-
 
             if (redirectToCookie.value === undefined && this.userStore.redirectTo != '') {
               this.$router.push(this.userStore.redirectTo);
             }
             else if (redirectToCookie.value != "") {
-
               this.$router.push(redirectToCookie.value);
             } else {
-
-              this.$router.push("/dashboard");
+              this.$router.push("/qbook/dashboard");
             }
           } catch (error) {
-
-            this.$router.push("/dashboard");
+            this.$router.push("/qbook");
           }
         }
+
       } catch (error) {
         this.$showToast(
           "Login failed. Please check your credentials.",
           "error"
         );
-      }
+      } 
     },
+    
 
     IsValidate() {
       let isvalid = true;
@@ -261,4 +273,49 @@ export default {
   </style>
   
   
-  
+      <!-- async GetLogin() {
+
+      if (!this.IsValidate()) return;
+
+      const redirectToCookie = useCookie("redirectTo");
+
+      if (redirectToCookie.value !== undefined) {
+        this.loginDetails.RequestedUrl = redirectToCookie.value;
+      }
+
+      await this.userStore.login(this.loginDetails, this.showLoading);
+
+      //api Call using pinia
+      try {
+        var token = this.userStore.token;
+        if (token === null) {
+          this.$showToast("Login Failed!", "error");
+        } else {
+          //this.$showToast("Login successful!", "success");
+          try {
+
+            const redirectToCookie = useCookie("redirectTo");
+
+
+            if (redirectToCookie.value === undefined && this.userStore.redirectTo != '') {
+              this.$router.push(this.userStore.redirectTo);
+            }
+            else if (redirectToCookie.value != "") {
+
+              this.$router.push(redirectToCookie.value);
+            } else {
+
+              this.$router.push("/dashboard");
+            }
+          } catch (error) {
+
+            this.$router.push("/dashboard");
+          }
+        }
+      } catch (error) {
+        this.$showToast(
+          "Login failed. Please check your credentials.",
+          "error"
+        );
+      }
+    }, -->
