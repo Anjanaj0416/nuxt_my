@@ -51,6 +51,11 @@
                     @click="$emit('close-sidebar')">
                     <span>Special Work Arrangement</span>
                 </router-link>
+                <router-link to="/hr/dailyAttendanceStatusUpdate" v-show="userStore.loggedUser.granted.includes('hradmin')"
+                    class="block px-3 py-2 text-gray-300 rounded hover:text-white hover:bg-blue-800"
+                    @click="$emit('close-sidebar')">
+                    <span>Daily Atten. Status Update</span>
+                </router-link>
 
                 <div v-show="userStore.loggedUser.granted.includes('hradmin')">
                     <div @click="toggleSubmenu('Reports')"
@@ -123,7 +128,12 @@
                         <router-link to="/hr/reports?p=R1012"
                             class="block px-3 py-1 text-sm text-gray-400 rounded hover:text-white hover:bg-blue-700"
                             @click="$emit('close-sidebar')">
-                            Month End Attendance Reports
+                            Month End Attendance Report Type 1
+                        </router-link>
+                         <router-link to="/hr/reports?p=R1013"
+                            class="block px-3 py-1 text-sm text-gray-400 rounded hover:text-white hover:bg-blue-700"
+                            @click="$emit('close-sidebar')">
+                            Month End Attendance Report Type 2
                         </router-link>
                     </div>
                 </div>

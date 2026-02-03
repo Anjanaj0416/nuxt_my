@@ -13,7 +13,7 @@
                             label="Create"
                             variant="primary"
                             v-if="
-                                (status !== 'Canceled' && status !== 'FullPaid') &&
+                                (orderStatus !== 'Cancelled' && status !== 'FullPaid') &&
                                 (userStore.loggedUser.granted.includes('su') ||
                                 userStore.loggedUser.granted.includes('sso') )
                             "
@@ -111,7 +111,7 @@
 
     export default {
         components:{imagepicker1,assigDtp,Button,LinkBtn,imagepicker1},
-        props: ['id', 'clientId'],
+        props: ['id', 'clientId', 'orderStatus'],
 
         data() {
             return {

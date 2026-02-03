@@ -126,7 +126,7 @@
               <label class="block text-[13px] font-bold text-gray-600">
                 WhatsApp Number
               </label>
-              <input type="tel" v-model="curLead.ContactPerson2WhatsAppNo" placeholder="Enter WhatsApp Number" maxlength="10" @input="clearErrorOnInput('contactPerson2WhatsAppNo')"
+              <input type="tel" v-model="curLead.ContactPerson2WhatsAppNo" placeholder="Enter WhatsApp Number" maxlength="10" @input="clearErrorOnInput('ContactPerson2WhatsAppNo')"
                 class="w-full p-2 mt-2 text-[13px] border rounded-md focus:ring-indigo-500 focus:border-indigo-500" />
             </div>
           </div>
@@ -181,7 +181,7 @@ export default {
         ContactPerson2Designation: "",
         ContactPerson2Number: "",
         ContactPerson2Email: "",
-        contactPerson2WhatsAppNo: "",
+        ContactPerson2WhatsAppNo: "",
         IsBlindVisit: false
       },
       err: {
@@ -317,20 +317,20 @@ export default {
               address: this.curLead.Address || "",
               companyPhone: this.curLead.CompanyPhone || "",
               contactPhoneNo: this.curLead.ContactPhoneNo  || "",
-              companyWhatsAppNo: this.curLead.companyWhatsAppNo || "",
+              companyWhatsAppNo: this.curLead.CompanyWhatsAppNo || "",
               contactPhoneNo: "",
               District:"",
 
               contactPerson1Name: this.curLead.ContactPerson1Name || "",
               contactPerson1Designation: this.curLead.ContactPerson1Designation || "",
               contactPerson1Number: this.curLead.ContactPerson1Number || "",
-              contactPerson1WhatsAppNo: this.curLead.contactPerson1WhatsAppNo || "",
+              contactPerson1WhatsAppNo: this.curLead.ContactPerson1WhatsAppNo || "",
               contactPerson1Email: this.curLead.ContactPerson1Email || "",
 
               contactPerson2Name : this.curLead.ContactPerson2Name || "",
               contactPerson2Designation: this.curLead.ContactPerson2Designation || "",
               contactPerson2Number: this.curLead.ContactPerson2Number || "",
-              contactPerson2WhatsAppNo: this.curLead.contactPerson2WhatsAppNo || "",
+              contactPerson2WhatsAppNo: this.curLead.ContactPerson2WhatsAppNo || "",
               contactPerson2Email: this.curLead.ContactPerson2Email || "",
 
               Medium: "office"

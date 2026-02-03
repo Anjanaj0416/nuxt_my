@@ -24,7 +24,7 @@
         </div>
       </div>
 
-      <div class="grid grid-cols-1 lg:grid-cols-2 gap-x-4 mt-2 w-full lg:w-4/5">
+      <div class="grid grid-cols-1 lg:grid-cols-2 gap-x-4 mt-2 w-full lg:w-4/5 border rounded">
         <div class="my-4 bg-gray-600 px-4 py-8 text-white rounded">
           <div class="grid grid-cols-2 gap-y-2">
             <div class="">Absence Type</div>
@@ -65,7 +65,7 @@
             <div class="grid grid-cols-6 my-4">
               <div>Date</div>
               <div>
-                <input class="text-gray-600 rounded p-1" type="date" v-model="absense_apply.start_date" />
+                <input class="text-gray-600 rounded p-1" type="date" v-model="localDate" />
                 <!-- @change="LoadLeaveBalance" -->
               </div>
               <div class="text-right pr-2" v-show="absense_apply.absence_type === 'Short Leave'">
@@ -135,7 +135,6 @@ export default {
         start_time: '00:00',
         end_date: '',
         end_time: '00:00',
-
       },
       leavedocDetails: {
         imagechanged: false,
@@ -146,6 +145,7 @@ export default {
       },
       leave_entitle_year: -1,
       isSaving: false,
+      localDate:'',
       showLoading: null,
       leaveStore: null,
     }
@@ -154,6 +154,9 @@ export default {
   async created() {
     this.leaveStore = useLeaveStore();
     this.showLoading = this.$showLoading;
+
+    this.localDate = this.fromDate ?? this.absense_apply.start_date;
+    this.absense_apply.start_date = this.localDate;
   },
 
   beforeMount() {
@@ -163,6 +166,7 @@ export default {
     async init() { },
     goto_absenceview() {
       this.$emit('goto_absenceview')
+      this.$emit('is-leave-apply')
     },
     ImageChanged() {
       this.leavedocDetails.imagechanged = true
@@ -196,12 +200,13 @@ export default {
                 {
                   empNo: this.absense_apply.empNo,
                   fromDate: this.fromDate,
-                  toDate: this.toDate,
+                  toDate: this.toDate ?? this.fromDate,
                 },
                 this.showLoading
               );
               this.getClear();
               this.$emit('goto_absenceview');
+              this.LoadLeaveBalance();
             } finally {
               this.isSaving = false; // Re-enable the button
             }
@@ -209,10 +214,9 @@ export default {
         });
     },
 
-    // async LoadLeaveBalance() {
-    //   this.leave_entitle_year = new Date(this.absense_apply.start_date).getFullYear();
-    //   await this.leaveStore.getLeaveBalance({ empNo: this.empno, year: this.leave_entitle_year }, this.showLoading)
-    // },
+    async LoadLeaveBalance() {
+      await this.leaveStore.getLeaveBalance({ empNo: this.empno, year: this.leave_entitle_year }, this.showLoading)
+    },
 
     validate() {
       if (this.absense_apply.absence_type == '') {

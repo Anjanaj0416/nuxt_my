@@ -7,6 +7,7 @@ export const useAttendanceStore = defineStore("attendanceStore", {
     initHRDetails: {
       urlEmployeeDetailsXlsx: "",
     },
+    initDailyEmpsInOut:{},
     loggeduser: {},
     dashboard: {
       workgroupjobcount: '',
@@ -73,6 +74,7 @@ export const useAttendanceStore = defineStore("attendanceStore", {
       username: "",
       userType: "",
     },
+    dailyEmpsInOutDetails:[],
     attendence: {
       tot_normal_overtime: 0,
       tot_sunday_overtime: 0,
@@ -188,14 +190,14 @@ export const useAttendanceStore = defineStore("attendanceStore", {
     },
 
     async GetPrintAttendanceSheet(req, showLoading) {
-      console.log('API-GetPrintAttendanceSheet');
+      console.log('API-GetPrintAttendanceSheetType1');
       console.log(JSON.stringify(req));
 
       try {
         const response = await axios.get(
           `${
             import.meta.env.VITE_API_URL
-          }/hr/Attendance/GetPrintAttendanceSheet?empNo=${req.empNo}&dateFrom=${
+          }/hr/Attendance/GetPrintAttendanceSheetType1?empNo=${req.empNo}&dateFrom=${
             req.dateFrom
           }&dateTo=${req.dateTo}`,
           {
@@ -229,6 +231,50 @@ export const useAttendanceStore = defineStore("attendanceStore", {
             response.data.data.data.isTheTimeCardApproved || '';
           this.attendence.alattendences =
             response.data.data.data.alAttendences || [];
+          // this.showToast('Loading successful!', 'success');
+        } else {
+          console.error("Loading error:", response.data.message);
+          // this.showToast(response.data.message, 'error');
+        }
+      } catch (error) {
+        console.error("Loading error:", error);
+        this.showToast(error.response.data.Message, "error");
+      }
+      loadingAlert.close();
+    },
+
+    async getDailyEmpsInOutDetailsInit(showLoading) {
+      const loadingAlert = showLoading("");
+      try {
+        const response = await axios.get(
+          `${import.meta.env.VITE_API_URL}/hr/Attendance/GetDailyEmpsInOutDetailsInit`);
+        console.log("response:", response);
+        if (response.data.isSuccess) {
+          this.initDailyEmpsInOut = response.data.data.data || [];
+          // this.showToast('Loading successful!', 'success');
+        } else {
+          console.error("Loading error:", response.data.message);
+          // this.showToast(response.data.message, 'error');
+        }
+      } catch (error) {
+        console.error("Loading error:", error);
+        this.showToast(error.response.data.Message, "error");
+      }
+      loadingAlert.close();
+    },
+
+    async getDailyEmpsInOutDetails(req, showLoading) {
+      console.log('API-getDailyEmpsInOutDetails:',req);
+
+      const loadingAlert = showLoading("");
+      try {
+        const response = await axios.get(
+          `${import.meta.env.VITE_API_URL}/hr/Attendance/GetDailyEmpsInOutDetails`,
+          { params: {dtFrom:req.dateFrom, dtTo: req.dateTo} }
+        );
+        console.log("response:", response);
+        if (response.data.isSuccess) {
+          this.dailyEmpsInOutDetails = response.data.data.data || [];
           // this.showToast('Loading successful!', 'success');
         } else {
           console.error("Loading error:", response.data.message);

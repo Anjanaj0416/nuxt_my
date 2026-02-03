@@ -9,19 +9,38 @@
             <input
               v-model="SearchText"
               type="search"
-              placeholder="Search tenders, reference no, keywords..."
-              class="w-full rounded-full border border-gray-300 px-6 py-3 text-sm text-gray-800
-                     focus:ring-2 focus:ring-purple-500 focus:outline-none"
+              :placeholder="isMobile ? 'Search...' : 'Search tenders, reference no, keywords...'"
+              class="w-full rounded-full border border-gray-300 px-6 py-3 pr-14 text-sm text-gray-800
+                    focus:ring-2 focus:ring-purple-500 focus:outline-none"
             />
+
+            <!-- Desktop / Tablet Button -->
             <button
               @click="onSearchClick"
-              class="absolute right-2 top-1/2 -translate-y-1/2
-                     bg-purple-600 hover:bg-purple-700
-                     text-white px-6 py-2 rounded-full text-sm font-medium"
+              class="hidden sm:flex absolute right-2 top-1/2 -translate-y-1/2
+                    bg-purple-600 hover:bg-purple-700
+                    text-white px-6 py-2 rounded-full text-sm font-medium items-center"
             >
               Search
             </button>
+
+            <!-- Mobile Icon Button -->
+            <button
+              @click="onSearchClick"
+              class="flex sm:hidden absolute right-3 top-1/2 -translate-y-1/2
+                    bg-purple-600 hover:bg-purple-700
+                    text-white p-2 rounded-full"
+              aria-label="Search"
+            >
+              <!-- Search Icon -->
+              <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none"
+                viewBox="0 0 24 24" stroke="currentColor">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                  d="M21 21l-4.35-4.35m1.35-5.65a7 7 0 11-14 0 7 7 0 0114 0z" />
+              </svg>
+            </button>
           </div>
+
           <div class="mt-5 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-3">
             <select v-model="TenderTypeId" class="filter-select">
               <option disabled selected="" value="">Select Type</option>
@@ -67,7 +86,7 @@
       </div>
     </section>
 
-    <section class="py-6 px-2">
+    <section class="mt-6 px-2">
       <h1 class="mb-4 text-md font-semibold text-center text-gray-700 uppercase tracking-wide">
           ALL Categories
         </h1>
@@ -109,8 +128,7 @@
           </button>
 
         </SwiperSlide>
-      </Swiper>
-      
+      </Swiper> 
     </section>
 
     <section class="px-2 sm:px-4 md:px-8 lg:px-24 py-4">
@@ -122,7 +140,7 @@
           @click="toggletenderType(tenderType)"
           type="button"
           :class="[
-              'relative flex items-center gap-1.5 px-3 py-1.5 text-sm font-medium rounded-full transition-all duration-300',
+              'relative flex items-center gap-1.5 px-2 py-1.5 text-sm font-medium rounded-full transition-all duration-300',
               'border backdrop-blur-sm',
               activeType === tenderType
                 ? 'bg-gradient-to-r from-purple-600 to-indigo-600 text-white shadow-lg scale-105 border-transparent'
@@ -136,20 +154,21 @@
           {{ tenderType.value }}
         </button>
       </div>
-
       <div
         v-if="tenderStore.TenderList?.length === 0"
         class="text-center text-gray-900 mt-5 text-sm font-medium"
       >
         <p>No Tender....</p>
       </div>
-
       <div class="grid grid-cols-1 lg:grid-cols-6 gap-0 text-sm relative">
         <!-- Tender list -->
         <div class="col-span-1 lg:col-span-5 flex flex-col gap-4">
           <div
             v-for="tender in paginatedTenderList"
             :key="tender.id"
+            @click="viewTenderDetails(tender.id)"
+            role="button"
+            tabindex="0"
             class="bg-white border border-gray-200 rounded-xl shadow-sm p-4 hover:shadow-md transition"
           >
             <!-- Tender content here (same as your current tender card) -->
@@ -176,7 +195,6 @@
                 {{ category }}
               </span>
             </div>
-         
             <div
               class="mt-3 text-xs text-gray-500 grid grid-cols-2 gap-x-4 gap-y-2 sm:flex sm:flex-wrap sm:items-center sm:gap-x-5 sm:gap-y-1 sm:divide-x sm:divide-gray-200"
             >
@@ -204,24 +222,34 @@
         </div>
         <!-- Banner-->
         <div
-          v-if="tenderStore.listBanners?.length && showBanner"
-          class=" hidden lg:flex lg:col-span-1 flex-col gap-4 self-start pl-4"
+          v-if="tenderStore.listBanners?.length"
+          class="hidden lg:flex lg:col-span-1 flex-col gap-4 self-start pl-4"
         >
-
-          <div
-            v-for="(banner, index) in tenderStore.listBanners"
-            :key="index"
-            class="
-              w-full h-[280px]
-              rounded-xl overflow-hidden
-              shadow-md hover:shadow-xl
-              transition-all
-            "
+          <!-- Desktop sidebar banner -->
+          <div 
+           v-for="(banner, index) in tenderStore.listBanners"
+            :key="banner.id || index"
           >
             <img
-              :src="imageroot + banner"
-              class="w-full h-full object-cover"
-              alt="Banner"
+              :src="imageroot + banner.desktopBannerUrl"
+              alt="TenderB2B.lk"
+              class="w-full rounded-xl shadow-md"
+            />
+          </div>
+        </div>
+        <!-- Mobile bottom banner -->
+        <div 
+          v-if="tenderStore.listBanners?.length"
+          class="block lg:hidden mt-6"
+        >
+          <div
+            v-for="(banner, index) in tenderStore.listBanners"
+            :key="banner.id || index"
+          >
+            <img
+              :src="imageroot + banner.mobileBannerUrl"
+              alt="TenderB2B.lk"
+              class="w-full rounded-xl shadow-md"
             />
           </div>
         </div>
@@ -237,7 +265,7 @@
       <button
         v-show="showBackToTop"
         @click="scrollToTop"
-        class="fixed bottom-6 right-6 z-50 bg-purple-600 hover:bg-purple-700 text-white p-3 rounded-full shadow-lg transition-all duration-300"
+        class="fixed bottom-6 right-6 z-50 bg-purple-600 hover:bg-purple-700 text-white p-3 rounded-full shadow-lg transition-all duration-300 border border-white"
       >
         <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
           <path stroke-linecap="round" stroke-linejoin="round" d="M5 15l7-7 7 7" />
@@ -261,6 +289,7 @@
       </a>
 
     </section>
+    
   </main>
   <homefooter class="mt-auto" />
 </div>
@@ -300,26 +329,30 @@
       }
     },
 
+    // async created() {
+    //   this.TendershowLoading = this.$TendershowLoading;
+    //   this.userStore = useUserStore();
+    //   this.tenderStore = useTenderStore();
+    //   this.loginWithSecretCode();
+    //   this.imageroot = this.userStore.loggedUser.resourceURLRoot;   
+      
+    //   await this.tenderStore.loadInitTenderHome(this.TendershowLoading);
+    //   await this.loadInitialTenderList();
+
+    // },
     async created() {
       this.TendershowLoading = this.$TendershowLoading;
       this.userStore = useUserStore();
       this.tenderStore = useTenderStore();
-      this.loginWithSecretCode();
-      this.imageroot = this.userStore.loggedUser.resourceURLRoot;   
-      
+
+      await this.loginWithSecretCode();
+
+      this.imageroot = this.userStore.loggedUser.resourceURLRoot;
+
       await this.tenderStore.loadInitTenderHome(this.TendershowLoading);
       await this.loadInitialTenderList();
-      // await this.tenderStore.fetcTender(
-      //   {
-      //     CategoryId: this.CategoryId || "",
-      //     TenderTypeId: this.TenderTypeId || "",
-      //     Days:this.Days || "",
-      //   },
-      //   this.TendershowLoading,
-      // );
-      // this.listTenderCategory = this.tenderStore.listTenderCategory
-      // this.TenderList = this.tenderStore.TenderList;
     },
+
 
     watch: {
       CategoryId: {
@@ -357,7 +390,10 @@
           if (width < 640) return 2
           if (width < 1024) return 3
           return 5
-        },
+      },
+      isMobile() {
+        return window.innerWidth < 640
+      }
     },
     methods: {
       async loginWithSecretCode() {
@@ -380,13 +416,13 @@
       },
       async loadInitialTenderList() {
         try {
-          const payload = {
+          const req = {
             CategoryId: "", 
             TenderTypeId: "",
             Days: "",
             SearchText: "",
           };
-          await this.tenderStore.fetcTender(payload, this.TendershowLoading);
+          await this.tenderStore.fetcTender(req, this.TendershowLoading);
           this.TenderList = this.tenderStore.TenderList; 
         } catch (error) {
           console.error("Error loading tenders:", error);

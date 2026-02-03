@@ -1,54 +1,50 @@
 <template>
     <!-- <header class="sticky bg-purple-600 w-full py-0 lg:py-7 "> -->
-    <header class="sticky top-0 z-50 bg-purple-600 w-full py-0 lg:py-7">
+    <header class="sticky top-0 z-50 bg-purple-600 w-full py-0 lg:py-2">
       <div
         class="flex flex-col sm:flex-row sm:items-center
               px-4 sm:px-10 lg:px-44 py-3 sm:py-0"
       >
         <!-- Top row -->
-        <div class="flex items-center gap-8 w-full">
-          <a href="/Tender" class="flex items-center gap-2">
-            <img
-              src="/assets/img/tender/tenermainlogo.png"
-              alt="TenderB2B.lk"
-              class="h-8 sm:h-10 w-auto mb-3  rounded-lg"
-            />
-            <span
-              class="text-xl sm:text-3xl font-bold text-white tracking-wide whitespace-nowrap"
-            >
-              TenderB2B.lk
-            </span>
-          </a>
+        <div class="flex items-start gap-2 w-full">
+          <div class="flex flex-col">
+            <a href="/Tender">
+              <span
+                class="text-xl sm:text-3xl font-bold text-white tracking-wide whitespace-nowrap"
+              >
+                TenderB2B.lk
+              </span>
+            </a>
 
-          <!-- Desktop menu -->
-          <nav class="hidden sm:flex items-center mt-2 gap-6">
-            <NuxtLink to="/tender" class="text-md font-medium text-white">
-              Tender
-            </NuxtLink>
-            <NuxtLink to="https://btob.lk/" class="text-md font-medium text-white">
-              B2B.lk
-            </NuxtLink>
-          </nav>
+            <!-- Menu UNDER the logo/text -->
+            <nav class="flex items-center gap-6 mt-2 ml-1 lg:ml:0">
+              <NuxtLink
+                to="/tender"
+                class="text-md font-medium text-white"
+              >
+                 Home
+              </NuxtLink>
 
-          <!-- Registration -->
-          <!-- <NuxtLink
-            to="/learners/registration"
-            class="ml-auto px-4 py-2 text-sm font-medium
-                  text-purple-800 bg-white rounded-full shadow transition-all duration-300"
-          >
-            Registration
-          </NuxtLink> -->
+              <NuxtLink
+                to="https://btob.lk/"
+                class="text-md font-medium text-white"
+              >
+                BtoB.lk
+              </NuxtLink>
+            </nav>
+          </div>
         </div>
 
+
         <!-- Mobile menu (UNDER logo) -->
-        <nav class="flex gap-6  sm:hidden">
+        <!-- <nav class="flex gap-6  sm:hidden">
           <NuxtLink to="/tender" class="text-md font-medium text-white">
             Tender
           </NuxtLink>
           <NuxtLink to="https://btob.lk/" class="text-md font-medium text-white">
             B2B.lk
           </NuxtLink>
-        </nav>
+        </nav> -->
       </div>
     </header>
 </template>

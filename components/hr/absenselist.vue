@@ -10,7 +10,7 @@
 
 
           <div
-            v-show="userStore?.loggedUser?.userName === empno || userStore?.loggedUser?.granted.indexOf('hradmin') > 0">
+            v-show="userStore?.loggedUser?.userName === empno || userStore?.loggedUser?.granted.includes('hradmin') > 0">
             <btnapplyleave name=" Apply" title="Apply Leave" @click="applyleave" />
           </div>
         </div>

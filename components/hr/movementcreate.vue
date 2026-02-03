@@ -1,6 +1,6 @@
 <template>
   <section>
-    <div class="pt-2 px-4 text-sm relative min-h-screen">
+    <div class=" pt-2 px-4 text-sm relative min-h-screen">
       <div class="flex justify-between">
         <div class="flex gap-x-4">
           <div class="
@@ -24,14 +24,17 @@
         </div>
       </div>
 
-      <div class="my-4 w-full lg:w-1/2 bg-gray-600 px-4 py-8 text-white rounded">
+      <div class="border rounded my-4 w-full lg:w-1/2 bg-gray-600 px-4 py-8 text-white rounded">
         <div class="font-bold uppercase text-xs">Date and Time</div>
         <div class="lb"></div>
 
         <div class="grid grid-cols-4 my-2 gap-y-2">
           <div class="">Date</div>
           <div class="">
-            <input class="text-gray-600 rounded p-1" v-model="movement_apply.date" type="date" />
+            <input 
+              class="text-gray-600 rounded p-1" 
+              v-model="localDate"
+              type="date" />
             <p v-if="err.date" class="mt-2 text-sm text-red-600">
               {{ err.date }}
             </p>
@@ -148,10 +151,6 @@ import btnhr_Save from '~/components/hr/btnhr_button'
 import leave_entitlement from '~/components/hr/leave_entitlement'
 import { useMovementStore } from '~/stores/modules/hr/movementStore'
 
-// import * as Global from '@/assets/js/Global'
-//import * as myfilter from '@/plugins/myfilter'
-//import { mapState, mapGetters, mapActions, mapMutations } from 'vuex'
-
 export default {
   props: ['empno', 'dtFrom', 'dtTo'],
   components: { selectinput2, btnhr_Save, leave_entitlement },
@@ -189,21 +188,27 @@ export default {
       dtto: null,
       movementStore: null,
       showLoading: null,
+      localDate: '',
     }
   },
 
   async created() {
+
     this.movementStore = useMovementStore();
     this.showLoading = this.$showLoading;
+    this.localDate = this.dtFrom ?? this.movement_apply.date;
+    this.movement_apply.date = this.localDate;
+
   },
 
   methods: {
-    async init() { },
     goto_movementview() {
       this.$emit('goto_movementview')
+      this.$emit('is-movement-apply')
     },
 
     async getSave() {
+    // console.log("this.localDate:",this.movement_apply.date);
       if (!this.validate()) {
         return
       }
@@ -213,7 +218,7 @@ export default {
           if (result.isConfirmed) {
             let req = {
               EmpNo: this.empno,
-              Date: this.movement_apply.date,
+              Date: this.localDate,
               InTime: this.movement_apply.in_time,
               OutTime: this.movement_apply.out_time,
               StartFrom: this.movement_apply.start_from,
@@ -230,8 +235,8 @@ export default {
             await this.movementStore.setMovement(req, this.showLoading);
 
             let reqGetViewMovement = {
-              fromDate: this.dtFrom,
-              toDate: this.dtTo,
+              fromDate: this.localDate,
+              toDate: this.localDate,
               empNo: this.empno,
             }
 
@@ -242,6 +247,8 @@ export default {
             console.log("Action canceled");
           }
         });
+
+        this.movement_apply = {};
     },
 
     movementTypeChanged(selected_item) {
