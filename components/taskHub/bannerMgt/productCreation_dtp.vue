@@ -75,12 +75,46 @@
             {{ taskhubStore.taskMoreDetailsList?.data?.storeUsername || 'No Data' }}
           </p>
         </div>
-        <div>
-          <h1 class="text-[12px] font-semibold text-gray-600">Store Store Password</h1>
+        <div class="relative">
+          <h1 class="text-[12px] font-semibold text-gray-600">Store Password</h1>
+
+          <!-- Eye Button -->
+          <button
+            type="button"
+            @click="togglePassword"
+            class="absolute right-2 top-4 right-12 text-gray-600"
+          >
+            <!-- Show icon -->
+            <svg v-if="showPassword" xmlns="http://www.w3.org/2000/svg" class="w-5 h-5" fill="none"
+              viewBox="0 0 24 24" stroke="currentColor">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" />
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7
+                  -1.274 4.057-5.064 7-9.542 7-4.478 0-8.268-2.943-9.542-7z" />
+            </svg>
+
+            <!-- Hide icon -->
+            <svg v-else xmlns="http://www.w3.org/2000/svg" class="w-5 h-5" fill="none"
+              viewBox="0 0 24 24" stroke="currentColor">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                d="M13.875 18.825A10.05 10.05 0 0112 19c-4.478 0-8.268-2.943-9.542-7
+                  a10.05 10.05 0 012.304-3.65M15 12a3 3 0 00-3-3m3 3a3 3 0 01-3 3
+                  m0 0l-4.875-4.875M9.879 9.88L4.22 4.22" />
+            </svg>
+          </button>
+
+          <!-- Password text -->
           <p class="text-sm text-gray-500 mt-0.5">
-            {{ taskhubStore.taskMoreDetailsList?.data?.storePassword || 'No Data' }}
+            <span v-if="showPassword">
+              {{ taskhubStore.taskMoreDetailsList?.data?.storePassword || 'No Data' }}
+            </span>
+            <span v-else>
+              ••••••••
+            </span>
           </p>
         </div>
+
         <div>
           <h1 class="text-[12px] font-semibold text-gray-600">Comment</h1>
           <p class="text-sm text-gray-500 mt-0.5">
@@ -89,7 +123,7 @@
         </div>
       </div>
       <div class="grid grid-cols-1 md:grid-cols-3 gap-4 mt-2">
-        <div>
+        <!-- <div>
           <h1 class="text-[12px] font-semibold text-gray-600">Material File</h1>
             <div
               class="flex items-center justify-between bg-gray-50 mt-2 px-3 py-2 rounded-lg shadow-sm hover:bg-gray-100 transition"
@@ -104,10 +138,9 @@
                 >
                   View File
                 </a>
-                <!-- <span v-else class="text-gray-400 italic text-sm">No File</span> -->
               </div>
             </div>
-        </div>
+        </div> -->
         <div>
           <label class="text-[12px] font-semibold text-gray-600">Comment</label>
           <textarea
@@ -135,7 +168,7 @@
             scrollbar-thin scrollbar-thumb-gray-400 scrollbar-track-gray-200 
             sm:flex sm:flex-wrap sm:gap-4 sm:overflow-visible
             text-sm font-medium text-gray-500" >
-          <div class="flex justify-end pt-2 gap-2">
+          <!-- <div class="flex justify-end pt-2 gap-2">
             <button
               v-if="!isShowWF"
               @click="GoToWorkFlow"
@@ -152,7 +185,7 @@
             >
               Close Work Flow
             </button>
-          </div>
+          </div> -->
           <div class="flex justify-end pt-2 gap-2">
             <button
               @click="PassTo"
@@ -192,6 +225,7 @@ export default {
       isaAssig: false,
       isShowWF: false,
       expandedRow: null, 
+      showPassword: false,
       taskMoreDetails: {
         dtlJobCategory: "",
         data: {
@@ -246,6 +280,9 @@ export default {
   },
 
   methods: {
+    togglePassword() {
+      this.showPassword = !this.showPassword;
+    },
 
     formatComment(clientDetails) {
       if (!clientDetails) return "No Data";
@@ -292,12 +329,13 @@ export default {
     //pass next 
     async PassTo() {
       if (!this.IsValidate()) return;
-      this.$showConfirm("Are you sure Pass the DTP?", "warning")
+      this.$showConfirm("Are you sure your Job Done?", "warning")
         .then(async (result) => {
           if (result.isConfirmed) {
 
             const formData = new FormData();
-            formData.append("TaskType", "100");//ProductCreation- 100
+            formData.append("TaskType", "1");//ProductCreation- 1
+            formData.append("JobCategory", "100");//ProductCreation-100
             formData.append("WGRequestType", "1040");//VerifyStore--1040
             const dataObj = {
               taskHubId: this.taskHubId,
@@ -330,7 +368,6 @@ export default {
       }
       return valid;
     },
-
     clearErr() {
       Object.keys(this.err).forEach((key) => {
         this.err[key] = "";

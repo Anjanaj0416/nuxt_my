@@ -36,6 +36,31 @@ export default defineNuxtPlugin((nuxtApp) => {
     (error) => Promise.reject(error)
   )
 
+  // ✅ RESPONSE INTERCEPTOR (TOKEN EXPIRED HANDLING)
+  axios.interceptors.response.use(
+    (response) => response,
+    (error) => {
+      const userStore = useUserStore()
+
+      if (error.response?.status === 401) {
+        console.warn('Token expired or unauthorized')
+
+        // 🔥 Clear Pinia store
+        userStore.$reset()
+
+        // 🔥 Remove cookie
+        if (process.client) {
+          document.cookie = 'token=; path=/; max-age=0'
+        }
+
+        // 🔥 Redirect to login
+        navigateTo('/user/login')
+      }
+
+      return Promise.reject(error)
+    }
+  )
+
   return {
     provide: {
       axios

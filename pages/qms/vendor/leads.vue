@@ -57,12 +57,10 @@
         {{ lead.status || '—' }}
       </span>
     </div>
-
-
       <div class="grid grid-cols-2 gap-4 sm:flex sm:flex-row sm:justify-between">
         <!-- Vendor Name -->
         <div class="flex flex-col text-center sm:text-left">
-          <h1 class="text-xs font-semibold text-gray-600">Vendor Name</h1>
+          <h1 class="text-xs font-semibold text-gray-600">Company  Name</h1>
           <p class="text-xs text-gray-500 mt-0.5">
             <span v-if="lead.companyName">{{ lead.companyName }}</span>
             <span v-else class="flex items-center text-sm text-gray-400">No Data Available</span>
@@ -76,7 +74,7 @@
           </p>
         </div>
         <div class="flex flex-col text-center sm:text-left">
-          <h1 class="text-xs font-semibold text-gray-600">Contact Number</h1>
+          <h1 class="text-xs font-semibold text-gray-600">Company Phone Number</h1>
           <p class="text-xs text-gray-500 mt-0.5">
             <span v-if="lead.companyPhone">{{ lead.companyPhone }}</span>
             <span v-else class="flex items-center text-sm text-gray-400 ">No Data Available</span>
@@ -88,8 +86,79 @@
             <span v-if="lead.csoNo">{{ lead.csoNo }}</span>
             <span v-else class="flex items-center text-sm text-gray-400">No Data Available</span>
           </p>
-
         </div>
+        <div class="flex flex-col text-center sm:text-left">
+          <h1 class="text-xs font-semibold text-gray-600">Reported By</h1>
+
+          <span
+            v-if="lead.reportedBy === 'facebook'"
+            class="inline-flex items-center gap-1 px-2 py-0.5 mt-1 text-xs font-semibold rounded-full bg-blue-100 text-blue-700"
+          >
+          Facebook
+          </span>
+
+          <span
+            v-else-if="lead.reportedBy === 'linkedin'"
+            class="inline-flex items-center gap-1 px-2 py-0.5 mt-1 text-xs font-semibold rounded-full bg-sky-100 text-sky-700"
+          >
+          LinkedIn
+          </span>
+
+          <span
+            v-else-if="lead.reportedBy === 'instagram'"
+            class="inline-flex items-center gap-1 px-2 py-0.5 mt-1 text-xs font-semibold rounded-full bg-pink-100 text-pink-700"
+          >
+          Instagram
+          </span>
+
+          <span
+            v-else-if="lead.reportedBy === 'whatsapp'"
+            class="inline-flex items-center gap-1 px-2 py-0.5 mt-1 text-xs font-semibold rounded-full bg-green-100 text-green-700"
+          >
+          WhatsApp
+          </span>
+
+          <span
+            v-else-if="lead.reportedBy === 'tiktok'"
+            class="inline-flex items-center gap-1 px-2 py-0.5 mt-1 text-xs font-semibold rounded-full bg-gray-200 text-gray-800"
+          >
+          TikTok
+          </span>
+
+          <span
+            v-else-if="lead.reportedBy === 'office'"
+            class="inline-flex items-center gap-1 px-2 py-0.5 mt-1 text-xs font-semibold rounded-full bg-gray-200 text-gray-800"
+          >
+          Office
+          </span>
+
+          <span
+            v-else-if="lead.reportedBy === 'my_email'"
+            class="inline-flex items-center gap-1 px-2 py-0.5 mt-1 text-xs font-semibold rounded-full bg-yellow-100 text-yellow-800"
+          >
+          Email
+          </span>
+
+          <span
+            v-else-if="lead.reportedBy === 'mymobile'"
+            class="inline-flex items-center gap-1 px-2 py-0.5 mt-1 text-xs font-semibold rounded-full bg-indigo-100 text-indigo-800"
+          >
+          SMS 
+          </span>
+
+          <span
+            v-else-if="lead.reportedBy === 'Other'"
+            class="inline-flex items-center gap-1 px-2 py-0.5 mt-1 text-xs font-semibold rounded-full bg-gray-200 text-gray-800"
+          >
+          Other
+          </span>
+
+          <span v-else-if="lead.reportedBy"
+            class="badge bg-gray-200 text-gray-800">
+            {{ lead.reportedBy }}
+          </span>
+        </div>
+
         <!-- Status -->
        <div class="flex flex-col text-center sm:text-left hidden sm:flex">
           <h1 class="text-xs font-semibold text-gray-600">Status</h1>
@@ -136,9 +205,57 @@
         <section class="flex flex-col gap-5 p-4 mt-0 bg-white sm:p-6">
           <div class="grid grid-cols-2 gap-4 sm:grid-cols-5">
             <div class="text-center sm:text-left">
-              <h2 class="block text-xs font-semibold text-gray-600">Contact Person Number</h2>
+              <h2 class="block text-xs font-semibold text-gray-600">Company Phone Number</h2>
               <p class="mt-1 text-xs text-gray-700">
-                {{ lead.contactPhoneNo || "No Data" }}
+                {{ lead.companyPhone || "No Data" }}
+              </p>
+            </div>
+            <div class="text-center sm:text-left">
+              <h2 class="block text-xs font-semibold text-gray-600">Contact Person 1 Name</h2>
+              <p class="mt-1 text-xs text-gray-700">
+                {{ lead.contactPerson1Name || "No Data" }}
+              </p>
+            </div>
+            <div class="text-center sm:text-left">
+              <h2 class="block text-xs font-semibold text-gray-600">Contact Person 1 Designation</h2>
+              <p class="mt-1 text-xs text-gray-700">
+                {{ lead.contactPerson1Designation || "No Data" }}
+              </p>
+            </div>
+            <div class="text-center sm:text-left">
+              <h2 class="block text-xs font-semibold text-gray-600">Contact Person 1 Number</h2>
+              <p class="mt-1 text-xs text-gray-700">
+                {{ lead.contactPerson1Number || "No Data" }}
+              </p>
+            </div>
+            <div class="text-center sm:text-left">
+              <h2 class="block text-xs font-semibold text-gray-600">Contact Person 1 WhatsAppNo</h2>
+              <p class="mt-1 text-xs text-gray-700">
+                {{ lead.contactPerson1WhatsApp || "No Data" }}
+              </p>
+            </div>
+            <div class="text-center sm:text-left">
+              <h2 class="block text-xs font-semibold text-gray-600">Contact Person 2 Name</h2>
+              <p class="mt-1 text-xs text-gray-700">
+                {{ lead.contactPerson2Name || "No Data" }}
+              </p>
+            </div>
+            <div class="text-center sm:text-left">
+              <h2 class="block text-xs font-semibold text-gray-600">Contact Person 2 Designation</h2>
+              <p class="mt-1 text-xs text-gray-700">
+                {{ lead.contactPerson2Designation || "No Data" }}
+              </p>
+            </div>
+            <div class="text-center sm:text-left">
+              <h2 class="block text-xs font-semibold text-gray-600">Contact Person 2 Number</h2>
+              <p class="mt-1 text-xs text-gray-700">
+                {{ lead.contactPerson2Number || "No Data" }}
+              </p>
+            </div>
+            <div class="text-center sm:text-left">
+              <h2 class="block text-xs font-semibold text-gray-600">Contact Person 2 WhatsAppNo</h2>
+              <p class="mt-1 text-xs text-gray-700">
+                {{ lead.ContactPerson2WhatsAppNo || "No Data" }}
               </p>
             </div>
             <div class="text-center sm:text-left">

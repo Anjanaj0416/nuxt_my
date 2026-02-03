@@ -1,17 +1,3 @@
-<!-- <template>
-  <section class="page-container">
-    <LoadingSpinner v-if="isLoading" />
-    <headercomp/> 
-    
-    The page content will be injected here
-    <main class="content">
-      <NuxtPage />
-    </main>
-
-    <footercomp/>
-  </section>
-</template> -->
-
 <template>
   <section class="page-container">
     <!-- Spinner only shows when loading -->
@@ -31,8 +17,8 @@
 
 
 <script>
-import headercomp from '~/components/society/header.vue'
-import footercomp from '~/components/society/footer.vue'
+import headercomp from '~/components/welfare/header.vue';
+import footercomp from '~/components/welfare/footer.vue';
 import LoadingSpinner from '~/components/LoadingSpinner.vue'
 
 export default {
@@ -45,12 +31,6 @@ export default {
   },
   async created() {
     this.isLoading = useLoading()
-    // console.log("isLoading:",this.isLoading);
-    
-   // alert('sl')
-     // this.showLoading = this.$showLoading;
-    //  const loadingAlert = showLoading("");
-      // loadingAlert.close();
   },
 }
 </script>

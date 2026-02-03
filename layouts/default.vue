@@ -1,24 +1,7 @@
-<!-- <template>
-  <section class="page-container">
-    <LoadingSpinner v-if="isLoading" />
-    <headercomp/> 
-    
-    The page content will be injected here
-    <main class="content">
-      <NuxtPage />
-    </main>
 
-    <footercomp/>
-  </section>
-</template> -->
 
 <template>
   <section class="page-container">
-    <!-- Spinner only shows when loading -->
-    <!-- <LoadingSpinner v-if="isLoading" /> -->
-
-    <!-- Rest of the app shows only after loading is done -->
-    <!-- v-else -->
     <div>
       <headercomp />
       <main class="content">
@@ -35,6 +18,16 @@
 import headercomp from '~/components/header'
 import footercomp from '~/components/footer'
 import LoadingSpinner from '~/components/LoadingSpinner.vue'
+
+useHead({
+  title: 'Digital TecLabs',
+  link: [
+    { rel: "icon", type: "image/png", sizes: "16x16", href: "/favicon_io/dtl/favicon-16x16.png" },
+    { rel: "icon", type: "image/png", sizes: "32x32", href: "/favicon_io/dtl/favicon-32x32.png" },
+    { rel: "apple-touch-icon", sizes: "180x180", href: "/favicon_io/dtl/apple-touch-icon.png" },
+    { rel: "manifest", href: "/favicon_io/dtl/site.webmanifest" }
+  ]
+})
 
 export default {
   components: { headercomp, footercomp, LoadingSpinner },

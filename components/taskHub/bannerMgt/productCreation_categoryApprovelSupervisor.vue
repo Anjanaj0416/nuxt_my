@@ -346,6 +346,7 @@ export default {
 
         const formData = new FormData();
         formData.append("TaskType", "1");//ProductCreation-100
+        formData.append("JobCategory", "100");//ProductCreation-100
         formData.append("WGRequestType", "1020");//NewCategoryApproval-1020
         // formData.append("Data", JSON.stringify(finalData));
         formData.append("Data", JSON.stringify(dataObj));

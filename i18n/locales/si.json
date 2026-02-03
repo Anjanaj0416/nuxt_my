@@ -14,12 +14,12 @@
     "availableIn30Mins": "මිනිත්තු 30 කින්",
     "availableIn1Hour": "පැය 1 කින්",
     "availableMoreThan1Hour": "පැය 1 කට වඩා වැඩි කාලයකින්",
-    "male": "පුරුශ",
+    "male": "පුරුෂ",
     "female": "ස්ත්‍රී",
     "district": "දිස්ත්‍රික්කය තෝරන්න",
     "city": "නගරය තෝරන්න",
     "away": " දුර",
-    "wait": " මිනිත්තු රැදි සිටින්න",
+    "wait": " මොහොතක් රැදි සිටින්න",
     "view": "පෙන්වන්න",
     "book": "වෙන්කරන්න",
     "contact": "සම්බන්ධ වන්න",
@@ -38,7 +38,7 @@
     "benefitsGiven": "පිරිනැමූ ප්‍රතිලාභ",
     "monthlyStatus" : "මාසික තත්ත්වය",
     "selectYear" : "වර්ෂය තෝරන්න",
-    "debit": "බැරෑකම",
+    "debit": "හර",
     "credit": "ණය",
     "openingBankBalance": "ආරම්භික බැංකු ශේෂය",
     "monthlyMemberShipFeePerMember": "සාමාජිකයෙකුට මාසික සාමාජික ගාස්තුව",
@@ -59,10 +59,68 @@
     "name" : "නම",
     "id" : "සාමාජික අංකය",
     "joinDate" : "සම්බන්ධ වූ දිනය",
+    "address" : "ලිපිනය",
     "phone" : "දුරකථන අංකය",
     "status" : "තත්ත්වය",
     "details" : "තොරතුරු",
     "closeDetails" : "තොරතුරු ලුහුඩු කිරීම",
-    "addMembersDetails" : "නව සාමජික තොරතුරු "
+    "addMembersDetails" : "නව සාමජික තොරතුරු ",
+    "addMembersPayment" : "ගෙවීමක් එක් කරන්න",
+    "addMembersPaymentAmount" : "ගෙවීම් මුදල",
+    "addMembersPaymentDate" : "ගෙවීම් දිනය",
+    "addMembersPaymentEnterAmount" : "මුදල ඇතුළත් කරන්න",
+    "addMembersPaymentAdd" : "ගෙවීමක් එක් කරන්න",
+    "cancel" : "අවලංගු කරන්න",
+    "noData" : "දත්ත නැත",
+    "addMembersPaymentTital" : "ගෙවීම් විස්තර",
+    "fee" : "ගාස්තුව",
+    "collectionMonth" : "එකතු කිරීමේ මාසය",
+    "paidDate" : "ගෙවූ දිනය",
+    "removepayment" : "මෙම ගෙවීම ඉවත් කිරීමට ඔබට විශ්වාසද",
+    "regNo" : "ලියාපදිංචි අංකය",
+    "regDate" : "ලියාපදිංචි දිනය",
+    "area" : "ප්‍රදේශය",
+    "contactDetails" : "සම්බන්ධතා විස්තර",
+    "teamLeader" : "කණ්ඩායම් නායකයා",
+    "resignedDate" : "ඉල්ලා අස්වූ දිනය",
+    "fullName" : "සම්පූර්ණ නම",
+    "memberDetails" : "සාමාජික විස්තර",
+    "memberEdit" : "සංස්කරණය කරන්න",
+    "addMembersEditDetails" : "සාමාජික විස්තර යාවත්කාලීන කරන්න",
+
+    "addMembersFullNEname": "සම්පූර්ණ නම (ඉංග්‍රීසි)",
+    "addMembersFullNsname": "සම්පූර්ණ නම (සිංහල))",
+    "addMembersCallingName": "ඇමතුම් නාමය",
+    "addMembersRegistrationNo": "ලියාපදිංචි අංකය",
+    "addMembersRegistrationDate": "ලියාපදිංචි දිනය",
+    "addMembersArea": "ප්‍රදේශය",
+    "addMembersTeamLeader": "කණ්ඩායම් නායක",
+    "addMembersWhatsAppNumber": "වට්සැප් අංකය",
+    "addMembersAddressLine1": "ලිපිනය පේළි 1",
+    "addMembersAddressLine2": "ලිපිනය පේළි 2",
+    "addMembersAddressLine3": "ලිපිනය පේළි 3",
+    "addMembersResignedDate": "ඉල්ලා අස්වූ දිනය",
+    "addMembersImage" : "රූපය",
+    "addMembersStatus" : "තත්ත්වය",
+    "homepage": "මුල් පිටුව",
+    "searchPlaceholderMember" : "ඔබ සොයන සාමාජිකයා කවුද?",
+    "BookId" :"පොත් අන්කය",
+    "Name" :"නම",
+    "Mobile" :"ජංගම",
+    "Address" : "ලිපිනය",
+    "Nic" : "ජාතික හැඳුනුම්පත",
+    
+
+
+
+
+    
+
+
+
+
+    "alertConfirm" : "ඔව්",
+    "alertCancel" : "අවලංගු කරන්න"
+
 
 }

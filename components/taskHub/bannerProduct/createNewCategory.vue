@@ -56,7 +56,7 @@
                 v-model="CategoryPath"
                 type="text"
                 placeholder="Enter Category Path"
-                @input="clearErrorOnInput('CompanyName')"
+                @input="clearErrorOnInput('CategoryPath')"
                 class="w-full p-2 border rounded-md text-sm focus:ring-2 focus:ring-blue-400"
               />
               <p class="mt-2 text-sm text-gray-500">Ex : AB/CD/EF(New) ....</p>

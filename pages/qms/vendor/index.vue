@@ -39,7 +39,7 @@
     <div v-for="vd in paginatedVendor" :key="vd.id">
       <!-- ================= MOBILE VERSION ================= -->
 
-      {{ paginatedVendor }}
+      <!-- {{ paginatedVendor }} -->
      
       <div
         class="flex flex-col gap-0 p-4 mt-2 border-2 rounded-md shadow-sm sm:hidden"

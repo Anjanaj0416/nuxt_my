@@ -23,7 +23,7 @@
         <div class="grid grid-cols-1 gap-4 my-4 sm:grid-cols-1 md:grid-cols-2 lg:grid-cols-2">
           <div class="">
             <label class="block text-[13px] font-bold text-gray-600">
-              Company Name
+              Company Name<span class="text-red-500">*</span>
             </label>
             <input type="text" v-model="curLead.CompanyName" placeholder="Enter Company Name" required @input="clearErrorOnInput('CompanyName')"
               class="w-full p-2 mt-1 text-sm border rounded-md focus:ring-indigo-500 focus:border-indigo-500" />
@@ -44,27 +44,10 @@
               />
             </div>
           </div>
-          <!-- <div class="">
-            <label class="block text-[13px] font-bold text-gray-600">
-              Contact Number
-            </label>
-            <input type="tel" v-model="curLead.CompanyPhone" placeholder="Enter Company Contact Number" maxlength="10" @input="clearErrorOnInput('CompanyPhone')"
-              class="w-full p-2 mt-2 text-[13px] border rounded-md focus:ring-indigo-500 focus:border-indigo-500" />
-            <p v-if="err.CompanyPhone" class="mt-1 text-sm text-red-600">
-              {{ err.CompanyPhone }}
-            </p>
-          </div>
-          <div class="">
-            <label class="block text-[13px] font-bold text-gray-600">
-              Email
-            </label>
-            <input type="tel" v-model="curLead.ContactPerson1Email" placeholder="Enter WhatsApp Number" maxlength="10" @input="clearErrorOnInput('ContactPerson1Email')"
-              class="w-full p-2 mt-2 text-[13px] border rounded-md focus:ring-indigo-500 focus:border-indigo-500" />
-          </div> -->
         </div>
           <div class="grid grid-cols-1 gap-4  sm:grid-cols-1 md:grid-cols-2 lg:grid-cols-2">
             <div class="">
-              <label class="block text-[13px] font-bold text-gray-600">Contact Person Name </label>
+              <label class="block text-[13px] font-bold text-gray-600">Contact Person Name <span class="text-red-500">*</span></label>
               <input type="text" v-model="curLead.ContactPerson1Name"  placeholder="Enter Name" @input="clearErrorOnInput('ContactPerson1Name')"
                 required
                 class="w-full p-2 mt-2 text-sm border rounded-md focus:ring-indigo-500 focus:border-indigo-500" />
@@ -73,7 +56,7 @@
               </p>
             </div>
             <div class="">
-              <label class="block text-[13px] font-bold text-gray-600">Contact Person Designation</label>
+              <label class="block text-[13px] font-bold text-gray-600">Contact Person Designation <span class="text-red-500">*</span></label>
               <input type="text" v-model="curLead.ContactPerson1Designation" placeholder="Enter Designation" @input="clearErrorOnInput('ContactPerson1Designation')"
                 required
                 class="w-full p-2 mt-2 text-sm border rounded-md focus:ring-indigo-500 focus:border-indigo-500" />
@@ -113,7 +96,7 @@ import serachInput from "~/components/customcontrol/SearchInput2";
 
 
 definePageMeta({
-  layout: 'contactus',
+  layout: 'b2b',
 });
 
 export default {
@@ -170,15 +153,15 @@ export default {
     try {
       const userStore = useUserStore();
       this.leadStore = useLeadStore();
-      this.showLoading = this.$showLoading;
+      this.B2BshowLoading = this.$B2BshowLoading;
       this.showAlert = this.$showAlert;
 
       const secretCode = 'w5jzxd02';
       const formData = new FormData();
       formData.append('secretCode', secretCode);
 
-      await userStore.AppLogin(formData, this.showLoading);
-      await this.leadStore.GetInitLeads(this.showLoading);  
+      await userStore.AppLogin(formData, this.B2BshowLoading);
+      await this.leadStore.GetInitLeads(this.B2BshowLoading);  
 
       // const encode = btoa('facebook'); //console.log(encode) // "SGVsbG8gV29ybGQ="        
       // const decode = atob(encode); console.log(decode); // "Hello World"
@@ -188,18 +171,23 @@ export default {
       // Instagram - p=aW5zdGFncmFt
       // WhatsApp - p=d2hhdHNhcHA=
       // TikTok - p=dGlrdG9r
+      // Email - p=bXlfZW1haWw=  
+      // SMS - p=bXltb2JpbGU= 
 
-      // <a href="https://dtl.lk/B2BVendorRegistration?p=ZmFjZWJvb2s=">Register via Facebook</a>
-      // <a href="https://dtl.lk/B2BVendorRegistration?p=bGlua2VkaW4=">Register via LinkedIn</a>
-      // <a href="https://dtl.lk/B2BVendorRegistration?p=aW5zdGFncmFt">Register via Instagram</a>
-      // <a href="https://dtl.lk/B2BVendorRegistration?p=d2hhdHNhcHA=">Register via WhatsApp</a>
-      // <a href="https://dtl.lk/B2BVendorRegistration?p=dGlrdG9r">Register via TikTok</a>
+      // <a href="https://b2b.lk/VendorRegistration?p=ZmFjZWJvb2s=">Register via Facebook</a>
+      // <a href="https://b2b.lk/VendorRegistration?p=bGlua2VkaW4=">Register via LinkedIn</a>
+      // <a href="https://b2b.lk/VendorRegistration?p=aW5zdGFncmFt">Register via Instagram</a>
+      // <a href="https://b2b.lk/VendorRegistration?p=d2hhdHNhcHA=">Register via WhatsApp</a>
+      // <a href="https://b2b.lk/VendorRegistration?p=dGlrdG9r">Register via TikTok</a>
+      // <a href="https://b2b.lk/VendorRegistration?p=bXltb2JpbGU=">Register via SMS</a>
+      // <a href="https://b2b.lk/VendorRegistration?p=bXlfZW1haWw=">Register via Email</a>
 
-      // https://dtl.lk/VendorRegistration?p=ZmFjZWJvb2s=
-      // https://dtl.lk/VendorRegistration?p=bGlua2VkaW4=
-      // https://dtl.lk/VendorRegistration?p=aW5zdGFncmFt
-      // https://dtl.lk/VendorRegistration?p=d2hhdHNhcHA=
-      // https://dtl.lk/VendorRegistration?p=dGlrdG9r
+
+      // https://b2b.lk/VendorRegistration?p=ZmFjZWJvb2s=
+      // https://b2b.lk/VendorRegistration?p=bGlua2VkaW4=
+      // https://b2b.lk/VendorRegistration?p=aW5zdGFncmFt
+      // https://b2b.lk/VendorRegistration?p=d2hhdHNhcHA=
+      // https://b2b.lk/VendorRegistration?p=dGlrdG9r
 
 
 
@@ -227,8 +215,8 @@ export default {
   watch: {},
   computed: {},
   methods: {
-    onDistrictSelect(districtName) {
-      this.curLead.District = districtName;
+    onDistrictSelect(districtId) {
+      this.curLead.District = districtId.id;
     },
 
     async SetVendorLead() {
@@ -267,7 +255,7 @@ export default {
             medium: this.curLead.medium || "Other",
           };
 
-          // console.log("Vendor Lead Payload:", JSON.stringify(payload, null, 2));
+          console.log("Vendor Lead Payload:", JSON.stringify(payload, null, 2));
           await this.leadStore.SetVendorLead(payload, this.showLoading);
           this.curLead = {};
           this.resetForm();
@@ -364,7 +352,7 @@ export default {
 
   head() {
     return {
-      title: 'Intranet - Digital Tech Labs',
+      title: 'BtoB | Largest Business-to-business Marketplace in Sri Lanka BtoB.lk',
     };
   },
 };

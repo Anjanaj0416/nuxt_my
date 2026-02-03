@@ -9,7 +9,7 @@
       <!-- Copyright -->
       <span class="text-sm text-white text-center md:text-left">
         © {{ currentYear }}
-        <NuxtLink to="/" class="hover:underline font-medium">
+        <NuxtLink to="https://dtl.lk/" class="hover:underline font-medium">
           Digital TechLabs
         </NuxtLink>
         . All Rights Reserved.
@@ -21,12 +21,12 @@
                gap-4 text-sm font-medium text-white"
       >
         <li>
-          <NuxtLink to="/About_Us" class="hover:underline">
+          <NuxtLink to="https://btob.lk/about-us" class="hover:underline">
             About
           </NuxtLink>
         </li>
         <li>
-          <NuxtLink to="/Contact_Us" class="hover:underline">
+          <NuxtLink to="https://btob.lk/contact-us" class="hover:underline">
             Contact
           </NuxtLink>
         </li>

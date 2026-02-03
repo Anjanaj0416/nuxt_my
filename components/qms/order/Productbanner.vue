@@ -23,13 +23,15 @@
                 </div>
             </div>
 
+            <!-- {{ taskhubStore.storeMateriallList }} -->
+
             <!-- Payment History Section -->
-            <div v-if="listKpi.length === 0" class="text-center text-gray-900 mt-5 text-sm font-medium">
+            <div v-if="taskhubStore.storeMateriallList  === 0" class="text-center text-gray-900 mt-5 text-sm font-medium">
                 <p>No KPI available...</p>
             </div>
 
-
             <!-- KPI Leads -->
+             {{  }}
             <div
                 v-for="(lead, index) in taskhubStore.storeMateriallList"
                 :key="index"
@@ -69,20 +71,23 @@
                         </span>
                     </div>
                     <div class="flex items-end">
-                    <a
+                    <!-- <a
                         :href="lead.moreDetailsUrl"
                         target="_blank"
                         rel="noopener noreferrer"
                         class="text-sm font-semibold text-blue-600 hover:text-blue-800 hover:underline"
                     >
                         View More →
-                    </a>
+                    </a> -->
+                    
+                    <button  @click="viewTaskDetails(lead.taskId)"  class="px-3 py-1.5 text-xs bg-gradient-to-r from-blue-500 via-blue-600 to-blue-700 
+                        font-semibold transition text-white rounded-full shadow">View More →</button>
+
                     </div>
-
+                   
                 </div>
+                 <!-- {{ lead }} -->
             </div>
-
-
         </div>
         <assigDtp :orderId="selectedOrderId" :vendorId="clientId" v-if="isaAssig" @close="isaAssig = false" />
     </section>
@@ -112,21 +117,6 @@
             return {
             isaAssig: false,
             expandedRow: null, 
-            listKpi: [
-                {
-                id: "wf001",
-                job: "New Category",
-                assignDate: "2025.09.12",
-                completedDate: "2025.09.15",
-                kpiAssignTo: "Sandari",
-                status: "Pending",
-                noofDaysPending: 3,
-                contactPhoneNo: "077-1234567",
-                isActive: true,
-                },
-                
-
-            ],
             };
         },
 
@@ -142,8 +132,8 @@
     },
 
     mounted() {
-        const queryId = this.$route.query.id;
-        this.openFromRoute(queryId);
+        // const queryId = this.$route.query.id;
+        // this.openFromRoute(queryId);
     },
 
     methods: {
@@ -160,30 +150,40 @@
             mageroots.value.splice(index, 1);
         },
 
-        openFromRoute(queryId) {
-        if (!queryId) {
-            this.expandedRow = null;
-            this.filteredKpiId = null;
-            return;
-        }
-        const foundIndex = this.listKpi.findIndex(v => v.id === queryId);
-        if (foundIndex !== -1) {
-            this.expandedRow = foundIndex;
-            this.filteredKpiId = this.listKpi[foundIndex].id;
-        }
+        viewTaskDetails(taskId)  {
+            navigateTo({
+                path: '/Taskhub',
+                query: {
+                    id: taskId,
+                    // searchBy: '101'
+                }
+            })
         },
 
-        toggleKpiView(id, index) {
-        if (this.expandedRow === index) {
-            this.expandedRow = null;
-            this.filteredKpiId = null;
-            this.$router.replace({ path: this.$route.path, query: {} });
-        } else {
-            this.expandedRow = index;
-            this.filteredKpiId = id;
-            this.$router.replace({ path: this.$route.path, query: { id } });
-        }
-        }
+        // openFromRoute(queryId) {
+        // if (!queryId) {
+        //     this.expandedRow = null;
+        //     this.filteredKpiId = null;
+        //     return;
+        // }
+        // const foundIndex = this.taskhubStore.storeMateriallList.findIndex(v => v.taskId === queryId);
+        // if (foundIndex !== -1) {
+        //     this.expandedRow = foundIndex;
+        //     this.filteredKpiId = this.taskhubStore.storeMateriallList[foundIndex].taskIdid;
+        // }
+        // },
+
+        // toggleKpiView(taskId, index) {
+        // if (this.expandedRow === index) {
+        //     this.expandedRow = null;
+        //     this.filteredKpiId = null;
+        //     this.$router.replace({ path: this.$route.path, query: {} });
+        // } else {
+        //     this.expandedRow = index;
+        //     this.filteredKpiId = taskId;
+        //     this.$router.replace({ path: this.$route.path, query: { taskId } });
+        // }
+        // }
 
     },
     

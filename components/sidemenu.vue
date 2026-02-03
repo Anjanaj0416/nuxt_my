@@ -31,6 +31,7 @@
       <nav class="p-4">
         <crm v-if="granted.includes('su') || granted.includes('flo') || granted.includes('sso') || granted.includes('accdept') || granted.includes('cso') "  @close-sidebar="$emit('close-sidebar')"/>
         <hrsystem   @close-sidebar="$emit('close-sidebar')"/>
+        <tender v-if="granted.includes('su') || granted.includes('flo')"  @close-sidebar="$emit('close-sidebar')"/>
         <settings v-if="granted.includes('su') || granted.includes('flo') || granted.includes('hradmin')" @close-sidebar="$emit('close-sidebar')"/>
         <document_registry @close-sidebar="$emit('close-sidebar')"/>
         <router-link to="/taskhub"
@@ -70,6 +71,7 @@ import { useUserStore } from '~/stores/modules/userStore';
 
 import crm from '~/components/sidemenu/crm.vue'
 import hrsystem from '~/components/sidemenu/hr.vue'
+import tender from './sidemenu/tender.vue';
 import settings from '~/components/sidemenu/settings.vue'
 import document_registry from '~/components/sidemenu/document_registry.vue'
 
@@ -79,6 +81,7 @@ export default {
   components: {
     crm,
     hrsystem,
+    tender,
     settings,
     document_registry,
   },
