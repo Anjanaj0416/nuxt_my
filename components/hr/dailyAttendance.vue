@@ -18,6 +18,7 @@
                     </button>
                 </div>
                 <div v-if="attendanceStore.dailyEmpsInOutDetails?.length > 0 && isAttendOpen[attend.date]">
+                   
                     <div class="grid w-full grid-cols-1 p-2 text-center text-white bg-blue-800 lg:grid-cols-6 rounded-t-md">
                         
                         <div class="hidden lg:block">Emp No</div>
@@ -30,6 +31,7 @@
 
                     <div v-for="data in attend?.listEmpInOutDetails">
                         <div class="w-full p-2 mt-1 text-white bg-gray-600 rounded-md">
+                    
                             <div class="grid grid-cols-1 text-center lg:grid-cols-6">
                                 <div>{{ data.empNo }}</div>
                                 <div>{{ data.inTime }}</div>
@@ -37,12 +39,17 @@
                                 <div>{{ data.inLocation }}</div>
                                 <div>{{ data.outLocation }}</div>
                                 <div>
-                                    <selectinput2 
-                                        v-model="statusMap[data.id]" 
-                                        :isAttendanceStatus="true" 
-                                        :selections="attendanceStore.initDailyEmpsInOut" 
-                                        @update:modelValue="val => setLeaveStatus(val, data.id)"
-                                    />
+                                 
+                                   <SearchInput                                           
+                                          :arrItems="attendanceStore.initDailyEmpsInOut"
+                                            ref="campLeaveStatus"
+                                            label=""                                          
+                                            v-model="data.leaveStatus"
+                                            :exisitngId="data.leaveStatus"
+                                            @selectItem="SetAtendanceStatus"
+                                            @click = "curRowId=data.id"
+                                             />
+                                   
                                 </div>
                             </div>
                         </div>
@@ -54,6 +61,7 @@
                         Submit
                     </button>
                 </div>
+           
             </div>
         </div>
         <div v-else>
@@ -65,7 +73,7 @@
 
 <script>
 
-import selectinput2 from "~/components/customcontrol/selectinput2";
+import SearchInput from "~/components/customcontrol/SearchInput";
 import { useAttendanceStore } from "~/stores/modules/hr/attendanceStore";
 
 definePageMeta({
@@ -76,7 +84,7 @@ definePageMeta({
 export default {
 
     components: {
-        selectinput2,
+        SearchInput,
     },
 
     props: [''],
@@ -89,6 +97,8 @@ export default {
             statusMap: {},
             statusArr:[],
             isAttendOpen:{},
+            selectedLeaveStatus:-1,
+            curRowId:'',
         }
     },
     async mounted() {
@@ -107,16 +117,14 @@ export default {
             this.isAttendOpen[date] = !this.isAttendOpen[date]
         },
 
-        async setLeaveStatus(val,id){
-            this.statusMap[id] = val;
+       
+        SetAtendanceStatus(item){                 
             let statusObj = {
-                Id: id,
-                StatusId: val
+                Id:this.curRowId ,
+                StatusId: item.id
             }
-
+         
             this.statusArr.push(statusObj);
-            console.log("statusArr:",this.statusArr);
-            
         },
 
         async setDailyEmpsInOutDetails(){

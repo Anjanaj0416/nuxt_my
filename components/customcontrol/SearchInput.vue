@@ -56,6 +56,7 @@
 
 <template>
   <div>
+   
     <label v-if="label" :for="modal ? 'txtSearch' : 'txtItem'" class="block text-sm font-medium text-gray-700">
       {{ label }}
     </label>
@@ -96,7 +97,7 @@
 
 <script>
 export default {
-  props: ["arrItems", "label", "err"],
+  props: ["arrItems", "label", "err","exisitngId"],
 
   data() {
     return {
@@ -154,7 +155,14 @@ export default {
           }
         });
       }
+    },      
+      exisitngId: {
+    handler(id) {
+     this.initItem(id)     
     },
+    immediate: true 
+  }
+
   },
 
   methods: {

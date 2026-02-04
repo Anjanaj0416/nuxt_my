@@ -35,6 +35,7 @@
             Please select a date range..
         </p>
 
+       
         <dailyAttendance v-if="attendanceStore.dailyEmpsInOutDetails?.length > 0"/>
         
     </section>

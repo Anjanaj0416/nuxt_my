@@ -288,8 +288,8 @@ export const useAttendanceStore = defineStore("attendanceStore", {
     },
 
     async setDailyEmpsInOutDetails(req, showLoading) {
-      console.log('API-setDailyEmpsInOutDetails:',req);
-
+      console.log('API-setDailyEmpsInOutDetails:',JSON.stringify(req));   
+      
       const loadingAlert = showLoading("");
       try {
         const response = await axios.post(
