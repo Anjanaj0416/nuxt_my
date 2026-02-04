@@ -5,10 +5,9 @@ import { resolve } from 'path'
 
 export default defineNuxtConfig({
 devServer: {
-    https: {
-
-       key: resolve('./certs/localhost+2-key.pem'),
-        cert: resolve('./certs/localhost+2.pem'),
+   https: {
+      key: './localhost-key.pem',
+      cert: './localhost.pem'
     },
     host: 'localhost',
     port: 3000
