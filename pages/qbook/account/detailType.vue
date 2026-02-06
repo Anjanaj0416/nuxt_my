@@ -19,22 +19,27 @@
             </button>
         </div>
       </div>
-      <div class="my-8">
+      <div v-if="qbookStore.detailTypeList?.length === 0">
+        <p class="text-center text-gray-500 py-6">
+          No Detail Types Found...
+        </p>
+      </div>
+      <div v-else class="my-8">
         <div class="relative overflow-x-auto bg-neutral-primary-soft shadow-xs rounded-lg border border-default">
             <table class="w-full text-sm text-left rtl:text-right text-body">
                 <thead class="text-sm text-body bg-neutral-secondary-medium border-b border-default-medium">
-                    <tr>
-                        <th scope="col" class="px-6 py-3">
-                            Name
-                        </th>
+                  <tr>
+                      <th scope="col" class="px-6 py-3">
+                          Name
+                      </th>
 
-                        <th scope="col" class="px-6 py-3">
-                            AccountType Name
-                        </th>
-                        <th scope="col" class="px-6 py-3">
-                            Action
-                        </th>
-                    </tr>
+                      <th scope="col" class="px-6 py-3">
+                          AccountType Name
+                      </th>
+                      <th scope="col" class="px-6 py-3">
+                          Action
+                      </th>
+                  </tr>
                 </thead>
                 <tbody>
                     <tr v-for="item in paginatedList" :key="item.id" class="bg-neutral-primary-soft border-b text border-default hover:bg-neutral-secondary-medium">

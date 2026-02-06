@@ -19,7 +19,12 @@
             </button>
         </div>
       </div>
-      <div class="my-8">
+      <div v-if="qbookStore.chartOfAccountList?.length === 0">
+        <p class="text-center text-gray-500 py-6">
+          No Invoices Found...
+        </p>
+      </div>
+      <div v-else class="my-8">
         <div class="relative overflow-x-auto bg-neutral-primary-soft shadow-xs rounded-lg border border-default">
             <table class="w-full text-sm text-left rtl:text-right text-body">
                 <thead class="text-sm text-body bg-neutral-secondary-medium border-b border-default-medium">
