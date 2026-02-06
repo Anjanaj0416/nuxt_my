@@ -6,18 +6,25 @@
             <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
                 <div>
                     <label class="block mb-1 font-medium">Year</label>
-                    <div class="relative">
+                    
+                    <div class="relative h-12">
                         <selectinput2 v-model="selectedYear" :selections="reportStore.initData.initReport.listYears"
                             placeholder="Select Employee" @change="logSelectedDates"
-                            class=" text-gray-900 text-sm focus:ring-indigo-500 focus:border-indigo-500" />
+                            class=" text-gray-900 text-sm focus:ring-indigo-500 focus:border-indigo-500 h-15" />
                     </div>
                 </div>
                 <div>
                     <label class="block mb-1 font-medium">Month</label>
                     <div class="relative">
-                        <selectinput2 v-model="selectedMonth" :selections="reportStore.initData.initReport.listMonths"
-                            :isReport=true placeholder="Select Employee" @change="logSelectedDates"
-                            class=" text-gray-900 text-sm focus:ring-indigo-500 focus:border-indigo-500" />
+                    
+
+                             <SearchInput  :isReport=true                                           
+                                          :arrItems="reportStore.initData.initReport.listMonths"
+                                            ref="compMonth"
+                                            label=""                                          
+                                            v-model="selectedMonth"                                           
+                                            @selectItem="logSelectedDates"                                           
+                                             />
                     </div>
                 </div>
             </div>
@@ -32,7 +39,7 @@
 
 
 <script>
-
+import SearchInput from "~/components/customcontrol/SearchInput";
 import selectinput2 from "~/components/customcontrol/selectinput2";
 import { useReportStore } from "~/stores/modules/hr/reportStore";
 
@@ -44,7 +51,7 @@ definePageMeta({
 export default {
 
     components: {
-        selectinput2,
+        selectinput2,SearchInput
     },
 
     props: [''],
@@ -74,7 +81,8 @@ export default {
     computed: {},
     methods: {
 
-        async logSelectedDates() {
+        async logSelectedDates(objMonth) {
+            this.selectedMonth = objMonth.id;
             if (!this.selectedYear || !this.selectedMonth) {
                 this.$showToast('Please select a Year and Month', 'warning');
                 return;
@@ -87,6 +95,8 @@ export default {
                             Year: this.selectedYear,
                             Month: this.selectedMonth,
                         };
+                    
+
                         await this.reportStore.getMonthEndAttendanceSheetType1(req, this.$showLoading);
 
                         await this.clearAll();
