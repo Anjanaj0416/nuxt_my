@@ -6,37 +6,49 @@
             <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
                 <div>
                     <label class="block mb-1 font-medium">Employee</label>
-                 
-                         <SearchInput                                           
-                                          :arrItems="reportStore.initData.initReport.arrEmp"
-                                            ref="compEmp"
-                                            label=""                                          
-                                            v-model="selectedEmployee"                                           
-                                            @selectItem="SetSelectedEmployee"                                           
-                                             />
+                    <SearchInput                                           
+                        :arrItems="reportStore.initData.initReport.arrEmp"
+                        ref="compEmp"
+                        label=""                                          
+                        v-model="selectedEmployee"                                           
+                        @selectItem="SetSelectedEmployee"                                           
+                    />
                 </div>
-                <div>
+                <!-- <div>
                     <label class="block mb-1 font-medium ">Year</label>
-                 
                     <div class="relative">
                        
                         <selectinput2 v-model="selectedYear" :selections="reportStore.initData.initReport.listYears"
                             placeholder="Select Employee"
                             class=" text-gray-900 text-sm focus:ring-indigo-500 focus:border-indigo-500 h-14" />
                     </div>
+                </div> -->
+                <div>
+                    <label class="block mb-1 font-medium">Year</label>
+                    <select
+                        v-model="selectedYear"
+                        class="w-full p-2 mt-2 text-sm text-gray-700 border rounded-md focus:ring-indigo-500 focus:border-indigo-500"
+                    >
+                        <option disabled selected value="">Select Year</option>
+                        <option
+                            v-for="cat in reportStore.initData.initReport.listYears"
+                            :key="cat"
+                        >
+                            {{ cat}}
+                        </option>
+                    </select>
                 </div>
                 <div>
                     <label class="block mb-1 font-medium">Month</label>
-                    <div class="relative">                       
-                       
-
-                               <SearchInput  :isReport=true                                           
-                                          :arrItems="reportStore.initData.initReport.listMonths"
-                                            ref="compMonth"
-                                            label=""                                          
-                                            v-model="selectedMonth"                                           
-                                            @selectItem="logSelectedDates"                                           
-                                             />
+                    <div class="relative">                                         
+                        <SearchInput  
+                            :isReport=true                                           
+                            :arrItems="reportStore.initData.initReport.listMonths"
+                            ref="compMonth"
+                            label=""                                          
+                            v-model="selectedMonth"                                           
+                            @selectItem="logSelectedDates"                                           
+                        />
                     </div>
                 </div>
             </div>
