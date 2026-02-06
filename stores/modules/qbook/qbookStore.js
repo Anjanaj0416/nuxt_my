@@ -10,7 +10,8 @@ export const useQbookStore = defineStore("qbookStore", {
         listItems:[],
         invoiveList:[],
         InvoiceNumber:[],
-        chartOfAccountList:[]
+        chartOfAccountList:[],
+        detailTypeList:[],
     }),
     persist: true,
 
@@ -191,6 +192,99 @@ export const useQbookStore = defineStore("qbookStore", {
             try {
                 const response = await axios.post(
                     `${import.meta.env.VITE_API_URL}/`,
+                    {
+                        params: {
+                            id: req.id, 
+                            cancelReason: req.cancelReason,
+                        }
+                    }
+                );
+                //console.log(response);
+                // loadingAlert.close();
+                if (response.data.isSuccess) {
+                    this.showToast(response.data.message, "success");
+                } else {
+                    this.showToast(response.data.message, "error");
+                }
+            } catch (error) {
+                this.showToast(error.message || "Something went wrong!", "error");
+                // loadingAlert.close();
+            }
+        },
+
+        async detailTypeInit() {     
+           // console.log('API-GetTenderInit');
+            
+            try {
+            const response = await axios.get(
+                `${import.meta.env.VITE_API_URL}/Qbook/DetailType/GetDetailTypeInitAsync`
+            );
+            console.log(response);
+            // loadingAlert.close();
+            if (response.data.isSuccess) {
+                this.accountTypes = response.data.data.data.accountTypes;
+            } else {
+                this.showToast(response.data.data.message, "error");
+            }
+            } catch (error) {
+                this.showToast(response.data.data.message, "error");
+            }
+        },
+        async getDetailTypeList(req, QbookshowLoading) {     
+            console.log('API-GetDetailTypeViewAsync');
+            const loadingAlert = QbookshowLoading("");
+            try {
+                const response = await axios.get(
+                    `${import.meta.env.VITE_API_URL}/QBook/DetailType/GetDetailTypeViewAsync`,
+                    {
+                        params: {
+                            keyword: req.keyword, 
+                            searchBy: req.searchBy,
+                        }
+                    }
+                );
+                //console.log(response);
+                loadingAlert.close();
+                if (response.data.isSuccess) {
+                    this.showToast(response.data.message, "success");
+                    this.detailTypeList = response.data.data.data;
+                } else {
+                    this.showToast(response.data.message, "error");
+                }
+            } catch (error) {
+                this.showToast(error.message || "Something went wrong!", "error");
+                loadingAlert.close();
+            }
+        },
+        async setDetailType(req, QbookshowLoading) {     
+            console.log('API-SetChartOfAccountAsync');
+            console.log('data:',req);
+            
+            const loadingAlert = QbookshowLoading("");
+            try {
+                const response = await axios.post(
+                    `${import.meta.env.VITE_API_URL}/QBook/DetailType/SetDetailTypeAsync`, req ,
+                );
+                //console.log(response);
+                loadingAlert.close();
+                if (response.data.isSuccess) {
+                    this.showToast(response.data.message, "success");
+                } else {
+                    this.showToast(response.data.message, "error");
+                }
+            } catch (error) {
+                this.showToast(error.message || "Something went wrong!", "error");
+                // loadingAlert.close();
+            }
+        },
+        async setDeleteDetailType(req, QbookshowLoading) {     
+            console.log('API-SetChartOfAccountAsync');
+            console.log('data:',req);
+            
+            const loadingAlert = QbookshowLoading("");
+            try {
+                const response = await axios.post(
+                    `${import.meta.env.VITE_API_URL}/QBook/DetailType/DeleteDetailTypeAsync`,
                     {
                         params: {
                             id: req.id, 

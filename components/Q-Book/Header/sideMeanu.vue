@@ -27,8 +27,8 @@
 
       <!-- <p>granted: {{ userStore.loggedUser.granted }}</p> -->
       <nav class="p-4">
-        <invoice @close-sidebar="$emit('close-sidebar')"/>
         <account @close-sidebar="$emit('close-sidebar')"/>
+        <invoice @close-sidebar="$emit('close-sidebar')"/>
         <router-link to=""
             
             class="flex items-center px-3 py-2 text-black rounded hover:text-black hover:bg-white transition-all duration-200"
