@@ -47,7 +47,7 @@
                 d="M4 7h16M4 12h8m-8 5h16"
               />
             </svg>
-            <span>Work Flow</span>
+            <span>Reports</span>
         </router-link>
       </nav>
     </aside>

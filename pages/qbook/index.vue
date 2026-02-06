@@ -15,12 +15,11 @@
         />
 
         <h1 class="text-4xl font-extrabold text-gray-900 tracking-tight mb-4">
-          Smart Finance, Simplified
+          Smart Finance, Empowering you business
         </h1>
 
         <p class="text-gray-700 max-w-md leading-relaxed">
-          Powerful accounting tools designed for modern businesses.
-          Track expenses, manage invoices, and grow with confidence.
+          Our intuitive financial suite turns complex data into clear growth strategies, giving you the confidence to scale while we handle the heavy lifting..
         </p>
       </div>
 
