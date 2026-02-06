@@ -1,29 +1,42 @@
 <template>
     <section class="justify-center min-h-screen px-4 mt-24 mb-20 lg:px-60">
-        <div class="text-2xl uppercase">Get Month-End Attendance Sheet Type 02</div>
+        <div class="text-2xl uppercase"> Month-End Attendance Sheet Type 02</div>
         <div
             class="bg-gradient-to-r from-blue-900 via-indigo-700 to-blue-600 shadow-md rounded-lg p-6 mt-10 mb-10 border text-white">
             <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
                 <div>
                     <label class="block mb-1 font-medium">Employee</label>
-                    <selectinput2 v-model="selectedEmployee" :selections="reportStore.initData.initReport.arrEmp"
-                        :isReport=true @change="logSelectedDates" placeholder="Select Employee"
-                        class=" text-gray-900 text-sm focus:ring-indigo-500 focus:border-indigo-500" />
+                 
+                         <SearchInput                                           
+                                          :arrItems="reportStore.initData.initReport.arrEmp"
+                                            ref="compEmp"
+                                            label=""                                          
+                                            v-model="selectedEmployee"                                           
+                                            @selectItem="SetSelectedEmployee"                                           
+                                             />
                 </div>
                 <div>
-                    <label class="block mb-1 font-medium">Year</label>
+                    <label class="block mb-1 font-medium ">Year</label>
+                 
                     <div class="relative">
+                       
                         <selectinput2 v-model="selectedYear" :selections="reportStore.initData.initReport.listYears"
-                            placeholder="Select Employee" @change="logSelectedDates"
-                            class=" text-gray-900 text-sm focus:ring-indigo-500 focus:border-indigo-500" />
+                            placeholder="Select Employee"
+                            class=" text-gray-900 text-sm focus:ring-indigo-500 focus:border-indigo-500 h-14" />
                     </div>
                 </div>
                 <div>
                     <label class="block mb-1 font-medium">Month</label>
-                    <div class="relative">
-                        <selectinput2 v-model="selectedMonth" :selections="reportStore.initData.initReport.listMonths"
-                            :isReport=true placeholder="Select Employee" @change="logSelectedDates"
-                            class=" text-gray-900 text-sm focus:ring-indigo-500 focus:border-indigo-500" />
+                    <div class="relative">                       
+                       
+
+                               <SearchInput  :isReport=true                                           
+                                          :arrItems="reportStore.initData.initReport.listMonths"
+                                            ref="compMonth"
+                                            label=""                                          
+                                            v-model="selectedMonth"                                           
+                                            @selectItem="logSelectedDates"                                           
+                                             />
                     </div>
                 </div>
             </div>
@@ -39,6 +52,7 @@
 
 <script>
 
+import SearchInput from "~/components/customcontrol/SearchInput";
 import selectinput2 from "~/components/customcontrol/selectinput2";
 import { useReportStore } from "~/stores/modules/hr/reportStore";
 
@@ -50,7 +64,7 @@ definePageMeta({
 export default {
 
     components: {
-        selectinput2,
+        selectinput2,SearchInput,
     },
 
     props: [''],
@@ -81,7 +95,16 @@ export default {
     computed: {},
     methods: {
 
-        async logSelectedDates() {
+       async SetSelectedEmployee(objEmp){
+           this.selectedEmployee= objEmp.id;
+        },
+
+         async SetSelectedYear(year){
+           this.selectedYear= year;
+        },
+
+        async logSelectedDates(objMonth) {
+            this.selectedMonth =objMonth.id;       
             if (!this.selectedEmployee || !this.selectedYear || !this.selectedMonth) {
                 this.$showToast('Please select an Employee, Year and Month', 'warning');
                 return;
@@ -95,6 +118,8 @@ export default {
                             Year: this.selectedYear,
                             Month: this.selectedMonth,
                         };
+                            console.log(JSON.stringify(req))
+                      
                         await this.reportStore.getMonthEndAttendanceSheetType2(req, this.$showLoading);
 
                         await this.clearAll();
