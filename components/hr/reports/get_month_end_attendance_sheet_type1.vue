@@ -1,30 +1,39 @@
 <template>
     <section class="justify-center min-h-screen px-4 mt-24 mb-20 lg:px-60">
         <div class="text-2xl uppercase">Get Month-End Attendance Sheet Type 01</div>
-        <div
-            class="bg-gradient-to-r from-blue-900 via-indigo-700 to-blue-600 shadow-md rounded-lg p-6 mt-10 mb-10 border text-white">
+        <div class="bg-gradient-to-r from-blue-900 via-indigo-700 to-blue-600 shadow-md rounded-lg p-6 mt-10 mb-10 border text-white">
             <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
                 <div>
                     <label class="block mb-1 font-medium">Year</label>
-                    
-                    <div class="relative h-12">
-                        <selectinput2 v-model="selectedYear" :selections="reportStore.initData.initReport.listYears"
-                            placeholder="Select Employee" @change="logSelectedDates"
-                            class=" text-gray-900 text-sm focus:ring-indigo-500 focus:border-indigo-500 h-15" />
-                    </div>
+                    <select
+                        v-model="selectedYear"
+                        class="w-full border border-gray-300 text-black text-sm rounded px-3 py-2 mt-2"
+                    >
+                        <option disabled selected value="">Select Year</option>
+                        <option
+                            v-for="cat in reportStore.initData.initReport.listYears"
+                            :key="cat"
+                        >
+                            {{ cat}}
+                        </option>
+                    </select>
                 </div>
+                <!-- <div class="relative h-12">
+                    <selectinput2 v-model="selectedYear" :selections="reportStore.initData.initReport.listYears"
+                        placeholder="Select Employee" @change="logSelectedDates"
+                        class=" text-gray-900 text-sm focus:ring-indigo-500 focus:border-indigo-500 h-15" />
+                </div> -->
+       
                 <div>
-                    <label class="block mb-1 font-medium">Month</label>
+                    <label class="block font-medium">Month</label>
                     <div class="relative">
-                    
-
-                             <SearchInput  :isReport=true                                           
-                                          :arrItems="reportStore.initData.initReport.listMonths"
-                                            ref="compMonth"
-                                            label=""                                          
-                                            v-model="selectedMonth"                                           
-                                            @selectItem="logSelectedDates"                                           
-                                             />
+                        <SearchInput  :isReport=true                                           
+                            :arrItems="reportStore.initData.initReport.listMonths"
+                            ref="compMonth"
+                            label=""                                          
+                            v-model="selectedMonth"                                           
+                            @selectItem="logSelectedDates"                                           
+                        />
                     </div>
                 </div>
             </div>

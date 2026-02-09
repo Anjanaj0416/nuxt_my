@@ -5,7 +5,7 @@
     <section class="bg-purple-600 pb-10">
       <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div class="bg-white rounded-2xl shadow-xl p-5 sm:p-6">
-          <div class="relative">
+          <!-- <div class="relative">
             <input
               v-model="SearchText"
               type="search"
@@ -13,8 +13,6 @@
               class="w-full rounded-full border border-gray-300 px-6 py-3 pr-14 text-sm text-gray-800
                     focus:ring-2 focus:ring-purple-500 focus:outline-none"
             />
-
-            <!-- Desktop / Tablet Button -->
             <button
               @click="onSearchClick"
               class="hidden sm:flex absolute right-2 top-1/2 -translate-y-1/2
@@ -24,7 +22,6 @@
               Search
             </button>
 
-            <!-- Mobile Icon Button -->
             <button
               @click="onSearchClick"
               class="flex sm:hidden absolute right-3 top-1/2 -translate-y-1/2
@@ -32,14 +29,13 @@
                     text-white p-2 rounded-full"
               aria-label="Search"
             >
-              <!-- Search Icon -->
               <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none"
                 viewBox="0 0 24 24" stroke="currentColor">
                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
                   d="M21 21l-4.35-4.35m1.35-5.65a7 7 0 11-14 0 7 7 0 0114 0z" />
               </svg>
             </button>
-          </div>
+          </div> -->
 
           <div class="mt-5 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-3">
             <select v-model="TenderTypeId" class="filter-select">

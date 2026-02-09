@@ -1,6 +1,6 @@
 <template>
   <section >
-    <div class="text-2xl text-bolt">Chart Of Account</div>
+    <div class="text-2xl text-bolt">Detail Type</div>
       <div class="mt-6 mb-2 flex flex-col gap-4 rounded-xl order bg-white  md:flex-row md:items-center md:justify-between">
         <!-- Left Content -->
         <div class="flex items-center gap-3">
@@ -15,61 +15,44 @@
                 stroke-width="2" viewBox="0 0 24 24">
                 <path stroke-linecap="round" stroke-linejoin="round" d="M12 4v16m8-8H4" />
             </svg>
-            Add Chart Of Account
+            Add Detail Type
             </button>
         </div>
       </div>
-      <div v-if="qbookStore.chartOfAccountList?.length === 0">
+      <div v-if="qbookStore.detailTypeList?.length === 0">
         <p class="text-center text-gray-500 py-6">
-          No Invoices Found...
+          No Detail Types Found...
         </p>
       </div>
       <div v-else class="my-8">
         <div class="relative overflow-x-auto bg-neutral-primary-soft shadow-xs rounded-lg border border-default">
             <table class="w-full text-sm text-left rtl:text-right text-body">
                 <thead class="text-sm text-body bg-neutral-secondary-medium border-b border-default-medium">
-                    <tr>
-                        <th scope="col" class="px-6 py-3">
-                            Name
-                        </th>
-                        <th scope="col" class="px-6 py-3">
-                            Code
-                        </th>
-                        <th scope="col" class="px-6 py-3">
-                            Account Type
-                        </th>
-                        <th scope="col" class="px-6 py-3">
-                            Detail Type
-                        </th>
-                        <th scope="col" class="px-6 py-3">
-                            Parent Account
-                        </th>
-                        <th scope="col" class="px-6 py-3">
-                            Action
-                        </th>
-                    </tr>
+                  <tr>
+                      <th scope="col" class="px-6 py-3">
+                          Name
+                      </th>
+
+                      <th scope="col" class="px-6 py-3">
+                          AccountType Name
+                      </th>
+                      <th scope="col" class="px-6 py-3">
+                          Action
+                      </th>
+                  </tr>
                 </thead>
                 <tbody>
                     <tr v-for="item in paginatedList" :key="item.id" class="bg-neutral-primary-soft border-b text border-default hover:bg-neutral-secondary-medium">
                         <th scope="row" class="px-6 py-4 font-medium text-heading whitespace-nowrap">
                             {{ item.name || '-' }}
-                        </th>
+                        </th> 
                         <td class="px-6 py-4">
-                            {{ item.code }}
-                        </td>
-                        <td class="px-6 py-4">
-                            {{ item.accountType }}
-                        </td>
-                        <td class="px-6 py-4">
-                            {{ item.detailType }}
-                        </td>
-                        <td class="px-6 py-4">
-                            {{ item.parentAccount || '-'}}
+                            {{ item.accountTypeName || '-' }}
                         </td>
                         <td class="px-6 py-4">
                             <a href="#" class="font-medium text-fg-brand hover:underline">View /</a>
                             <a href="#" class="font-medium text-fg-brand hover:underline"> Edit /</a>
-                            <button @click="DeleteChartOfAccount"  class="font-medium text-fg-brand hover:underline"> Delete</button>
+                            <button @click="DeleteDetailType"  class="font-medium text-fg-brand hover:underline"> Delete</button>
                         </td>
                     </tr>
                 </tbody>
@@ -79,7 +62,7 @@
                 aria-label="Table navigation"
             >
             <Smallpagination
-                :total="qbookStore.chartOfAccountList.length"
+                :total="qbookStore.detailTypeList.length"
                 :perPage="perPage"
                 :currentPage="currentPage"
                 :color="color"
@@ -89,18 +72,15 @@
 
         </div>
       </div>
-      <AddChartOfAccount v-if="isAddInvoice" @close="isAddInvoice = false"  />
+      <AddDetailType v-if="isAddDetailType" @close="isAddDetailType = false"  />
   </section>
 </template>
 
   
 <script>
 
-  import LinkBtn from "~/components/customcontrol/Link"; 
-  import Button from "~/components/customcontrol/Button";
   import selectinput2 from "~/components/customcontrol/selectinput2";
-//   import AddInvoice from "~/components/Q-Book/Invoice/addInvoice.vue";
-  import AddChartOfAccount from "~/components/Q-Book/account/addChartOfAccount.vue";
+  import AddDetailType from "~/components/Q-Book/account/addDetailType.vue";
   import { useUserStore } from "~/stores/modules/userStore";
   import { useQbookStore } from "~/stores/modules/qbook/qbookStore";
   import Smallpagination from "~/components/customcontrol/smallpagination.vue"
@@ -112,7 +92,7 @@
    
   export default {
     
-    components: {LinkBtn,Button,selectinput2,AddChartOfAccount,Smallpagination},
+    components: {selectinput2,AddDetailType,Smallpagination},
     props:{
       color: {
         type: String,
@@ -123,58 +103,9 @@
       return {
         imageroot: "",
         showLoading: null,
-        isAddInvoice: false,
+        isAddDetailType: false,
         currentPage: 1,
         perPage: 6,
-        list:[
-          {
-            id:'1',
-            date:'2025/02/12',
-            no:'inv1',
-            partner:'nimal',
-            amount:'LKR.50000.00',
-            status:'Deposite',
-          },
-          {
-            id:'2',
-            date:'2025/01/8',
-            no:'inv2',
-            partner:'Ayomal',
-            amount:'LKR.75000.00',
-            status:'Deposite',
-          },{
-            id:'3',
-            date:'2025/02/12',
-            no:'inv1',
-            partner:'nimal',
-            amount:'LKR.50000.00',
-            status:'Deposite',
-          },
-          {
-            id:'4',
-            date:'2025/01/8',
-            no:'inv2',
-            partner:'Ayomal',
-            amount:'LKR.75000.00',
-            status:'Deposite',
-          },
-          {
-            id:'5',
-            date:'2025/02/12',
-            no:'inv1',
-            partner:'nimal',
-            amount:'LKR.50000.00',
-            status:'Deposite',
-          },
-          {
-            id:'6',
-            date:'2025/01/8',
-            no:'inv2',
-            partner:'Ayomal',
-            amount:'LKR.75000.00',
-            status:'Deposite',
-          }
-        ]
       }
     },
     async mounted() {
@@ -185,22 +116,22 @@
       this.qbookStore = useQbookStore();
       this.QbookshowLoading = this.$QbookshowLoading;
      
-      await this.qbookStore.getChartOfAccountList({ keyword: "", searchBy: ""}, this.QbookshowLoading)
+      await this.qbookStore.getDetailTypeList({ keyword: "", searchBy: ""}, this.QbookshowLoading)
       
     },
     watch: {},
     computed: {
         paginatedList() {
             const start = (this.currentPage - 1) * this.perPage
-            return this.qbookStore.chartOfAccountList.slice(start, start + this.perPage)
+            return this.qbookStore.detailTypeList.slice(start, start + this.perPage)
         }
     },
     methods: {
       GoToAddNew() {
-        this.isAddInvoice = true;
+        this.isAddDetailType = true;
       },
 
-      async DeleteChartOfAccount() {
+      async DeleteDetailType() {
         const result = await this.$showDeteleConfirmbqbook(
           "Are you sure to delete this Chart Of Account?",
           "Please provide a delete reason",
@@ -224,7 +155,7 @@
           console.log(key, value);
         }
 
-        await this.qbookStore.setDeleteChartOfAccount(req, this.QbookshowLoading)
+        await this.qbookStore.setDeleteDetailType(req, this.QbookshowLoading)
 
         this.closeModalAfterSubmit();
       },

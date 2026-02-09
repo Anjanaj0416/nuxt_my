@@ -13,7 +13,7 @@
                         stroke-linejoin="round"
                         />
                     </svg>
-                    <span>Accounts</span>
+                    <span>Master Accounts</span>
                 </div>
                 <svg :class="{ 'rotate-90': isSubmenuOpen['Invoice'] }" class="w-4 h-4 transition-transform duration-200"
                     fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
@@ -23,6 +23,11 @@
 
             <!-- Level 2 submenu -->
             <div v-show="isSubmenuOpen['Invoice']" class="pl-4 mt-1 space-y-1">
+                <router-link to="/qbook/account/detailType"
+                    class="block px-3 py-2 rounded text-black hover:text-black  hover:bg-white"
+                    @click="$emit('close-sidebar')">
+                    <span>Detail Type</span>
+                </router-link>
                 <router-link to="/qbook/account"
                     class="block px-3 py-2 rounded text-black hover:text-black  hover:bg-white"
                     @click="$emit('close-sidebar')">

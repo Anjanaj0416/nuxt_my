@@ -32,8 +32,14 @@
 
     <!-- Right Login Panel -->
     <div class="flex items-center justify-center px-4">
-      
       <div class="w-full max-w-md bg-white rounded-2xl shadow-2xl p-8">
+        <div class="flex justify-center lg:hidden md:hidden mb-6">
+          <img
+            src="/assets/img/qbook/qbookcolor.png"
+            alt="QBook"
+            class="w-28 sm:w-36 drop-shadow-xl"
+          />
+        </div>
 
         <h2 class="text-2xl font-bold text-gray-900 text-center mb-1">
           Sign In
