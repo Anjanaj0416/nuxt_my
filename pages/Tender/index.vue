@@ -82,7 +82,7 @@
       </div>
     </section>
 
-    <section class="mt-6 px-2">
+    <!-- <section class="mt-6 px-2">
       <h1 class="mb-4 text-md font-semibold text-center text-gray-700 uppercase tracking-wide">
           ALL Categories
         </h1>
@@ -114,7 +114,6 @@
                 : 'bg-white/80 text-gray-600 border-gray-200 hover:bg-gradient-to-r hover:from-purple-50 hover:to-indigo-50 hover:text-purple-600 hover:shadow-md'
             ]"
           >
-            <!-- optional dot indicator -->
             <span
               v-if="activeCategory === category"
               class="w-2 h-2 rounded-full bg-white animate-pulse"
@@ -125,10 +124,30 @@
 
         </SwiperSlide>
       </Swiper> 
-    </section>
+    </section> -->
 
-    <section class="px-2 sm:px-4 md:px-8 lg:px-24 py-4">
-      <div class="flex flex-wrap gap-3 mb-3">
+    <section class="px-2 sm:px-4 md:px-8 lg:px-24 py-12">
+         <!-- Selected Filters Display -->
+          <div
+            v-if="TenderTypeId || CategoryId || Days"
+            class="my-4 text-sm text-gray-700"
+          >
+            <!-- <span class="font-semibold">Selected Filters:</span> -->
+
+            <span v-if="TenderTypeId">
+              Type: {{ selectedTenderTypeName }}
+            </span>
+
+            <span v-if="CategoryId">
+              | Category: {{ selectedCategoryName }}
+            </span>
+
+            <span v-if="Days">
+              | Date: {{ selectedDaysText }}
+            </span>
+          </div>
+
+      <!-- <div class="flex flex-wrap gap-3 mb-3">
         <button
           v-for="tenderType in tenderStore.listTenderType"
           :key="tenderType.id"
@@ -149,7 +168,7 @@
           ></span>
           {{ tenderType.value }}
         </button>
-      </div>
+      </div> -->
       <div
         v-if="tenderStore.TenderList?.length === 0"
         class="text-center text-gray-900 mt-5 text-sm font-medium"
@@ -212,7 +231,7 @@
               </div>
             </div>
             <div class="mt-4 flex justify-end">
-              <button  @click="viewTenderDetails(tender.id)"  class="px-3 py-1.5 text-xs font-semibold rounded-lg bg-purple-600 text-white">View Details</button>
+              <button   @click.stop="viewTenderDetails(tender.id)"  class="px-3 py-1.5 text-xs font-semibold rounded-lg bg-purple-600 text-white">View Details</button>
             </div>
           </div>
         </div>
@@ -389,7 +408,29 @@
       },
       isMobile() {
         return window.innerWidth < 640
-      }
+      },
+        
+      //filter list name
+      selectedTenderTypeName() {
+        const type = this.tenderStore.listTenderType?.find(
+          (x) => x.id === this.TenderTypeId
+        );
+        return type ? type.value : "";
+      },
+
+      selectedCategoryName() {
+        const cat = this.tenderStore.listTenderCategory?.find(
+          (x) => x.id === this.CategoryId
+        );
+        return cat ? cat.value : "";
+      },
+
+      selectedDaysText() {
+        if (this.Days == 1) return "Today";
+        if (this.Days == 7) return "Last 7 Days";
+        if (this.Days == 30) return "Last 30 Days";
+        return "All";
+      },
     },
     methods: {
       async loginWithSecretCode() {
@@ -404,12 +445,17 @@
           // console.error('Login failed:', err);
         }
       },
-      viewTenderDetails(id)  {
-        navigateTo({
-          path: '/Tender/MoreDetail',
-          query: { id }  
-        })
+      // viewTenderDetails(id)  {
+      //   navigateTo({
+      //     path: '/Tender/MoreDetail',
+      //     query: { id }  
+      //   })
+      // },
+      async viewTenderDetails(id) {
+        await this.tenderStore.tenderDetails(id) // preload
+        navigateTo({ path: '/Tender/MoreDetail', query: { id } })
       },
+
       async loadInitialTenderList() {
         try {
           const req = {
