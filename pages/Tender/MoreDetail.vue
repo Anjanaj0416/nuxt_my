@@ -28,9 +28,15 @@
                   <span class="text-xs font-semibold px-2 py-1 rounded-md bg-gray-100 text-gray-700">
                       Tender ID: {{ tenderStore.moreDetails?.tenderCode }}
                   </span>
-                  <span class="text-xs font-semibold px-2 py-1 rounded-full bg-green-50 text-green-700">
-                      {{ tenderStore.moreDetails?.status }}
+                  <span
+                    class="text-xs font-semibold px-2 py-1 rounded-full"
+                    :class="tenderStore.moreDetails?.status === 'Tender Closed' 
+                            ? 'bg-red-50 text-red-700' 
+                            : 'bg-green-50 text-green-700'"
+                  >
+                    {{ tenderStore.moreDetails?.status }}
                   </span>
+
                   </div>
 
                   <h2 class="text-base font-semibold text-gray-900 leading-snug">
@@ -121,10 +127,20 @@
             <div class="lg:col-span-2">
               <div class="sticky top-2 bg-white rounded-xl border border-gray-200 p-5 shadow-sm space-y-4">
 
-                  <div class="text-center">
-                  <p class="text-xs text-gray-500">Time Remaining</p>
-                  <p class="text-lg font-bold text-red-600">{{ tenderStore.moreDetails.daysRemaining }}</p>
-                  </div>
+                  <!-- <div class="text-center">
+                    <p class="text-xs text-gray-500">Time Remaining</p>
+                    <p class="text-lg font-bold text-red-600">{{ tenderStore.moreDetails.daysRemaining }}</p>
+                  </div> -->
+                    <div 
+                      class="text-center"
+                      v-if="tenderStore.moreDetails?.status !== 'Tender Closed'"
+                    >
+                      <p class="text-xs text-gray-500">Time Remaining</p>
+                      <p class="text-lg font-bold text-red-600">
+                        {{ tenderStore.moreDetails.daysRemaining }}
+                      </p>
+                    </div>
+
 
                   <a v-if="tenderStore.moreDetails.tenderUrl" 
                     :href="tenderStore.moreDetails.tenderUrl" 
@@ -251,6 +267,7 @@ export default {
       const imageUrl = this.imageroot + doc
       window.open(imageUrl, '_blank', 'noopener')
     },
+    
   },
 }
 </script>
