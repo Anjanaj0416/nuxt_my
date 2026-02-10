@@ -12,6 +12,7 @@ export const useQbookStore = defineStore("qbookStore", {
         InvoiceNumber:[],
         chartOfAccountList:[],
         detailTypeList:[],
+        CalculateInvoiceList:[],
     }),
     persist: true,
 
@@ -52,6 +53,30 @@ export const useQbookStore = defineStore("qbookStore", {
             }
             } catch (error) {
                 this.showToast(response.data.data.message, "error");
+            }
+        },
+        async setCalculateLine(req, QbookshowLoading) {     
+            console.log('API-SetInvoiceAsync');
+            // console.log('data:',req);
+            
+            const loadingAlert = QbookshowLoading("");
+            try {
+                const response = await axios.post(
+                    `${import.meta.env.VITE_API_URL}/QBook/Invoice/GetCalculateLineTotal`,req,
+
+                );
+                //console.log(response);
+                // loadingAlert.close();
+                if (response.data.isSuccess) {
+                    this.showToast(response.data.message, "success");
+                    this.CalculateInvoiceList = response.data.data.data;
+
+                } else {
+                    this.showToast(response.data.message, "error");
+                }
+            } catch (error) {
+                this.showToast(error.message || "Something went wrong!", "error");
+                // loadingAlert.close();
             }
         },
         async setInvoice(formData, QbookshowLoading) {     

@@ -70,7 +70,6 @@
                   {{ err.InvoiceNo }}
                 </p>
               </div>
-
               <div>
                 <label class="block text-xs font-semibold text-gray-500 mb-1">
                   Terms
@@ -87,7 +86,6 @@
                   {{ err.Terms }}
                 </p>
               </div>
-
               <div>
                 <label class="block text-xs font-semibold text-gray-500 mb-1">
                   Invoice Date
@@ -102,7 +100,6 @@
                   {{ err.InvoiceDate }}
                 </p>
               </div>
-
               <div>
                 <label class="block text-xs font-semibold text-gray-500 mb-1">
                   Due Date
@@ -117,40 +114,32 @@
                   {{ err.DueDate }}
                 </p>
               </div>
-
             </div>
           </div>
 
-          <div class="bg-white  shadow-sm mt-8">
-            <div class="overflow-x-auto max-h-[400px]">
-              <table class="w-full text-sm text-left">
-                <thead class="">
-                  <tr class="text-gray-700">
-                    <th class="px-4 py-3 text-sm font-medium">Product / Service</th>
-                    <th class="px-4 py-3 font-medium">Item Code</th>
-                    <th class="px-4 py-3 font-medium">Description</th>
-                    <th class="px-4 py-3 font-medium text-center">Qty</th>
-                    <th class="px-4 py-3 font-medium text-right">Unit Price</th>
-                    <th class="px-4 py-3 font-medium text-center">Discount</th>
-                    <th class="px-4 py-3 font-medium text-right">Total</th>
-                    <th class="px-4 py-3"></th>
+          <div class="bg-white mt-16 ">
+            <div class="overflow-x-auto max-h-[400px] rounded-xl">
+              <table class="w-full text-sm text-left border-collapse">
+                <thead class="sticky top-0  z-10">
+                  <tr class="text-gray-600 text-xs uppercase tracking-wide">
+                    <th class="px-4 py-3">Product / Service</th>
+                    <th class="px-4 py-3 text-right">Unit Price</th>
+                    <th class="px-4 py-3 text-center">Qty</th>
+                    <th class="px-4 py-3 text-center">Discount</th>
+                    <th class="px-4 py-3 text-center"></th>
                   </tr>
                 </thead>
-                
-
                 <tbody>
                   <tr
-                    v-for="(row, index) in rows"
-                    :key="index"
-                    class="border-b hover:bg-white"
+                    class="border-b transition duration-200"
                   >
-                    <td class="px-4 py-2">
+                    <td class="px-4 py-3">
                       <select
-                        v-model="row.product"
-                        @change="onProductChange(row)"
-                        class="w-full rounded-lg border border-gray-300 bg-white
-                              text-xs text-gray-700 px-2 py-1
-                              focus:border-[#2ca01c] focus:ring-1 focus:ring-[#2ca01c]/20"
+                        v-model="product"
+                        @change="onProductAdd"
+                        class="w-full rounded-xl border border-gray-300 bg-white
+                              text-sm px-3 py-2 shadow-sm
+                              focus:border-[#2ca01c] focus:ring-2 focus:ring-[#2ca01c]/30"
                       >
                         <option disabled value="">Select product</option>
                         <option
@@ -161,93 +150,151 @@
                           {{ cus.itemName }}
                         </option>
                       </select>
-
                     </td>
-                    <td class="px-4 py-2">
-                      <p class="text-sm">{{ row.itemCode || '-'}} </p>
+                    <td class="px-4 py-3 text-right font-semibold text-gray-700">
+                      Rs. {{ unitPrice }}
                     </td>
-                    <td class="px-4 py-2">
-                      <p class="text-sm">{{ row.itemDescription || '-'}}</p>
-                    </td>
-                    <td class="px-2 py-1 text-center">
+                    <td class="px-4 py-3 text-center">
                       <input
                         type="number"
                         min="1"
-                        v-model.number="row.qty"
-                        class="w-16 px-2 py-1 text-xs text-center rounded border outline-none
-                              focus:border-[#2ca01c] focus:ring-1 focus:ring-[#2ca01c]/20"
+                        v-model.number="qty"
+                        class="w-20 px-3 py-2 text-sm text-center rounded-xl border shadow-sm
+                              focus:border-[#2ca01c] focus:ring-2 focus:ring-[#2ca01c]/30"
                       />
                     </td>
-
-                    <td class="px-4 py-2">
-                      <p class="text-sm">{{ row.unitPrice }}</p>
-                    </td>
-
-                    <td class="px-2 py-1">
-                      <div class="flex items-center justify-center">
-                        <div class="flex border rounded-lg overflow-hidden bg-white shadow-sm text-xs">
-                          <!-- Discount Input -->
+                    <td class="px-4 py-3 text-center">
+                      <div class="flex justify-center">
+                        <div class="flex items-center rounded-xl border shadow-sm overflow-hidden">
                           <input
+                            v-if="discountType === 'percentage'"
                             type="number"
                             min="0"
-                            v-model.number="row.discount"
-                            :placeholder="row.discountType === 'lkr' ? 'Rs 0.00' : '0%'"
-                            class="w-24 px-2 py-1 text-xs text-center outline-none focus:ring-1 focus:ring-[#2ca01c]/20"
+                            max="100"
+                            v-model.number="discount"
+                            placeholder="0%"
+                            class="w-24 px-3 py-2 text-sm text-center outline-none
+                                  focus:ring-2 focus:ring-[#2ca01c]/30"
                           />
-
-                          <!-- LKR / % Toggle -->
-                          <div class="flex border-l">
-                            <label
-                              class="flex items-center justify-center px-2 cursor-pointer transition"
-                              :class="row.discountType === 'lkr'
-                                ? 'bg-[#2ca01c] text-white'
-                                : 'bg-white text-gray-600 hover:bg-gray-100'"
+                          <input
+                            v-else
+                            type="number"
+                            min="0"
+                            v-model.number="discount"
+                            placeholder="Rs 0.00"
+                            class="w-24 px-3 py-2 text-sm text-center outline-none
+                                  focus:ring-2 focus:ring-[#2ca01c]/30"
+                          />
+                          <div class="flex">
+                            <button
+                              type="button"
+                              @click="toggleDiscountType"
+                              class="px-4 py-2 text-xs font-semibold bg-[#bbd151] text-white transition"
                             >
-                              <input
-                                type="radio"
-                                value="lkr"
-                                v-model="row.discountType"
-                                @change="onDiscountTypeChange(row)"
-                                class="hidden"
-                              />
-                              LKR
-                            </label>
-
-                            <label
-                              class="flex items-center justify-center px-2 cursor-pointer transition border-l"
-                              :class="row.discountType === 'percentage'
-                                ? 'bg-[#2ca01c] text-white'
-                                : 'bg-white text-gray-600 hover:bg-gray-100'"
-                            >
-                              <input
-                                type="radio"
-                                value="percentage"
-                                v-model="row.discountType"
-                                @change="onDiscountTypeChange(row)"
-                                class="hidden"
-                              />
-                              %
-                            </label>
+                              {{ discountType === "percentage" ? "%" : "LKR" }}
+                            </button>
                           </div>
                         </div>
                       </div>
                     </td>
-
-                    <td class="px-4 py-2 text-right font-semibold">
-                      {{ lineTotal(row).toFixed(2) }}
-                    </td>
-
-                    <td class="px-4 py-2 text-center">
+                    <td class="px-4 py-3 text-center">
                       <button
-                        @click="removeRow(index)"
-                        class="text-black hover:text-red-700"
-                        title="Delete Row"
+                        @click="SetCalculate"
+                        class="px-12 py-2 text-xs bg-[#bbd151] font-semibold text-gray-600 rounded-lg shadow"
                       >
-                        <svg xmlns="http://www.w3.org/2000/svg" class="w-5 h-5" fill="none"
-                          viewBox="0 0 24 24" stroke="currentColor">
-                          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                            d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6M9 7h6m-6 0V5a1 1 0 011-1h4a1 1 0 011 1v2" />
-                        </svg>
+                        + Add Item
+                      </button>
+                    </td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+
+          <div class="bg-white  shadow-sm mt-8 overflow-hidden">
+            <div class="overflow-x-auto max-h-[420px]">
+              <table class="w-full text-sm text-left">
+                <thead class="sticky top-0 bg-gray-50 z-10">
+                  <tr class="text-gray-600 text-xs uppercase tracking-wide">
+                    <th class="px-5 py-4">Product</th>
+                    <th class="px-5 py-4">Code</th>
+                    <th class="px-5 py-4">Description</th>
+                    <th class="px-5 py-4 text-right">Price</th>
+                    <th class="px-5 py-4 text-center">Qty</th>
+                    <th class="px-5 py-4 text-center">Discount</th>
+                    <th class="px-5 py-4 text-center">Taxes</th>
+                    <th class="px-5 py-4 text-right">Tax Total</th>
+                    <th class="px-5 py-4 text-right font-semibold">Line Total</th>
+                    <th class="px-5 py-4 text-center"></th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr v-if="!CalculateInvoiceList.length">
+                    <td colspan="10" class="py-10 text-center text-gray-400">
+                      🧾 No invoice items added yet. Start by selecting a product above.
+                    </td>
+                  </tr>
+                  <tr
+                    v-for="(row, index) in CalculateInvoiceList"
+                    :key="index"
+                    class="border-b transition duration-200"
+                  >
+                    <td class="px-5 py-4  text-sm text-gray-800">
+                      {{ row.itemCode || "-" }}
+                    </td>
+                    <td class="px-5 py-4 text-gray-500">
+                      {{ row.itemCode || "-" }}
+                    </td>
+                    <td class="px-5 py-4 text-gray-500">
+                      {{ row.itemDescription || "No description" }}
+                    </td>
+                    <td class="px-5 py-4 text-sm text-right">
+                      Rs {{ row.sellingPrice?.toFixed(2) || "0.00" }}
+                    </td>
+                    <td class="px-5 py-4 text-center">
+                      <span
+                        class="px-3 py-1 rounded-full bg-gray-100 text-gray-700 text-xs font-semibold"
+                      >
+                        {{ row.qty || 0 }}
+                      </span>
+                    </td>
+                    <td class="px-5 py-4 text-center">
+                      <span class="font-medium text-sm">
+                        Rs {{ row.discount || 0 }}
+                      </span>
+                    </td>
+                    <td class="px-5 py-4 text-center">
+                      <div
+                        v-if="row.listTaxComponentTotalDetails?.length"
+                        class="flex flex-wrap justify-center gap-2"
+                      >
+                        <span
+                          v-for="(tax, tIndex) in row.listTaxComponentTotalDetails"
+                          :key="tIndex"
+                          class="px-2 py-1 rounded-lg bg-blue-50 text-blue-600 text-xs font-medium"
+                        >
+                          {{ tax.taxName }} • Rs {{ tax.taxAmount }}
+                        </span>
+                      </div>
+                      <span v-else class="text-gray-400 text-xs">
+                        No Tax
+                      </span>
+                    </td>
+                    <td class="px-5 py-4 text-right text-gray-700 font-medium">
+                      Rs {{ row.totalTax?.toFixed(2) || "0.00" }}
+                    </td>
+                    <td class="px-5 py-4 text-right font-bold text-green-600">
+                      Rs {{ row.lineTotal?.toFixed(2) || "0.00" }}
+                    </td>
+                    <td class="px-5 py-4 text-center">
+                      <button 
+                        @click="removeRow(index)" 
+                        class="text-black hover:text-red-700" title="Delete Row" 
+                      > 
+                        <svg xmlns="http://www.w3.org/2000/svg" 
+                          class="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor"> 
+                          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6M9 7h6m-6 0V5a1 1 0 011-1h4a1 1 0 011 1v2" /> 
+                        </svg> 
                       </button>
                     </td>
                   </tr>
@@ -255,93 +302,139 @@
               </table>
             </div>
 
-            <!-- Footer -->
             <div class="flex justify-between items-center px-6 py-2 bg-white">
-              <div class="flex flex-wrap gap-2 mb-36">
+              <div class="flex flex-wrap gap-2 mb-52">
                 <button
-                  @click="addRow"
-                  class="text-gray-700 bg-gray-100 rounded-lg text-xs px-3 py-1.5 w-full sm:w-auto"
-                >
-                  + Add line
-                </button>
-
-                <button
+                  v-if="CalculateInvoiceList.length > 0"
                   @click="clearAll"
-                  class="text-gray-700 bg-gray-100 rounded-lg text-xs px-3 py-1.5 w-full sm:w-auto"
+                  class="flex items-center gap-2 px-4 py-2 text-xs font-semibold
+                        text-red-600 bg-red-50 rounded-xl
+                        hover:bg-red-100 transition"
                 >
-                  Clear All Line
+                  🗑 Clear All Lines
                 </button>
               </div>
 
-              <div class="text-right space-y-1">
-                <div class="text-lg font-semibold">
-                  <span class="text-sm text-gray-600">Grose Total :</span> {{ subtotal.toFixed(2) }}
+              <div
+                class="w-full max-w-sm ml-auto bg-white 0  p-5 space-y-5"
+              >
+                <!-- <h3 class="text-sm font-semibold text-gray-700 uppercase tracking-wide">
+                  Invoice Summary
+                </h3> -->
+                <div class="flex justify-between items-center text-sm">
+                  <span class="text-gray-500">Gross Total</span>
+                  <span class="font-semibold text-gray-900">
+                    Rs {{ grossTotal.toFixed(2) }}
+                  </span>
                 </div>
-                <div class="text-lg font-semibold">
-                  <span class="text-sm text-gray-600">Discount :</span>
 
-                  <div class="flex border rounded-lg overflow-hidden bg-white shadow-sm text-xs mt-1">
+                <hr class="border-gray-200" />
+                <div class="space-y-2">
+                  <div class="flex justify-between items-center text-sm">
+                    <span class="text-gray-500">Discount</span>
+                    <span class="font-medium text-gray-900">
+                      - Rs {{ invoiceDiscountValue.toFixed(2) }}
+                    </span>
+                  </div>
+
+                  <div
+                    class="flex items-center rounded-xl border border-gray-300 overflow-hidden shadow-sm"
+                  >
                     <input
                       type="number"
                       min="0"
                       v-model.number="invoiceDiscount"
-                      class="w-24 px-2 py-1 text-xs text-center outline-none focus:ring-1 focus:ring-[#2ca01c]/20"
+                      placeholder="0"
+                      class="w-full px-3 py-2 text-sm outline-none focus:ring-2 focus:ring-[#2ca01c]/30"
                     />
 
-                    <div class="flex border-l">
-                      <label
-                       class="flex items-center justify-center px-2 cursor-pointer transition"
-                        :class="invoiceDiscountType === 'lkr'
-                          ? 'bg-[#2ca01c] text-white'
-                          : 'bg-white text-gray-600'"
+                    <!-- Toggle Buttons -->
+                    <div class="flex">
+                      <button
+                        type="button"
+                        @click="invoiceDiscountType = 'lkr'"
+                        class="px-3 py-2 text-xs font-semibold transition"
+                        :class="
+                          invoiceDiscountType === 'lkr'
+                            ? 'bg-[#2ca01c] text-white'
+                            : 'bg-gray-100 text-gray-600'
+                        "
                       >
-                        <input type="radio" value="lkr" v-model="invoiceDiscountType" hidden />
                         LKR
-                      </label>
+                      </button>
 
-                      <label
-                        class="flex items-center justify-center px-2 cursor-pointer transition"
-                        :class="invoiceDiscountType === 'percentage'
-                          ? 'bg-[#2ca01c] text-white'
-                          : 'bg-white text-gray-600'"
+                      <button
+                        type="button"
+                        @click="invoiceDiscountType = 'percentage'"
+                        class="px-3 py-2 text-xs font-semibold transition"
+                        :class="
+                          invoiceDiscountType === 'percentage'
+                            ? 'bg-[#2ca01c] text-white'
+                            : 'bg-gray-100 text-gray-600'
+                        "
                       >
-                        <input type="radio" value="percentage" v-model="invoiceDiscountType" hidden />
                         %
-                      </label>
+                      </button>
+                    </div>
+                  </div>
+                </div>
+
+                <!-- Divider -->
+                <hr class="border-gray-200" />
+
+                <!-- ✅ Taxes -->
+                <div class="space-y-2">
+                  <div class="flex justify-between items-center text-sm">
+                    <span class="text-gray-500">Taxes</span>
+                    <span class="font-medium text-gray-900">
+                      Rs {{ totalTax.toFixed(2) }}
+                    </span>
+                  </div>
+
+                  <!-- Tax Breakdown -->
+                  <div
+                    v-if="groupedTaxes.length"
+                    class="bg-gray-50 rounded-xl p-3 space-y-1 text-xs"
+                  >
+                    <div
+                      v-for="(tax, index) in groupedTaxes"
+                      :key="index"
+                      class="flex justify-between text-gray-700"
+                    >
+                      <span>{{ tax.taxName }}</span>
+                      <span class="font-medium">
+                        Rs {{ tax.taxAmount.toFixed(2) }}
+                      </span>
                     </div>
                   </div>
 
-                  <p class="text-xs text-gray-500 mt-1">
-                    − {{ Number(invoiceDiscountAmount).toFixed(2) }}
+                  <p v-else class="text-xs text-gray-400">
+                    No taxes applied
                   </p>
                 </div>
 
-                <div class="text-lg font-semibold">
-                  <span class="text-sm text-gray-600">Tax (%) :</span>
-                  <input
-                    type="number"
-                    min="0"
-                    v-model.number="taxRate"
-                    class="w-24 ml-2 px-2 py-1 text-sm border rounded"
-                  />
-                  <p class="text-xs text-gray-500 mt-1">
-                    + {{ Number(taxAmount).toFixed(2) }}
-                  </p>
-                </div>
+                <!-- Divider -->
+                <hr class="border-gray-200" />
 
-                <div class="text-xl font-bold text-[#2ca01c]">
-                  <span class="text-sm text-gray-600">Net Total :</span>
-                  {{ Number(netTotal).toFixed(2) }}
-                  
-                </div>
+                <!-- ✅ Net Total Highlight -->
+                <div
+                  class="flex justify-between items-center bg-[#2ca01c]/10 rounded-xl px-4 py-3"
+                >
+                  <span class="text-sm font-semibold text-gray-700">
+                    Net Total
+                  </span>
 
+                  <span class="text-lg font-bold text-[#2ca01c]">
+                    Rs {{ netTotal.toFixed(2) }}
+                  </span>
+                </div>
               </div>
-            </div>
 
+
+            </div>
           </div>
 
           <div class="grid grid-cols-1 md:grid-cols-2 mt-8 gap-3">
-
             <div>
               <label class="block text-xs font-semibold text-gray-500 mb-1">
                 Memo
@@ -356,9 +449,7 @@
               <p v-if="err.Memo" class="mt-2 text-sm text-red-600">
                   {{ err.Memo }}
                 </p>
-
             </div>
-
             <div>
               <label class="block text-xs font-semibold text-gray-500 mb-1">
                 Attachment
@@ -370,21 +461,51 @@
                 @input="clearErrorOnInput('listFiles')"
               />
             </div>
+          </div>
 
+          <div class="grid grid-cols-1 md:grid-cols-2 mt-8 gap-3">
+            <div>
+            </div>
+            <div class="flex justify-end items-center">
+              <label class="flex items-center gap-2 text-sm font-medium text-gray-700">
+                <input
+                  type="checkbox"
+                  v-model="IsDraft"
+                  class="w-5 h-5 accent-green-600 cursor-pointer"
+                />
+                Save as Draft
+              </label>
+            </div>
+          </div>
+
+        </div>
+
+        <div class="modal-footer flex justify-between items-center px-6 py-4 border-t bg-gray-50">
+          <button
+            @click="closeModal"
+            class="px-10 py-2 text-xs font-semibold bg-white text-gray-600
+                  rounded-lg shadow hover:bg-gray-100 transition"
+          >
+            Cancel
+          </button>
+          <div class="flex gap-3">
+            <button
+              @click="printInvoice"
+              class="px-10 py-2 text-xs font-semibold bg-blue-100 text-blue-700
+                    rounded-lg shadow hover:bg-blue-200 transition"
+            >
+              🖨 Print
+            </button>
+            <button
+              @click="SetInstallment"
+              class="px-10 py-2 text-xs font-semibold bg-[#bbd151] text-gray-700
+                    rounded-lg shadow hover:bg-[#a9c83f] transition"
+            >
+              💾 Save
+            </button>
           </div>
         </div>
 
-        <div class="modal-footer">
-          <button @click="closeModal"
-              class="px-12 py-2 text-xs font-semibold bg-white text-gray-600 rounded-lg shadow">
-              Cancel
-          </button>
-          <button
-              @click="SetInstallment" 
-              class="px-12 py-2 text-xs bg-[#bbd151] font-semibold text-gray-600 rounded-lg shadow">
-              Save 
-          </button>
-        </div>
       </div>
     </div>
 </template>
@@ -420,6 +541,9 @@ export default {
       discount: 0,
       invoiceDiscount: 0,
       invoiceDiscountType: 'percentage',
+      isDiscountInPercent: false,
+      CalculateInvoiceList: [],
+      IsDraft: false,
       taxRate: 0,
       rows: [
         this.newRow(),
@@ -433,39 +557,61 @@ export default {
     };
   },
   computed: {
-    subtotal() {
-      return this.rows.reduce(
-        (sum, row) => sum + Number(this.lineTotal(row) || 0),
-        0
-      )
+    invoiceLines() {
+      const saved = localStorage.getItem("InvoiceLines");
+      return saved ? JSON.parse(saved) : [];
     },
 
-    invoiceDiscountAmount() {
-      const discount = Number(this.invoiceDiscount || 0)
-      const subtotal = Number(this.subtotal || 0)
+    // ✅ Gross Total (Sum of all Line Totals)
+    grossTotal() {
+      return this.CalculateInvoiceList.reduce((sum, row) => {
+        return sum + (row.lineTotal || 0);
+      }, 0);
+    },
 
-      if (this.invoiceDiscountType === 'percentage') {
-        return subtotal * (discount / 100)
+    // ✅ Invoice Discount Value (LKR or %)
+    invoiceDiscountValue() {
+      if (this.invoiceDiscountType === "percentage") {
+        return (this.grossTotal * this.invoiceDiscount) / 100;
       }
-      return discount
+      return this.invoiceDiscount;
     },
 
-    taxAmount() {
-      const rate = Number(this.taxRate || 0)
-      const taxable = Math.max(
-        Number(this.subtotal) - Number(this.invoiceDiscountAmount),
-        0
-      )
-      return taxable * (rate / 100)
+    // ✅ Total Tax (Sum of all taxes from all products)
+    totalTax() {
+      return this.CalculateInvoiceList.reduce((sum, row) => {
+        return sum + (row.totalTax || 0);
+      }, 0);
     },
 
+    // ✅ Net Total = Gross - Discount + Tax
     netTotal() {
-      return Math.max(
-        Number(this.subtotal)
-        - Number(this.invoiceDiscountAmount)
-        + Number(this.taxAmount),
-        0
-      )
+      return (this.grossTotal - this.invoiceDiscountValue) + this.totalTax;
+    },
+
+    // ✅ Group All Tax Types (NBT, VAT...) Across All Products
+    groupedTaxes() {
+      const taxMap = {};
+
+      this.CalculateInvoiceList.forEach(row => {
+        if (row.listTaxComponentTotalDetails?.length) {
+
+          row.listTaxComponentTotalDetails.forEach(tax => {
+
+            if (!taxMap[tax.taxName]) {
+              taxMap[tax.taxName] = 0;
+            }
+
+            taxMap[tax.taxName] += tax.taxAmount;
+          });
+        }
+      });
+
+      // Convert object → array for template display
+      return Object.entries(taxMap).map(([name, amount]) => ({
+        taxName: name,
+        taxAmount: amount
+      }));
     }
   },
   async created() {
@@ -478,10 +624,21 @@ export default {
     this.listCustomers = this.qbookStore.listCustomers;
     this.InvoiceNo = this.qbookStore.InvoiceNumber;
 
+    // Load saved lines from localStorage
+    const savedLines = localStorage.getItem("InvoiceLines");
+    if (savedLines) {
+      const lines = JSON.parse(savedLines);
+      this.qbookStore.CalculateInvoiceList = lines;
+    }
+
   },
   mounted() {
-    // this.$refs.refCity.initItem(this.curLead.city);
-    // this.$refs.refDistrict.initItem(this.curLead.district);
+    const saved = localStorage.getItem("invoiceItems");
+
+    if (saved) {
+      this.CalculateInvoiceList = JSON.parse(saved);
+    };
+    
   },
 
   methods: {
@@ -509,46 +666,41 @@ export default {
       this.clearErrorOnInput('DueDate'); 
     },
 
-    addRow() {
-      this.rows.push(this.newRow())
-    },
-
     removeRow(index) {
-      this.rows.splice(index, 1)
+      this.CalculateInvoiceList.splice(index, 1);
+
+      localStorage.setItem(
+        "invoiceItems",
+        JSON.stringify(this.CalculateInvoiceList)
+      );
     },
 
-    clearAll() {
-      this.rows = []
+    async clearAll() {
+      const confirmed = await this.$showConfirmbqbook(
+        "Are you sure you want to clear all invoice lines?",
+        "You have entered data. If you clear now, it will be lost."
+      );
+      if (!confirmed) return;
+      this.CalculateInvoiceList = [];
+      localStorage.removeItem("invoiceItems");
+      this.$showSuccessbqbook("Invoice lines cleared successfully!");
     },
 
-    onProductChange(row) {
-      const item = this.qbookStore.listItemDetails.find(i => i.id === row.product)
+    onProductAdd() {
+      const item = this.qbookStore.listItemDetails.find(
+        i => i.id === this.product
+      );
+      console.log(item);
       if (item) {
-        row.itemCode = item.itemCode || ''
-        row.description = item.description || ''
-        row.unitPrice = item.itemPrice || 0
-        row.discount = item.discount || 0
-        row.discountType = item.isDiscountInPercent ? 'percentage' : 'lkr'
-      } else {
-        row.unitPrice = 0
-        row.discount = 0
-        row.discountType = 'percentage'
+        this.unitPrice = item.itemPrice;
+        this.description = item.description;
+        this.discount = item.discount || 0;
+        this.discountType = item.isDiscountInPercent? "percentage": "lkr";
       }
     },
 
     onDiscountTypeChange(row) {
       row.discount = 0
-    },
-
-    lineTotal(row) {
-      const base = row.qty * row.unitPrice
-      let discountAmount = 0
-      if (row.discountType === 'percentage') {
-        discountAmount = base * (row.discount / 100)
-      } else if (row.discountType === 'lkr') {
-        discountAmount = row.discount
-      }
-      return Math.max(base - discountAmount, 0)
     },
 
     handleSelectedImages(files) {
@@ -579,16 +731,11 @@ export default {
         return true;
       }
       if (
-        this.rows.some(row =>
-          row.product ||
-          row.qty !== 1 ||
-          row.unitPrice !== 0 ||
-          row.discount !== 0
-        )
+        Array.isArray(this.CalculateInvoiceList) &&
+        this.CalculateInvoiceList.length > 0
       ) {
         return true;
       }
-
       if (Array.isArray(this.listFiles) && this.listFiles.length > 0) {
         return true;
       }
@@ -615,6 +762,37 @@ export default {
       this.$emit("close");
     },
 
+    async SetCalculate() {
+      const req = {
+        ItemId: this.product,
+        Qty: this.qty,
+        Discount: this.discount,
+        IsDiscountInPercent: this.discountType === "percentage"
+      };
+      await this.qbookStore.setCalculateLine(req, this.QbookshowLoading);
+
+      // Get the calculated line object
+      const newItem = this.qbookStore.CalculateInvoiceList;
+      // ✅ Add Qty + Discount info also
+      // newItem.qty = this.qty;
+      // newItem.discount = this.discount;
+      // ✅ Push into local array
+      this.CalculateInvoiceList.push(newItem);
+      // ✅ Save to LocalStorage
+      localStorage.setItem(
+        "invoiceItems",
+        JSON.stringify(this.CalculateInvoiceList)
+      );
+
+      // Reset Inputs
+      this.product = "";
+      this.qty = 1;
+      this.discount = 0;
+      this.unitPrice = 0;
+    },
+
+    ///////////////////////////////
+
     async SetInstallment() {
       if (!this.IsValidate()) return;
 
@@ -634,15 +812,21 @@ export default {
       formData.append("Terms", this.Terms || "");
       formData.append("Memo", this.Memo || "");
 
-      this.rows.forEach((row, index) => {
-        formData.append(`Lines[${index}].ItemId`, row.product || "");
-        formData.append(`Lines[${index}].IsDiscountInPercent`,row.discountType === 'percentage');
+      this.CalculateInvoiceList.forEach((row, index) => {
+        formData.append(`Lines[${index}].ItemId`, row.itemId || "");
+        formData.append(`Lines[${index}].Code`, row.code || "");
+        formData.append(`Lines[${index}].ItemDescription`, row.itemDescription || "");
+        formData.append(`Lines[${index}].Qty`, row.qty || 1);
         formData.append(`Lines[${index}].DiscountAmount`, row.discount || 0);
-        formData.append(`Lines[${index}].Qty`, row.qty || 0);
+        formData.append(`Lines[${index}].UnitPrice`,row.sellingPrice || 0);
+        formData.append(`Lines[${index}].LineSubTotal`,row.lineSubTotal || 0);
+        formData.append(`Lines[${index}].LineTotal`,row.lineTotal || 0);
+        formData.append(`Lines[${index}].TaxTotal`,row.totalTax || 0);
       });
 
       formData.append("DiscountAmount", this.invoiceDiscount)
       formData.append("IsDiscountInPercent",this.invoiceDiscountType === 'percentage')
+      formData.append("IsDraft", this.IsDraft ? "true" : "false");
 
       if (this.listFiles && this.listFiles.length > 0) {
         this.listFiles.forEach((file, index) => {
@@ -651,12 +835,11 @@ export default {
       }
 
 
-for (let pair of formData.entries()) {
-  console.log(pair[0], pair[1]);
-}
+      for (let pair of formData.entries()) {
+        console.log(pair[0], pair[1]);
+      }
 
 
-      await this.qbookStore.setInvoice(formData, this.QbookshowLoading);
 
       this.closeModalAfterSubmit();
     },
@@ -731,7 +914,7 @@ for (let pair of formData.entries()) {
   right: 0;
   height: 100%;
   width: 80%;
-  max-width: 1200px;
+  max-width: 1600px;
   background: white;
   border-radius: 1rem 0 0 1rem;
   display: flex;
