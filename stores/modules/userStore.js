@@ -5,8 +5,7 @@ import Swal from 'sweetalert2'
 export const useUserStore = defineStore('userStore', {
   state: () => ({
     user: '',
-    token: '',
-    loggedUser:{},
+    token: '',   
     assetsBaseUrl: '',
     updateProfile:{},
     redirectTo:'',
