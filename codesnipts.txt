@@ -24,9 +24,17 @@ npm run build
 node .output/server/index.mjs
 
 cmd->run as administrator
+set PORT=3000 && pm2 start dtlApp_blue/.output/server/index.mjs --name dtl-app_blue_3000
+set PORT=3001 && pm2 start dtlApp_green/.output/server/index.mjs --name dtl-app_green_3001
+
 pm2 list
-pm2 restart dtlapp
+pm2 restart dtl-app_blue_3000
+pm2 restart dtl-app_blue_3001
+
+pm2 delete dtl-app_blue_3001
+
 pm2 logs dtlapp
+
 D:\WWWRoot\dtlApp\.output\.output\server -> npm install
 npm install --legacy-peer-deps
 

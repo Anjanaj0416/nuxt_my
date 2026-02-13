@@ -190,14 +190,14 @@ export const useAttendanceStore = defineStore("attendanceStore", {
     },
 
     async GetPrintAttendanceSheet(req, showLoading) {
-      console.log('API-GetPrintAttendanceSheetType1');
+      console.log('API-GetPrintAttendanceSheetType2');
       console.log(JSON.stringify(req));
 
       try {
         const response = await axios.get(
           `${
             import.meta.env.VITE_API_URL
-          }/hr/Attendance/GetPrintAttendanceSheetType1?empNo=${req.empNo}&dateFrom=${
+          }/hr/Attendance/GetPrintAttendanceSheetType2?empNo=${req.empNo}&dateFrom=${
             req.dateFrom
           }&dateTo=${req.dateTo}`,
           {
