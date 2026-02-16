@@ -61,7 +61,7 @@
             </select>
 
             <select v-model="Days" class="filter-select">
-              <option disabled selected="" value="">Select Date</option>
+              <option disabled selected="" value="">Select Date (Publish Date)</option>
               <option value="">All</option>
               <option :value="1">Today</option>
               <option :value="7">Last 7 Days</option>

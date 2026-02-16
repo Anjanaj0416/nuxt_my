@@ -8,7 +8,7 @@
 import { mapState, mapMutations } from 'vuex'
 
 export default {
-  layout: 'home',
+  layout: 'mLabsHome',
 
   computed: {
     ...mapState({
@@ -44,10 +44,10 @@ export default {
 </script>
 
 <style>
-.csssignin {
+/* .csssignin {
   @apply text-EF-blue bg-EF-green-200 px-2 py-1 mt-4 w-20 rounded text-center cursor-pointer mx-auto;
 }
 
 .csssignin:hover {
-}
+} */
 </style>
