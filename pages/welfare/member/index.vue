@@ -92,7 +92,8 @@
         >
           <p>{{ t('noData') }}....</p>
         </div>
-        <div class=" mt-2">
+    
+        <div class="mt-2">
           <div class="grid grid-cols-1 md:grid-cols-1 lg:grid-cols-1 gap-6">
             <div class="grid grid-cols-1 gap-4">
               <div 
@@ -100,13 +101,47 @@
                 :key="index" 
                 class="relative overflow-hidden border-2 rounded-2xl p-6 text-gray-500 shadow-lg hover:shadow-xl transition-all"
               >
+              {{ member }}
                 <div class="flex flex-col sm:flex-row sm:justify-between sm:items-center gap-2">
                   <div class="flex justify-center items-center">
+                    <div>
                     <img
                       :src="imageroot + member.image" 
                       alt="Banner Image"
                         class="h-16 w-16 rounded-full object-cover"
                     />
+
+                    You are using Vue (probably Nuxt) syntax with :src, so the clean way is to toggle a file input when clicking Edit.
+
+
+
+<div>
+  <img v-if="!showUploader" 
+    :src="imageroot + member.image"
+    alt="Banner Image"
+    class="h-16 w-16 rounded-full object-cover"
+  />
+
+  <a
+    class="text-red-500 text-xs cursor-pointer"
+    @click="showUploader = !showUploader"
+  >
+    Edit
+  </a>
+
+  <!-- File Uploader -->
+  <div v-if="showUploader" class="mt-2">
+    <input
+      type="file"
+      accept="image/*"
+      @change="uploadUserImage"
+      class="text-xs"
+    />
+  </div>
+
+                    <a class="text-red-500 text-xs cursor-pointer"> Edit</a>
+                    
+                    </div>
                   </div>
                   <div class="flex flex-col">
                     <span class="text-xs font-semibold text-gray-600">{{ t('name') }}</span>
@@ -188,6 +223,7 @@
             </div>
           </div>
         </div>
+        </div>
     </section>
       <addMember v-if="isAddLeads" @close="isAddLeads = false" />
   </section>
@@ -231,12 +267,13 @@ export default {
       activeCategoryId: 190,
       categories: [
         { id: 190, value: this.$t('all') },
-        { id: 100, value: this.$t('BookId') },
+        { id: 100, value: this.$t('Mem. No') },
         { id: 110, value: this.$t('Name') },
         { id: 120, value: this.$t('Mobile')},
         { id: 130, value: this.$t('Address') },
         { id: 140, value: this.$t('Nic')},
       ],
+      showUploader:false,
       data:{
         bookId: "",
         name: "",
@@ -271,7 +308,7 @@ export default {
     translatedCategories() {
       return [
         { id: 190, value: this.$t('all') },
-        { id: 100, value: this.$t('BookId') },
+        { id: 100, value: this.$t('Mem. No') },
         { id: 110, value: this.$t('Name') },
         { id: 120, value: this.$t('Mobile') },
         { id: 130, value: this.$t('Address') },
@@ -281,7 +318,18 @@ export default {
   },
 
   methods: {
+     uploadUserImage(){
+        const file = event.target.files[0]
+        if (!file) return
+         console.log("Selected file:", file)
 
+        const reader = new FileReader()
+        reader.onload = (e) => {
+          member.image = e.target.result
+        }
+        reader.readAsDataURL(file)
+
+     },
     GoToAddNew() {
       this.isAddLeads = true;
     },

@@ -34,17 +34,17 @@
     </div>
 
     <!-- Empty State -->
-    <div
-      v-if="tenderList.length === 0"
+    <!-- <div
+      v-if="tenderStore.admintenderList?.length === 0"
       class="text-center text-gray-900 mt-5 text-sm font-medium"
     >
       No tenders available...
-    </div>
+    </div> -->
 
     <!-- Tender Cards -->
     <div
       class="flex flex-col gap-2 p-4 mt-3 bg-white border rounded-xl shadow-sm hover:shadow-md "
-      v-for="(tender, index) in tenderList"
+      v-for="(tender, index) in paginatedTenderList"
       :key="index"
     >
     
@@ -52,7 +52,7 @@
         <span
           class="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-blue-50 text-blue-800 text-xs font-semibold"
         >
-          ⏳ {{ tender.noofDaysPending }} Days Pending
+          ⏳ {{ tender.daysLeft }}
         </span>
         <span
           :class="{
@@ -66,16 +66,16 @@
       </div>
       <div class="grid grid-cols-2 gap-4 sm:flex sm:flex-row sm:justify-between">
         <div class="flex flex-col text-center sm:text-left">
-          <h1 class="text-xs font-semibold text-gray-600">Organization Type</h1>
+          <h1 class="text-xs font-semibold text-gray-600">Tender Code</h1>
           <p class="text-xs text-gray-500 mt-0.5">
-            <span v-if="tender.organizationType">{{ tender.organizationType }}</span>
+            <span v-if="tender.tenderCode">{{ tender.tenderCode }}</span>
             <span v-else class="flex items-center text-sm text-gray-400">No Data Available</span>
           </p>
         </div>
-        <div class="flex flex-col text-center sm:text-left">
-          <h1 class="text-xs font-semibold text-gray-600">Location</h1>
-          <p class="text-xs text-gray-500 mt-0.5">
-            <span v-if="tender.location">{{ tender.location }}</span>
+        <div class="flex flex-col sm:w-[400px] min-w-0">
+          <h1 class="text-xs font-semibold text-gray-600">Title</h1>
+          <p class="text-xs text-gray-500 mt-0.5 w-full overflow">
+            <span v-if="tender.title">{{ tender.title }}</span>
             <span v-else class="flex items-center text-sm text-gray-400">No Data Available</span>
           </p>
         </div>
@@ -89,22 +89,22 @@
         <div class="flex flex-col text-center sm:text-left">
           <h1 class="text-xs font-semibold text-gray-600">Closed Date</h1>
           <p class="text-xs text-gray-500 mt-0.5">
-            <span v-if="tender.closedDate">{{ tender.closedDate }}</span>
+            <span v-if="tender.closingDate">{{ tender.closingDate }}</span>
             <span v-else class="flex items-center text-sm text-gray-400">No Data Available</span>
           </p>
 
         </div>
         <!-- Status -->
        <div class="flex flex-col text-center sm:text-left hidden sm:flex">
-          <h1 class="text-xs font-semibold text-gray-600">Status</h1>
+          <h1 class="text-xs font-semibold text-gray-600">Source</h1>
           <span
             :class="{
-              'bg-blue-500 text-white font-semibold':  tender.status === 'Publish',
-              'bg-amber-500 text-white font-semibold':  tender.status === 'Close',
+              'bg-blue-500 text-white font-semibold':  tender.source === 'News Paper',
+              'bg-amber-500 text-white font-semibold':  tender.source === '',
             }"
             class="text-xs font-medium me-2 px-2.5 py-0.5 rounded-full"
           >
-            {{ tender.status || '—' }}
+            {{ tender.source || '—' }}
           </span>
         </div>
       </div>
@@ -125,16 +125,24 @@
         <!-- <pre>{{ JSON.stringify(tender, null, 2) }}</pre> -->
         <section class="flex flex-col gap-5 p-4 mt-0 bg-white sm:p-6">
           <div class="grid grid-cols-2 gap-4 sm:grid-cols-5">
-            <div class="text-center sm:text-left">
-              <h2 class="block text-xs font-semibold text-gray-600">Organization Type</h2>
+            <div
+              v-for="(cat, index) in tender.listCategory"
+              :key="index"
+              class="text-center sm:text-left"
+            >
+              <h2 class="block text-xs font-semibold text-gray-600">
+                Category
+              </h2>
+
               <p class="mt-1 text-xs text-gray-700">
-                {{ tender.organizationType || "No Data" }}
+                {{ cat || "No Data" }}
               </p>
             </div>
+
             <div class="text-center sm:text-left">
-              <h2 class="block text-xs font-semibold text-gray-600">Description</h2>
+              <h2 class="block text-xs font-semibold text-gray-600">Location</h2>
               <p class="mt-1 text-xs text-gray-700">
-                {{ tender.description || "No Data" }}
+                {{ tender.location || "No Data" }}
               </p>
             </div>
 
@@ -154,7 +162,15 @@
           </div>
         </section>
       </div>
+
     </div>
+      <Pagination
+        :total-items="tenderStore.admintenderAllList?.length || 0"
+        :items-per-page="itemsPerPage"
+        :current-page="page"
+        active-color="#7c3aed"  
+        @update:currentPage="page = $event"
+      />
 
     <!-- Modal -->
     <AddAllTender v-if="isAddLeads" @close="isAddLeads = false" />
@@ -164,11 +180,13 @@
 
 <script>
   import { useUserStore } from "~/stores/modules/userStore";
+  import { useTenderStore } from "~/stores/modules/tender/tenderStore";
   import LinkBtn from "~/components/customcontrol/Link";
   import Button from "~/components/customcontrol/Button.vue";
-  import selectinput2 from "~/components/customcontrol/selectinput2";
   import SearchComp from "~/components/customcontrol/SearchComp";
   import AddAllTender from "~/components/tender/allTender/addAllTender.vue";
+  import Pagination from "~/components/customcontrol/Pagination.vue";
+
 
  definePageMeta({
     layout: 'default',   
@@ -177,7 +195,7 @@
    
   export default {
     
-    components: {LinkBtn,Button,selectinput2,SearchComp,AddAllTender},
+    components: {LinkBtn,Button,Pagination,SearchComp,AddAllTender},
     props:[''],
     data() {
       return {
@@ -186,41 +204,8 @@
         isAddLeads: false,
         rowIndex: -1,
         isMore: false,
-        tenderList : [
-          {
-            id: 'TND-001',
-            remainingDays: 33,
-            status: 'Publish', // Publish | Close
-
-            organizationType: 'Private Companies',
-            location: 'Colombo',
-
-            publishedDate: '2026/01/01',
-            closedDate: '2026/02/01',
-
-            createdBy: 'Admin',
-            createdDate: '2026/01/01',
-
-            description: 'Supply and installation of IT equipment for head office',
-          },
-          {
-            id: 'TND-002',
-            remainingDays: 12,
-            status: 'Close',
-
-            organizationType: 'Government Institution',
-            location: 'Gampaha',
-
-            publishedDate: '2026/01/05',
-            closedDate: '2026/01/20',
-
-            createdBy: 'Procurement Dept',
-            createdDate: '2026/01/05',
-
-            description: 'Office renovation and maintenance services',
-          }
-        ]
-       
+        page: 1,
+        itemsPerPage: 6,       
       }
     },
     async mounted() {
@@ -228,13 +213,31 @@
     },
     async created() {
       this.userStore = useUserStore();
-      this.showLoading = this.$showLoading;
+      this.tenderStore = useTenderStore();
       this.imageroot = this.userStore.loggedUser.resourceURLRoot;
+      this.showLoading = this.$showLoading;
+
+
+      const req = {
+        CategoryId: "", 
+        TenderTypeId: "",
+        Days: "",
+        SearchText: "",
+      };
+
+      await this.tenderStore.adminTenderList(req,this.showLoading)
       
     },
     watch: {},
     computed: {
-  
+      paginatedTenderList() {
+        if (!this.tenderStore.admintenderAllList) return [];
+
+        const start = (this.page - 1) * this.itemsPerPage;
+        const end = start + this.itemsPerPage;
+
+        return this.tenderStore.admintenderAllList.slice(start, end);
+      },
     },
     methods: {
 

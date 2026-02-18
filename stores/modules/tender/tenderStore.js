@@ -14,7 +14,8 @@ export const useTenderStore = defineStore("tenderStore", {
         listBanners:[],
         listBannerAppName:[],
         listBannerSection:[],
-        TenderBannerList:[]
+        TenderBannerList:[],
+        admintenderAllList:[],
     }),
     persist: true,
 
@@ -225,6 +226,35 @@ export const useTenderStore = defineStore("tenderStore", {
                 if (response.data.isSuccess) {
                     // this.showToast(response.data.message, "success");
                     this.TenderBannerList = response.data.data.data;
+                } else {
+                    this.showToast(response.data.message, "error");
+                }
+            } catch (error) {
+                this.showToast(error.message || "Something went wrong!", "error");
+                loadingAlert.close();
+            }
+        },
+        async adminTenderList(req, showLoading) {     
+            // console.log('API-GetAllActiveBanners');
+            const loadingAlert = showLoading("");
+            try {
+                const response = await axios.get(
+                    `${import.meta.env.VITE_API_URL}/TenderNProcument/Tender/GetSearchTenders`,
+                    {
+                        headers: { "Content-Type": "multipart/form-data" },
+                        params: {
+                            SearchText: req.SearchText, 
+                            CategoryId: req.CategoryId,
+                            TenderTypeId: req.TenderTypeId,
+                            Days: req.Days,
+                        }
+                    }
+                );
+                console.log(response);
+                loadingAlert.close();
+                if (response.data.isSuccess) {
+                    // this.showToast(response.data.message, "success");
+                    this.admintenderAllList = response.data.data.data;
                 } else {
                     this.showToast(response.data.message, "error");
                 }
