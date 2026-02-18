@@ -411,6 +411,8 @@ actions: {
       console.log('API-GetGenerateInvoicePdf');
       console.log(JSON.stringify(req));
 
+      
+
       const loading = showLoading?.('');
       try {
         const response = await axios.get(

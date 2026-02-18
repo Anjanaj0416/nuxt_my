@@ -447,6 +447,8 @@ export default {
   async created() {
     this.showLoading = this.$showLoading;
     this.orderStore = useOrderStore();
+    
+   
 
     await this.orderStore.loadInitOrderPlace(this.showLoading);
   },
