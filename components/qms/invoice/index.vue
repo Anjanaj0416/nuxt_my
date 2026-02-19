@@ -136,7 +136,7 @@
                         </div>
 
                         <!-- Tax Invoice -->
-                        <div>
+                        <div v-if="vendorStore.curVendor.vatNo !=''">
                           <a
                             v-if="!item.isTaxInvoicePrinted"
                             class="text-blue-600 hover:underline flex items-center gap-1 cursor-pointer"
@@ -154,9 +154,9 @@
                           </a>
                           <span v-else class="text-gray-400 italic">No Tax Invoice</span>
                         </div>
-
+                     
                         <!-- Regular Invoice -->
-                        <div>
+                          <div v-if="vendorStore.curVendor.vatNo ==''">
                           <a
                             v-if="!item.isInvoicePrinted"
                             class="text-blue-600 hover:underline flex items-center gap-1 cursor-pointer"
@@ -195,6 +195,7 @@
  import { useRoute } from 'vue-router'
  import { useUserStore } from "~/stores/modules/userStore";
  import { useOrderStore } from '~/stores/modules/orderStore';
+  import { useVendorStore } from '~/stores/modules/qms/vendorStore';
 
  
  import LinkBtn from "~/components/customcontrol/Link";
@@ -226,6 +227,7 @@
       this.userStore = useUserStore();
       this.imageroot = this.userStore.loggedUser.resourceURLRoot;
       this.orderStore = useOrderStore();
+       this.vendorStore = useVendorStore();
       this.showLoading = this.$showLoading;
 
       await this.orderStore.GettPaymentDetails(this.orderId, this.showLoading);
@@ -250,7 +252,7 @@
         amountPaid: amountPaid,
         isTax: item.isTaxInvoicePrinted,
       };
-
+       
       const loading = this.$showLoading?.('');
 
       try {

@@ -1,65 +1,9 @@
-<!--
-Usage :
-  <textinputExtend
-                  ctrltype="text"
-                  label="Name"
-                  v-model="obj.name"
-                  :err="err.name"
-                  @changeValidation="changeValidation"
-                  @KeyDownEvt = "findByBarcode"
-                  @KeyDownEnter="KeyDownEnter"
-                  maxlength="10"
-                  cssclass="cssbarcode"
-                />
--------------------------
-import textinputExtend from '~/components/customcontrol/textinputExtend'
--------------------------
-components: { textinputExtend },
--------------------------
-data()
-  {
-    return
-      {
-      obj: {
-        name: '',
-           },
-      err: {
-        name: '',
-           },
-      }
-   },
--------------------------
- changeValidation(lbl) {
-      switch (lbl) {
-        case 'Name': {
-          this.err.name =
-            (this.obj.name == '' || this.obj.name == null)
-              ? 'Name cannot be empty'
-              : ''
-          break
-        }
-       }
-      },
--------------------------
-   formValidate()
-   {
-      var isformvalid = true;
-      if (this.obj.name == '' || this.obj.name == null)
-      {
-        isformvalid = false;
-        this.err.name = 'Name cannot be empty';
-      } else this.err.name = '';
-      return isformvalid;
-    }
--------------------------
--------------------------
 
--->
 <template>
   <article>
     <div class>
       <div @click="Sort()" :title="'Sort By ' +label">
-          <label v-if="label.indexOf('#')!=-1" class="block text-sm text-gray-00 cursor-pointer">{{label.substring(0,label.indexOf('#'))}}<span class="underline font-bold text-EF-blue">{{label.charAt(label.indexOf('#')+1)}}</span>{{label.substring(label.indexOf('#')+2,label.length)}}</label>
+          <label v-if="label.indexOf('#')!=-1" class="block text-sm text-gray-00 cursor-pointer">{{label.substring(0,label.indexOf('#'))}}<span class="underline font-bold text-blue-300">{{label.charAt(label.indexOf('#')+1)}}</span>{{label.substring(label.indexOf('#')+2,label.length)}}</label>
     <label v-if="label.indexOf('#')==-1" class="block text-sm text-gray-00  cursor-pointer">{{label}}</label>
     </div>
       <input
