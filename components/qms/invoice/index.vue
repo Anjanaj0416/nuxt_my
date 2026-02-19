@@ -210,6 +210,7 @@
  import { useRoute } from 'vue-router'
  import { useUserStore } from "~/stores/modules/userStore";
  import { useOrderStore } from '~/stores/modules/orderStore';
+  import { useVendorStore } from '~/stores/modules/qms/vendorStore';
 
  
  import LinkBtn from "~/components/customcontrol/Link";
@@ -241,6 +242,7 @@
       this.userStore = useUserStore();
       this.imageroot = this.userStore.loggedUser.resourceURLRoot;
       this.orderStore = useOrderStore();
+       this.vendorStore = useVendorStore();
       this.showLoading = this.$showLoading;
 
       await this.orderStore.GettPaymentDetails(this.orderId, this.showLoading);
@@ -265,7 +267,7 @@
         amountPaid: amountPaid,
         isTax: item.isTaxInvoicePrinted,
       };
-
+       
       const loading = this.$showLoading?.('');
 
       try {
