@@ -6,7 +6,7 @@
         <h1
           class="max-w-2xl mb-4 text-4xl font-extrabold leading-none tracking-tight text-white md:text-5xl xl:text-6xl dark:text-white">
           Saloon</h1>
-        <p class="max-w-2xl mb-6 font-light text-white lg:mb-8 md:text-lg lg:text-xl dark:text-gray-400">From checkout
+        <p class="max-w-2xl mb-6 font-light text-white lg:mb-8 md:text-lg lg:text-xl dark:text-gray-400">From checkout fff
           to global sales tax compliance, companies around the world use Flowbite to simplify their payment stack.</p>
 
         <div class="grid grid-cols-1 gap-6 p-6 bg-white shadow-lg md:grid-cols-4 rounded-xl">
