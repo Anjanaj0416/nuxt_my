@@ -25,6 +25,8 @@
             </div>
           </div>
 
+
+
         <div class="max-h-[660px] overflow-y-auto space-y-4">
           <div
             v-for="(order, index) in orderStore.listOrder"
@@ -284,7 +286,7 @@
             <!-- Button group -->
             <div class="p-0 dark:border-gray-700">
               <div v-if="activeTab.type === 'Invoice' && activeTab.orderId === order.id">
-                <Invoice :orderId="order.id" :orderStatus="order.orderStatus" :orderNo="order.orderNo" />
+                <Invoice :orderId="order.id" :orderStatus="order.orderStatus" :orderNo="order.orderNo" :isVATCustomer="isVATCustomer"/>
               </div>
               <div v-if="activeOrderWorkFloweId === order.id">
                 <WorkFlow  />
@@ -346,7 +348,7 @@
   export default {
     
     components: {LinkBtn,Button,selectinput2,Invoice,WorkFlow,AddOrder,SignedPIUpload,ProposalUpload,Installment,commision,TimeLine,Banner},
-    props: ['id', 'customerRef'],
+    props: ['id', 'customerRef','isVATCustomer'],
     data() {
       return {
         isAddEdit: false,

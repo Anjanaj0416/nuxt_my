@@ -310,9 +310,22 @@ export default {
         });
       }
 
-      for (let [key, value] of formData.entries()) {
-        console.log(key, value);
-      }
+      // ✅ JSON object for console
+      const paymentJson = {
+        InstallmentId: this.InstallmentId || "",
+        Amount: this.Amount || "",
+        Remarks: this.Remarks || "",
+        ReferenceNo: this.ReferenceNo || "",
+        ReceiptType: this.ReceiptType || "",
+        BankName: this.BankName || "",
+        OriginalAdvanceReceiptNo: this.OriginalAdvanceReceiptNo || "",
+        OriginalAdvanceReceiptDate: this.OriginalAdvanceReceiptDate || "",
+        PaidDate: this.PaidDate || "",
+        PaymentSlipImage: this.PaymentSlipImage?.map(f => f.name) || []
+      };
+
+      console.log(JSON.stringify(paymentJson));
+
 
       await this.orderStore.getDoPay(formData, this.showLoading);
       this.closeModal();

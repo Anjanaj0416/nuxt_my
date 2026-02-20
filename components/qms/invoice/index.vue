@@ -27,7 +27,6 @@
             </div>
           </div>
 
-
           <!-- Payment History Section -->
           <div class="relative  border-gray-200 overflow-auto max-h-660 space-y-6">
             <div v-if="orderStore.PaymentDetails.listInstallment && orderStore.PaymentDetails.listInstallment.length > 0" class="relative">
@@ -135,45 +134,61 @@
                           <span v-else class="text-gray-400 italic">No slip uploaded</span>
                         </div>
 
-                        <!-- Tax Invoice -->
-                        <div v-if="vendorStore.curVendor.vatNo !=''">
-                          <a
-                            v-if="!item.isTaxInvoicePrinted"
-                            class="text-blue-600 hover:underline flex items-center gap-1 cursor-pointer"
-                            @click="handleInvoice(item)"
-                          >
-                            🧾 Create Tax Invoice
-                          </a>
-                          <a
-                            v-else-if="item.isTaxInvoicePrinted && item.TaxInvoiceURL"
-                            :href="imageroot + item.TaxInvoiceURL"
-                            target="_blank"
-                            class="text-blue-600 hover:underline flex items-center gap-1"
-                          >
-                            🧾 Tax Invoice
-                          </a>
-                          <span v-else class="text-gray-400 italic">No Tax Invoice</span>
+                        <!-- Invoice Section -->
+                        <div>
+                          <!-- VAT customer → TAX INVOICE -->
+                          <template v-if="isVATCustomer">
+
+                            <a
+                              v-if="!item.isTaxInvoicePrinted"
+                              class="text-blue-600 hover:underline flex items-center gap-1 cursor-pointer"
+                              @click="handleInvoice(item)"
+                            >
+                              🧾 Create Tax Invoice
+                            </a>
+
+                            <a
+                              v-else-if="item.TaxInvoiceURL"
+                              :href="imageroot + item.TaxInvoiceURL"
+                              target="_blank"
+                              class="text-blue-600 hover:underline flex items-center gap-1"
+                            >
+                              🧾 Tax Invoice
+                            </a>
+
+                            <span v-else class="text-gray-400 italic">
+                              No Tax Invoice
+                            </span>
+
+                          </template>
+
+                          <!-- NON VAT customer → NORMAL INVOICE -->
+                          <template v-else>
+
+                            <a
+                              v-if="!item.isInvoicePrinted"
+                              class="text-blue-600 hover:underline flex items-center gap-1 cursor-pointer"
+                              @click="handleInvoice(item)"
+                            >
+                              🧾 Create Invoice
+                            </a>
+
+                            <a
+                              v-else-if="item.invoiceURL"
+                              :href="imageroot + item.invoiceURL"
+                              target="_blank"
+                              class="text-blue-600 hover:underline flex items-center gap-1"
+                            >
+                              🧾 Invoice
+                            </a>
+
+                            <span v-else class="text-gray-400 italic">
+                              No Invoice
+                            </span>
+
+                          </template>
                         </div>
-                     
-                        <!-- Regular Invoice -->
-                          <div v-if="vendorStore.curVendor.vatNo ==''">
-                          <a
-                            v-if="!item.isInvoicePrinted"
-                            class="text-blue-600 hover:underline flex items-center gap-1 cursor-pointer"
-                            @click="handleInvoice(item)"
-                          >
-                            🧾 Create Invoice
-                          </a>
-                          <a
-                            v-else-if="item.isInvoicePrinted && item.invoiceURL"
-                            :href="imageroot + item.invoiceURL"
-                            target="_blank"
-                            class="text-blue-600 hover:underline flex items-center gap-1"
-                          >
-                            🧾 Invoice
-                          </a>
-                          <span v-else class="text-gray-400 italic">No Invoice</span>
-                        </div>
+
                       </div>
                     </div>
                   </div>
@@ -211,7 +226,7 @@
   export default {
     
     components: {LinkBtn,Button,selectinput2,addPayment},
-    props:['orderId','orderStatus','orderNo'],
+    props:['orderId','orderStatus','orderNo','isVATCustomer'],
     data() {
       return {
         imageroot: "",
