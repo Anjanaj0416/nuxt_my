@@ -1,5 +1,5 @@
 <template>
-    <section class="justify-center min-h-screen px-4 mt-24 mb-20 lg:px-60">
+    <section class="justify-center min-h-screen px-4 mt-24 mb-20 lg:px-24">
         <div class="text-2xl uppercase">Employee Attendance Correction</div>
         <attendanceCorrection />
     </section>

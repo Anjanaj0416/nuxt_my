@@ -407,41 +407,49 @@ actions: {
     },
 
 
-    async PrintInvoice(req, showLoading) {
-      console.log('API-GetGenerateInvoicePdf');
-      console.log(JSON.stringify(req));
-
-      
+    async PrintInvoice(req, showLoading, imageroot) {
+      console.log('API-GetGenerateInvoicePdf', JSON.stringify(req));
 
       const loading = showLoading?.('');
+
       try {
         const response = await axios.get(
-          `${import.meta.env.VITE_API_URL}/qms/Order/GetGenerateInvoicePdf?orderNo=${req.orderNo}&receiptNo=${req.receiptNo}&amountPaid=${req.amountPaid}&isTax=${req.isTax}`,
-          { responseType: 'blob' }
+          `${import.meta.env.VITE_API_URL}/qms/Order/GetGenerateInvoicePdf?orderNo=${req.orderNo}&receiptNo=${req.receiptNo}&amountPaid=${req.amountPaid}&isTax=${req.isTax}`
         );
 
-        // Open PDF in new tab
-        const blob = new Blob([response.data], { type: "application/pdf" });
-        const url = window.URL.createObjectURL(blob);
-        window.open(url, "_blank");
+        const pdfPath = response?.data?.data?.data;
+        const fullUrl = imageroot + pdfPath;
 
-        // ✅ Update reactive UI (like you did in GetQuotationApprove)
-        const orderNo = req.orderNo;
+        window.open(fullUrl, "_blank");
+
         const receiptNo = req.receiptNo;
 
-        // Find related payment item
-        for (const inst of this.PaymentDetails.listInstallment) {
-          const payment = inst.listPayment.find(p => p.receiptNo === receiptNo);
-          if (payment) {
-            payment.isInvoicePrinted = true;
-            payment.invoiceURL = `/qms/Order/Invoices/${receiptNo}.pdf`;
-          }
-        }
+        // ✅ Update the payment object
+        const updatedInstallments = this.PaymentDetails.listInstallment.map(inst => {
+          const updatedPayments = inst.listPayment.map(payment => {
+            if (payment.receiptNo === receiptNo) {
+              return {
+                ...payment,
+                isInvoicePrinted: true,
+                invoiceURL: fullUrl
+              };
+            }
+            return payment;
+          });
+          return {
+            ...inst,
+            listPayment: updatedPayments
+          };
+        });
 
-        this.showToast?.('Invoice generated successfully', 'success');
+        // ✅ Replace the array so Vue detects changes
+        this.PaymentDetails.listInstallment = updatedInstallments;
+
+        this.showToast?.('Invoice opened successfully', 'success');
+
       } catch (error) {
         console.error('PrintInvoice error:', error);
-        this.showToast('Failed to generate invoice', 'error');
+        this.showToast('Failed to open invoice', 'error');
       } finally {
         loading?.close();
       }

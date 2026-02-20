@@ -2,15 +2,21 @@
     <section class="p-2">
         <div class="relative min-h-screen px-4 text-sm">
             <div class="flex">
-                <!-- v-model="absense_apply.absence_type" :cur_item="absense_apply.absence_type" -->
-                <div class="flex mt-5">
-                    <div class="mr-3">Employee</div>
-                    <div>
-                        <selectinput2 :selections="arr_employee" @changed="setEmployee" :cur_item="empNo" />
+                <div class="">
+                    <label class="block text-[13px] font-bold text-gray-600">
+                        Employee 
+                    </label>
+                    <div class="relative w-full">
+                        <!-- <selectinput2 :selections="reportStore.initData.initReport.arrEmp" @changed="setEmployee" :cur_item="empNo" /> -->
+                        <serachInput
+                            :arr-items="reportStore.initData.initReport.arrEmp"
+                             v-model="employeList"
+                            @selectItem="setEmployee"
+                        />
                     </div>
                 </div>
-                <div class="flex flex-col gap-4 mb-4 sm:flex-row sm:justify-between ml-2">
-                    <datediff @date-change="GetAttendence" class="mb-2 mt-5 sm:mb-0" />
+                <div class="">
+                    <datediff @date-change="GetAttendence" class="" />
                 </div>
 
                 <div v-if="empNo && dtto && dtfrom"
@@ -45,7 +51,7 @@
             <div v-for="dayatt in attendanceStore.attendence.alattendences" :key="dayatt">
 
                 <!-- {{dayatt}} <br>
-         {{ getDayTypeName(dayatt) }} -->
+                {{ getDayTypeName(dayatt) }} -->
                 <div class="w-full p-2 mt-1 text-white bg-gray-600 rounded-md lg:w-5/6"
                     v-bind:class="[getAttRowColor(dayatt)]">
                     <div class="grid grid-cols-1 text-center lg:grid-cols-10">
@@ -137,12 +143,15 @@ import btnhr_rectify from '~/components/hr/btnhr_rectify'
 import atten_colorbox from '~/components/hr/atten_colorbox'
 import attnrectify from '~/components/hr/attnrectify'
 import selectinput2 from '~/components/customcontrol/selectinput2'
+import serachInput from "~/components/customcontrol/hr/SearchInput";
+
 import btnhr_load from '~/components/hr/btnhr_load'
 
 import swipes from "~/components/hr/swipes";
-import datediff from '~/components/hr/datediff'
+import datediff from '~/components/customcontrol/hr/dateRange.vue'
 import { useUserStore } from '~/stores/modules/userStore'
 import { useAttendanceStore } from '~/stores/modules/hr/attendanceStore'
+import { useReportStore } from "~/stores/modules/hr/reportStore";
 
 // import { mapState, mapActions, mapMutations } from 'vuex'
 
@@ -157,15 +166,17 @@ export default {
         attnrectify,
         selectinput2,
         btnhr_load,
+        serachInput
     },
     data() {
         return {
-            arr_employee: [
-                "dev",
-                "D1001",
-                "D1002",
-                "D1004"
-            ],
+            // arr_employee: [
+            //     "dev",
+            //     "D1001",
+            //     "D1002",
+            //     "D1004"
+            // ],
+            employeList: '',
             dtfrom: '',
             dtto: '',
             empNo: '',
@@ -188,6 +199,8 @@ export default {
         this.attendanceStore = useAttendanceStore();
         this.userStore = useUserStore();
         this.showLoading = this.$showLoading;
+
+        this.reportStore = useReportStore();
 
         const { $myUtility } = useNuxtApp();
         this.myUtility = $myUtility;
@@ -358,8 +371,9 @@ export default {
             }
         },
 
-        async setEmployee(empNo) {
-            this.empNo = empNo
+        setEmployee(empNo) {
+            this.employeList = empNo.id;
+            console.log(empNo);
         },
 
         async GetAttendence(req) {
@@ -373,7 +387,7 @@ export default {
             await this.attendanceStore.getAttendenceByEmp({
                 FromDate: this.dtfrom,
                 ToDate: this.dtto,
-                EmpNo: this.empNo,
+                EmpNo: this.employeList,
             }, this.showLoading)
         },
 

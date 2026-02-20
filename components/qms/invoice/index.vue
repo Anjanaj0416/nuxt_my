@@ -35,6 +35,7 @@
                 :key="iIndex"
                 class="p-4 rounded-lg shadow-md border transition border-gray-500 my-3"
               >
+
                 <!-- Header -->
                 <div class="flex justify-between items-center flex-wrap gap-1 border-b pb-1">
                   <div class="flex items-center gap-1 text-gray-600">
@@ -82,6 +83,7 @@
                       :key="pIndex"
                       class="bg-white shadow-sm border border-gray-200 rounded-lg p-3 hover:shadow-md transition-all duration-200 text-xs"
                     >
+                    {{ item }}
                       <!-- Top row -->
                       <div class="flex justify-between items-center flex-wrap gap-1 border-b pb-1">
                         <div class="flex items-center gap-1 text-gray-600">
@@ -115,7 +117,8 @@
                           <span class="ml-1 italic text-gray-500">{{ item.remarks || "—" }}</span>
                         </div>
                       </div>
-
+<!-- {{ imageroot }}
+{{ item.invoiceURL }} -->
                       <!-- Links Section -->
                       <div class=" gap-3 mt-2 flex flex-row gap-2 overflow-x-auto items-center whitespace-nowrap
                         scrollbar-thin scrollbar-thumb-gray-400 scrollbar-track-gray-200 
@@ -259,32 +262,32 @@
         this.selectedOrderId = this.orderId;
         this.isAddPayment = true;
       },
-    async handleInvoice(item) {
-      const amountPaid = Number(String(item.paidAmount).replace(/,/g, ''));
-      const req = {
-        orderNo: this.orderNo,
-        receiptNo: item.receiptNo,
-        amountPaid: amountPaid,
-        isTax: item.isTaxInvoicePrinted,
-      };
-       
-      const loading = this.$showLoading?.('');
+      async handleInvoice(item) {
+        const amountPaid = Number(String(item.paidAmount).replace(/,/g, ''));
+        const req = {
+          orderNo: this.orderNo,
+          receiptNo: item.receiptNo,
+          amountPaid: amountPaid,
+          isTax: item.isTaxInvoicePrinted,
+        };
+        
+        const loading = this.$showLoading?.('');
 
-      try {
-        const response = await this.orderStore.PrintInvoice(req, this.$showLoading);
+        try {
+          await this.orderStore.PrintInvoice(req, this.$showLoading,this.imageroot);
 
-        // Force Vue to detect deep changes (optional)
-        this.orderStore.PaymentDetails.listInstallment = [
-          ...this.orderStore.PaymentDetails.listInstallment
-        ];
+          // Force Vue to detect deep changes (optional)
+          this.orderStore.PaymentDetails.listInstallment = [
+            ...this.orderStore.PaymentDetails.listInstallment
+          ];
 
-      } catch (error) {
-        console.error(error);
-        this.$toast?.('Failed to generate invoice', 'error');
-      } finally {
-        loading?.close();
-      }
-    },
+        } catch (error) {
+          console.error(error);
+          this.$toast?.('Failed to generate invoice', 'error');
+        } finally {
+          loading?.close();
+        }
+      },
     },
     async beforeMount() {
     },
