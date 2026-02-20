@@ -1,29 +1,46 @@
 <template>
     <section class="p-2">
         <div class="relative min-h-screen px-4 text-sm">
-            <div class="flex">
-                <div class="">
-                    <label class="block text-[13px] font-bold text-gray-600">
-                        Employee 
-                    </label>
-                    <div class="relative w-full">
-                        <!-- <selectinput2 :selections="reportStore.initData.initReport.arrEmp" @changed="setEmployee" :cur_item="empNo" /> -->
-                        <serachInput
-                            :arr-items="reportStore.initData.initReport.arrEmp"
-                             v-model="employeList"
-                            @selectItem="setEmployee"
-                        />
+
+            <div class="w-full lg:w-5/6 bg-white  rounded-xl border p-4 mb-4">
+
+                <div class="grid grid-cols-1 md:grid-cols-3 gap-4 items-end">
+
+                    <!-- Employee -->
+                    <div>
+                        <label class="block text-xs font-semibold text-gray-500 mb-1 uppercase tracking-wide">
+                            Employee
+                        </label>
+
+                        <div class="relative">
+                            <serachInput
+                                :arr-items="reportStore.initData.initReport.arrEmp"
+                                v-model="employeList"
+                                @selectItem="setEmployee"
+                            />
+                        </div>
                     </div>
-                </div>
-                <div class="">
-                    <datediff @date-change="GetAttendence" class="" />
+
+                    <!-- Date Range -->
+                    <div>
+
+                        <datediff @date-change="GetAttendence" />
+                    </div>
+
+                    <!-- Refresh Button -->
+                    <div v-if="empNo && dtto && dtfrom" class="flex md:justify-end">
+                        <button
+                            @click="getRefreshAttendance"
+                            class="w-full md:w-auto px-6 py-2 bg-gradient-to-r from-blue-600 to-blue-800 text-white font-semibold rounded-lg shadow hover:shadow-lg hover:scale-[1.02] transition duration-200"
+                        >
+                            🔄 Refresh Attendance
+                        </button>
+                    </div>
+
                 </div>
 
-                <div v-if="empNo && dtto && dtfrom"
-                    class="flex flex-col gap-4 mb-4 sm:flex-row sm:justify-between mt-5">
-                    <btnhr_load name="Refresh" @click="getRefreshAttendance" />
-                </div>
             </div>
+
 
             <div class="absolute top-0 right-0 hidden px-4 mt-16 sm:hidden md:block">
                 <atten_colorbox />
@@ -33,105 +50,114 @@
                 <atten_colorbox />
             </div>
 
-            <div
-                class="grid w-full grid-cols-1 p-2 text-center text-white bg-blue-800 lg:grid-cols-10 lg:w-5/6 rounded-t-md">
-                <div class="hidden lg:block">Emp No</div>
-                <div class="hidden lg:block">Date</div>
-                <div class="hidden lg:block">In Time</div>
-                <div class="hidden lg:block">Out Time</div>
-                <div class="hidden lg:block">Over Time</div>
-                <div class="hidden lg:block"></div>
-                <div class="hidden lg:block">Day Type</div>
 
-                <div class="hidden lg:block"></div>
-                <div class="hidden lg:block"></div>
-                <div class="hidden lg:block"></div>
-            </div>
+            <div class="w-full lg:w-5/6 mt-6 bg-white shadow-lg rounded-xl overflow-hidden border">
 
-            <div v-for="dayatt in attendanceStore.attendence.alattendences" :key="dayatt">
+                <!-- TABLE HEADER -->
+                <div class="bg-gradient-to-r from-blue-700 to-blue-900 text-white font-semibold">
+                    <div class="grid grid-cols-7 gap-2 px-4 py-3 text-sm text-center">
+                        <div>Emp No</div>
+                        <div>Date</div>
+                        <div>In Time</div>
+                        <div>Out Time</div>
+                        <div>Over Time</div>
+                        <div>Day Type</div>
+                        <div>Action</div>
+                    </div>
+                </div>
 
-                <!-- {{dayatt}} <br>
-                {{ getDayTypeName(dayatt) }} -->
-                <div class="w-full p-2 mt-1 text-white bg-gray-600 rounded-md lg:w-5/6"
-                    v-bind:class="[getAttRowColor(dayatt)]">
-                    <div class="grid grid-cols-1 text-center lg:grid-cols-10">
-                        <div>{{ dayatt.empNo }}</div>
-                        <div class="mr-4">{{ $options.filters.toReadableDate(dayatt.date) }}</div>
-                        <div class="ml-4 mr-4">
-                            <div class="flex gap-x-2 justify-center items-center">
-                                <div v-if="editingRowId === dayatt.id && editingField === 'intime'">
-                                    <input v-model="editedIntime" type="time"
-                                        class=" p-1 text-sm text-gray-800 border rounded-md focus:ring-2 focus:ring-blue-300" />
-                                </div>
-                                <div v-else>{{ dayatt.inTime }}</div>
-                                <button type="button" @click="
-                                    editingRowId === dayatt.id && editingField === 'intime'
-                                        ? SetManualInOut(dayatt.date, editedIntime, dayatt.outTime)
-                                        : isEditChange(dayatt.id, 'intime', dayatt.inTime)
-                                    "
-                                    class="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:ring-blue-300 font-medium rounded-lg text-sm px-1 py-1">
-                                    {{ editingRowId === dayatt.id && editingField === 'intime' ? 'Save' : 'Edit' }}
-                                </button>
-                                <!-- <swipes v-show="dayatt.swipesin.length > 0" :swipes="dayatt.swipesin"
-                                    :cssbg="getAttRowColor(dayatt)" /> -->
-                            </div>
-                        </div>
-                        <div class="ml-4">
-                            <div class="flex gap-x-2 justify-center items-center">
-                                <div v-if="editingRowId === dayatt.id && editingField === 'outtime'">
-                                    <input v-model="editedOuttime" type="time"
-                                        class=" p-1 text-sm text-gray-800 border rounded-md focus:ring-2 focus:ring-blue-300" />
-                                </div>
-                                <div v-else>{{ dayatt.outTime }}</div>
-                                <button type="button" @click="
-                                    editingRowId === dayatt.id && editingField === 'outtime'
-                                        ? SetManualInOut(dayatt.date, dayatt.inTime, editedOuttime)
-                                        : isEditChange(dayatt.id, 'outtime', dayatt.outTime)
-                                    "
-                                    class="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:ring-blue-300 font-medium rounded-lg text-sm px-1 py-1 ">
-                                    {{ editingRowId === dayatt.id && editingField === 'outtime' ? 'Save' : 'Edit' }}
-                                </button>
-                                <!-- <swipes v-show="dayatt.swipesout.length > 0" :swipes="dayatt.swipesout"
-                                    :cssbg="getAttRowColor(dayatt)" /> -->
-                            </div>
-                        </div>
-                        <div class="ml-4">
-                            <div class="flex gap-x-2 justify-center items-center">
-                                <div v-if="editingRowId === dayatt.id && editingField === 'overtime'">
-                                    <input v-model="editedOvertime" type="text"
-                                        class="w-20 p-1 text-sm text-gray-800 border rounded-md focus:ring-2 focus:ring-blue-300"
-                                        placeholder="Hrs" />
-                                </div>
-                                <div v-else>{{ dayatt.overTime }}</div>
-                                <button type="button" @click="
-                                    editingRowId === dayatt.id && editingField === 'overtime'
-                                        ? SetOTManual(dayatt.date, editedOvertime)
-                                        : isEditChange(dayatt.id, 'overtime', editedOvertime)
-                                    "
-                                    class="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:ring-blue-300 font-medium rounded-lg text-sm px-1 py-1">
-                                    {{ editingRowId === dayatt.id && editingField === 'overtime' ? 'Save' : 'Edit' }}
-                                </button>
-                            </div>
-                        </div>
-                        <div>
-                            <button v-if="editingRowId === dayatt.id && editingField" type="button" @click="getCancel()"
-                                class="text-white bg-red-700 hover:bg-red-800 focus:ring-4 focus:ring-red-300 font-medium rounded-lg w-20 text-sm px-1 py-1 ml-2">
+                <!-- TABLE BODY -->
+                <div class="divide-y max-h-[550px] overflow-y-auto">
+
+                    <div v-for="dayatt in attendanceStore.attendence.alattendences"
+                        :key="dayatt.id"
+                        class="grid grid-cols-7 gap-2  py-3 text-center text-gray-700 text-sm items-center hover:bg-blue-50 transition duration-200"
+                        :class="[getAttRowColor(dayatt)]">
+
+                        <!-- Emp -->
+                        <div class="font-medium">{{ dayatt.empNo }}</div>
+
+                        <!-- Date -->
+                        <div>{{ $options.filters.toReadableDate(dayatt.date) }}</div>
+
+                        <!-- In Time -->
+                        <div class="flex justify-center gap-2 items-center">
+                            <input v-if="editingRowId === dayatt.id && editingField === 'intime'"
+                                v-model="editedIntime"
+                                type="time"
+                                class="border rounded-md px-2 py-1 text-sm focus:ring-2 focus:ring-blue-400"/>
+
+                            <span v-else class="font-medium">{{ dayatt.inTime }}</span>
+
+                            <button
+                                @click="editingRowId === dayatt.id && editingField === 'intime'
+                                    ? SetManualInOut(dayatt.date, editedIntime, dayatt.outTime)
+                                    : isEditChange(dayatt.id, 'intime', dayatt.inTime)"
+                                class="px-2 py-1 text-xs rounded-md bg-blue-600 hover:bg-blue-700 text-white shadow">
+                                {{ editingRowId === dayatt.id && editingField === 'intime' ? 'Save' : 'Edit' }}
+                            </button>
+
+                            <button v-if="editingRowId === dayatt.id && editingField === 'intime'"
+                                @click="getCancel()"
+                                class="px-2 py-1 text-xs rounded-md bg-red-600 hover:bg-red-700 text-white shadow">
                                 Cancel
                             </button>
                         </div>
-                        <div>{{ getDayTypeName(dayatt.dayType) }}</div>
-                        <div></div>
-                        <div></div>
-                        <div>
-                            <div v-show="userStore.loggedUser.userGroup === 'Supervisor' || userStore.loggedUser.granted === 'hradmin' || userStore.loggedUser.granted === 'admin'"
-                                class="w-4/5 p-1 p-2 font-bold text-center border-gray-500 rounded rounded-md cursor-pointer gap-x-1 hover:bg-blue-500 hover:text-white"
-                                @click="getReCalcOT(dayatt.id)">
-                                ReCalc.OT
-                            </div>
+
+                        <!-- Out Time -->
+                        <div class="flex justify-center gap-2 items-center">
+                            <input v-if="editingRowId === dayatt.id && editingField === 'outtime'"
+                                v-model="editedOuttime"
+                                type="time"
+                                class="border rounded-md px-2 py-1 text-sm focus:ring-2 focus:ring-blue-400"/>
+
+                            <span v-else class="font-medium">{{ dayatt.outTime }}</span>
+
+                            <button
+                                @click="editingRowId === dayatt.id && editingField === 'outtime'
+                                    ? SetManualInOut(dayatt.date, dayatt.inTime, editedOuttime)
+                                    : isEditChange(dayatt.id, 'outtime', dayatt.outTime)"
+                                class="px-2 py-1 text-xs rounded-md bg-blue-600 hover:bg-blue-700 text-white shadow">
+                                {{ editingRowId === dayatt.id && editingField === 'outtime' ? 'Save' : 'Edit' }}
+                            </button>
+
+                            <button v-if="editingRowId === dayatt.id && editingField === 'outtime'"
+                                @click="getCancel()"
+                                class="px-2 py-1 text-xs rounded-md bg-red-600 hover:bg-red-700 text-white shadow">
+                                Cancel
+                            </button>
                         </div>
+
+                        <!-- OT -->
+                        <div class="font-semibold text-indigo-600">
+                            {{ dayatt.overTime }}
+                        </div>
+
+                        <!-- Day Type -->
+                        <div>
+                            <span class="px-2 py-1 rounded-full text-xs font-semibold bg-gray-200">
+                                {{ getDayTypeName(dayatt.dayType) }}
+                            </span>
+                        </div>
+
+                        <!-- Action -->
+                        <div>
+                            <button
+                                v-show="userStore.loggedUser.userGroup === 'Supervisor'
+                                    || userStore.loggedUser.granted === 'hradmin'
+                                    || userStore.loggedUser.granted === 'admin'"
+                                @click="getReCalcOT(dayatt.id)"
+                                class="px-3 py-1 text-xs rounded-md bg-emerald-600 hover:bg-emerald-700 text-white shadow">
+                                ReCalc OT
+                            </button>
+                        </div>
+
                     </div>
+
                 </div>
             </div>
+
+
         </div>
     </section>
 </template>
@@ -201,6 +227,8 @@ export default {
         this.showLoading = this.$showLoading;
 
         this.reportStore = useReportStore();
+        await this.reportStore.getReportInitData();
+
 
         const { $myUtility } = useNuxtApp();
         this.myUtility = $myUtility;

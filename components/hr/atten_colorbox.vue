@@ -1,22 +1,55 @@
 <template>
-  <section>
-        
+<section class="w-full max-w-xs bg-white border shadow-md rounded-xl p-4">
 
-       <div class="w-32 text-sm text-white">
-         <!-- <div class="flex items-center p-1 my-1 bg-gray-700 rounded"> <div class="w-24 ">No-Pay</div> <div class="w-4 h-4 mx-auto bg-red-700"></div> </div> -->
-           <div class="flex items-center p-1 my-1 bg-gray-700 rounded"> <div class="w-24 ">Saturday</div> <div class="w-4 h-4 mx-auto bg-gray-800"></div> </div>
-           <div class="flex items-center p-1 my-1 bg-gray-700 rounded"> <div class="w-24 ">Sunday</div> <div class="w-4 h-4 mx-auto bg-gray-800"></div> </div>
-           <div class="flex items-center p-1 my-1 bg-gray-700 rounded"> <div class="w-24 ">Short Leave</div> <div class="w-4 h-4 mx-auto bg-green-700"></div> </div>
-           <div class="flex items-center p-1 my-1 bg-gray-700 rounded"> <div class="w-24 ">Movement</div> <div class="w-4 h-4 mx-auto bg-yellow-500"></div> </div>
-           <div class="flex items-center p-1 my-1 bg-gray-700 rounded"> <div class="w-24 ">HalfDay</div> <div class="w-4 h-4 mx-auto bg-blue-700"></div> </div>
-           <div class="flex items-center p-1 my-1 bg-gray-700 rounded"> <div class="w-24 ">Leave</div> <div class="w-4 h-4 mx-auto bg-pink-700"></div> </div>
-           <div class="flex items-center p-1 my-1 bg-gray-700 rounded"> <div class="w-24 ">Incomplete</div> <div class="w-4 h-4 mx-auto bg-orange-500"></div> </div>
-           <div class="flex items-center p-1 my-1 bg-gray-700 rounded"> <div class="w-24 ">Holiday</div> <div class="w-4 h-4 mx-auto bg-indigo-700"></div> </div>
-           <div class="flex items-center p-1 my-1 bg-gray-700 rounded"> <div class="w-24 ">SWA</div> <div class="w-4 h-4 mx-auto bg-green-400"></div> </div>
-           
-       </div>
-    
-  </section>
+  <!-- Title -->
+  <h3 class="text-sm font-semibold text-gray-700 mb-3 border-b pb-2">
+    Attendance Legend
+  </h3>
+
+  <!-- MOBILE = horizontal scroll | DESKTOP = grid -->
+  <div class="flex md:grid md:grid-cols-1 gap-2 text-xs overflow-x-auto md:overflow-visible whitespace-nowrap">
+
+    <div class="legend-item min-w-max">
+      <span class="legend-dot bg-gray-800"></span> Saturday
+    </div>
+
+    <div class="legend-item min-w-max">
+      <span class="legend-dot bg-gray-800"></span> Sunday
+    </div>
+
+    <div class="legend-item min-w-max">
+      <span class="legend-dot bg-green-600"></span> Short Leave
+    </div>
+
+    <div class="legend-item min-w-max">
+      <span class="legend-dot bg-yellow-500"></span> Movement
+    </div>
+
+    <div class="legend-item min-w-max">
+      <span class="legend-dot bg-blue-700"></span> Half Day
+    </div>
+
+    <div class="legend-item min-w-max">
+      <span class="legend-dot bg-pink-600"></span> Leave
+    </div>
+
+    <div class="legend-item min-w-max">
+      <span class="legend-dot bg-orange-500"></span> Incomplete
+    </div>
+
+    <div class="legend-item min-w-max">
+      <span class="legend-dot bg-indigo-600"></span> Holiday
+    </div>
+
+    <div class="legend-item min-w-max">
+      <span class="legend-dot bg-green-400"></span> SWA
+    </div>
+
+  </div>
+
+</section>
+
+
 </template>
 
 <script>
@@ -32,5 +65,19 @@ export default {
 </script>
 
 <style>
+.legend-item{
+  display:flex;
+  align-items:center;
+  gap:6px;
+  padding:6px 10px;
+  border-radius:8px;
+  background:#f9fafb;
+}
 
+.legend-dot{
+  width:12px;
+  height:12px;
+  border-radius:9999px;
+}
 </style>
+

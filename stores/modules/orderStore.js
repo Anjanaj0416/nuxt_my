@@ -431,7 +431,7 @@ actions: {
               return {
                 ...payment,
                 isInvoicePrinted: true,
-                invoiceURL: fullUrl
+                invoiceURL: pdfPath
               };
             }
             return payment;

@@ -83,7 +83,7 @@
                       :key="pIndex"
                       class="bg-white shadow-sm border border-gray-200 rounded-lg p-3 hover:shadow-md transition-all duration-200 text-xs"
                     >
-                    {{ item }}
+                    <!-- {{ item }} -->
                       <!-- Top row -->
                       <div class="flex justify-between items-center flex-wrap gap-1 border-b pb-1">
                         <div class="flex items-center gap-1 text-gray-600">
