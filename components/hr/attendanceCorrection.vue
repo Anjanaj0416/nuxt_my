@@ -1,17 +1,13 @@
 <template>
-    <section class="p-2">
-        <div class="relative min-h-screen px-4 text-sm">
-
+    <section>
+        <div class="relative min-h-screen text-sm py-8 ">
             <div class="w-full lg:w-5/6 bg-white  rounded-xl border p-4 mb-4">
-
                 <div class="grid grid-cols-1 md:grid-cols-3 gap-4 items-end">
-
                     <!-- Employee -->
                     <div>
                         <label class="block text-xs font-semibold text-gray-500 mb-1 uppercase tracking-wide">
                             Employee
                         </label>
-
                         <div class="relative">
                             <serachInput
                                 :arr-items="reportStore.initData.initReport.arrEmp"
@@ -20,36 +16,24 @@
                             />
                         </div>
                     </div>
-
                     <!-- Date Range -->
                     <div>
-
                         <datediff @date-change="GetAttendence" />
                     </div>
-
                     <!-- Refresh Button -->
                     <div v-if="empNo && dtto && dtfrom" class="flex md:justify-end">
-                        <button
-                            @click="getRefreshAttendance"
-                            class="w-full md:w-auto px-6 py-2 bg-gradient-to-r from-blue-600 to-blue-800 text-white font-semibold rounded-lg shadow hover:shadow-lg hover:scale-[1.02] transition duration-200"
-                        >
-                            🔄 Refresh Attendance
-                        </button>
+                        <btnhr_load name="🔄 Refresh Attendance" @click="getRefreshAttendance" />
                     </div>
-
                 </div>
-
             </div>
 
-
-            <div class="absolute top-0 right-0 hidden px-4 mt-16 sm:hidden md:block">
+            <div class="absolute top-0 right-0 hidden px-4 mt-36 sm:hidden md:block">
                 <atten_colorbox />
             </div>
 
             <div class="block md:hidden">
                 <atten_colorbox />
             </div>
-
 
             <div class="w-full lg:w-5/6 mt-6 bg-white shadow-lg rounded-xl overflow-hidden border">
 
@@ -135,8 +119,9 @@
 
                         <!-- Day Type -->
                         <div>
-                            <span class="px-2 py-1 rounded-full text-xs font-semibold bg-gray-200">
-                                {{ getDayTypeName(dayatt.dayType) }}
+                            <span class="px-2 py-1 rounded-full text-xs font-semibold bg-gray-200"
+                                    :title="getDayTypeName(dayatt)">
+                                {{ getDayTypeName(dayatt) }}
                             </span>
                         </div>
 
@@ -151,13 +136,9 @@
                                 ReCalc OT
                             </button>
                         </div>
-
                     </div>
-
                 </div>
             </div>
-
-
         </div>
     </section>
 </template>
@@ -171,7 +152,7 @@ import attnrectify from '~/components/hr/attnrectify'
 import selectinput2 from '~/components/customcontrol/selectinput2'
 import serachInput from "~/components/customcontrol/hr/SearchInput";
 
-import btnhr_load from '~/components/hr/btnhr_load'
+import btnhr_load from '~/components/customcontrol/hr/btn.vue'
 
 import swipes from "~/components/hr/swipes";
 import datediff from '~/components/customcontrol/hr/dateRange.vue'
@@ -302,77 +283,75 @@ export default {
             }
         },
 
-        getDayTypeName() {
-            return (dayatt) => {
-                try {
-                    // return this.wgInitdata.alusersInUsergroups
-                    //   .map((usr) => usr.usergroup)
-                    //   .filter((v, i, a) => a.indexOf(v) === i)
-                    //   .sort()
+    getDayTypeName() {
+      return (dayatt) => {
+        try {
+          // return this.wgInitdata.alusersInUsergroups
+          //   .map((usr) => usr.usergroup)
+          //   .filter((v, i, a) => a.indexOf(v) === i)
+          //   .sort()
 
-                    let dayname =
+          let dayname =
+            dayatt.dayType == 503
+              ? "ShortLeave"
+              : dayatt.dayType == 504
+                ? "Halfday"
+                : dayatt.dayType == 504.1
+                  ? "Halfday-Apprv. Pending"
+                  : dayatt.dayType == 504.5
+                    ? "HFA"
+                    : dayatt.dayType == 504.3
+                      ? "Halfday-Apprv. Rejected"
+                      : dayatt.dayType == 509
+                        ? "No-Pay"
+                        : dayatt.dayType == 505.1
+                          ? "Rect. Apprv. Pending"
+                          : dayatt.dayType == 505.5
+                            ? "Rect. Approved"
+                            : dayatt.dayType == 505.3
+                              ? "Rectt. Apprv. Rejected"
+                              : dayatt.dayType == 507
+                                ? "Movement"
+                                : dayatt.dayType == 507.1
+                                  ? "Movement-Apprv.Pending"
+                                  : dayatt.dayType == 507.5
+                                    ? "MA"
+                                    : dayatt.dayType == 507.3
+                                      ? "Movement Apprv. Rejected"
+                                      : dayatt.dayType == 508
+                                        ? "Leave"
+                                        : dayatt.dayType == 508.1
+                                          ? "Leave Apprv. Pending"
+                                          : dayatt.dayType == 508.5
+                                            ? "LA"
+                                            : dayatt.dayType == 508.3
+                                              ? "Leave Apprv. Rejected"
+                                              : dayatt.weekType == 501
+                                                ? "Saturday"
+                                                : dayatt.weekType == 502
+                                                  ? "Sunday"
+                                                  : dayatt.dayType == 510
+                                                    ? dayatt.comment
+                                                    : dayatt.dayType == 511
+                                                      ? "Transport"
+                                                      : dayatt.dayType == 100.1
+                                                        ? "OT Apprv. Pending"
+                                                        : dayatt.dayType == 100.5
+                                                          ? "OTA"
+                                                          : dayatt.dayType == 100.3
+                                                            ? "OT Apprv. Rejected"
+                                                            : dayatt.dayType == 506
+                                                              ? "Holiday"
+                                                              : dayatt.dayType == 505
+                                                                ? "InComplete"
+                                                                : ""
 
-                        dayatt.daytype == 503
-                            ? 'ShortLeave'
-                            : dayatt.daytype == 504
-                                ? 'Halfday'
-                                : dayatt.daytype == 504.1
-                                    ? 'Halfday-Apprv. Pending'
-                                    : dayatt.daytype == 504.5
-                                        ? 'HFA'
-                                        : dayatt.daytype == 504.3
-                                            ? 'Halfday-Apprv. Rejected'
-                                            : dayatt.daytype == 509
-                                                ? 'No-Pay'
-                                                : dayatt.daytype == 505.1
-                                                    ? 'Rect. Apprv. Pending'
-                                                    : dayatt.daytype == 505.5
-                                                        ? 'Rect. Approved'
-                                                        : dayatt.daytype == 505.3
-                                                            ? 'Rectt. Apprv. Rejected'
-                                                            : dayatt.daytype == 507
-                                                                ? 'Movement'
-                                                                : dayatt.daytype == 507.1
-                                                                    ? 'Movement-Apprv.Pending'
-                                                                    : dayatt.daytype == 507.5
-                                                                        ? 'MA'
-                                                                        : dayatt.daytype == 507.3
-                                                                            ? 'Movement Apprv. Rejected'
-                                                                            : dayatt.daytype == 508
-                                                                                ? 'Leave'
-                                                                                : dayatt.daytype == 508.1
-                                                                                    ? 'Leave Apprv. Pending'
-                                                                                    : dayatt.daytype == 508.5
-                                                                                        ? 'LA'
-                                                                                        : dayatt.daytype == 508.3
-                                                                                            ? 'Leave Apprv. Rejected'
-                                                                                            : dayatt.weektype == 501
-                                                                                                ? 'Saturday'
-                                                                                                : dayatt.weektype == 502
-                                                                                                    ? 'Sunday'
-                                                                                                    : dayatt.daytype == 510
-                                                                                                        ? dayatt.comment
-                                                                                                        : dayatt.daytype == 511
-                                                                                                            ? 'Transport'
-                                                                                                            : dayatt.daytype == 100.1
-                                                                                                                ? 'OT Apprv. Pending'
-                                                                                                                : dayatt.daytype == 100.5
-                                                                                                                    ? 'OTA'
-                                                                                                                    : dayatt.daytype == 100.3
-                                                                                                                        ? 'OT Apprv. Rejected'
-                                                                                                                        : dayatt.daytype == 506
-                                                                                                                            ? 'Holiday'
-                                                                                                                            : dayatt.daytype == 505
-                                                                                                                                ? 'InComplete'
-
-                                                                                                                                : ""
-
-                    return dayname
-                } catch {
-                    return ''
-                }
-            }
-        },
+          return dayname;
+        } catch {
+          return "";
+        }
+      };
+    },
     },
 
     methods: {

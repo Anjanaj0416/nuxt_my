@@ -1,43 +1,52 @@
 <template>
   <section>
-    <div class="flex gap-y-2 gap-x-4 items-end">
+    <div class="flex flex-col sm:flex-row 
+                sm:items-end 
+                gap-3 sm:gap-4 w-full">
+
       <!-- From Date -->
-      <div class="mt-1">
-        <label class="block text-[13px] font-bold text-gray-600">
-          Employee
+      <div class="flex flex-col w-full sm:w-auto">
+        <label class="text-[12px] font-semibold text-gray-600 mb-1">
+          From
         </label>
-        <div class="relative w-full">
-          <input
-            class="p-1 text-sm md:text-base rounded-md border border-gray-300 focus:border-blue-500 focus:ring focus:ring-blue-200 text-gray-600"
-            v-model="dtfrom"
-            type="date"
-          />
-        </div>
+
+        <input
+          v-model="dtfrom"
+          type="date"
+          class="h-8 w-full sm:w-40 px-2 
+                rounded-md border border-gray-300 
+                focus:border-blue-500 
+                focus:ring-1 focus:ring-blue-200
+                text-gray-700 text-xs"
+        />
       </div>
 
       <!-- To Date -->
-      <div>
-        <label class="block text-[13px] font-bold text-gray-600">
+      <div class="flex flex-col w-full sm:w-auto">
+        <label class="text-[12px] font-semibold text-gray-600 mb-1">
           To
         </label>
-        <div class="relative w-full">
-          <input
-            class="p-1 text-sm md:text-base rounded-md border border-gray-300 focus:border-blue-500 focus:ring focus:ring-blue-200 text-gray-600"
-            v-model="dtto"
-            type="date"
-          />
-        </div>
+
+        <input
+          v-model="dtto"
+          type="date"
+          class="h-8 w-full sm:w-40 px-2 
+                rounded-md border border-gray-300 
+                focus:border-blue-500 
+                focus:ring-1 focus:ring-blue-200
+                text-gray-700 text-xs"
+        />
       </div>
 
-      <!-- Creative Load Button -->
-      <div class="">
-        <button
+      <!-- Load Button -->
+      <div class="w-full sm:w-auto">
+        <btnhr_load 
+          name="Load" 
           @click="load"
-          class="bg-gradient-to-r from-blue-500 to-indigo-600 hover:from-blue-600 hover:to-indigo-700 text-white font-semibold py-2 px-5 rounded-lg shadow-md hover:shadow-lg "
-        >
-          Load
-        </button>
+          class="w-full sm:w-auto"
+        />
       </div>
+
     </div>
     <!-- <div class="block w-24 mx-auto my-4 bg-white rounded-lg md:hidden">
       <btnhr_load name="Load" @click="load" />
@@ -50,7 +59,7 @@
 
 <script>
 // import * as Global from '@/assets/js/Global'
-import btnhr_load from '~/components/hr/btnhr_load'
+import btnhr_load from '~/components/customcontrol/hr/btn'
 
 export default {
   components: { btnhr_load, },

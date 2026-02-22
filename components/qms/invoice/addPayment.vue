@@ -69,9 +69,9 @@
                   <option
                     v-for="(cat, index) in orderStore.initPaymentDetails.listReceiptType"
                     :key="index"
-                    :value="cat"
+                    :value="cat.id"
                   >
-                    {{ cat }}
+                    {{ cat.value }}
                   </option>
                 </select>
               </div>
@@ -79,7 +79,29 @@
                 {{ err.ReceiptType }}
                 </p>
             </div>
-            <div v-if="ReceiptType !== 'CASH-Cash Receipt'">
+            <div>
+              <label class="block  text-sm font-semibold text-gray-700">Payment Type</label>
+              <div class="relative">
+                <select
+                  v-model="PaymentMode"
+                  class="w-full border border-gray-300 rounded px-3 py-2 mt-2 text-sm text-gray-700 px-4 py-2 pr-10"
+                  @input="clearErrorOnInput('PaymentMode')"
+                >
+                  <option disabled value="">Select Payment Type</option>
+                  <option
+                    v-for="(cat, index) in orderStore.initPaymentDetails.listPaymentMode"
+                    :key="index"
+                    :value="cat.id"
+                  >
+                    {{ cat.value }}
+                  </option>
+                </select>
+              </div>
+               <p v-if="err.PaymentMode" class="mt-2 text-sm text-red-600">
+                {{ err.PaymentMode }}
+                </p>
+            </div>
+            <div v-if="PaymentMode !== 'CASH'">
               <label class="block text-sm font-bold text-gray-600">Bank Name</label>
               <div class="relative">
                 <select
@@ -230,7 +252,8 @@ export default {
       PayAmount: "",
       PayTerms:"",
       PayDate: "",
-      ReceiptType: "" ,
+      ReceiptType: "",
+      PaymentMode: "" ,
       BankName: "",
       isOpen: true,
       err: { PaymentSlipImage: "" },
@@ -240,7 +263,7 @@ export default {
         InstallmentId: "",
         Amount: "",
         ReferenceNo: "",
-        ReceiptType: "",
+        PaymentMode: "",
         BankName: "",
         OriginalAdvanceReceiptNo: "",
         OriginalAdvanceReceiptDate: "",
@@ -300,6 +323,7 @@ export default {
       formData.append("Remarks", this.Remarks || "");
       formData.append("ReferenceNo", this.ReferenceNo || "");
       formData.append("ReceiptType", this.ReceiptType || "");
+      formData.append("PaymentMode", this.PaymentMode || "");
       formData.append("BankName", this.BankName || "");
       formData.append("OriginalAdvanceReceiptNo", this.OriginalAdvanceReceiptNo || "");
       formData.append("OriginalAdvanceReceiptDate", this.OriginalAdvanceReceiptDate || "");
@@ -317,6 +341,7 @@ export default {
         Remarks: this.Remarks || "",
         ReferenceNo: this.ReferenceNo || "",
         ReceiptType: this.ReceiptType || "",
+        PaymentMode: this.PaymentMode || "",
         BankName: this.BankName || "",
         OriginalAdvanceReceiptNo: this.OriginalAdvanceReceiptNo || "",
         OriginalAdvanceReceiptDate: this.OriginalAdvanceReceiptDate || "",
@@ -367,7 +392,12 @@ export default {
         isValid = false;
       }
 
-      if (this.ReceiptType !== "CASH-Cash Receipt" && !this.BankName) {
+      if (!this.PaymentMode) {
+        this.err.PaymentMode = "Please select Payment Type";
+        isValid = false;
+      }
+
+      if (this.PaymentMode !== "CASH" && !this.BankName) {
         this.err.BankName = "Please select Bank Name";
         isValid = false;
       }

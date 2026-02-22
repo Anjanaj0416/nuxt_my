@@ -1,460 +1,52 @@
 <template>
     <section>
-        <!-- {{ dayInfo }} -->
-        <!-- dayInfo?.movementDetails?.id === `00000000-0000-0000-0000-000000000000` &&
-            dayInfo?.otDetails?.id === `00000000-0000-0000-0000-000000000000` &&
-            dayInfo?.leaveDetails?.id === `00000000-0000-0000-0000-000000000000` &&
-            dayInfo?.rectificationDetails?.id === `00000000-0000-0000-0000-000000000000` -->
-        <div class="mb-3">
-            <span @click="isOtApply= !isOtApply" class="border rounded p-2 mr-2 ">Apply OT</span>
-            <span @click="isLeaveApply= !isLeaveApply; loadAbsenceInitData(); loadLeaveBalance()" class="border rounded p-2 mr-2">Apply Leave</span>
-            <span @click="isMovementApply= !isMovementApply; loadMovementInitData()" class="border rounded p-2 mr-2">Apply Movement</span>
-        </div>
-        <div v-show="isOtApply" class="mt-5">
-            <OtApply @is-ot-apply="isOtApply= !isOtApply" :empno="empno" :dtFrom="dtFrom" :rowId="dayInfo.id"/>
-        </div>
-        <div v-show="isLeaveApply" class="mt-5">
-            <LeaveApply @is-leave-apply="isLeaveApply= !isLeaveApply" :empno="empno" :fromDate="dtFrom" :leaveyear="leaveYear"/>
-        </div>
-        <div v-show="isMovementApply" class="mt-5">
-            <MovementApply @is-movement-apply="isMovementApply= !isMovementApply" :empno="empno" :dtFrom="dtFrom"/>
-        </div>
-        <div v-if="!dayType"
-            class="text-center bg-white text-black p-2 rounded mt-1 text-xs whitespace-pre-line">
-            No details found..
-        </div>
-        <div v-else 
-            class="grid grid-cols-1 lg:grid-cols-4 bg-white text-black p-2 rounded mt-1 text-xs whitespace-pre-line">
-            <!-- MovementDetails -->
-            <div v-if="dayInfo?.movementDetails?.id != `00000000-0000-0000-0000-000000000000`"
-                class="flex flex-col h-full border border-b rounded border-gray-400 mr-2">
-                <div>
-                    <div class="flex-1 space-y-3">
-                        <div class="text-lg text-bold text-center underline border-b border-gray-400">{{ dayInfo?.movementDetails?.type }}</div>
-                        <div class="grid grid-cols-2 space-x-4 text-center p-2 border-b border-gray-400">
-                            <div class="text-left w-32">StartTime</div>
-                            <div class="text-left">: {{ formatTime(dayInfo?.movementDetails?.startTime) ?
-                                formatTime(dayInfo?.movementDetails?.startTime) : 'N/A' }}</div>
-                        </div>
-                        <div class="grid grid-cols-2 space-x-4 text-center p-2 border-b border-gray-400" >
-                            <div class="text-left w-32">EndTime</div>
-                            <div class="text-left">: {{ formatTime(dayInfo?.movementDetails?.endTime) ?
-                                formatTime(dayInfo?.movementDetails?.endTime) : 'N/A' }}</div>
-                        </div>
-                        <div class="grid grid-cols-2 space-x-4 text-center p-2 border-b border-gray-400">
-                            <div class="text-left w-32">FromLocation</div>
-                            <div class="text-left">: {{ dayInfo?.movementDetails?.fromLocation ?
-                                dayInfo?.movementDetails?.fromLocation : 'N/A' }}</div>
-                        </div>
-                        <div class="grid grid-cols-2 space-x-4 text-center p-2 border-b border-gray-400">
-                            <div class="text-left w-32">ToLocation</div>
-                            <div class="text-left">: {{ dayInfo?.movementDetails?.toLocation ?
-                                dayInfo?.movementDetails?.toLocation : 'N/A' }}</div>
-                        </div>
-                        <div class="grid grid-cols-2 space-x-4 text-center p-2 border-b border-gray-400">
-                            <div class="text-left w-32">Vehicle</div>
-                            <div class="text-left">: {{ dayInfo?.movementDetails?.vehicle ?
-                                dayInfo?.movementDetails?.vehicle : 'N/A' }}</div>
-                        </div>
-                        <div class="grid grid-cols-2 space-x-4 text-center p-2 border-b border-gray-400">
-                            <div class="text-left w-32">Distance</div>
-                            <div class="text-left">: {{ dayInfo?.movementDetails?.distance ?
-                                dayInfo?.movementDetails?.distance : 'N/A' }}</div>
-                        </div>
-                        <div class="grid grid-cols-2 space-x-4 text-center p-2 border-b border-gray-400">
-                            <div class="text-left w-32">Status</div>
-                            <div class="text-left">
-                                : <span class="p-1 rounded" :class="{
-                                    'bg-green-300': dayInfo?.movementDetails?.status === 'Approved',
-                                    'bg-yellow-300': dayInfo?.movementDetails?.status === 'Pending',
-                                    'bg-red-300': dayInfo?.movementDetails?.status === 'Deleted',
-                                    'bg-gray-300': dayInfo?.movementDetails?.status && dayInfo?.movementDetails?.status !== 'Approved' && dayInfo?.movementDetails?.status !== 'Pending' && dayInfo?.movementDetails?.status === 'Deleted'
-                                }">
-                                    {{ dayInfo?.movementDetails?.status }}
-                                </span>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="flex justify-end m-2">
-                        <svg xmlns="http://www.w3.org/2000/svg"
-                            class="w-6 h-6 p-1 rounded bg-red-500 hover:bg-red-600 text-white mr-2" fill="none"
-                            viewBox="0 0 24 24" stroke="currentColor"
-                            @click="deleteRecord(dayInfo?.movementDetails?.id, dayInfo?.movementDetails?.type)">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16" />
-                        </svg>
-                    </div>
-                </div>
-                <!-- <div>
-                    <div class="flex-1 space-y-3">
-                        <div class="text-lg text-bold underline">{{ dayInfo?.movementDetails?.type }}</div>
-                        <div class="grid grid-cols-2 space-x-4 text-center">
-                            <div class="text-left w-32">StartTime</div>
-                            <div class="text-left">: {{ formatTime(dayInfo?.movementDetails?.startTime) ?
-                                formatTime(dayInfo?.movementDetails?.startTime) : 'N/A' }}</div>
-                        </div>
-                        <div class="grid grid-cols-2 space-x-4 text-center">
-                            <div class="text-left w-32">EndTime</div>
-                            <div class="text-left">: {{ formatTime(dayInfo?.movementDetails?.endTime) ?
-                                formatTime(dayInfo?.movementDetails?.endTime) : 'N/A' }}</div>
-                        </div>
-                        <div class="grid grid-cols-2 space-x-4 text-center">
-                            <div class="text-left w-32">FromLocation</div>
-                            <div class="text-left">: {{ dayInfo?.movementDetails?.fromLocation ?
-                                dayInfo?.movementDetails?.fromLocation : 'N/A' }}</div>
-                        </div>
-                        <div class="grid grid-cols-2 space-x-4 text-center">
-                            <div class="text-left w-32">ToLocation</div>
-                            <div class="text-left">: {{ dayInfo?.movementDetails?.toLocation ?
-                                dayInfo?.movementDetails?.toLocation : 'N/A' }}</div>
-                        </div>
-                        <div class="grid grid-cols-2 space-x-4 text-center">
-                            <div class="text-left w-32">Vehicle</div>
-                            <div class="text-left">: {{ dayInfo?.movementDetails?.vehicle ?
-                                dayInfo?.movementDetails?.vehicle : 'N/A' }}</div>
-                        </div>
-                        <div class="grid grid-cols-2 space-x-4 text-center">
-                            <div class="text-left w-32">Distance</div>
-                            <div class="text-left">: {{ dayInfo?.movementDetails?.distance ?
-                                dayInfo?.movementDetails?.distance : 'N/A' }}</div>
-                        </div>
-                        <div class="grid grid-cols-2 space-x-4 text-center">
-                            <div class="text-left w-32">Status</div>
-                            <div class="text-left">
-                                : <span class="p-1 rounded" :class="{
-                                    'bg-green-300': dayInfo?.movementDetails?.status === 'Approved',
-                                    'bg-yellow-300': dayInfo?.movementDetails?.status === 'Pending',
-                                    'bg-red-300': dayInfo?.movementDetails?.status === 'Deleted',
-                                    'bg-gray-300': dayInfo?.movementDetails?.status && dayInfo?.movementDetails?.status !== 'Approved' && dayInfo?.movementDetails?.status !== 'Pending' && dayInfo?.movementDetails?.status === 'Deleted'
-                                }">
-                                    {{ dayInfo?.movementDetails?.status }}
-                                </span>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="flex justify-end">
-                        <svg xmlns="http://www.w3.org/2000/svg"
-                            class="w-6 h-6 p-1 rounded bg-red-500 hover:bg-red-600 text-white mr-2" fill="none"
-                            viewBox="0 0 24 24" stroke="currentColor"
-                            @click="deleteRecord(dayInfo?.movementDetails?.id, dayInfo?.movementDetails?.type)">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16" />
-                        </svg>
-                    </div>
-                </div> -->
-            </div>
+        <div class="mb-3 flex gap-2">
+            <span 
+                @click="togglePanel(dayInfo.id, 'isOtApply')"
+                class="text-xs px-3 py-1 rounded-lg border-2 border-gray-500 text-gray-500 hover:bg-gray-50 cursor-pointer transition duration-200"
+            >
+                {{ activePanel.rowId === dayInfo.id && activePanel.type === 'isOtApply' ? 'Close Apply OT' : 'Apply OT' }}
+            </span>
 
-            <!-- OTDetails -->
-            <div v-if="dayInfo?.otDetails?.id != `00000000-0000-0000-0000-000000000000`"
-                class="flex flex-col h-full border border-b rounded border-gray-400 mr-2 space-y-2">
-                <div>
-                    <div class="flex-1 space-y-3">
-                        <div class="text-lg text-bold text-center underline border-b border-gray-400">{{ dayInfo?.otDetails?.type }}</div>
-                        <div class="grid grid-cols-2 space-x-4 text-center p-2 border-b border-gray-400">
-                            <div class="text-left w-32">OverTimeFrom</div>
-                            <div class="text-left">: {{ formatTime(dayInfo?.otDetails?.overTimeStart) ?
-                                formatTime(dayInfo?.otDetails?.overTimeStart) : "N/A" }}</div>
-                        </div>
-                        <div class="grid grid-cols-2 space-x-4 text-center p-2 border-b border-gray-400">
-                            <div class="text-left w-32">OverTimeTo</div>
-                            <div class="text-left">: {{ formatTime(dayInfo?.otDetails?.overTimeEnd) ?
-                                formatTime(dayInfo?.otDetails?.overTimeEnd) : "N/A" }}</div>
-                        </div>
-                        <div class="grid grid-cols-2 space-x-4 text-center p-2 border-b border-gray-400">
-                            <div class="text-left w-32">OTHours</div>
-                            <div class="text-left">: {{ dayInfo?.otDetails?.otRequestedHours ?
-                                dayInfo?.otDetails?.otRequestedHours : 'N/A' }}</div>
-                        </div>
-                        <div class="grid grid-cols-2 space-x-4 text-center p-2 border-b border-gray-400">
-                            <div class="text-left w-32">NatureOfWork</div>
-                            <div class="text-left">: {{ dayInfo?.otDetails?.natureOfWork ?
-                                dayInfo?.otDetails?.natureOfWork : 'N/A' }}</div>
-                        </div>
-                        <div class="grid grid-cols-2 space-x-4 text-center p-2 border-b border-gray-400">
-                            <div class="text-left w-32">Status</div>
-                            <div class="text-left">
-                                : <span class="p-1 rounded" :class="{
-                                    'bg-green-300': dayInfo?.otDetails?.status === 'Approved',
-                                    'bg-yellow-300': dayInfo?.otDetails?.status === 'Pending',
-                                    'bg-red-300': dayInfo?.otDetails?.status === 'Deleted',
-                                    'bg-gray-300': dayInfo?.otDetails?.status && dayInfo?.otDetails?.status !== 'Approved' && dayInfo?.otDetails?.status !== 'Pending' && dayInfo?.otDetails?.status !== 'Deleted'
-                                }">
-                                    {{ dayInfo?.otDetails?.status }}
-                                </span>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="flex justify-end m-2">
-                        <svg xmlns="http://www.w3.org/2000/svg"
-                            class="w-6 h-6 p-1 rounded bg-red-500 hover:bg-red-600 text-white mr-2" fill="none"
-                            viewBox="0 0 24 24" stroke="currentColor"
-                            @click="deleteRecord(dayInfo?.otDetails?.id, dayInfo?.otDetails?.type)">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16" />
-                        </svg>
-                    </div>
-                </div>
-                <!-- <div>
-                    <div class="flex-1 space-y-3">
-                        <div class="text-lg text-bold underline">{{ dayInfo?.otDetails?.type }}</div>
-                        <div class="grid grid-cols-2 space-x-4 text-center">
-                            <div class="text-left w-32">OverTimeFrom</div>
-                            <div class="text-left">: {{ formatTime(dayInfo?.otDetails?.overTimeStart) ?
-                                formatTime(dayInfo?.otDetails?.overTimeStart) : "N/A" }}</div>
-                        </div>
-                        <div class="grid grid-cols-2 space-x-4 text-center">
-                            <div class="text-left w-32">OverTimeTo</div>
-                            <div class="text-left">: {{ formatTime(dayInfo?.otDetails?.overTimeEnd) ?
-                                formatTime(dayInfo?.otDetails?.overTimeEnd) : "N/A" }}</div>
-                        </div>
-                        <div class="grid grid-cols-2 space-x-4 text-center">
-                            <div class="text-left w-32">OTHours</div>
-                            <div class="text-left">: {{ dayInfo?.otDetails?.otRequestedHours ?
-                                dayInfo?.otDetails?.otRequestedHours : 'N/A' }}</div>
-                        </div>
-                        <div class="grid grid-cols-2 space-x-4 text-center">
-                            <div class="text-left w-32">NatureOfWork</div>
-                            <div class="text-left">: {{ dayInfo?.otDetails?.natureOfWork ?
-                                dayInfo?.otDetails?.natureOfWork : 'N/A' }}</div>
-                        </div>
-                        <div class="grid grid-cols-2 space-x-4 text-center">
-                            <div class="text-left w-32">Status</div>
-                            <div class="text-left">
-                                : <span class="p-1 rounded" :class="{
-                                    'bg-green-300': dayInfo?.otDetails?.status === 'Approved',
-                                    'bg-yellow-300': dayInfo?.otDetails?.status === 'Pending',
-                                    'bg-red-300': dayInfo?.otDetails?.status === 'Deleted',
-                                    'bg-gray-300': dayInfo?.otDetails?.status && dayInfo?.otDetails?.status !== 'Approved' && dayInfo?.otDetails?.status !== 'Pending' && dayInfo?.otDetails?.status !== 'Deleted'
-                                }">
-                                    {{ dayInfo?.otDetails?.status }}
-                                </span>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="flex justify-end">
-                        <svg xmlns="http://www.w3.org/2000/svg"
-                            class="w-6 h-6 p-1 rounded bg-red-500 hover:bg-red-600 text-white mr-2" fill="none"
-                            viewBox="0 0 24 24" stroke="currentColor"
-                            @click="deleteRecord(dayInfo?.otDetails?.id, dayInfo?.otDetails?.type)">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16" />
-                        </svg>
-                    </div>
-                </div> -->
-            </div>
+            <span 
+                @click="togglePanel(dayInfo.id, 'isLeaveApply'); loadAbsenceInitData(); loadLeaveBalance()" 
+                class="text-xs px-3 py-1 rounded-lg border-2 border-gray-500 text-gray-500 hover:bg-gray-50 cursor-pointer transition duration-200"
+            >
+                {{ activePanel.rowId === dayInfo.id && activePanel.type === 'isLeaveApply' ? 'Close Apply Leave' : 'Apply Leave' }}
+            </span>
 
-            <!-- LeaveDetails -->
-            <div v-if="dayInfo?.leaveDetails?.id != `00000000-0000-0000-0000-000000000000`"
-                class="flex flex-col h-full border border-b rounded border-gray-400 mr-2 space-y-2">
-                <div>
-                    <div class="flex-1 space-y-3">
-                        <div class="text-lg text-bold text-center underline border-b border-gray-400">{{ dayInfo?.leaveDetails?.type ?
-                            dayInfo?.leaveDetails?.type : "N/A" }}</div>
-                        <div class="grid grid-cols-2 space-x-4 text-center p-2 border-b border-gray-400">
-                            <div class="text-left w-32">EndDate</div>
-                            <div class="text-left">: {{ dayInfo?.leaveDetails?.endDate ?
-                                dayInfo?.leaveDetails?.endDate : "N/A" }}</div>
-                        </div>
-                        <div class="grid grid-cols-2 space-x-4 text-center p-2 border-b border-gray-400">
-                            <div class="text-left w-32">AbsenceType</div>
-                            <div class="text-left">: {{ dayInfo?.leaveDetails?.absenceType ?
-                                dayInfo?.leaveDetails?.absenceType : "N/A" }}</div>
-                        </div>
-                        <div class="grid grid-cols-2 space-x-4 text-center p-2 border-b border-gray-400">
-                            <div class="text-left w-32">DurationDays</div>
-                            <div class="text-left">: {{ dayInfo?.leaveDetails?.durationDays ?
-                                dayInfo?.leaveDetails?.durationDays : "N/A" }}</div>
-                        </div>
-                        <div class="grid grid-cols-2 space-x-4 text-center p-2 border-b border-gray-400">
-                            <div class="text-left w-32">DurationHours</div>
-                            <div class="text-left">: {{ dayInfo?.leaveDetails?.durationHours ?
-                                dayInfo?.leaveDetails?.durationHours : "N/A" }}</div>
-                        </div>
-                        <div class="grid grid-cols-2 space-x-4 text-center p-2 border-b border-gray-400">
-                            <div class="text-left w-32">Attachment</div>
-                            <div class="text-left">: {{ dayInfo?.leaveDetails?.attachment ?
-                                dayInfo.leaveDetails.attachment
-                                : 'N/A' }}</div>
-                        </div>
-                        <div class="grid grid-cols-2 space-x-4 text-center p-2 border-b border-gray-400">
-                            <div class="text-left w-32">Status</div>
-                            <div class="text-left">
-                                : <span class="p-1 rounded" :class="{
-                                    'bg-green-300': dayInfo?.leaveDetails?.status === 'Approved',
-                                    'bg-yellow-300': dayInfo?.leaveDetails?.status === 'Pending',
-                                    'bg-red-300': dayInfo?.leaveDetails?.status === 'Deleted',
-                                    'bg-gray-300': dayInfo?.leaveDetails?.status && dayInfo?.leaveDetails?.status !== 'Approved' && dayInfo?.leaveDetails?.status !== 'Pending' && dayInfo?.leaveDetails?.status === 'Deleted'
-                                }">
-                                    {{ dayInfo?.leaveDetails?.status }}
-                                </span>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="flex justify-end m-2">
-                        <svg xmlns="http://www.w3.org/2000/svg"
-                            class="w-6 h-6 p-1 rounded bg-red-500 hover:bg-red-600 text-white mr-2" fill="none"
-                            viewBox="0 0 24 24" stroke="currentColor"
-                            @click="deleteRecord(dayInfo?.leaveDetails?.id, dayInfo?.leaveDetails?.type)">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16" />
-                        </svg>
-                    </div>
-                </div>
-                <!-- <div>
-                    <div class="flex-1 space-y-3">
-                        <div class="text-lg text-bold underline">{{ dayInfo?.leaveDetails?.type ?
-                            dayInfo?.leaveDetails?.type : "N/A" }}</div>
-                        <div class="grid grid-cols-2 space-x-4 text-center">
-                            <div class="text-left w-32">EndDate</div>
-                            <div class="text-left">: {{ dayInfo?.leaveDetails?.endDate ?
-                                dayInfo?.leaveDetails?.endDate : "N/A" }}</div>
-                        </div>
-                        <div class="grid grid-cols-2 space-x-4 text-center">
-                            <div class="text-left w-32">AbsenceType</div>
-                            <div class="text-left">: {{ dayInfo?.leaveDetails?.absenceType ?
-                                dayInfo?.leaveDetails?.absenceType : "N/A" }}</div>
-                        </div>
-                        <div class="grid grid-cols-2 space-x-4 text-center">
-                            <div class="text-left w-32">DurationDays</div>
-                            <div class="text-left">: {{ dayInfo?.leaveDetails?.durationDays ?
-                                dayInfo?.leaveDetails?.durationDays : "N/A" }}</div>
-                        </div>
-                        <div class="grid grid-cols-2 space-x-4 text-center">
-                            <div class="text-left w-32">DurationHours</div>
-                            <div class="text-left">: {{ dayInfo?.leaveDetails?.durationHours ?
-                                dayInfo?.leaveDetails?.durationHours : "N/A" }}</div>
-                        </div>
-                        <div class="grid grid-cols-2 space-x-4 text-center">
-                            <div class="text-left w-32">Attachment</div>
-                            <div class="text-left">: {{ dayInfo?.leaveDetails?.attachment ?
-                                dayInfo.leaveDetails.attachment
-                                : 'N/A' }}</div>
-                        </div>
-                        <div class="grid grid-cols-2 space-x-4 text-center">
-                            <div class="text-left w-32">Status</div>
-                            <div class="text-left">
-                                : <span class="p-1 rounded" :class="{
-                                    'bg-green-300': dayInfo?.leaveDetails?.status === 'Approved',
-                                    'bg-yellow-300': dayInfo?.leaveDetails?.status === 'Pending',
-                                    'bg-red-300': dayInfo?.leaveDetails?.status === 'Deleted',
-                                    'bg-gray-300': dayInfo?.leaveDetails?.status && dayInfo?.leaveDetails?.status !== 'Approved' && dayInfo?.leaveDetails?.status !== 'Pending' && dayInfo?.leaveDetails?.status === 'Deleted'
-                                }">
-                                    {{ dayInfo?.leaveDetails?.status }}
-                                </span>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="flex justify-end">
-                        <svg xmlns="http://www.w3.org/2000/svg"
-                            class="w-6 h-6 p-1 rounded bg-red-500 hover:bg-red-600 text-white mr-2" fill="none"
-                            viewBox="0 0 24 24" stroke="currentColor"
-                            @click="deleteRecord(dayInfo?.leaveDetails?.id, dayInfo?.leaveDetails?.type)">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16" />
-                        </svg>
-                    </div>
-                </div> -->
-            </div>
-
-            <!-- RectificationDetails -->
-            <div v-if="dayInfo?.rectificationDetails?.id != `00000000-0000-0000-0000-000000000000`"
-                class="flex flex-col h-full border border-b rounded border-gray-400 mr-2 space-y-2">
-                <div>
-                    <div class="flex-1 space-y-3">
-                        <div class="text-lg text-bold text-center underline border-b border-gray-400">{{ dayInfo?.rectificationDetails?.type ?
-                            dayInfo?.rectificationDetails?.type : "N/A" }}</div>
-                        <div class="grid grid-cols-2 space-x-4 text-center p-2 border-b border-gray-400">
-                            <div class="text-left w-32">BeforeRectify</div>
-                            <div class="text-left">: {{ formatTime(dayInfo?.rectificationDetails?.beforeRectify) ?
-                                formatTime(dayInfo?.rectificationDetails?.beforeRectify) : "N/A" }}</div>
-                        </div>
-                        <div class="grid grid-cols-2 space-x-4 text-center p-2 border-b border-gray-400">
-                            <div class="text-left w-32">AfterRectify</div>
-                            <div class="text-left">: {{ formatTime(dayInfo?.rectificationDetails?.afterRectify) ?
-                                formatTime(dayInfo?.rectificationDetails?.afterRectify) : "N/A" }}</div>
-                        </div>
-                        <div class="grid grid-cols-2 space-x-4 text-center p-2 border-b border-gray-400">
-                            <div class="text-left w-32">In or Out</div>
-                            <div class="text-left">: {{ dayInfo?.rectificationDetails?.inorOut ?
-                                dayInfo?.rectificationDetails?.inorOut : "N/A" }}</div>
-                        </div>
-                        <div class="grid grid-cols-2 space-x-4 text-center p-2 border-b border-gray-400">
-                            <div class="text-left w-32">Status</div>
-                            <div class="text-left">
-                                : <span class="p-1 rounded" :class="{
-                                    'bg-green-300': dayInfo?.rectificationDetails?.status === 'Approved',
-                                    'bg-yellow-300': dayInfo?.rectificationDetails?.status === 'Pending',
-                                    'bg-red-300': dayInfo?.rectificationDetails?.status === 'Deleted',
-                                    'bg-gray-300': dayInfo?.rectificationDetails?.status && dayInfo?.rectificationDetails?.status !== 'Approved' && dayInfo?.rectificationDetails?.status !== 'Pending' && dayInfo?.rectificationDetails?.status === 'Deleted'
-                                }">
-                                    {{ dayInfo?.rectificationDetails?.status }}
-                                </span>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="flex justify-end m-2">
-                        <svg xmlns="http://www.w3.org/2000/svg"
-                            class="w-6 h-6 p-1 rounded bg-red-500 hover:bg-red-600 text-white mr-2" fill="none"
-                            viewBox="0 0 24 24" stroke="currentColor"
-                            @click="deleteRecord(dayInfo?.rectificationDetails?.id, dayInfo?.rectificationDetails?.type)">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16" />
-                        </svg>
-                    </div>
-                </div>
-                <!-- <div>
-                    <div class="flex-1 space-y-3">
-                        <div class="text-lg text-bold underline">{{ dayInfo?.rectificationDetails?.type ?
-                            dayInfo?.rectificationDetails?.type : "N/A" }}</div>
-                        <div class="grid grid-cols-2 space-x-4 text-center">
-                            <div class="text-left w-32">BeforeRectify</div>
-                            <div class="text-left">: {{ formatTime(dayInfo?.rectificationDetails?.beforeRectify) ?
-                                formatTime(dayInfo?.rectificationDetails?.beforeRectify) : "N/A" }}</div>
-                        </div>
-                        <div class="grid grid-cols-2 space-x-4 text-center">
-                            <div class="text-left w-32">AfterRectify</div>
-                            <div class="text-left">: {{ formatTime(dayInfo?.rectificationDetails?.afterRectify) ?
-                                formatTime(dayInfo?.rectificationDetails?.afterRectify) : "N/A" }}</div>
-                        </div>
-                        <div class="grid grid-cols-2 space-x-4 text-center">
-                            <div class="text-left w-32">In or Out</div>
-                            <div class="text-left">: {{ dayInfo?.rectificationDetails?.inorOut ?
-                                dayInfo?.rectificationDetails?.inorOut : "N/A" }}</div>
-                        </div>
-                        <div class="grid grid-cols-2 space-x-4 text-center">
-                            <div class="text-left w-32">Status</div>
-                            <div class="text-left">
-                                : <span class="p-1 rounded" :class="{
-                                    'bg-green-300': dayInfo?.rectificationDetails?.status === 'Approved',
-                                    'bg-yellow-300': dayInfo?.rectificationDetails?.status === 'Pending',
-                                    'bg-red-300': dayInfo?.rectificationDetails?.status === 'Deleted',
-                                    'bg-gray-300': dayInfo?.rectificationDetails?.status && dayInfo?.rectificationDetails?.status !== 'Approved' && dayInfo?.rectificationDetails?.status !== 'Pending' && dayInfo?.rectificationDetails?.status === 'Deleted'
-                                }">
-                                    {{ dayInfo?.rectificationDetails?.status }}
-                                </span>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="flex justify-end">
-                        <svg xmlns="http://www.w3.org/2000/svg"
-                            class="w-6 h-6 p-1 rounded bg-red-500 hover:bg-red-600 text-white mr-2" fill="none"
-                            viewBox="0 0 24 24" stroke="currentColor"
-                            @click="deleteRecord(dayInfo?.rectificationDetails?.id, dayInfo?.rectificationDetails?.type)">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16" />
-                        </svg>
-                    </div>
-                </div> -->
-            </div>
+            <span 
+                @click="togglePanel(dayInfo.id, 'isMovementApply'); loadMovementInitData()" 
+                class="text-xs px-3 py-1 rounded-lg border-2 border-gray-500 text-gray-500 hover:bg-gray-50 cursor-pointer transition duration-200"
+            >
+                    {{ activePanel.rowId === dayInfo.id && activePanel.type === 'isMovementApply' ? 'Close Apply Movement' : 'Apply Movement' }}
+            </span>
         </div>
+        <div v-show="activePanel.rowId === dayInfo.id && activePanel.type === 'isOtApply'" class="col-span-12 mt-2 mx-4 text-left p-2 bg-white rounded-lg shadow-sm">
+            <OtApply @is-ot-apply="togglePanel(dayInfo.id, 'isOtApply')" :empno="empno" :dtFrom="dtFrom" :rowId="dayInfo.id"/>
+        </div>
+        <div v-show="activePanel.rowId === dayInfo.id && activePanel.type === 'isLeaveApply'" class="mt-5">
+            <LeaveApply @is-leave-apply="togglePanel(dayInfo.id, 'isLeaveApply')" :empno="empno" :fromDate="dtFrom" :leaveyear="leaveYear"/>
+        </div>
+        <div v-show="activePanel.rowId === dayInfo.id && activePanel.type === 'isMovementApply'" class="mt-5">
+            <MovementApply @is-movement-apply="togglePanel(dayInfo.id, 'isMovementApply')" :empno="empno" :dtFrom="dtFrom" :leaveyear="leaveYear"/>
+        </div>
+
+        <DailyPanel   v-show="!(
+    activePanel.rowId === dayInfo.id &&
+    ['isOtApply', 'isLeaveApply', 'isMovementApply'].includes(activePanel.type)
+  )" :dayInfo="dayInfo" :empno="empno" :dtFrom="dtFrom"/>
+
     </section>
 </template>
 
 <script>
 
-import OtApply from "~/components/hr/otApply";
-import MovementApply from "~/components/hr/movementcreate";
-import LeaveApply from "~/components/hr/absencecreate";
+import OtApply from "~/components/hr/0.1_hr/otApply";
+import MovementApply from "~/components/hr/0.1_hr/movementApply";
+import LeaveApply from "~/components/hr/0.1_hr/leaveApply";
+import DailyPanel from "~/components/hr/0.1_hr/dailyPanel";
+
 import { useMovementStore } from "~/stores/modules/hr/movementStore";
 import { useLeaveStore } from "~/stores/modules/hr/leaveStore";
 
@@ -463,7 +55,8 @@ export default {
     components: {
         OtApply,
         MovementApply,
-        LeaveApply
+        LeaveApply,
+        DailyPanel
     },
 
     data() {
@@ -476,6 +69,11 @@ export default {
 
             movementStore: null,
             leaveStore: null,
+
+                  activePanel: {
+        rowId: null,
+        type: null, // 'rectify' or 'view'
+      },
         }
     },
 
@@ -488,6 +86,16 @@ export default {
     },
 
     methods: {
+
+        togglePanel(rowId, type) {
+            // Close if clicking same panel, else open new one
+            if (this.activePanel.rowId === rowId && this.activePanel.type === type) {
+                this.activePanel = { rowId: null, type: null };
+            } else {
+                this.activePanel = { rowId, type };
+            }
+        },
+
         async loadMovementInitData() { 
             await this.movementStore.getMovementInitData(this.showLoading)
         },

@@ -1,156 +1,172 @@
 <template>
-  <section>
-    <div class="cssholidayview w-screen absolute mt-10 left-0 bg-white">
-      <div class="w-3/4 bg-gray-500 mx-auto mt-16 rounded-md p-8 relative">
-        <div class="cursor-pointer absolute top-0 right-0 m-8 flex gap-x-8">
-          <holidayloader @click="loadSWA" />
-          <div title="Exit Holiday View" class="text-gray-600 transform hover:scale-125 delay-75" @click="getclose">
-            <svg xmlns="http://www.w3.org/2000/svg" class="h-8 w-8" fill="none" viewBox="0 0 24 24"
-              stroke="currentColor">
-              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                d="M10 14l2-2m0 0l2-2m-2 2l-2-2m2 2l2 2m7-2a9 9 0 11-18 0 9 9 0 0118 0z" />
-            </svg>
+  <section class="justify-center min-h-screen px-4 mt-24 mb-20 lg:px-24">
+    <div class="text-2xl uppercase mb-6"> Special Working Arrangement</div>
+
+    <div class="grid grid-cols-1 xl:grid-cols-5 gap-6">
+      <div class="col-span-3 bg-white ">
+
+        <!-- Load Button -->
+        <div class="flex mb-4 rounded-xl shadow-sm border p-4">
+          <holidayloader @click="loadholidays" />
+        </div>
+
+      <!-- Table -->
+      <div class="overflow-hidden border rounded-xl">
+
+        <!-- Header -->
+        <div class="bg-gradient-to-r from-blue-700 to-blue-900 text-white font-semibold">
+          <div class="grid grid-cols-3 px-6 py-3 text-sm text-center">
+            <div>Date</div>
+            <div>Description</div>
+            <div>Action</div>
           </div>
         </div>
 
-        <div class="
-            text-sm
-            font-semibold
-            uppercase
-            bg-blue-600
-            text-white
-            px-4
-            w-1/4
-            text-center
-            p-1
-            rounded-md
-          ">
-          Special Working Arrangement
-        </div>
+        <!-- Body -->
+        <div class="divide-y max-h-[500px] overflow-y-auto bg-white">
 
-        <div class="mt-8 grid grid-cols-1 lg:grid-cols-2 w-full lg:gap-x-16">
-          <div class="">
-            <!-- Start Heading  -->
-            <div class="
-                grid grid-cols-3
-                lg:grid-cols-3
-                text-center
-                w-full
-                text-white
-                bg-blue-800
-                rounded-t-md
-                p-2
-              ">
-              <div>Applied To All</div>
-              <div>Date</div>
-              <div>Description</div>
-            </div>
-            <!-- End Heading  -->
-
-            <!-- start rows  -->
-            <div v-if="swaStore.arrSWA.length > 0">
-              <div class="cssrows overflow-y-scroll">
-                <div v-for="swa in swaStore.arrSWA" :key="swa" :index="index"
-                  class="text-white bg-gray-600 rounded-md p-2 mt-1">
-
-                  <div class="grid grid-cols-3 lg:grid-cols-3 w-full">
-                    <div class="text-center">
-                      {{ swa.appliedToAll ? 'Yes' : 'No' }}
-                    </div>
-                    <div>{{ getFormatDate(swa.date) }}</div>
-                    <div class="flex justify-between">
-                      <div> {{ swa.description }}</div>
-                      <div title="Delete record" class="cursor-pointer hover:text-red-800"
-                        @click="deleteRecord(swa.id)">
-                        <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24"
-                          stroke="currentColor">
-                          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                            d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16" />
-                        </svg>
-                      </div>
-
-                    </div>
-
-                  </div>
-
-                  <div class="flex gap-2 p-2 ">
-                    <div v-for="id in swa.empIds" :key="id" class="bg-gray-800 text-sm text-gray-500 p-1 rounded">
-                      {{ getEmployee(id) }}
-                    </div>
-                  </div>
-                </div>
-              </div>
-            </div>
-            <div v-else class="text-center text-sm pt-2 text-gray-200">
-              No special work arrangements for selected month..
+          <div
+            v-for="holiday in swaStore.arrSWA"
+            :key="holiday.id"
+            class="grid grid-cols-3 px-6 py-4 text-sm text-center items-center hover:bg-blue-50 transition"
+          >
+            <!-- Date -->
+            <div class="font-semibold text-gray-700">
+              {{ holiday.date }}
             </div>
 
-            <!-- End rows  -->
-          </div>
-          <div class="bg-gray-600 rounded-md p-2 relative">
-            <!-- Insert -->
-            <div class="
-                text-sm
-                font-semibold
-                uppercase
-                bg-blue-600
-                text-white
-                w-32
-                px-2
-                p-1
-                rounded-md
-              ">
-              Apply SWA
+            <!-- Description -->
+            <div class="text-gray-600">
+              {{ holiday.description }}
             </div>
 
-            <div class="flex mt-2 gap-y-2 ml-2">
-              <div class="text-white text-sm w-24">Date</div>
-              <div>
-                <input class="text-gray-600 rounded p-1 w-64" type="date" v-model="swa.date" />
-              </div>
-            </div>
-
-            <div class="flex mt-2 gap-y-2 ml-2">
-              <div class="text-white text-sm w-24">Description</div>
-              <div>
-                <input class="text-gray-600 rounded p-1 w-64" v-model="swa.description" type="text" />
-              </div>
-            </div>
-
-            <div class="my-2">
-              <div class="cssEmps border-gray-500 rounded p-2 p-2 rounded">
-                <div class="text-white text-sm w-24">Employee/s</div>
-                <div class="w-64 bg-gray-100 p-2 rounded" @click="changeATAL">
-                  <toggleoption v-model="swa.isToApplyAll" label="Apply To All Employees" />
-                </div>
-
-                <div v-show="!swa.isToApplyAll">
-                  <inputtags_search class="w-full" :arrSelectedIDs="swa.empIds" :arrItems="arrEmp" ref="compits" />
-                </div>
-              </div>
-            </div>
-
-            <div class="absolute bottom-0 right-0 m-4 flex gap-x-4">
-              <btnhr_Save class="w-20 text-white" name="Clear" @click="getClear" />
-              <btnhr_Save class="w-20 text-white" name="Proceed" @click="getProceed" />
+            <!-- Action -->
+            <div class="flex justify-center gap-2">
+              <button class="px-3 py-1 text-xs bg-red-600 hover:bg-red-700 text-white rounded-md shadow">
+                Delete
+              </button>
             </div>
           </div>
+
+          <!-- Empty state -->
+          <div
+            v-if="!swaStore.arrSWA.length"
+            class="text-center py-10 text-gray-400"
+          >
+            No special working arrangements found
+          </div>
+
         </div>
       </div>
     </div>
+
+    <div class="col-span-2 bg-white border shadow-xl rounded-2xl p-6 space-y-2">
+      <div class="border-b pb-4">
+        <h2 class="text-lg font-semibold text-gray-800 flex items-center gap-2">
+          Special Work Assignment
+        </h2>
+      </div>
+      <div class="space-y-1">
+        <label class="text-sm font-medium text-gray-700 flex items-center gap-1">
+          Assignment Date
+        </label>
+        <input
+          type="date"
+          v-model="swa.date"
+          class="w-full md:w-80 border rounded-lg px-3 py-2 text-sm
+                focus:ring-2 focus:ring-blue-500 focus:border-blue-500
+                outline-none transition shadow-sm"
+        />
+      </div>
+      <div class="space-y-1">
+        <label class="text-sm font-medium text-gray-700 flex items-center gap-1">
+          Description
+        </label>
+        <textarea
+          type="text"
+          v-model="swa.description"
+          placeholder="Example: Night shift support / Emergency duty"
+          class="w-full md:w-80 border rounded-lg px-3 py-2 text-sm
+                focus:ring-2 focus:ring-blue-500 focus:border-blue-500
+                outline-none transition shadow-sm"
+        />
+      </div>
+      <div class="border rounded-xl p-5 bg-gradient-to-br from-gray-50 to-gray-100 space-y-4">
+
+        <div class="flex items-center justify-between">
+          <label class="text-sm font-semibold text-gray-800 flex items-center gap-2">
+            👥 Employee Assignment
+          </label>
+        </div>
+
+        <!-- Toggle -->
+        <div class="flex items-center justify-between bg-white border rounded-lg px-4 py-3 shadow-sm hover:shadow transition">
+          <div>
+            <p class="text-sm font-medium text-gray-700">
+              Apply to all employees
+            </p>
+          </div>
+
+          <toggleoption v-model="swa.isToApplyAll" label="" @click="changeATAL" />
+        </div>
+
+        <!-- Employee Selector -->
+        <transition name="fade">
+          <div v-show="!swa.isToApplyAll" class="space-y-2">
+            <div class="bg-white border rounded-lg p-3 shadow-sm hover:shadow-md transition">
+              <label class="text-xs font-medium text-gray-500">
+                Select specific employees
+              </label>
+              <!-- <inputtags_search
+                class="w-full"
+                :arrSelectedIDs="swa.empIds"
+                :arrItems="arrEmp"
+                ref="compits"
+              /> -->
+              <serachInput
+                  :arr-items="reportStore.initData.initReport.arrEmp"
+                  v-model="employeList"
+                  @selectItem="setEmployee"
+              />
+            </div>
+
+          </div>
+        </transition>
+
+      </div>
+      <div class="flex justify-end gap-3 mt-8 border-t pt-4 ">
+        <button
+          @click="getClear"
+          class="px-4 py-1.5 text-sm bg-white text-black border border-gray-300
+                rounded-lg shadow-sm hover:bg-gray-100 transition"
+        >
+          Cancel
+        </button>
+        <button
+          @click="getProceed"
+          class="px-5 py-1.5 text-sm bg-gradient-to-r from-blue-600 to-blue-800 text-white border border-gray-300
+                rounded-lg shadow-sm hover:bg-gray-100 transition"
+        >
+          Save
+        </button>
+      </div>
+
+    </div>
+  </div>
+
   </section>
 </template>
 
 <script>
-import holidayloader from '~/components/hr/holidayloader'
+import holidayloader from '~/components/customcontrol/hr/yearMonthSearch.vue'
 import btnhr_Save from '~/components/hr/btnhr_button'
-
 import toggleoption from '~/components/customcontrol/toggleoption'
-import inputtags_search from '~/components/customcontrol/inputtags_search'
-
+import serachInput from "~/components/customcontrol/hr/SearchInput";
 import * as Global from '@/assets/js/Global'
 import { useHolidayStore } from '~/stores/modules/hr/holidayStore'
 import { useSwaStore } from '~/stores/modules/hr/swaStore'
+import { useReportStore } from "~/stores/modules/hr/reportStore";
+
 //import * as myfilter from '@/plugins/myfilter'
 //import { mapState, mapGetters, mapActions, mapMutations } from 'vuex'
 
@@ -159,7 +175,7 @@ export default {
     holidayloader,
     btnhr_Save,
     toggleoption,
-    inputtags_search,
+    serachInput,
   },
   data() {
     return {
@@ -180,6 +196,9 @@ export default {
     this.swaStore = useSwaStore();
     this.holidayStore = useHolidayStore();
     this.showLoading = this.$showLoading;
+
+    this.reportStore = useReportStore();
+    await this.reportStore.getReportInitData();
 
     this.init();
   },

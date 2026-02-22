@@ -26,11 +26,11 @@
                     @click="$emit('close-sidebar')">
                     <span>Employee Details</span>
                 </router-link>
-                <router-link to="/hr/manualAttendance" v-show="userStore.loggedUser.granted.includes('hradmin')"
+                <!-- <router-link to="/hr/manualAttendance" v-show="userStore.loggedUser.granted.includes('hradmin')"
                     class="block px-3 py-2 text-gray-300 rounded hover:text-white hover:bg-blue-800"
                     @click="$emit('close-sidebar')">
                     <span>Manual Attendance</span>
-                </router-link>
+                </router-link> -->
                 <router-link to="/hr/attendanceCorrection" v-show="userStore.loggedUser.granted.includes('hradmin')"
                     class="block px-3 py-2 text-gray-300 rounded hover:text-white hover:bg-blue-800"
                     @click="$emit('close-sidebar')">

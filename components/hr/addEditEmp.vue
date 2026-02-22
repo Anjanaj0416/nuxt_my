@@ -9,8 +9,27 @@
 
       <!-- Modal Content (scrollable) -->
       <div class="modal-content">
+        
         <div class="form-content">
-          <h3 class="text-blue-600 font-bold">General Information</h3>
+          <div class="flex items-center justify-between">
+            <h3 class="text-blue-600 font-bold">
+              General Information
+            </h3>
+            <label class="flex items-center gap-2 cursor-pointer select-none">
+              <span class="text-xs font-semibold text-gray-600">
+                Status
+              </span>
+                <toggleoption v-model="employeeStore.empdetails.isActive" />
+              <span
+                class="text-xs font-semibold transition"
+                :class="employeeStore.empdetails.isActive ? 'text-green-600' : 'text-gray-400'"
+              >
+                {{ employeeStore.empdetails.isActive ? 'Active' : 'Inactive' }}
+              </span>
+            </label>
+          </div>
+
+          <hr class="mb-4 mt-2" />
           <hr class="mb-4" />
           <!-- {{ employeeStore.initEmployee }}
           <hr /> -->
@@ -471,12 +490,12 @@
                 rows="4"></textarea>
             </div>
 
-            <div>
+            <!-- <div>
               <label class="block text-sm font-bold text-gray-600 mb-2">
                 Status
               </label>
               <toggleoption v-model="employeeStore.empdetails.isActive"></toggleoption>
-            </div>
+            </div> -->
           </div>
         </div>
       </div>
@@ -640,10 +659,10 @@ export default {
               const formData = this.convertToFormData(this.employeeStore.empdetails);
 
               // / Log FormData contents
-              // console.log("FormData contents in SaveEmployee:");
-              // for (const [key, value] of formData.entries()) {
-              //   console.log(`${key}: ${value}`);
-              // }
+              console.log("FormData contents in SaveEmployee:");
+              for (const [key, value] of formData.entries()) {
+                console.log(`${key}: ${value}`);
+              }
 
               await this.employeeStore.AddEditEmployee(formData, this.showLoading);
               await this.closeModal();
@@ -1027,8 +1046,8 @@ export default {
 
 .modal {
   background: white;
-  width: 80%;
-  max-width: 800px;
+  width: 90%;
+  max-width: 1200px;
   border-radius: 1rem;
   overflow: hidden;
   display: flex;

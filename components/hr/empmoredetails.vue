@@ -166,13 +166,11 @@
           </div>
 
           <div class="grid grid-cols-1 mt-2 gap-y-4 sm:grid-cols-5 sm:gap-x-6">
-
-
             <!-- <div class="col-span-1">
               <hr_item item="Status"   :value="employeeStore?.empdetails?.employeeStatus" />
             </div> -->
             <div class="col-span-1">
-              <hr_item item="Feature  Granting" :value="employeeStore?.empdetails?.granted" />
+              <hr_item item="Feature Granting" :value="employeeStore?.empdetails?.granted" :isFeatureGranting="true"/>
             </div>
             <div class="col-span-1">
               <hr_item item="Morning OT Allowed" :value="employeeStore?.empdetails?.isMorningOtAllowed" />

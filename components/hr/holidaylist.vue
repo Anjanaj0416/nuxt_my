@@ -1,132 +1,141 @@
 <template>
-  <section class="justify-center min-h-screen px-4 mt-24 mb-20 lg:px-60 testmargin">
-    <div class="cssholidayview  w-screen absolute mt-16 top-0 left-0 bg-white">
-      <div class="w-3/4 bg-gray-500 mx-auto mt-8 rounded-md p-8 relative">
-        <div class="cursor-pointer absolute top-0 right-0 m-8 flex gap-x-8">
+  <section class="justify-center min-h-screen px-4 mt-24 mb-20 lg:px-24">
+    <div class="text-2xl uppercase mb-6">Holidays</div>
+
+    <div class="grid grid-cols-1 xl:grid-cols-5 gap-6">
+      <div class="col-span-3 bg-white ">
+
+        <!-- Load Button -->
+        <div class="flex mb-4 rounded-xl shadow-sm border p-4">
           <holidayloader @click="loadholidays" />
-          <div title="Exit Holiday View" class="text-SID-blue transform hover:scale-125 delay-75" @click="getclose">
-            <svg xmlns="http://www.w3.org/2000/svg" class="h-8 w-8" fill="none" viewBox="0 0 24 24"
-              stroke="currentColor">
-              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                d="M10 14l2-2m0 0l2-2m-2 2l-2-2m2 2l2 2m7-2a9 9 0 11-18 0 9 9 0 0118 0z" />
-            </svg>
+        </div>
+
+      <!-- Table -->
+      <div class="overflow-hidden border rounded-xl">
+
+        <!-- Header -->
+        <div class="bg-gradient-to-r from-blue-700 to-blue-900 text-white font-semibold">
+          <div class="grid grid-cols-3 px-6 py-3 text-sm text-center">
+            <div>Date</div>
+            <div>Description</div>
+            <div>Action</div>
           </div>
         </div>
 
-        <div class="
-            text-sm
-            font-semibold
-            uppercase
-            bg-blue-600
-            text-white
-            px-4
-            w-24
-            text-center
-            p-1
-            rounded-md
-          ">
-          Holidays
-        </div>
+        <!-- Body -->
+        <div class="divide-y max-h-[500px] overflow-y-auto bg-white">
 
-        <div class="mt-8 grid grid-cols-1 lg:grid-cols-2 w-full lg:gap-x-16">
-          <div class="">
-            <!-- Start Heading  -->
-            <div class="
-                grid grid-cols-3
-                lg:grid-cols-3
-                text-center
-                w-full
-                text-white
-                bg-blue-800
-                rounded-t-md
-                p-2
-              ">
-              <div>Date</div>
-              <div>Holiday Description</div>
-
-              <div></div>
-            </div>
-            <!-- End Heading  -->
-
-            <!-- start rows  -->
-            <div v-if="holidayStore.holiday.arrholidays.length > 0">
-              <div class="cssrows   overflow-y-scroll">
-                <div v-for="holiday in holidayStore.holiday.arrholidays" :key="holiday.id">
-                  <!-- :index="index" -->
-                  <div class="
-                  grid grid-cols-3
-                  lg:grid-cols-3
-                  
-                  w-full
-                  text-white
-                  bg-gray-600
-                  rounded-md
-                  mt-1
-                  p-2
-                ">
-                    <div class="text-center">{{ holiday.date }}</div>
-                    <div>{{ holiday.description }}</div>
-                    <div title="Delete record" class="cursor-pointer" @click="deleteRecord(holiday.id)">
-                      <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24"
-                        stroke="currentColor">
-                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                          d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16" />
-                      </svg>
-                    </div>
-                  </div>
-                </div>
-              </div>
-            </div>
-            <div v-else class="text-center text-sm pt-2 text-gray-200">
-              No holidays for selected month..
+          <div
+            v-for="holiday in holidayStore.holiday.arrholidays"
+            :key="holiday.id"
+            class="grid grid-cols-3 px-6 py-4 text-sm text-center items-center hover:bg-blue-50 transition"
+          >
+            <!-- Date -->
+            <div class="font-semibold text-gray-700">
+              {{ holiday.date }}
             </div>
 
-            <!-- End rows  -->
-          </div>
-          <div class="bg-gray-600 rounded-md p-2  h-48 relative">
-            <!-- Insert -->
-            <div class="
-                text-sm
-                font-semibold
-                uppercase
-                bg-blue-600
-                text-white
-                w-32
-                px-2
-                p-1
-                rounded-md
-              ">
-              Apply Holidays
+            <!-- Description -->
+            <div class="text-gray-600">
+              {{ holiday.description }}
             </div>
 
-            <div class="flex mt-2 gap-y-2 ml-4">
-              <div class="text-white text-sm w-24">Date</div>
-              <div>
-                <input class="text-SID-blue rounded p-1 w-64" type="date" v-model="holiday.date" />
-              </div>
-            </div>
-
-            <div class="flex mt-2 gap-y-2 ml-4">
-              <div class="text-white text-sm w-24">Description</div>
-              <div>
-                <input class="text-SID-blue  rounded p-1 w-64" v-model="holiday.description" type="text" />
-              </div>
-            </div>
-
-            <div class="absolute bottom-0 right-0 m-4 flex gap-x-4">
-              <btnhr_Save class="w-20 text-white" name="Clear" @click="getClear" />
-              <btnhr_Save class="w-20 text-white" name="Save" @click="getSave" />
+            <!-- Action -->
+            <div class="flex justify-center gap-2">
+              <button class="px-3 py-1 text-xs bg-red-600 hover:bg-red-700 text-white rounded-md shadow">
+                Delete
+              </button>
             </div>
           </div>
+
+          <!-- Empty state -->
+          <div
+            v-if="!holidayStore.holiday.arrholidays.length"
+            class="text-center py-10 text-gray-400"
+          >
+            No holidays found
+          </div>
+
         </div>
       </div>
     </div>
+
+    <div class="col-span-2 bg-white border shadow-md rounded-2xl p-6">
+
+      <!-- Header -->
+      <div class="mb-3 border-b pb-3">
+        <h2 class="text-lg font-semibold text-gray-700 tracking-wide">
+          Add Holiday
+        </h2>
+      </div>
+
+      <!-- Form -->
+      <div class="space-y-5">
+
+        <!-- Date -->
+        <div class="grid grid-cols-1 md:grid-cols-3 items-center gap-3">
+          <label class="text-sm font-medium text-gray-600">
+            Holiday Date
+          </label>
+
+          <div class="md:col-span-2">
+            <input
+              type="date"
+              v-model="holiday.date"
+              class="w-full border rounded-lg px-3 py-2 text-sm
+                    focus:ring-2 focus:ring-blue-400 focus:border-blue-400
+                    transition"
+            />
+          </div>
+        </div>
+
+        <!-- Description -->
+        <div class="grid grid-cols-1 md:grid-cols-3 items-center gap-3">
+          <label class="text-sm font-medium text-gray-600">
+            Description
+          </label>
+
+          <div class="md:col-span-2">
+            <textarea
+              type="text"
+              v-model="holiday.description"
+              placeholder="Ex: Sinhala & Tamil New Year"
+              class="w-full border rounded-lg px-3 py-2 text-sm
+                    focus:ring-2 focus:ring-blue-400 focus:border-blue-400
+                    transition"
+            />
+          </div>
+        </div>
+
+      </div>
+
+      <!-- Buttons -->
+      <div class="flex justify-end gap-3 mt-8 border-t pt-4">
+        <button
+          @click="getClear"
+          class="px-4 py-1.5 text-sm bg-white text-black border border-gray-300
+                rounded-lg shadow-sm hover:bg-gray-100 transition"
+        >
+          Cancel
+        </button>
+        <button
+          @click="getSave"
+          class="px-5 py-1.5 text-sm bg-gradient-to-r from-blue-600 to-blue-800 text-white border border-gray-300
+                rounded-lg shadow-sm hover:bg-gray-100 transition"
+        >
+          Save
+        </button>
+      </div>
+
+    </div>
+    </div>
+
   </section>
 </template>
 
 <script>
-import holidayloader from '~/components/hr/holidayloader'
-import btnhr_Save from '~/components/hr/btnhr_button'
+import holidayloader from '~/components/customcontrol/hr/yearMonthSearch.vue'
+import btnhr_Save from '~/components/customcontrol/hr/btn'
 import { useHolidayStore } from '~/stores/modules/hr/holidayStore'
 
 export default {
