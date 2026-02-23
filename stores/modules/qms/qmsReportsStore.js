@@ -7,17 +7,23 @@ export const useQmsReportsStore = defineStore("qmsReportsStore", {
 
   actions: {
     async GetPrintInvoiceReports(req, showLoading) {
+      console.log("GetInvoiceDataSummeryReport");
       const loading = showLoading?.("");
       try {
-        const { data } = await axios.get(
-          `${import.meta.env.VITE_API_URL}/qms/Report/GetInvoiceDataSummeryReport?dateFrom=${req.from}&dateTo=${req.to}`,
-          { responseType: "blob" }
-        );
-
-        const url = URL.createObjectURL(new Blob([data], { type: "application/xml" }));
+        const response = await axios.get(
+          `${import.meta.env.VITE_API_URL}/qms/Report/GetInvoiceDataSummeryReport`,{
+            params: {
+              fromDate:req.from, 
+              toDate: req.to, 
+            },
+            responseType: 'blob' 
+          }); 
+        console.log("response:", response);
+        const blob = new Blob([response.data], { type: 'application/pdf' });
+        const url = URL.createObjectURL(blob);
         const link = Object.assign(document.createElement("a"), {
           href: url,
-          download: `Invoice_Summary_${req.from}_to_${req.to}.xml`,
+          download: `Invoice_Summary_${req.from}_to_${req.to}.pdf`,
         });
         link.click();
         URL.revokeObjectURL(url);
@@ -30,17 +36,24 @@ export const useQmsReportsStore = defineStore("qmsReportsStore", {
     },
 
     async GetReceiptDataSummaryReports(req, showLoading) {
+      console.log(req);
       const loading = showLoading?.("");
       try {
-        const { data } = await axios.get(
-          `${import.meta.env.VITE_API_URL}/qms/Report/GetReceiptDataSummaryReport?dateFrom=${req.from}&dateTo=${req.to}&receiptType=${req.receiptType}`,
-          { responseType: "blob" }
-        );
-
-        const url = URL.createObjectURL(new Blob([data], { type: "application/xml" }));
+        const response = await axios.get(
+          `${import.meta.env.VITE_API_URL}/qms/Report/GetReceiptDataSummaryReport`,{
+           params: {
+              dateFrom:req.from, 
+              dateTo: req.to, 
+              receiptType: req.receiptType, 
+            },
+            responseType: 'blob' 
+        }); 
+        console.log("response:", response);
+        const blob = new Blob([response.data], { type: 'application/pdf' });
+        const url = URL.createObjectURL(blob);
         const link = Object.assign(document.createElement("a"), {
           href: url,
-          download: `Receipt_Data_Summary_${req.from}_to_${req.to}_to_${req.receiptType}.xml`,
+          download: `Receipt_Data_Summary_${req.from}_to_${req.to}_to_${req.receiptType}.pdf`,
         });
         link.click();
         URL.revokeObjectURL(url);
@@ -55,15 +68,19 @@ export const useQmsReportsStore = defineStore("qmsReportsStore", {
     async GetUnsettledAdvancesReports(req, showLoading) {
       const loading = showLoading?.("");
       try {
-        const { data } = await axios.get(
-          `${import.meta.env.VITE_API_URL}/qms/Report/GetUnsettledAdvancesReport?asAtDate=${req.asAtDate}`,
-          { responseType: "blob" }
-        );
-
-        const url = URL.createObjectURL(new Blob([data], { type: "application/xml" }));
+        const response = await axios.get(
+          `${import.meta.env.VITE_API_URL}/qms/Report/GetUnsettledAdvancesReport`,{
+            params: {
+              asAtDate: req.asAtDate, 
+            },
+            responseType: 'blob' 
+        }); 
+        console.log("response:", response);
+        const blob = new Blob([response.data], { type: 'application/pdf' });
+        const url = URL.createObjectURL(blob);
         const link = Object.assign(document.createElement("a"), {
           href: url,
-          download: `Unsettled_Advances_${req.asAtDate}.xml`,
+          download: `Unsettled_Advances_${req.asAtDate}.pdf`,
         });
         link.click();
         URL.revokeObjectURL(url);
@@ -78,15 +95,21 @@ export const useQmsReportsStore = defineStore("qmsReportsStore", {
     async GetDebtorOSReports(req, showLoading) {
       const loading = showLoading?.("");
       try {
-        const { data } = await axios.get(
-          `${import.meta.env.VITE_API_URL}/qms/Report/GetDebtorOSReport?asAtDate=${req.asAtDate}&isWithAdvance=${req.isWithAdvance}&isCustomerWise=${req.isCustomerWise}`,
-          { responseType: "blob" }
-        );
-
-        const url = URL.createObjectURL(new Blob([data], { type: "application/xml" }));
+        const response = await axios.get(
+          `${import.meta.env.VITE_API_URL}/qms/Report/GetDebtorOSReport`,{
+            params: {
+              asAtDate: req.asAtDate, 
+              isWithAdvance: req.isWithAdvance,
+              isCustomerWise: req.isCustomerWise,
+            },
+            responseType: 'blob' 
+        }); 
+        console.log("response:", response);
+        const blob = new Blob([response.data], { type: 'application/pdf' });
+        const url = URL.createObjectURL(blob);
         const link = Object.assign(document.createElement("a"), {
           href: url,
-          download: `Debtor_OS_Report_${req.asAtDate}.xml`,
+          download: `Debtor_OS_Report_${req.asAtDate}.pdf`,
         });
         link.click();
         URL.revokeObjectURL(url);
@@ -99,17 +122,24 @@ export const useQmsReportsStore = defineStore("qmsReportsStore", {
     },
 
     async GetCommissionCalculationReport(req, showLoading) {
+      // console.log(req);
       const loading = showLoading?.("");
       try {
-        const { data } = await axios.get(
-          `${import.meta.env.VITE_API_URL}/qms/Report/GetDebtorOSReport?asAtDate=${req.from}&isWithAdvance=${req.to}&isCustomerWise=${req.csoNo}`,
-          { responseType: "blob" }
-        );
-
-        const url = URL.createObjectURL(new Blob([data], { type: "application/xml" }));
+        const response = await axios.get(
+          `${import.meta.env.VITE_API_URL}/qms/Report/GetCommissionCalculationReport`,{
+            params: {
+              from: req.from, 
+              to: req.to, 
+              csoNo: req.csoNo,
+            },
+            responseType: 'blob' 
+        }); 
+        console.log("response:", response);
+        const blob = new Blob([response.data], { type: 'application/pdf' });
+        const url = URL.createObjectURL(blob);
         const link = Object.assign(document.createElement("a"), {
           href: url,
-          download: `Commission_Calculation_Report_${req.from}_to_${req.to}_cso_${req.csoNo}.xml`,
+          download: `Commission_Calculation_Report_${req.from}_to_${req.to}_cso_${req.csoNo}.pdf`,
         });
         link.click();
         URL.revokeObjectURL(url);
@@ -125,12 +155,17 @@ export const useQmsReportsStore = defineStore("qmsReportsStore", {
     async GetCollectionSheetReports(req, showLoading) {
       const loading = showLoading?.("");
       try {
-        const { data } = await axios.get(
-          `${import.meta.env.VITE_API_URL}/qms/Report/GetCollectionSheetReport?from=${req.from}&to=${req.to}`,
-          { responseType: "blob" }
-        );
-
-        const url = URL.createObjectURL(new Blob([data], { type: "application/pdf" }));
+        const response = await axios.get(
+          `${import.meta.env.VITE_API_URL}/qms/Report/GetCollectionSheetReport`,{
+            params: {
+              from: req.from, 
+              to: req.to, 
+            },
+            responseType: 'blob' 
+        }); 
+        console.log("response:", response);
+        const blob = new Blob([response.data], { type: 'application/pdf' });
+        const url = URL.createObjectURL(blob);
         const link = Object.assign(document.createElement("a"), {
           href: url,
           download: `Collection_Sheet_${req.from}_to_${req.to}.pdf`,
@@ -148,15 +183,20 @@ export const useQmsReportsStore = defineStore("qmsReportsStore", {
     async GetSalesKPIReport(req, showLoading) {
       const loading = showLoading?.("");
       try {
-        const { data } = await axios.get(
-          `${import.meta.env.VITE_API_URL}/qms/Report/GetSalesKPIReport?from=${req.from}&to=${req.to}`,
-          { responseType: "blob" }
-        );
-
-        const url = URL.createObjectURL(new Blob([data], { type: "application/xml" }));
+        const response = await axios.get(
+          `${import.meta.env.VITE_API_URL}/qms/Report/GetSalesKPIReport`,{
+            params: {
+              from: req.from, 
+              to: req.to, 
+            },
+            responseType: 'blob' 
+        }); 
+        console.log("response:", response);
+        const blob = new Blob([response.data], { type: 'application/pdf' });
+        const url = URL.createObjectURL(blob);
         const link = Object.assign(document.createElement("a"), {
           href: url,
-          download: `Sales_KPI_Report_${req.from}_to_${req.to}.xml`,
+          download: `Sales_KPI_Report_${req.from}_to_${req.to}.pdf`,
         });
         link.click();
         URL.revokeObjectURL(url);
@@ -171,12 +211,19 @@ export const useQmsReportsStore = defineStore("qmsReportsStore", {
     async GetCommisionPaymentReport(req, showLoading) {
       const loading = showLoading?.("");
       try {
-        const { data } = await axios.get(
-          `${import.meta.env.VITE_API_URL}/qms/Report/GetCommisionPaymentReport?dtFrom=${req.dtFrom}&to=${req.dtTo}&keyword=${req.keyword}&csoNo=${req.csoNo}`,
-          { responseType: "blob" }
-        );
-
-        const url = URL.createObjectURL(new Blob([data], { type: "application/pdf" }));
+        const response = await axios.get(
+          `${import.meta.env.VITE_API_URL}/qms/Report/GetCommisionPaymentReport`,{
+            params: {
+              dtFrom: req.dtFrom,
+              dtTo: req.dtTo,
+              keyword: req.keyword,
+              csoNo: req.csoNo
+            },
+            responseType: 'blob' 
+        }); 
+        console.log("response:", response);
+        const blob = new Blob([response.data], { type: 'application/pdf' });
+        const url = URL.createObjectURL(blob);
         const link = Object.assign(document.createElement("a"), {
           href: url,
           download: `Commision_Payment_Report_${req.dtFrom}_to_${req.dtTo}.pdf`,

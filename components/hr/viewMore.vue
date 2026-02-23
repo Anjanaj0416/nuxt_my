@@ -22,6 +22,7 @@
                     {{ activePanel.rowId === dayInfo.id && activePanel.type === 'isMovementApply' ? 'Close Apply Movement' : 'Apply Movement' }}
             </span>
         </div>
+        
         <div v-show="activePanel.rowId === dayInfo.id && activePanel.type === 'isOtApply'" class="col-span-12 mt-2 mx-4 text-left p-2 bg-white rounded-lg shadow-sm">
             <OtApply @is-ot-apply="togglePanel(dayInfo.id, 'isOtApply')" :empno="empno" :dtFrom="dtFrom" :rowId="dayInfo.id"/>
         </div>
@@ -32,10 +33,13 @@
             <MovementApply @is-movement-apply="togglePanel(dayInfo.id, 'isMovementApply')" :empno="empno" :dtFrom="dtFrom" :leaveyear="leaveYear"/>
         </div>
 
-        <DailyPanel   v-show="!(
-    activePanel.rowId === dayInfo.id &&
-    ['isOtApply', 'isLeaveApply', 'isMovementApply'].includes(activePanel.type)
-  )" :dayInfo="dayInfo" :empno="empno" :dtFrom="dtFrom"/>
+        <DailyPanel   
+            v-show="!(
+                activePanel.rowId === dayInfo.id &&
+                ['isOtApply', 'isLeaveApply', 'isMovementApply'].includes(activePanel.type)
+            )" 
+            :dayInfo="dayInfo" :empno="empno" :dtFrom="dtFrom"
+        />
 
     </section>
 </template>
