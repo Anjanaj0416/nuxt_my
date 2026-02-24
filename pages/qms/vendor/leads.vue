@@ -33,30 +33,30 @@
       :key="index"
     >
     
-          {{ leadStore.listLeads.status}}
-          <div class="flex justify-between">
-      <span
-        class="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-blue-50 text-blue-800 text-xs font-semibold"
-      >
-        ⏳ {{ lead.noofDaysPending }} Days Pending
-      </span>
-      <span
-        :class="{
-          'bg-blue-500 text-white font-semibold': lead.status === 'CSOAssigned',
-          'bg-amber-500 text-white font-semibold': lead.status === 'Pending',
-          'bg-rose-500 text-white font-semibold': lead.status === 'Cancelled',
-          'bg-orange-500 text-white font-semibold': lead.status === 'Hold',
-          'bg-emerald-500 text-white font-semibold': lead.status === 'Completed',
-          'bg-sky-500 text-white font-semibold': lead.status === 'CallLater',
-          'bg-violet-500 text-white font-semibold': lead.status === 'Called',
-          'bg-lime-600 text-white font-semibold': lead.status === 'Visited',
-          'bg-fuchsia-500 text-white font-semibold': lead.status === 'QuotaionSubmited'
-        }"
-        class="inline-flex items-center text-xs font-medium me-2 px-2.5 py-0.5 rounded-full md:hidden"
-      >
-        {{ lead.status || '—' }}
-      </span>
-    </div>
+
+      <div class="flex justify-between">
+        <span
+          class="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-blue-50 text-blue-800 text-xs font-semibold"
+        >
+          ⏳ {{ lead.noofDaysPending }} Days Pending
+        </span>
+        <span
+          :class="{
+            'bg-blue-500 text-white font-semibold': lead.status === 'CSOAssigned',
+            'bg-amber-500 text-white font-semibold': lead.status === 'Pending',
+            'bg-rose-500 text-white font-semibold': lead.status === 'Cancelled',
+            'bg-orange-500 text-white font-semibold': lead.status === 'Hold',
+            'bg-emerald-500 text-white font-semibold': lead.status === 'Completed',
+            'bg-sky-500 text-white font-semibold': lead.status === 'CallLater',
+            'bg-violet-500 text-white font-semibold': lead.status === 'Called',
+            'bg-lime-600 text-white font-semibold': lead.status === 'Visited',
+            'bg-fuchsia-500 text-white font-semibold': lead.status === 'QuotaionSubmited'
+          }"
+          class="inline-flex items-center text-xs font-medium me-2 px-2.5 py-0.5 rounded-full md:hidden"
+        >
+          {{ lead.status || '—' }}
+        </span>
+      </div>
       <div class="grid grid-cols-2 gap-4 sm:flex sm:flex-row sm:justify-between">
         <!-- Vendor Name -->
         <div class="flex flex-col text-center sm:text-left">

@@ -141,15 +141,15 @@
                 <input
                     type="number"
                     min="1"
-                    v-model.number="form.NoOfBanners"
+                    v-model.number="form.NoOfProminentItems"
                     class="p-2 text-sm border rounded-lg focus:ring-2 focus:ring-blue-400 focus:outline-none"
-                    placeholder="Enter number of banners"
+                    placeholder="Enter number of prominent items"
                 />
                 </div>
                 <div v-else class="flex flex-col">
                 <label class="text-sm font-medium text-gray-600 mb-1">Prominent Items</label>
                 <strong class="text-sm text-blue-700">
-                    {{ pkg.NoOfBanners || '-' }}
+                    {{ pkg.NoOfProminentItems || '-' }}
                 </strong>
               </div>
 
@@ -187,17 +187,64 @@
                 </strong>
               </div>
 
+              <div class="flex flex-col space-y-2">
+                <label class="text-sm font-semibold text-gray-700 tracking-wide">
+                  Discount
+                </label>
 
-              <div class="flex flex-col">
-                <label class="text-sm font-medium text-gray-600 mb-1">Discount</label>
-                <input
-                    type="number"
-                    min="1"
-                    v-model.number="form.discount"
-                    class="p-2 text-sm border rounded-lg focus:ring-2 focus:ring-blue-400 focus:outline-none"
-                    placeholder="Enter number of banners"
-                />
+                <div class="flex items-stretch w-full rounded-xl overflow-hidden shadow-sm border border-gray-200 bg-white ">
+
+                  <!-- Input with currency indicator -->
+                  <div class="relative flex-1">
+                    <span
+                      v-if="invoiceDiscountType === 'lkr'"
+                      class="absolute left-3 top-1/2 -translate-y-1/2 text-gray-400 text-sm"
+                    >
+                      Rs
+                    </span>
+
+                    <input
+                      type="number"
+                      min="0"
+                      v-model.number="invoiceDiscount"
+                      placeholder="Enter discount"
+                      class="w-full h-full px-3 py-2 text-sm outline-none bg-transparent"
+                      :class="invoiceDiscountType === 'lkr' ? 'pl-9' : ''"
+                    />
+                  </div>
+
+                  <!-- Toggle Buttons -->
+                  <div class="flex bg-gray-50">
+                    <button
+                      type="button"
+                      @click="invoiceDiscountType = 'lkr'"
+                      class="relative px-4 py-2 text-sm font-semibold transition-all duration-300"
+                      :class="
+                        invoiceDiscountType === 'lkr'
+                          ? 'bg-gradient-to-r from-blue-500 via-blue-600 to-blue-700 text-white shadow-md'
+                          : 'text-gray-600 hover:bg-gray-100'
+                      "
+                    >
+                      LKR
+                    </button>
+
+                    <button
+                      type="button"
+                      @click="invoiceDiscountType = 'percentage'"
+                      class="relative px-4 py-2 text-sm font-semibold transition-all duration-300"
+                      :class="
+                        invoiceDiscountType === 'percentage'
+                          ? 'bg-gradient-to-r from-blue-500 via-blue-600 to-blue-700 text-white shadow-md'
+                          : 'text-gray-600 hover:bg-gray-100'
+                      "
+                    >
+                      %
+                    </button>
+                  </div>
+
                 </div>
+              </div>
+
             </div>
 
             <div class="flex flex-col">
@@ -212,6 +259,10 @@
                     <div class="flex justify-between text-sm text-gray-500">
                       <span>SSL</span>
                       <span>{{ orderStore.initOrder.ssclRate }}</span>
+                    </div>
+                    <div class="flex justify-between text-sm text-gray-500">
+                      <span>Discount</span>
+                      <span>{{ Number(discountAmount || 0).toFixed(2) }}</span>
                     </div>
                     <hr />
                     <div class="flex justify-between text-base font-semibold text-gray-900">
@@ -252,6 +303,8 @@ export default {
     return {
       initOrder: null,
       err: {},
+      invoiceDiscount: 0,
+      invoiceDiscountType: "lkr",
       form: {
         NoOfMainBanners: '',
         NoOfCategoryBanners: '',
@@ -259,28 +312,54 @@ export default {
         NoOfVendorBanners: '',
         NoOfProductLinks: '',
         NoOfServiceLinks: '',
+        NoOfProminentItems: '',
         qty: 1,
-        discount: 0,
         unitPrice: Number(this.pkg.price || 0),
-        },
+        discount: 0,
+      },
     };
   },
 
   computed: {
+
+    discountAmount() {
+      const qty = Number(this.form.qty) || 1;
+      const unitPrice = Number(this.form.unitPrice) || 0;
+      const gross = qty * unitPrice;
+
+      const discountInput = Number(this.invoiceDiscount) || 0;
+      let discount = 0;
+
+      if (this.invoiceDiscountType === "percentage") {
+        discount = (gross * discountInput) / 100;
+      } else {
+        discount = discountInput;
+      }
+
+      discount = Math.max(0, Math.min(discount, gross));
+
+      return discount;
+    },
+
     total() {
-      const vat = this.initOrder?.vatRate ?? 0;
-      const sscl = this.initOrder?.ssclRate ?? 0;
+      if (!this.initOrder) return 0;
+
+      const vat = Number(this.initOrder?.vatRate) || 0;
+      const sscl = Number(this.initOrder?.ssclRate) || 0;
 
       const qty = Number(this.form.qty) || 1;
       const unitPrice = Number(this.form.unitPrice) || 0;
-      const discount = Number(this.form.discount) || 0;
 
-      const base = qty * unitPrice - discount;
+      const gross = qty * unitPrice;
+      const discount = Number(this.discountAmount) || 0;
+
+      const base = gross - discount;
+
       const ssclAmt = base * (sscl / 100);
       const vatAmt = (base + ssclAmt) * (vat / 100);
 
-      return base + ssclAmt + vatAmt;
-    },
+      return Number(base + ssclAmt + vatAmt) || 0;
+    }
   },
 
 
@@ -294,6 +373,13 @@ export default {
   },
 
   methods: {
+
+      invoiceDiscountValue() {
+      if (this.invoiceDiscountType === "percentage") {
+        return (this.grossTotal * this.invoiceDiscount) / 100;
+      }
+      return this.invoiceDiscount;
+    },
     submitItem() {
       if (!this.IsValidate()) return;
 
@@ -302,7 +388,11 @@ export default {
         packageName: this.pkg.categoryName,
         unitPrice: this.form.unitPrice,
         qty: this.form.qty,
-        discount: this.form.discount,
+
+        // discountType: this.invoiceDiscountType,
+        // discountInput: this.invoiceDiscount,
+        discount: this.discountAmount,
+
         vatRate: this.initOrder?.vatRate || 0,
         ssclRate: this.initOrder?.ssclRate || 0,
         total: this.total,
@@ -313,8 +403,12 @@ export default {
         NoOfVendorBanners: this.form.NoOfVendorBanners,
         NoOfProductLinks: this.form.NoOfProductLinks,
         NoOfServiceLinks: this.form.NoOfServiceLinks,
+        ProminentItems: this.form.NoOfProminentItems,
       });
+      
     },
+
+    
     closeModal() {
       this.isAddPackage = false;
       this.$emit("close");

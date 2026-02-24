@@ -3,7 +3,7 @@
     <!-- Start Top Header -->
 
     <div
-      class="flex flex-col items-center justify-between h-24 px-4 pt-6 my-10 bg-gray-100 cssTop lg:flex-row md:flex-row">
+      class="flex flex-col items-center justify-between h-24 px-4 pt-6 my-10 bg-gray-50 cssTop lg:flex-row md:flex-row">
       <div class="my-2 text-lg font-bold capitalize lg:text-xl lg:my-0">
         <div class="flex gap-x-4 lg:gap-x-8">
           <div class="relative cssmenu_sec" v-show="userStore.loggedUser.granted.indexOf('hradmin') > -1 ||
@@ -68,17 +68,27 @@
 
         <!-- Employees List  -->
         <div class="mb-4">
-          <div class="mt-1 text-sm rounded-md cursor-pointer hover:text-gray-700 hover:bg-gray-100 border-2"
+          <div class="flex flex-col gap-2 p-2 mt-2 bg-white border rounded-xl shadow-sm hover:shadow-md "
             :class="emp.isresigned ? 'border-red-500' : 'border-gray-300'"
             v-for="(emp, index) in employeeStore.alempdetails" :key="emp">
 
             <div class="rounded-md">
               <!-- Employee Header -->
-              <div class="flex items-center justify-between px-4 mt-2">
+              <div class="flex items-center justify-between px-4 ">
                 <!-- Left: Name & Emp No -->
                 <div>
-                  <h2 class="text-normal font-semibold text-gray-800">{{ emp.empName }}</h2>
-                  <p class="text-sm text-gray-500">#{{ emp.empNo }}</p>
+                  <h2 class="flex items-center gap-1 text-base font-semibold text-gray-800 truncate">
+                    <span class="relative">
+                      {{ emp.empName }}
+
+                      <span class="absolute left-0 -bottom-1 w-full h-[2px] bg-blue-400 rounded"></span>
+                    </span>
+
+                    <span class="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-blue-50 text-blue-800 text-xs font-semibold ml-2">
+                      # {{ emp.empNo }}
+                    </span>
+
+                  </h2>
                   <span v-if="emp.isresigned"
                     class="absolute top-2 left-2 bg-red-500 text-white text-xs px-2 py-1 rounded-full">
                     Resigned
@@ -92,62 +102,62 @@
 
 
               <!-- Employee Info -->
-              <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-5 gap-3 px-4 mt-1 text-sm text-gray-700">
+              <div class="grid grid-cols-2 md:grid-cols-2 lg:grid-cols-5 gap-3 px-4 text-sm text-gray-700">
                 <div class="flex flex-col">
-                  <span class="font-semibold text-gray-500">Contact</span>
-                  <span>{{ emp.contact }}</span>
+                  <span class="text-xs font-semibold text-gray-600">Contact</span>
+                  <span class="text-xs text-gray-500 mt-0.5">{{ emp.contact }}</span>
                 </div>
                 <div class="flex flex-col">
-                  <span class="font-semibold text-gray-500">Email</span>
-                  <span>{{ emp.email }}</span>
+                  <span class="text-xs font-semibold text-gray-600">Email</span>
+                  <span class="text-xs text-gray-500">{{ emp.email }}</span>
                 </div>
                 <div class="flex flex-col">
-                  <span class="font-semibold text-gray-500">Designation</span>
-                  <span>{{ emp.designation }}</span>
+                  <span class="text-xs font-semibold text-gray-600">Designation</span>
+                  <span class="text-xs text-gray-500">{{ emp.designation }}</span>
                 </div>
                 <div class="flex flex-col">
-                  <span class="font-semibold text-gray-500">Supervisor</span>
-                  <span>{{ emp.supervisor }}</span>
+                  <span class="text-xs font-semibold text-gray-600">Supervisor</span>
+                  <span class="text-xs text-gray-500">{{ emp.supervisor }}</span>
                 </div>
                 <div class="flex flex-col">
-                  <span class="font-semibold text-gray-500">Department</span>
-                  <span>{{ emp.department }}</span>
+                  <span class="text-xs font-semibold text-gray-600">Department</span>
+                  <span class="text-xs text-gray-500">{{ emp.department }}</span>
                 </div>
               </div>
 
               <!-- {{userStore.loggedUser}} -->
-              <div class="flex flex-wrap justify-end gap-4 px-4 pb-2 mt-2">
+              <div class="flex flex-wrap justify-end gap-4 px-4 pb-2 mt-1">
                 <!-- Employee Details -->
                 <button @click="init_employee(emp.id)"
-                  class="px-3 py-1 rounded-lg bg-blue-100 hover:bg-blue-200 text-blue-600 text-sm">
+                  class="px-2 py-1 text-[12px] rounded-md bg-blue-100 hover:bg-blue-200 text-blue-600 transition">
                   👤 Details
                 </button>
                 <button @click.stop="init_attendence(emp.empNo, emp.id)"
-                  class="px-3 py-1 rounded-lg bg-green-100 hover:bg-green-200 text-green-600 text-sm">
+                  class="px-2 py-1 text-[12px] rounded-md bg-green-100 hover:bg-green-200 text-green-600 transition">
                   🕒 Attendance
                 </button>
                 <button
                   v-show="!emp.isOTAllow && (userStore.loggedUser.userName === emp.empNo || userStore.loggedUser.granted.includes('hradmin'))"
                   @click="init_otapply(index, emp.empNo); cur_sec = 'otapply'; selectedrow = emp.id; isSecClose = false;"
-                  class="px-3 py-1 rounded-lg bg-purple-100 hover:bg-purple-200 text-purple-600 text-sm">
+                  class="px-2 py-1 text-[12px] rounded-md bg-blue-100 hover:bg-blue-200 text-blue-600 transition">
                   ➕ Apply OT
                 </button>
                 <button
                   v-show="userStore.loggedUser.userName === emp.empNo || userStore.loggedUser.granted.includes('hradmin')"
                   @click="init_absense(emp.empNo, emp.id); cur_sec = 'absense'; selectedrow = emp.id; isSecClose = false;"
-                  class="px-3 py-1 rounded-lg bg-yellow-100 hover:bg-yellow-200 text-yellow-600 text-sm">
+                  class="px-2 py-1 text-[12px] rounded-md bg-yellow-100 hover:bg-yellow-200 text-yellow-600 transition">
                   📅 Leave
                 </button>
                 <button
                   v-show="userStore.loggedUser.userName === emp.empNo || userStore.loggedUser.granted.includes('hradmin')"
                   @click="init_movement(emp.empNo, emp.id); cur_sec = 'movement'; selectedrow = emp.id; isSecClose = false;"
-                  class="px-3 py-1 rounded-lg bg-pink-100 hover:bg-pink-200 text-pink-600 text-sm">
+                  class="px-2 py-1 text-[12px] rounded-md bg-pink-100 hover:bg-pink-200 text-pink-600 transition">
                   🚶 Movement
                 </button>
                 <button
                   v-show="userStore.loggedUser.userName === emp.empNo || userStore.loggedUser.granted.includes('hradmin')"
                   @click="init_timecard(emp.empNo, index); cur_sec = 'timecard'; selectedrow = emp.id; isSecClose = false;"
-                  class="px-3 py-1 rounded-lg bg-gray-100 hover:bg-gray-200 text-gray-700 text-sm">
+                  class="px-2 py-1 text-[12px] rounded-md bg-gray-100 hover:bg-gray-200 text-gray-700 transition">
                   ⏱️ Time Card
                 </button>
               </div>
