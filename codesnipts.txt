@@ -25,12 +25,12 @@ npm run build
 node .output/server/index.mjs
 
 cmd->run as administrator
-set PORT=3000 && pm2 start dtlApp_blue/.output/server/index.mjs --name dtl-app_blue_3000
-set PORT=3001 && pm2 start dtlApp_green/.output/server/index.mjs --name dtl-app_green_3001
+set PORT=3000 && pm2 start DTLApp_blue_3000/.output/server/index.mjs --name dtl-app_blue_3000
+set PORT=3001 && pm2 start DTLApp_green_3001/.output/server/index.mjs --name dtl-app_green_3001
 
 pm2 list
 pm2 restart dtl-app_blue_3000
-pm2 restart dtl-app_blue_3001
+pm2 restart dtl-app_green_3001
 
 pm2 delete dtl-app_blue_3001
 
