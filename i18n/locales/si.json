@@ -110,17 +110,34 @@
     "Address" : "ලිපිනය",
     "Nic" : "ජාතික හැඳුනුම්පත",
     
-
-
-
-
-    
-
-
-
-
     "alertConfirm" : "ඔව්",
-    "alertCancel" : "අවලංගු කරන්න"
+    "alertCancel" : "අවලංගු කරන්න",
+
+    "Search Member": "සාමාජිකයෙකු සොයන්න",
+    "Emp No": "සාමාජික අංකය",
+    "Emp Name": "සාමාජික නම",
+    "close": "වසන්න",
+    "due": "ගෙවිය යුතු මුදල",
+    "fine": "දඩ මුදල",
+    "rs": "රු.",
+    "initialProcess": "ආරම්භක ක්‍රියාවලිය",
+    "addPaymentAmount": "ගෙවීම් මුදල ඇතුළත් කරන්න",
+    "lastPayDate": "අවසාන ගෙවූ දිනය",
+    "enteramount": "මුදල ඇතුළත් කරන්න",
+    "process": "සකස් කරන්න",
+    "paymentHistory": "ගෙවීම් ඉතිහාසය",
+    "date": "දිනය",
+    "amount": "මුදල",
+    "month": "මාසය",
+    "paymentmonth" : "ගෙවීම සිදු කළ මාසය",
+    "feeGivenForDate": "ගෙවූ දිනය",
+    "noAddress" : "ලිපිනය නොමැත",
+    "noContactNumber" : "දුරකථන අංකය නොමැත",
+    "noWhatsappNumber" : "වට්සැප් අංකය නොමැත",
+    "empNo" : "සාමාජික අංකය",
+    "empNotFound" : "සාමාජික අංකය හමු නොවීය",
+    "lastPaidYear" : "අවසාන ගෙවූ වසර",
+    "lastPaidMonth" : "අවසාන ගෙවූ මාසය"
 
 
 }

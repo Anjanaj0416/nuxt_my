@@ -542,7 +542,7 @@ export default {
                 }))
             };
             // console.log("Payload to send:", JSON.stringify(payload, null, 2));
-            await this.orderStore.GetAddorder(payload, this.showLoading);
+          
 
             this.localOrderNo = '';
             this.piIssued = false;

@@ -8,7 +8,8 @@ export const useWelfareStore = defineStore('welfareStore', {
     listAttendence: [],
     profileDetails:[],
     listMemberShipPayment: [],
-    updateInit: []
+    updateInit: [],
+    paymentListView: [],
    
   }),
   persist: true,
@@ -158,6 +159,34 @@ export const useWelfareStore = defineStore('welfareStore', {
             this.showToast(error.message || "Something went wrong!", "error");
             loadingAlert.close();
         }
+    },
+
+    async paymentViewInit(searchVal, showLoading) {
+      const loadingAlert = showLoading("")
+      console.log('GetDeletePayment', searchVal);
+    
+      try {
+        const response = await axios.get(
+          `${import.meta.env.VITE_API_URL}/wf/WFPayment/GetPaymentViewInit`,{
+          params: {
+            searchval: searchVal || '',
+          }
+        })
+
+        loadingAlert.close()
+        console.log(response);
+
+        if (response.data.isSuccess) {
+          this.paymentListView = response.data.data.data
+          
+
+        } else {
+          this.showToast(response.data.message, "error");
+        }
+      } catch (error) {
+        loadingAlert.close()
+        // this.showToast("Failed to add payment", "error")
+      }
     },
     
     showToast(message, type) {
