@@ -109,9 +109,37 @@
     "Address" :"Address",
 
 
-
     "alertConfirm" : "Yes",
-    "alertCancel" : "No"
+    "alertCancel" : "No",
+
+    "Search Member" : "Search Member",
+    "Emp No" : "Emp No",
+    "Emp Name" : "Emp Name",
+    "close" : "Close",
+    "due" : "Due Amount",
+    "fine" : "Fine",
+    "rs" : "Rs.",
+    "initialProcess" : "Initial Process",
+    "addPaymentAmount" : "Add Payment Amount",
+    "lastPayDate" : "Last Pay Date",
+    "enteramount" : "Enter amount",
+    "process" : "Process",
+    "paymentHistory" : "Payment History",
+    "date" : "Date",
+    "amount" : "Amount",
+    "month" : "Month",
+    "paymentmonth" : "Payment For",
+    "feeGivenForDate": "Payment Date",
+    "noAddress" : "No Address",
+    "noContactNumber" : "No Contact Number",
+    "noWhatsappNumber" : "No Whatsapp Number",
+    "empNo" : "Emp.No",
+    "empNotFound" : "Member ID not found",
+    "lastPaidYear" : "Last Paid Year",
+    "lastPaidMonth" : "Last Paid Month"
+
+
+
 
 
 
