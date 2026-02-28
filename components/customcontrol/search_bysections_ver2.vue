@@ -16,7 +16,7 @@ export default {
      arrsections: [
         { name: 'empname',code:501, selected: true },
         { name: 'empno',code:502, selected: false },
-        { name: 'contact',code:503, selected: false },
+        { name: 'contact',code:, selected: false },
         { name: 'supervisor',code:504, selected: false },
         { name: 'email',code:505, selected: false },
       ],
