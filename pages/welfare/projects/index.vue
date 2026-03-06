@@ -552,7 +552,16 @@
 </template>
 
 <script setup>
+import { useHead } from '#app'
+
 definePageMeta({ layout: 'bst' });
+
+useHead({
+  title: 'Eksath Subasadaka Welfare Society',
+  link: [
+    { rel: 'icon', type: 'image/x-icon', href: '/walfare/Logo.jpg.ico' },
+  ]
+})
 </script>
 
 <script>
