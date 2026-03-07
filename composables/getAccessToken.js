@@ -7,8 +7,7 @@ export async function getAccessToken() {
     const response = await axios.post(
       `${import.meta.env.VITE_API_URL}/IAM/GetWelFareLoginCode`,
       {
-        AuthCode: 'wfdevadmin',
-        
+        AuthCode: 'wfdevadmin', 
       },
       {
         headers: { 'Content-Type': 'application/json' },
@@ -16,11 +15,9 @@ export async function getAccessToken() {
     )
     console.log(response.data)
 
-    if (response.data.isSuccess) {
-      
+    if (response.data.isSuccess) {  
       return response.data.authToken
     }
-
     console.warn('[getAccessToken] isSuccess=false:', response.data.message)
   } catch (error) {
     console.error('[getAccessToken] Error:', error?.response?.status, error?.response?.data || error.message)

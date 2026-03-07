@@ -1,157 +1,161 @@
 import { defineStore } from "pinia";
 import axios from "axios";
+import { getAccessToken } from "~/composables/getAccessToken";
 
 export const useProjectStore = defineStore("projectStore", {
   state: () => ({
-    // ── Shape expected by pages/welfare/projects/index.vue ──────────────────
     projectInit: {
       sharePrice: 5000,
-      welfareName: "Eksath Subasadaka Welfare Society",
-      registrationNo: "REG/WS/2024/015",
-      location: "Praja Shala Parishraya, B/Palliyapitiya",
-      email: "info@eksathwelfare.lk",
-      secretaryContact: "0771234567",
-      treasurerContact: "0719876543",
-      bankDetails: "Bank of Ceylon | Badulla Branch | A/C: 123456789012",
-      currentStage: "1st Floor Walls",
-      currentDevelopment: "Foundation",
-      planPdfUrl: "https://example.com/plans/building-plan.pdf",
-      costEstimatePdfUrl: "https://example.com/cost-estimate.pdf",
-
-      // sections array — used for cost breakdown table & donate dropdown
-      sections: [
-        { id: "foundation",    name: "Foundation",                   cost: 500000, collectedShares: 45 },
-        { id: "gf_walls",      name: "Ground Floor Walls",           cost: 450000, collectedShares: 35 },
-        { id: "1f_walls",      name: "1st Floor Walls",              cost: 600000, collectedShares: 20 },
-        { id: "slab",          name: "Slab",                         cost: 400000, collectedShares: 15 },
-        { id: "roofing",       name: "Roofing",                      cost: 350000, collectedShares: 10 },
-        { id: "plastering",    name: "Plastering",                   cost: 300000, collectedShares: 0  },
-        { id: "electrical",    name: "Electrical Wiring & Lighting", cost: 250000, collectedShares: 15 },
-        { id: "tiling",        name: "Tiling",                       cost: 280000, collectedShares: 0  },
-        { id: "doors_windows", name: "Doors & Windows",              cost: 200000, collectedShares: 0  },
-        { id: "painting",      name: "Painting",                     cost: 150000, collectedShares: 0  },
-      ],
-
-      // donors array — used for the donors table
-      donors: [
-        {
-          id: 1,
-          name: "H.A. Pemachandra Mendis",
-          commitmentShares: 40,
-          payments: [
-            { date: "2026-01-10", sectionId: "foundation", shares: 20, note: "Cash" },
-            { date: "2026-02-15", sectionId: "1f_walls",   shares: 20, note: "Bank Transfer" },
-          ],
-        },
-        {
-          id: 2,
-          name: "S.M.A. Kolvin Pemasiri",
-          commitmentShares: 30,
-          payments: [
-            { date: "2026-01-18", sectionId: "foundation", shares: 15, note: "Cash" },
-            { date: "2026-03-02", sectionId: "slab",       shares: 15, note: "Cheque" },
-          ],
-        },
-        {
-          id: 3,
-          name: "P.A. Dharmadasa",
-          commitmentShares: 20,
-          payments: [
-            { date: "2026-02-05", sectionId: "gf_walls", shares: 10, note: "Bank Transfer" },
-            { date: "2026-02-28", sectionId: "roofing",  shares: 10, note: "Cash" },
-          ],
-        },
-        {
-          id: 4,
-          name: "S.M.A. Rohini Manchanayaka",
-          commitmentShares: 25,
-          payments: [
-            { date: "2026-03-01", sectionId: "foundation", shares: 10, note: "Goods" },
-            { date: "2026-03-10", sectionId: "electrical", shares: 15, note: "Cash" },
-          ],
-        },
-      ],
-    },
-
-    // ── Quick state (kept for reference / admin pages) ────────────────────
-    quickState: {
-      currentDevelopment: "Foundation",
-      totalEstimatedCost: 3480000,
-      totalShares: 696,
-      collectedShares: 115,
-      remainingShares: 581,
+      welfareName: "",
+      registrationNo: "",
+      location: "",
+      email: "",
+      secretaryContact: "",
+      treasurerContact: "",
+      bankDetails: "",
+      currentDevelopment: "",
+      planPdfUrl: "",
+      costEstimatePdfUrl: "",
+      sections: [],
+      donors: [],
     },
   }),
 
-  persist: true,
-
-  getters: {
-    progressPercent: (state) => {
-      const { collectedShares, totalShares } = state.quickState;
-      return totalShares > 0 ? Math.round((collectedShares / totalShares) * 100) : 0;
-    },
-    totalCollectedAmount: (state) =>
-      state.quickState.collectedShares * (state.projectInit.sharePrice || 5000),
-    totalRemainingAmount: (state) =>
-      state.quickState.remainingShares * (state.projectInit.sharePrice || 5000),
-  },
-
   actions: {
-    // Called in created() on the public page.
-    // Fetches live data from API and merges into projectInit.
-    // Falls back silently to the sample data already in state if API is unavailable.
+
     async GetProjectInit(showLoading) {
-      const loadingAlert = showLoading?.("");
+      const loadingAlert = showLoading ? showLoading("") : null;
       try {
-        const response = await axios.get(
-          `${import.meta.env.VITE_API_URL}/wf/Project/GetProjectInit`
-        );
-        loadingAlert?.close();
+
+        // ── STEP 1: Get token ───────────────────────────────────────────
+        console.log("🔑 [Step 1] Fetching access token...");
+        const token = await getAccessToken();
+        console.log("🔑 [Step 1] Token result:", token ? `OK (${token.substring(0, 30)}...)` : "FAILED - token is null");
+
+        if (!token) {
+          console.error("❌ Could not get access token - stopping");
+          if (loadingAlert) loadingAlert.close();
+          return;
+        }
+
+        // ── STEP 2: Call API ────────────────────────────────────────────
+        const apiUrl = `${import.meta.env.VITE_API_URL}/wf/WelfareProjects/GetNewBuildingProjectDetails`;
+        console.log("🌐 [Step 2] Calling API:", apiUrl);
+
+        const response = await axios.get(apiUrl, {
+          headers: { Authorization: `Bearer ${token}` },
+        });
+
+        if (loadingAlert) loadingAlert.close();
+
+        console.log("📦 [Step 3] Response status:", response.status);
+        console.log("📦 [Step 3] isSuccess:", response.data.isSuccess);
+        console.log("📦 [Step 3] Full response data:", JSON.stringify(response.data, null, 2));
+
         if (response.data.isSuccess) {
           const d = response.data.data.data;
-          this.projectInit = { ...this.projectInit, ...d };
+
+          // ── Welfare details ─────────────────────────────────────────
+          this.projectInit.welfareName      = d.welfareDetails?.welfareName        || "";
+          this.projectInit.registrationNo   = d.welfareDetails?.registrationNo     || "";
+          this.projectInit.location         = d.welfareDetails?.address            || "";
+          this.projectInit.email            = d.welfareDetails?.email              || "";
+          this.projectInit.secretaryContact = d.welfareDetails?.secretaryContactNo || "";
+          this.projectInit.treasurerContact = d.welfareDetails?.treasurerContactNo || "";
+
+          // ── Project details ─────────────────────────────────────────
+          this.projectInit.currentDevelopment = d.project?.currentDevelopment || "";
+          this.projectInit.planPdfUrl         = d.project?.planPdfUrl          || "";
+          this.projectInit.costEstimatePdfUrl = d.project?.costEstimatePdfUrl  || "";
+          this.projectInit.sharePrice         = d.project?.perShareCost        || 5000;
+
+          // ── Bank details ────────────────────────────────────────────
+          if (d.bankDetails) {
+            this.projectInit.bankDetails =
+              `${d.bankDetails.bankName} | ${d.bankDetails.branch} | A/C: ${d.bankDetails.accountNo}`;
+          }
+
+          // ── Sections ────────────────────────────────────────────────
+          this.projectInit.sections = (d.costBreakdown || [])
+            .sort((a, b) => a.sortOrder - b.sortOrder)
+            .map((item) => ({
+              id:              item.section.toLowerCase().replace(/[\s&\/]+/g, "_").replace(/[^a-z0-9_]/g, ""),
+              name:            item.section,
+              cost:            item.estimatedCost,
+              sharesNeeded:    item.sharesNeeded,
+              collectedShares: item.sharesCollected,
+              remainingShares: item.remainingShares,
+            }));
+
+          // ── Donors ──────────────────────────────────────────────────
+          this.projectInit.donors = (d.donors || []).map((donor, idx) => ({
+            id:               idx + 1,
+            name:             donor.name,
+            commitmentShares: donor.noOfSharesCommitted,
+            totalShareValue:  donor.totalShareValue,
+            payments: (donor.breakdowns || []).map((b) => ({
+              date:      b.date ? b.date.split("T")[0] : "",
+              sectionId: b.section.toLowerCase().replace(/[\s&\/]+/g, "_").replace(/[^a-z0-9_]/g, ""),
+              section:   b.section,
+              shares:    b.noOfShares,
+              amount:    b.amount,
+              note:      b.note,
+            })),
+          }));
+
+          console.log("✅ [Step 4] Store updated:");
+          console.log("   welfareName:", this.projectInit.welfareName);
+          console.log("   sections count:", this.projectInit.sections.length);
+          console.log("   donors count:", this.projectInit.donors.length);
+          console.log("   totalCost:", this.projectInit.sections.reduce((a, s) => a + s.cost, 0));
+
+        } else {
+          console.warn("⚠️ [Step 3] API isSuccess=false:", response.data.message);
         }
-        // isSuccess false → keep sample data, no error on public page
-      } catch {
-        loadingAlert?.close();
-        console.info("[projectStore] API unavailable — using sample data");
+
+      } catch (error) {
+        if (loadingAlert) loadingAlert.close();
+        console.error("❌ [ERROR] GetProjectInit failed:", error.message);
+        console.error("❌ [ERROR] Full error:", error);
       }
     },
 
-    // Called when donor confirms in the modal.
-    async SubmitDonation(payload, showLoading) {
-      const loadingAlert = showLoading?.("");
+    async SubmitDonation(req, showLoading) {
+      const loadingAlert = showLoading ? showLoading("") : null;
       try {
+        const token = await getAccessToken();
         const response = await axios.post(
-          `${import.meta.env.VITE_API_URL}/wf/Project/SubmitDonation`,
-          payload
+          `${import.meta.env.VITE_API_URL}/wf/WelfareProjects/SubmitDonation`,
+          req,
+          { headers: { Authorization: `Bearer ${token}` } }
         );
-        loadingAlert?.close();
+        if (loadingAlert) loadingAlert.close();
         if (response.data.isSuccess) {
-          await this.showToast(response.data.message || "Thank you for your donation!", "success");
+          this.showToast(response.data.message, "success");
           return true;
         } else {
-          await this.showToast(response.data.message, "error");
+          this.showToast(response.data.message, "error");
           return false;
         }
-      } catch {
-        loadingAlert?.close();
-        // Graceful fallback — still returns true so UX is not broken during dev
-        await this.showToast("Donation request submitted! We will contact you shortly.", "success");
-        return true;
+      } catch (error) {
+        if (loadingAlert) loadingAlert.close();
+        console.error("[projectStore] SubmitDonation error:", error);
+        this.showToast("Failed to submit donation", "error");
+        return false;
       }
     },
 
-    async showToast(message, type) {
-      const Swal = (await import("sweetalert2")).default;
-      Swal.fire({
-        icon: type,
-        title: type === "success" ? "Success" : "Error",
-        text: message,
-        timer: 4000,
-        showConfirmButton: false,
-        toast: true,
-        position: "top-end",
+    showToast(message, type = "info") {
+      import("sweetalert2").then(({ default: Swal }) => {
+        Swal.fire({
+          icon: type,
+          title: type,
+          text: message,
+          timer: 5000,
+          showConfirmButton: false,
+          toast: true,
+          position: "top-end",
+        });
       });
     },
   },
