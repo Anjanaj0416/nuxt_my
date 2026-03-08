@@ -14,6 +14,7 @@ export const useProjectStore = defineStore("projectStore", {
       treasurerContact: "",
       bankDetails: "",
       currentDevelopment: "",
+      currentDevelopmentSectionId: null,
       planPdfUrl: "",
       costEstimatePdfUrl: "",
       sections: [],
@@ -86,6 +87,13 @@ export const useProjectStore = defineStore("projectStore", {
               remainingShares: item.remainingShares,
             }));
 
+          // Match currentDevelopment to a section ID (same API call, same data)
+          const currentDevName = this.projectInit.currentDevelopment.trim()
+          const matched = this.projectInit.sections.find(
+            s => s.name.trim() === currentDevName
+          )
+          this.projectInit.currentDevelopmentSectionId = matched?.id || null
+
           // Build name→id lookup from sections (works for any language)
           const sectionById = {};
           this.projectInit.sections.forEach(s => { sectionById[s.name] = s.id; });
@@ -134,10 +142,10 @@ export const useProjectStore = defineStore("projectStore", {
         );
         if (loadingAlert) loadingAlert.close();
         if (response.data.isSuccess) {
-          this.showToast(response.data.message || "Data synced successfully!", "success");
+          this.showToast("Data synced successfully!", "success");
           return true;
         } else {
-          this.showToast(response.data.message || "Sync failed", "error");
+          this.showToast("Sync failed. Please try again.", "error");
           return false;
         }
       } catch (error) {
@@ -159,16 +167,16 @@ export const useProjectStore = defineStore("projectStore", {
         );
         if (loadingAlert) loadingAlert.close();
         if (response.data.isSuccess) {
-          this.showToast(response.data.message, "success");
+          this.showToast("Donation submitted successfully!", "success");
           return true;
         } else {
-          this.showToast(response.data.message, "error");
+          this.showToast("Donation submission failed. Please try again.", "error");
           return false;
         }
       } catch (error) {
         if (loadingAlert) loadingAlert.close();
         console.error("[projectStore] SubmitDonation error:", error);
-        this.showToast("Failed to submit donation", "error");
+        this.showToast("Failed to submit donation. Please try again.", "error");
         return false;
       }
     },
@@ -188,15 +196,15 @@ export const useProjectStore = defineStore("projectStore", {
         );
         console.log("📧 [Email] Notification sent:", response.data.isSuccess, response.data.message);
         if (response.data.isSuccess) {
-          this.showToast(response.data.message || "Donation request submitted!", "success");
+          this.showToast("Donation request submitted successfully!", "success");
           return true;
         } else {
-          this.showToast(response.data.message || "Submission failed", "error");
+          this.showToast("Failed to send notification. Please try again.", "error");
           return false;
         }
       } catch (error) {
         console.error("❌ [Email] SendDonorNotificationEmail failed:", error.message);
-        this.showToast("Failed to submit donation request", "error");
+        this.showToast("Failed to submit donation request. Please try again.", "error");
         return false;
       }
     },
@@ -205,9 +213,8 @@ export const useProjectStore = defineStore("projectStore", {
       import("sweetalert2").then(({ default: Swal }) => {
         Swal.fire({
           icon: type,
-          title: type,
-          text: message,
-          timer: 5000,
+          title: message,
+          timer: 3000,
           showConfirmButton: false,
           toast: true,
           position: "top-end",

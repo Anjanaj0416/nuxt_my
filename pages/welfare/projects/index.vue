@@ -561,10 +561,6 @@ import { getAccessToken } from '~/composables/getAccessToken'
 
 // ── Page meta ─────────────────────────────────────────────────
 definePageMeta({ layout: 'bst' })
-useHead({
-  title: 'එක්සත් සුභසාධක සංගමය',
-  link: [{ rel: 'icon', type: 'image/x-icon', href: '/walfare/Logo.jpg.ico' }]
-})
 
 // ── Stores ────────────────────────────────────────────────────
 const userStore    = useUserStore()
@@ -581,6 +577,11 @@ const languages = [
 
 // ── currentLang: single source of truth (default = Sinhala) ───
 const currentLang = ref(languages[0])   // always starts as සිංහල
+
+useHead({
+  title: computed(() => projectStore.projectInit.welfareName || (currentLang.value.code === 'en' ? 'United Welfare Society' : 'එක්සත් සුභසාධක සංගමය')),
+  link: [{ rel: 'icon', type: 'image/x-icon', href: '/walfare/Logo.jpg.ico' }]
+})
 
 const currentLangLabel = computed(() => currentLang.value.label)
 
@@ -724,13 +725,8 @@ async function selectLang(lang) {
   await projectStore.GetProjectInit($showLoading, lang.langCode)
 
   // Re-apply currentDevelopment match after language switch
-  const currentDev = projectStore.projectInit?.currentDevelopment
-  if (currentDev && sections.value.length) {
-    const match = sections.value.find(s => s.name === currentDev)
-      || sections.value.find(s => s.name.toLowerCase() === currentDev.toLowerCase())
-    if (match) donateForm.value.sectionId = match.id
-    else donateForm.value.sectionId = 'general'
-  }
+  const sectionId = projectStore.projectInit?.currentDevelopmentSectionId
+  donateForm.value.sectionId = sectionId || 'general'
 }
 
 function onOutsideClick(e) {
@@ -860,19 +856,17 @@ onMounted(async () => {
 
   // Load with langCode 100 (Sinhala)
   await projectStore.GetProjectInit($showLoading, 100)
+
+  // Auto-select currentDevelopment on initial load
+  const sectionId = projectStore.projectInit?.currentDevelopmentSectionId
+  if (sectionId) donateForm.value.sectionId = sectionId
 })
 
 // Auto-select currentDevelopment section once sections are loaded
-watch(sections, async (newSections) => {
+watch(sections, (newSections) => {
   if (!newSections.length) return
-  await nextTick()
-  const currentDev = projectStore.projectInit?.currentDevelopment
-  if (!currentDev) return
-
-  // Match by translated name (works for both Sinhala & English since name comes from API)
-  const match = newSections.find(s => s.name === currentDev)
-    || newSections.find(s => s.name.toLowerCase() === currentDev.toLowerCase())
-  if (match) donateForm.value.sectionId = match.id
+  const sectionId = projectStore.projectInit?.currentDevelopmentSectionId
+  if (sectionId) donateForm.value.sectionId = sectionId
 }, { immediate: true })
 
 onBeforeUnmount(() => {
