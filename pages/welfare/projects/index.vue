@@ -364,6 +364,7 @@
     </section>
 
     <!-- Footer -->
+    <DevelopmentGallery :lang-code="currentLang.langCode" />
     <footer style="background:#2B4DAE">
       <div class="max-w-6xl mx-auto px-4 py-8 text-sm grid sm:grid-cols-2 gap-4 items-center">
         <div>
@@ -560,6 +561,7 @@ import { useI18n } from 'vue-i18n'
 import { useUserStore } from '~/stores/modules/userStore'
 import { useProjectStore } from '~/stores/modules/welfare/projects/projectStore'
 import { getAccessToken } from '~/composables/getAccessToken'
+import DevelopmentGallery from '~/components/welfare/projects/DevelopmentGallery.vue'
 
 // ── Page meta ─────────────────────────────────────────────────
 definePageMeta({ layout: 'bst' })

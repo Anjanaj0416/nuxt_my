@@ -19,6 +19,7 @@ export const useProjectStore = defineStore("projectStore", {
       costEstimatePdfUrl: "",
       sections: [],
       donors: [],
+      gallery: [],   // ── NEW: [{ name: "Foundation", images: ["full_url1", ...] }]
     },
   }),
 
@@ -114,11 +115,27 @@ export const useProjectStore = defineStore("projectStore", {
             })),
           }));
 
+          // ── Gallery ─────────────────────────────────────────────────
+          // listgallerySection images are relative paths e.g. "/Welfare/WP_Dev/..."
+          // Prepend NUXT_IMAGE_BASE_URL to build full URLs
+          const imageBase = (import.meta.env.VITE_IMAGE_BASE_URL || import.meta.env.NUXT_IMAGE_BASE_URL || "").replace(/\/$/, "");
+          this.projectInit.gallery = (d.listgallerySection || []).map((section) => ({
+            name:   section.name,
+            images: (section.images || []).map((path) => {
+              // If the path already starts with http(s), use as-is
+              if (path.startsWith("http://") || path.startsWith("https://")) return path;
+              // Strip leading slash from path to avoid double slashes
+              const cleanPath = path.startsWith("/") ? path.slice(1) : path;
+              return `${imageBase}/${cleanPath}`;
+            }),
+          }));
+
           console.log("✅ [Step 4] Store updated:");
           console.log("   welfareName:", this.projectInit.welfareName);
           console.log("   langCode used:", langCode);
           console.log("   sections count:", this.projectInit.sections.length);
           console.log("   donors count:", this.projectInit.donors.length);
+          console.log("   gallery stages count:", this.projectInit.gallery.length);
 
         } else {
           console.warn("⚠️ [Step 3] API isSuccess=false:", response.data.message);
@@ -209,17 +226,8 @@ export const useProjectStore = defineStore("projectStore", {
       }
     },
 
-    showToast(message, type = "info") {
-      import("sweetalert2").then(({ default: Swal }) => {
-        Swal.fire({
-          icon: type,
-          title: message,
-          timer: 3000,
-          showConfirmButton: false,
-          toast: true,
-          position: "top-end",
-        });
-      });
+    showToast(message, type = "success") {
+      console.log(`[Toast] ${type}: ${message}`);
     },
   },
 });
