@@ -67,7 +67,7 @@
           <!-- ── End Language Selector ── -->
 
           <a href="#donate" class="hidden sm:inline-flex rounded-xl px-5 py-2 text-white text-sm font-semibold" style="background:#5BBB6F">{{ t.donate }}</a>
-          <button @click="handleShare" class="inline-flex rounded-xl border px-5 py-2 text-sm font-semibold text-gray-700 hover:bg-gray-50">{{ t.share }}</button>
+          <button @click="handleShare" class="inline-flex rounded-xl border px-5 py-2 text-sm font-semibold text-gray-700 hover:bg-gray-50">{{ t.sharethis }}</button>
         </div>
       </div>
     </header>
@@ -595,7 +595,7 @@ const langDropdownRef = ref(null)
 // ── All UI text strings, switching with currentLang ───────────
 const translations = {
   si: {
-    donate: 'දායාද කරන්න', share: 'බෙදාගන්න',
+    donate: 'දායාද කරන්න', sharethis: 'බෙදාගන්න',
     heroDesc1: 'ගොඩනැගිල්ල සම්පූර්ණ කිරීමට කොටස් සහාය කරන්න. එක් කොටසක් වටිනාකම',
     heroDesc2: 'ඔබට විශේෂිත කොටසකට (පදනම, බිත්ති, විදුලිය ආදිය) හෝ සාමාන්‍ය අරමුදලට දායාද කළ හැකිය.',
     donateNow: 'දැන් දායාද කරන්න', viewBreakdown: 'පිරිවැය බෙදාහැරීම බලන්න',
@@ -657,7 +657,7 @@ const translations = {
     slideFloor: 'තට්ටු සැලැස්ම', slideElevation: 'ඉදිරිපස දර්ශනය', slideSection: 'කොටස් සැලැස්ම',
   },
   en: {
-    donate: 'Donate', share: 'Share',
+    donate: 'Donate', sharethis: 'Share',
     heroDesc1: 'Sponsor shares to help complete the building. One share is',
     heroDesc2: 'You can fund a specific section (Foundation, Walls, Wiring, etc.) or donate to the General Fund.',
     donateNow: 'Donate Now', viewBreakdown: 'View Cost Breakdown',
