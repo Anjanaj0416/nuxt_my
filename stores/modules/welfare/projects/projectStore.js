@@ -23,11 +23,11 @@ export const useProjectStore = defineStore("projectStore", {
 
   actions: {
 
-    async GetProjectInit(showLoading) {
+    async GetProjectInit(showLoading, langCode = 100) {
+      // langCode: 100 = Sinhala (default/draft), 200 = English
       const loadingAlert = showLoading ? showLoading("") : null;
       try {
 
-        // ── STEP 1: Get token ───────────────────────────────────────────
         console.log("🔑 [Step 1] Fetching access token...");
         const token = await getAccessToken();
         console.log("🔑 [Step 1] Token result:", token ? `OK (${token.substring(0, 30)}...)` : "FAILED - token is null");
@@ -38,8 +38,7 @@ export const useProjectStore = defineStore("projectStore", {
           return;
         }
 
-        // ── STEP 2: Call API ────────────────────────────────────────────
-        const apiUrl = `${import.meta.env.VITE_API_URL}/wf/WelfareProjects/GetNewBuildingProjectDetails`;
+        const apiUrl = `${import.meta.env.VITE_API_URL}/wf/WelfareProjects/GetNewBuildingProjectDetails?langCode=${langCode}`;
         console.log("🌐 [Step 2] Calling API:", apiUrl);
 
         const response = await axios.get(apiUrl, {
@@ -78,14 +77,18 @@ export const useProjectStore = defineStore("projectStore", {
           // ── Sections ────────────────────────────────────────────────
           this.projectInit.sections = (d.costBreakdown || [])
             .sort((a, b) => a.sortOrder - b.sortOrder)
-            .map((item) => ({
-              id:              item.section.toLowerCase().replace(/[\s&\/]+/g, "_").replace(/[^a-z0-9_]/g, ""),
+            .map((item, index) => ({
+              id:              `section_${item.sortOrder ?? index}`,
               name:            item.section,
               cost:            item.estimatedCost,
               sharesNeeded:    item.sharesNeeded,
               collectedShares: item.sharesCollected,
               remainingShares: item.remainingShares,
             }));
+
+          // Build name→id lookup from sections (works for any language)
+          const sectionById = {};
+          this.projectInit.sections.forEach(s => { sectionById[s.name] = s.id; });
 
           // ── Donors ──────────────────────────────────────────────────
           this.projectInit.donors = (d.donors || []).map((donor, idx) => ({
@@ -95,7 +98,7 @@ export const useProjectStore = defineStore("projectStore", {
             totalShareValue:  donor.totalShareValue,
             payments: (donor.breakdowns || []).map((b) => ({
               date:      b.date ? b.date.split("T")[0] : "",
-              sectionId: b.section.toLowerCase().replace(/[\s&\/]+/g, "_").replace(/[^a-z0-9_]/g, ""),
+              sectionId: sectionById[b.section] || `section_0`,
               section:   b.section,
               shares:    b.noOfShares,
               amount:    b.amount,
@@ -105,9 +108,9 @@ export const useProjectStore = defineStore("projectStore", {
 
           console.log("✅ [Step 4] Store updated:");
           console.log("   welfareName:", this.projectInit.welfareName);
+          console.log("   langCode used:", langCode);
           console.log("   sections count:", this.projectInit.sections.length);
           console.log("   donors count:", this.projectInit.donors.length);
-          console.log("   totalCost:", this.projectInit.sections.reduce((a, s) => a + s.cost, 0));
 
         } else {
           console.warn("⚠️ [Step 3] API isSuccess=false:", response.data.message);
@@ -117,6 +120,31 @@ export const useProjectStore = defineStore("projectStore", {
         if (loadingAlert) loadingAlert.close();
         console.error("❌ [ERROR] GetProjectInit failed:", error.message);
         console.error("❌ [ERROR] Full error:", error);
+      }
+    },
+
+    async syncFromGoogleSheet(showLoading) {
+      const loadingAlert = showLoading ? showLoading("") : null;
+      try {
+        const token = await getAccessToken();
+        const response = await axios.get(
+          `${import.meta.env.VITE_API_URL}/wf/WelfareProjects/SetProcessNewBuildingProjectDetails`,
+          {},
+          { headers: { Authorization: `Bearer ${token}` } }
+        );
+        if (loadingAlert) loadingAlert.close();
+        if (response.data.isSuccess) {
+          this.showToast(response.data.message || "Data synced successfully!", "success");
+          return true;
+        } else {
+          this.showToast(response.data.message || "Sync failed", "error");
+          return false;
+        }
+      } catch (error) {
+        if (loadingAlert) loadingAlert.close();
+        console.error("[projectStore] syncFromGoogleSheet error:", error);
+        this.showToast("Failed to sync data", "error");
+        return false;
       }
     },
 
@@ -141,6 +169,34 @@ export const useProjectStore = defineStore("projectStore", {
         if (loadingAlert) loadingAlert.close();
         console.error("[projectStore] SubmitDonation error:", error);
         this.showToast("Failed to submit donation", "error");
+        return false;
+      }
+    },
+
+    async SendDonorNotificationEmail(donorName, fromMobile, noOfShares, section) {
+      try {
+        const token = await getAccessToken();
+        const params = new URLSearchParams({
+          dornorName: donorName,
+          fromMobile: fromMobile,
+          noOfShares: noOfShares,
+          section:    section || 'general',
+        });
+        const response = await axios.get(
+          `${import.meta.env.VITE_API_URL}/wf/WelfareProjects/GetSendDonorContributeNotificationEmail?${params}`,
+          { headers: { Authorization: `Bearer ${token}` } }
+        );
+        console.log("📧 [Email] Notification sent:", response.data.isSuccess, response.data.message);
+        if (response.data.isSuccess) {
+          this.showToast(response.data.message || "Donation request submitted!", "success");
+          return true;
+        } else {
+          this.showToast(response.data.message || "Submission failed", "error");
+          return false;
+        }
+      } catch (error) {
+        console.error("❌ [Email] SendDonorNotificationEmail failed:", error.message);
+        this.showToast("Failed to submit donation request", "error");
         return false;
       }
     },
