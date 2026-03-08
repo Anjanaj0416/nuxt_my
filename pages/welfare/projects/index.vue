@@ -196,6 +196,8 @@
           <div>
             <label class="block text-sm font-medium text-gray-700">{{ t.contactNumber }}</label>
             <input v-model="donateForm.contact" type="tel" :placeholder="t.contactPlaceholder"
+              maxlength="10"
+              @input="donateForm.contact = donateForm.contact.replace(/\D/g, '').slice(0, 10)"
               class="mt-1 w-full rounded-xl border border-gray-300 px-3 py-2 focus:outline-none focus:ring-2 focus:ring-blue-300" />
             <p class="mt-1 text-xs text-gray-500">{{ t.contactNote }}</p>
             <p v-if="donateErr.contact" class="mt-1 text-xs text-red-500">{{ donateErr.contact }}</p>
@@ -791,6 +793,7 @@ const IsValidate = () => {
   let valid = true
   if (!donateForm.value.name.trim())    { donateErr.value.name    = currentLang.value.code === 'si' ? 'සම්පූර්ණ නම අවශ්‍යයි.' : 'Full name is required.'; valid = false }
   if (!donateForm.value.contact.trim()) { donateErr.value.contact = currentLang.value.code === 'si' ? 'දුරකථන අංකය අවශ්‍යයි.' : 'Contact number is required.'; valid = false }
+  else if (donateForm.value.contact.length !== 10) { donateErr.value.contact = currentLang.value.code === 'si' ? 'දුරකථන අංකය ඉලක්කම් 10ක් විය යුතුය.' : 'Contact number must be 10 digits.'; valid = false }
   return valid
 }
 
