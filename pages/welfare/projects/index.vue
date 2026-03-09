@@ -3,18 +3,17 @@
 
     <!-- Header -->
     <header class="bg-white border-b sticky top-0 z-10 shadow-sm">
-      <div class="max-w-6xl mx-auto px-4 py-3 flex items-center justify-between">
-        <div class="flex items-center gap-3">
-          <img :src="'/walfare/Logo.jpeg'" alt="Welfare Society Logo" class="h-12 w-auto" />
-          <div>
-            <div class="font-bold text-blue-800 leading-tight text-base">{{ projectStore.projectInit.welfareName }}</div>
-            <div class="text-xs text-green-600 leading-tight font-medium">{{ t.regLabel }}: {{ projectStore.projectInit.registrationNo }}</div>
-          </div>
-        </div>
+      <div class="max-w-6xl mx-auto px-4 py-3 flex flex-col sm:flex-row sm:items-center sm:justify-between gap-2">
+  <div class="flex items-center gap-3">
+    <img :src="'/walfare/Logo.jpeg'" alt="Welfare Society Logo" class="h-12 w-auto" />
+    <div>
+      <div class="font-bold text-blue-800 leading-tight text-base">{{ projectStore.projectInit.welfareName }}</div>
+      <div class="text-xs text-green-600 leading-tight font-medium">{{ t.regLabel }}: {{ projectStore.projectInit.registrationNo }}</div>
+    </div>
+  </div>
 
-        <!-- Right side: Language selector + Donate + Share -->
-        <div class="flex items-center gap-2">
-
+  <!-- Right side: Language selector + Donate + Share -->
+  <div class="flex items-center gap-2">
           <!-- ── Language Selector Dropdown ── -->
           <div class="relative" ref="langDropdownRef">
             <button
@@ -298,6 +297,71 @@
         </div>
       </div>
     </section>
+    <!-- ── Floating WhatsApp Button ── -->
+<div class="fixed bottom-6 right-6 z-50 flex flex-col items-end gap-3">
+
+  <!-- Message Popup -->
+  <transition
+    enter-active-class="transition duration-200 ease-out"
+    enter-from-class="opacity-0 scale-95 translate-y-2"
+    enter-to-class="opacity-100 scale-100 translate-y-0"
+    leave-active-class="transition duration-150 ease-in"
+    leave-from-class="opacity-100 scale-100 translate-y-0"
+    leave-to-class="opacity-0 scale-95 translate-y-2"
+  >
+    <div v-if="showWaPopup" class="bg-white rounded-2xl shadow-2xl border border-gray-100 p-4 w-72 mb-1">
+      <!-- Header -->
+      <div class="flex items-center gap-2 mb-3">
+        <div class="w-9 h-9 rounded-full flex items-center justify-center flex-shrink-0" style="background:#25D366">
+          <svg class="w-5 h-5 text-white" fill="currentColor" viewBox="0 0 24 24">
+            <path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347z"/>
+            <path d="M12 0C5.373 0 0 5.373 0 12c0 2.123.554 4.116 1.523 5.845L.057 23.5l5.797-1.522A11.95 11.95 0 0012 24c6.627 0 12-5.373 12-12S18.627 0 12 0zm0 22c-1.885 0-3.65-.51-5.17-1.399l-.371-.22-3.843 1.008 1.026-3.741-.242-.385A9.955 9.955 0 012 12C2 6.477 6.477 2 12 2s10 4.477 10 10-4.477 10-10 10z"/>
+          </svg>
+        </div>
+        <div>
+          <div class="font-bold text-gray-900 text-sm">{{ t.treasurer }}</div>
+          <div class="text-xs text-gray-500">{{ formatPhone(projectStore.projectInit.treasurerContact || '0715321168') }}</div>
+        </div>
+        <button @click="showWaPopup = false" class="ml-auto text-gray-400 hover:text-gray-600 text-lg leading-none">✕</button>
+      </div>
+
+      <!-- Preview message -->
+      <div class="rounded-xl p-3 text-sm text-gray-700 mb-3" style="background:#e8f7ec">
+        {{ t.waMessage }}
+      </div>
+
+      <!-- Send button -->
+      
+        <!-- Send button -->
+      <a
+        :href="`https://wa.me/94${(projectStore.projectInit.treasurerContact || '0715321168').slice(1)}?text=${encodeURIComponent(t.waMessage)}`"
+        target="_blank"
+        @click="showWaPopup = false"
+        class="flex items-center justify-center gap-2 w-full rounded-xl py-2.5 text-white font-semibold text-sm transition hover:opacity-90"
+        style="background:#25D366"
+      >
+        <svg class="w-4 h-4" fill="currentColor" viewBox="0 0 24 24">
+          <path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347z"/>
+          <path d="M12 0C5.373 0 0 5.373 0 12c0 2.123.554 4.116 1.523 5.845L.057 23.5l5.797-1.522A11.95 11.95 0 0012 24c6.627 0 12-5.373 12-12S18.627 0 12 0zm0 22c-1.885 0-3.65-.51-5.17-1.399l-.371-.22-3.843 1.008 1.026-3.741-.242-.385A9.955 9.955 0 012 12C2 6.477 6.477 2 12 2s10 4.477 10 10-4.477 10-10 10z"/>
+        </svg>
+        {{ currentLang.code === 'si' ? 'WhatsApp හරහා යවන්න' : 'Send via WhatsApp' }}
+      </a>
+    </div>
+  </transition>
+
+  <!-- Floating Button -->
+  <button
+    @click="showWaPopup = !showWaPopup"
+    class="w-14 h-14 rounded-full shadow-lg flex items-center justify-center transition hover:scale-110 active:scale-95"
+    style="background:#25D366"
+  >
+    <svg class="w-7 h-7 text-white" fill="currentColor" viewBox="0 0 24 24">
+      <path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347z"/>
+      <path d="M12 0C5.373 0 0 5.373 0 12c0 2.123.554 4.116 1.523 5.845L.057 23.5l5.797-1.522A11.95 11.95 0 0012 24c6.627 0 12-5.373 12-12S18.627 0 12 0zm0 22c-1.885 0-3.65-.51-5.17-1.399l-.371-.22-3.843 1.008 1.026-3.741-.242-.385A9.955 9.955 0 012 12C2 6.477 6.477 2 12 2s10 4.477 10 10-4.477 10-10 10z"/>
+    </svg>
+  </button>
+
+</div>
 
     <!-- ③ DONORS -->
     <section id="donors" class="max-w-6xl mx-auto px-4 pb-12">
@@ -374,8 +438,22 @@
           <div class="mt-1 text-blue-200">{{ t.footerDesc }}</div>
         </div>
         <div class="sm:text-right text-white">
-          <div><b>{{ t.secretary }}:</b> <span class="text-green-300">{{ projectStore.projectInit.secretaryContact || '07XXXXXXXX' }}</span></div>
-          <div><b>{{ t.treasurer }}:</b> <span class="text-green-300">{{ projectStore.projectInit.treasurerContact || '07XXXXXXXX' }}</span></div>
+          <div>
+  <b>{{ t.secretary }}:</b>
+  <a :href="`https://wa.me/94${(projectStore.projectInit.secretaryContact || '0705091008').slice(1)}?}`"
+     target="_blank"
+     class="text-green-300 hover:text-green-100 underline underline-offset-2 transition-colors">
+    {{ formatPhone(projectStore.projectInit.secretaryContact || '0705091008') }}
+  </a>
+</div>
+<div>
+  <b>{{ t.treasurer }}:</b>
+  <a :href="`https://wa.me/94${(projectStore.projectInit.treasurerContact || '0715321168').slice(1)}?}`"
+     target="_blank"
+     class="text-green-300 hover:text-green-100 underline underline-offset-2 transition-colors">
+    {{ formatPhone(projectStore.projectInit.treasurerContact || '0715321168') }}
+  </a>
+</div>
           <div class="mt-1"><b>{{ t.bank }}:</b> {{ projectStore.projectInit.bankDetails || t.bankPlaceholder }}</div>
         </div>
       </div>
@@ -570,6 +648,7 @@ definePageMeta({ layout: 'bst' })
 const userStore    = useUserStore()
 const projectStore = useProjectStore()
 const { $showLoading } = useNuxtApp()
+const showWaPopup = ref(false)
 
 // ── Language selector ─────────────────────────────────────────
 const { locale } = useI18n()
@@ -653,6 +732,7 @@ const translations = {
     progressToCommitment: 'කැපවීම් දෙසට ප්‍රගතිය',
     paymentBreakdown: 'ගෙවීම් බෙදාහැරීම', noPayments: 'ගෙවීම් තවමත් වාර්තා නොකළ.',
     close: 'වසන්න',
+    waMessage: 'හෙලෝ, සුභසාධක සමිතිය ගොඩනැගිලි අරමුදල ගැන විමසීමට කැමතියි.',
     regLabel: 'ලියාපදිංචි අංකය',
     slideFloor: 'තට්ටු සැලැස්ම', slideElevation: 'ඉදිරිපස දර්ශනය', slideSection: 'කොටස් සැලැස්ම',
   },
@@ -712,6 +792,7 @@ const translations = {
     alreadyGiven: 'Already Given', totalAmount: 'Total Amount',
     progressToCommitment: 'Progress toward commitment',
     paymentBreakdown: 'Payment Breakdown', noPayments: 'No payments recorded yet.',
+    waMessage: 'Hello, I would like to inquire about the Welfare Society Building Fund.',
     close: 'Close',
     regLabel: 'Reg',
     slideFloor: 'Floor Plan', slideElevation: 'Elevation Plan', slideSection: 'Section Plan',
@@ -788,6 +869,12 @@ const openDonorDetail   = (d) => { donorDetail.value = d }
 const selectDonateSection = (sectionId) => {
   donateForm.value.sectionId = sectionId
   nextTick(() => document.getElementById('donate')?.scrollIntoView({ behavior: 'smooth' }))
+}
+
+const formatPhone = (num) => {
+  const n = (num || '').replace(/\D/g, '')
+  if (n.length === 10) return `${n.slice(0,3)} ${n.slice(3,6)} ${n.slice(6)}`
+  return num
 }
 
 const IsValidate = () => {

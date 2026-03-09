@@ -1,6 +1,7 @@
 import { defineStore } from "pinia";
 import axios from "axios";
 import { getAccessToken } from "~/composables/getAccessToken";
+import Swal from "sweetalert2";
 
 export const useProjectStore = defineStore("projectStore", {
   state: () => ({
@@ -227,7 +228,18 @@ export const useProjectStore = defineStore("projectStore", {
     },
 
     showToast(message, type = "success") {
-      console.log(`[Toast] ${type}: ${message}`);
-    },
+  Swal.fire({
+    icon: type,
+    title: type,
+    text: message,
+    timer: 5000,
+    showConfirmButton: false,
+    toast: true,
+    position: "top-end",
+  });
+},
+
+    
+
   },
 });
